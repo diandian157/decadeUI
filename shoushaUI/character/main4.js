@@ -175,28 +175,25 @@ app.import(function (lib, game, ui, get, ai, _status, app) {
             peijian.setBackgroundImage('extension/十周年UI/shoushaUI/character/images/OL_line/' + peijianto.randomGet() + '.png');   
            
              // 玩家名（带随机等级）
-var wanjia = ui.create.div('.wanjia', biankuang, 
-  (player === game.me 
+var wanjia = ui.create.div('.wanjia', biankuang, (player === game.me 
     ? lib.config.connect_nickname 
     : get.translation(innerText = num = [
         "缘之空", "小小恐龙", "♂污到深处♀自然萌",  "海边的ebao", "小云云", "点点", "猫猫虫", "爱莉爱莉爱", "羊羊", "冰佬", "鹿鹿", "黎佬", "浮牢师",  "U佬", "蓝宝","影宝","柳下跖","k9","扶苏", "皇叔"
       ].randomGet(1))
-  ) + ' Lv.' + (Math.floor(Math.random() * 200) + 1) // 添加1-30随机等级
+  ) + ' Lv.' + (Math.floor(Math.random() * (200 - 180 + 1)) + 180)
 );
 		//胜率
+		
 				var shenglv = ui.create.div(".shenglv", biankuang);
-shenglv.innerHTML =
-  ((intPart = Math.floor(Math.random() * 10), 
-    decimalPart = Math.floor(Math.random() * 10)) => 
-    intPart === 0 && decimalPart === 0 ? "新兵" : `${intPart}.${decimalPart}%`
-  )();
-  
+                const intPart = Math.floor(Math.random() * (95 - 50 + 1)) + 50;
+                shenglv.innerHTML = `${intPart}%`;
   	   //逃率
 				var taolv = ui.create.div(".taolv", biankuang);
- 				taolv.innerHTML =(num = Math.floor(Math.random() * (10 - 0 + 1) + 0)) + "." + (num = Math.floor(Math.random() * (10 - 0 + 1) + 0)) + "%";
+                const randomNum = Math.floor(Math.random()*(10- 0 + 1) + 0);
+                taolv.innerHTML = randomNum + "%";
  		//人气值		
  				var renqi = ui.create.div(".renqi", biankuang);
-renqi.innerHTML = Math.floor(Math.random() * 100 + 1); // 直接输出1-100的整数
+ 				renqi.innerHTML = Math.floor(Math.random() * 10000 + 1);
  				
          //吊坠配件
            var diaozhui= ui.create.div('.diaozhui', biankuang4);
@@ -537,47 +534,112 @@ if (oSkills.length) {
 }
 					
 		//装备*
-		
-	var eSkills = player.getVCards("e");
+var eSkills = player.getVCards("e");
 if (eSkills.length) {
-    // 创建标题元素并添加背景图
+    // 创建标题元素（保持原样）
     const title = ui.create.div(".xcaption", "装备区域", rightPane.firstChild);
-    
-    // 直接添加背景样式（需确保图片路径正确）
-title.style.cssText = `
-    /* 背景设置 */
-       background: url('extension/十周年UI/shoushaUI/character/images/OL_line/quyu4.png') center/contain no-repeat;
-    background-size: 260px 30px;  /* 固定背景尺寸 */
-    background-origin: content-box;
+    title.style.cssText = `
+        background: url('extension/十周年UI/shoushaUI/character/images/OL_line/quyu4.png') center/contain no-repeat;
+        background-size: 260px 30px;
+        background-origin: content-box;
+        text-align: content;
+        line-height: 1.8;
+        color: #bb9870;
+        display: inline-block;
+        position: relative;
+        min-width: 250px;
+    `;
 
-    /* 文本设置 */
-    text-align: content;            /* 文字靠右 */
-    line-height: 1.8;             /* 垂直居中 */
-    
-    /* 基础样式 */
-    color: #bb9870;
-    display: inline-block;
-    position: relative;
-    min-width: 250px;             /* 确保容器足够宽 */
-`;
-    
-    // 后续装备描述代码保持不变...
+    eSkills.forEach(function (card) {
+        // 花色配置
+        const suitConfig = {
+            'spade': { symbol: '♠', color: '#2e2e2e' },
+            'heart': { symbol: '♥', color: '#e03c3c' },
+            'club': { symbol: '♣', color: '#2e2e2e' },
+            'diamond': { symbol: '♦', color: '#e03c3c' }
+        }[card.suit] || { symbol: '', color: '#FFFFFF' };
 
-						eSkills.forEach(function (card) {
-							let str = [get.translation(card), get.translation(card.name + "_info")];
-							const cards = card.cards;
-							if (cards?.length && (cards?.length !== 1 || cards[0].name !== card.name)) str[0] += "（" + get.translation(card.cards) + "）";
-							const special = card.cards?.find(item => item.name == card.name && lib.card[item.name]?.cardPrompt);
-							if (special) str[1] = lib.card[special.name].cardPrompt(special, player);
-							/*ui.create.div(".xskillx", "<div data-color>" + str[0] + "</div><div>" + str[1] + "</div>", rightPane.firstChild);*/
-    
-    // 修改部分：在最终输出时移除【】符号
-    ui.create.div(".xskillx",
-        "<div data-color>" + str[0].replace(/[【】]/g, '') + "</div><div>" + str[1].replace(/[【】]/g, '') + "</div>",
-        rightPane.firstChild);
+        // 获取装备类型图标
+        const equipType = lib.card[card.name]?.equipType;
+        const typeIcon = {
+            'equip1': 'equip1.png',
+            'equip2': 'equip2.png',
+            'equip3': 'equip3.png',
+            'equip4': 'equip4.png',
+            'equip5':'equip5.png',
+        }[get.subtype(card)] || 'default.png';
 
-						});
-					}
+        // 第一行布局结构
+        const firstLine = `
+            <div style="
+                display: flex;
+                align-items: center;
+                gap: 8px;
+                position: relative;
+            ">
+                <!-- 装备名称 -->
+                <span style="
+                    color: #f7d229;
+                    font-weight: bold;
+                ">${get.translation(card.name).replace(/[【】]/g, '')}</span>
+
+                <!-- 类别图标 -->
+                <img src="extension/十周年UI/shoushaUI/character/images/OL_line/${typeIcon}" 
+                     style="width:20px; height:20px; vertical-align:middle">
+
+                <!-- 花色数字组 -->
+                <div style="
+                    margin-left: 0;
+                    display: flex;
+                    align-items: center;
+                    gap: 2px;
+                ">
+                    <!-- 花色符号 -->
+                    <span style="
+                        color: ${suitConfig.color};
+                        text-shadow: 
+                            0 0 1px white,
+                            0 0 1px white;
+                        position: relative;
+                    ">${suitConfig.symbol}</span>
+                    
+                    <!-- 数字 -->
+                    <span style="
+                        color: ${suitConfig.color};
+                        -webkit-text-stroke: 0.8px white;
+                        text-stroke: 0.8px white;
+                        paint-order: stroke fill;
+                        font-family: Arial;
+                    ">${card.number||''}</span>
+                </div>
+            </div>
+        `;
+
+        // 保持原有描述处理
+        
+        let desc = '';
+        if(get.subtype(card) == "equip1"){
+            var num = 1;
+            var info = get.info(card);
+            if (info && info.distance && typeof info.distance.attackFrom == "number") {
+                num = 1 - info.distance.attackFrom;
+            }
+            if (num < 1) {
+                num = 1;
+            }
+            desc+='攻击范围:'+num+'<br>';
+        };
+        desc+=get.translation(card.name + "_info").replace(/[【】]/g, '');
+        const special = card.cards?.find(item => item.name == card.name && lib.card[item.name]?.cardPrompt);
+        if (special) desc = lib.card[special.name].cardPrompt(special, player);
+
+        // 创建装备项容器
+        ui.create.div(".xskillx", 
+            firstLine + `<div style="margin-top:4px">${desc}</div>`,
+            rightPane.firstChild
+        );
+    });
+}
 			// 去掉【】所有东西的装备
 			/*
 var eSkills = player.getVCards("e");

@@ -521,7 +521,7 @@
 }
 /*技能间距*/
 .character-dialog>div.right .xskill+.xskill {
-	margin-top: 30px;
+	margin-top: 10px;
 }
 
 .character-dialog>div.caizhu {

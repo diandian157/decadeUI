@@ -384,7 +384,7 @@ diaozhui.addEventListener("click", event => {
 					}
 		//技能			
 			if (oSkills.length) {
-					/*	ui.create.div(".xcaption", rightPane.firstChild);*/
+						ui.create.div(".xcaption", rightPane.firstChild);
 						oSkills.forEach(function (name) {
 							if (player.forbiddenSkills[name]) {
 								if (player.forbiddenSkills[name].length) ui.create.div(".xskill", "<div data-color>" + '<span style="opacity:0.5">' + lib.translate[name] + "</span>" + "</div>" + "<div>" + '<span style="opacity:0.5">' + "（与" + get.translation(player.forbiddenSkills[name]) + "冲突）" + get.skillInfoTranslation(name, player) + "</span>" + "</div>", rightPane.firstChild);

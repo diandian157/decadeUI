@@ -9772,7 +9772,6 @@ export default async function () {
 				var moniEquipBool = lib.config["extension_十周年UI_MoNiEquip"] == "off";
 				decadeModule.init = function () {
 					//原十周年UI内容加载
-
 					this.css(decadeUIPath + "extension.css");
 					this.css(decadeUIPath + "decadeLayout.css");
 				if(!["on","othersOff","decade","off"].includes(lib.config.extension_十周年UI_newDecadeStyle))	this.css(decadeUIPath + "card.css");
@@ -11452,10 +11451,37 @@ export default async function () {
 				name: "调试助手(开发用)",
 				init: false,
 			},
+			newDecadeStyle: {
+				name: '<b><font color="#FF0000">边框样式/界面布局',
+				intro: '<b><font color="#FF0000">切换武将边框样式和界面布局，初始为十周年样式，根据个人喜好自行切换，选择不同的设置后游戏会自动重启以生效新的设置',
+				init: "off",
+				item: {
+					on: "十周年",
+					off: "新手杀",
+					othersOn: "旧手杀",
+					onlineUI: "online",
+					othersOff: "一将成名",
+					babysha: "欢乐三国杀",
+					decade: "十周年2",
+				},
+				onclick(control) {
+					const origin = lib.config.extension_十周年UI_newDecadeStyle;
+					game.saveConfig("extension_十周年UI_newDecadeStyle", control);
+					if (origin != control) {
+						setTimeout(() => game.reload(), 100);
+					}
+				},
+				update() {
+					if (window.decadeUI) {
+						ui.arena.dataset.newDecadeStyle = lib.config.extension_十周年UI_newDecadeStyle;
+						ui.arena.dataset.decadeLayout = lib.config.extension_十周年UI_newDecadeStyle == "on" || lib.config.extension_十周年UI_newDecadeStyle == "othersOff" || lib.config.extension_十周年UI_newDecadeStyle == "decade" || lib.config.extension_十周年UI_newDecadeStyle == "onlineUI" || lib.config.extension_十周年UI_newDecadeStyle == "babysha" ? "on" : "off";
+					}
+				},
+			},
 			rightLayout: {
 				name: '<b><font color="#E600FD">左右布局',
 				init: "on",
-				intro: "切换完以后自动重启游戏",
+				intro: "切换完以后自动重启游戏，手杀十周年一将之后的样式不再维护",
 				item: {
 					off: "左手",
 					on: "右手",
@@ -11470,6 +11496,12 @@ export default async function () {
 					game.saveConfig("extension_十周年UI_rightLayout", item);
 					game.reload();
 				},
+			},
+			FL120: {
+				name: "<img style=width:240px src=" + lib.assetURL + "extension/十周年UI/shoushaUI/line.png>",
+				intro: "",
+				init: true,
+				clear: true,
 			},
 			cardPrettify: {
 				name: "卡牌美化(需重启)",
@@ -11740,7 +11772,7 @@ export default async function () {
 				intro: "开启后，单双将和国战模式将用设置好的武将背景",
 			},
 			shiliyouhua: {
-				name: "势力优化",
+				name: "官方势力",
 				init: false,
 				intro: "开启后，非魏蜀吴群晋势力的角色将会重新选择势力",
 			},
@@ -11756,7 +11788,6 @@ export default async function () {
 					if (window.decadeUI) ui.arena.dataset.outcropSkin = lib.config["extension_十周年UI_outcropSkin"];
 				},
 			},
-
 			borderLevel: {
 				name: "玩家边框等阶",
 				init: "five",
@@ -11898,33 +11929,6 @@ export default async function () {
 				},
 				update() {
 					if (window.decadeUI) ui.arena.dataset.playerMarkStyle = lib.config["extension_十周年UI_playerMarkStyle"];
-				},
-			},
-			newDecadeStyle: {
-				name: '<b><font color="#FF0000">边框样式/界面布局',
-				intro: '<b><font color="#FF0000">切换武将边框样式和界面布局，初始为十周年样式，根据个人喜好自行切换，选择不同的设置后游戏会自动重启以生效新的设置',
-				init: "off",
-				item: {
-					on: "十周年",
-					off: "新手杀",
-					decade: "十周年2",
-					othersOn: "旧手杀",
-					othersOff: "一将成名",
-					onlineUI: "online",
-					babysha: "欢乐三国杀",
-				},
-				onclick(control) {
-					const origin = lib.config.extension_十周年UI_newDecadeStyle;
-					game.saveConfig("extension_十周年UI_newDecadeStyle", control);
-					if (origin != control) {
-						setTimeout(() => game.reload(), 100);
-					}
-				},
-				update() {
-					if (window.decadeUI) {
-						ui.arena.dataset.newDecadeStyle = lib.config.extension_十周年UI_newDecadeStyle;
-						ui.arena.dataset.decadeLayout = lib.config.extension_十周年UI_newDecadeStyle == "on" || lib.config.extension_十周年UI_newDecadeStyle == "othersOff" || lib.config.extension_十周年UI_newDecadeStyle == "decade" || lib.config.extension_十周年UI_newDecadeStyle == "onlineUI" || lib.config.extension_十周年UI_newDecadeStyle == "babysha" ? "on" : "off";
-					}
 				},
 			},
 			shadowStyle: {
@@ -12237,7 +12241,16 @@ export default async function () {
 				...otherInfo,
 			};
 			pack.intro = (pack => {
-				let log = [`魔改十周年UI ${pack.version}`, "最低适配：v1.10.18 暂定", "添加全选按钮 by咪咪狗奇妙工具", "修复手杀UI自动整理，UI显示问题", "新增OLUI&欢杀UI，感谢群友提供的素材", "整合U、凌梦、@19950219、小爱莉的UI细节调整", "整合小爱莉、柳下跖、扬、U提供的武将详情界面", "整合活动群群主lp提供的$throw函数优化"];
+				let log = [
+					`魔改十周年UI ${pack.version}`,
+					"最低适配：v1.10.18 暂定",
+					"添加全选按钮 by咪咪狗奇妙工具",
+					"修复手杀UI自动整理，UI显示问题",
+					"新增OLUI&欢杀UI，感谢群友提供的素材",
+					"整合U、凌梦、@19950219、小爱莉的UI细节调整",
+					"整合小爱莉、U等提供的武将详情界面",
+					"整合活动群群主lp提供的$throw函数优化",
+				];
 				return `<a href=${pack.diskURL}>点击前往十周年Github仓库</a><br><p style="color:rgb(210,210,000); font-size:12px; line-height:14px; text-shadow: 0 0 2px black;">${log.join("<br>•")}</p>`;
 			})(pack);
 			return pack;

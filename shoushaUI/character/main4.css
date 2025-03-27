@@ -153,7 +153,7 @@
 }
 /*人气值*/
 .renqi {
-  left: 0px;
+  left: -15px;
   top: 335px;
   font-size: 20px;
   font-weight: bold;
@@ -173,7 +173,7 @@
 }
 /*逃率*/
 .taolv {
-  left: 150px;
+  left: 165px;
   top: 335px;
   font-size: 20px;
   font-weight: bold;

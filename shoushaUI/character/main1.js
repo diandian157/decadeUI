@@ -293,14 +293,38 @@ app.import(function (lib, game, ui, get, ai, _status, app) {
 						var zhanshi = ui.create.div(".zhanshi", bigdialog, get.translation((innerText = "展示(诏令－1)")));
 
 						//var shanchang = get.config('recentCharacter');
-						var shanchang = ["sp_diaochan", "sp_zhaoyun", "sp_sunshangxiang", "sp_caoren", "sp_jiangwei", "sp_machao", "sp_caiwenji", "jsp_guanyu", "jsp_huangyueying", "sp_pangde", "sp_jiaxu", "yuanshu", "sp_zhangliao", "sp_ol_zhanghe", "wulan", "leitong", "huaman", "wangshuang", "wenyang", "re_liuzan", "caobuxing", "re_maliang", "xin_baosanniang", "re_xinxianying", "dongxie", "guozhao", "fanyufeng", "ruanyu", "liangxing", "re_dongzhao", "yangwan", "re_panshu", "dufuren", "zhouyi", "lvlingqi", "re_kanze", "caojinyu", "caocao", "simayi", "xiahoudun", "zhangliao", "xuzhu", "guojia", "zhenji", "liubei", "guanyu", "zhangfei", "zhugeliang", "zhaoyun", "machao", "huangyueying", "sunquan", "ganning", "lvmeng", "huanggai", "zhouyu", "daqiao", "luxun", "sunshangxiang", "huatuo", "lvbu", "diaochan"];
+					/*	var shanchang = ["sp_diaochan", "sp_zhaoyun", "sp_sunshangxiang", "sp_caoren", "sp_jiangwei", "sp_machao", "sp_caiwenji", "jsp_guanyu", "jsp_huangyueying", "sp_pangde", "sp_jiaxu", "yuanshu", "sp_zhangliao", "sp_ol_zhanghe", "wulan", "leitong", "huaman", "wangshuang", "wenyang", "re_liuzan", "caobuxing", "re_maliang", "xin_baosanniang", "re_xinxianying", "dongxie", "guozhao", "fanyufeng", "ruanyu", "liangxing", "re_dongzhao", "yangwan", "re_panshu", "dufuren", "zhouyi", "lvlingqi", "re_kanze", "caojinyu", "caocao", "simayi", "xiahoudun", "zhangliao", "xuzhu", "guojia", "zhenji", "liubei", "guanyu", "zhangfei", "zhugeliang", "zhaoyun", "machao", "huangyueying", "sunquan", "ganning", "lvmeng", "huanggai", "zhouyu", "daqiao", "luxun", "sunshangxiang", "huatuo", "lvbu", "diaochan"];*/
+						var list = [];
+            			for (i in lib.character) {
+            				if (!lib.filter.characterDisabled(i)) {
+            					list.push(i);
+            				}
+            			}
+            			var choose = [];
+            			_status.characterlist = list;
+            			event.filterChoice = function (name1, name2) {
+            				var info1 = lib.character[name1];
+            				var info2 = lib.character[name2];
+            				if (!info1 || !info2) return;
+            				var num = 0;
+            				if (info1[0] == info2[0]) num++;
+            				if (get.infoMaxHp(info1[2]) == get.infoMaxHp(info2[2])) num++;
+            				if (info1[3].length == info2[3].length) num++;
+            				return num > 1;
+            			};
+            			let shanchang=list.randomGets(4);
+            			const elements = [shanchang1, shanchang2, shanchang3, shanchang4];
+                        for (let i = 0; i < elements.length; i++) {
+                            const element = elements[i];
+                            const value = shanchang[i % shanchang.length]; // 确保 shanchang 数组不会越界
+                            element.setBackground(value, 'character');
+                        };
 						var jingjitu = ["jingji1", "jingji2", "jingji3", "jingji4"];
 						var xingbietu = ["xingbie1", "xingbie2"];
-
-						shanchang1.setBackgroundImage("image/character/" + shanchang.randomGet() + ".jpg");
+						/*shanchang1.setBackgroundImage("image/character/" + shanchang.randomGet() + ".jpg");
 						shanchang2.setBackgroundImage("image/character/" + shanchang.randomGet() + ".jpg");
 						shanchang3.setBackgroundImage("image/character/" + shanchang.randomGet() + ".jpg");
-						shanchang4.setBackgroundImage("image/character/" + shanchang.randomGet() + ".jpg");
+						shanchang4.setBackgroundImage("image/character/" + shanchang.randomGet() + ".jpg");*/
 						useless.setBackgroundImage("extension/十周年UI/shoushaUI/character/images/shousha/useless.png");
 						useless2.setBackgroundImage("extension/十周年UI/shoushaUI/character/images/shousha/useless2.png");
 						minixingxiang.style.backgroundImage = player.node.avatar.style.backgroundImage;
