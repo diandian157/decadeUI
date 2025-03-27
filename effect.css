@@ -8,11 +8,11 @@
 	width: 100%;
 	height: 100%;
 	transition-timing-function: ease-in;
-	z-index: 9;
+	z-index: 20;
 }
 
 /*击杀特效*/
-.effect-window > .killer-warpper {
+.effect-window>.killer-warpper {
 	display: block;
 	left: 100%;
 	top: calc(50% - 180px);
@@ -22,11 +22,11 @@
 	animation-delay: 0.2s;
 	animation-duration: 2.6s;
 	animation-fill-mode: forwards;
-	z-index: 2;
+	z-index: 99;
 }
 
-.effect-window > .killer-warpper::before {
-	content: "";
+.effect-window>.killer-warpper::before {
+	content: '';
 	display: block;
 	position: absolute;
 	left: -40%;
@@ -39,7 +39,7 @@
 	z-index: -1;
 }
 
-.effect-window > .killer-warpper > .killer {
+.effect-window>.killer-warpper>.killer {
 	display: block;
 	position: absolute;
 	left: 0;
@@ -49,11 +49,19 @@
 	background-size: cover;
 	background-repeat: no-repeat;
 	background-position: top;
+	border-style: solid;
+	border-width: 10px;
+
+	border-image-width: 1px;
+	border-image-slice: 0% 8% fill;
+
+
+	border-image-source: url("assets/image/kill_border.png");
 	/* filter: drop-shadow(0 0 30px yellow); */
 	/* -webkit-filter: drop-shadow(0 0 30px yellow); */
 }
 
-.effect-window > .victim {
+.effect-window>.victim {
 	display: block;
 	left: 100%;
 	top: calc(50% - 135px);
@@ -66,22 +74,30 @@
 	z-index: 1;
 }
 
-.effect-window > .victim > div {
+/*
+.effect-window>.victim>div {
 	filter: drop-shadow(0 0 3px black) grayscale(1);
 	-webkit-filter: drop-shadow(0 0 3px black) grayscale(1);
-}
+}*/
 
-.effect-window > .victim > .back {
+
+.effect-window>.victim>.back {
 	display: block;
 	position: absolute;
 	left: 0;
 	top: 0;
 	width: 100%;
 	height: 100%;
+	border-style: solid;
+	border-width: 16px;
+
+	border-image-width: 1px;
+	border-image-slice: 1% 1% fill;
+	border-image-source: url("assets/image/victim_border.png");
 }
 
-.effect-window > .victim > .back > .part1,
-.effect-window > .victim > .back > .part2 {
+.effect-window>.victim>.back>.part1,
+.effect-window>.victim>.back>.part2 {
 	display: block;
 	position: absolute;
 	left: 0;
@@ -94,21 +110,23 @@
 	animation-delay: 1s;
 	animation-duration: 0.6s;
 	animation-fill-mode: forwards;
+	filter: drop-shadow(0 0 3px black) grayscale(1);
+	-webkit-filter: drop-shadow(0 0 3px black) grayscale(1);
 }
 
-.effect-window > .victim > .back > .part1 {
+.effect-window>.victim>.back>.part1 {
 	animation-name: split-part1;
 	clip-path: polygon(0 0, 100% 0, 100% 70%, 0 30%);
 	-webkit-clip-path: polygon(0 0, 100% 0, 100% 70%, 0 30%);
 }
 
-.effect-window > .victim > .back > .part2 {
+.effect-window>.victim>.back>.part2 {
 	animation-name: split-part2;
 	clip-path: polygon(0 30%, 100% 70%, 100% 100%, 0 100%);
 	-webkit-clip-path: polygon(0 30%, 100% 70%, 100% 100%, 0 100%);
 }
 
-.effect-window > .victim > .rout {
+.effect-window>.victim>.rout {
 	display: flex;
 	align-items: center;
 	align-content: center;
@@ -129,12 +147,12 @@
 	-webkit-filter: none;
 }
 
-.effect-window > .victim > .rout.shadow {
+.effect-window>.victim>.rout.shadow {
 	animation: scale-rout-shadow 1s forwards;
 	animation-delay: 0.8s;
 }
 
-.effect-window > .li {
+.effect-window>.li {
 	display: block;
 	left: 100%;
 	top: calc(50% - 5px);
@@ -149,7 +167,7 @@
 	animation-iteration-count: 2;
 }
 
-.effect-window > .li-big {
+.effect-window>.li-big {
 	display: block;
 	left: 100%;
 	top: calc(50% - 70px);
@@ -165,15 +183,50 @@
 	display: block;
 	position: absolute;
 	left: 50%;
-	top: calc(50% + 150px + 15px);
+	top: calc(50% + 150px + 0px);
+	font-size: 60px;
+
+	text-shadow: none;
+	color: #efca8f;
+	background-image: -webkit-linear-gradient(#f3e7bd, #9d5f2f);
+	font-weight: 400;
+
+	font-family: lier;
+	-webkit-background-clip: text;
+	/*	-webkit-text-stroke:1px #693b13;
+	/*d9a456*/
+	text-shadow: 1.5px 1.5px 1.5px #693b13, -1.5px -1.5px 1.5px #693b13, -1.5px 1.5px 1.5px #693b13, 1.5px -1.5px 1.5px #693b13;
+
+	/*不用*/
+	/*	font-family: xingkai;
 	color: rgb(215, 234, 67);
-	font-size: 55px;
-	font-family: xingkai;
 	text-shadow: 0 0 5px rgb(77, 60, 51), 0 0 4px rgb(77, 60, 51);
+/*结束*/
 	transform: translateX(-50%);
-	z-index: 99 !important;
+	z-index: 99;
 	animation: scale-skill-name 2.18s linear forwards;
 }
+
+
+.effect-window>.player-name {
+	display: block;
+	position: absolute;
+	left: 60%;
+	top: 30%;
+	font-size: 40px;
+	font-weight: 600;
+	font-family: xingkai;
+	writing-mode: vertical-rl;
+	color: #faf9f3;
+	-webkit-text-stroke: 1px #43201a;
+	text-shadow: 0 0 2px #43201a, 0 0 2px #43201a, 0 0 2px black, 0 0 2px black;
+
+	transform: translateX(-50%);
+	z-index: 99;
+	animation: scale-skill-name 2.18s linear forwards;
+}
+
+
 
 @keyframes moveout-left-killer {
 	0% {
@@ -250,6 +303,7 @@
 		opacity: 1;
 		transform: scale(8);
 	}
+
 	100% {
 		opacity: 1;
 		transform: scale(1);
@@ -261,6 +315,7 @@
 		opacity: 1;
 		transform: scale(1);
 	}
+
 	100% {
 		opacity: 0.1;
 		transform: scale(1.8);

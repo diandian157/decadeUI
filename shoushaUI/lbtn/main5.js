@@ -26,7 +26,28 @@ app.import(function(lib, game, ui, get, ai, _status, app) {
 		head.style.cssText =
 			"display: block;--w: 56px;--h: calc(var(--w) * 74/71);width: var(--w);height: var(--h);position: absolute;bottom: 13%;left: 53px;right: auto;background-color: transparent;z-index:1";
 		head.onclick = function() {
-			game.playAudio("../extension/十周年UI/shoushaUI/lbtn/images/CD/button.mp3");
+			game.playAudio("../extension/十周年UI/shoushaUI/lbtn/images/CD/click.mp3");
+			var popuperContainer = ui.create.div(".popup-container", {
+				background: "rgb(0,0,0,0)"
+			}, ui.window);
+			popuperContainer.addEventListener("click", event => {
+				game.playAudio("../extension/十周年UI/shoushaUI/lbtn/images/CD/back.mp3");
+
+				event.stopPropagation();
+				popuperContainer.delete(200);
+			});
+			var HOME = ui.create.div(".buttonyjcm", popuperContainer);
+			/*for(let i in ui.system1){
+			    let control=ui.create.div(".controls", HOME);
+			    let Control=ui.system1[i];
+			    console.log(Control.name)
+			    control.setBackgroundImage('extension/十周年UI/shoushaUI/lbtn/images/button/'+Control.name+'.png');
+			    control.addEventListener("click", event=>Control.click);
+			};*/
+			var SZ = ui.create.div(".controls", HOME);
+			SZ.setBackgroundImage("extension/十周年UI/shoushaUI/lbtn/images/button/button_sz.png");
+			SZ.addEventListener("click", event => {
+				game.playAudio("../extension/十周年UI/shoushaUI/lbtn/images/CD/button.mp3");
 
 				if (!ui.click.configMenu) return;
 				game.closePopped();
@@ -34,6 +55,29 @@ app.import(function(lib, game, ui, get, ai, _status, app) {
 				ui.click.configMenu();
 				ui.system1.classList.remove("shown");
 				ui.system2.classList.remove("shown");
+			});
+			var BJ = ui.create.div(".controls", HOME);
+			BJ.setBackgroundImage("extension/十周年UI/shoushaUI/lbtn/images/button/button_bj.png");
+			BJ.addEventListener("click", event => {
+				game.playAudio("../extension/十周年UI/shoushaUI/lbtn/images/CD/button.mp3");
+				var Backgrounds = ["一将成名"];
+				ui.background.setBackgroundImage(
+					"extension/十周年UI/shoushaUI/lbtn/images/background/" + Backgrounds
+					.randomGet() + ".jpg");
+			});
+			var TG = ui.create.div(".controls", HOME);
+			TG.setBackgroundImage("extension/十周年UI/shoushaUI/lbtn/images/button/button_tg.png");
+			TG.addEventListener("click", event => {
+				game.playAudio("../extension/十周年UI/shoushaUI/lbtn/images/CD/button.mp3");
+
+				ui.click.auto();
+			});
+			var TC = ui.create.div(".controls", HOME);
+			TC.setBackgroundImage("extension/十周年UI/shoushaUI/lbtn/images/button/button_tc.png");
+			TC.addEventListener("click", event => {
+				game.playAudio("../extension/十周年UI/shoushaUI/lbtn/images/CD/button.mp3");
+				window.location.reload();
+			});
 		};
 		document.body.appendChild(head);
 

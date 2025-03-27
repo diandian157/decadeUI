@@ -1,5 +1,17 @@
 .skill-control {
 	/*技能按钮*/
+<<<<<<< HEAD
+	max-width: 100px;
+	/*同列技能可容纳最大宽度，建议别调*/
+	bottom: 4px;
+	/*整体上移，建议别调*/
+	right: 33px;
+	/*技能显示右移，越小越靠右，建议别调*/
+	/*border: 3px solid rgb(255, 255, 255);/*调试用*/
+	bottom: 0px;
+	z-index: 4 !important;
+	pointer-events: none;
+=======
 	max-width: 200px;
 	/*同列技能可容纳最大宽度，建议别调*/
 	bottom: 45px;
@@ -7,6 +19,7 @@
 	right: 165px;
 	/*技能显示右移，越小越靠右，建议别调*/
 	z-index: 6;
+>>>>>>> refs/remotes/origin/main
 }
 
 .skill-control div {
@@ -17,13 +30,22 @@
 	float: right;
 	white-space: nowrap;
 	color: #f5d78e;
+<<<<<<< HEAD
+	text-shadow: #f5d78e 0 0 1px, black 0 0 2px, black 0 0 2px, black 0 0 2px, black 0 0 2px, black 0 0 2px, black 0 0 2px;
+=======
+>>>>>>> refs/remotes/origin/main
 	font-size: 18px;
 }
 
 .skill-control>div {
 	display: flex;
+<<<<<<< HEAD
+	flex-wrap: wrap;
+	flex-direction: row;
+=======
 	flex-wrap: wrap-reverse;
 	flex-direction: row-reverse;
+>>>>>>> refs/remotes/origin/main
 }
 
 .skill-control>div::after {
@@ -32,6 +54,29 @@
 	clear: both;
 }
 
+<<<<<<< HEAD
+.skill-control>.enable {
+	margin: 0 0 0 auto;
+	bottom: 7px;
+}
+
+.skill-control>.enable>.skillitem {
+	margin: 0px 0px;
+	pointer-events: auto;
+	width: 45px;
+	height: 25px;
+	line-height: 26px;
+	text-align: center;
+	font-family: "yuanli";
+	font-weight: 450;
+	font-size: 15px;
+	color: #f7f5e7;
+	text-shadow: 0.3px 0px 1.8px #332c18, 0.3px 0px 1.8px #332c18, 0.3px 0px 1.8px #332c18, 0.3px 0px 1.8px #332c18, 0.3px 0px 1.8px #332c18, 0.3px 0px 1.8px #332c18, 0.3px 0px 1.8px #332c18, 0.3px 0px 1.8px #332c18, 0.3px 0px 1.8px #332c18, 0.3px 0px 1.8px #332c18, 0.3px 0px 1.8px #332c18, 0.3px 0px 1.8px #332c18, 0.3px 0px 1.8px #332c18, 0.3px 0px 1.8px #332c18, 0.3px 0px 1.8px #332c18, 0.3px 0px 1.8px #332c18, 0.3px 0px 1.8px #332c18, 0.3px 0px 1.8px #332c18, 0.3px 0px 1.8px #332c18, 0.3px 0px 1.8px #332c18, 0.3px 0px 1.8px #332c18, 0.3px 0px 1.8px #332c18, 0.3px 0px 1.8px #332c18, 0.3px 0px 1.8px #332c18, 0.3px 0px 1.8px #332c18, 0.3px 0px 1.8px #332c18, 0.3px 0px 1.8px #332c18, 0.3px 0px 1.8px #332c18, 0.3px 0px 1.8px #332c18, 0.3px 0px 1.8px #332c18, 0.3px 0px 1.8px #332c18, 0.3px 0px 1.8px #332c18, 0.3px 0px 1.8px #332c18, 0.3px 0px 1.8px #332c18, 0.3px 0px 1.8px #332c18, 0.3px 0px 1.8px #332c18, 0.3px 0px 1.8px #332c18, 0.3px 0px 1.8px #332c18, 0.3px 0px 1.8px #332c18,
+		0.3px 0px 1.8px #332c18, 0.3px 0px 1.8px #332c18, 0.3px 0px 1.8px #332c18, 0.3px 0px 1.8px #332c18, 0.3px 0px 1.8px #332c18, 0.3px 0px 1.8px #332c18, 0.3px 0px 1.8px #332c18, 0.3px 0px 1.8px #332c18, 0.3px 0px 1.8px #332c18, 0.3px 0px 1.8px #332c18;
+	background-image: url("./images/new_btnn1.png");
+	background-size: 100% 100%;
+	/*border: 1px solid rgb(3,4,5);/*调试用*/
+=======
 .skill-control .trigger,
 .skill-control .enable {
 	height: auto;
@@ -77,10 +122,28 @@
 	color: #f7f5e7;
 	background-image: url("./images/new_btnn1.png");
 	background-size: 100% 100%;
+>>>>>>> refs/remotes/origin/main
 }
 
 .skill-control>.enable>.xiandingji {
 	/*限定技按钮*/
+<<<<<<< HEAD
+	margin: 0px 0px;
+	pointer-events: auto;
+	width: 45px;
+	height: 25px;
+	line-height: 26px;
+	text-align: center;
+	font-family: "yuanli";
+	font-weight: 450;
+	font-size: 15px;
+	color: #f7f5e7;
+	text-shadow: 0.3px 0px 1.8px #332c18, 0.3px 0px 1.8px #332c18, 0.3px 0px 1.8px #332c18, 0.3px 0px 1.8px #332c18, 0.3px 0px 1.8px #332c18, 0.3px 0px 1.8px #332c18, 0.3px 0px 1.8px #332c18, 0.3px 0px 1.8px #332c18, 0.3px 0px 1.8px #332c18, 0.3px 0px 1.8px #332c18, 0.3px 0px 1.8px #332c18, 0.3px 0px 1.8px #332c18, 0.3px 0px 1.8px #332c18, 0.3px 0px 1.8px #332c18, 0.3px 0px 1.8px #332c18, 0.3px 0px 1.8px #332c18, 0.3px 0px 1.8px #332c18, 0.3px 0px 1.8px #332c18, 0.3px 0px 1.8px #332c18, 0.3px 0px 1.8px #332c18, 0.3px 0px 1.8px #332c18, 0.3px 0px 1.8px #332c18, 0.3px 0px 1.8px #332c18, 0.3px 0px 1.8px #332c18, 0.3px 0px 1.8px #332c18, 0.3px 0px 1.8px #332c18, 0.3px 0px 1.8px #332c18, 0.3px 0px 1.8px #332c18, 0.3px 0px 1.8px #332c18, 0.3px 0px 1.8px #332c18, 0.3px 0px 1.8px #332c18, 0.3px 0px 1.8px #332c18, 0.3px 0px 1.8px #332c18, 0.3px 0px 1.8px #332c18, 0.3px 0px 1.8px #332c18, 0.3px 0px 1.8px #332c18, 0.3px 0px 1.8px #332c18, 0.3px 0px 1.8px #332c18, 0.3px 0px 1.8px #332c18,
+		0.3px 0px 1.8px #332c18, 0.3px 0px 1.8px #332c18, 0.3px 0px 1.8px #332c18, 0.3px 0px 1.8px #332c18, 0.3px 0px 1.8px #332c18, 0.3px 0px 1.8px #332c18, 0.3px 0px 1.8px #332c18, 0.3px 0px 1.8px #332c18, 0.3px 0px 1.8px #332c18, 0.3px 0px 1.8px #332c18;
+	background-image: url("./images/new_btnn4.png");
+	background-size: 100% 100%;
+	/*border: 1px solid rgb(3,4,5);/*调试用*/
+=======
 	margin: 2px 2px;
 	--w: 82.8px;
 	--h: 44.1px;
@@ -95,6 +158,7 @@
 	font-size: 27px;
 	background-image: url("./images/new_btnn4.png");
 	background-size: 100% 100%;
+>>>>>>> refs/remotes/origin/main
 }
 
 .skill-control>.enable>.skillitem.select {
@@ -103,14 +167,36 @@
 
 .skill-control>.enable>.skillitem:not(.usable):not(.select) {
 	/*技能按钮不可用时变灰*/
+<<<<<<< HEAD
+	filter: grayscale(50%);
+	-webkit-filter: grayscale(90%);
+	/*-webkit-filter: brightness(70%);*/
+=======
 	filter: grayscale(100%);
 	-webkit-filter: grayscale(100%);
+>>>>>>> refs/remotes/origin/main
 }
 
 .skill-control>.enable>.xiandingji:not(.usable):not(.select) {
 	/*限定技按钮不可用时变灰*/
+<<<<<<< HEAD
+	filter: grayscale(50%);
+	-webkit-filter: grayscale(90%);
+	/*-webkit-filter: brightness(70%);*/
+}
+
+/* 调整单个技能的显示（最后一行为单个技能时） */
+.skill-control>.enable>.skillitem:last-child:nth-child(odd),
+.skill-control>.enable>.xiandingji:last-child:nth-child(odd),
+.skill-control>.trigger>.skillitem:last-child:nth-child(odd) {
+	flex: 0 0 95px !important;
+	width: 150px !important;
+	left: -3px;
+	/* 确保没有额外的左边距 */
+=======
 	filter: grayscale(100%);
 	-webkit-filter: grayscale(90%);
+>>>>>>> refs/remotes/origin/main
 }
 
 .skill-control>.enable>.xiandingji.select {
@@ -118,9 +204,14 @@
 }
 
 .skill-control>.enable>.xiandingji:not(.usable):not(.select) {
+<<<<<<< HEAD
+	filter: grayscale(50%);
+	-webkit-filter: grayscale(90%);
+=======
 	/*background-image: url("./images/btn5.png");*/
 	filter: grayscale(100%);
 	-webkit-filter: grayscale(100%);
+>>>>>>> refs/remotes/origin/main
 }
 
 .skillMarks {
@@ -315,9 +406,15 @@
 	align-items: center;
 	align-content: center;
 	justify-content: center;
+<<<<<<< HEAD
+	font-family: "yuanli";
+	/*字体样式*/
+	font-size: 20px;
+=======
 	font-family: "xingkai";
 	/*字体样式*/
 	font-size: 27px;
+>>>>>>> refs/remotes/origin/main
 	/*字体大小，没用*/
 	background-image: url("./images/new_btnn1.png");
 	background-size: 100% 100%;
@@ -331,7 +428,11 @@
 .skill-controlzuoshou>.enable>.skillitem:not(.usable):not(.select) {
 	filter: grayscale(100%);
 	-webkit-filter: grayscale(100%);
+<<<<<<< HEAD
+	/*background-image: url("./images/new_btnn2.png");*/
+=======
 	/*background-image: url("./images/btnn2.png");*/
+>>>>>>> refs/remotes/origin/main
 }
 
 .skill-controlzuoshou>.enable>.xiandingji {
@@ -348,7 +449,11 @@
 	font-weight: 500;
 	/*å­—ç²—ç»†*/
 	color: #f7f5e7;
+<<<<<<< HEAD
+	font-size: 22px;
+=======
 	font-size: 27px;
+>>>>>>> refs/remotes/origin/main
 	background-image: url("./images/new_btnn4.png");
 	background-size: 100% 100%;
 	/*border: 1px solid rgb(3,4,5);/*调试用*/
@@ -359,7 +464,11 @@
 }
 
 .skill-controlzuoshou>.enable>.xiandingji:not(.usable):not(.select) {
+<<<<<<< HEAD
+	/*background-image: url("./images/new_btn5.png");*/
+=======
 	/*background-image: url("./images/btn5.png");*/
+>>>>>>> refs/remotes/origin/main
 	filter: grayscale(100%);
 	-webkit-filter: grayscale(100%);
 }

@@ -1,0 +1,740 @@
+
+SS_DaTing_zhounianqing_beijingyanhua.png
+size: 2048,2048
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+eff/firework_01_nt_1_1_00006
+  rotate: false
+  xy: 1078, 287
+  size: 1, 1
+  orig: 1, 1
+  offset: 0, 0
+  index: -1
+eff/firework_01_nt_1_1_00106
+  rotate: false
+  xy: 1078, 287
+  size: 1, 1
+  orig: 1, 1
+  offset: 0, 0
+  index: -1
+eff/firework_01_nt_1_1_00109
+  rotate: false
+  xy: 1078, 287
+  size: 1, 1
+  orig: 1, 1
+  offset: 0, 0
+  index: -1
+eff/firework_01_nt_1_1_00112
+  rotate: false
+  xy: 1078, 287
+  size: 1, 1
+  orig: 1, 1
+  offset: 0, 0
+  index: -1
+eff/firework_01_nt_1_1_00115
+  rotate: false
+  xy: 1078, 287
+  size: 1, 1
+  orig: 1, 1
+  offset: 0, 0
+  index: -1
+eff02/firework_02_nt_00006
+  rotate: false
+  xy: 1078, 287
+  size: 1, 1
+  orig: 1, 1
+  offset: 0, 0
+  index: -1
+eff03/firework_08_nt_00005
+  rotate: false
+  xy: 1078, 287
+  size: 1, 1
+  orig: 1, 1
+  offset: 0, 0
+  index: -1
+eff03/firework_08_nt_00097
+  rotate: false
+  xy: 1078, 287
+  size: 1, 1
+  orig: 1, 1
+  offset: 0, 0
+  index: -1
+eff/firework_01_nt_1_1_00007
+  rotate: false
+  xy: 2, 8
+  size: 106, 104
+  orig: 400, 400
+  offset: 159, 166
+  index: -1
+eff/firework_01_nt_1_1_00019
+  rotate: false
+  xy: 1472, 1001
+  size: 343, 349
+  orig: 400, 400
+  offset: 38, 39
+  index: -1
+eff/firework_01_nt_1_1_00022
+  rotate: false
+  xy: 2, 1662
+  size: 374, 384
+  orig: 400, 400
+  offset: 22, 16
+  index: -1
+eff/firework_01_nt_1_1_00025
+  rotate: false
+  xy: 378, 1664
+  size: 375, 382
+  orig: 400, 400
+  offset: 24, 18
+  index: -1
+eff/firework_01_nt_1_1_00028
+  rotate: false
+  xy: 378, 1664
+  size: 375, 382
+  orig: 400, 400
+  offset: 24, 18
+  index: -1
+eff/firework_01_nt_1_1_00031
+  rotate: false
+  xy: 2, 1280
+  size: 369, 380
+  orig: 400, 400
+  offset: 27, 19
+  index: -1
+eff/firework_01_nt_1_1_00034
+  rotate: false
+  xy: 350, 291
+  size: 362, 370
+  orig: 400, 400
+  offset: 31, 22
+  index: -1
+eff/firework_01_nt_1_1_00037
+  rotate: true
+  xy: 736, 650
+  size: 360, 372
+  orig: 400, 400
+  offset: 31, 18
+  index: -1
+eff/firework_01_nt_1_1_00040
+  rotate: true
+  xy: 714, 287
+  size: 361, 362
+  orig: 400, 400
+  offset: 32, 24
+  index: -1
+eff/firework_01_nt_1_1_00043
+  rotate: false
+  xy: 1078, 290
+  size: 353, 358
+  orig: 400, 400
+  offset: 35, 24
+  index: -1
+eff/firework_01_nt_1_1_00046
+  rotate: false
+  xy: 1110, 652
+  size: 351, 358
+  orig: 400, 400
+  offset: 35, 17
+  index: -1
+eff/firework_01_nt_1_1_00058
+  rotate: false
+  xy: 1136, 1012
+  size: 334, 338
+  orig: 400, 400
+  offset: 38, 27
+  index: -1
+eff/firework_01_nt_1_1_00064
+  rotate: true
+  xy: 1503, 4
+  size: 304, 338
+  orig: 400, 400
+  offset: 57, 27
+  index: -1
+eff/firework_01_nt_1_1_00076
+  rotate: true
+  xy: 350, 4
+  size: 285, 317
+  orig: 400, 400
+  offset: 65, 23
+  index: -1
+eff/firework_01_nt_1_1_00079
+  rotate: true
+  xy: 669, 2
+  size: 283, 294
+  orig: 400, 400
+  offset: 67, 23
+  index: -1
+eff/firework_01_nt_1_1_00082
+  rotate: true
+  xy: 965, 4
+  size: 281, 268
+  orig: 400, 400
+  offset: 67, 23
+  index: -1
+eff/firework_01_nt_1_1_00088
+  rotate: true
+  xy: 1235, 8
+  size: 280, 266
+  orig: 400, 400
+  offset: 68, 21
+  index: -1
+eff/firework_01_nt_1_1_00097
+  rotate: false
+  xy: 1843, 96
+  size: 189, 214
+  orig: 400, 400
+  offset: 128, 58
+  index: -1
+eff/firework_01_nt_1_1_00100
+  rotate: false
+  xy: 1523, 1649
+  size: 12, 45
+  orig: 400, 400
+  offset: 264, 58
+  index: -1
+eff/firework_01_nt_1_1_00103
+  rotate: false
+  xy: 1523, 1649
+  size: 12, 45
+  orig: 400, 400
+  offset: 264, 58
+  index: -1
+eff02/firework_02_nt_00007
+  rotate: false
+  xy: 110, 25
+  size: 86, 87
+  orig: 400, 400
+  offset: 151, 164
+  index: -1
+eff02/firework_02_nt_00010
+  rotate: false
+  xy: 1897, 1383
+  size: 131, 134
+  orig: 400, 400
+  offset: 128, 141
+  index: -1
+eff02/firework_02_nt_00013
+  rotate: true
+  xy: 1811, 312
+  size: 180, 185
+  orig: 400, 400
+  offset: 104, 114
+  index: -1
+eff02/firework_02_nt_00040
+  rotate: false
+  xy: 1537, 1359
+  size: 358, 340
+  orig: 400, 400
+  offset: 23, 17
+  index: -1
+eff02/firework_02_nt_00043
+  rotate: false
+  xy: 1463, 651
+  size: 370, 348
+  orig: 400, 400
+  offset: 18, 9
+  index: -1
+eff02/firework_02_nt_00046
+  rotate: false
+  xy: 357, 663
+  size: 377, 355
+  orig: 400, 400
+  offset: 13, 4
+  index: -1
+eff02/firework_02_nt_00049
+  rotate: false
+  xy: 755, 1689
+  size: 388, 357
+  orig: 400, 400
+  offset: 9, 3
+  index: -1
+eff02/firework_02_nt_00052
+  rotate: true
+  xy: 2, 888
+  size: 390, 353
+  orig: 400, 400
+  offset: 9, 6
+  index: -1
+eff02/firework_02_nt_00055
+  rotate: false
+  xy: 1145, 1696
+  size: 390, 350
+  orig: 400, 400
+  offset: 10, 9
+  index: -1
+eff02/firework_02_nt_00058
+  rotate: true
+  xy: 2, 498
+  size: 388, 345
+  orig: 400, 400
+  offset: 12, 14
+  index: -1
+eff02/firework_02_nt_00061
+  rotate: false
+  xy: 1537, 1701
+  size: 385, 345
+  orig: 400, 400
+  offset: 15, 14
+  index: -1
+eff02/firework_02_nt_00064
+  rotate: true
+  xy: 2, 114
+  size: 382, 346
+  orig: 400, 400
+  offset: 18, 13
+  index: -1
+eff02/firework_02_nt_00067
+  rotate: false
+  xy: 755, 1343
+  size: 379, 344
+  orig: 400, 400
+  offset: 19, 13
+  index: -1
+eff02/firework_02_nt_00070
+  rotate: false
+  xy: 1145, 1352
+  size: 376, 342
+  orig: 400, 400
+  offset: 19, 12
+  index: -1
+eff02/firework_02_nt_00073
+  rotate: false
+  xy: 1433, 310
+  size: 376, 339
+  orig: 400, 400
+  offset: 18, 11
+  index: -1
+eff02/firework_02_nt_00076
+  rotate: false
+  xy: 378, 1322
+  size: 375, 340
+  orig: 400, 400
+  offset: 18, 9
+  index: -1
+eff02/firework_02_nt_00079
+  rotate: false
+  xy: 755, 1012
+  size: 377, 329
+  orig: 400, 400
+  offset: 17, 17
+  index: -1
+eff02/firework_02_nt_00082
+  rotate: false
+  xy: 373, 1020
+  size: 378, 300
+  orig: 400, 400
+  offset: 16, 45
+  index: -1
+eff02/firework_02_nt_00091
+  rotate: false
+  xy: 1897, 1519
+  size: 147, 180
+  orig: 400, 400
+  offset: 111, 45
+  index: -1
+eff02/firework_02_nt_00097
+  rotate: false
+  xy: 1843, 25
+  size: 117, 69
+  orig: 400, 400
+  offset: 136, 150
+  index: -1
+eff02/firework_02_nt_00100
+  rotate: false
+  xy: 2, 2
+  size: 5, 4
+  orig: 400, 400
+  offset: 248, 156
+  index: -1
+eff02/firework_02_nt_00103
+  rotate: false
+  xy: 2, 2
+  size: 5, 4
+  orig: 400, 400
+  offset: 248, 156
+  index: -1
+eff03/firework_08_nt_00007
+  rotate: false
+  xy: 1998, 451
+  size: 40, 41
+  orig: 256, 256
+  offset: 107, 96
+  index: -1
+eff03/firework_08_nt_00010
+  rotate: false
+  xy: 1924, 1857
+  size: 77, 80
+  orig: 256, 256
+  offset: 88, 84
+  index: -1
+eff03/firework_08_nt_00013
+  rotate: false
+  xy: 1924, 1939
+  size: 102, 107
+  orig: 256, 256
+  offset: 77, 75
+  index: -1
+eff03/firework_08_nt_00031
+  rotate: false
+  xy: 1835, 494
+  size: 209, 212
+  orig: 256, 256
+  offset: 22, 29
+  index: -1
+eff03/firework_08_nt_00043
+  rotate: true
+  xy: 1817, 1131
+  size: 226, 229
+  orig: 256, 256
+  offset: 13, 9
+  index: -1
+eff03/firework_08_nt_00055
+  rotate: false
+  xy: 1835, 708
+  size: 209, 226
+  orig: 256, 256
+  offset: 22, 4
+  index: -1
+eff03/firework_08_nt_00073
+  rotate: true
+  xy: 1843, 936
+  size: 193, 203
+  orig: 256, 256
+  offset: 33, 7
+  index: -1
+
+SS_DaTing_zhounianqing_beijingyanhua2.png
+size: 1824,1824
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+eff/firework_01_nt_1_1_00010
+  rotate: false
+  xy: 1471, 322
+  size: 170, 174
+  orig: 400, 400
+  offset: 127, 131
+  index: -1
+eff/firework_01_nt_1_1_00013
+  rotate: false
+  xy: 1168, 709
+  size: 232, 236
+  orig: 400, 400
+  offset: 94, 98
+  index: -1
+eff/firework_01_nt_1_1_00016
+  rotate: false
+  xy: 631, 885
+  size: 293, 291
+  orig: 400, 400
+  offset: 68, 68
+  index: -1
+eff/firework_01_nt_1_1_00049
+  rotate: false
+  xy: 2, 1472
+  size: 344, 350
+  orig: 400, 400
+  offset: 38, 26
+  index: -1
+eff/firework_01_nt_1_1_00052
+  rotate: true
+  xy: 701, 1481
+  size: 341, 349
+  orig: 400, 400
+  offset: 42, 19
+  index: -1
+eff/firework_01_nt_1_1_00055
+  rotate: false
+  xy: 2, 413
+  size: 324, 346
+  orig: 400, 400
+  offset: 44, 19
+  index: -1
+eff/firework_01_nt_1_1_00061
+  rotate: false
+  xy: 2, 68
+  size: 308, 343
+  orig: 400, 400
+  offset: 53, 21
+  index: -1
+eff/firework_01_nt_1_1_00067
+  rotate: false
+  xy: 328, 439
+  size: 300, 320
+  orig: 400, 400
+  offset: 60, 27
+  index: -1
+eff/firework_01_nt_1_1_00070
+  rotate: true
+  xy: 348, 1186
+  size: 294, 318
+  orig: 400, 400
+  offset: 61, 26
+  index: -1
+eff/firework_01_nt_1_1_00073
+  rotate: false
+  xy: 340, 866
+  size: 289, 318
+  orig: 400, 400
+  offset: 62, 24
+  index: -1
+eff/firework_01_nt_1_1_00085
+  rotate: false
+  xy: 971, 1214
+  size: 279, 262
+  orig: 400, 400
+  offset: 69, 27
+  index: -1
+eff/firework_01_nt_1_1_00091
+  rotate: true
+  xy: 1252, 1197
+  size: 279, 250
+  orig: 400, 400
+  offset: 69, 26
+  index: -1
+eff/firework_01_nt_1_1_00094
+  rotate: false
+  xy: 1168, 947
+  size: 243, 248
+  orig: 400, 400
+  offset: 79, 26
+  index: -1
+eff02/firework_02_nt_00016
+  rotate: false
+  xy: 1413, 953
+  size: 238, 242
+  orig: 400, 400
+  offset: 75, 83
+  index: -1
+eff02/firework_02_nt_00019
+  rotate: false
+  xy: 668, 1178
+  size: 301, 301
+  orig: 400, 400
+  offset: 44, 53
+  index: -1
+eff02/firework_02_nt_00022
+  rotate: false
+  xy: 1400, 1483
+  size: 340, 339
+  orig: 400, 400
+  offset: 27, 31
+  index: -1
+eff02/firework_02_nt_00025
+  rotate: false
+  xy: 1052, 1478
+  size: 346, 344
+  orig: 400, 400
+  offset: 31, 25
+  index: -1
+eff02/firework_02_nt_00028
+  rotate: false
+  xy: 1052, 1478
+  size: 346, 344
+  orig: 400, 400
+  offset: 31, 25
+  index: -1
+eff02/firework_02_nt_00031
+  rotate: false
+  xy: 348, 1482
+  size: 351, 340
+  orig: 400, 400
+  offset: 27, 21
+  index: -1
+eff02/firework_02_nt_00034
+  rotate: true
+  xy: 2, 761
+  size: 351, 336
+  orig: 400, 400
+  offset: 28, 19
+  index: -1
+eff02/firework_02_nt_00037
+  rotate: true
+  xy: 2, 1114
+  size: 356, 336
+  orig: 400, 400
+  offset: 27, 20
+  index: -1
+eff02/firework_02_nt_00085
+  rotate: true
+  xy: 312, 73
+  size: 338, 301
+  orig: 400, 400
+  offset: 53, 44
+  index: -1
+eff02/firework_02_nt_00088
+  rotate: true
+  xy: 1504, 1219
+  size: 262, 256
+  orig: 400, 400
+  offset: 52, 47
+  index: -1
+eff02/firework_02_nt_00094
+  rotate: true
+  xy: 1475, 66
+  size: 124, 130
+  orig: 400, 400
+  offset: 134, 92
+  index: -1
+eff03/firework_08_nt_00016
+  rotate: false
+  xy: 1475, 192
+  size: 128, 128
+  orig: 256, 256
+  offset: 63, 68
+  index: -1
+eff03/firework_08_nt_00019
+  rotate: false
+  xy: 1643, 345
+  size: 150, 151
+  orig: 256, 256
+  offset: 52, 60
+  index: -1
+eff03/firework_08_nt_00022
+  rotate: true
+  xy: 1653, 878
+  size: 167, 169
+  orig: 256, 256
+  offset: 44, 52
+  index: -1
+eff03/firework_08_nt_00025
+  rotate: false
+  xy: 1395, 516
+  size: 188, 191
+  orig: 256, 256
+  offset: 33, 40
+  index: -1
+eff03/firework_08_nt_00028
+  rotate: false
+  xy: 1395, 516
+  size: 188, 191
+  orig: 256, 256
+  offset: 33, 40
+  index: -1
+eff03/firework_08_nt_00034
+  rotate: false
+  xy: 630, 433
+  size: 234, 230
+  orig: 256, 256
+  offset: 8, 16
+  index: -1
+eff03/firework_08_nt_00037
+  rotate: true
+  xy: 926, 927
+  size: 249, 240
+  orig: 256, 256
+  offset: 2, 6
+  index: -1
+eff03/firework_08_nt_00040
+  rotate: true
+  xy: 926, 686
+  size: 239, 240
+  orig: 256, 256
+  offset: 7, 6
+  index: -1
+eff03/firework_08_nt_00046
+  rotate: false
+  xy: 615, 199
+  size: 219, 232
+  orig: 256, 256
+  offset: 17, 9
+  index: -1
+eff03/firework_08_nt_00049
+  rotate: false
+  xy: 836, 200
+  size: 215, 231
+  orig: 256, 256
+  offset: 18, 8
+  index: -1
+eff03/firework_08_nt_00052
+  rotate: false
+  xy: 1053, 276
+  size: 210, 223
+  orig: 256, 256
+  offset: 21, 6
+  index: -1
+eff03/firework_08_nt_00058
+  rotate: true
+  xy: 1168, 501
+  size: 206, 225
+  orig: 256, 256
+  offset: 24, 1
+  index: -1
+eff03/firework_08_nt_00061
+  rotate: false
+  xy: 1265, 276
+  size: 204, 223
+  orig: 256, 256
+  offset: 26, 0
+  index: -1
+eff03/firework_08_nt_00064
+  rotate: true
+  xy: 631, 665
+  size: 218, 240
+  orig: 256, 256
+  offset: 21, 1
+  index: -1
+eff03/firework_08_nt_00067
+  rotate: true
+  xy: 1053, 77
+  size: 197, 213
+  orig: 256, 256
+  offset: 30, 5
+  index: -1
+eff03/firework_08_nt_00070
+  rotate: true
+  xy: 615, 3
+  size: 194, 209
+  orig: 256, 256
+  offset: 29, 6
+  index: -1
+eff03/firework_08_nt_00076
+  rotate: false
+  xy: 826, 5
+  size: 189, 192
+  orig: 256, 256
+  offset: 36, 21
+  index: -1
+eff03/firework_08_nt_00079
+  rotate: false
+  xy: 1585, 498
+  size: 189, 187
+  orig: 256, 256
+  offset: 36, 16
+  index: -1
+eff03/firework_08_nt_00082
+  rotate: true
+  xy: 1268, 84
+  size: 190, 205
+  orig: 256, 256
+  offset: 35, 5
+  index: -1
+eff03/firework_08_nt_00085
+  rotate: false
+  xy: 1475, 773
+  size: 176, 178
+  orig: 256, 256
+  offset: 40, 12
+  index: -1
+eff03/firework_08_nt_00088
+  rotate: false
+  xy: 866, 462
+  size: 183, 201
+  orig: 256, 256
+  offset: 39, 1
+  index: -1
+eff03/firework_08_nt_00091
+  rotate: true
+  xy: 1653, 1047
+  size: 170, 169
+  orig: 256, 256
+  offset: 41, 15
+  index: -1
+eff03/firework_08_nt_00094
+  rotate: false
+  xy: 1653, 687
+  size: 166, 189
+  orig: 256, 256
+  offset: 41, 4
+  index: -1

@@ -1,0 +1,111 @@
+
+hw_huopai.png
+size: 1024,1024
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+A_0000_H_00000.png
+  rotate: false
+  xy: 168, 381
+  size: 167, 207
+  orig: 169, 216
+  offset: 2, 1
+  index: -1
+A_0002_H_00002.png
+  rotate: false
+  xy: 168, 172
+  size: 167, 207
+  orig: 169, 216
+  offset: 2, 1
+  index: -1
+A_0004_H_00004.png
+  rotate: true
+  xy: 168, 2
+  size: 168, 207
+  orig: 169, 216
+  offset: 1, 1
+  index: -1
+A_0006_H_00006.png
+  rotate: true
+  xy: 674, 688
+  size: 167, 208
+  orig: 169, 216
+  offset: 1, 1
+  index: -1
+A_0008_H_00008.png
+  rotate: false
+  xy: 506, 812
+  size: 166, 210
+  orig: 169, 216
+  offset: 1, 1
+  index: -1
+A_0010_H_00010.png
+  rotate: true
+  xy: 674, 857
+  size: 165, 211
+  orig: 169, 216
+  offset: 1, 1
+  index: -1
+A_0012_H_00012.png
+  rotate: false
+  xy: 2, 161
+  size: 164, 212
+  orig: 169, 216
+  offset: 1, 1
+  index: -1
+A_0014_H_00014.png
+  rotate: false
+  xy: 2, 375
+  size: 164, 213
+  orig: 169, 216
+  offset: 1, 1
+  index: -1
+A_0016_H_00016.png
+  rotate: false
+  xy: 2, 590
+  size: 165, 215
+  orig: 169, 216
+  offset: 1, 0
+  index: -1
+A_0018_H_00018.png
+  rotate: false
+  xy: 170, 808
+  size: 165, 214
+  orig: 169, 216
+  offset: 1, 1
+  index: -1
+A_0020_H_00020.png
+  rotate: false
+  xy: 2, 807
+  size: 166, 215
+  orig: 169, 216
+  offset: 0, 1
+  index: -1
+A_0022_H_00022.png
+  rotate: false
+  xy: 337, 811
+  size: 167, 211
+  orig: 169, 216
+  offset: 0, 1
+  index: -1
+A_0024_H_00024.png
+  rotate: false
+  xy: 339, 603
+  size: 167, 206
+  orig: 169, 216
+  offset: 0, 1
+  index: -1
+A_0026_H_00026.png
+  rotate: false
+  xy: 337, 390
+  size: 167, 206
+  orig: 169, 216
+  offset: 1, 1
+  index: -1
+A_0028_H_00028.png
+  rotate: false
+  xy: 169, 598
+  size: 168, 207
+  orig: 169, 216
+  offset: 1, 1
+  index: -1

@@ -1,0 +1,651 @@
+@keyframes fadenum {
+    0% {
+    opacity: 0;
+}
+100% {
+    opacity: 1;
+}
+}
+.dialog#newdialog1 {
+    /*新样式框1（魄袭等双框）*/
+    background-image: url('assets/image/newdialog1.png') !important;
+    background-size: 100% 100%;
+    width: 1303px;
+    height: 420px;
+    left: -50px;
+    top: 35px;
+    display: block !important;
+    /* pointer-events: none;*/
+    z-index: 6;
+    position: absolute;
+    text-align: center;
+    overflow: visible !important;
+    overflow-y: visible !important;
+    animation:fadenum 1s ease;
+}
+/*框标题*/
+    .dialog#newdialog1>.newTitle1 {
+    left: calc(50% - 80px);
+    right: calc(50% - 80px);
+    overflow: visible !important;
+    width: 200px;
+    top: -2px;
+    height: 50px;
+    text-align: center;
+    letter-spacing: 3px!important;
+    background: linear-gradient(#C8BEB4 1%,#FCF8CC 12%, #F3F0BE,#FEF5A8,#E1D275,#C9B173,#D6CB6F,#A99355,#AC9557,#A38A51,#A38A51,#B29983,#B19786,#B19786,#B19786, #9B8583 ), linear-gradient(to right,#FCF8CC , #AC9557);
+    font-family: 'HYZLSJ';
+    font-size: 42px !important;
+    font-weight: normal;
+    -webkit-background-clip: text;
+    text-shadow: none;
+    -webkit-text-fill-color: transparent;
+    filter: drop-shadow(2px 0 0.5px #2F1809) drop-shadow(-2px 0 1.5px #2F1809) drop-shadow(0 2px 1px #2F1809) drop-shadow(0 -2px 1.5px #2F1809) blur(0.55px) saturate(1.25) contrast(1.25) grayscale(0.08) sepia(0.1);
+}
+.dialog#newdialog1>.targetname1 {
+    /*目标名*/
+    background-image: url('assets/image/cebian.png') !important;
+    background-size: 100% 100%;
+    height: 130px;
+    width: 38px;
+    writing-mode: tb-rl;
+    font-size: 20px;
+    left: 16%;
+    top: 17%;
+    color: #eddac3;
+    text-shadow: 0 0 2px #453325, 0 0 2px #453325, 0 0 2px #453325, 0 0 2px #453325, 0 0 2px #453325, 0 0 2px #453325, 0 0 2px #453325, 0 0 2px #453325, 0 0 2px #453325, 0 0 2px #453325, 0 0 2px #453325, 0 0 2px #453325, 0 0 2px #453325, 0 0 2px #453325, 0 0 2px #453325, 0 0 2px #453325, 0 0 2px #453325, 0 0 2px #453325, 0 0 2px #453325, 0 0 2px #453325, 0 0 2px #453325, 0 0 2px #453325, 0 0 2px #453325, 0 0 2px #453325, 0 0 2px #453325, 0 0 2px #453325, 0 0 2px #453325, 0 0 2px #453325, 0 0 2px #453325, 0 0 2px #453325, 0 0 2px #453325, 0 0 2px #453325, 0 0 2px #453325, 0 0 2px #453325, 0 0 2px #453325, 0 0 2px #453325;
+    font-family: shousha;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+}
+.dialog#newdialog1>.myname1 {
+    /*目标名*/
+    background-image: url('assets/image/cebian.png') !important;
+    background-size: 100% 100%;
+    height: 130px;
+    width: 38px;
+    writing-mode: tb-rl;
+    font-size: 20px;
+    left: 16%;
+    top: 52%;
+    color: #eddac3;
+    text-shadow: 0 0 2px #453325, 0 0 2px #453325, 0 0 2px #453325, 0 0 2px #453325, 0 0 2px #453325, 0 0 2px #453325, 0 0 2px #453325, 0 0 2px #453325, 0 0 2px #453325, 0 0 2px #453325, 0 0 2px #453325, 0 0 2px #453325, 0 0 2px #453325, 0 0 2px #453325, 0 0 2px #453325, 0 0 2px #453325, 0 0 2px #453325, 0 0 2px #453325, 0 0 2px #453325, 0 0 2px #453325, 0 0 2px #453325, 0 0 2px #453325, 0 0 2px #453325, 0 0 2px #453325, 0 0 2px #453325, 0 0 2px #453325, 0 0 2px #453325, 0 0 2px #453325, 0 0 2px #453325, 0 0 2px #453325, 0 0 2px #453325, 0 0 2px #453325, 0 0 2px #453325, 0 0 2px #453325, 0 0 2px #453325, 0 0 2px #453325;
+    font-family: shousha;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+}
+.dialog#newdialog1>.targetarea1 {
+    /* background-color: #4e413b;*/
+    background-image: url('assets/image/newarena1.png') !important;
+    background-size: 100% 100%;
+    width: 876px;
+    height: 137px;
+    left: 19%;
+    top: 16%;
+    display: block;
+    border-radius: 5px;
+    flex-wrap: nowrap;
+    overflow-x: visible !important;
+    flex-direction: row !important;
+    overflow-y: hidden !important;
+    justify-content: flex-start !important;
+}
+.dialog#newdialog1>.myarea1 {
+    /* background-color: #4e413b;*/
+    background-image: url('assets/image/newarena1.png') !important;
+    background-size: 100% 100%;
+    width: 876px;
+    height: 137px;
+    left: 19%;
+    top: 51%;
+    display: block;
+    border-radius: 5px;
+    flex-wrap: nowrap;
+    overflow-x: visible !important;
+    flex-direction: row !important;
+    overflow-y: hidden !important;
+    justify-content: flex-start !important;
+}
+.dialog#newdialog1>.targetarea1>.buttons {
+    margin-top: -5px;
+    margin-left: -4.5px;
+    width: auto;
+    overflow-x: visible !important;
+    display: flex;
+    flex-wrap: nowrap;
+    flex-direction: row !important;
+    justify-content: flex-start !important;
+}
+.dialog#newdialog1>.myarea1 >.buttons {
+    margin-top: -5px;
+    margin-left: -4.5px;
+    width: auto;
+    overflow-x: visible !important;
+    display: flex;
+    flex-wrap: nowrap;
+    flex-direction: row !important;
+    justify-content: flex-start !important;
+}
+.dialog#newdialog1>.myarea1 >.buttons>.card.selectable.selected:before,
+.dialog#newdialog1>.targetarea1 >.buttons>.card.selectable.selected:before {
+    background-image: url('assets/image/card_select1.png');
+    width:120%;
+    left:-10%;
+    top:-7.5%;
+    height:112%;
+    background-size:100% 100%;
+    background-repeat: no-repeat;
+    filter: saturate(1.3);
+}
+.dialog#newdialog1>.myarea1 >.buttons>div.card,
+.dialog#newdialog1>.targetarea1 >.buttons>div.card {
+    box-shadow:none !important;
+    border:none !important;
+    background-color:transparent !important;
+}
+.dialog#newdialog1>.myarea1>.buttons>div:not(:first-child),
+.dialog#newdialog1>.targetarea1>.buttons>div:not(:first-child) {
+    margin-left: -1.9px;
+}
+.dialog#newdialog1>.myarea1>.buttons>div:last-child,
+.dialog#newdialog1>.targetarea1>.buttons>div:last-child {
+    margin-right: 100px;
+}
+/*新确认取消*/
+    .control.combo-control.lbtn-confirm.newconfirm1>div.primary {
+    background-image: url('assets/image/confirmButton.png');
+    top: calc(100% + 25px);
+    padding: 2.5px 6.75px !important;
+    /*按钮高度+宽度 建议别调22 68*/
+    min-height: 6px;
+    /*限制最小高度*/
+    min-width: 18px;
+    z-index:8;
+    display:block;
+}
+#arena.choose-character.selecting>#dui-controls>.control.combo-control.lbtn-confirm.newconfirm1>div.primary {
+    top: -150px !important;
+    left:37%;
+    position:fixed;
+}
+.control.combo-control.lbtn-confirm.newconfirm1>div.primary2 {
+    background-image: url('assets/image/cancel.png') !important;
+    top: calc(100% + 35px);
+    /* padding: 4px 8px !important;
+    /*按钮高度+宽度 建议别调22 68*/
+    /* min-height: 15px;
+    /*限制最小高度*/
+    /* min-width: 30px;*/
+    
+}
+#arena.selecting>#dui-controls>.control.combo-control.lbtn-confirm.newconfirm1>div.primary2>img {
+    display:none !important;
+    opacity:0 !important
+}
+/*顺手*/
+    #shunshouDialog {
+    /*顺手选项框*/
+    background-image: url('assets/image/scdialog.png') !important;
+    background-size: 100% 100%;
+    width: 1303px;
+    height: 390px;
+    left: -50px;
+    top: 65px;
+    display: block !important;
+    /* pointer-events: none;*/
+    z-index: 8;
+    position: absolute;
+    text-align: center;
+    overflow: visible !important;
+    overflow-y: visible !important;
+    animation: 0.5s ease 0s 1 normal none running open-dialog;
+}
+#shunshouDialog[data-pst='e'],
+#shunshouDialog[data-pst='j'],
+#shunshouDialog[data-pst='ej'],
+#shunshouDialog[data-pst='h'] {
+    height: 220px;
+    top: 110px;
+    background-size: cover;
+}
+#shunshouDialog[data-pst='ej']>.eTitle,
+#shunshouDialog[data-pst='ej']>.jTitle,
+#shunshouDialog[data-pst='e']>.eTitle,
+#shunshouDialog[data-pst='j']>.jTitle,
+#shunshouDialog[data-pst='h']>.hTitle {
+    top: 65px;
+    bottom:auto;
+}
+#shunshouDialog[data-pst='ej']>.jArea,
+#shunshouDialog[data-pst='ej']>.eArea,
+#shunshouDialog[data-pst='j']>.jArea,
+#shunshouDialog[data-pst='e']>.eArea,
+#shunshouDialog[data-pst='h']>.hArea {
+    top: 60px;
+    bottom:auto;
+}
+#shunshouDialog[data-pst='e']>.eTitle,
+#shunshouDialog[data-pst='j']>.jTitle {
+    left:25%;
+}
+#shunshouDialog[data-pst='e']>.eArea,
+#shunshouDialog[data-pst='j']>.jArea {
+    left:27.8%;
+}
+#shunshouDialog[data-pst='hj']>.jTitle{
+    left:16%;
+}
+#shunshouDialog[data-pst='hj']>.jArea {
+    left:18.8%;
+}
+/*顺手框内部大小，缩放到0.9比较符合原本大小*/
+    /*#shunshouDialog>div {
+    transform: scale(0.9);
+    transition: all 0s;
+}*/
+    .dialog#shunshouDialog>.content-container {
+    /*禁止滑动*/
+    overflow: hidden !important;
+    overflow-y: hidden !important;
+    justify-content: flex-start !important;
+}
+.dialog#shunshouDialog>.content-container>.content {
+    /*禁止滑动*/
+    overflow: hidden !important;
+    overflow-y: visible !important;
+    justify-content: flex-start !important;
+}
+/*顺拆框的名字*/
+    .shunshouTitle {
+    left: calc(50% - 80px);
+    right: calc(50% - 80px);
+    overflow: visible !important;
+    width: 220px;
+    display:flex;
+    top: -5px;
+    height: 50px;
+    text-align: center;
+    letter-spacing: 3px!important;
+    background: linear-gradient(#C8BEB4 1%,#FCF8CC 12%, #F3F0BE,#FEF5A8,#E1D275,#C9B173,#D6CB6F,#A99355,#AC9557,#A38A51,#A38A51,#B29983,#B19786,#B19786,#B19786, #9B8583 ), linear-gradient(to right,#FCF8CC , #AC9557);
+    font-family: 'HYZLSJ';
+    font-size: 42px !important;
+    font-weight: normal;
+    -webkit-background-clip: text;
+    text-shadow: none;
+    -webkit-text-fill-color: transparent;
+    filter: drop-shadow(2px 0 0.5px #2F1809) drop-shadow(-2px 0 1.5px #2F1809) drop-shadow(0 2px 1px #2F1809) drop-shadow(0 -2px 1.5px #2F1809) blur(0.55px) saturate(1.25) contrast(1.25) grayscale(0.08) sepia(0.1);
+}
+/*手牌区名字*/
+    .hTitle {
+    background-image: url('assets/image/cebian.png') !important;
+    background-size: 100% 100%;
+    height: 130px;
+    width: 38px;
+    writing-mode: tb-rl;
+    font-size: 20px;
+    left: 16%;
+    top: 17%;
+    color: #eddac3;
+    text-shadow: 0 0 2px #453325, 0 0 2px #453325, 0 0 2px #453325, 0 0 2px #453325, 0 0 2px #453325, 0 0 2px #453325, 0 0 2px #453325, 0 0 2px #453325, 0 0 2px #453325, 0 0 2px #453325, 0 0 2px #453325, 0 0 2px #453325, 0 0 2px #453325, 0 0 2px #453325, 0 0 2px #453325, 0 0 2px #453325, 0 0 2px #453325, 0 0 2px #453325, 0 0 2px #453325, 0 0 2px #453325, 0 0 2px #453325, 0 0 2px #453325, 0 0 2px #453325, 0 0 2px #453325, 0 0 2px #453325, 0 0 2px #453325, 0 0 2px #453325, 0 0 2px #453325, 0 0 2px #453325, 0 0 2px #453325, 0 0 2px #453325, 0 0 2px #453325, 0 0 2px #453325, 0 0 2px #453325, 0 0 2px #453325, 0 0 2px #453325;
+    font-family: shousha;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+}
+/*手牌区那个长框*/
+    .hArea {
+  /*  background-color: #4e413b;*/
+    background-size:100% 100%;
+    background-repeat: no-repeat;
+    background-image: url('assets/image/newarena1.png');
+    width: 876px;
+    height: 140px;
+    left: 19%;
+    top: 16%;
+    display: flex;
+    border-radius: 5px;
+    flex-wrap: nowrap;
+    overflow-x: visible !important;
+    flex-direction: row !important;
+    overflow-y: hidden !important;
+    justify-content: flex-start !important;
+}
+/*手牌区的按钮区整体位置*/
+    .hArea>.buttons {
+    margin-top: -5px;
+
+       
+    margin-left: -4.5px;
+    width: auto;
+    overflow-x: visible !important;
+    display: flex;
+    flex-wrap: nowrap;
+    flex-direction: row !important;
+    justify-content: flex-start !important;
+}
+.hArea>.buttons>.card:not(.selectable) {
+    filter: brightness(50%);
+}
+.eArea>.eAreaCard>.buttons>.card.selectable.selected:before,
+.jArea>.jAreaCard>.buttons>.card.selectable.selected:before,
+.hArea>.buttons>.card.selectable.selected:before {
+    background-image: url('assets/image/card_select6.png');
+    width:120%;
+    left:-10%;
+    top:-10%;
+    height:120%;
+    background-size:100% 100%;
+    background-repeat: no-repeat;
+    filter: saturate(1.3);
+}
+/*手牌区卡牌的间隔*/
+    .hArea>.buttons>div:not(:first-child) {
+    margin-left: -1.9px;
+}
+/*装备区名字*/
+    .eTitle {
+    background-image: url('assets/image/cebian.png') !important;
+    background-size: 100% 100%;
+    height: 130px;
+    width: 38px;
+    writing-mode: tb-rl;
+    font-size: 20px;
+    left: 16%;
+    bottom: 11%;
+    color: #eddac3;
+    text-shadow: 0 0 2px #453325, 0 0 2px #453325, 0 0 2px #453325, 0 0 2px #453325, 0 0 2px #453325, 0 0 2px #453325, 0 0 2px #453325, 0 0 2px #453325, 0 0 2px #453325, 0 0 2px #453325, 0 0 2px #453325, 0 0 2px #453325, 0 0 2px #453325, 0 0 2px #453325, 0 0 2px #453325, 0 0 2px #453325, 0 0 2px #453325, 0 0 2px #453325, 0 0 2px #453325, 0 0 2px #453325, 0 0 2px #453325, 0 0 2px #453325, 0 0 2px #453325, 0 0 2px #453325, 0 0 2px #453325, 0 0 2px #453325, 0 0 2px #453325, 0 0 2px #453325, 0 0 2px #453325, 0 0 2px #453325, 0 0 2px #453325, 0 0 2px #453325, 0 0 2px #453325, 0 0 2px #453325, 0 0 2px #453325, 0 0 2px #453325;
+    font-family: shousha;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+}
+/*装备区区域*/
+    .eArea {
+    /* background-color: #4e413b;*/
+    bottom: 6%;
+    left: 18.8%;
+    width: 580px;
+    height: 160px;
+    display: flex;
+}
+/*装备区每一张独立卡*/
+    .eAreaCard {
+    background-color: #4e413b;
+    background-size: 100% 100%;
+    margin-left: 5px;
+    height: 135px;
+    width: 97.5px;
+    font-size: 20px;
+    top: 5px;
+    position: relative;
+    font-family: shousha;
+    color: #605f5d;
+    text-shadow: 0 0 2px #453325, 0 0 2px #453325, 0 0 2px #453325, 0 0 2px #453325, 0 0 2px #453325, 0 0 2px #453325, 0 0 2px #453325, 0 0 2px #453325, 0 0 2px #453325, 0 0 2px #453325, 0 0 2px #453325, 0 0 2px #453325, 0 0 2px #453325, 0 0 2px #453325, 0 0 2px #453325, 0 0 2px #453325, 0 0 2px #453325, 0 0 2px #453325, 0 0 2px #453325, 0 0 2px #453325, 0 0 2px #453325, 0 0 2px #453325, 0 0 2px #453325, 0 0 2px #453325, 0 0 2px #453325, 0 0 2px #453325, 0 0 2px #453325, 0 0 2px #453325, 0 0 2px #453325, 0 0 2px #453325, 0 0 2px #453325, 0 0 2px #453325, 0 0 2px #453325, 0 0 2px #453325, 0 0 2px #453325, 0 0 2px #453325;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    opacity: 0.95;
+}
+/*判定区名字*/
+    .jTitle {
+    background-image: url('assets/image/cebian.png') !important;
+    background-size: 100% 100%;
+    height: 135px;
+    width: 38px;
+    writing-mode: tb-rl;
+    font-size: 20px;
+    left: 59.8%;
+    bottom: 11%;
+    color: #eddac3;
+    text-shadow: 0 0 2px #453325, 0 0 2px #453325, 0 0 2px #453325, 0 0 2px #453325, 0 0 2px #453325, 0 0 2px #453325, 0 0 2px #453325, 0 0 2px #453325, 0 0 2px #453325, 0 0 2px #453325, 0 0 2px #453325, 0 0 2px #453325, 0 0 2px #453325, 0 0 2px #453325, 0 0 2px #453325, 0 0 2px #453325, 0 0 2px #453325, 0 0 2px #453325, 0 0 2px #453325, 0 0 2px #453325, 0 0 2px #453325, 0 0 2px #453325, 0 0 2px #453325, 0 0 2px #453325, 0 0 2px #453325, 0 0 2px #453325, 0 0 2px #453325, 0 0 2px #453325, 0 0 2px #453325, 0 0 2px #453325, 0 0 2px #453325, 0 0 2px #453325, 0 0 2px #453325, 0 0 2px #453325, 0 0 2px #453325, 0 0 2px #453325;
+    font-family: shousha;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+}
+/*判定区区域*/
+    .jArea {
+    /* background-color: #4e413b;*/
+    bottom: 6%;
+    left: 62.7%;
+    width: 350px;
+    height: 160px;
+    display: flex;
+}
+/*判定区独立小卡*/
+    .jAreaCard {
+    background-color: #4e413b;
+    background-size: 100% 100%;
+    margin-left: 5px;
+    height: 135px;
+    width: 97.2px;
+    font-size: 20px;
+    top: 5px;
+    border-radius: 5px;
+    position: relative;
+    font-family: shousha;
+    border-radius: 5px;
+    color: #605f5d;
+    text-shadow: 0 0 2px #453325, 0 0 2px #453325, 0 0 2px #453325, 0 0 2px #453325, 0 0 2px #453325, 0 0 2px #453325, 0 0 2px #453325, 0 0 2px #453325, 0 0 2px #453325, 0 0 2px #453325, 0 0 2px #453325, 0 0 2px #453325, 0 0 2px #453325, 0 0 2px #453325, 0 0 2px #453325, 0 0 2px #453325, 0 0 2px #453325, 0 0 2px #453325, 0 0 2px #453325, 0 0 2px #453325, 0 0 2px #453325, 0 0 2px #453325, 0 0 2px #453325, 0 0 2px #453325, 0 0 2px #453325, 0 0 2px #453325, 0 0 2px #453325, 0 0 2px #453325, 0 0 2px #453325, 0 0 2px #453325, 0 0 2px #453325, 0 0 2px #453325, 0 0 2px #453325, 0 0 2px #453325, 0 0 2px #453325, 0 0 2px #453325;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    text-align: center;
+    opacity: 0.95;
+}
+/*装备和判定区的div*/
+    .jAreaCard>div,
+.eAreaCard>div {
+    margin-top: 10px !important;
+    margin-left: -7.5px !important;
+    bottom: auto;
+    right: auto;
+    position: absolute;
+}
+#arena.choose-character.selecting>#dui-controls>.control.combo-control.lbtn-confirm>div.primary.confirmButton {
+    top: -150px !important;
+    left:37%;
+    position:fixed;
+}
+#judgeBox.judgeBox {
+    background-image: url('assets/image/scdialog.png');
+    background-size: 100% 100%;
+    width: 110%;
+    height: 250px;
+    left: -5%;
+    right:-5%;
+    top: 10%;
+    /* pointer-events: none;*/
+    z-index: 6;
+    animation: 0.5s ease 0s 1 normal none running open-dialog;
+}
+@keyframes moveLine {
+    from {
+    left: 580px;
+}
+to {
+    left: 0px;
+}
+}
+.introduce {
+    width: 100px;
+    height: 50px;
+    font-size: 15px;
+    font-family: shousha;
+    color: #c9c9ab;
+}
+.introduce_card {
+    top: 50px;
+    width: 200px;
+    text-align:left;
+    height: 190px;
+    font-size: 20px;
+    font-family: shousha;
+    color: #c9c9ab;
+    text-shadow: 1px 0 5px black, 1px 1px 2px black, -1px 0px 0 black, 0px -1px 0 black;
+    overflow-y: scroll;
+    scrollbar-width: none;
+    /* 取消掉滚动条*/
+    
+}
+.introduce_card[data-type='card'] {
+    right:25%;
+}
+.introduce_card[data-type='skill'] {
+    right:25%;
+}
+.introduce_card>span[data-suit-type='red'] {
+    color:red;
+    text-shadow: -1px 0 rgba(255, 255, 255, 1), 0 1px rgba(255, 255, 255, 1), 1px 0 rgba(255, 255, 255, 1), 0 -1px rgba(255, 255, 255, 1);
+}
+.introduce_card>span[data-suit-type='black'] {
+    color:black;
+    text-shadow: -1px 0 rgba(255, 255, 255, 1), 0 1px rgba(255, 255, 255, 1), 1px 0 rgba(255, 255, 255, 1), 0 -1px rgba(255, 255, 255, 1);
+}
+.judgeResultIntroduce {
+    background-image: url('assets/image/cebian.png');
+    --w: 42px;
+    --h: calc(var(--w) * 161/51);
+    width: var(--w);
+    height: var(--h);
+    background-size: 100% 100%;
+    font-family: shousha;
+    color: #c9c9ab;
+    text-shadow: 1px 0 5px black, 1px 1px 2px black, -1px 0px 0 black, 0px -1px 0 black;
+    top: 24%;
+    font-size: 23px;
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    justify-content: space-around;
+    writing-mode: tb-rl;
+    line-height: 50px;
+}
+.judgeResultIntroduce[data-type='skill'] {
+    left:43%;
+}
+.judgeResultIntroduce[data-type='card'] {
+    left:46%;
+}
+.judgeCardArea {
+    top: 55px;
+    left:auto;
+    width: 108px;
+    height: 140px;
+    background-size: 100% 100%;
+}
+.judgeCardArea[data-type='card'] {
+    right: 41%;
+}
+.judgeCardArea[data-type='skill'] {
+    right: 44%;
+}
+.judgeCardArea>div {
+    top: -10px;
+    right: 0px;
+    left:0px;
+    position: absolute;
+    z-index: 1;
+}
+.judgeCardArea > div:first-child {
+    z-index: 2;
+}
+.judgeCard {
+    position: absolute;
+}
+.title {
+    font-size: 40px;
+    font-family: 'HYZLSJ';
+    background: linear-gradient(#C8BEB4 1%, #FCF8CC 12%, #F3F0BE, #FEF5A8, #E1D275, #C9B173, #D6CB6F, #A99355, #AC9557, #A38A51, #A38A51, #B29983, #B19786, #B19786, #B19786, #9B8583), linear-gradient(to right, #FCF8CC, #AC9557);
+    filter: drop-shadow(2px 0 0.5px #2F1809) drop-shadow(-2px 0 1.5px #2F1809) drop-shadow(0 2px 1px #2F1809) drop-shadow(0 -2px 1.5px #2F1809) blur(0.55px) saturate(1.25) contrast(1.25) grayscale(0.08) sepia(0.1);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    position: absolute;
+    left: 10px;
+    top: 9px;
+    padding-top: 0;
+    width: 100%;
+    height: 36px;
+    line-height: 30px;
+    letter-spacing: 3px !important;
+    text-shadow: none;
+    text-align: center;
+}
+.judgeDelayCard {
+    top: 55px;
+    left: 34%;
+    width: 100px;
+    height: 140px;
+    background-size: 100% 100%;
+}
+.judgeDelayCard>div:not(.smallCharacter):not(.suit-num) {
+    top: -10px;
+    right: 5px;
+}
+.judgeDelayCard>.suit-num {
+    font-size: 15px;
+    font-weight: 900;
+    color: black;
+    text-align: center;
+    top: 10px;
+    left: -1px;
+    width: 25px;
+    height: auto;
+    line-height: 15px;
+    text-shadow: 0 0 3px #e8dddd, 0 0 3px #f3e6e6;
+    letter-spacing: -1px;
+    transform-origin: 0 0;
+    z-index: 1;
+    -webkit-text-size-adjust: none;
+}
+.judgeDelayCard[data-suit='heart']>.suit-num,
+.judgeDelayCard[data-suit='diamond']>.suit-num {
+    color: red;
+}
+.judgeDelayCard>.suit-num>.suit {
+    font-size: 10px;
+}
+.smallCharacter {
+    position: absolute;
+    /*bottom: -20px;*/
+    z-index: 2;
+    /*left:10px;*/
+    height: 2.2em;
+    width: 2.2em;
+    background-repeat: no-repeat;
+    background-size: 65px;
+    background-position-y: 10%;
+    background-position-x: 50%;
+    border: 2px solid #ad5949;
+}
+.smallCharacter[data-type='card'] {
+    bottom: -20px;
+    z-index: 2;
+    left:10px;
+}
+.smallCharacter[data-type='skill'] {
+    top: 50px;
+    left: 37%;
+}
+.smallCharacterName {
+    position: inherit;
+    color: #c9c9ab;
+    font-family: shousha;
+    font-size: 14px;
+    text-shadow: 1px 0 5px black, 1px 1px 2px black, -1px 0px 0 black, 0px -1px 0 black;
+    width: 100px;
+    left: 40px;
+    bottom: 0px;
+    z-index: 2;
+}
+.zhuanbj {
+    background-image: url('./image/vcard/zhuan.png');
+    background-size: 100% 100%;
+    width: 25px;
+    height: 25px;
+    top: 7px !important;
+    right: 0px !important;
+    z-index: 1;
+}

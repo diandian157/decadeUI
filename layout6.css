@@ -1,0 +1,744 @@
+@import "dialog.css";
+@import "component.css";
+@import "card_dc.css";
+@import "icon.css";
+@import "effect.css";
+html {
+	background: rgb(60, 60, 60);
+
+}
+
+
+/* #arena>.dialog { */
+/* display: none; */
+/* } */
+
+body>.background {
+	animation: anime-opacity 1s ease-in-out;
+}
+
+@keyframes anime-opacity {
+	0% {
+		opacity: 0;
+	}
+
+	100% {
+		opacity: 1;
+	}
+}
+
+#decadeUI-canvas,
+#decadeUI-canvas-background {
+	display: block;
+	position: absolute;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	z-index: 8;
+	pointer-events: none;
+}
+
+#decadeUI-canvas-background {
+	z-index: -1;
+}
+
+#decadeUI-canvas-arena {
+	display: block;
+	position: absolute;
+	left: 0;
+	top: 0;
+	z-index: 4;
+	pointer-events: none;
+}
+
+#decadeUI-body-sensor {
+	display: block;
+	position: absolute;
+	left: 0;
+	top: 0;
+	visibility: hidden;
+	width: 100%;
+	height: 100%;
+	pointer-events: none;
+}
+
+
+#arena {
+	left: 22px;
+	right: 25px;
+	top: 10%;
+	bottom: 1%;
+	width: auto;
+	height: auto;
+	/* pointer-events: none; */
+	transition-property: opacity;
+}
+
+#arena.phone {
+	top: 2%;
+}
+
+/* #arena.dragging { */
+/* cursor: default; */
+/* } */
+
+#window.leftbar #arena:not(.chess) {
+	width: auto;
+	left: calc(2% + 50px);
+}
+
+#window.rightbar #arena:not(.chess) {
+	width: auto;
+	right: calc(2% + 50px);
+}
+
+#arena:not(.chess).decadeUI>#mebg {
+	display: none;
+}
+
+#arena.decadeUI:not(.single-handcard):not(.chess)>#autonode {
+	display: flex !important;
+	align-items: center;
+	justify-content: center;
+	left: -2% !important;
+	right: -2% !important;
+	bottom: -2% !important;
+	width: auto !important;
+	height: calc(2% + 180px);
+	background: linear-gradient(transparent, rgba(0, 0, 0, 0.8));
+}
+
+/*#autonode>div {
+	position: static;
+	text-shadow: 0 0 20px red;
+}*/
+/*主玩家托管*/
+#autonode>div {
+	background-image: url('assets/image/tuoguan.png');
+	background-size: 100% 100%;
+	width: 528px !important;
+	height: 125px;
+	z-index: 62;
+	margin-left: 30px !important;
+	/*越大越往右*/
+	margin-bottom: -48px !important;
+	/*越大越上*/
+	-webkit-text-fill-color: transparent;
+	text-shadow: none !important;
+}
+
+#shortcut.hidden {
+	z-index: -1;
+}
+
+#window>#time {
+	left: 50px;
+	right: 50px;
+	color: rgb(250, 250, 200);
+	font-family: xinwei;
+	text-shadow: 0 0 1px black, 0 0 1px black, 0 0 1px black, 0 0 1px black;
+}
+
+
+#arena>.hand-wrap,
+#arena>.hand-back {
+	/*手牌区*/
+	/*左手布局+单独装备栏*/
+	left: 180px;
+	right: 180px;
+	width: auto;
+	height: 170px;
+	bottom: 1%;
+	transition: none;
+	z-index: 3;
+	/* border: 3px solid rgb(3,4,5); /*调试用*/
+}
+
+#arena[data-right-layout='on']>.hand-wrap,
+#arena[data-right-layout='on']>.hand-back {
+	/*右手布局+单独装备栏*/
+	left: 230px;
+	right: 330px;
+	/*border: 3px solid rgb(3,4,5); /*调试用*/
+}
+
+#arena[data-alone-equip='off'][data-right-layout='off']>.hand-wrap,
+#arena[data-alone-equip='off'][data-right-layout='off']>.hand-back {
+	/*左手布局+非单独装备栏*/
+	left: 180px;
+	right: 30px;
+}
+
+#arena[data-alone-equip='off'][data-right-layout='on']>.hand-wrap,
+#arena[data-alone-equip='off'][data-right-layout='on']>.hand-back {
+	/*右手布局+非单独装备栏*/
+	left: 95px;
+	right: 330px;
+}
+
+.discard-zone {
+	width: 100%;
+	height: 10%;
+}
+
+/*卡牌大小*/
+.hand-cards>.handcards>.card {
+	margin: 0px;
+	width: 115px;
+	height: 155px;
+	position: absolute;
+	transition-property: transform, opacity, left, top;
+	z-index: 1;
+}
+
+/*挑战模式小头像*/
+.hand-wrap>.fakeme.avatar {
+	left: -150px;
+	top: auto;
+	right: auto;
+	bottom: 0;
+	width: 120px;
+	height: 120px;
+	border-radius: 8px;
+	background-size: cover;
+}
+
+#arena[data-right-layout='on']>.hand-wrap>.fakeme.avatar {
+	left: 870px;
+	top: 35px;
+	right: auto;
+	bottom: 0;
+	width: 120px;
+	height: 120px;
+	border-radius: 8px;
+	background-size: cover;
+}
+
+.hand-cards {
+	display: inline-block;
+	width: 100%;
+	height: 105%;
+	overflow-y: visible !important;
+	transition: none;
+	z-index: 3;
+}
+
+/*自己手牌区域*/
+.hand-cards>.handcards {
+	display: inline-block;
+	padding: 0;
+	margin: 0;
+	left: 20px;
+	bottom: -8px;
+	width: 100%;
+	height: calc(100% - 30px);
+	min-width: 100%;
+	transition: none;
+}
+
+.hand-cards>.handcards>.card {
+	/*手牌边框美化*/
+	margin: 0px;
+	width: 105px;
+	height: 150px;
+	left: 20px;
+	position: absolute;
+	transition-property: transform, opacity, left, top;
+	border: 1px solid;
+	border-radius: 6px;
+	border-image-source: url('assets/image/card1.png');
+	border-image-slice: 20 20 13 20;
+	border-image-width: 16px 16px 16px 16px;
+	/*此处调节边框大小*/
+	z-index: 5;
+}
+
+#arena>.card,
+#arena.oblongcard:not(.chess)>.card,
+#arena.oblongcard:not(.chess) .handcards>.card {
+	/*打出牌边框美化*/
+	width: 105px;
+	height: 150px;
+	border: 1px solid;
+	border-radius: 6px;
+	border-image-source: url('assets/image/card1.png');
+	border-image-slice: 20 20 13 20;
+	border-image-width: 16px 16px 16px 16px;
+	/*此处调节边框大小*/
+	z-index: -2;
+	box-shadow: 0 1px 2px transparent !important;
+}
+
+.hand-cards>.handcards>.card.display-none {
+	display: none;
+	transition: none;
+}
+
+.hand-cards>.handcards>.card.selected {
+	boder-radius: 2px;
+}
+
+.hand-cards>.handcards>.card.selectable {
+	boder-radius: 2px;
+	cursor: pointer;
+}
+
+
+.hand-special {
+	left: auto;
+	right: calc(-1% + 3px);
+	bottom: calc(1% + 150px);
+	width: auto;
+	height: 75px;
+	min-width: 150px;
+	box-shadow: 0 0 6px rgb(200, 150, 80) inset;
+	background: rgba(0, 0, 0, 0.4);
+}
+
+.hand-special>.cards {
+	display: flex;
+	flex-direction: row-reverse;
+	position: relative;
+	left: 0;
+	top: 0;
+	width: auto;
+	height: auto;
+	zoom: 0.5;
+}
+
+.hand-special>.cards>.card {
+	margin-top: 0;
+	margin-left: 0;
+	margin-right: 0;
+	transform: none !important;
+}
+
+.hand-special>.cards>.card::after {
+	border-radius: inherit !important;
+	box-shadow: 0px -1px 2px yellow, 0px -1px 5px yellow, 0px 0px 15px yellow;
+	transition: opacity 0.5s;
+}
+
+
+/**/
+
+/*菜单卡牌*/
+.button.card {
+	width: 105px;
+	height: 150px;
+	background-size: 100% 100%;
+}
+
+
+
+
+.card,
+#window:not(*[data-radius_size='']) .card {
+	border-radius: 2px;
+}
+
+.card,
+.card.decade-card {
+	width: 105px;
+	height: 150px;
+	box-shadow: 0 1px 4px black;
+	border-radius: 2px;
+	background-repeat: no-repeat !important;
+	background-size: 100% 100% !important;
+	-moz-background-size: 100% 100% !important;
+	transition: all 0.46s;
+}
+
+/*卡牌边框 black*/
+.dui-mobile .card {
+	box-shadow: 0 1px 2px transparent;
+}
+
+#arena.decadeUI.selecting:not(.video)>.dialog:not(.noselect) .buttons>.card.button:not(.selectable):not(.noclick):not(.replaceButton) {
+	opacity: 1;
+}
+
+#arena.decadeUI.selecting:not(.video)>.dialog:not(.noselect) .buttons>.card.button:not(.selected):not(.selectable)>.card-mask {
+	opacity: 1;
+}
+
+.card>.background,
+.card.button>.background {
+	top: auto;
+	bottom: 8%;
+	font-size: 80px;
+	line-height: 80px;
+	padding-top: 0;
+}
+
+.card.mark>.background {
+	line-height: 100%;
+}
+
+.card>.top-name {
+
+	left: 14px;
+	top: 10px;
+	width: calc(100% - 15px);
+	/*color:white!important;
+	font-size: 20px;
+	font-family: yuanli !important;
+	text-align: center;*/
+	opacity: 0;
+	z-index: 1;
+
+}
+
+.card.decade-card>.top-name {
+	display: none;
+}
+
+.card.decade-card>.image {
+	display: none;
+	visibility: hidden !important;
+}
+
+.card>.image,
+#arena:not(.chess)>.card>.image,
+#arena:not(.chess) .handcards>.card>.image,
+#arena.oblongcard:not(.chess)>.card>.image,
+#arena.oblongcard:not(.chess) .handcards>.card>.image {
+	position: absolute;
+	width: 108px;
+	height: 108px;
+	left: 0;
+	top: auto;
+	right: 0;
+	bottom: 8%;
+	background-position-x: 0;
+}
+
+
+.card>.suit-num {
+	font-size: 18px;
+	color: black;
+	text-align: center;
+	top: 8px;
+	left: 1px;
+	width: 22px;
+	height: auto;
+	line-height: 20px;
+	text-shadow: 0 0 3px #ffffff, 0 0 8px #ffffff;
+	letter-spacing: -1px;
+	font-weight: bold;
+	font-family: "NotoSansTC" !important;
+	transform-origin: 0 0;
+	z-index: 1;
+	-webkit-text-size-adjust: none;
+}
+
+
+.dui-mobile .card>.suit-num>.suit {
+	font-size: 14px;
+	font-family: "NotoSerifTC" !important;
+
+}
+
+.card[data-suit='heart']>.suit-num,
+.card[data-suit='diamond']>.suit-num {
+	color: red;
+}
+
+.card>.suit-num>.suit {
+	font-size: 14px;
+	font-family: "NotoSerifTC" !important;
+}
+
+.card[data-suit='heart']>.suit-num>.suit {
+	font-size: 14px;
+}
+
+.card>.range {
+	right: 5px;
+	bottom: 5px;
+	line-height: 14px;
+	color: black;
+	font-size: 14px;
+	font-weight: bold;
+	font-family: yuanli !important;
+	text-shadow: 0 0 1px white, 0 0 3px white;
+	/*border: 1px solid black;*/
+	border-radius: 2px;
+}
+
+.card>.range:empty {
+	display: none;
+}
+
+.card>.range.card-tag {
+	left: 4px;
+	top: calc(50% + 8px);
+	bottom: auto;
+	right: 4px;
+	width: auto;
+	color: white;
+	font-size: 16px;
+	line-height: 24px;
+	text-align: center;
+	text-shadow: none;
+	white-space: normal;
+	font-weight: normal;
+	/* background: rgba(230, 210, 166, 0.8); */
+	background: url(image/vcard/biaoji3.png);
+	background-size: cover;
+	background-position: center;
+}
+
+.card>.card-mask {
+	opacity: 0;
+	position: absolute;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0, 0, 0, 0.4);
+	border-radius: inherit;
+	transition: opacity 0.1s linear;
+	pointer-events: none;
+	z-index: 8;
+}
+
+.card.invalided>.card-mask,
+#arena.selecting:not(.video) .handcards>.card:not(.selectable)>.card-mask,
+#arena.thrownhighlight>.card.thrown:not(.thrownhighlight):not(.drawingcard),
+#arena.thrownhighlight>.card.thrown:not(.thrownhighlight):not(.drawingcard)>.card-mask {
+	opacity: 1;
+}
+
+
+.transition-none {
+	transition: none !important;
+}
+
+
+/*牌堆牌数 游戏时间*/
+.touchinfo {
+	top: 1%;
+	color: rgb(250, 250, 200);
+	font-family: xinwei;
+	text-shadow: rgb(51, 51, 51) 1px 0 0, rgb(51, 51, 51) 0 1px 0, rgb(51, 51, 51) -1px 0 0, rgb(51, 51, 51) 0 -1px 0;
+	/* background: 0 0 1px black, 0 0 1px black, 0 0 1px black, 0 0 1px black; */
+	z-index: 4;
+}
+
+.touchinfo.left {
+	left: 2%;
+}
+
+.touchinfo.right {
+	right: 2%;
+}
+
+#window.leftbar>.touchinfo.left {
+	left: calc(2% + 50px);
+}
+
+#window.rightbar>.touchinfo.right {
+	right: calc(2% + 50px);
+}
+
+#arena>.dialog {
+	z-index: 7;
+}
+
+
+/*界面操作按钮*/
+#arena>#dui-controls {
+	position: absolute;
+	display: flex;
+	align-items: center;
+	align-content: center;
+	justify-content: center;
+	top: auto;
+	left: 143px;
+	right: 150px;
+	bottom: calc(20% + 40px);
+	width: auto;
+	height: 42px;
+	font-size: 23px;
+	font-family: yuanli !important;
+	transition: opacity 0.3s;
+	pointer-events: none;
+	z-index: 8;
+}
+
+#arena>#dui-controls>* {
+	height: 44px;
+	font-size: 24px;
+	overflow: inherit;
+	pointer-events: auto;
+}
+
+#arena>#dui-controls.bosslist,
+#arena.choose-character>#dui-controls {
+	bottom: 20px;
+}
+
+#arena.dui-mobile:not(.choose-character)>#dui-controls {
+	bottom: calc(23% + 40px);
+}
+
+#arena>#dui-controls>.control {
+	flex: 0 0 auto;
+	display: flex;
+	align-items: center;
+	align-content: center;
+	justify-content: center;
+	position: static;
+	height: calc(100% - 4px);
+	line-height: normal;
+	margin-left: 5px;
+	margin-right: 5px;
+	text-shadow: none;
+	font-size: inherit;
+	cursor: pointer;
+}
+
+#arena>#dui-controls>.control.stayleft {
+	position: absolute;
+	left: 0;
+	order: 0;
+}
+
+#arena>#dui-controls>.control>div {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	position: static;
+	padding-left: 10px;
+	padding-right: 10px;
+	padding-top: 2px;
+	padding-bottom: 2px;
+	height: 100%;
+	margin-left: 5px;
+	margin-right: 5px;
+	opacity: 1;
+}
+
+#arena>#dui-controls>.control>div:only-child {
+	position: static;
+	padding-left: 3px;
+	padding-right: 3px;
+	padding-top: 0;
+	padding-bottom: 0;
+}
+
+#arena>#dui-controls>.control.combo-control {
+	flex-direction: row;
+	padding-left: 0;
+	padding-right: 0;
+	box-shadow: none;
+	background: none;
+}
+
+#arena>#dui-controls>.control:not(.disabled)>div:active,
+#arena>#dui-controls>.control:not(.disabled):not(.combo-control):active {
+	transform: scale(0.96);
+}
+
+
+#arena>#dui-controls>.control.combo-control>div {
+	font-size: inherit;
+}
+
+
+
+#arena>.card>.judge-mark {
+	visibility: hidden;
+}
+
+
+
+.dialog .buttons>.button.character.decadeUI,
+.button.character.longcharacter.decadeUI {
+	width: 90px;
+	height: 120px;
+	background-position: 666px 666px;
+	background-size: 0 0 !important;
+}
+
+.button.character {
+	position: relative;
+	width: 90px;
+	height: 120px;
+	margin: 6px;
+}
+
+.button.character::before {
+	left: -15px;
+	top: -15px;
+	width: calc(100% + 30px);
+	height: calc(100% + 30px);
+	box-shadow: none;
+	box-sizing: border-box;
+	border-width: 15px;
+	border-style: solid;
+	border-color: transparent;
+	border-image-source: url('assets/image/glow_orange.png');
+	border-image-slice: 42 46 32 46 fill;
+}
+
+.button.character.selected::before {
+	opacity: 1;
+}
+
+.button.character::after {
+	display: none;
+}
+
+/*.button.character>.showintro.rarity {
+	font-family: yuanli;
+	font-size: 16px;
+	bottom: -25px;
+	left: calc(50% - 25px);
+	top: auto;
+	width: 50px;
+	height: 50px;
+	background-repeat: no-repeat;
+	background-size: contain;
+}*/
+/*搜我*/
+.button.character>.showintro.rarity {
+	font-family: yuanli;
+	font-size: 16px;
+	z-index: 100;
+	/*bottom: -25px;*/
+	left: calc(90% - 25px);
+	top: -10px;
+	width: 50px;
+	height: 50px;
+	background-repeat: no-repeat;
+	background-size: contain;
+}
+
+.button.character>.character {
+	display: block;
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	left: 0;
+	bottom: 0;
+	border-radius: inherit;
+	background-position: top;
+	background-image: inherit;
+	background-size: cover;
+	pointer-events: none;
+	transition: none;
+}
+
+#arena[data-outcrop-skin='on'] .button.character>.character {
+	height: 128px;
+	clip-path: url(#solo-clip);
+	-webkit-clip-path: url(#solo-clip);
+}
+
+#arena>.card>.judge-mark {
+	visibility: hidden;
+}
+

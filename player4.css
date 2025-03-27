@@ -259,35 +259,6 @@
 	background: linear-gradient(to top, rgb(100, 100, 100), rgb(0, 0, 0));
 }
 
-.player>.camp-wrap>.camp-border {
-	display: block;
-	left: -6px;
-	height: 187px;
-	top: -17px;
-	width: 55px;
-	position: absolute;
-	background-image: url("image/decoration/new_border_camp.png");
-	background-size: 100% 100%;
-	background-repeat: no-repeat;
-}
-
-#arena.decadeUI[data-border-level="one"] .player>.camp-wrap>.camp-border {
-	background-image: url("image/decoration/new_border_camp1.png");
-}
-
-#arena.decadeUI[data-border-level="two"] .player>.camp-wrap>.camp-border {
-	background-image: url("image/decoration/new_border_camp2.png");
-	left: -8px;
-}
-
-#arena.decadeUI[data-border-level="three"] .player>.camp-wrap>.camp-border {
-	background-image: url("image/decoration/new_border_camp3.png");
-	left: -8px;
-}
-
-#arena.decadeUI[data-border-level="four"] .player>.camp-wrap>.camp-border {
-	background-image: url("image/decoration/new_border_camp4.png");
-}
 
 .player>.camp-wrap>.avatar-name,
 /*主将名，根据部分群友需要，添加定位代码*/
@@ -303,6 +274,7 @@
 	height: 96px;
 	font-size: 16px;
 	line-height: 15px;
+	font-family: yuanli;
 	/*字体间距*/
 	text-shadow: none;
 	z-index: 89;
@@ -317,6 +289,7 @@
 	justify-content: center;
 	font-size: 16px;
 	text-align: center;
+	font-family: yuanli;
 	text-shadow: none;
 	/*#000 1px 0 0, #000 0 1px 0, #000 -1px 0 0, #000 0 -1px 0;*/
 	left: 26%;
@@ -347,22 +320,22 @@
 }
 
 .player>.camp-wrap>.camp-name {
-	font-family: xinwei, xingkai;
-	font-display: swap;
-	font-size: 26px;
-	width: 100%;
-	height: 33.5%;
-	display: flex;
-	text-align: center;
-	align-items: center;
-	align-content: center;
-	justify-content: center;
-	background-size: contain;
-	background-repeat: no-repeat;
-	background-position: center;
-	transition: none;
+    font-family: xinwei, xingkai;
+    font-display: swap;
+    font-size: 26px;
+    width: 93%;
+    height: 33.5%;
+    display: flex;
+    text-align: center;
+    align-items: center;
+    align-content: center;
+    justify-content: center;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    transition: none;
+    left: 2px;
 }
-
 .player>.camp-wrap[data-camp="wei"]>.camp-name {
 	text-shadow: 0 0 5px rgb(50, 50, 255), 0 0 10px rgb(120, 120, 255), 0 0 15px rgb(100, 100, 255);
 }
@@ -401,6 +374,7 @@
 	height: 96px;
 	font-size: 16px;
 	text-shadow: none;
+	font-family: yuanli;
 	/*#000 1px 0 0, #000 0 1px 0, #000 -1px 0 0, #000 0 -1px 0;*/
 	background: linear-gradient(to bottom, transparent 0%, rgba(0, 0, 0, 0.4) 20%, rgba(0, 0, 0, 0.5) 50%, rgba(0, 0, 0, 0.4) 80%, transparent 100%);
 	z-index: 89;
@@ -419,7 +393,7 @@
 .player>.nameol {
 	top: 5px;
 	font-size: 16px;
-	font-family: "shousha";
+	font-family: "yuanli";
 	text-shadow: 0 0 2px black;
 	background: linear-gradient(to right, transparent 0%, rgba(0, 0, 0, 0.4) 40%, rgba(0, 0, 0, 0.4) 60%, transparent 100%);
 	z-index: 89;
@@ -430,7 +404,7 @@
 .player>.hp-wrap {
 	display: block;
 	right: -9px;
-	bottom: -5px;
+	bottom: -6px;
 	width: 18px;
 	height: 55px;
 	border-width: 12px 8px 21px 82px;
@@ -1095,15 +1069,22 @@
 	display: block;
 	position: absolute;
 	bottom: -16px;
+	/*-16 2*/
 	width: 100%;
 	line-height: 16px;
-	color: rgb(255, 165, 0);
-	font-family: "yuanli";
+	color: #e9be60
+		/*#d6b870*/
+	;
+
+	/*	color:#BD9A58;*/
+	font-family: 'yuanli';
 	font-weight: bold;
 	/*字体加粗*/
-	font-size: 22px;
+	font-size: 15px;
+	/*18 12*/
 	text-align: center;
-	text-shadow: 0 0 2px black, 0 0 1px black;
+	/*-webkit-text-stroke:0.2px #592e04;/*#523b1b*/
+	text-shadow: 1px 1px 1px #592e04, -1px -1px 1px #592e04, -1px 1px 1px #592e04, 1px -1px 1px #592e04;
 	white-space: nowrap;
 	z-index: 89;
 	pointer-events: none;
@@ -1120,42 +1101,49 @@
 /*玩家手牌数显示*/
 .player>.card-count {
 	position: absolute;
-	top: auto;
-	right: auto;
-	left: -12px;
-	bottom: -1px;
-	line-height: 28px;
-	height: 28px;
-	width: 28px;
-	background: url("image/decoration/new_card_count5.png");
+	background: url("../image/decoration/card2_count5.png");
 	background-repeat: no-repeat;
 	background-size: 100% 100%;
-	background-position: 0 -1px;
+	background-position: 0 0;
 	border: none;
-	box-shadow: none;
-	font-size: 19px;
-	font-family: xinwei, xingkai;
-	color: white;
+	/* box-shadow: none; */
+	font-size: 22px;
+	text-shadow: 1px 0px 2px #3c3620, -1px 0px 2px #3c3620, 0px 1px 2px #3c3620, 0px -1px 2px #3c3620;
+	font-family: yuanli;
+	color: #f5eed6;
 	text-align: center;
-	text-shadow: none;
 	border-radius: 0px;
-	z-index: 89;
+	z-index: 99;
 	transition: transform, opacity;
+	padding-right: 6px;
+	left: -14px;
+	bottom: -4px;
+	line-height: 32px;
+	height: 32px;
+	width: 25px;
+	font-size: 25px;
+	letter-spacing: -6px;
+}
+.player>.card-count:not([data-border-level]){
+	background: url("image/decoration/card2_count5.png");
 }
 
 .player>.card-count::before {
-	color: transparent;
 	content: attr(data-text);
-	height: 100%;
-	left: 0;
-	line-height: 28px;
 	position: absolute;
-	-webkit-text-stroke: 2px black;
+	left: -2px;
 	top: 0;
-	white-space: pre;
+	height: 100%;
+
 	width: 100%;
+	line-height: 32px;
+	color: #ffffff;
+	-webkit-text-stroke: #3c3620 2px;
+	/*3d3938*/
 	z-index: -1;
+
 }
+
 
 /* 只隐藏主玩家的手牌数字显示 */
 .player[data-position="0"]>.card-count {
@@ -1163,7 +1151,7 @@
 	bottom: 5px;
 	left: -12px;
 	height: 28px;
-	width: 28px;
+	width: 22px;
 	background: url("image/decoration/new_card_count6.png");
 	background-repeat: no-repeat;
 	background-size: 100% 100%;
@@ -1315,6 +1303,7 @@
 	z-index: 89;
 }
 
+
 /*玩家死亡变灰*/
 .player.dead {
 	opacity: 1;
@@ -1322,9 +1311,10 @@
 	-webkit-filter: none;
 }
 
-.player.dead>div {
-	filter: grayscale(1);
-	/*新增*/
+.player.dead>.primary-avatar
+
+/*阵亡变灰色div */
+	{
 	-webkit-filter: grayscale(1);
 }
 
@@ -1438,7 +1428,7 @@
 	border-image-source: url("assets/image/item_bg.png");
 	cursor: pointer;
 	color: rgb(77, 60, 51);
-	font-family: shousha;
+	font-family: yuanli;
 	font-weight: bold;
 	font-size: 20px;
 	text-shadow: none;
@@ -1516,4 +1506,157 @@
 	width: 93% !important;
 	right: 0;
 	z-index: 87;
+}
+
+
+/*等阶战功边框*/
+.player>.camp-wrap>.camp-border,
+#arena.decadeUI[data-border-level='kill'] .player>.camp-wrap>.camp-border {
+	display: block;
+	left: -3px;
+	height: 172px;
+	top: -15px;
+	width: 51px;
+	position: absolute;
+	background-image: url('image/decoration/new_border_camp.png');
+	background-size: 100% 100%;
+	background-repeat: no-repeat;
+	z-index: 2;
+}
+
+#arena.decadeUI[data-border-level='kill'] .player>.camp-wrap>.camp-border {
+	background-image: url('');
+}
+
+#arena.decadeUI[data-border-level='kill'] .player>.hp-wrap {
+	border-image-source: url('image/decoration/new_border_hp.png');
+}
+
+#arena.decadeUI[data-border-level='kill'] .player>.camp-wrap[data-border-level='one']>.camp-border {
+	background-image: url('') !important;
+}
+
+#arena.decadeUI[data-border-level='kill'] .player>.hp-wrap[data-border-level='one'] {
+	border-image-source: url('image/decoration/new_border_hp.png') !important;
+}
+
+#arena.decadeUI[data-border-level='kill'] .player>.card-count[data-border-level='one'] {
+	background-image: url("image/decoration/card2_count.png");
+}
+
+#arena.decadeUI[data-border-level='kill'] .player>.camp-wrap[data-border-level='two']>.camp-border {
+	background-image: url('image/decoration/new_border_camp2.png') !important;
+	left: -6px;
+}
+
+#arena.decadeUI[data-border-level='kill'] .player>.hp-wrap[data-border-level='two'] {
+	border-image-source: url('image/decoration/new_border_hp.png') !important;
+}
+
+#arena.decadeUI[data-border-level='kill'] .player>.card-count[data-border-level='two'] {
+	background-image: url("image/decoration/card2_count2.png");
+}
+
+#arena.decadeUI[data-border-level='kill'] .player>.camp-wrap[data-border-level='three']>.camp-border {
+	background-image: url('image/decoration/new_border_camp3.png') !important;
+	left: -6px;
+}
+
+#arena.decadeUI[data-border-level='kill'] .player>.hp-wrap[data-border-level='three'] {
+	border-image-source: url('image/decoration/new_border_hp.png') !important;
+}
+
+#arena.decadeUI[data-border-level='kill'] .player>.card-count[data-border-level='three'] {
+	background-image: url("image/decoration/card2_count3.png");
+}
+
+#arena.decadeUI[data-border-level='kill'] .player>.camp-wrap[data-border-level='four']>.camp-border {
+	background-image: url('image/decoration/new_border_camp4.png') !important;
+
+}
+
+#arena.decadeUI[data-border-level='kill'] .player>.hp-wrap[data-border-level='four'] {
+	border-image-source: url('image/decoration/new_border_hp.png') !important;
+}
+
+#arena.decadeUI[data-border-level='kill'] .player>.card-count[data-border-level='four'] {
+	background-image: url("image/decoration/card2_count4.png");
+}
+
+#arena.decadeUI[data-border-level='kill'] .player>.camp-wrap[data-border-level='five']>.camp-border {
+	background-image: url('image/decoration/new_border_camp.png') !important;
+
+}
+
+#arena.decadeUI[data-border-level='kill'] .player>.hp-wrap[data-border-level='five'] {
+	border-image-source: url('image/decoration/new_border_hp.png') !important;
+}
+
+#arena.decadeUI[data-border-level='kill'] .player>.card-count[data-border-level='five'] {
+	background-image: url("image/decoration/card2_count5.png");
+}
+
+#arena.decadeUI[data-border-level='kill'] .player>.camp-wrap[data-border-level='five_long']>.camp-border {
+	background-image: url('image/decoration/new_border_camp.png') !important;
+
+}
+
+#arena.decadeUI[data-border-level='kill'] .player>.hp-wrap[data-border-level='five_long'] {
+	border-image-source: url('image/decoration/new_border_hp.png') !important;
+}
+
+#arena.decadeUI[data-border-level='kill'] .player>.card-count[data-border-level='five_long'] {
+	background-image: url("image/decoration/card2_count6.png");
+}
+
+#arena.decadeUI[data-border-level='kill'] .player>.camp-wrap[data-border-level='five_feng']>.camp-border {
+	background-image: url('image/decoration/new_border_camp.png') !important;
+
+}
+
+#arena.decadeUI[data-border-level='kill'] .player>.hp-wrap[data-border-level='five_feng'] {
+	border-image-source: url('image/decoration/new_border_hp.png') !important;
+}
+
+#arena.decadeUI[data-border-level='kill'] .player>.card-count[data-border-level='five_feng'] {
+	background-image: url("image/decoration/card2_count6.png");
+}
+
+/*边框升级*/
+
+
+#arena.decadeUI[data-border-level='one'] .player>.camp-wrap>.camp-border {
+	background-image: url('');
+}
+
+#arena.decadeUI[data-border-level='two'] .player>.camp-wrap>.camp-border {
+	background-image: url('image/decoration/new_border_camp2.png');
+	left: -6px;
+}
+
+#arena.decadeUI[data-border-level='three'] .player>.camp-wrap>.camp-border {
+	background-image: url('image/decoration/new_border_camp3.png');
+	left: -6px;
+}
+
+#arena.decadeUI[data-border-level='four'] .player>.camp-wrap>.camp-border {
+	background-image: url('image/decoration/new_border_camp4.png');
+
+}
+
+#arena.decadeUI[data-border-level='five'] .player>.camp-wrap>.camp-border {
+	background-image: url('image/decoration/new_border_camp.png');
+
+}
+
+
+#arena.decadeUI[data-border-level='five_long'] .player>.camp-wrap>.camp-border {
+	background-image: url('image/decoration/new_border_camp.png');
+
+}
+
+
+#arena.decadeUI[data-border-level='five_feng'] .player>.camp-wrap>.camp-border {
+	background-image: url('image/decoration/new_border_camp.png');
+
 }

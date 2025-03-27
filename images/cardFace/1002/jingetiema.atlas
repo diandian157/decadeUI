@@ -1,0 +1,216 @@
+
+jingetiema.png
+size: 1325,1325
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+01_0
+  rotate: false
+  xy: 1071, 301
+  size: 211, 255
+  orig: 260, 300
+  offset: 27, 31
+  index: -1
+01_1
+  rotate: false
+  xy: 1090, 814
+  size: 213, 254
+  orig: 260, 300
+  offset: 25, 32
+  index: -1
+01_10
+  rotate: false
+  xy: 217, 815
+  size: 213, 253
+  orig: 260, 300
+  offset: 25, 32
+  index: -1
+01_11
+  rotate: false
+  xy: 1071, 31
+  size: 213, 268
+  orig: 260, 300
+  offset: 25, 32
+  index: -1
+01_12
+  rotate: false
+  xy: 856, 34
+  size: 213, 266
+  orig: 260, 300
+  offset: 25, 32
+  index: -1
+01_13
+  rotate: false
+  xy: 641, 44
+  size: 213, 257
+  orig: 260, 300
+  offset: 25, 32
+  index: -1
+01_14
+  rotate: false
+  xy: 432, 815
+  size: 213, 253
+  orig: 260, 300
+  offset: 25, 32
+  index: -1
+01_15
+  rotate: false
+  xy: 647, 815
+  size: 213, 253
+  orig: 260, 300
+  offset: 25, 32
+  index: -1
+01_16
+  rotate: false
+  xy: 862, 815
+  size: 226, 253
+  orig: 260, 300
+  offset: 25, 32
+  index: -1
+01_17
+  rotate: false
+  xy: 217, 559
+  size: 211, 254
+  orig: 260, 300
+  offset: 27, 32
+  index: -1
+01_18
+  rotate: false
+  xy: 430, 559
+  size: 211, 254
+  orig: 260, 300
+  offset: 27, 32
+  index: -1
+01_19
+  rotate: false
+  xy: 643, 559
+  size: 211, 254
+  orig: 260, 300
+  offset: 27, 32
+  index: -1
+01_2
+  rotate: false
+  xy: 2, 560
+  size: 213, 254
+  orig: 260, 300
+  offset: 25, 32
+  index: -1
+01_20
+  rotate: false
+  xy: 856, 559
+  size: 210, 254
+  orig: 260, 300
+  offset: 28, 32
+  index: -1
+01_21
+  rotate: false
+  xy: 1068, 558
+  size: 211, 254
+  orig: 260, 300
+  offset: 27, 32
+  index: -1
+01_22
+  rotate: false
+  xy: 2, 304
+  size: 211, 254
+  orig: 260, 300
+  offset: 27, 32
+  index: -1
+01_23
+  rotate: false
+  xy: 215, 303
+  size: 212, 254
+  orig: 260, 300
+  offset: 26, 32
+  index: -1
+01_24
+  rotate: false
+  xy: 429, 303
+  size: 212, 254
+  orig: 260, 300
+  offset: 26, 32
+  index: -1
+01_25
+  rotate: false
+  xy: 643, 303
+  size: 212, 254
+  orig: 260, 300
+  offset: 26, 32
+  index: -1
+01_26
+  rotate: false
+  xy: 857, 302
+  size: 212, 254
+  orig: 260, 300
+  offset: 26, 32
+  index: -1
+01_27
+  rotate: false
+  xy: 2, 47
+  size: 211, 255
+  orig: 260, 300
+  offset: 27, 31
+  index: -1
+01_28
+  rotate: false
+  xy: 215, 46
+  size: 211, 255
+  orig: 260, 300
+  offset: 27, 31
+  index: -1
+01_29
+  rotate: false
+  xy: 428, 46
+  size: 211, 255
+  orig: 260, 300
+  offset: 27, 31
+  index: -1
+01_3
+  rotate: false
+  xy: 232, 1070
+  size: 212, 253
+  orig: 260, 300
+  offset: 26, 32
+  index: -1
+01_4
+  rotate: false
+  xy: 446, 1070
+  size: 213, 253
+  orig: 260, 300
+  offset: 25, 32
+  index: -1
+01_5
+  rotate: false
+  xy: 661, 1070
+  size: 213, 253
+  orig: 260, 300
+  offset: 25, 32
+  index: -1
+01_6
+  rotate: false
+  xy: 876, 1070
+  size: 232, 253
+  orig: 260, 300
+  offset: 25, 32
+  index: -1
+01_7
+  rotate: false
+  xy: 2, 1071
+  size: 228, 252
+  orig: 260, 300
+  offset: 25, 33
+  index: -1
+01_8
+  rotate: false
+  xy: 1110, 1070
+  size: 213, 253
+  orig: 260, 300
+  offset: 25, 32
+  index: -1
+01_9
+  rotate: false
+  xy: 2, 816
+  size: 213, 253
+  orig: 260, 300
+  offset: 25, 32
+  index: -1

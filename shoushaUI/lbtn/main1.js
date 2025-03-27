@@ -91,7 +91,6 @@ app.import(function (lib, game, ui, get, ai, _status, app) {
 			}
 		}
 	};
-	
 	//标记下，以后出问题改监听
 	lib.skill._SPZLX = {
 		trigger: { player: ["gainAfter", "loseAfter"] },
@@ -100,35 +99,34 @@ app.import(function (lib, game, ui, get, ai, _status, app) {
 		forced: true,
 		charlotte: true,
 		priority: Infinity,
-		filter: function(event, player) {
-		    return window.paixuxx == false && player == game.me && !player.hasSkillTag("noSortCard");
+		filter: function (event, player) {
+			return window.paixuxx == false && player == game.me && !player.hasSkillTag("noSortCard");
 		},
-		content: function() {
-		    var cards = player.getCards("hs");
-		    if (cards.length <= 1) return;
-		    cards.sort((a, b) => {
-		        // 位置排序
-		        var p1 = get.position(a);
-		        var p2 = get.position(b);
-		        if (p1 != p2) return p1 == "h" ? 1 : -1;
-		        // 卡牌排序
-		        if (a.name != b.name) return lib.sort.card(b.name, a.name);
-		        if (a.suit != b.suit) return lib.suit.indexOf(b.suit) - lib.suit.indexOf(a.suit);
-		        if (a.number != b.number) return b.number - a.number;
-		        if (a.nature != b.nature) return b.nature - a.nature;
-		        return parseInt(b.cardid) - parseInt(a.cardid);
-		    });
-		    if (window.dui && dui.queueNextFrameTick) {
-		        cards.forEach(card => player.node.handcards1.insertBefore(card, player.node.handcards1.firstChild));
-		        dui.queueNextFrameTick(dui.layoutHand, dui);
-		    } else {
-		        game.addVideo('lose', player, [get.cardsInfo(cards), [], []]);
-		        cards.forEach(card => card.goto(ui.special));
-		        player.directgain(cards, false);
-		    }
-		}
+		content: function () {
+			var cards = player.getCards("hs");
+			if (cards.length <= 1) return;
+			cards.sort((a, b) => {
+				// 位置排序
+				var p1 = get.position(a);
+				var p2 = get.position(b);
+				if (p1 != p2) return p1 == "h" ? 1 : -1;
+				// 卡牌排序
+				if (a.name != b.name) return lib.sort.card(b.name, a.name);
+				if (a.suit != b.suit) return lib.suit.indexOf(b.suit) - lib.suit.indexOf(a.suit);
+				if (a.number != b.number) return b.number - a.number;
+				if (a.nature != b.nature) return b.nature - a.nature;
+				return parseInt(b.cardid) - parseInt(a.cardid);
+			});
+			if (window.dui && dui.queueNextFrameTick) {
+				cards.forEach(card => player.node.handcards1.insertBefore(card, player.node.handcards1.firstChild));
+				dui.queueNextFrameTick(dui.layoutHand, dui);
+			} else {
+				game.addVideo("lose", player, [get.cardsInfo(cards), [], []]);
+				cards.forEach(card => card.goto(ui.special));
+				player.directgain(cards, false);
+			}
+		},
 	};
-
 	lib.arenaReady.push(function () {
 		//更新轮次
 		var originUpdateRoundNumber = game.updateRoundNumber;
@@ -156,7 +154,17 @@ app.import(function (lib, game, ui, get, ai, _status, app) {
 			document.body.appendChild(liaotian);
 		}
 		/*---------------------*/
-
+		/*斗地主*/
+		if (lib.config.mode == "doudizhu") {
+			var jiaojia = ui.create.node("div");
+			jiaojia.innerText = "本场叫价";
+			jiaojia.style.cssText = "display: line;position: absolute;top: 5px;color: white;left: 56px;font-size:16.5px;font-family:shousha;text-shadow:-1.7px 0px 2.5px #2b1f19, 0px -1.7px 2.5px #2b1f19, 1.7px 0px 2.5px #2b1f19 ,0px 1.7px 2.5px #2b1f19; z-index:7; ";
+			document.body.appendChild(jiaojia);
+			var douzi = ui.create.node("div");
+			douzi.innerText = get.translation((innerText = (num = ["300", "600", "900"]).randomGet(1)));
+			douzi.style.cssText = "display: block;position: absolute;top: -7px;color: gold;left: 150px;font-size:21px;font-family:shousha;font-weight: 900; ";
+			ui.arena.appendChild(douzi);
+		}
 		if (lib.config.mode == "identity" || lib.config.mode == "guozhan" || lib.config.mode == "versus" || lib.config.mode == "single" || lib.config.mode == "boss") {
 			var translate = {};
 			switch (lib.config.mode) {
@@ -289,7 +297,8 @@ app.import(function (lib, game, ui, get, ai, _status, app) {
 		if (lib.config.mode == "identity" || lib.config.mode == "doudizhu" || lib.config.mode == "versus" || lib.config.mode == "guozhan") {
 			/*左上角问号框*/
 			var tipshow = ui.create.node("img");
-			tipshow.src = lib.assetURL + "extension/十周年UI/shoushaUI/lbtn/images/uibutton/shenfen.png";
+			if (lib.config.mode == "doudizhu") tipshow.src = lib.assetURL + "extension/十周年UI/shoushaUI/lbtn/images/uibutton/doudizhu.png";
+			else tipshow.src = lib.assetURL + "extension/十周年UI/shoushaUI/lbtn/images/uibutton/shenfen.png";
 			tipshow.style.cssText = "display: block;--w: 400px;--h: calc(var(--w) * 279/2139);width: var(--w);height: var(--h);position: absolute;top: -1px;left:-45px;background-color: transparent;z-index:1";
 			tipshow.onclick = function () {
 				var popuperContainer = ui.create.div(".popup-container", ui.window);
@@ -347,7 +356,7 @@ app.import(function (lib, game, ui, get, ai, _status, app) {
 			return !["chess", "tafang"].includes(get.mode());
 		},
 		content(next) {
-			(lib.skill._uicardupdate = {
+			lib.skill._uicardupdate = {
 				trigger: { player: "phaseJieshuBegin" },
 				forced: true,
 				unique: true,
@@ -363,7 +372,7 @@ app.import(function (lib, game, ui, get, ai, _status, app) {
 				content() {
 					if (ui.updateSkillControl) ui.updateSkillControl(game.me, true);
 				},
-			});
+			};
 		},
 		precontent() {
 			Object.assign(game.videoContent, {
@@ -591,8 +600,7 @@ app.import(function (lib, game, ui, get, ai, _status, app) {
 						window.paixuxx = false;
 					}
 				};
-
-				//-----------------//
+			
 				//左手模式同上继续加一个显示手牌牌量新的按钮css
 				if (lib.config["extension_十周年UI_rightLayout"] == "on") {
 					var node = ui.create.div(".handcardNumber", ui.arena).hide();
@@ -618,7 +626,7 @@ app.import(function (lib, game, ui, get, ai, _status, app) {
 					if (cardNumber > game.me.hp) numbercolor = "#20c520";
 					if (cardNumber < game.me.hp) numbercolor = "#ff1813";
 					if (cardNumber == game.me.hp) numbercolor = "#ffe9cd";
-					this.node.cardNumber.innerHTML = "</span>" + "<font size=5.5 >" + cardNumber2 + "</font>" + '<font size=5 face="xinwei">' + "/" + "<font color=" + numbercolor + ' size=4 face="shousha">' + cardNumber + "</font>" + "</span>";
+					this.node.cardNumber.innerHTML = "<span>" + "<font size=5.5 >" + cardNumber2 + "</font>" + '<font size=5 face="xinwei">' + "/" + "<font color=" + numbercolor + ' size=4 face="shousha">' + cardNumber + "</font>" + "</span>";
 					//      this.setNumberAnimation(cardNumber);
 					this.show();
 
@@ -633,7 +641,7 @@ app.import(function (lib, game, ui, get, ai, _status, app) {
 				game.addVideo("createhandcardNumber");
 				return node;
 			},
-			cardRoundTime() {
+			cardRoundTime: function () {
 				var node = ui.create.div(".cardRoundNumber", ui.arena).hide();
 				node.node = {
 					/*cardPileNumber: ui.create.div('.cardPileNumber', node),*/
@@ -711,7 +719,7 @@ app.import(function (lib, game, ui, get, ai, _status, app) {
 			},
 		},
 		click: {
-			setting() {
+			setting: function () {
 				if (lib.extensionMenu.extension_概念武将.zyile_skin_Menu) {
 					lib.extensionMenu.extension_概念武将.zyile_skin_Menu.onclick();
 				} else {
@@ -724,7 +732,7 @@ app.import(function (lib, game, ui, get, ai, _status, app) {
 				}
 			},
 
-			paixu() {
+			paixu: function () {
 				if (!game.me || game.me.hasSkillTag("noSortCard")) return;
 				var cards = game.me.getCards("hs");
 				var sort2 = function (b, a) {
@@ -741,7 +749,7 @@ app.import(function (lib, game, ui, get, ai, _status, app) {
 				}
 			},
 			//可点击函数（牌堆）
-			paidui() {
+			paidui: function () {
 				if (!_status.gameStarted) return;
 				game.pause2();
 
@@ -864,7 +872,7 @@ app.import(function (lib, game, ui, get, ai, _status, app) {
 				}
 			},
 
-			confirm(link, target) {
+			confirm: function (link, target) {
 				if (link === "ok") {
 					ui.click.ok(target);
 				} else if (link === "cancel") {
@@ -875,26 +883,26 @@ app.import(function (lib, game, ui, get, ai, _status, app) {
 			},
 		},
 		compare: {
-			type(a, b) {
+			type: function (a, b) {
 				if (a === b) return 0;
 				var types = ["basic", "trick", "delay", "equip"].addArray([a, b]);
 				return types.indexOf(a) - types.indexOf(b);
 			},
-			name(a, b) {
+			name: function (a, b) {
 				if (a === b) return 0;
 				return a > b ? 1 : -1;
 			},
-			nature(a, b) {
+			nature: function (a, b) {
 				if (a === b) return 0;
 				var nature = [undefined, "fire", "thunder"].addArray([a, b]);
 				return nature.indexOf(a) - nature.indexOf(b);
 			},
-			suit(a, b) {
+			suit: function (a, b) {
 				if (a === b) return 0;
 				var suit = ["diamond", "heart", "club", "spade"].addArray([a, b]);
 				return suit.indexOf(a) - suit.indexOf(b);
 			},
-			number(a, b) {
+			number: function (a, b) {
 				return a - b;
 			},
 		},

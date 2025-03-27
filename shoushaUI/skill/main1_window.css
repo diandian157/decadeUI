@@ -1,10 +1,18 @@
 .skill-control {
 	/*技能按钮*/
+<<<<<<< HEAD
+	max-width: 200px;
+	/*同列技能可容纳最大宽度，建议别调180*/
+	bottom: 25px;
+	/*整体上移，建议别调*/
+	right: 163px;
+=======
 	max-width: 191px;
 	/*同列技能可容纳最大宽度，建议别调180*/
 	bottom: 30px;
 	/*整体上移，建议别调*/
 	right: 175px;
+>>>>>>> refs/remotes/origin/main
 	/*技能显示右移，越小越靠右，建议别调*/
 	/*border: 3px solid rgb(255, 255, 255);/*调试用*/
 	z-index: 6;
@@ -34,7 +42,10 @@
 	color: yellow;
 	text-shadow: #f5d78e 0 0 2px, black 0 0 3px, black 0 0 3px, black 0 0 3px, black 0 0 3px, black 0 0 3px, black 0 0 3px;
 	font-size: 24px;
+<<<<<<< HEAD
+=======
 	/*字体渐变色，色调*/
+>>>>>>> refs/remotes/origin/main
 }
 
 .skill-control>div {
@@ -60,7 +71,11 @@
 
 .skill-control>.trigger>* .skillitem-child {
 	position: absolute;
+<<<<<<< HEAD
+	-webkit-text-stroke: 5.3px #102030;
+=======
 	-webkit-text-stroke: 4.3px #102030;
+>>>>>>> refs/remotes/origin/main
 	/*5.1px #40404096*/
 	opacity: 0.5;
 	z-index: -1;
@@ -68,14 +83,22 @@
 
 .skill-control>.enable>* .skillitem-child {
 	position: absolute;
+<<<<<<< HEAD
+	-webkit-text-stroke: 4.7px rgba(2, 3, 2);
+=======
 	-webkit-text-stroke: 4.3px rgba(2, 3, 2);
+>>>>>>> refs/remotes/origin/main
 	/*#575755;/*#686860;/*5.1px #40404096*/
 	opacity: 0.35;
 	z-index: -1;
 }
 
 .skill-control>.trigger>div {
+<<<<<<< HEAD
+	margin: -6px 6px;
+=======
 	margin: -6px 2px;
+>>>>>>> refs/remotes/origin/main
 	font-family: "HYZLSJ";
 	text-align: center;
 	-webkit-text-stroke: 0px rgba(38, 37, 34, 0.5);
@@ -98,6 +121,16 @@
 	background-image: linear-gradient(180deg, #f0d775 30%, #ab8c31 57%, #b0a04d 67%);
 	/*字体渐变色，色调*/
 	/*background-image: url("./images/底图.png");*/
+<<<<<<< HEAD
+	-webkit-text-stroke: 0.2px #3e362a;
+	text-shadow: none;
+	/*background: linear-gradient(180deg, #fcfcbf 40%, #b58b59 50%);*/
+	-webkit-text-fill-color: transparent;
+	position: relative;
+	font-size: 18px;
+	white-space: nowrap;
+	margin: 5px 12px;
+=======
 	-webkit-text-stroke: 0.1px #3e362a;
 	text-shadow: none;
 	/*background: linear-gradient(180deg, #fcfcbf 40%, #b58b59 50%);*/
@@ -107,11 +140,15 @@
 	font-size: 22px;
 	white-space: nowrap;
 	margin: 1px 9px;
+>>>>>>> refs/remotes/origin/main
 	/*上下 左右间隔*/
 	margin-top: 3px;
 	/*width: auto;*/
 	/*此数值控制技能按文本与按钮之间的关联性，但不美观。*/
+<<<<<<< HEAD
+=======
 	index: 4;
+>>>>>>> refs/remotes/origin/main
 	-webkit-background-clip: text;
 	-webkit-text-fill-color: transparent;
 }
@@ -227,7 +264,11 @@
 	overflow-y: auto;
 	right: -13px;
 	top: 26px;
+<<<<<<< HEAD
+	z-index: 89 !important;
+=======
 	z-index: 99 !important;
+>>>>>>> refs/remotes/origin/main
 	justify-content: center;
 	align-items: center;
 }
@@ -251,12 +292,23 @@
 }
 
 .skillMarkItem.xiandingji {
+<<<<<<< HEAD
+	/* background-image: linear-gradient(#c5870a 31%, #4a2a00 86%, #1b0b05 95%);
+	box-shadow: 0px -2px 3px #5a4a31  , 0px 2px 3px #5a4a31  ,2px 0px 3px #5a4a31  , -2px 0px 3px #5a4a31  ,0px 2px 3px #f9ec39 inset , -1.5px 0px 3px #f9ec39 inset;*/
+=======
+>>>>>>> refs/remotes/origin/main
 	background-image: url("./images/xianding.png");
 	background-size: 100% 100%;
 	text-shadow: none;
 	font-family: "HYZLSJ";
 	font-weight: 500;
 	/*字体加粗*/
+<<<<<<< HEAD
+	text-shadow: 0px 0px 1px #b80b0b, 0px 0px 1px #b80b0b, 0px 0px 1px #b80b0b, 0px 0px 1px #b80b0b, 0px 0px 1px #b80b0b, 0px 0px 1px #b80b0b, 0px 0px 1px #b80b0b, 0px 0px 1px #b80b0b, 0px 0px 1px #b80b0b;
+	--w: 45px;
+	font-size: 16px;
+	--h: calc(var(--w) * 90 / 165);
+=======
 	text-shadow: 0px 0px 2px #996633,
 		0px 0px 2px #996633,
 		0px 0px 2px #996633,
@@ -269,12 +321,16 @@
 	--w: 38px;
 	font-size: 16px;
 	--h: calc(var(--w) * 1 / 2);
+>>>>>>> refs/remotes/origin/main
 	/*高和长*/
 	width: var(--w);
 	/*按比例调节*/
 	height: var(--h);
 	/*同理*/
+<<<<<<< HEAD
+=======
 	padding-bottom: 1px;
+>>>>>>> refs/remotes/origin/main
 }
 
 /*转换技*/
@@ -286,7 +342,11 @@
 	font-size: 13px;
 	font-family: "FZLBJW";
 	font-weight: bold;
+<<<<<<< HEAD
+	--h: calc(var(--w) * 85 / 165);
+=======
 	--h: calc(var(--w) * 34 / 63);
+>>>>>>> refs/remotes/origin/main
 	/*高和长*/
 	width: var(--w);
 	/*按比例调节*/
@@ -296,8 +356,14 @@
 
 .skillMarkItem.xiandingji.used {
 	position: relative;
+<<<<<<< HEAD
+
+	--w: 45px;
+	--h: calc(var(--w) * 85 / 165);
+=======
 	--w: 38px;
 	--h: calc(var(--w) * 1 / 2);
+>>>>>>> refs/remotes/origin/main
 	/*高和长*/
 	width: var(--w);
 	/*按比例调节*/
@@ -305,6 +371,13 @@
 	/*同理*/
 	background-image: url("./images/used.png");
 	background-size: 100% 100%;
+<<<<<<< HEAD
+	text-shadow: 0 0 1.2px #404040, 0 0 1.2px #404040, 0 0 1.2px #404040, 0 0 1.2px #404040, 0 0 1.2px #404040, 0 0 1.2px #404040, 0 0 1.2px #404040, 0 0 1.2px #404040, 0 0 1.2px #404040;
+	font-family: "HYZLSJ";
+	font-weight: 500;
+	/*字体加粗*/
+	font-size: 16px;
+=======
 	text-shadow: none;
 	font-family: "HYZLSJ";
 	font-weight: 500;
@@ -312,6 +385,7 @@
 	text-shadow: 0 0 1.2px #404040, 0 0 1.2px #404040, 0 0 1.2px #404040, 0 0 1.2px #404040, 0 0 1.2px #404040, 0 0 1.2px #404040, 0 0 1.2px #404040, 0 0 1.2px #404040, 0 0 1.2px #404040;
 	font-size: 16px;
 	padding-bottom: 1px;
+>>>>>>> refs/remotes/origin/main
 }
 
 .skillMarkItem.xiandingji.used::before {
@@ -319,8 +393,13 @@
 	z-index: 100;
 	display: block;
 	position: absolute;
+<<<<<<< HEAD
+	--w: 35.5px;
+	--h: calc(var(--w) * 36 / 56);
+=======
 	--w: 38px;
 	--h: calc(var(--w) * 34 / 55);
+>>>>>>> refs/remotes/origin/main
 	/*高和长*/
 	width: var(--w);
 	/*按比例调节*/
@@ -328,8 +407,13 @@
 	/*同理*/
 	background-image: url("./images/noxianding.png");
 	background-size: 100% 100%;
+<<<<<<< HEAD
+	right: -2px;
+	top: -0.4px;
+=======
 	right: -1px;
 	top: -2px;
+>>>>>>> refs/remotes/origin/main
 	pointer-events: none;
 }
 
@@ -338,6 +422,10 @@
 	box-shadow: 0px -2px 3px #5a4a31  , 0px 2px 3px #5a4a31  ,2px 0px 3px #5a4a31  ,2px 0px 3px #5a4a31, 0.6px 0.6px 1.5px #a1fafa inset, 0.3px -0.5px 1px #a1fafa inset , 1px 1px 1.5px #a1fafa inset;*/
 	background-image: url("./images/juexing.png");
 	background-size: 100% 100%;
+<<<<<<< HEAD
+	width: 43px;
+	height: 24px !important;
+=======
 	--w: 40px;
 	--h: calc(var(--w) * 1 / 2);
 	/*高和长*/
@@ -345,6 +433,7 @@
 	/*按比例调节*/
 	height: var(--h) !important;
 	/*同理*/
+>>>>>>> refs/remotes/origin/main
 	font-size: 16px;
 	text-shadow: none;
 	font-family: "HYZLSJ";
@@ -358,6 +447,10 @@
 	box-shadow: 0px -2px 3px #5a4a31  , 0px 2px 3px #5a4a31  ,2px 0px 3px #5a4a31  ,2px 0px 3px #5a4a31, 0.6px 0.6px 1.5px #a1fafa inset, 0.3px -0.5px 1px #a1fafa inset , 1px 1px 1.5px #a1fafa inset;*/
 	background-image: url("./images/duty.png");
 	background-size: 100% 100%;
+<<<<<<< HEAD
+	width: 43px;
+	height: 24px !important;
+=======
 	--w: 38px;
 	--h: calc(var(--w) * 1 / 2);
 	/*高和长*/
@@ -365,18 +458,39 @@
 	/*按比例调节*/
 	height: var(--h) !important;
 	/*同理*/
+>>>>>>> refs/remotes/origin/main
 	font-size: 16px;
 	text-shadow: none;
 	font-family: "HYZLSJ";
 	font-weight: 500;
 	/*字体加粗*/
 	text-shadow: 0 0 1.2px #dc143c, 0 0 1.2px #dc143c, 0 0 1.2px #dc143c, 0 0 1.2px #dc143c, 0 0 1.2px #dc143c, 0 0 1.2px #dc143c, 0 0 1.2px #dc143c, 0 0 1.2px #dc143c, 0 0 1.2px #dc143c;
+<<<<<<< HEAD
+=======
 	padding-bottom: 2px;
+>>>>>>> refs/remotes/origin/main
 }
 
 .skillMarkItem.duty.fail {
 	position: relative;
 
+<<<<<<< HEAD
+	--w: 45px;
+	--h: calc(var(--w) * 85 / 165);
+	/*高和长*/
+	width: var(--w);
+	/*按比例调节*/
+	height: var(--h);
+	/*同理*/
+	background-image: url("./images/used.png");
+	background-size: 100% 100%;
+	-webkit-filter: brightness(25%);
+	font-family: "HYZLSJ";
+	font-size: 16px;
+	font-weight: 500;
+	/*字体加粗*/
+	text-shadow: 0 0 1.2px #404040, 0 0 1.2px #404040, 0 0 1.2px #404040, 0 0 1.2px #404040, 0 0 1.2px #404040, 0 0 1.2px #404040, 0 0 1.2px #404040, 0 0 1.2px #404040, 0 0 1.2px #404040;
+=======
 	--w: 38px;
 	--h: calc(var(--w) * 1 / 2);
 	/*高和长*/
@@ -393,6 +507,7 @@
 	/*字体加粗*/
 	text-shadow: 0 0 1.2px #404040, 0 0 1.2px #404040, 0 0 1.2px #404040, 0 0 1.2px #404040, 0 0 1.2px #404040, 0 0 1.2px #404040, 0 0 1.2px #404040, 0 0 1.2px #404040, 0 0 1.2px #404040;
 	padding-bottom: 2px;
+>>>>>>> refs/remotes/origin/main
 }
 
 .skillMarkItem.duty.fail::before {
@@ -400,6 +515,19 @@
 	z-index: 100;
 	display: block;
 	position: absolute;
+<<<<<<< HEAD
+	--w: 45.5px;
+	--h: calc(var(--w) * 36 / 56);
+	/*高和长*/
+	width: var(--w);
+	/*按比例调节*/
+	height: var(--h);
+	/*同理*/
+	background-image: url("./images/noxianding.png");
+	background-size: 100% 100%;
+	right: -2px;
+	top: -4.4px;
+=======
 	--w: 38px;
 	--h: calc(var(--w) * 1 / 2);
 	/*高和长*/
@@ -411,6 +539,7 @@
 	background-size: 100% 100%;
 	right: -1px;
 	top: -2px;
+>>>>>>> refs/remotes/origin/main
 	pointer-events: none;
 }
 
@@ -468,7 +597,11 @@
 	background-image: url("./images/Tyang.png");
 	background-size: 100% 100%;
 	position: absolute;
+<<<<<<< HEAD
+	left: -10px;
+=======
 	left: -7px;
+>>>>>>> refs/remotes/origin/main
 	z-index: -1;
 }
 
@@ -478,7 +611,11 @@
 	background-image: url("./images/Tying.png");
 	background-size: 100% 100%;
 	position: absolute;
+<<<<<<< HEAD
+	left: -10px;
+=======
 	left: -7px;
+>>>>>>> refs/remotes/origin/main
 	z-index: -1;
 }
 
