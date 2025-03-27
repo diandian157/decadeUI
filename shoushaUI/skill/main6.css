@@ -1,0 +1,409 @@
+.skill-control {/*技能按钮*/
+	max-width: 200px;/*同列技能可容纳最大宽度，建议别调*/
+	bottom: 25px;/*整体上移，建议别调*/
+	right: 165px;/*技能显示右移，越小越靠右，建议别调*/
+	/*border: 3px solid rgb(255, 255, 255);/*调试用*/
+	 z-index: 6;
+
+}
+
+.skill-control div {
+	position: relative;
+}
+
+.skill-control .skillitem {
+	float: right;
+	white-space: nowrap;
+	color: #F5D78E;
+	text-shadow: #e0dcd0 0 0 1px,
+		black 0 0 2px,
+		black 0 0 2px,
+		black 0 0 2px, 
+		black 0 0 2px,
+		black 0 0 2px,
+		black 0 0 2px;
+	font-size: 18px;
+}
+
+.skill-control > div {
+    display: flex;
+    flex-direction: column-reverse;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    direction: rtl;
+    align-items: center;
+}
+.skill-control>div::after {
+	content: "";
+	display: block;
+	clear: both;
+}
+
+.skill-control .trigger {
+    display: flex;
+    flex-direction: row;
+}
+.skill-control .enable {
+	height: 100px;
+	width: auto;
+}
+
+
+.skill-control > .trigger > .skillitem {
+    --w: 52px;
+    --h: calc(var(--w) * 28 / 79);
+    width: var(--w);
+    height: var(--h);
+    line-height: var(--h);
+    text-align: center;
+    background-image: url("./images/skill2.png");
+    padding: 3px 7px;
+    background-size: 100% 100%;
+    margin: 2px 0px;
+    color: #DCD09E;
+    font-family: 'yuanli';
+    font-size: 18px;
+    text-shadow: 0.5px 0px 1.5px #4A3A19,0.5px 0px 1.5px #4A3A19,0.5px 0px 1.5px #4A3A19,0.5px 0px 1.5px #4A3A19,
+	             0.5px 0px 1.5px #4A3A19,0.5px 0px 1.5px #4A3A19,0.5px 0px 1.5px #4A3A19,0.5px 0px 1.5px #4A3A19,
+	             0.5px 0px 1.5px #4A3A19,0.5px 0px 1.5px #4A3A19,0.5px 0px 1.5px #4A3A19,0.5px 0px 1.5px #4A3A19,
+	             0.5px 0px 1.5px #4A3A19,0.5px 0px 1.5px #4A3A19,0.5px 0px 1.5px #4A3A19,0.5px 0px 1.5px #4A3A19,
+	             0.5px 0px 1.5px #4A3A19,0.5px 0px 1.5px #4A3A19,0.5px 0px 1.5px #4A3A19,0.5px 0px 1.5px #4A3A19,
+	             0.5px 0px 1.5px #4A3A19;
+}
+.skill-control > .enable > .skillitem {
+	/* margin: -2px -5px; */
+		--w: 99px;
+		--h: calc(var(--w) * 91 / 200);
+		width: var(--w);
+		height: var(--h);
+		line-height: 42px;
+		text-align: center;
+		font-family: 'yuanli';
+		font-weight:500;
+		font-size: 22px;
+		color: #F7F5E7;
+		text-shadow: 0.3px 0px 1.8px #332C18,0.3px 0px 1.8px #332C18,0.3px 0px 1.8px #332C18,0.3px 0px 1.8px #332C18,
+					 0.3px 0px 1.8px #332C18,0.3px 0px 1.8px #332C18,0.3px 0px 1.8px #332C18,0.3px 0px 1.8px #332C18,
+					 0.3px 0px 1.8px #332C18,0.3px 0px 1.8px #332C18,0.3px 0px 1.8px #332C18,0.3px 0px 1.8px #332C18,
+					 0.3px 0px 1.8px #332C18,0.3px 0px 1.8px #332C18,0.3px 0px 1.8px #332C18,0.3px 0px 1.8px #332C18,
+					 0.3px 0px 1.8px #332C18,0.3px 0px 1.8px #332C18,0.3px 0px 1.8px #332C18,0.3px 0px 1.8px #332C18,
+					 0.3px 0px 1.8px #332C18,0.3px 0px 1.8px #332C18,0.3px 0px 1.8px #332C18,0.3px 0px 1.8px #332C18,
+					 0.3px 0px 1.8px #332C18,0.3px 0px 1.8px #332C18,0.3px 0px 1.8px #332C18,0.3px 0px 1.8px #332C18,
+					 0.3px 0px 1.8px #332C18,0.3px 0px 1.8px #332C18,0.3px 0px 1.8px #332C18,0.3px 0px 1.8px #332C18,
+					 0.3px 0px 1.8px #332C18,0.3px 0px 1.8px #332C18,0.3px 0px 1.8px #332C18,0.3px 0px 1.8px #332C18,
+					 0.3px 0px 1.8px #332C18,0.3px 0px 1.8px #332C18,0.3px 0px 1.8px #332C18,0.3px 0px 1.8px #332C18,
+					 0.3px 0px 1.8px #332C18,0.3px 0px 1.8px #332C18,0.3px 0px 1.8px #332C18,0.3px 0px 1.8px #332C18,
+					 0.3px 0px 1.8px #332C18,0.3px 0px 1.8px #332C18,0.3px 0px 1.8px #332C18,0.3px 0px 1.8px #332C18,
+					 0.3px 0px 1.8px #332C18;
+		background-image: url("./images/new_btnn1.png");
+		background-size: 100% 100%;
+		/*border: 1px solid rgb(3,4,5);/*调试用*/
+	}
+	.skill-control > .enable > .xiandingji {/*限定技按钮*/
+		/* margin: -2px -5px; */
+		--w: 99px;
+		--h: calc(var(--w) * 91 / 200);
+		width: var(--w);
+		height: var(--h);
+		line-height: 42px;
+		text-align: center;
+		font-family: 'yuanli';
+		font-weight: 500;/*å­—ç²—ç»†*/
+		text-shadow:  
+		0.3px 0px 1.8px #332C18,0.3px 0px 1.8px #332C18,0.3px 0px 1.8px #332C18,0.3px 0px 1.8px #332C18,
+		0.3px 0px 1.8px #332C18,0.3px 0px 1.8px #332C18,0.3px 0px 1.8px #332C18,0.3px 0px 1.8px #332C18,
+		0.3px 0px 1.8px #332C18,0.3px 0px 1.8px #332C18,0.3px 0px 1.8px #332C18,0.3px 0px 1.8px #332C18,
+		0.3px 0px 1.8px #332C18,0.3px 0px 1.8px #332C18,0.3px 0px 1.8px #332C18,0.3px 0px 1.8px #332C18,
+		0.3px 0px 1.8px #332C18,0.3px 0px 1.8px #332C18,0.3px 0px 1.8px #332C18,0.3px 0px 1.8px #332C18,
+		0.3px 0px 1.8px #332C18,0.3px 0px 1.8px #332C18,0.3px 0px 1.8px #332C18,0.3px 0px 1.8px #332C18,
+		0.3px 0px 1.8px #332C18,0.3px 0px 1.8px #332C18,0.3px 0px 1.8px #332C18,0.3px 0px 1.8px #332C18,
+		0.3px 0px 1.8px #332C18,0.3px 0px 1.8px #332C18,0.3px 0px 1.8px #332C18,0.3px 0px 1.8px #332C18,
+		0.3px 0px 1.8px #332C18,0.3px 0px 1.8px #332C18,0.3px 0px 1.8px #332C18,0.3px 0px 1.8px #332C18,
+		0.3px 0px 1.8px #332C18,0.3px 0px 1.8px #332C18,0.3px 0px 1.8px #332C18,0.3px 0px 1.8px #332C18,
+		0.3px 0px 1.8px #332C18,0.3px 0px 1.8px #332C18,0.3px 0px 1.8px #332C18,0.3px 0px 1.8px #332C18,
+		0.3px 0px 1.8px #332C18,0.3px 0px 1.8px #332C18,0.3px 0px 1.8px #332C18,0.3px 0px 1.8px #332C18,
+		0.3px 0px 1.8px #332C18;
+		color: #F7F5E7;
+		font-size: 22px;
+		background-image:url("./images/new_btnn4.png");
+		background-size: 100% 100%;
+		/*border: 1px solid rgb(3,4,5);/*调试用*/
+	}
+
+	.skill-control>.enable>.skillitem.select {
+		background-image: url("./images/new_btnn3.png");
+	}
+	.skill-control > .enable > .xiandingji.select {
+		background-image: url("./images/new_btnn4.png");
+	}
+
+.skill-control>.enable>.skillitem:not(.usable):not(.select) {
+	/*技能按钮不可用时变灰*/
+	filter: grayscale(100%);
+	-webkit-filter: grayscale(100%);
+}
+
+.skill-control>.enable>.xiandingji:not(.usable):not(.select) {
+	/*限定技按钮不可用时变灰*/
+	filter: grayscale(100%);
+	-webkit-filter: grayscale(90%);
+}
+
+.skill-control>.enable>.xiandingji.select {
+	background-image: url("./images/new_btnn4.png");
+}
+
+.skill-control>.enable>.xiandingji:not(.usable):not(.select) {
+    /*background-image: url("./images/btn5.png");*/
+	filter: grayscale(100%);
+	-webkit-filter: grayscale(100%);
+}
+
+.skillMarks {
+	max-height: 80px;
+	overflow-y: auto;
+	/*left: -14.5px !important;
+	top: 106px !important;*/
+	left: 105px !important;
+	top: 26px !important;
+	z-index: 89 !important;
+	justify-content: center;
+		align-items: center;
+	}
+
+
+
+
+
+.skillMarks > .skillMarkItem {
+    --h: 19px;
+   /*width: 28.5px!important;
+    height: 28.5px!important;*/
+    width: 22.5px!important;
+    height: 22.5px!important;
+    right: 0px;
+    line-height: -10px;
+    text-align: center;
+    display: block;
+    position: relative;
+   /* justify-content: center;
+	align-items: center;
+    letter-spacing: -1px;
+    white-space: nowrap;*/
+    border-radius: 50%;
+}
+	
+.skillMarkItem.xiandingji {
+	background-image: url("./images/new_xiandingji.png");
+    background-size: 100% 100%;
+    text-shadow: none;
+    --w: 30px;
+	--h: calc(var(--w) * 1 / 1);
+	/*高和长*/
+    width: var(--w);
+	/*按比例调节*/
+    height: var(--h);
+	/*同理*/
+}
+
+.skillMarkItem.xiandingji.used {
+	-webkit-filter: grayscale(1);
+}
+
+.skillMarkItem+.skillMarkItem {
+	margin-top: -6.5px;
+}
+
+.skillMarkItem.juexingji {
+	background-image: url("./images/new_juexingji.png");
+	background-size: 100% 100%;
+	text-shadow: none;
+   --w: 30px;
+	--h: calc(var(--w) * 1 / 1);
+	/*高和长*/
+	width: var(--w);
+	/*按比例调节*/
+	height: var(--h);
+	/*同理*/
+  }
+  
+.skillMarkItem.zhuanhuanji {
+	/*background-size: contain;*/
+	--w: 30px;
+	--h: calc(var(--w) * 1 / 1);
+	/*高和长*/
+	width: var(--w);
+	/*按比例调节*/
+	height: var(--h);
+	/*同理*/
+	background-size: 100% 100%;
+	background-repeat: no-repeat;
+	transform-style: preserve-3d;
+	transform: rotateY(360deg);
+	background-image: url("./images/new_mark_yang.png");
+  }
+
+.skillMarkItem.zhuanhuanji.yang {
+	background-image: url("./images/new_mark_yang.png");
+	/*transform:rotate(1turn);*/
+	/*transform:  rotateY(360deg);*/
+	animation: fanzhuan 1.5s;
+  }
+
+.skillMarkItem.zhuanhuanji.yin {
+	background-image: url("./images/new_mark_ying.png");
+	/*transform:rotate(1turn);*/
+	/*transform:  rotateY(360deg);*/
+	animation: fanzhuan 1.5s;
+  }
+
+@keyframes fanzhuan {
+	0% {
+	transform: rotateY(0deg) scale(1.2); 
+	}
+
+	50% {
+	transform: rotateY(180deg) scale(1.2);
+	}
+
+	100% {
+	transform: rotateY(0deg) scale(1);
+	}
+ }
+ 
+.skillMarkItem.duty {
+	background-image: url("./images/new_mark_duty.png");
+  background-size: contain;
+	background-repeat: no-repeat;
+}
+
+.skillMarkItem.duty.fail {
+filter: grayscale(100%);
+-webkit-filter: grayscale(100%);
+}
+
+/*左手模式*/
+/*技能区*/
+.skill-controlzuoshou {
+	max-width: 140px;
+	bottom: 25px;
+	left: 150px;
+	z-index: 5;
+}
+
+.skill-controlzuoshou div {
+	position: relative;
+}
+
+/*技能*/
+.skill-controlzuoshou .skillitem {
+	float: left;
+	white-space: nowrap;
+	color: #f5d78e;
+	/*字体颜色，这个还有用*/
+	font-size: 20px !important;
+	/*字体大小，有用*/
+}
+
+.skill-controlzuoshou>div {
+	display: flex;
+	flex-wrap: wrap;
+	flex-direction: row;
+}
+
+.skill-controlzuoshou>div::after {
+	content: "";
+	display: block;
+	clear: both;
+}
+
+.skill-controlzuoshou>.enable {
+	margin: 0 0 0 0;
+}
+
+/*非主动技显示*/
+.skill-controlzuoshou>.trigger>.skillitem {
+	--w: 52px;
+    --h: calc(var(--w) * 28 / 79);
+    width: var(--w);
+    height: var(--h);
+    line-height: var(--h);
+    text-align: center;
+    background-image: url("./images/skill2.png");
+    padding: 3px 7px;
+    background-size: 100% 100%;
+    margin: 2px 0px;
+    color: #DCD09E;
+    font-family: 'yuanli';
+    font-size: 18px;
+    text-shadow: 0.5px 0px 1.5px #4A3A19,0.5px 0px 1.5px #4A3A19,0.5px 0px 1.5px #4A3A19,0.5px 0px 1.5px #4A3A19,
+	             0.5px 0px 1.5px #4A3A19,0.5px 0px 1.5px #4A3A19,0.5px 0px 1.5px #4A3A19,0.5px 0px 1.5px #4A3A19,
+	             0.5px 0px 1.5px #4A3A19,0.5px 0px 1.5px #4A3A19,0.5px 0px 1.5px #4A3A19,0.5px 0px 1.5px #4A3A19,
+	             0.5px 0px 1.5px #4A3A19,0.5px 0px 1.5px #4A3A19,0.5px 0px 1.5px #4A3A19,0.5px 0px 1.5px #4A3A19,
+	             0.5px 0px 1.5px #4A3A19,0.5px 0px 1.5px #4A3A19,0.5px 0px 1.5px #4A3A19,0.5px 0px 1.5px #4A3A19,
+	             0.5px 0px 1.5px #4A3A19;
+}
+
+/*主动技显示*/
+.skill-controlzuoshou>.enable>.skillitem {
+	margin: 0px 5px;
+	--w: 75px;
+	--h: calc(var(--w) * 85 / 175);
+	width: var(--w);
+	height: var(--h);
+	line-height: var(--h);
+	text-align: center;
+	/* line-height: 38px; /*文本下移*/
+	/* text-align: center; */
+	display: flex;
+	align-items: center;
+	align-content: center;
+	justify-content: center;
+	font-family: "yuanli";
+	/*字体样式*/
+	font-size: 27px;
+	/*字体大小，没用*/
+	background-image: url("./images/new_btnn1.png");
+	background-size: 100% 100%;
+	/*border: 1px solid rgb(3,4,5); /*调试用*/
+}
+
+.skill-controlzuoshou>.enable>.skillitem.select {
+	background-image: url("./images/new_btnn3.png");
+}
+
+.skill-controlzuoshou>.enable>.skillitem:not(.usable):not(.select) {
+	filter: grayscale(100%);
+	-webkit-filter: grayscale(100%);
+	/*background-image: url("./images/btnn2.png");*/
+}
+
+.skill-controlzuoshou>.enable>.xiandingji {
+	/*限定技按钮*/
+	margin: 0px 5px;
+	/*上下和左右距离*/
+	--w: 75px;
+	--h: 38.1px;
+	width: var(--w);
+	height: var(--h);
+	line-height: 42px;
+	text-align: center;
+	font-family: "yuanli";
+	font-weight: 500;
+	/*å­—ç²—ç»†*/
+	color: #f7f5e7;
+	font-size: 27px;
+	background-image: url("./images/new_btnn4.png");
+	background-size: 100% 100%;
+	/*border: 1px solid rgb(3,4,5);/*调试用*/
+}
+
+.skill-controlzuoshou>.enable>.xiandingji.select {
+	background-image: url("./images/new_btnn4.png");
+}
+
+.skill-controlzuoshou>.enable>.xiandingji:not(.usable):not(.select) {
+	/*background-image: url("./images/btn5.png");*/
+	filter: grayscale(100%);
+	-webkit-filter: grayscale(100%);
+}

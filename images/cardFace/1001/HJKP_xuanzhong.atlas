@@ -1,0 +1,76 @@
+
+HJKP_xuanzhong.png
+size: 1024,128
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+huangjinkapai_00000
+  rotate: false
+  xy: 0, 0
+  size: 88, 110
+  orig: 88, 110
+  offset: 0, 0
+  index: -1
+huangjinkapai_00001
+  rotate: false
+  xy: 90, 0
+  size: 88, 110
+  orig: 88, 110
+  offset: 0, 0
+  index: -1
+huangjinkapai_00002
+  rotate: false
+  xy: 180, 0
+  size: 88, 110
+  orig: 88, 110
+  offset: 0, 0
+  index: -1
+huangjinkapai_00003
+  rotate: false
+  xy: 270, 0
+  size: 88, 110
+  orig: 88, 110
+  offset: 0, 0
+  index: -1
+huangjinkapai_00004
+  rotate: false
+  xy: 360, 0
+  size: 88, 110
+  orig: 88, 110
+  offset: 0, 0
+  index: -1
+huangjinkapai_00005
+  rotate: false
+  xy: 450, 0
+  size: 88, 110
+  orig: 88, 110
+  offset: 0, 0
+  index: -1
+huangjinkapai_00006
+  rotate: false
+  xy: 540, 0
+  size: 88, 110
+  orig: 88, 110
+  offset: 0, 0
+  index: -1
+huangjinkapai_00007
+  rotate: false
+  xy: 630, 0
+  size: 88, 110
+  orig: 88, 110
+  offset: 0, 0
+  index: -1
+huangjinkapai_00008
+  rotate: false
+  xy: 720, 0
+  size: 88, 110
+  orig: 88, 110
+  offset: 0, 0
+  index: -1
+huangjinkapai_00009
+  rotate: false
+  xy: 810, 0
+  size: 88, 110
+  orig: 88, 110
+  offset: 0, 0
+  index: -1

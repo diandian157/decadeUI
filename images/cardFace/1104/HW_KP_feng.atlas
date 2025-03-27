@@ -1,0 +1,111 @@
+
+HW_KP_feng.png
+size: 947,252
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+feng_00
+  rotate: false
+  xy: 2, 117
+  size: 113, 133
+  orig: 113, 133
+  offset: 0, 0
+  index: -1
+feng_02
+  rotate: false
+  xy: 117, 117
+  size: 113, 133
+  orig: 113, 133
+  offset: 0, 0
+  index: -1
+feng_04
+  rotate: true
+  xy: 2, 2
+  size: 113, 133
+  orig: 113, 133
+  offset: 0, 0
+  index: -1
+feng_06
+  rotate: false
+  xy: 232, 117
+  size: 113, 133
+  orig: 113, 133
+  offset: 0, 0
+  index: -1
+feng_08
+  rotate: true
+  xy: 137, 2
+  size: 113, 133
+  orig: 113, 133
+  offset: 0, 0
+  index: -1
+feng_10
+  rotate: false
+  xy: 347, 117
+  size: 113, 133
+  orig: 113, 133
+  offset: 0, 0
+  index: -1
+feng_12
+  rotate: true
+  xy: 272, 2
+  size: 113, 133
+  orig: 113, 133
+  offset: 0, 0
+  index: -1
+feng_14
+  rotate: false
+  xy: 462, 117
+  size: 113, 133
+  orig: 113, 133
+  offset: 0, 0
+  index: -1
+feng_16
+  rotate: true
+  xy: 407, 2
+  size: 113, 133
+  orig: 113, 133
+  offset: 0, 0
+  index: -1
+feng_18
+  rotate: false
+  xy: 577, 117
+  size: 113, 133
+  orig: 113, 133
+  offset: 0, 0
+  index: -1
+feng_20
+  rotate: true
+  xy: 542, 2
+  size: 113, 133
+  orig: 113, 133
+  offset: 0, 0
+  index: -1
+feng_22
+  rotate: false
+  xy: 692, 117
+  size: 113, 133
+  orig: 113, 133
+  offset: 0, 0
+  index: -1
+feng_24
+  rotate: false
+  xy: 807, 117
+  size: 113, 133
+  orig: 113, 133
+  offset: 0, 0
+  index: -1
+feng_26
+  rotate: true
+  xy: 677, 2
+  size: 113, 133
+  orig: 113, 133
+  offset: 0, 0
+  index: -1
+feng_28
+  rotate: true
+  xy: 812, 2
+  size: 113, 133
+  orig: 113, 133
+  offset: 0, 0
+  index: -1

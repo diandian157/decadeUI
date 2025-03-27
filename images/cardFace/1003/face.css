@@ -1,0 +1,203 @@
+.card:not(*:empty){
+	color:rgb(77, 60, 51);
+	text-shadow:none;
+	background: url('cardstyle_face.png');
+	background-size:100% 100%;
+}
+#arena.mobile:not(.chess) .player[data-position='0']>.equips>.equip5 {
+    border-radius: 4px;
+}
+#arena.mobile:not(.chess) .player[data-position='0']>.equips>.equip5>.image{
+	width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+}
+#arena.mobile:not(.chess) .player[data-position='0']>.equips>.equip5>.name{
+    display: block;
+    transform: scale(0.43) !important;
+    transform-origin: left top;
+    left: 2px;
+    top: 3px;
+}
+#arena.mobile:not(.chess) .player[data-position='0']>.equips>.equip5>.name.long{
+    top: 2px;
+}
+#arena.mobile:not(.chess) .player[data-position='0']>.equips>.equip5>.info{
+    display: block;
+    transform: scale(0.43) !important;
+    transform-origin: right top;
+    right: 3px;
+    top: 3px;
+}
+
+
+#arena:not(.chess) .player[data-position='0']>.equips>.equip5>.image{
+	background-position: -4px -4px;
+}
+
+.card>.image, #arena:not(.chess)>.card>.image, #arena:not(.chess) .handcards>.card>.image, #arena.oblongcard:not(.chess)>.card>.image, #arena.oblongcard:not(.chess) .handcards>.card>.image {
+    position: absolute;
+    width: 100px;
+    height: 100px;
+    top: auto;
+    right: 0;
+    bottom: 8%;
+    background-position-x: 0;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.card>.suit-num {
+    font-size: 18px;
+    color: black;
+    text-align: center;
+    top: 13px;
+    left: 4px;
+    width: 25px;
+    height: auto;
+    line-height: 15px;
+    text-shadow: 0 0 3px #ffffff, 0 0 8px #ffffff;
+    letter-spacing: -1px;
+    transform-origin: 0 0;
+    z-index: 1;
+    -webkit-text-size-adjust: none;
+}
+
+.card>.name, .card.fullskin>.name, .card.fullskin>.name.long, .dialog .buttons>.card>.name.long{
+    top: auto;
+    bottom: 11px;
+    /* right: 86px; */
+    left: 8px;
+    line-height: 16px;
+    color: black;
+    font-size: 16px;
+    font-weight: bold;
+    font-family: shousha;
+    text-shadow: 0 0 1px white, 0 0 3px white;
+    border: 1px solid black;
+    border-radius: 0px;
+    z-index: 1;
+}
+
+.card>.top-name {
+    left: 24px;
+    top: 18px;
+    width: calc(100% - 28px);
+    color: black;
+    font-size: 17px;
+    line-height: 25px;
+    font-family: shousha;
+    text-align: center;
+    z-index: 0;
+}
+
+.card>.top-name:not(.base) {
+    width: 72px;
+    height: 23px;
+    background-image: url("cardstyle_bg.png");
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    background-position: center;
+}
+.card>.top-name:not(.base)> img {
+    height: 21px;
+    position: relative;
+    top: 1px;
+}
+
+.card>.top-name.base {
+    width: 100px;
+    left: 50%;
+    transform: translateX(-50%);
+    top: 2px;
+}
+
+.card>.top-name.base > img{
+    width: 65%;
+    position: relative;
+    left: 6px;
+    top: 12px;
+}
+
+.card, .card.decade-card {
+    box-shadow: none;
+}
+.card> .card-type {
+    width: 28%;
+    height: 10%;
+    top: 44px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    background-position: center;
+}
+
+.card> .card-type.trick {
+    background-image: url("../texture/type.png");
+}
+.card> .card-type.equip {
+    background-image: url("../texture/type2.png");
+}
+
+.card >.image > img {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 86%;
+    top: 22px;
+}
+
+.card >.image >:is(.equip) {
+    width: 85%;
+    top: 16px;
+}
+
+.card >.distance {
+    width: 100%;
+    height: 55px;
+    top: 80px;
+}
+
+.card >.distance>.fanwei {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    height: 35%;
+    bottom: 0;
+}
+
+.card >.distance>.juli {
+    height: 55%;
+    position: absolute;
+    display: block;
+    bottom: 0;
+    left: 87%;
+    transform: translateX(-90%);
+}
+
+.card>.card-mask {
+    left: 4px;
+    top: 3px;
+    width: 91%;
+    height: 94%;
+}
+
+.card >.distance>.aas {
+    top: 17px;
+    position: absolute;
+    left: 54%;
+}
+
+.card >.distance>.num {
+    height: 55%;
+    position: absolute;
+    display: block;
+    bottom: 6px;
+    left: 65%;
+}
+
+#me>div>div>.card, #arena>.card:not(*:empty) {
+    box-shadow: none;
+}

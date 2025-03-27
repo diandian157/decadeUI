@@ -1,0 +1,421 @@
+.gshoupai{
+    background-color: none;
+    background-repeat: no-repeat;
+    background-image: url('assets/image/gshoupai.png')!important;
+    background-size: 100% 100%;
+    opacity:0.6;
+    width:70px;
+    height:110px;
+    left: -60px;       
+    bottom: -60px;
+    padding:17px 2px 2px 2px;/*内边距*/
+    /*字体*/
+    text-align: center;
+    color: #FFFFCC;
+    text-shadow:-1.3px 0px 2.2px #000, 0px -1.3px 2.2px #000, 1.3px 0px 2.2px #000 ,0px 1.3px 2.2px #000;
+	font-family: shousha;
+	font-size:15px;
+	font-weight:900;	
+    z-index:100!important;
+}
+.cooperationSquare {
+	background-image: url('assets/image/othermark.png');
+	background-color: none;
+	background-repeat: no-repeat;
+	background-size: 100% 100%;
+	width: 65px;
+	height: 40px;
+	left: 20px;
+	bottom: 230px;
+	padding: 25px 2px 2px 2px;
+	text-align: center;
+	color: #e2e0dc;
+	text-shadow: -1.3px 0px 2.2px #000, 0px -1.3px 2.2px #000, 1.3px 0px 2.2px #000, 0px 1.3px 2.2px #000;
+	font-family: shousha;
+	font-size: 17px;
+	font-weight: 900;
+	z-index: 8 !important;
+	transition: unset;
+}
+#cooperationDialog {
+	background-color: #2d2420cf;
+	background-size: 100% 100%;
+	width: 40%;
+	height: 200px;
+	animation: open-dialog 0.5s!important;
+	overflow-y: scroll;
+	scrollbar-width: none;
+	border-radius:10px;
+	z-index: 8;
+}
+.shangtiao {
+	position: relative;
+	display: flex;
+	width: 100%;
+	height: 28px;
+	left: 0px;
+	box-shadow: none;
+	background-image: none;
+}
+
+.shangtiao>div:nth-child(2) {
+	width: 80px;
+}
+
+.xiatiao>div:nth-child(2) {
+	width: 80px;
+}
+
+.fengefu {
+	position: relative;
+	display: flex;
+	width: 90%;
+	height: 2px;
+	left: 4%;
+	margin: 3px 0 3px 0;
+	box-shadow: none;
+	background-color: #68684d;
+}
+
+.xiatiao {
+	position: relative;
+	display: flex;
+	width: 100%;
+	height: 44px;
+	box-shadow: none;
+	background-image: none;
+}
+
+.topContent {
+	align-items: flex-end;
+	white-space: nowrap;
+	justify-content: left;
+	display: inline-flex;
+	position: relative;
+	text-align: center;
+	color: #e2e0dc;
+	font-family: shousha;
+	font-size: 17px;
+	font-weight: 900;
+	margin-left: 15px;
+	width: 45px;
+
+}
+
+
+.xtxBox1,
+.xtxBox2,
+.xtxBox0 {
+	align-items: flex-end;
+	white-space: nowrap;
+	justify-content: center;
+	display: inline-flex;
+	position: relative;
+	text-align: center;
+	color: #e2e0dc;
+	font-family: shousha;
+	font-size: 17px;
+	font-weight: 900;
+	margin-left: 15px;
+	width: 45px;
+}
+
+.xtxBox0>.downContent,
+.xtxBox1>.downContent {
+	position: absolute;
+	z-index: 2;
+	height: 2.2em;
+	width: 2.2em;
+	background-repeat: no-repeat;
+	background-size: 65px;
+	background-position-y: 10%;
+	background-position-x: 50%;
+	border: 2px solid #c9c9ab;
+}
+
+.xtxBox2>.downContent {
+	position: absolute;
+	z-index: 2;
+	display: flex;
+	flex-wrap: wrap-reverse;
+	height: 2.2em;
+	width: 2.2em;
+	align-content: center;
+}
+
+.performerNameTarget,
+.performerNamePlayer {
+	background-color: black;
+	opacity: 0.9;
+	bottom: 0px;
+	width: 100%;
+	left: 0px;
+	text-align: center;
+	font-family: shousha;
+	font-size: 10px;
+	text-shadow: none;
+}
+.renkubeijinggua{
+    /*position:relative;*/
+    background-color: none;
+    background-repeat: no-repeat;
+    background-image: url('assets/image/othermark.png')!important;
+    background-size: 100% 100%;
+    width:65px;
+    height:40px;
+    left: 20px;       
+    bottom: 230px;
+    padding:25px 2px 2px 2px;/*内边距*/
+    /*字体*/
+    text-align: center;
+    color: #e2e0dc;
+    text-shadow:-1.3px 0px 2.2px #000, 0px -1.3px 2.2px #000, 1.3px 0px 2.2px #000 ,0px 1.3px 2.2px #000;
+	font-family: shousha;
+	font-size:17px;
+	font-weight:900;	
+    z-index:8!important;    
+    transition: all 0s;
+}
+/*虚拟防御马*/
+.game_xunifangyuma {
+    width:1px;
+    height:1px;
+    left: 39px;
+    bottom: 16px;
+    text-align: center;
+    color: #FFFFFF;
+    text-shadow:-1.3px 0px 2.2px #000, 0px -1.3px 2.2px #000, 1.3px 0px 2.2px #000 ,0px 1.3px 2.2px #000;
+    font-family: shousha;
+    font-weight:bold;
+    font-size:14px;
+    z-index:62!important;
+}
+/*虚拟进攻马*/
+.game_xunijingongma {
+    width:0px;
+    height:1px;
+    left: 100px;
+    bottom: 16px;
+    text-align: center;
+    color: #FFFFFF;
+    text-shadow:-1.3px 0px 2.2px #000, 0px -1.3px 2.2px #000, 1.3px 0px 2.2px #000 ,0px 1.3px 2.2px #000;
+    font-family: shousha;
+    font-weight:bold;
+    font-size:14px;
+    z-index:62!important;
+}
+/*虚拟八卦阵*/
+.bazhen_bagua {
+    width: 50px;
+    height: 10px;
+    left: 63px;
+    bottom: 24px;
+    text-align: center;
+    opacity: 0.65;
+    color: #FFFFFF;
+    text-shadow: 0 0 2px #000000,0 0 2px #000000,0 0 2px #000000,0 0 2px #000000,0 0 2px #000000,0 0 2px #000000, 0 0 2px #000000,0 0 2px #000000,0 0 2px #000000,0 0 2px #000000,0 0 2px #000000,0 0 2px #000000, 0 0 2px #000000,0 0 2px #000000,0 0 2px #000000,0 0 2px #000000,0 0 2px #000000,0 0 2px #000000, 0 0 2px #000000,0 0 2px #000000,0 0 2px #000000,0 0 2px #000000,0 0 2px #000000,0 0 2px #000000, 0 0 2px #000000,0 0 2px #000000,0 0 2px #000000,0 0 2px #000000,0 0 2px #000000,0 0 2px #000000, 0 0 2px #000000,0 0 2px #000000,0 0 2px #000000,0 0 2px #000000,0 0 2px #000000,0 0 2px #000000;
+    font-family: shousha;
+    font-weight: 200;
+    font-size: 16px;
+    transform: scale(1,1.1);
+    z-index: 62 !important;
+}
+.xtx {
+    position: absolute;
+    bottom: -20px;
+    left: -10px;
+    z-index: 2;
+    height: 2.2em;
+    width: 2.2em;
+    background-repeat: no-repeat;
+    background-size: 65px;
+    background-position-y: 10%;
+    background-position-x: 50%;
+    border: 2px solid #c9c9ab;
+}
+.xtxName {
+    position: inherit;
+    display: flex;
+    align-items: flex-start;
+    font-family: shousha;
+    font-size: 16px;
+    color: #eddac3;
+    width: 100px;
+    left: 40px;
+    bottom: 0px;
+    z-index: 2;
+}
+.huise {
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: black;
+    opacity: 0.4;
+    z-index: 1;
+}
+.card.fullskin.button[sourcecard="wugu"]>.card-mask {
+    opacity: 0 !important;
+}
+#wugu.dialog {
+    bottom: calc(23% + 86px);
+    font-family: 'HYZLSJ' !important;
+    color: #eddac3;
+    background-position: center;
+    background-image: url("assets/image/judgeBox.png") !important;
+    background-size: 102% 100% !important;
+    background-repeat: no-repeat;
+    white-space: normal;
+    width: 1150px !important;
+    left: calc(50% - 575px) !important;
+    height: 200px !important;
+    background-color: transparent !important;
+    box-shadow: none;
+    animation: losewin 1s !important;
+}
+#wugu.dialog>.content-container>.content>.caption {
+    left: 5px;
+    overflow: visible !important;
+    padding-top: 0;
+    width: 100%;
+    top: 1px;
+    height: 36px;
+    line-height: 29px;
+    text-align: center;
+    letter-spacing: 3px!important;
+    background: linear-gradient(#C8BEB4 1%,#FCF8CC 12%, #F3F0BE,#FEF5A8,#E1D275,#C9B173,#D6CB6F,#A99355,#AC9557,#A38A51,#A38A51,#B29983,#B19786,#B19786,#B19786, #9B8583 ), linear-gradient(to right,#FCF8CC , #AC9557);
+    font-family: 'HYZLSJ';
+    font-size: 38px !important;
+    font-weight: normal;
+    -webkit-background-clip: text;
+    text-shadow: none;
+    -webkit-text-fill-color: transparent;
+    filter: drop-shadow(2px 0 0.5px #2F1809) drop-shadow(-2px 0 1.5px #2F1809) drop-shadow(0 2px 1px #2F1809) drop-shadow(0 -2px 1.5px #2F1809) blur(0.55px) saturate(1.25) contrast(1.25) grayscale(0.08) sepia(0.1);
+}
+#wugu.dialog>.content-container>.content>.buttons {
+    zoom: 0.9 !important;
+    bottom: 0px;
+}
+#wugu.dialog>.content-container>.content>.buttons>div {
+    margin: 0px;
+}
+.jindutiao_wugu {
+    top: 12vw;
+    position: absolute;
+    background-color: rgba(0, 0, 0, 0.4);
+    width: 620px;
+    height: 12.3px;
+    left: calc(50% - 320px);
+    border-radius: 1000px;
+    box-shadow: 0px 0px 9px #2e2b27 inset, 0px 0px 2.1px #FFFFD5;
+    overflow: hidden;
+    border: 1.2px solid #000000;
+    z-index: 7;
+}
+.jindutiaox_wugu {
+    background-image: linear-gradient(#fccc54 15%, #d01424 30%, #cc6953 90%);
+    height: 12.8px;
+    width: 640px;
+    z-index: 8;
+    left: calc(50% - 320px);
+    animation: wugujindu 100s;
+}
+@keyframes wugujindu {
+    from {
+    width: 630px;
+}
+to {
+    width: 0;
+}
+}
+/*基本对话框，缩放90%的情况下重新放大dialog框*/
+    #arena.decadeUI>.dialog {
+    bottom: calc(20% + 85px);
+}
+/*装备入手tag*/
+    .card>.equiped {
+    background-image: url('assets/image/cardequiped.png');
+    position: absolute;
+    background-size: contain;
+    top: 40%;
+    right: 0px;
+    width: 100%;
+    height: 30%;
+}
+/*虚拟卡牌tag*/
+    .card>.virtualMark {
+    background-size: 100% 100%;
+    top: 12px;
+    left: 8px;
+    width: 23.5px;
+    height: 42.3px;
+    zoom:85%;
+    background-image: url("assets/image/virtual.png");
+}
+/*换将按钮*/
+    #but2 {
+    display: flex;
+    left: 80%;
+    /* bottom: 0px;*/
+    top: -10px;
+    right: 0px;
+    width: 35px;
+    height: 35px;
+    font-size: 0px;
+    border-radius: 100%;
+    border-width: 0px;
+    box-shadow: none;
+    background-image: url('assets/image/huan.png');
+    background-size: 42px 42px;
+    background-position: center center;
+    z-index: 100;
+}
+
+/*八人定位*/
+    #arena[data-mode='versus'][data-layout='nova'][data-decade-layout='off'][data-number='4'][data-pldistance='1']>.player[data-position='1'],
+#arena[data-mode='doudizhu'][data-layout='nova'][data-decade-layout='off'][data-number='3'][data-pldistance='2']>.player[data-position='1'],
+#arena[data-layout='nova'][data-decade-layout='off'][data-number='8']>.player[data-position='1'] {
+    left: auto;
+    top: 21.4%;
+    right: 32px;
+}
+#arena[data-layout='nova'][data-decade-layout='off'][data-number='8']>.player[data-position='2'] {
+    left: auto;
+    top: 44px;
+    right: calc(22% - (var(--w)/2));
+}
+#arena[data-mode='versus'][data-layout='nova'][data-decade-layout='off'][data-number='4'][data-pldistance='2']>.player[data-position='1'],
+#arena[data-layout='nova'][data-decade-layout='off'][data-number='3'][data-pldistance='0']>.player[data-position='1'],
+#arena[data-mode='doudizhu'][data-layout='nova'][data-decade-layout='off'][data-number='3'][data-pldistance='1']>.player[data-position='1'],
+#arena[data-layout='nova'][data-decade-layout='off'][data-number='8']>.player[data-position='3'] {
+    left: auto;
+    top: 7px;
+    right: calc(35.8% - (var(--w)/2));
+}
+#arena[data-mode='versus'][data-layout='nova'][data-decade-layout='off'][data-number='4'][data-pldistance='2']>.player[data-position='2'],
+#arena[data-layout='nova'][data-decade-layout='off'][data-number='8']>.player[data-position='4'] {
+    left: calc(50.2% - (var(--w)/2));
+    top: 7px;
+    right:auto;
+}
+#arena[data-mode='versus'][data-layout='nova'][data-decade-layout='off'][data-number='4'][data-pldistance='1']>.player[data-position='2'],
+#arena[data-layout='nova'][data-decade-layout='off'][data-number='3'][data-pldistance='0']>.player[data-position='2'],
+#arena[data-mode='doudizhu'][data-layout='nova'][data-decade-layout='off'][data-number='3'][data-pldistance='2']>.player[data-position='2'],
+#arena[data-layout='nova'][data-decade-layout='off'][data-number='8']>.player[data-position='5'] {
+    left: calc(36.2% - (var(--w)/2));
+    top: 7px;
+    right:auto;
+}
+#arena[data-mode='versus'][data-layout='nova'][data-decade-layout='off'][data-number='4'][data-pldistance='1']>.player[data-position='3'],
+#arena[data-layout='nova'][data-decade-layout='off'][data-number='8']>.player[data-position='6'] {
+    left: calc(22.2% - (var(--w)/2));
+    top: 44px;
+    right:auto;
+}
+#arena[data-mode='versus'][data-layout='nova'][data-decade-layout='off'][data-number='4'][data-pldistance='2']>.player[data-position='3'],
+#arena[data-mode='doudizhu'][data-layout='nova'][data-decade-layout='off'][data-number='3'][data-pldistance='1']>.player[data-position='2'],
+#arena[data-layout='nova'][data-decade-layout='off'][data-number='8']>.player[data-position='7'] {
+    left: 32px;
+    top: 21.4%;
+    right:auto;
+}
