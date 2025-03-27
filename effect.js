@@ -254,23 +254,12 @@ decadeModule.import(function(lib, game, ui, get, ai, _status) {
 				playerName = get.translation(player.name);
 				playerAvatar = player.node.avatar;
 			}
-	/*var url = getComputedStyle(playerAvatar).backgroundImage;
-		
-		
-			var playername = get.name(player);
-                    var skinname = game.getFileName2(player.node.avatar.style.backgroundImage);
-                    var skin = lib.assetURL + "lihui/" + playername + "/" + skinname + ".png";
-                    var yuanhua = lib.assetURL + "lihui/" + playername + "/" + playername + ".png";
-                    if (game.LiHuiFileExist(skin)) url = 'url("' + lib.assetURL + "lihui/" + playername + "/" + skinname +  ".png" + '")';
-                     else if (game.LiHuiFileExist(yuanhua)) url = 'url("' + lib.assetURL + "lihui/" + playername + "/" + playername + ".png" + '")';
-                    else {
-                        url = player.node.avatar.style.backgroundImage;
-	}*/
+
 	var path=game.getLiHuiPath(player,lib.assetURL);
 	      var  url;
 		if(path=="noLihui")  url = player.node.avatar.style.backgroundImage;
-		else url=='url("' +path+ '")';
-		console.log(url);
+		else url='url("' +path+ '")';
+	
 			var image = new Image();
 			var bgImage = new Image();
 

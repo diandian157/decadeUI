@@ -1,10 +1,12 @@
-.skill-control {/*技能按钮*/
-	max-width: 200px;/*同列技能可容纳最大宽度，建议别调*/
-	bottom: 25px;/*整体上移，建议别调*/
-	right: 165px;/*技能显示右移，越小越靠右，建议别调*/
-	/*border: 3px solid rgb(255, 255, 255);/*调试用*/
+.skill-control {
+	/*技能按钮*/
+	max-width: 200px;
+	/*同列技能可容纳最大宽度，建议别调*/
+	bottom: 45px;
+	/*整体上移，建议别调*/
+	right: 165px;
+	/*技能显示右移，越小越靠右，建议别调*/
 	z-index: 6;
-
 }
 
 .skill-control div {
@@ -39,58 +41,51 @@
 }
 
 .skill-control>.trigger>.skillitem {
-	--w: 48.75px;
-	--h: 18px;
-	width: var(--w);
-	height: var(--h);
-	line-height: var(--h);
-	text-align: center;
-	background-color: #3a2819;
-	/* 棕色背景 */
-	border: 0.3px solid #b69d4d;
-	/* 棕色边框 */
-	border-radius: 50px;
-	/* 生成椭圆形状 */
-	position: relative;
-	/* 定位参照 */
-	padding: 3px 7px;
-	margin: 2px 0px;
-	color: rbg(190, 142, 99);
-	font-family: "yuanli";
-	font-size: 18px;
-	text-shadow: 0.5px 0px 0.5px #ffffff;
+    --w: 48.75px;
+    --h: 18px;
+    width: var(--w);
+    height: var(--h);
+    line-height: var(--h);
+    text-align: center;
+    background-color: #3a2819;
+    border: 0.3px solid #b69d4d;
+    border-radius: 50px;
+    position: relative;
+    padding: 3px 7px;
+    margin: 2px 2px;
+    color: rbg(190, 142, 99);
+    font-family: "yuanli";
+    font-size: 18px;
+    text-shadow: 0.5px 0px 0.5px #ffffff;
 }
-
 .skill-control>.enable>.skillitem {
-	margin: 2px 2px;
-	--w: 82.8px;
-	--h: 44.1px;
-	width: var(--w);
-	height: var(--h);
-	line-height: 42px;
-	text-align: center;
-	font-family: "xingkai";
-	font-weight: 500;
-	font-size: 27px;
-	color: #f7f5e7;
-	background-image: url("./images/new_btnn1.png");
-	background-size: 100% 100%;
+    margin: 2px 2px;
+    --w: 96px;
+    --h: 44.1px;
+    width: var(--w);
+    height: var(--h);
+    line-height: 42px;
+    text-align: center;
+    font-family: "yuanli";
+    font-weight: 500;
+    font-size: 24px;
+    color: #f7f5e7;
+    background-image: url("./images/new_btnn1.png");
+    background-size: 100% 100%;
 }
-
 .skill-control>.enable>.xiandingji {
 	/*限定技按钮*/
 	margin: 2px 2px;
-	--w: 82.8px;
+	--w: 96px;
 	--h: 44.1px;
 	width: var(--w);
 	height: var(--h);
 	line-height: 42px;
 	text-align: center;
-	font-family: "xingkai";
+	font-family: "yuanli";
 	font-weight: 500;
-	/*å­—ç²—ç»†*/
 	color: #f7f5e7;
-	font-size: 27px;
+	font-size: 24px;
 	background-image: url("./images/new_btnn4.png");
 	background-size: 100% 100%;
 }
@@ -313,9 +308,9 @@
 	align-items: center;
 	align-content: center;
 	justify-content: center;
-	font-family: "xingkai";
+	font-family: "yuanli";
 	/*字体样式*/
-	font-size: 27px;
+	font-size: 24px;
 	/*字体大小，没用*/
 	background-image: url("./images/new_btnn1.png");
 	background-size: 100% 100%;
@@ -346,7 +341,7 @@
 	font-weight: 500;
 	/*å­—ç²—ç»†*/
 	color: #f7f5e7;
-	font-size: 27px;
+	font-size: 24px;
 	background-image: url("./images/new_btnn4.png");
 	background-size: 100% 100%;
 	/*border: 1px solid rgb(3,4,5);/*调试用*/

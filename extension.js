@@ -331,7 +331,7 @@ export default async function () {
 									} else {
 										this.classList.remove("decade-card");
 									}
-									if (lib.config["extension_十周年UI_MoNiEquip"] == "moileDecade") {
+									if (lib.config["extension_十周年UI_MoNiEquip"] != "off") {
 										this.$equip.innerHTML = "";
 
 										var cardName = this.getAttribute("data-card-name");
@@ -339,7 +339,7 @@ export default async function () {
 
 										if (!(ele.length > 1)) {
 											var e = ele[0].children;
-											var subype = this.getAttribute("data-card-subype");
+											var subype = this.getAttribute("data-card-subtype");
 											var cardName = this.getAttribute("data-card-name");
 											if (cardName.indexOf("feichu_") != -1) {
 												if (lib.config["extension_十周年UI_MoNiEquip"] == "moileDecade") {
@@ -9789,7 +9789,12 @@ export default async function () {
 						if (moniEquipBool) this.css(decadeUIPath + "equip_new_new.css");
 						this.css(decadeUIPath + "decadeLayout6.css");
 						this.css(decadeUIPath + "layout6.css");
-					} else if (lib.config.extension_十周年UI_newDecadeStyle == "onlineUI") {
+					} else if (lib.config.extension_十周年UI_newDecadeStyle == "on") {
+						if (moniEquipBool) this.css(decadeUIPath + "equip_new_new.css");
+						this.css(decadeUIPath + "decadeLayout6.css");
+						this.css(decadeUIPath + "layout6.css");
+					} 
+					else if (lib.config.extension_十周年UI_newDecadeStyle == "onlineUI") {
 						if (moniEquipBool) this.css(decadeUIPath + "equipOL.css");
 						this.css(decadeUIPath + "layout_new.css");
 					} else if (lib.config.extension_十周年UI_newDecadeStyle == "babysha") {
@@ -9801,7 +9806,7 @@ export default async function () {
 						this.css(decadeUIPath + "layout_off.css");
 						this.css(decadeUIPath + "decadeLayout_ss.css");
 					} else {
-						if (moniEquipBool) this.css(decadeUIPath + (lib.config.extension_十周年UI_newDecadeStyle == "on" ? "equip.css" : "equip_new.css"));
+						if (moniEquipBool) this.css(decadeUIPath + "equip_new.css");
 						this.css(decadeUIPath + "layout.css");
 					}
 

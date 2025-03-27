@@ -22,14 +22,19 @@
 	font-family: "FZLSFT";
 	src: url("./shoushaUI/fonts/FZLSFT.woff2");
 }
+
+@font-face {
+	font-family: "lier";
+	src: url("./shoushaUI/fonts/lier.ttf");
+}
 @font-face {
     font-family: 'NotoSerifTC';
-    src: url('./shoushaUI/fonts/NotoSerifTC-Bold.ttf');
+    src: url('./shoushaUI/fonts/NotoSerifTC-Bold.otf');
 }
 
 @font-face {
     font-family: 'NotoSansTC';
-    src: url('./shoushaUI/fonts/NotoSansTC-Bold.ttf');
+    src: url('./shoushaUI/fonts/NotoSansTC-Bold.otf');
 }
 
 .menu-container > .menu.main.cxy-import-dialog {
