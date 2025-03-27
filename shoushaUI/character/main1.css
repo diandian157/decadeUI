@@ -83,7 +83,7 @@
   position: relative;
   height: 35px;
   width: 280px;
-  background-image: url("./images/offical_icon/pub_red_bg1.png");
+  background-image: url("./images/shousha/pub_red_bg1.png");
   background-size: 100% 100%;
   margin: 5px 0 8px 23px;
 }
@@ -128,7 +128,7 @@
   height: 38px;
   top: 40%;
   right: 8%;
-  background-image: url("./images/btn.png");
+  background-image: url("./images/shousha/btn.png");
   background-size: 100% 100%;
   font-family: 'shousha';
   line-height: 38px;
@@ -152,11 +152,11 @@
 	width: var(--w);
 	height: var(--h);
 	position: absolute;
-	background-image: url("./images/dialogx1.png");
+	background-image: url("./images/shousha/dialogx1.png");
 	background-size: 100% 100%;
 }
 .character-dialog.dialog2::before {
-	background-image: url("./images/dialog2.png");
+	background-image: url("./images/shousha/dialog2.png");
 }
 .character-dialog > div {
 	top: 0;
@@ -196,7 +196,7 @@
 }
 .xing > .item {
   position: relative;
-  background: url("./images/xing.png");
+  background: url("./images/shousha/xing.png");
   background-size: cover;
   width: 16px;
   height: 16px;
@@ -214,7 +214,7 @@
 }
 .xing2 > .item {
 	position: relative;
-	background: url("./images/xing.png");
+	background: url("./images/shousha/xing.png");
 	background-size: cover;
 	width: 15px;
 	height: 15px;
@@ -225,7 +225,7 @@
 
 .bigdialog {
 	position: relative;
-	background: url("./images/bigdialog.png");
+	background: url("./images/shousha/bigdialog.png");
 	background-size: 100% 100%;
 	width: 80%;
 	height: 100%;

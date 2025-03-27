@@ -131,17 +131,52 @@ decadeModule.import(function(lib, game, ui, get, ai, _status) {
 			var sourceAvatar = source.isUnseen(0) ? source.node.avatar2 : source.node.avatar;
 			var targetAvatar = target.isUnseen(0) ? target.node.avatar2 : target.node.avatar;
 
-			var effect = decadeUI.dialog.create("effect-window");
-			var killerWarpper = decadeUI.dialog.create("killer-warpper", effect);
-			killerWarpper.killer = decadeUI.dialog.create("killer", killerWarpper);
-			killerWarpper.killer.style.backgroundImage = sourceAvatar.style.backgroundImage;
+			var effect = decadeUI.dialog.create('effect-window');
+			var killerWarpper = decadeUI.dialog.create('killer-warpper', effect);
+			killerWarpper.killer = decadeUI.dialog.create('killer', killerWarpper);
+		
+		  var characterID= source.name;             
+        var picSrc = game.qhly_getAvatarSrc(characterID);
+        
+	
+		if (picSrc && picSrc.indexOf('image/character/') == -1) {
+                  var extNameInPic = picSrc.replace('extension/', '');
+        if (extNameInPic.indexOf('/') >= 0) {
+          extNameInPic = extNameInPic.slice(0, extNameInPic.indexOf('/'));
+        }
+                 killerWarpper.killer.style.backgroundImage ="url('"+ game.getYuanHuaPath(source,lib.assetURL +'extension/' + extNameInPic + '/skin/yuanhua/')+"')";
+            
+              }else{
+                                    killerWarpper.killer.style.backgroundImage ="url('"+ game.getYuanHuaPath(source,lib.assetURL +'extension/千幻聆音/sanguoyuanhua/')+"')";
 
-			var victim = decadeUI.dialog.create("victim", effect);
-			victim.back = decadeUI.dialog.create("back", victim);
-			victim.back.part1 = decadeUI.dialog.create("part1", victim.back);
-			victim.back.part2 = decadeUI.dialog.create("part2", victim.back);
-			victim.back.part1.style.backgroundImage = targetAvatar.style.backgroundImage;
-			victim.back.part2.style.backgroundImage = targetAvatar.style.backgroundImage;
+		}
+	
+
+
+			var victim = decadeUI.dialog.create('victim', effect);
+			victim.back = decadeUI.dialog.create('back', victim);
+			victim.back.part1 = decadeUI.dialog.create('part1', victim.back);
+			victim.back.part2 = decadeUI.dialog.create('part2', victim.back);
+		
+	                  characterID= target.name;       
+        var picSrc = game.qhly_getAvatarSrc(characterID);
+        
+
+	
+		if (picSrc && picSrc.indexOf('image/character/') == -1) {
+                  var extNameInPic = picSrc.replace('extension/', '');
+        if (extNameInPic.indexOf('/') >= 0) {
+          extNameInPic = extNameInPic.slice(0, extNameInPic.indexOf('/'));
+        }
+        victim.back.part1.style.backgroundImage ="url('"+ game.getYuanHuaPath(target,lib.assetURL +'extension/' + extNameInPic + '/skin/yuanhua/')+"')";
+                      victim.back.part2.style.backgroundImage ="url('"+ game.getYuanHuaPath(target,lib.assetURL +'extension/' + extNameInPic + '/skin/yuanhua/')+"')";
+                 
+              }else{
+                      victim.back.part1.style.backgroundImage ="url('"+ game.getYuanHuaPath(target,lib.assetURL +'extension/千幻聆音/sanguoyuanhua/')+"')";
+                      victim.back.part2.style.backgroundImage ="url('"+ game.getYuanHuaPath(target,lib.assetURL +'extension/千幻聆音/sanguoyuanhua/')+"')";
+                      
+      }
+	
 
 			effect.style.backgroundColor = "rgba(0,0,0,0.7)";
 			effect.style.transition = "all 4s";
@@ -149,8 +184,8 @@ decadeModule.import(function(lib, game, ui, get, ai, _status) {
 
 			var anim = decadeUI.animation;
 			var bounds = anim.getSpineBounds("effect_jisha1");
-
-			game.playAudio("../extension", decadeUI.extensionName, "audio/kill_effect_sound.mp3");
+		
+			game.playAudio('../extension', decadeUI.extensionName, 'audio/kill_effect_sound.mp3');
 			if (bounds == void 0) {
 				var lightLarge = decadeUI.dialog.create("li-big", effect);
 				victim.rout = decadeUI.dialog.create("rout", victim);
@@ -183,10 +218,15 @@ decadeModule.import(function(lib, game, ui, get, ai, _status) {
 				}
 			} else {
 				var sz = bounds.size;
-				var scale = (anim.canvas.width / sz.x) * 1.2;
-				anim.playSpine("effect_jisha1", {
-					scale: scale
-				});
+				var scale = anim.canvas.width / sz.x * 1.2;
+			anim.playSpine("effect_jisha1", { scale: 1 });
+			   var num = ["",2,3,4,5,6,7].randomGet();
+			   var guanjiejisha={name:"../../../十周年UI/assets/animation/SF_guanjie_eff_jisha"};
+			   guanjiejisha.action="play"+num;
+			   anim.loadSpine(guanjiejisha.name,"skel",function(){
+				anim.playSpine(guanjiejisha, {scale: 0.5});
+			   })		   
+							
 				ui.window.appendChild(effect);
 				ui.refresh(effect);
 			}
@@ -214,8 +254,23 @@ decadeModule.import(function(lib, game, ui, get, ai, _status) {
 				playerName = get.translation(player.name);
 				playerAvatar = player.node.avatar;
 			}
-
-			var url = getComputedStyle(playerAvatar).backgroundImage;
+	/*var url = getComputedStyle(playerAvatar).backgroundImage;
+		
+		
+			var playername = get.name(player);
+                    var skinname = game.getFileName2(player.node.avatar.style.backgroundImage);
+                    var skin = lib.assetURL + "lihui/" + playername + "/" + skinname + ".png";
+                    var yuanhua = lib.assetURL + "lihui/" + playername + "/" + playername + ".png";
+                    if (game.LiHuiFileExist(skin)) url = 'url("' + lib.assetURL + "lihui/" + playername + "/" + skinname +  ".png" + '")';
+                     else if (game.LiHuiFileExist(yuanhua)) url = 'url("' + lib.assetURL + "lihui/" + playername + "/" + playername + ".png" + '")';
+                    else {
+                        url = player.node.avatar.style.backgroundImage;
+	}*/
+	var path=game.getLiHuiPath(player,lib.assetURL);
+	      var  url;
+		if(path=="noLihui")  url = player.node.avatar.style.backgroundImage;
+		else url=='url("' +path+ '")';
+		console.log(url);
 			var image = new Image();
 			var bgImage = new Image();
 
@@ -276,17 +331,17 @@ decadeModule.import(function(lib, game, ui, get, ai, _status) {
 				bgImage.src = decadeUIPath + "assets/image/bg_xianding_" + camp + ".png";
 			};
 
-			image.onerror = function() {
-				image.onerror = void 0;
-				image.src = lib.assetURL + "imagearacter/default_silhouette_" + (player.sex ==
-					"female" ? "female" : "male") + ".jpg";
-			};
-
-			if (url.indexOf('url("') == 0) {
-				image.src = url.slice(5, url.indexOf('")'));
-			} else if (url.indexOf("url('") == 0) {
-				image.src = url.slice(5, url.indexOf("')"));
+			if(url.indexOf("url(\"") == 0){
+                image.src = url.slice(5, url.indexOf("\")"));
+            }else if(url.indexOf("url('") == 0){
+                image.src = url.slice(5, url.indexOf("\')"));
 			}
+			               		    		
 		},
+
+
+
+
 	};
 });
+

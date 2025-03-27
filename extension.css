@@ -22,6 +22,16 @@
 	font-family: "FZLSFT";
 	src: url("./shoushaUI/fonts/FZLSFT.woff2");
 }
+@font-face {
+    font-family: 'NotoSerifTC';
+    src: url('./shoushaUI/fonts/NotoSerifTC-Bold.ttf');
+}
+
+@font-face {
+    font-family: 'NotoSansTC';
+    src: url('./shoushaUI/fonts/NotoSansTC-Bold.ttf');
+}
+
 .menu-container > .menu.main.cxy-import-dialog {
 	top: 50% !important;
 	left: 50% !important;

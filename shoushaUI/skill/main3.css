@@ -1,12 +1,10 @@
-.skill-control {
-	/*技能按钮*/
-	max-width: 200px;
-	/*同列技能可容纳最大宽度，建议别调*/
-	bottom: 45px;
-	/*整体上移，建议别调*/
-	right: 165px;
-	/*技能显示右移，越小越靠右，建议别调*/
+.skill-control {/*技能按钮*/
+	max-width: 200px;/*同列技能可容纳最大宽度，建议别调*/
+	bottom: 25px;/*整体上移，建议别调*/
+	right: 165px;/*技能显示右移，越小越靠右，建议别调*/
+	/*border: 3px solid rgb(255, 255, 255);/*调试用*/
 	z-index: 6;
+
 }
 
 .skill-control div {

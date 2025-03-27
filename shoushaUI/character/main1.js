@@ -75,7 +75,7 @@ app.import(function (lib, game, ui, get, ai, _status, app) {
         var officalbg=ui.create.div(".offical-bg", blackBg1);
         var officalIcon=ui.create.div(".offical-icon", officalbg);
         var randomOffical=Object.keys(officalMap).randomGet();
-        officalIcon.setBackgroundImage(`extension/十周年UI/shoushaUI/character/images/offical_icon/${randomOffical}.png`);
+        officalIcon.setBackgroundImage(`extension/十周年UI/shoushaUI/character/images/shousha/${randomOffical}.png`);
         var officalText=ui.create.div(".offical-text",officalMap[randomOffical], officalbg);
 
         var fightbg=ui.create.div(".fight-bg", blackBg1);
@@ -118,7 +118,7 @@ app.import(function (lib, game, ui, get, ai, _status, app) {
 					} else {
 						var biankuang = ui.create.div(".biankuang2", blackBg2);
 					}
-					biankuang.setBackgroundImage(`extension/十周年UI/shoushaUI/character/images/name2_${player.group}.png`);
+					biankuang.setBackgroundImage(`extension/十周年UI/shoushaUI/character/images/shousha/name2_${player.group}.png`);
 
 					if (lib.config.extension_十周年UI_ZLLT == true) {
 						var leftPane = ui.create.div(".left", biankuang);
@@ -301,11 +301,11 @@ app.import(function (lib, game, ui, get, ai, _status, app) {
 						shanchang2.setBackgroundImage("image/character/" + shanchang.randomGet() + ".jpg");
 						shanchang3.setBackgroundImage("image/character/" + shanchang.randomGet() + ".jpg");
 						shanchang4.setBackgroundImage("image/character/" + shanchang.randomGet() + ".jpg");
-						useless.setBackgroundImage("extension/十周年UI/shoushaUI/character/images/useless.png");
-						useless2.setBackgroundImage("extension/十周年UI/shoushaUI/character/images/useless2.png");
+						useless.setBackgroundImage("extension/十周年UI/shoushaUI/character/images/shousha/useless.png");
+						useless2.setBackgroundImage("extension/十周年UI/shoushaUI/character/images/shousha/useless2.png");
 						minixingxiang.style.backgroundImage = player.node.avatar.style.backgroundImage;
-						jingji.setBackgroundImage("extension/十周年UI/shoushaUI/character/images/" + jingjitu.randomGet() + ".png");
-						xingbie.setBackgroundImage("extension/十周年UI/shoushaUI/character/images/" + xingbietu.randomGet() + ".png");
+						jingji.setBackgroundImage("extension/十周年UI/shoushaUI/character/images/shousha/" + jingjitu.randomGet() + ".png");
+						xingbie.setBackgroundImage("extension/十周年UI/shoushaUI/character/images/shousha/" + xingbietu.randomGet() + ".png");
 					};
 
 					rightPane.innerHTML = "<div></div>";

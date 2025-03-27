@@ -264,9 +264,9 @@
 }
 
 .cardRoundNumber>.cardPileNumber>span {
-	left: 12px;
+	left: 8px;
 	/*牌堆数右移，越大越靠右*/
-	top: 6px;
+	top: 12px;
 	width: 100%;
 	display: block;
 	position: absolute;
@@ -275,19 +275,14 @@
 	color: #cda448;
 	font-size: 18px;
 }
-
-.cardRoundNumber>.roundNumber,
-.cardRoundNumber>.time {
-	/*游戏时间*/
-	left: 32px;
-	/*牌堆数/时间右移，越大越靠右*/
-	top: 24px;
-	height: 20px;
-	line-height: 16px;
-	/*游戏轮数/时间间隔*/
-	white-space: nowrap;
-	color: #fae2bc;
-	z-index: 3;
+.cardRoundNumber>.roundNumber, .cardRoundNumber>.time {
+    left: 32px;
+    top: 24px;
+    height: 20px;
+    line-height: 16px;
+    white-space: nowrap;
+    color: #b39175;
+    z-index: 3;
 }
 
 .cardRoundNumber>.time {
