@@ -9775,7 +9775,7 @@ export default async function () {
 
 					this.css(decadeUIPath + "extension.css");
 					this.css(decadeUIPath + "decadeLayout.css");
-					this.css(decadeUIPath + "card.css");
+				if(!["on","othersOff","decade","off"].includes(lib.config.extension_十周年UI_newDecadeStyle))	this.css(decadeUIPath + "card.css");
 					// 当且仅当初次载入时，newDecadeStyle == void 0
 					if (lib.config.extension_十周年UI_newDecadeStyle != void 0) {
 						this.css(decadeUIPath + "player" + parseFloat(["on", "off", "othersOn", "othersOff", "onlineUI", "babysha", "decade"].indexOf(lib.config.extension_十周年UI_newDecadeStyle) + 1) + ".css");
