@@ -189,13 +189,20 @@ app.import(function(lib, game, ui, get, ai, _status, app) {
 					} else url = extensionPath + 'character/images/shizhounian/pe_' + rarity +
 						'.png';
 					pe.style.backgroundImage = 'url("' + url + '")';
-					var value;
+					let value = '';
+					let value2, value3;
 					if (lib.config['extension_千幻聆音_enable']) {
-						value = game.qhly_getSkin(name);
-						if (value) value = value.substring(0, value.lastIndexOf('.'));
-						else value = '经典形象';
-					} else value = '经典形象';
-					var pn = ui.create.div('.pn1', value + '*' + get.translation(name));
+						value2 = game.qhly_getSkinInfo(name, game.qhly_getSkin(name), null).translation || '经典形象';
+					} else value2 = '经典形象';
+					value += value2 + '*' + get.translation(name);
+					if (name2) {
+						value += '<br>';
+						if (lib.config['extension_千幻聆音_enable']) {
+							value3 = game.qhly_getSkinInfo(name2, game.qhly_getSkin(name2), null).translation || '经典形象';
+						} else value3 = '经典形象';
+						value += value3 + '*' + get.translation(name2);
+					}
+					var pn = ui.create.div('.pn1', value);
 					pe.appendChild(pn);
 
 					//武将姓名
