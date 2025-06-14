@@ -431,10 +431,29 @@ app.import(function (lib, game, ui, get, ai, _status, app) {
 						ui.create.div(".xcaption", "装备区域", rightPane.firstChild);
 						eSkills.forEach(function (card) {
 							const cards = card.cards;
-							let str = [get.translation(card), get.translation(card.name + "_info")];
-							if (Array.isArray(cards) && cards.length) str[0] += "（" + get.translation(card.cards) + "）";
-							if (lib.card[card.name]?.cardPrompt) str[1] = lib.card[card.name].cardPrompt(card, player);
-							ui.create.div(".xskill", "<div data-color>" + str[0] + "</div><div>" + str[1] + "</div>", rightPane.firstChild);
+							let isQiexie = card.name.startsWith("qiexie_");
+							let displayName = card.name + "_info";
+							let str = [
+								get.translation(isQiexie ? card.name : card),
+								get.translation(displayName)
+							];
+							if (Array.isArray(cards) && cards.length) {
+								str[0] += "（" + get.translation(card.cards) + "）";
+							}
+							if (lib.card[card.name]?.cardPrompt) {
+								str[1] = lib.card[card.name].cardPrompt(card, player);
+							}
+							if (isQiexie && lib.translate[card.name + "_append"]) {
+								str[1] +=
+									'<br><br><div style="font-size: 0.85em; font-family: xinwei; line-height: 1.2;">' +
+									lib.translate[card.name + "_append"] +
+									'</div>';
+							}
+							ui.create.div(
+								".xskill",
+								"<div data-color>" + str[0] + "</div><div>" + str[1] + "</div>",
+								rightPane.firstChild
+							);
 						});
 					}
 
