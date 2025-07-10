@@ -3136,6 +3136,7 @@ export default async function () {
 					var cardCopyFunction = lib.element.card.copy;
 					var playerAddSkillFunction = lib.element.player.addSkill;
 					var playerRemoveSkillFunction = lib.element.player.removeSkill;
+					var playerAwakenSkillFunction = lib.element.player.awakenSkill;
 					var playerDieFlipFunction = lib.element.player.$dieflip;
 
 					ui.updatejm = function (player, nodes, start, inv) {
@@ -4841,6 +4842,16 @@ export default async function () {
 						return skill;
 					};
 
+                    lib.element.player.awakenSkill = function(skill, nounmark) {
+                		const result = playerAwakenSkillFunction.apply(this, arguments);
+                		ui.updateSkillControl(this);
+                		const fname = _status.event.getParent()?.skill;
+                		if (fname?.endsWith("_fail") && fname?.slice(0, -5) == skill) {
+                            this.failSkill(skill);
+                        }
+                		return result;
+                	};
+
 					lib.element.player.getState = function () {
 						var state = base.lib.element.player.getState.apply(this, arguments);
 						state.seat = this.seat;
@@ -4857,75 +4868,44 @@ export default async function () {
 								if (!group) return;
 								this._group = group;
 								this.node.campWrap.dataset.camp = get.character(this.name)?.groupBorder || group;
-								if (lib.config.extension_十周年UI_forcestyle == "1") {
-									if (!this._finalGroup) this.node.campWrap.node.campName.innerHTML = "";
-									else {
-										const name = get.translation(this._finalGroup),
-											str = get.plainText(name);
-										console.log("campName node:", this.node.campWrap.node.campName, "finalGroup:", this._finalGroup, "name:", name, "str:", str);
-										if (str.length <= 1) this.node.campWrap.node.campName.innerHTML = name;
-										else this.node.campWrap.node.campName.innerHTML = str[0];
-									}
-									if (decadeUI.config.newDecadeStyle == "off") {
-										var image = new Image();
-										var url = decadeUIPath + (decadeUI.config.newDecadeStyle == "off" ? "image/decorations/name2_" : "image/decoration/name_") + group + ".png";
-										this._finalGroup = group;
-										const create = () => {
-											if (!this._finalGroup) this.node.campWrap.node.campName.innerHTML = "";
-											else {
-												const name = get.translation(this._finalGroup),
-													str = get.plainText(name);
-												console.log("campName node:", this.node.campWrap.node.campName, "finalGroup:", this._finalGroup, "name:", name, "str:", str);
-												if (str.length <= 1) this.node.campWrap.node.campName.innerHTML = name;
-												else this.node.campWrap.node.campName.innerHTML = str[0];
-											}
-										};
-										image.onerror = () => {
-											create();
-										};
-										this.node.campWrap.node.campName.style.backgroundImage = `url("${url}")`;
-										image.src = url;
-									} else {
-										this._finalGroup = group;
+								if (!this._finalGroup) this.node.campWrap.node.campName.innerHTML = "";
+								else {
+									const name = get.translation(this._finalGroup),
+										str = get.plainText(name);
+									console.log("campName node:", this.node.campWrap.node.campName, "finalGroup:", this._finalGroup, "name:", name, "str:", str);
+									if (str.length <= 2) this.node.campWrap.node.campName.innerHTML = name;
+									else this.node.campWrap.node.campName.innerHTML = name.replaceAll(str, str[0]);
+								}
+								// 手杀样式使用图片
+								if (decadeUI.config.newDecadeStyle == "off") {
+									var image = new Image();
+									var url = decadeUIPath + (decadeUI.config.newDecadeStyle == "off" ? "image/decorations/name2_" : "image/decoration/name_") + group + ".png";
+									this._finalGroup = group;
+									const create = () => {
 										if (!this._finalGroup) this.node.campWrap.node.campName.innerHTML = "";
 										else {
 											const name = get.translation(this._finalGroup),
 												str = get.plainText(name);
 											console.log("campName node:", this.node.campWrap.node.campName, "finalGroup:", this._finalGroup, "name:", name, "str:", str);
-											if (str.length <= 1) this.node.campWrap.node.campName.innerHTML = name;
-											else this.node.campWrap.node.campName.innerHTML = str[0];
-										}
-									}
-								} else if (lib.config.extension_十周年UI_forcestyle == "2") {
-									this._group = group;
-									this.node.campWrap.dataset.camp = get.character(this.name)?.groupBorder || group;
-									if (!decadeUI.config.campIdentityImageMode) {
-										if (!this._finalGroup) this.node.campWrap.node.campName.innerHTML = "";
-										else {
-											const name = get.translation(this._finalGroup),
-												str = get.plainText(name);
 											if (str.length <= 2) this.node.campWrap.node.campName.innerHTML = name;
 											else this.node.campWrap.node.campName.innerHTML = name.replaceAll(str, str[0]);
 										}
-									} else {
-										var image = new Image();
-										var url = decadeUIPath + (decadeUI.config.newDecadeStyle == "off" ? "image/decorations/name2_" : "image/decoration/name_") + group + ".png";
-										this._finalGroup = group;
-										const create = () => {
-											if (!this._finalGroup) this.node.campWrap.node.campName.innerHTML = "";
-											else {
-												const name = get.translation(this._finalGroup),
-													str = get.plainText(name);
-												if (str.length <= 2) this.node.campWrap.node.campName.innerHTML = name;
-												else this.node.campWrap.node.campName.innerHTML = name.replaceAll(str, str[0]);
-											}
-										};
-										image.onerror = () => {
-											create();
-										};
-										if (decadeUI.config.newDecadeStyle != "onlineUI") this.node.campWrap.node.campName.style.backgroundImage = `url("${url}")`;
-										else create();
-										image.src = url;
+									};
+									image.onerror = () => {
+										create();
+									};
+									this.node.campWrap.node.campName.style.backgroundImage = `url("${url}")`;
+									image.src = url;
+								} else {
+									// 其他样式直接显示文字
+									this._finalGroup = group;
+									if (!this._finalGroup) this.node.campWrap.node.campName.innerHTML = "";
+									else {
+										const name = get.translation(this._finalGroup),
+											str = get.plainText(name);
+										console.log("campName node:", this.node.campWrap.node.campName, "finalGroup:", this._finalGroup, "name:", name, "str:", str);
+										if (str.length <= 2) this.node.campWrap.node.campName.innerHTML = name;
+										else this.node.campWrap.node.campName.innerHTML = name.replaceAll(str, str[0]);
 									}
 								}
 							},
@@ -7339,9 +7319,6 @@ export default async function () {
 			};
 
 			decadeUI.config = config;
-			if (decadeUI.config.campIdentityImageMode === undefined) {
-				decadeUI.config.campIdentityImageMode = true;
-			}
 			duicfg.update = function () {
 				var menu = lib.extensionMenu["extension_" + decadeUIName];
 				for (var key in menu) {
@@ -7533,8 +7510,9 @@ export default async function () {
 			};
 			//修改技能按钮
 			//定义两个空集合阳按钮和阴按钮（别问为啥阴不是yin而是ying，问就是拿yang复制比较简单）
+			/*孩子你这么写直接全场共用了
 			lib.element.player.yangedSkills = [];
-			lib.element.player.yingedSkills = [];
+			lib.element.player.yingedSkills = [];*/
 			//定义阴函数，将技能加入阴集合，并删除阳集合里的该技能。
 			lib.element.player.yangSkill = function (skill) {
 				var player = this;
@@ -7547,7 +7525,13 @@ export default async function () {
 				);
 			};
 			lib.element.player.$yangSkill = function (skill) {
+				if (!this.yangedSkills) {
+    				this.yangedSkills = [];
+				}
 				this.yangedSkills.add(skill);
+				if (!this.yingedSkills) {
+    				this.yingedSkills = [];
+				}
 				this.yingedSkills.remove(skill);
 			};
 			//阳函数同理
@@ -7562,7 +7546,13 @@ export default async function () {
 				);
 			};
 			lib.element.player.$yingSkill = function (skill) {
+				if (!this.yingedSkills) {
+    				this.yingedSkills = [];
+				}
 				this.yingedSkills.add(skill);
+				if (!this.yangedSkills) {
+    				this.yangedSkills = [];
+				}
 				this.yangedSkills.remove(skill);
 			};
 			//添加failskill函数
@@ -7584,7 +7574,8 @@ export default async function () {
 			//添加失效函数
 			//构建一个失效技能的空集合
 			//失效函数是为了给技能按钮上锁的，在技能失效时，补上shixiao函数，技能就会被加入失效集合里，十周年UI那里就会检测到技能失效，从而添加上锁图片。
-			lib.element.player.shixiaoedSkills = [];
+			/*拷打喵！
+			lib.element.player.shixiaoedSkills = [];*/
 			(lib.element.player.shixiaoSkill = function (skill) {
 				var player = this;
 				game.broadcastAll(
@@ -7612,6 +7603,7 @@ export default async function () {
 					);
 				}),
 				(lib.element.player.$unshixiaoSkill = function (skill) {
+					if (!this.shixiaoedSkills) this.shixiaoedSkills = [];
 					this.shixiaoedSkills.remove(skill);
 				});
 			/*选项条分离*/
@@ -10711,17 +10703,6 @@ export default async function () {
 				name: "官方势力",
 				init: false,
 				intro: "开启后，非魏蜀吴群晋势力的角色将会重新选择势力",
-			},
-			forcestyle: {
-				name: "势力样式",
-				init: "1",
-				item: {
-					1: "文字样式",
-					2: "图片样式",
-			    },
-				update() {
-					if (window.decadeUI) ui.arena.dataset.forcestyle = lib.config["extension_十周年UI_forcestyle"];
-				},
 			},
 			shouqikamh: {
 				name: "手气卡美化",

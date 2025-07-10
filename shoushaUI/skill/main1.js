@@ -243,7 +243,7 @@ app.import(function (lib, game, ui, get, ai, _status, app) {
 
 				const skillInfo = get.info(skillId);
 				if (skillInfo && skillInfo.zhuanhuanji) {
-					if (!player.yangedSkills.includes(skillId)) {
+					if (!player.yangedSkills?.includes(skillId)) {
 						var img = ui.create.div(".yang", node, "");
 						img.style.position = "absolute";
 					} else {
@@ -269,7 +269,7 @@ app.import(function (lib, game, ui, get, ai, _status, app) {
 						}
 					}
 					if (game.me.shixiaoedSkills) {
-						if (game.me.shixiaoedSkills.includes(skillx)) {
+						if (game.me.shixiaoedSkills?.includes(skillx)) {
 							return true;
 						}
 					}
