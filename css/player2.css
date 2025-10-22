@@ -1259,6 +1259,7 @@
 	background-position: center;
 	transform: none;
 	opacity: 0;
+	z-index: 64;
 }
 .player.opposite-camp>.died-identity {
 	color: rgb(50, 50, 210);
@@ -1270,6 +1271,24 @@
 	animation-delay: 0.5s;
 	-webkit-animation: fade-in 0.5s forwards;
 	-webkit-animation-delay: 0.5s;
+}
+/*武将阵亡灰度图*/
+.player>.died-gray {
+	position: absolute;
+	left: 21.4px;
+	top: -17px;
+	width: 82%;
+	height: 110%;
+	border-radius: inherit;
+	background-size: 100% 100%;
+	background-image: url("../assets/image/game_player_mask_gray2.png");
+	opacity: 0;
+	transition: opacity 0.3s ease-in-out;
+	pointer-events: none;
+	z-index: 62;
+}
+.player.dead>.died-gray {
+	opacity: 1; /*死亡时显示*/
 }
 /*玩家获得的技能显示*/
 .player>.gain-skill {
