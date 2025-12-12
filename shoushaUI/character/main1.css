@@ -635,11 +635,12 @@
 .guanjiewenzi {
 	display: block;
 	position: absolute;
-	bottom: -2.5%;
+	bottom: -2%;
 	left: -1%;
 	width: 104%;
 	color: #FFEE99;
 	font-family: shousha;
+	font-weight: 900;
 	font-size: 18px;
 	letter-spacing: 1.5px;
 	text-shadow: rgb(43, 31, 25) -1.7px 0px 2.5px, rgb(43, 31, 25) 0px -1.7px 2.5px, rgb(43, 31, 25) 1.7px 0px 2.5px, rgb(43, 31, 25) 0px 1.7px 2.5px;
@@ -689,13 +690,18 @@
 }
 
 .paiweiType {
-    font-size: 17px;
-    font-family: "shousha";
-    color: white;
-    text-shadow: none;
+    font-size: 17px;               
+    font-family: "shousha";        
+    color: white;                  
+    text-shadow: none;             
     top: 18.5%;
     left: 37.5%;
-    z-index: 83;       
+    z-index: 81;
+    font-weight: 300;             
+    /* 添加边缘模糊效果 */
+    text-shadow: 
+        0 0 2px rgba(255, 255, 255, 0.8),  /* 轻微模糊 */
+        0 0 4px rgba(255, 255, 255, 0.6);  /* 稍强模糊 */
 }
 
 /* 进度条 */
@@ -722,7 +728,7 @@
 
 /* 玩家信息文字 */
 .nameX {
-	font-size: 16.5px;
+	font-size: 17px;
 	font-family: "shousha";
 	color: rgba(255, 255, 255, 0.9);
 	position: absolute;
@@ -753,19 +759,19 @@
 
 /* 公会信息 */
 .gonghui {
-    font-size: 16px;
+    font-size: 17px;
     font-family: "shousha";
     color: rgba(255, 255, 255, 0.4); /* 半透明白色文字 */
-    position: absolute;
-    top: 5%;
+    position: absolute; /* 确保定位生效 */
+    top: 5.5%;
     left: 50%;
-    transform: translateX(-50%);
+    transform: translateX(-50%); /* 水平居中 */
     z-index: 81;
     font-weight: 300;
     white-space: nowrap;
-    text-shadow: none;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
+    text-shadow: none; 
+    -webkit-font-smoothing: antialiased; 
+    -moz-osx-font-smoothing: grayscale; 
 }
 
 /* 功能按钮样式 */
@@ -775,7 +781,7 @@
 	background-size: 100% 100%;
 	z-index: 89;
 	font-family: "shousha";
-	font-size: 17px;
+	font-size: 16px;
 	color: white;
 	text-align: center;
 	-webkit-text-stroke: 0.15px rgba(0, 0, 0, 1);
@@ -788,7 +794,7 @@
 
 /* 按钮位置 */
 .useless1 { left: 45.5%; top: 83%; }
-.useless2 { left: 61%; top: 83%; }
+.useless2 { left: 61%; top: 83%; font-size: 15px; }
 .useless3 { left: 30%; top: 83%; }
 .useless4 { left: 76.5%; top: 83%; }
 
