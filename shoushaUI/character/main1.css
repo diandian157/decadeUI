@@ -2,6 +2,7 @@
 #arena > .player.xplayer {
 	--width: 120px;
 }
+
 .popup-container > .character-dialog {
 	top: calc(50% - var(--h) / 2 + var(--bt));
 	left: calc(50% - var(--w) / 2 + var(--bl));
@@ -23,6 +24,7 @@
 	padding: 10px;
 	z-index: 13;
 }
+
 .character-dialog > .blackBg {
 	padding: 10px 25px;
 	position: relative;
@@ -33,16 +35,19 @@
 	background-color: #00000052;
 	clip-path: polygon(10px 0%, calc(100% - 10px) 0%, 100% 10px, 100% calc(100% - 10px), calc(100% - 10px) 100%, 10px 100%, 0 calc(100% - 10px), 0 10px);
 }
+
 .blackBg.two {
 	margin-top: 8px;
 	height: 218px;
 }
+
 .character-dialog .basicInfo {
 	position: relative;
 	height: 35px;
 	display: block;
 	margin-left: 20px;
 }
+
 .character-dialog .basicInfo .mingcheng {
 	position: relative;
 	font-size: 20px;
@@ -53,10 +58,11 @@
 	font-family: shousha;
 	z-index: 68;
 }
+
 .character-dialog .basicInfo .dengji {
 	position: relative;
 	font-size: 20px;
-	color: #FBCE08;
+	color: #fbce08;
 	text-shadow: none;
 	font-weight: normal;
 	font-family: shousha;
@@ -73,6 +79,7 @@
 	background-size: 100% 100%;
 	margin: 5px 0 8px 23px;
 }
+
 .character-dialog .offical-bg .offical-icon {
 	position: absolute;
 	top: -18px;
@@ -83,6 +90,7 @@
 	background-position: center;
 	background-repeat: no-repeat;
 }
+
 .character-dialog .offical-bg .offical-text {
 	position: absolute;
 	left: 60px;
@@ -90,7 +98,7 @@
 	line-height: 35px;
 	font-family: "shousha";
 	font-size: 26px;
-	color: #F4BA16;
+	color: #f4ba16;
 	text-shadow: black 0 0 0px;
 }
 
@@ -101,6 +109,7 @@
 	width: 100%;
 	margin-left: 15px;
 }
+
 .character-dialog .fight-bg > .shenglv {
 	position: relative;
 	font-size: 22px;
@@ -179,7 +188,7 @@
 	background-size: cover;
 	width: 20px;
 	height: 20px;
-	margin-bottom:-5px;
+	margin-bottom: -5px;
 	z-index: 99;
 }
 
@@ -201,8 +210,10 @@
 	white-space: nowrap;
 	writing-mode: vertical-rl;
 	-webkit-writing-mode: vertical-rl;
-	-webkit-text-stroke: 0.1px rgba(43,31,25,0.4);
-	text-shadow:2px 0px 3px rgba(0,0,0,0.3),2px 0px 3px rgba(0,0,0,0.3);
+	-webkit-text-stroke: 0.1px rgba(43, 31, 25, 0.4);
+	text-shadow:
+		2px 0px 3px rgba(0, 0, 0, 0.3),
+		2px 0px 3px rgba(0, 0, 0, 0.3);
 	font-family: shousha;
 	z-index: 99;
 }
@@ -218,8 +229,10 @@
 	white-space: nowrap;
 	writing-mode: vertical-rl;
 	-webkit-writing-mode: vertical-rl;
-	-webkit-text-stroke: 0.1px rgba(43,31,25,0.4);
-	text-shadow:2px 0px 3px rgba(0,0,0,0.3),2px 0px 3px rgba(0,0,0,0.3);
+	-webkit-text-stroke: 0.1px rgba(43, 31, 25, 0.4);
+	text-shadow:
+		2px 0px 3px rgba(0, 0, 0, 0.3),
+		2px 0px 3px rgba(0, 0, 0, 0.3);
 	font-family: shousha;
 	z-index: 99;
 }
@@ -271,6 +284,7 @@
 	transition-property: opacity, transform;
 	z-index: 69;
 }
+
 .character-dialog .biankuang2 > div.left2 {
 	left: 19%;
 	top: auto;
@@ -293,8 +307,8 @@
 	top: auto;
 	bottom: 1.5%;
 	left: 20.5px;
-    width: 81%;
-    height: 103%;
+	width: 81%;
+	height: 103%;
 	opacity: 1;
 	background-size: cover;
 	background-repeat: no-repeat;
@@ -304,13 +318,14 @@
 	transition-property: opacity, transform;
 	z-index: 69;
 }
+
 .character-dialog .biankuang2 > div.left3 {
 	left: 20.5%;
 	top: auto;
 	bottom: 1.5%;
 	left: 20.5px;
-    width: 81%;
-    height: 103%;
+	width: 81%;
+	height: 103%;
 	opacity: 1;
 	background-size: cover;
 	background-repeat: no-repeat;
@@ -343,6 +358,7 @@
 	position: absolute;
 	white-space: nowrap;
 }
+
 .character-dialog.single > div.left > div {
 	width: 105px;
 	position: absolute;
@@ -364,13 +380,14 @@
 .character-dialog div.right .xcaption {
 	width: 100%;
 	bottom: 0%;
-	color: #BDAF91;
+	color: #bdaf91;
 	text-align: center;
 	font-size: 18px;
 	font-weight: bold;
 	padding: 10px 0;
 	font-family: "shousha";
 }
+
 .character-dialog div.right .xskill {
 	width: 100%;
 	bottom: 0%;
@@ -386,15 +403,15 @@
 }
 
 .character-dialog div.right .xskill > div[data-color] {
-	
-	color: #E0C03C;
+	color: #e0c03c;
 }
+
 .character-dialog div.right .xskill > div[data-color="red"] {
-	color: #E0C03C;
+	color: #e0c03c;
 }
 
 .character-dialog div.right .xskill > div[data-color="black"] {
-	color: #E0C03C;
+	color: #e0c03c;
 }
 
 .character-dialog div.right .xskill + .xskill {
@@ -480,8 +497,10 @@
 	white-space: nowrap;
 	writing-mode: vertical-rl;
 	-webkit-writing-mode: vertical-rl;
-	-webkit-text-stroke: 0.1px rgba(43,31,25,0.4);
-	text-shadow: 2px 0px 3px rgba(0,0,0,0.3), 2px 0px 3px rgba(0,0,0,0.3);
+	-webkit-text-stroke: 0.1px rgba(43, 31, 25, 0.4);
+	text-shadow:
+		2px 0px 3px rgba(0, 0, 0, 0.3),
+		2px 0px 3px rgba(0, 0, 0, 0.3);
 	font-family: shousha;
 	z-index: 99;
 }
@@ -580,31 +599,31 @@
 
 /* 玩家头像 */
 .minixingxiang {
-    opacity: 1;
-    left: 7.7%;
-    top: 10.8%;
-    height: 34.5%;
-    width: 11%;
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-position: top;
-    border-radius: 5px;
-    transition-property: opacity, transform;
-    z-index: 69;
-    text-align: center;
+	opacity: 1;
+	left: 7.7%;
+	top: 10.8%;
+	height: 34.5%;
+	width: 11%;
+	background-size: cover;
+	background-repeat: no-repeat;
+	background-position: top;
+	border-radius: 5px;
+	transition-property: opacity, transform;
+	z-index: 69;
+	text-align: center;
 }
 
 /* 头像底座 */
 .minixingxiangdi {
-    opacity: 1;
-    left: 6.6%;
-    top: 13.3%;
-    height: 33.9%;
-    width: 13.2%;
-    background-image: url("./images/shousha/skinFrm1_rare.png");
-    background-size: 100% 100%;
-    z-index: 60;
-    text-align: center;
+	opacity: 1;
+	left: 6.6%;
+	top: 13.3%;
+	height: 33.9%;
+	width: 13.2%;
+	background-image: url("./images/shousha/skinFrm1_rare.png");
+	background-size: 100% 100%;
+	z-index: 60;
+	text-align: center;
 }
 
 /* 性别图标 */
@@ -635,15 +654,19 @@
 .guanjiewenzi {
 	display: block;
 	position: absolute;
-	bottom: -2%;
+	bottom: -2.5%;
 	left: -1%;
 	width: 104%;
-	color: #FFEE99;
+	color: #ffee99;
 	font-family: shousha;
 	font-weight: 900;
 	font-size: 18px;
 	letter-spacing: 1.5px;
-	text-shadow: rgb(43, 31, 25) -1.7px 0px 2.5px, rgb(43, 31, 25) 0px -1.7px 2.5px, rgb(43, 31, 25) 1.7px 0px 2.5px, rgb(43, 31, 25) 0px 1.7px 2.5px;
+	text-shadow:
+		rgb(43, 31, 25) -1.7px 0px 2.5px,
+		rgb(43, 31, 25) 0px -1.7px 2.5px,
+		rgb(43, 31, 25) 1.7px 0px 2.5px,
+		rgb(43, 31, 25) 0px 1.7px 2.5px;
 	filter: drop-shadow(rgb(43, 31, 25) 0px 0px 0.5px) drop-shadow(rgb(43, 31, 25) 0px 0px 0.5px);
 	z-index: 1;
 }
@@ -675,7 +698,7 @@
 .duanweishuzi {
 	font-size: 17px;
 	font-family: "shousha";
-	color: #FFDD55;
+	color: #ffdd55;
 	text-shadow: 1px 1px 1px black;
 	bottom: 38.6%;
 	left: 25%;
@@ -690,18 +713,13 @@
 }
 
 .paiweiType {
-    font-size: 17px;               
-    font-family: "shousha";        
-    color: white;                  
-    text-shadow: none;             
-    top: 18.5%;
-    left: 37.5%;
-    z-index: 81;
-    font-weight: 300;             
-    /* 添加边缘模糊效果 */
-    text-shadow: 
-        0 0 2px rgba(255, 255, 255, 0.8),  /* 轻微模糊 */
-        0 0 4px rgba(255, 255, 255, 0.6);  /* 稍强模糊 */
+	font-size: 17px;
+	font-family: "shousha";
+	color: white;
+	text-shadow: none;
+	top: 18.5%;
+	left: 37.5%;
+	z-index: 83;
 }
 
 /* 进度条 */
@@ -728,7 +746,7 @@
 
 /* 玩家信息文字 */
 .nameX {
-	font-size: 17px;
+	font-size: 16.5px;
 	font-family: "shousha";
 	color: rgba(255, 255, 255, 0.9);
 	position: absolute;
@@ -747,7 +765,7 @@
 	left: 31%;
 	font-size: 17px;
 	font-family: "shousha";
-	color: #FFDD55;
+	color: #ffdd55;
 	text-shadow: 1px 1px 1px black;
 	white-space: pre-wrap;
 	z-index: 81;
@@ -759,23 +777,27 @@
 
 /* 公会信息 */
 .gonghui {
-    font-size: 17px;
-    font-family: "shousha";
-    color: rgba(255, 255, 255, 0.4); /* 半透明白色文字 */
-    position: absolute; /* 确保定位生效 */
-    top: 5.5%;
-    left: 50%;
-    transform: translateX(-50%); /* 水平居中 */
-    z-index: 81;
-    font-weight: 300;
-    white-space: nowrap;
-    text-shadow: none; 
-    -webkit-font-smoothing: antialiased; 
-    -moz-osx-font-smoothing: grayscale; 
+	font-size: 16px;
+	font-family: "shousha";
+	color: rgba(255, 255, 255, 0.4); 
+	/* 半透明白色文字 */
+	position: absolute;
+	top: 5%;
+	left: 50%;
+	transform: translateX(-50%);
+	z-index: 81;
+	font-weight: 300;
+	white-space: nowrap;
+	text-shadow: none;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
 }
 
 /* 功能按钮样式 */
-.useless1, .useless2, .useless3, .useless4 {
+.useless1,
+.useless2,
+.useless3,
+.useless4 {
 	height: 8.3%;
 	width: 12.7%;
 	background-size: 100% 100%;
@@ -793,10 +815,25 @@
 }
 
 /* 按钮位置 */
-.useless1 { left: 45.5%; top: 83%; }
-.useless2 { left: 61%; top: 83%; font-size: 15px; }
-.useless3 { left: 30%; top: 83%; }
-.useless4 { left: 76.5%; top: 83%; }
+.useless1 {
+	left: 45.5%;
+	top: 83%;
+}
+
+.useless2 {
+	left: 61%;
+	top: 83%;
+}
+
+.useless3 {
+	left: 30%;
+	top: 83%;
+}
+
+.useless4 {
+	left: 76.5%;
+	top: 83%;
+}
 
 /* 资料页关闭按钮 */
 .guanbi {
@@ -832,7 +869,7 @@
 .huiyuanX {
 	font-size: 17px;
 	font-family: "shousha";
-	color: #FFDD55;
+	color: #ffdd55;
 	text-shadow: 1px 1px 1px black;
 	top: 12.7%;
 	left: 0.5%;
