@@ -4711,6 +4711,7 @@ const createDecadeUIObject = () => ({
 				popups: [],
 				damagepopups: [],
 				judging: [],
+				extraEquip: [],
 				stat: [
 					{
 						card: {},
