@@ -147,7 +147,7 @@ export async function precontent() {
 				this.css(`${decadeUIPath}css/menu.css`);
 			}
 
-			const jsFiles = ["js/spine.js", "js/component.js", "js/skill.js", "js/effect.js", "js/meihua.js", "js/equipHand.js", "js/audioHooks.js", "js/cardPrompt.js", "js/animation.js", "js/dynamicSkin.js", "js/skillDieAudio.js"];
+			const jsFiles = ["js/spine.js", "js/component.js", "js/skill.js", "js/effect.js", "js/meihua.js", "js/jdts.js", "js/equipHand.js", "js/audioHooks.js", "js/cardPrompt.js", "js/animation.js", "js/dynamicSkin.js", "js/skillDieAudio.js"];
 			jsFiles.forEach(path => this.jsAsync(`${decadeUIPath}${path}`));
 
 			if (!lib.config.asset_version) {
