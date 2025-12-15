@@ -56,7 +56,7 @@ decadeModule.import((lib, game, ui, get, ai, _status) => {
 		{ cards: ["shunshou"], player: "caocao", condition: ctx => ctx.targets?.some(t => hasName(t, "qinyilu")), text: "汝妻子我养之！", audio: "caocao12.mp3" },
 		{ cards: ["jiu"], player: "caocao", text: "醉酒当歌！人生几何！", audio: "caocao13.mp3" },
 		{ cards: ["jiu"], player: "caochun", text: "壮士醉沙场！烈马啸西风！", audio: "caochun1.mp3" },
-		{ cards: ["jiu"], player: "zhonghui", text: "偷本非礼，所以不拜", audio: "zhonghui.mp3" },
+		{ cards: ["jiu"], player: "zhonghui", text: "偷本非礼，所以不拜", audio: "zhonghui1.mp3" },
 		{ cards: ["tao", "taoyuan"], player: "zhonghui", condition: ctx => ctx.targets?.some(t => hasName(t, "jiangwei")), text: "伯约何来迟也", audio: "zhonghui2.mp3" },
 		{ cards: ["tao", "taoyuan"], player: "jiaxu", condition: ctx => ctx.targets?.some(t => hasName(t, "zhangxiu")), target: "zhangxiu", text: "多谢文和，拉兄弟一把！", audio: "zhangxiu2.mp3" },
 		{ cards: ["jiu"], player: "zerong", text: "酒肉穿肠过，佛祖心中留", audio: "zerong1.mp3" },
