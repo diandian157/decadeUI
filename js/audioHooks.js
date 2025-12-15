@@ -82,6 +82,13 @@ decadeModule.import((lib, game, ui, get, ai, _status) => {
 		{ cards: ["tao", "taoyuan"], player: "huatuo", condition: ctx => ctx.targets?.some(t => hasName(t, "caocao")), text: "医者如何能见死不救", audio: "huatuo2.mp3" },
 		{ cards: ["sha", "juedou"], player: "jiangwei", condition: ctx => ctx.targets?.some(t => hasName(t, "zhaoyun")), text: "老将军可知天水姜伯约！", audio: "jiangwei1.mp3" },
 		{ cards: ["sha", "juedou"], player: "jiangwei", condition: ctx => ctx.targets?.some(t => hasName(t, "dengai")), text: "身后无主，纵使夺得祁山九寨又将何为？", audio: "jiangwei2.mp3" },
+		{ cards: ["sha", "juedou"], player: "hetaihou", condition: ctx => ctx.targets?.some(t => hasName(t, "wangrong")), text: "哀家赐你美酒，尔还不谢恩！", audio: "hetaihou1.mp3" },
+		{ cards: ["sha", "juedou"], player: "huaxin", condition: ctx => ctx.targets?.some(t => hasName(t, "fuhuanghou")), text: "大美冷宫，领包入住！", audio: "huaxin1.mp3" },
+		{ cards: ["jiedao"], player: "jiaxu", condition: ctx => ctx.targets?.some(t => hasName(t, "lijue") || hasName(t, "guosi")), text: "今可率众而息，理攻长安，为董公报仇！", audio: "jiaxu1.mp3" },
+		{ cards: ["sha", "juedou"], player: "jiaxu", condition: ctx => ctx.targets?.some(t => hasName(t, "liuxie") || hasName(t, "wangyun")), text: "可伤天和，可伤人和，维不可伤文和！", audio: "jiaxu2.mp3" },
+		{ cards: ["shunshou"], player: "jianggan", condition: ctx => ctx.targets?.some(t => hasName(t, "zhouyu")), text: "读，读书人之事，和谓之窃？", audio: "jianggan1.mp3" },
+		{ cards: ["sha", "juedou"], player: "liru", condition: ctx => ctx.targets?.some(t => hasName(t, "liubian")), text: "乖，张嘴，酒来了！", audio: "liru1.mp3" },
+		{ cards: ["sha", "juedou"], player: "xiahouyuan", condition: ctx => ctx.targets?.some(t => hasName(t, "liangxing")), target: "liangxing", text: "不是，真动手啊！", audio: "liangxing1.mp3" },
 	];
 
 	const originalUseCard = lib.element.Player.prototype.useCard;
@@ -245,6 +252,10 @@ decadeModule.import((lib, game, ui, get, ai, _status) => {
 		{ players: ["zhangxiu", "caocao"], dialogues: [{ player: "zhangxiu", text: "明年的今天，便是你的祭日！", audio: "zhangxiu3.mp3", delay: 500 }] },
 		{ players: ["jiangwei", "liubei"], dialogues: [{ player: "jiangwei", text: "往昔未见先主，今日始见龙颜！", audio: "jiangwei3.mp3", delay: 500 }] },
 		{ players: ["jiangwei", "liushan"], dialogues: [{ player: "jiangwei", text: "愿陛下忍数日之辱，臣必使社稷危而复安!", audio: "jiangwei4.mp3", delay: 500 }] },
+		{ players: ["huaxiong", "guanyu"], dialogues: [{ player: "huaxiong", text: "何方小将，报上名来!", audio: "huaxiong1.mp3", delay: 500 }] },
+		{ players: ["jiachong", "caomao"], dialogues: [{ player: "jiachong", text: "天子谋反，当与民同罪!", audio: "jiachong1.mp3", delay: 500 }] },
+		{ players: ["kebineng", "hanlong"], dialogues: [{ player: "kebineng", text: "年轻人总是太极端。", audio: "kebineng1.mp3", delay: 500 }] },
+		{ players: ["lijue", "tangji"], dialogues: [{ player: "lijue", text: "本将军见妾而倾心，当栖之。", audio: "lijue1.mp3", delay: 500 }] },
 	];
 
 	lib.announce.subscribe("gameStart", () => {
