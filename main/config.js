@@ -230,6 +230,11 @@ export let config = {
 		intro: "开启后，对局内点击卡牌或按钮和出牌弃牌会有音效播放",
 		init: true,
 	},
+	skillDieAudio: {
+		name: "中二模式",
+		intro: "众所周知，使用技能前需要吟唱。",
+		init: true,
+	},
 	dynamicSkin: {
 		name: "动态皮肤",
 		intro: "开启后显示动态皮肤，阵亡后也保留",
