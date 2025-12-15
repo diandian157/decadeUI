@@ -630,7 +630,7 @@ app.import((lib, game, ui, get, ai, _status, app) => {
 					if (player == game.me) {
 						dengji.innerText = `Lv：220`;
 					} else {
-						dengji.innerText = `Lv：${Math.floor(Math.random() * 219 + 1)}`;
+						dengji.innerText = `Lv：${randomData.level}`;
 					}
 
 					// 计算胜率和逃率
