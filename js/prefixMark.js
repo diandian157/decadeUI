@@ -153,6 +153,9 @@ const PREFIX_CONFIGS = Object.freeze({
 	礼: { className: "li-mark", property: "$liMark" },
 	"手杀|SP": { className: "sp-mark", property: "$spMark" },
 	书: { className: "shu-mark", property: "$shuMark" },
+	数: { className: "shuxue-mark", property: "$shuxueMark" },
+	御: { className: "yu-mark", property: "$yuMark" },
+	手杀乐: { className: "yue-mark", property: "$yueMark" },
 });
 
 const CONFIG_KEYS = {
