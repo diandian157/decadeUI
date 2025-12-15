@@ -364,7 +364,7 @@ app.import((lib, game, ui, get, ai, _status, app) => {
 			ui.create.div(".paiweiType", "本赛季", paiwei);
 			ui.create.div(".typeleft", paiwei);
 			const typeright = ui.create.div(".typeright", paiwei);
-			const width = (randomData.gailevel / 100) * 83;
+			const width = (randomData.gailevel / 100) * 75;
 			if (player == game.me) {
 				typeright.style.width = "0px";
 				ui.create.div(".dengjiX", "0%", paiwei);

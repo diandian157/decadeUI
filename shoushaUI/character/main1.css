@@ -52,6 +52,8 @@
 	position: relative;
 	font-size: 20px;
 	color: rgb(75, 59, 48);
+	filter: blur(0.3px);
+	-webkit-filter: blur(0.3px);
 	margin-top: 4px;
 	text-shadow: none;
 	font-weight: bold;
@@ -64,6 +66,8 @@
 	font-size: 20px;
 	color: #fbce08;
 	text-shadow: none;
+	filter: blur(0.3px);
+	-webkit-filter: blur(0.3px);
 	font-weight: normal;
 	font-family: shousha;
 	z-index: 68;
@@ -99,6 +103,8 @@
 	font-family: "shousha";
 	font-size: 26px;
 	color: #f4ba16;
+	filter: blur(0.3px);
+	-webkit-filter: blur(0.3px);
 	text-shadow: black 0 0 0px;
 }
 
@@ -130,8 +136,10 @@
 	font-family: "shousha";
 	font-size: 17px;
 	line-height: 44px;
+	color: white;
 	text-align: center;
-	color: #e6e6e6;
+	-webkit-text-stroke: 0.15px rgba(0, 0, 0, 1);
+	text-shadow: 0.1px 0.1px 0.25px rgba(0, 0, 0, 0.1);
 }
 
 .character-dialog.popped {
@@ -383,6 +391,8 @@
 	color: #bdaf91;
 	text-align: center;
 	font-size: 18px;
+	filter: blur(0.3px);
+	-webkit-filter: blur(0.3px);
 	font-weight: bold;
 	padding: 10px 0;
 	font-family: "shousha";
@@ -659,7 +669,7 @@
 	--h: calc(35px * var(--scale));
 	width: var(--w);
 	height: var(--h);
-	top: 35%;
+	top: 35.2%;
 	position: absolute;
 }
 
@@ -691,12 +701,12 @@
 	font-size: 14px;
 	font-family: "shousha";
 	color: #ffdd55;
-	text-shadow: 1px 1px 1px black;
-	bottom: 39.3%;
+	bottom: 39.2%;
 	left: 25.2%;
 	text-align: center;
 	white-space: pre-wrap;
-	background: linear-gradient(to right, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.4) 47%, rgba(0, 0, 0, 0) 94%);
+	filter: blur(0.3px);
+	-webkit-filter: blur(0.3px);
 	z-index: 81;
 	padding: 0px 10px;
 	width: 42%;
@@ -708,7 +718,8 @@
 	font-size: 17px;
 	font-family: "shousha";
 	color: white;
-	text-shadow: none;
+	filter: blur(0.3px);
+	-webkit-filter: blur(0.3px);
 	top: 18.5%;
 	left: 37.5%;
 	z-index: 83;
@@ -716,19 +727,19 @@
 
 /* 进度条 */
 .typeleft {
-	left: 41.5%;
+	left: 43%;
 	background: url("./images/shousha/dengjie/left.png");
 	background-size: 100% 100%;
 	background-color: black;
-	border-radius: 2px;
+	border-radius: 3px;
 	height: 18px;
-	width: 83px;
+	width: 75px;
 	top: 12.7%;
 	position: absolute;
 }
 
 .typeright {
-	left: 41%;
+	left: 42.5%;
 	background: url("./images/shousha/dengjie/right.png");
 	background-size: 100% 100%;
 	height: 18px;
@@ -741,6 +752,8 @@
 	font-size: 16.5px;
 	font-family: "shousha";
 	color: rgba(255, 255, 255, 0.9);
+	filter: blur(0.3px);
+	-webkit-filter: blur(0.3px);
 	position: absolute;
 	top: 102.5%;
 	left: 50%;
@@ -758,7 +771,8 @@
 	font-size: 17px;
 	font-family: "shousha";
 	color: #ffdd55;
-	text-shadow: 1px 1px 1px black;
+	filter: blur(0.3px);
+	-webkit-filter: blur(0.3px);
 	white-space: pre-wrap;
 	z-index: 81;
 	padding: 0px 10px;
@@ -842,12 +856,11 @@
 
 /* 数据展示文字 */
 .dengjiX {
-	font-size: 17px;
+	font-size: 14px;
 	font-family: "shousha";
-	color: white;
-	text-shadow: 1px 1px 1px black;
-	top: 12.7%;
-	left: 37%;
+	color: rgba(255, 255, 255, 0.9);
+	top: 12.8%;
+	left: 38.5%;
 	text-align: center;
 	white-space: pre-wrap;
 	z-index: 81;
@@ -862,7 +875,8 @@
 	font-size: 17px;
 	font-family: "shousha";
 	color: #ffdd55;
-	text-shadow: 1px 1px 1px black;
+	filter: blur(0.3px);
+	-webkit-filter: blur(0.3px);
 	top: 12.7%;
 	left: 0.5%;
 	text-align: center;
@@ -879,7 +893,8 @@
 	font-size: 16px;
 	font-family: "shousha";
 	color: #efdbb6;
-	text-shadow: none;
+	filter: blur(0.3px);
+	-webkit-filter: blur(0.3px);
 	bottom: 21%;
 	left: 32%;
 	line-height: 1;
@@ -892,7 +907,8 @@
 	font-size: 16px;
 	font-family: "shousha";
 	color: #efdbb6;
-	text-shadow: none;
+	filter: blur(0.3px);
+	-webkit-filter: blur(0.3px);
 	bottom: 21%;
 	left: 72%;
 	line-height: 1;
