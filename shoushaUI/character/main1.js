@@ -12,7 +12,7 @@ app.import((lib, game, ui, get, ai, _status, app) => {
 	}
 	// 生成随机数据
 	function generateRandomData(player) {
-		const guanjieLevel = Math.floor(Math.random() * 13 + 1);
+		const guanjieLevel = Math.floor(Math.random() * 11 + 1);
 		return {
 			winRate: get.SL ? get.SL(player) * 100 + "%" : Math.floor(Math.random() * (95 - 50 + 1)) + 50 + "%",
 			guanjieLevel: guanjieLevel,
@@ -94,19 +94,17 @@ app.import((lib, game, ui, get, ai, _status, app) => {
 	const CONSTANTS = {
 		// 官阶
 		GUANJIE_TRANSLATION: {
-			1: ["士兵", ["步卒", "伍长", "什长", "队率", "屯长", "部曲"]],
-			2: ["十夫长", ["县尉", "都尉", "步兵校尉", "典军校尉"]],
-			3: ["百夫长", ["骑郎将", "车郎将", "羽林中郎将", "虎贲中郎将"]],
-			4: ["千夫长", ["折冲将军", "虎威将军", "征虏将军", "荡寇将军"]],
-			5: ["校尉", ["监军将军", "抚军将军", "典军将军", "领军将军"]],
-			6: ["先锋将军", ["后将军", "左将军", "右将军", "前将军"]],
-			7: ["骠骑将军", ["护军", "左护军", "右护军", "中护军"]],
-			8: ["领军将军", ["都护", "左都护", "右都护", "中都护"]],
-			9: ["中军将军", ["卫将军"]],
-			10: ["大将军", ["车骑将军"]],
-			11: ["大元帅", ["骠骑将军"]],
-			12: ["大将军", ["大将军"]],
-			13: ["大元帅", ["大司马"]],
+			1: ["士兵"],
+			2: ["十夫长"],
+			3: ["百夫长"],
+			4: ["千夫长"],
+			5: ["校尉"],
+			6: ["先锋将军"],
+			7: ["骠骑将军"],
+			8: ["领军将军"],
+			9: ["中军将军"],
+			10: ["大将军"],
+			11: ["大元帅"],
 		},
 		// 段位
 		DUANWEI_TRANSLATION: {
@@ -304,8 +302,8 @@ app.import((lib, game, ui, get, ai, _status, app) => {
 
 			// 创建各种信息区域
 			this.createAvatarInfo(bigdialog, player, randomData);
-			this.createRankInfo(bigdialog, randomData);
-			this.createDuanweiInfo(bigdialog, randomData);
+			this.createRankInfo(bigdialog, player, randomData);
+			this.createDuanweiInfo(bigdialog, player, randomData);
 			this.createSkillInfo(bigdialog, player, randomData);
 
 			return popuperContainer;
@@ -337,31 +335,45 @@ app.import((lib, game, ui, get, ai, _status, app) => {
 		}
 
 		// 官阶信息
-		createRankInfo(bigdialog, randomData) {
+		createRankInfo(bigdialog, player, randomData) {
 			const guanjie = ui.create.div(".guanjie", bigdialog);
-			guanjie.setBackgroundImage(`${CONSTANTS.IMAGE_PATH_PREFIX}offical_icon_${randomData.guanjieLevel}.png`);
-			const guanjieInfo = CONSTANTS.GUANJIE_TRANSLATION[randomData.guanjieLevel];
-			ui.create.div(".guanjiewenzi", `<center>${guanjieInfo[0]}`, guanjie);
+			const guanjieInfo = ui.create.div(".guanjieInfo", bigdialog);
+			if (player == game.me) {
+				guanjie.setBackgroundImage(`${CONSTANTS.IMAGE_PATH_PREFIX}offical_icon_11.png`);
+				guanjieInfo.setBackgroundImage(`${CONSTANTS.IMAGE_PATH_PREFIX}offical_label_11.png`);
+			} else {
+				guanjie.setBackgroundImage(`${CONSTANTS.IMAGE_PATH_PREFIX}offical_icon_${randomData.guanjieLevel}.png`);
+				guanjieInfo.setBackgroundImage(`${CONSTANTS.IMAGE_PATH_PREFIX}offical_label_${randomData.guanjieLevel}.png`);
+			}
 		}
 
 		// 段位信息
-		createDuanweiInfo(bigdialog, randomData) {
+		createDuanweiInfo(bigdialog, player, randomData) {
 			const paiwei = ui.create.div(".paiweiditu", bigdialog);
 			const duanwei = ui.create.div(".duanwei", paiwei);
 			const duanweiInfo = CONSTANTS.DUANWEI_TRANSLATION[randomData.rankLevel];
-			ui.create.div(".duanweishuzi", `<center>${duanweiInfo.randomGet()}`, paiwei);
-			duanwei.setBackgroundImage(`${CONSTANTS.IMAGE_PATH_PREFIX}pwtx_${randomData.rankLevel}.png`);
-
+			if (player == game.me) {
+				ui.create.div(".duanweishuzi", `<center>${"绝世传说"}`, paiwei);
+				duanwei.setBackgroundImage(`${CONSTANTS.IMAGE_PATH_PREFIX}pwtx_6.png`);
+			} else {
+				ui.create.div(".duanweishuzi", `<center>${duanweiInfo.randomGet()}`, paiwei);
+				duanwei.setBackgroundImage(`${CONSTANTS.IMAGE_PATH_PREFIX}pwtx_${randomData.rankLevel}.png`);
+			}
 			ui.create.div(".xinyufen", `鲜花<br>${randomData.lucky}`, paiwei);
 			ui.create.div(".renqizhi", `鸡蛋<br>${randomData.popularity}`, paiwei);
 			ui.create.div(".paiweiType", "本赛季", paiwei);
 			ui.create.div(".typeleft", paiwei);
 			const typeright = ui.create.div(".typeright", paiwei);
-			const width = (randomData.gailevel / 100) * 83;
-			typeright.style.width = width + "px";
-			ui.create.div(".dengjiX", randomData.gailevel + "%", paiwei);
-
-			ui.create.div(".huiyuanX", "LV." + randomData.level, paiwei);
+			const width = (randomData.gailevel / 100) * 75;
+			if (player == game.me) {
+				typeright.style.width = "0px";
+				ui.create.div(".dengjiX", "0%", paiwei);
+				ui.create.div(".huiyuanX", "220级", paiwei);
+			} else {
+				typeright.style.width = width + "px";
+				ui.create.div(".dengjiX", randomData.gailevel + "%", paiwei);
+				ui.create.div(".huiyuanX", randomData.level + "级", paiwei);
+			}
 			ui.create.div(".gonghui", paiwei, get.translation(`(${CONSTANTS.VIP_TYPES.randomGet(1)})`));
 		}
 
@@ -510,20 +522,22 @@ app.import((lib, game, ui, get, ai, _status, app) => {
 				});
 
 				container.show = function (player) {
+					//生成随机数据
+					const randomData = generateRandomData(player);
 					const dialog = ui.create.div(".character-dialog.popped", container);
 					const blackBg1 = ui.create.div(".blackBg.one", dialog);
 					const blackBg2 = ui.create.div(".blackBg.two", dialog);
 					const basicInfo = ui.create.div(".basicInfo", blackBg1);
-
 					const officalbg = ui.create.div(".offical-bg", blackBg1);
 					const officalIcon = ui.create.div(".offical-icon", officalbg);
-					const randomOffical = generateRandomData(player);
+					const officalInfo = CONSTANTS.GUANJIE_TRANSLATION[randomData.guanjieLevel];
 					if (player == game.me) {
-						randomOffical.guanjieLevel = 13;
+						officalIcon.setBackgroundImage(`${CONSTANTS.IMAGE_PATH_PREFIX}offical_icon_11.png`);
+						ui.create.div(".offical-text", `<center>${"大元帅"}`, officalbg);
+					} else {
+						officalIcon.setBackgroundImage(`${CONSTANTS.IMAGE_PATH_PREFIX}offical_icon_${randomData.guanjieLevel}.png`);
+						ui.create.div(".offical-text", `<center>${officalInfo[0]}`, officalbg);
 					}
-					officalIcon.setBackgroundImage(`${CONSTANTS.IMAGE_PATH_PREFIX}offical_icon_${randomOffical.guanjieLevel}.png`);
-					const officalInfo = CONSTANTS.GUANJIE_TRANSLATION[randomOffical.guanjieLevel];
-					ui.create.div(".offical-text", `<center>${officalInfo[0]}`, officalbg);
 					const fightbg = ui.create.div(".fight-bg", blackBg1);
 					const rightPane = ui.create.div(".right", blackBg2);
 					const mingcheng = ui.create.div(".mingcheng", basicInfo);
@@ -616,7 +630,7 @@ app.import((lib, game, ui, get, ai, _status, app) => {
 					if (player == game.me) {
 						dengji.innerText = `Lv：220`;
 					} else {
-						dengji.innerText = `Lv：${Math.floor(Math.random() * 219 + 1)}`;
+						dengji.innerText = `Lv：${randomData.level}`;
 					}
 
 					// 计算胜率和逃率
@@ -638,8 +652,6 @@ app.import((lib, game, ui, get, ai, _status, app) => {
 					viewBusinessCard.onclick = () => {
 						container.hide();
 						game.resume2();
-
-						const randomData = generateRandomData(player);
 						const infoManager = new EnhancedInfoManager();
 						const detailPopup = infoManager.createEnhancedDetailPopup(player, randomData);
 						document.body.appendChild(detailPopup);
