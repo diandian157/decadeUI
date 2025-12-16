@@ -3990,7 +3990,7 @@ const createDecadeUIObject = () => ({
 						}
 					},
 					intro() {
-						if ((this && this.classList && this.classList.contains("emptyequip")) || (this && this.parentNode && this.parentNode.classList && this.parentNode.classList.contains("emptyequip")) || (this && this.dataset && typeof this.dataset.name === "string" && this.dataset.name.startsWith("empty_equip"))) {
+						if ((this && !this.extraEquip && this.classList && this.classList.contains("emptyequip")) || (this && this.parentNode && this.parentNode.classList && this.parentNode.classList.contains("emptyequip")) || (this && this.dataset && typeof this.dataset.name === "string" && this.dataset.name.startsWith("empty_equip"))) {
 							return;
 						}
 						if (this.classList.contains("infohidden")) return;
