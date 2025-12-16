@@ -2992,7 +2992,7 @@ const createDecadeUIObject = () => ({
 									function (player, target, eventName, compareId) {
 										if (window.decadeUI) {
 											const dialog = decadeUI.create.compareDialog();
-											dialog.caption = get.translation(eventName) + "拼点";
+											dialog.caption = get.translation(get.sourceSkillFor(eventName)) + "拼点";
 											dialog.player = player;
 											dialog.target = typeof target === "string" ? player : target;
 											dialog.open();
@@ -3120,7 +3120,7 @@ const createDecadeUIObject = () => ({
 									function (player, target, eventName, compareId, playerCard, targetCard) {
 										if (window.decadeUI) {
 											const dialog = decadeUI.create.compareDialog();
-											dialog.caption = get.translation(eventName) + "拼点";
+											dialog.caption = get.translation(get.sourceSkillFor(eventName)) + "拼点";
 											dialog.player = player;
 											dialog.target = target;
 											dialog.playerCard = playerCard.copy();
@@ -3203,7 +3203,7 @@ const createDecadeUIObject = () => ({
 									function (player, target, eventName, compareId) {
 										if (!window.decadeUI) return;
 										const dialog = decadeUI.create.compareDialog();
-										dialog.caption = get.translation(eventName) + "拼点";
+										dialog.caption = get.translation(get.sourceSkillFor(eventName)) + "拼点";
 										dialog.player = player;
 										dialog.target = target;
 										dialog.open();
@@ -3248,8 +3248,7 @@ const createDecadeUIObject = () => ({
 											let dialog = ui.dialogs[eventName];
 											if (!dialog && window.decadeUI) {
 												dialog = decadeUI.create.compareDialog();
-												const __captionName = typeof eventName === "string" ? get.sourceSkillFor(eventName.split("_")[0]) : "";
-												dialog.caption = get.translation(__captionName) + "拼点";
+												dialog.caption = get.translation(get.sourceSkillFor(eventName)) + "拼点";
 												dialog.player = player;
 												dialog.playerCard = playerCard.copy();
 												dialog.open();
@@ -3991,7 +3990,7 @@ const createDecadeUIObject = () => ({
 						}
 					},
 					intro() {
-						if ((this && this.classList && this.classList.contains("emptyequip")) || (this && this.parentNode && this.parentNode.classList && this.parentNode.classList.contains("emptyequip")) || (this && this.dataset && typeof this.dataset.name === "string" && this.dataset.name.startsWith("empty_equip"))) {
+						if ((this && !this.extraEquip && this.classList && this.classList.contains("emptyequip")) || (this && this.parentNode && this.parentNode.classList && this.parentNode.classList.contains("emptyequip")) || (this && this.dataset && typeof this.dataset.name === "string" && this.dataset.name.startsWith("empty_equip"))) {
 							return;
 						}
 						if (this.classList.contains("infohidden")) return;
@@ -4712,6 +4711,7 @@ const createDecadeUIObject = () => ({
 				popups: [],
 				damagepopups: [],
 				judging: [],
+				extraEquip: [],
 				stat: [
 					{
 						card: {},

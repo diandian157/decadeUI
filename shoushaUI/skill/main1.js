@@ -178,7 +178,8 @@ app.import(function (lib, game, ui, get, ai, _status, app) {
 				if (!player.hasSkill(skillId)) return null;
 				let skills = [skillId];
 				if (get.info(skillId).group) {
-					skills.add(...get.info(skillId).group);
+					const group = get.info(skillId).group;
+					skills.add(...(typeof group === "string" ? [group] : group));
 				}
 				skills = skills.filter(skill => (get.info(skill) || {}).usable !== undefined);
 				if (!skills.length) return null;

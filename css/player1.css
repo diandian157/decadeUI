@@ -1590,7 +1590,9 @@
 .player > .zhi-mark,
 .player > .wen-mark,
 .player > .li-mark,
-.player > .shu-mark {
+.player > .shu-mark,
+.player > .shuxue-mark,
+.player > .yu-mark {
 	position: absolute;
 	top: 108px;
 	left: -11px;
@@ -1907,4 +1909,12 @@
 
 .player > .li-mark {
 	background-image: url("../image/mark/mark_li.png");
+}
+
+.player > .shuxue-mark {
+	background-image: url("../image/mark/mark_shuxue.png");
+}
+
+.player > .yu-mark {
+	background-image: url("../image/mark/mark_yu.png");
 }

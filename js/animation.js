@@ -450,7 +450,7 @@ var duilib;
 			}
 			this.check = function () {
 				if (!this.gl) {
-					function empty() { }
+					function empty() {}
 					var key;
 					for (key in this.__proto__) {
 						if (typeof this.__proto__[key] == "function") {
@@ -1015,8 +1015,8 @@ var duilib;
 			var sprite =
 				typeof sprite == "string"
 					? {
-						name: sprite,
-					}
+							name: sprite,
+						}
 					: sprite;
 			sprite.id = this.BUILT_ID++;
 			sprite.loop = true;
@@ -1248,6 +1248,21 @@ if (decadeModule)
 					name: "effect_zhiliao",
 				},
 				{
+					name: "effect_loseHp",
+				},
+				{
+					name: "globaltexiao/huifushuzi/shuzi2",
+				},
+				{
+					name: "globaltexiao/xunishuzi/SS_PaiJu_xunishanghai",
+				},
+				{
+					name: "globaltexiao/shanghaishuzi/shuzi",
+				},
+				{
+					name: "globaltexiao/shanghaishuzi/SZN_shuzi",
+				},
+				{
 					name: "effect_zhugeliannu",
 				},
 				{
@@ -1263,7 +1278,7 @@ if (decadeModule)
 					name: "effect_nvzhuang",
 				},
 				{
-					name: "Ss_ZB_QiXingDao"
+					name: "Ss_ZB_QiXingDao",
 				},
 				{
 					name: "effect_wufengjian",
@@ -1796,6 +1811,131 @@ if (decadeModule)
 						},
 					},
 				};
+				animation.playLoseHp = function (player) {
+					if (!player) return;
+					animation.playSpine("effect_loseHp", {
+						scale: 0.6,
+						speed: 0.8,
+						parent: player,
+					});
+				};
+				animation.playRecoverNumber = function (player, num) {
+					if (!player || !num || num < 1 || num > 9 || lib.config.extension_十周年UI_newDecadeStyle === "off") return;
+					var action = String(num);
+					animation.playSpine(
+						{
+							name: "globaltexiao/huifushuzi/shuzi2",
+							action: action,
+						},
+						{
+							speed: 0.6,
+							scale: 0.5,
+							parent: player,
+							y: 20,
+						}
+					);
+				};
+				animation.playVirtualDamageNumber = function (player, num) {
+					if (!player || num < 0 || num > 9) return;
+					var action = "play" + String(num);
+					animation.playSpine(
+						{
+							name: "globaltexiao/xunishuzi/SS_PaiJu_xunishanghai",
+							action: action,
+						},
+						{
+							speed: 0.6,
+							scale: 0.5,
+							parent: player,
+							y: 20,
+						}
+					);
+				};
+				animation.playDamageNumber = function (player, num) {
+					if (!player || !num || num <= 1 || num > 9 || !lib.config.extension_十周年UI_newDecadeStyle) return;
+					var action = String(num);
+					var anim = lib.config.extension_十周年UI_newDecadeStyle === "off" ? "globaltexiao/shanghaishuzi/shuzi" : "globaltexiao/shanghaishuzi/SZN_shuzi";
+					var options = {
+						speed: 0.6,
+						scale: 0.4,
+						parent: player,
+					};
+					if (lib.config.extension_十周年UI_newDecadeStyle !== "off") {
+						options.y = 20;
+					}
+					animation.playSpine(
+						{
+							name: anim,
+							action: action,
+						},
+						options
+					);
+				};
+				lib.element.player.inits = [].concat(lib.element.player.inits || []).concat(async player => {
+					if (player.ChupaizhishiXObserver) return;
+					const ANIMATION_CONFIG = {
+						jiangjun: { name: "SF_xuanzhong_eff_jiangjun", scale: 0.6 },
+						weijiangjun: { name: "SF_xuanzhong_eff_weijiangjun", scale: 0.6 },
+						cheqijiangjun: { name: "SF_xuanzhong_eff_cheqijiangjun", scale: 0.6 },
+						biaoqijiangjun: { name: "SF_xuanzhong_eff_biaoqijiangjun", scale: 0.5 },
+						dajiangjun: { name: "SF_xuanzhong_eff_dajiangjun", scale: 0.6 },
+						dasima: { name: "SF_xuanzhong_eff_dasima", scale: 0.6 },
+						shoushaX: { name: "aar_chupaizhishiX", scale: 0.55 },
+						shousha: { name: "aar_chupaizhishi", scale: 0.55 },
+					};
+					const DELAY_TIME = 300;
+					let timer = null;
+					const startAnimation = element => {
+						if (element.ChupaizhishiXid || timer) return;
+						if (!window.chupaiload) {
+							window.chupaiload = true;
+						}
+						timer = setTimeout(() => {
+							const config = decadeUI.config.chupaizhishi;
+							const animationConfig = ANIMATION_CONFIG[config];
+							if (config !== "off" && animationConfig) {
+								element.ChupaizhishiXid = animation.playSpine(
+									{
+										name: animationConfig.name,
+										loop: true,
+									},
+									{
+										parent: element,
+										scale: animationConfig.scale,
+									}
+								);
+							}
+							timer = null;
+						}, DELAY_TIME);
+					};
+					const stopAnimation = element => {
+						if (element.ChupaizhishiXid) {
+							animation.stopSpine(element.ChupaizhishiXid);
+							delete element.ChupaizhishiXid;
+						}
+						if (timer) {
+							clearTimeout(timer);
+							timer = null;
+						}
+					};
+					const observer = new globalThis.MutationObserver(mutations => {
+						for (const mutation of mutations) {
+							if (mutation.attributeName !== "class") continue;
+							const target = mutation.target;
+							const isSelectable = target.classList.contains("selectable");
+							if (isSelectable) {
+								startAnimation(target);
+							} else {
+								stopAnimation(target);
+							}
+						}
+					});
+					observer.observe(player, {
+						attributes: true,
+						attributeFilter: ["class"],
+					});
+					player.ChupaizhishiXObserver = observer;
+				});
 				var cardAnimate = function (card) {
 					var anim = defines.card[card.name];
 					if (!anim) return console.error("cardAnimate:" + card.name);
