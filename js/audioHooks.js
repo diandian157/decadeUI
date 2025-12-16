@@ -86,9 +86,17 @@ decadeModule.import((lib, game, ui, get, ai, _status) => {
 		{ cards: ["sha", "juedou"], player: "huaxin", condition: ctx => ctx.targets?.some(t => hasName(t, "fuhuanghou")), text: "大美冷宫，领包入住！", audio: "huaxin1.mp3" },
 		{ cards: ["jiedao"], player: "jiaxu", condition: ctx => ctx.targets?.some(t => hasName(t, "lijue") || hasName(t, "guosi")), text: "今可率众而息，理攻长安，为董公报仇！", audio: "jiaxu1.mp3" },
 		{ cards: ["sha", "juedou"], player: "jiaxu", condition: ctx => ctx.targets?.some(t => hasName(t, "liuxie") || hasName(t, "wangyun")), text: "可伤天和，可伤人和，维不可伤文和！", audio: "jiaxu2.mp3" },
-		{ cards: ["shunshou"], player: "jianggan", condition: ctx => ctx.targets?.some(t => hasName(t, "zhouyu")), text: "读，读书人之事，和谓之窃？", audio: "jianggan1.mp3" },
+		{ cards: ["shunshou"], player: "jianggan", condition: ctx => ctx.targets?.some(t => hasName(t, "zhouyu")), text: "读，读书人之事，何谓之窃？", audio: "jianggan1.mp3" },
 		{ cards: ["sha", "juedou"], player: "liru", condition: ctx => ctx.targets?.some(t => hasName(t, "liubian")), text: "乖，张嘴，酒来了！", audio: "liru1.mp3" },
 		{ cards: ["sha", "juedou"], player: "xiahouyuan", condition: ctx => ctx.targets?.some(t => hasName(t, "liangxing")), target: "liangxing", text: "不是，真动手啊！", audio: "liangxing1.mp3" },
+		{ cards: ["dilu"], player: "liubei", text: "乘良驹渡险，愿盘息冲天！", audio: "lvbu2.mp3" },
+		{ cards: ["tao", "taoyuan"], player: "liubei", condition: ctx => ctx.targets?.some(t => hasName(t, "guanyu") || hasName(t, "zhangfei")), text: "不求同年同月同日生，只求同年同月同日死。", audio: "liubei2.mp3" },
+		{ cards: ["lebu"], player: "caopi", condition: ctx => ctx.targets?.some(t => hasName(t, "liushan")), target: "liushan", text: "此间乐，不思蜀也！", audio: "liushan1.mp3" },
+		{ cards: ["tao", "taoyuan"], player: "zhaozhong", condition: ctx => ctx.targets?.some(t => hasName(t, "liuhong")), target: "liuhong", text: "世上只有妈妈好！", audio: "liuhong1.mp3" },
+		{ cards: ["shunshou"], player: "liuhong", condition: ctx => ctx.targets?.some(t => hasName(t, "hejin")), text: "这卖官鬻爵，卿可愿解囊否？", audio: "liuhong2.mp3" },
+		{ cards: ["tao", "taoyuan"], player: "liuyong", condition: ctx => ctx.targets?.some(t => hasName(t, "liushan")), text: "兄不知弟忠。弟不知兄愚！", audio: "liuyong1.mp3" },
+		{ cards: ["tao", "taoyuan"], player: "yanghu", condition: ctx => ctx.targets?.some(t => hasName(t, "lukang")), target: "lukang", text: "羊祜其真人者！", audio: "lukang1.mp3" },
+		{ cards: ["huogong"], player: "luxun", condition: ctx => ctx.targets?.some(t => hasName(t, "liubei")), text: "玄德公七十里连营，安在否？", audio: "luxun1.mp3" },
 	];
 
 	const originalUseCard = lib.element.Player.prototype.useCard;
@@ -256,6 +264,10 @@ decadeModule.import((lib, game, ui, get, ai, _status) => {
 		{ players: ["jiachong", "caomao"], dialogues: [{ player: "jiachong", text: "天子谋反，当与民同罪!", audio: "jiachong1.mp3", delay: 500 }] },
 		{ players: ["kebineng", "hanlong"], dialogues: [{ player: "kebineng", text: "年轻人总是太极端。", audio: "kebineng1.mp3", delay: 500 }] },
 		{ players: ["lijue", "tangji"], dialogues: [{ player: "lijue", text: "本将军见妾而倾心，当栖之。", audio: "lijue1.mp3", delay: 500 }] },
+		{ players: ["liubei", "zhugeliang"], dialogues: [{ player: "liubei", text: "备三顾先生茅庐，今日始见庐山。", audio: "liubei3.mp3", delay: 500 }] },
+		{ players: ["liubei", "liubiao"], dialogues: [{ player: "liubei", text: "日月蹉跎人亦将老，而弟功业未建。", audio: "liubei4.mp3", delay: 500 }] },
+		{ players: ["liubei", "guanyu", "zhangfei"], dialogues: [{ player: "liubei", text: "昔年桃园一拜，今日沙场再会，誓同生死！", audio: "liubei5.mp3", delay: 500 }] },
+		{ players: ["liuchen", "liushan"], dialogues: [{ player: "liuchen", text: "孩儿刘谌，宁死不降！", audio: "liuchen1.mp3", delay: 500 }] },
 	];
 
 	lib.announce.subscribe("gameStart", () => {
