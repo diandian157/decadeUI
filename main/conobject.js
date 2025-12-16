@@ -1,6 +1,6 @@
 import { lib, game, ui, get, ai, _status } from "../../../noname.js";
 import { ChildNodesWatcher } from "../../../noname/library/cache/childNodesWatcher.js";
-import { initializeDecadeUIEnvironment, createDecadeUIDialogModule, createDecadeUIAnimateModule, createResizeSensorClass } from "./conlmodules.js";
+import { initializeDecadeUIEnvironment, createDecadeUIDialogModule, createDecadeUIAnimateModule, createResizeSensorClass } from "./conmodules.js";
 import { cardSkinMeta, cardSkinPresets } from "./config.js";
 
 const createDecadeUIObject = () => ({
