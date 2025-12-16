@@ -175,6 +175,59 @@ decadeModule.import((lib, game, ui, get, ai, _status) => {
 		ghujia: {
 			mark: false,
 		},
+		_hpLossAnimation: {
+			trigger: { player: "loseHpBefore" },
+			forced: true,
+			popup: false,
+			charlotte: true,
+			filter(event) {
+				return !!event.num;
+			},
+			async content(event, trigger, player) {
+				if (window.dcdAnim && typeof window.dcdAnim.playLoseHp === "function") {
+					window.dcdAnim.playLoseHp(player);
+				}
+			},
+		},
+		_wjmh_huifushuzi_: {
+			priority: 10,
+			forced: true,
+			trigger: { player: "recoverBegin" },
+			filter(event) {
+				return event.num && event.num > 0 && event.num <= 9 && lib.config.extension_十周年UI_newDecadeStyle !== "off";
+			},
+			async content(event, trigger, player) {
+				if (decadeUI.animation && typeof decadeUI.animation.playRecoverNumber === "function") {
+					decadeUI.animation.playRecoverNumber(player, trigger.num);
+				}
+			},
+		},
+		_wjmh_xunishuzi_: {
+			priority: 10,
+			forced: true,
+			trigger: { player: "damage" },
+			filter(event) {
+				return event.num >= 0 && event.num <= 9 && event.unreal;
+			},
+			async content(event, trigger, player) {
+				if (decadeUI.animation && typeof decadeUI.animation.playVirtualDamageNumber === "function") {
+					decadeUI.animation.playVirtualDamageNumber(player, trigger.num);
+				}
+			},
+		},
+		_wjmh_shanghaishuzi_: {
+			priority: 210,
+			forced: true,
+			trigger: { player: "damageBegin4" },
+			filter(event) {
+				return event.num && event.num > 1 && event.num <= 9 && lib.config.extension_十周年UI_newDecadeStyle;
+			},
+			async content(event, trigger, player) {
+				if (decadeUI.animation && typeof decadeUI.animation.playDamageNumber === "function") {
+					decadeUI.animation.playDamageNumber(player, trigger.num);
+				}
+			},
+		},
 		_usecard: {
 			trigger: {
 				global: "useCardAfter",
