@@ -136,9 +136,8 @@
 	font-family: "shousha";
 	font-size: 17px;
 	line-height: 44px;
-	color: white;
+	color: #e6e6e6;
 	text-align: center;
-	-webkit-text-stroke: 0.15px rgba(0, 0, 0, 1);
 	text-shadow: 0.1px 0.1px 0.25px rgba(0, 0, 0, 0.1);
 }
 
@@ -810,9 +809,8 @@
 	z-index: 89;
 	font-family: "shousha";
 	font-size: 16px;
-	color: white;
+	color: #e6e6e6;
 	text-align: center;
-	-webkit-text-stroke: 0.15px rgba(0, 0, 0, 1);
 	text-shadow: 0.1px 0.1px 0.25px rgba(0, 0, 0, 0.1);
 	display: flex;
 	justify-content: center;
@@ -859,7 +857,9 @@
 	font-size: 14px;
 	font-family: "shousha";
 	color: rgba(255, 255, 255, 0.9);
-	top: 12.8%;
+	filter: blur(0.3px);
+	-webkit-filter: blur(0.3px);
+	top: 13.2%;
 	left: 38.5%;
 	text-align: center;
 	white-space: pre-wrap;
