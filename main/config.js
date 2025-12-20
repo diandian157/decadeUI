@@ -266,16 +266,6 @@ export let config = {
 			}
 		},
 	},
-	cardAlternateNameVisible: {
-		name: "牌名辅助",
-		init: false,
-		update() {
-			if (window.decadeUI) {
-				const visible = lib.config.extension_十周年UI_cardAlternateNameVisible;
-				ui.window.dataset.cardAlternateNameVisible = visible ? "on" : "off";
-			}
-		},
-	},
 	showTemp: {
 		name: "卡牌显示",
 		init: true,
