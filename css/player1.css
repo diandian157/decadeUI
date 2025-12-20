@@ -1592,7 +1592,8 @@
 .player > .li-mark,
 .player > .shu-mark,
 .player > .shuxue-mark,
-.player > .yu-mark {
+.player > .yu-mark,
+.player > .sheji-mark {
 	position: absolute;
 	top: 108px;
 	left: -11px;
@@ -1917,4 +1918,8 @@
 
 .player > .yu-mark {
 	background-image: url("../image/mark/mark_yu.png");
+}
+
+.player > .sheji-mark {
+	background-image: url("../image/mark/mark_sheji.png");
 }
