@@ -1,4 +1,4 @@
-import { lib, game, ui, get, ai, _status } from "../../../noname.js";
+import { lib, game, ui, get, ai, _status } from "noname";
 import { initGTBB } from "./gtbb.js";
 
 export function initPrecontentUI() {

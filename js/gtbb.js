@@ -1,4 +1,4 @@
-import { lib, ui, get } from "../../../noname.js";
+import { lib, ui, get } from "noname";
 
 export function initGTBB(config) {
 	if (!config.GTBB) return;

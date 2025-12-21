@@ -1,4 +1,4 @@
-import { lib, game, ui, get, ai, _status } from "../../../noname.js";
+import { lib, game, ui, get, ai, _status } from "noname";
 import { ChildNodesWatcher } from "../../../noname/library/cache/childNodesWatcher.js";
 import { initializeDecadeUIEnvironment, createDecadeUIDialogModule, createDecadeUIAnimateModule, createResizeSensorClass } from "./conmodules.js";
 import { cardSkinMeta, cardSkinPresets } from "./config.js";

@@ -1,4 +1,4 @@
-import { lib, get } from "../../../noname.js";
+import { lib, get } from "noname";
 
 const PREFIX_CONFIGS = Object.freeze({
 	界: { className: "jie-mark", property: "$jieMark" },

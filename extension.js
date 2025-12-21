@@ -1,5 +1,5 @@
 import { nonameInitialized } from "../../noname/util/index.js";
-import { lib } from "../../noname.js";
+import { lib } from "noname";
 import { config } from "./main/config.js";
 import { content } from "./main/content.js";
 import { precontent } from "./main/precontent.js";

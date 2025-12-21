@@ -1,4 +1,4 @@
-import { lib, game, ui, get, _status } from "../../../noname.js";
+import { lib, game, ui, get, _status } from "noname";
 
 export const bootstrapExtension = () => {
 	const mode = typeof get.mode === "function" ? get.mode() : get.mode;

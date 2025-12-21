@@ -1,4 +1,4 @@
-import { lib, game, ui, get, ai, _status } from "../../../noname.js";
+import { lib, game, ui, get, ai, _status } from "noname";
 import { prefixMarkModule } from "../js/prefixMark.js";
 import { initPrecontentUI } from "../js/jindutiao.js";
 import { initCardAlternateNameVisible } from "../js/cardAlternateNameVisible.js";

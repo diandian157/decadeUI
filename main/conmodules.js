@@ -1,4 +1,4 @@
-import { lib, ui } from "../../../noname.js";
+import { lib, ui } from "noname";
 
 export const initializeDecadeUIEnvironment = ctx => {
 	const sensorNode = ctx.element.create("sensor", document.body);
