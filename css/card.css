@@ -170,14 +170,11 @@
 	border: 1px solid black;
 	border-radius: 2px;
 	z-index: 1;
+	display: none;
 }
 
 .card.decade-card:not(*[data-card-type="basic"]) > .name {
 	bottom: 1px;
-}
-
-[data-card-alternate-name-visible="off"] .card > .name {
-	display: none;
 }
 
 [data-card-alternate-name-visible="on"] .card > .name {
