@@ -35,20 +35,20 @@ export function initGTBB(config) {
 		const playerLabel = "玩家";
 		const nickname = lib.config.connect_nickname;
 		const randomNames = getCharactersFromPacks(charName => {
-			const displayName = get.translation(charName);
+			const displayName = get.slimName(charName);
 			return displayName && displayName !== charName ? displayName : null;
 		});
 		const skins = getCharactersFromPacks(charName => {
-			const displayName = get.translation(charName);
+			const displayName = get.slimName(charName);
 			return displayName && displayName !== charName ? `${displayName}×1` : null;
 		});
 		const generals = getCharactersFromPacks(charName => {
 			let title = lib.characterTitle[charName] || "";
 			if (title.startsWith("#")) title = title.slice(2);
 			title = get.plainText(title);
-			const displayName = get.translation(charName);
-			if (title && displayName && displayName !== charName) {
-				return `${title}·${displayName}*1（动+静）`;
+			const displayName = get.slimName(charName);
+			if (displayName && displayName !== charName) {
+				return title ? `${title}·${displayName}*1（动+静）` : `${displayName}*1（动+静）`;
 			}
 			return null;
 		});
