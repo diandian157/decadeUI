@@ -1,9 +1,13 @@
-import { lib, game, ui, get, ai, _status } from "noname";
+import { game, ui, _status } from "noname";
 
 export function initCardAlternateNameVisible() {
 	const updateCardAlternateNameVisible = () => {
 		const count = game.me?.countCards("h") ?? 0;
-		ui.window.dataset.cardAlternateNameVisible = count > 15 ? "on" : "off";
+		const zones = ["handcards1", "handcards2"].map(name => game.me?.node?.[name]).filter(Boolean);
+
+		zones.forEach(zone => {
+			zone.dataset.cardAlternateNameVisible = count > 15 ? "on" : "off";
+		});
 	};
 	const bindCardAlternateNameVisible = () => {
 		if (!game.me?.node) return false;

@@ -173,16 +173,16 @@
 }
 
 .card.decade-card:not(*[data-card-type="basic"]) > .name {
-	bottom: 20px;
+	bottom: 1px;
 }
 
-#window[data-card-alternate-name-visible="off"] .card > .name {
+[data-card-alternate-name-visible="off"] .card > .name {
 	display: none;
 }
 
-#window[data-card-alternate-name-visible="on"] .card > .name {
+[data-card-alternate-name-visible="on"] .card > .name {
 	left: 1px;
-	bottom: 2px;
+	bottom: 1px;
 	display: block;
 	font-family: yuanli;
 	font-size: 18px;
