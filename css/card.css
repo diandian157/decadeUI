@@ -181,20 +181,17 @@
 }
 
 #window[data-card-alternate-name-visible="on"] .card > .name {
-	left: 0px;
+	left: 1px;
 	bottom: 2px;
 	display: block;
 	font-family: yuanli;
 	font-size: 18px;
 	font-weight: bold;
-	color: rgb(243, 241, 241);
-	text-shadow:
-		0 0 1px rgb(0, 0, 0),
-		0 0 3px rgb(0, 0, 0);
-	background-color: rgba(0, 0, 0, 0.5);
-	border: 1px solid black;
+	color: rgb(0, 0, 0);
+	background-color: rgb(188, 190, 31);
 	border-radius: 2px;
 	padding: 2px 4px;
+	z-index: 3;
 }
 
 /****** 转换牌显示 ******/
