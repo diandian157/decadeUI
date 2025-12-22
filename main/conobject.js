@@ -162,23 +162,25 @@ const createDecadeUIObject = () => ({
 							if (!readOk) return clone;
 							const skinCache = res[skinKey];
 							let asset = skinCache && skinCache[clone.name];
+							const fallbackMap = { bingkele: "decade", GoldCard: "caise" };
+							const fallbackKey = fallbackMap[skinKey];
+							const hasFallback = fallbackKey && cardSkinMeta[fallbackKey];
 							if (asset && !asset.loaded && clone.classList.contains("decade-card")) {
 								if (asset.loaded === undefined) {
 									const image = asset.image;
 									image.addEventListener("error", () => {
-										if (skinKey === "bingkele" && cardSkinMeta.decade) {
-											const decadeSkin = cardSkinMeta.decade;
-											const decadeCache = res.decade || (res.decade = {});
-											const decadeAsset = decadeCache[clone.name];
-											if (decadeAsset && decadeAsset.loaded) {
-												clone.style.background = `url("${decadeAsset.url}")`;
-											} else if (decadeAsset && decadeAsset.loaded === undefined) {
-												const decadeImage = decadeAsset.image;
-												if (decadeImage) {
-													decadeImage.addEventListener("load", () => {
-														clone.style.background = `url("${decadeAsset.url}")`;
+										if (hasFallback) {
+											const fallbackCache = res[fallbackKey] || (res[fallbackKey] = {});
+											const fallbackAsset = fallbackCache[clone.name];
+											if (fallbackAsset && fallbackAsset.loaded) {
+												clone.style.background = `url("${fallbackAsset.url}")`;
+											} else if (fallbackAsset && fallbackAsset.loaded === undefined) {
+												const fallbackImage = fallbackAsset.image;
+												if (fallbackImage) {
+													fallbackImage.addEventListener("load", () => {
+														clone.style.background = `url("${fallbackAsset.url}")`;
 													});
-													decadeImage.addEventListener("error", () => {
+													fallbackImage.addEventListener("error", () => {
 														clone.style.background = asset.rawUrl;
 														clone.classList.remove("decade-card");
 													});
@@ -196,11 +198,11 @@ const createDecadeUIObject = () => ({
 										}
 									});
 								} else {
-									if (skinKey === "bingkele" && cardSkinMeta.decade) {
-										const decadeCache = res.decade || (res.decade = {});
-										const decadeAsset = decadeCache[clone.name];
-										if (decadeAsset && decadeAsset.loaded) {
-											clone.style.background = `url("${decadeAsset.url}")`;
+									if (hasFallback) {
+										const fallbackCache = res[fallbackKey] || (res[fallbackKey] = {});
+										const fallbackAsset = fallbackCache[clone.name];
+										if (fallbackAsset && fallbackAsset.loaded) {
+											clone.style.background = `url("${fallbackAsset.url}")`;
 										} else {
 											clone.style.background = asset.rawUrl;
 											clone.classList.remove("decade-card");
@@ -210,11 +212,11 @@ const createDecadeUIObject = () => ({
 										clone.classList.remove("decade-card");
 									}
 								}
-							} else if (!asset && skinKey === "bingkele" && cardSkinMeta.decade) {
-								const decadeCache = res.decade || (res.decade = {});
-								const decadeAsset = decadeCache[clone.name];
-								if (decadeAsset && decadeAsset.loaded) {
-									clone.style.background = `url("${decadeAsset.url}")`;
+							} else if (!asset && hasFallback) {
+								const fallbackCache = res[fallbackKey] || (res[fallbackKey] = {});
+								const fallbackAsset = fallbackCache[clone.name];
+								if (fallbackAsset && fallbackAsset.loaded) {
+									clone.style.background = `url("${fallbackAsset.url}")`;
 									clone.classList.add("decade-card");
 								}
 							}
@@ -293,14 +295,16 @@ const createDecadeUIObject = () => ({
 									const skinCache = res[skinKey] || (res[skinKey] = {});
 									let asset = skinCache[filename];
 									const readOk = !!(res.READ_OK && res.READ_OK[skinKey]);
+									const fallbackMap = { bingkele: "decade", GoldCard: "caise" };
+									const fallbackKey = fallbackMap[skinKey];
+									const hasFallback = fallbackKey && cardSkinMeta[fallbackKey];
 									if (readOk) {
 										if (asset === undefined) {
-											if (skinKey === "bingkele" && cardSkinMeta.decade) {
-												const decadeSkin = cardSkinMeta.decade;
-												const decadeCache = res.decade || (res.decade = {});
-												const decadeAsset = decadeCache[filename];
-												if (decadeAsset && decadeAsset.loaded) {
-													this.style.background = `url("${decadeAsset.url}")`;
+											if (hasFallback) {
+												const fallbackCache = res[fallbackKey] || (res[fallbackKey] = {});
+												const fallbackAsset = fallbackCache[filename];
+												if (fallbackAsset && fallbackAsset.loaded) {
+													this.style.background = `url("${fallbackAsset.url}")`;
 												} else {
 													this.classList.remove("decade-card");
 												}
@@ -331,25 +335,25 @@ const createDecadeUIObject = () => ({
 												};
 												const cardElem = this;
 												image.onerror = function () {
-													if (skinKey === "bingkele" && cardSkinMeta.decade) {
-														const decadeSkin = cardSkinMeta.decade;
-														const decadeFolder = decadeSkin.dir || "decade";
-														const decadeExtension = decadeSkin.extension || "png";
-														const decadeUrl = lib.assetURL + `extension/${decadeUIName}/image/card/${decadeFolder}/${filename}.${decadeExtension}`;
-														const decadeImage = new Image();
-														decadeImage.onload = function () {
+													if (hasFallback) {
+														const fallbackSkin = cardSkinMeta[fallbackKey];
+														const fallbackFolder = fallbackSkin.dir || fallbackKey;
+														const fallbackExtension = fallbackSkin.extension || "png";
+														const fallbackUrl = lib.assetURL + `extension/${decadeUIName}/image/card/${fallbackFolder}/${filename}.${fallbackExtension}`;
+														const fallbackImage = new Image();
+														fallbackImage.onload = function () {
 															asset.loaded = true;
-															asset.url = decadeUrl;
-															cardElem.style.background = `url("${decadeUrl}")`;
-															decadeImage.onload = undefined;
+															asset.url = fallbackUrl;
+															cardElem.style.background = `url("${fallbackUrl}")`;
+															fallbackImage.onload = undefined;
 														};
-														decadeImage.onerror = function () {
+														fallbackImage.onerror = function () {
 															asset.loaded = false;
-															decadeImage.onerror = undefined;
+															fallbackImage.onerror = undefined;
 															cardElem.style.background = asset.rawUrl;
 															cardElem.classList.remove("decade-card");
 														};
-														decadeImage.src = decadeUrl;
+														fallbackImage.src = fallbackUrl;
 													} else {
 														asset.loaded = false;
 														image.onerror = undefined;

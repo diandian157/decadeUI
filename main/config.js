@@ -129,6 +129,7 @@ export let config = {
 			{ key: "caise", dir: "caise", label: "彩色卡牌", extension: "webp" },
 			{ key: "decade", dir: "decade", label: "原十周年", extension: "png" },
 			{ key: "bingkele", dir: "bingkele", label: "哈基米哦", extension: "png" },
+			{ key: "GoldCard", dir: "GoldCard", label: "手杀金卡", extension: "webp" },
 		];
 		const cardSkinMeta = cardSkinPresets.reduce((map, skin) => {
 			map[skin.key] = skin;
