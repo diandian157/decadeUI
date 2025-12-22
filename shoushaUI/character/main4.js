@@ -652,7 +652,13 @@ app.import((lib, game, ui, get, ai, _status, app) => {
 					function (args, node) {
 						if (get.itemtype(node) === "player") {
 							if (lib.config.touchscreen) lib.setLongPress(node, plugin.click.playerIntro);
-							else if (lib.config.right_info) node.oncontextmenu = plugin.click.playerIntro;
+							else if (lib.config.right_info)
+								node.oncontextmenu = function (e) {
+									if (e && e.preventDefault) e.preventDefault();
+									if (e && e.stopPropagation) e.stopPropagation();
+									plugin.click.playerIntro.call(this, e);
+									return false;
+								};
 							return node;
 						}
 					},
@@ -675,7 +681,8 @@ app.import((lib, game, ui, get, ai, _status, app) => {
 				}
 			},
 			playerIntro(e) {
-				e.stopPropagation();
+				if (e && e.preventDefault) e.preventDefault();
+				if (e && e.stopPropagation) e.stopPropagation();
 				if (plugin.playerDialog) {
 					return plugin.playerDialog.show(this);
 				}

@@ -32,7 +32,7 @@ app.import((lib, game, ui, get, ai, _status, app) => {
 		getRandomPercentage: () => (Math.random() * 100).toFixed(2),
 
 		// 将数字转换为图片
-		numberToImages: (number) => {
+		numberToImages: number => {
 			const numberStr = number.toString();
 			let imageHTML = "";
 			for (let i = 0; i < numberStr.length; i++) {
@@ -116,16 +116,7 @@ app.import((lib, game, ui, get, ai, _status, app) => {
 			6: ["传说Ⅰ", "传说Ⅱ", "绝世传说"],
 		},
 		// 公会
-		VIP_TYPES: [
-			"无名杀会员",
-			"移动版会员",
-			"Online会员",
-			"一将成名会员",
-			"怒焰三国杀会员",
-			"欢乐三国杀会员",
-			"名将杀会员",
-			"阵面对决会员"
-		],
+		VIP_TYPES: ["无名杀会员", "移动版会员", "Online会员", "一将成名会员", "怒焰三国杀会员", "欢乐三国杀会员", "名将杀会员", "阵面对决会员"],
 		// 昵称
 		NICKNAMES: [
 			"氪金抽66",
@@ -213,65 +204,7 @@ app.import((lib, game, ui, get, ai, _status, app) => {
 			"暮暮子",
 		],
 		// 称号
-		TITLES: [
-			"幸运爆棚",
-			"可可爱爱",
-			"蒸蒸日上",
-			"司马小渔",
-			"当街弑父",
-			"霹雳弦惊",
-			"玄铁赛季",
-			"大败而归",
-			"好谋无断",
-			"当机立断",
-			"侠肝义胆",
-			"无敌之人",
-			"颇有家资",
-			"韩旭的马",
-			"司马长衫",
-			"野猪突击",
-			"杀杀杀杀",
-			"俺也一样",
-			"一拳兀突骨",
-			"开局送一波",
-			"丈八二桃把营连",
-			"没事儿我掉什么血",
-			"痛饮庆功酒",
-			"男上加男",
-			"马到成功",
-			"这么说你很勇哦",
-			"高风亮节",
-			"白银赛季",
-			"攻城拔寨",
-			"建功立业",
-			"很有智慧",
-			"古之恶来",
-			"猛虎啸林",
-			"龙泉鱼渊",
-			"兵起玄黄",
-			"勇气参与奖",
-			"敢不敢比划比划？",
-			"是俺杀哒，都是俺杀哒！",
-			"阿弥陀佛",
-			"拦住他就要歪嘴了",
-			"吃颗桃桃好遗计",
-			"花姑娘的干活",
-			"如履薄冰",
-			"龙虎英雄傲苍穹",
-			"无法也无天",
-			"西风不识相",
-			"你过江我也过江",
-			"中门对狙",
-			"好色之徒",
-			"建安风骨",
-			"高门雅士",
-			"以一敌千",
-			"恣意狂纵",
-			"零陵上将军",
-			"泥菩萨过江",
-			"变化万千",
-			"杰哥带你登dua郎",
-		],
+		TITLES: ["幸运爆棚", "可可爱爱", "蒸蒸日上", "司马小渔", "当街弑父", "霹雳弦惊", "玄铁赛季", "大败而归", "好谋无断", "当机立断", "侠肝义胆", "无敌之人", "颇有家资", "韩旭的马", "司马长衫", "野猪突击", "杀杀杀杀", "俺也一样", "一拳兀突骨", "开局送一波", "丈八二桃把营连", "没事儿我掉什么血", "痛饮庆功酒", "男上加男", "马到成功", "这么说你很勇哦", "高风亮节", "白银赛季", "攻城拔寨", "建功立业", "很有智慧", "古之恶来", "猛虎啸林", "龙泉鱼渊", "兵起玄黄", "勇气参与奖", "敢不敢比划比划？", "是俺杀哒，都是俺杀哒！", "阿弥陀佛", "拦住他就要歪嘴了", "吃颗桃桃好遗计", "花姑娘的干活", "如履薄冰", "龙虎英雄傲苍穹", "无法也无天", "西风不识相", "你过江我也过江", "中门对狙", "好色之徒", "建安风骨", "高门雅士", "以一敌千", "恣意狂纵", "零陵上将军", "泥菩萨过江", "变化万千", "杰哥带你登dua郎"],
 		// 图片路径前缀
 		IMAGE_PATH_PREFIX: "extension/十周年UI/shoushaUI/character/images/shousha/dengjie/",
 	};
@@ -317,19 +250,9 @@ app.import((lib, game, ui, get, ai, _status, app) => {
 			const xingbietu = ["pubui_icon_male", "pubui_icon_female"];
 			xingbie.setBackgroundImage(`extension/十周年UI/shoushaUI/character/images/shousha/${xingbietu.randomGet()}.png`);
 
-			const nameX = ui.create.div(
-				".nameX",
-				minixingxiang,
-				player === game.me
-					? lib.config.connect_nickname
-					: get.translation(CONSTANTS.NICKNAMES.randomGet(1))
-			);
+			const nameX = ui.create.div(".nameX", minixingxiang, player === game.me ? lib.config.connect_nickname : get.translation(CONSTANTS.NICKNAMES.randomGet(1)));
 
-			const wanjiachenghao = ui.create.div(
-				".wanjiachenghao",
-				bigdialog,
-				get.translation(CONSTANTS.TITLES.randomGet(1))
-			);
+			const wanjiachenghao = ui.create.div(".wanjiachenghao", bigdialog, get.translation(CONSTANTS.TITLES.randomGet(1)));
 
 			minixingxiang.setBackgroundImage(`extension/十周年UI/shoushaUI/character/images/shousha/xingxiang${Math.floor(Math.random() * 6)}.png`);
 		}
@@ -476,7 +399,7 @@ app.import((lib, game, ui, get, ai, _status, app) => {
 		filter() {
 			return !["chess", "tafang"].includes(get.mode());
 		},
-		content(next) { },
+		content(next) {},
 		precontent() {
 			app.reWriteFunction(lib, {
 				setIntro: [
@@ -485,7 +408,12 @@ app.import((lib, game, ui, get, ai, _status, app) => {
 							if (lib.config.touchscreen) {
 								lib.setLongPress(node, plugin.click.playerIntro);
 							} else if (lib.config.right_info) {
-								node.oncontextmenu = plugin.click.playerIntro;
+								node.oncontextmenu = function (e) {
+									if (e && e.preventDefault) e.preventDefault();
+									if (e && e.stopPropagation) e.stopPropagation();
+									plugin.click.playerIntro.call(this, e);
+									return false;
+								};
 							}
 							return node;
 						}
@@ -510,7 +438,8 @@ app.import((lib, game, ui, get, ai, _status, app) => {
 				}
 			},
 			playerIntro(e) {
-				e.stopPropagation();
+				if (e && e.preventDefault) e.preventDefault();
+				if (e && e.stopPropagation) e.stopPropagation();
 				if (plugin.playerDialog) {
 					return plugin.playerDialog.show(this);
 				}
