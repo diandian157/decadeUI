@@ -1587,11 +1587,11 @@
 	align-items: center;
 	align-content: center;
 	justify-content: center;
-	left: calc(50% - 47px);
+	left: calc(50% - 41px);
 	top: auto;
-	bottom: 15px;
-	width: 88px;
-	height: 88px;
+	bottom: 10px;
+	width: 80px;
+	height: 80px;
 	line-height: 38px;
 	color: rgb(210, 50, 50);
 	font-size: 38px;

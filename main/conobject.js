@@ -1043,7 +1043,6 @@ const createDecadeUIObject = () => ({
 							let url;
 							if (decadeUI.config.newDecadeStyle === "onlineUI") {
 								url = `${decadeUIPath}image/decorationo/dead4_${identity}.png`;
-								that.node.dieidentity.style.left = "25px";
 							} else if (decadeUI.config.newDecadeStyle === "babysha") {
 								url = `${decadeUIPath}image/decorationh/dead3_${identity}.png`;
 							} else if (decadeUI.config.newDecadeStyle === "codename") {
