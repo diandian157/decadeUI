@@ -642,5 +642,60 @@ export async function precontent() {
 		window.app = app;
 	}
 
+	if (!game._decadeUI_fixMoveAnimZoom) {
+		game._decadeUI_fixMoveAnimZoom = true;
+		const normalizeZoom = () => {
+			const z = game.documentZoom;
+			if (typeof z !== "number" || !isFinite(z) || z <= 0) {
+				game.documentZoom = 1;
+			}
+		};
+		if (typeof game.$swapElement === "function") {
+			const _swap = game.$swapElement;
+			game.$swapElement = function () {
+				normalizeZoom();
+				return _swap.apply(this, arguments);
+			};
+		}
+		if (typeof game.$elementGoto === "function") {
+			const _goto = game.$elementGoto;
+			game.$elementGoto = function (element, parent, position, duration, timefun) {
+				normalizeZoom();
+				const fromParent = element && element.parentElement;
+				const toParent = parent;
+				const restore = [];
+				const forceVisible = p => {
+					if (!p || !p.style) return;
+					restore.push([p, p.style.overflow]);
+					p.style.overflow = "visible";
+				};
+				forceVisible(fromParent);
+				forceVisible(toParent);
+				try {
+					const ret = _goto.call(this, element, parent, position, duration, timefun);
+					if (ret && typeof ret.then === "function") {
+						return ret.finally(() => {
+							for (let i = restore.length - 1; i >= 0; i--) {
+								const [p, ov] = restore[i];
+								p.style.overflow = ov;
+							}
+						});
+					}
+					for (let i = restore.length - 1; i >= 0; i--) {
+						const [p, ov] = restore[i];
+						p.style.overflow = ov;
+					}
+					return ret;
+				} catch (e) {
+					for (let i = restore.length - 1; i >= 0; i--) {
+						const [p, ov] = restore[i];
+						p.style.overflow = ov;
+					}
+					throw e;
+				}
+			};
+		}
+	}
+
 	initPrecontentUI();
 }
