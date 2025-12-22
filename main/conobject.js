@@ -5483,10 +5483,9 @@ const createDecadeUIObject = () => ({
 			let spreadOffsetRight = 0;
 			let baseShift = 0;
 			if (folded && selectedIndex !== -1) {
-				const spreadOffsetRaw = Math.max(0, csw - xMargin + 2);
-				const spreadOffset = Math.min(spreadOffsetRaw, Math.round(csw * 1));
-				spreadOffsetLeft = Math.round(spreadOffset * 0.1);
-				spreadOffsetRight = spreadOffset - spreadOffsetLeft;
+				const spreadOffset = Math.max(0, csw - xMargin + 2);
+				spreadOffsetLeft = Math.round(spreadOffset * 0.2);
+				spreadOffsetRight = spreadOffset;
 				const selX = xStart + selectedIndex * xMargin;
 				const maxSelX = Math.max(0, limitW - csw);
 				const targetSelX = Math.max(0, Math.min(maxSelX, selX));
