@@ -425,10 +425,25 @@ export let config = {
 			three: "三阶",
 			four: "四阶",
 			five: "五阶",
+			random: "随机",
 		},
 		update() {
 			if (window.decadeUI) {
-				ui.arena.dataset.borderLevel = lib.config.extension_十周年UI_borderLevel;
+				const value = lib.config.extension_十周年UI_borderLevel;
+				ui.arena.dataset.borderLevel = value;
+				if (_status.gameStarted) {
+					const players = ui.arena?.querySelectorAll?.(".player") || [];
+					if (value === "random") {
+						const levels = ["one", "two", "three", "four", "five"];
+						players.forEach(p => {
+							p.dataset.borderLevel = levels[Math.floor(Math.random() * levels.length)];
+						});
+					} else {
+						players.forEach(p => {
+							delete p.dataset.borderLevel;
+						});
+					}
+				}
 			}
 		},
 	},
@@ -443,8 +458,6 @@ export let config = {
 			five: "炎龙",
 			sex: "随机",
 			seven: "评级",
-			ten: "OL等阶框·评级",
-			eleven: "OL等阶框·随机",
 		},
 		update() {
 			if (window.decadeUI) {

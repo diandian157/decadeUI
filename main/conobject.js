@@ -1158,6 +1158,13 @@ const createDecadeUIObject = () => ({
 									this.checkAndAddExperienceSuffix(character2);
 								}
 							}
+							const borderLevel = lib.config.extension_十周年UI_borderLevel;
+							if (borderLevel === "random") {
+								const levels = ["one", "two", "three", "four", "five"];
+								this.dataset.borderLevel = levels[Math.floor(Math.random() * levels.length)];
+							} else {
+								delete this.dataset.borderLevel;
+							}
 							let CUR_DYNAMIC = decadeUI.CUR_DYNAMIC;
 							let MAX_DYNAMIC = decadeUI.MAX_DYNAMIC;
 							if (CUR_DYNAMIC === undefined) {

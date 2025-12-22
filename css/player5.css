@@ -338,6 +338,10 @@
 	background-image: url("../image/decorationh/border_camphs5.png");
 }
 
+#arena.decadeUI[data-border-level="one"] .player > .camp-wrap > .camp-border {
+	background-image: url("../image/decorationh/border_camphs1.png");
+}
+
 #arena.decadeUI[data-border-level="two"] .player > .camp-wrap > .camp-border {
 	background-image: url("../image/decorationh/border_camphs2.png");
 }
@@ -348,6 +352,26 @@
 
 #arena.decadeUI[data-border-level="four"] .player > .camp-wrap > .camp-border {
 	background-image: url("../image/decorationh/border_camphs4.png");
+}
+
+.player[data-border-level="one"] > .camp-wrap > .camp-border {
+	background-image: url("../image/decorationh/border_camphs1.png");
+}
+
+.player[data-border-level="two"] > .camp-wrap > .camp-border {
+	background-image: url("../image/decorationh/border_camphs2.png");
+}
+
+.player[data-border-level="three"] > .camp-wrap > .camp-border {
+	background-image: url("../image/decorationh/border_camphs3.png");
+}
+
+.player[data-border-level="four"] > .camp-wrap > .camp-border {
+	background-image: url("../image/decorationh/border_camphs4.png");
+}
+
+.player[data-border-level="five"] > .camp-wrap > .camp-border {
+	background-image: url("../image/decorationh/border_camphs5.png");
 }
 
 /*主将名，根据部分群友需要，添加定位代码*/

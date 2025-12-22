@@ -366,6 +366,70 @@
 	background-repeat: no-repeat;
 }
 
+#arena.decadeUI[data-border-level="five"] .player > .camp-wrap > .camp-border {
+	display: block;
+	left: -10px;
+	top: 28px;
+	width: 375%;
+	height: 95%;
+	position: absolute;
+	background-image: url("../image/decoration/border_campOL5.png");
+	background-size: 100% 100%;
+	background-repeat: no-repeat;
+}
+
+.player[data-border-level="one"] > .camp-wrap > .camp-border {
+	background-image: url("../image/decoration/border_campOL1.png");
+}
+
+.player[data-border-level="two"] > .camp-wrap > .camp-border {
+	display: block;
+	left: -12px;
+	top: 31px;
+	width: 382%;
+	height: 95%;
+	position: absolute;
+	background-image: url("../image/decoration/border_campOL2.png");
+	background-size: 100% 100%;
+	background-repeat: no-repeat;
+}
+
+.player[data-border-level="three"] > .camp-wrap > .camp-border {
+	display: block;
+	left: -12px;
+	top: 31px;
+	width: 382%;
+	height: 95%;
+	position: absolute;
+	background-image: url("../image/decoration/border_campOL3.png");
+	background-size: 100% 100%;
+	background-repeat: no-repeat;
+}
+
+.player[data-border-level="four"] > .camp-wrap > .camp-border {
+	display: block;
+	left: -12px;
+	top: 31px;
+	width: 382%;
+	height: 95%;
+	position: absolute;
+	background-image: url("../image/decoration/border_campOL4.png");
+	background-size: 100% 100%;
+	background-repeat: no-repeat;
+}
+
+.player[data-border-level="five"] > .camp-wrap > .camp-border {
+	display: block;
+	left: -10px;
+	top: 28px;
+	width: 375%;
+	height: 95%;
+	position: absolute;
+	background-image: url("../image/decoration/border_campOL5.png");
+	background-size: 100% 100%;
+	background-repeat: no-repeat;
+}
+
 /*主将名，根据部分群友需要，添加定位代码*/
 .player > .camp-wrap > .avatar-name {
 	display: flex;

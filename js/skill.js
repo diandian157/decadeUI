@@ -89,48 +89,6 @@ decadeModule.import((lib, game, ui, get, ai, _status) => {
 				});
 			},
 		},
-		_longLevel: {
-			trigger: {
-				global: "gameStart",
-			},
-			silent: true,
-			forced: true,
-			filter(event, player) {
-				return lib.config.extension_十周年UI_newDecadeStyle && lib.config.extension_十周年UI_newDecadeStyle === "onlineUI" && (lib.config.extension_十周年UI_longLevel === "ten" || lib.config.extension_十周年UI_longLevel === "eleven");
-			},
-			async content() {
-				const player = _status.event.player;
-				const rarityConfig = {
-					silver: { k: "k2", border: "border_campOL5", top: "-20.5px", right: "-5px", height: "115%", width: "120%" },
-					gold: { k: "k4", border: "border_campOL2", top: "-5px", right: "-3px", height: "107.5%", width: "105%" },
-					yu: { k: "k6", border: "border_campOL3", top: "-3px", right: "-3px", height: "107.5%", width: "105%" },
-					bing: { k: "k8", border: "border_campOL4", top: "-6px", right: "-5.5px", height: "109%", width: "113%" },
-					yan: { k: "k2", border: "border_campOL5", top: "-20.5px", right: "-5px", height: "115%", width: "120%" },
-				};
-				const rarityMap = ["silver", "gold", "yu", "bing", "yan"];
-				let rarity;
-				const levelMode = lib.config.extension_十周年UI_longLevel;
-				const rarityHandlers = {
-					ten: () => {
-						const rarityTypes = { junk: "silver", common: "gold", rare: "yu", epic: "bing", legend: "yan" };
-						return rarityTypes[game.getRarity(player.name)] || "silver";
-					},
-					eleven: () => rarityMap.randomGet(),
-				};
-				if (rarityHandlers[levelMode]) rarity = rarityHandlers[levelMode]();
-				if (rarity && rarityConfig[rarity]) {
-					const config = rarityConfig[rarity];
-					const longtou = document.createElement("img");
-					longtou.src = `${decadeUIPath}/assets/image/OL/${config.k}.png`;
-					longtou.style.cssText = `pointer-events:none;position:absolute;display:block;top:${config.top};right:${config.right};height:${config.height};width:${config.width};z-index:60`;
-					player.appendChild(longtou);
-					const longwei = document.createElement("img");
-					longwei.src = `${decadeUIPath}/assets/image/OL/${config.border}.png`;
-					longwei.style.cssText = `pointer-events:none;position:absolute;display:block;top:${config.top};right:${config.right};height:${config.height};width:${config.width};z-index:72`;
-					player.appendChild(longwei);
-				}
-			},
-		},
 		decadeUI_usecardBegin: {
 			trigger: {
 				global: "useCardBegin",
