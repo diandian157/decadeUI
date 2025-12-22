@@ -4509,6 +4509,7 @@ const createDecadeUIObject = () => ({
 				delete card._tempSuitNum;
 				card.dataset.views = 0;
 			}
+			if (decadeUI && decadeUI.layout) decadeUI.layout.invalidateHand();
 		};
 		//移除target的un-selectable classList显示
 		lib.hooks["uncheckTarget"].push(function decadeUI_unselectable(target, event) {
@@ -5477,18 +5478,19 @@ const createDecadeUIObject = () => ({
 					selectedIndex = i;
 				}
 			}
-			const folded = totalW > limitW && !expand && xMargin < csw - 0.5;
+			const folded = totalW > limitW && xMargin < csw - 0.5;
 			let spreadOffsetLeft = 0;
 			let spreadOffsetRight = 0;
 			let baseShift = 0;
 			if (folded && selectedIndex !== -1) {
-				const spreadOffset = Math.max(0, csw - xMargin + 2);
-				spreadOffsetLeft = Math.round(spreadOffset * 0.3);
-				spreadOffsetRight = spreadOffset;
+				const spreadOffsetRaw = Math.max(0, csw - xMargin + 2);
+				const spreadOffset = Math.min(spreadOffsetRaw, Math.round(csw * 1));
+				spreadOffsetLeft = Math.round(spreadOffset * 0.1);
+				spreadOffsetRight = spreadOffset - spreadOffsetLeft;
 				const selX = xStart + selectedIndex * xMargin;
 				const maxSelX = Math.max(0, limitW - csw);
 				const targetSelX = Math.max(0, Math.min(maxSelX, selX));
-				baseShift = targetSelX - selX;
+				baseShift = Math.round(targetSelX - selX);
 			}
 			for (let i = 0; i < cards.length; i++) {
 				let fx = xStart + i * xMargin + baseShift;
