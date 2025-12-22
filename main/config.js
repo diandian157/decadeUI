@@ -451,27 +451,6 @@ export let config = {
 			}
 		},
 	},
-	foldCardMinWidth: {
-		name: "手牌折叠",
-		intro: "设置当手牌过多时，折叠手牌露出部分的最小宽度（默认值为9）",
-		init: "9",
-		item: {
-			9: "9",
-			18: "18",
-			27: "27",
-			36: "36",
-			45: "45",
-			54: "54",
-			63: "63",
-			72: "72",
-			81: "81",
-			90: "90",
-			cardWidth: "卡牌宽度",
-		},
-		update: () => {
-			if (window.decadeUI) decadeUI.layout.updateHand();
-		},
-	},
 	playerMarkStyle: {
 		name: "标记样式",
 		init: "decade",

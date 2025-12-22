@@ -5438,13 +5438,8 @@ const createDecadeUIObject = () => ({
 			if (totalW > limitW) {
 				xMargin = csw - Math.abs(limitW - csw * cards.length) / (cards.length - 1);
 				if (lib.config.fold_card) {
-					const foldCardMinWidth = lib.config.extension_十周年UI_foldCardMinWidth;
 					let min = cs;
-					if (foldCardMinWidth == "cardWidth") {
-						min *= cw;
-					} else {
-						min *= foldCardMinWidth && foldCardMinWidth.length ? parseInt(foldCardMinWidth) : 81;
-					}
+					min *= 9;
 					if (xMargin < min) {
 						expand = true;
 						xMargin = min;
