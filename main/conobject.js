@@ -3911,6 +3911,7 @@ const createDecadeUIObject = () => ({
 										delete this._tempSuitNum;
 									}
 								}
+								if (decadeUI && decadeUI.layout) decadeUI.layout.invalidateHand();
 							}
 						} else {
 							ui.selected.cards.add(this);
@@ -3963,6 +3964,7 @@ const createDecadeUIObject = () => ({
 									this.dataset.views = 1;
 								}
 							}
+							if (decadeUI && decadeUI.layout) decadeUI.layout.invalidateHand();
 						}
 						if (game.chess && get.config("show_range") && !_status.event.skill && this.classList.contains("selected") && _status.event.isMine() && _status.event.name == "chooseToUse") {
 							const player = _status.event.player;
@@ -5460,8 +5462,33 @@ const createDecadeUIObject = () => ({
 					xStart = (ui.arena.offsetWidth - totalW) / 2 - bounds.x;
 				}
 			}
+			let selectedIndex = -1;
 			for (let i = 0; i < cards.length; i++) {
-				x = Math.round(xStart + i * xMargin);
+				if (cards[i].classList.contains("selected")) {
+					if (selectedIndex !== -1) {
+						selectedIndex = -1;
+						break;
+					}
+					selectedIndex = i;
+				}
+			}
+			const folded = totalW > limitW && !expand && xMargin < csw - 0.5;
+			let spreadOffset = 0;
+			let baseShift = 0;
+			if (folded && selectedIndex !== -1) {
+				spreadOffset = Math.max(0, csw - xMargin + 2);
+				const selX = xStart + selectedIndex * xMargin;
+				const maxSelX = Math.max(0, limitW - csw);
+				const targetSelX = Math.max(0, Math.min(maxSelX, selX));
+				baseShift = targetSelX - selX;
+			}
+			for (let i = 0; i < cards.length; i++) {
+				let fx = xStart + i * xMargin + baseShift;
+				if (spreadOffset) {
+					if (i < selectedIndex) fx -= spreadOffset;
+					else if (i > selectedIndex) fx += spreadOffset;
+				}
+				x = Math.round(fx);
 				const card = cards[i];
 				card.tx = x;
 				card.ty = y;

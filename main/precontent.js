@@ -1,7 +1,6 @@
 import { lib, game, ui, get, ai, _status } from "noname";
 import { prefixMarkModule } from "../js/prefixMark.js";
 import { initPrecontentUI } from "../js/jindutiao.js";
-import { initCardAlternateNameVisible } from "../js/cardname.js";
 
 export async function precontent() {
 	const mode = get.mode();
@@ -644,5 +643,4 @@ export async function precontent() {
 	}
 
 	initPrecontentUI();
-	initCardAlternateNameVisible();
 }
