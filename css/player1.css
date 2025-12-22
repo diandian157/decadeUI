@@ -1560,6 +1560,32 @@
 	z-index: 99;
 }
 
+/*玩家tip标记显示*/
+.player .tipContainer {
+	--bg: #383122;
+	width: 82% !important;
+	right: 2px;
+	bottom: 100px;
+	z-index: 110 !important;
+}
+
+.player .tipContainer > .tip {
+	padding: 0 0 0 3px;
+	font-size: 16px;
+	/*字体大小*/
+	font-family: "shousha" !important;
+	/*字体样式*/
+	color: rgba(240, 240, 240, 1);
+	text-shadow:
+		-1.3px 0px 2.2px #000,
+		0px -1.3px 2.2px #000,
+		1.3px 0px 2.2px #000,
+		0px 1.3px 2.2px #000;
+	/* border: 1px solid #48310cf0; */
+	width: 100%;
+	left: 0%;
+}
+
 /* 角标 */
 .player > .jie-mark,
 .player > .shen-mark,

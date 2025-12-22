@@ -1601,25 +1601,13 @@
 	z-index: 110;
 }
 
-/*
-.player>.jie-mark {
-	position: absolute;
-	top: 108px;
-	left: -11px;
-	width: 22px;
-	height: 34px;
-	background-image: url('assets/image/mark_jie.png');
-	background-size: 100% 100%;
-	pointer-events: none;
-	z-index: 87;
-}
-*/
 /*玩家tip标记显示*/
 .player .tipContainer {
 	--bg: #383122;
 	width: 82% !important;
 	right: 2px;
 	bottom: 100px;
+	z-index: 110 !important;
 }
 
 .player .tipContainer > .tip {
