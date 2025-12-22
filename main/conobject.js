@@ -5473,10 +5473,13 @@ const createDecadeUIObject = () => ({
 				}
 			}
 			const folded = totalW > limitW && !expand && xMargin < csw - 0.5;
-			let spreadOffset = 0;
+			let spreadOffsetLeft = 0;
+			let spreadOffsetRight = 0;
 			let baseShift = 0;
 			if (folded && selectedIndex !== -1) {
-				spreadOffset = Math.max(0, csw - xMargin + 2);
+				const spreadOffset = Math.max(0, csw - xMargin + 2);
+				spreadOffsetLeft = Math.round(spreadOffset * 0.3);
+				spreadOffsetRight = spreadOffset;
 				const selX = xStart + selectedIndex * xMargin;
 				const maxSelX = Math.max(0, limitW - csw);
 				const targetSelX = Math.max(0, Math.min(maxSelX, selX));
@@ -5484,9 +5487,9 @@ const createDecadeUIObject = () => ({
 			}
 			for (let i = 0; i < cards.length; i++) {
 				let fx = xStart + i * xMargin + baseShift;
-				if (spreadOffset) {
-					if (i < selectedIndex) fx -= spreadOffset;
-					else if (i > selectedIndex) fx += spreadOffset;
+				if (spreadOffsetLeft || spreadOffsetRight) {
+					if (i < selectedIndex) fx -= spreadOffsetLeft;
+					else if (i > selectedIndex) fx += spreadOffsetRight;
 				}
 				x = Math.round(fx);
 				const card = cards[i];
