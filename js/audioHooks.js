@@ -19,7 +19,7 @@ decadeModule.import((lib, game, ui, get, ai, _status) => {
 		{ cards: ["sha"], player: "simayi", condition: ctx => ctx.targets?.find(t => hasName(t, "caocao")), target: "caocao", text: "仲达啊，孤终究还是看错了你", audio: "caocao4.mp3" },
 		{ cards: ["sha"], player: "guansuo", condition: () => game.players?.some(p => hasName(p, "baosanniang")), text: "伤病已无碍。三娘，此次南征，我定要为你拿下首功！", audio: "guansuo1.mp3" },
 		{ cards: ["sha"], player: "zhangliao", condition: ctx => ctx.targets?.some(t => t.group === "wu"), text: "雁门张文远在此！", audio: "zhangliao1.mp3" },
-		{ cards: ["sha"], player: "diaochan", text: "哈哈，嗯~", audio: "diaochan2.mp3" },
+		{ cards: ["tao"], player: "lvbu", condition: ctx => ctx.targets?.find(t => hasName(t, "diaochan")), target: "diaochan", text: "呵呵呵，嗯~", audio: "diaochan2.mp3" },
 		{ cards: ["baiyin"], player: "zhangfei", condition: () => game.players?.some(p => hasName(p, "machao")), text: "马超！汝的头在此！敢来取否！", audio: "zhangfei3.mp3" },
 		{ cards: ["tiesuo"], player: "caocao", condition: () => game.players?.some(p => hasName(p, "pangtong")), text: "非先生良谋，安能破东吴也？", audio: "caocao6.mp3" },
 		{ cards: ["tao"], player: "chendao", condition: ctx => ctx.targets?.find(t => hasName(t, "liubei")), text: "主公，我来救你！", audio: "chendao1.mp3" },
@@ -28,7 +28,16 @@ decadeModule.import((lib, game, ui, get, ai, _status) => {
 		{ cards: ["sha"], player: "caopi", condition: ctx => ctx.targets?.some(t => hasName(t, "sunquan")), text: "吴王颇知学乎？", audio: "caopi2.mp3" },
 		{ cards: ["tao"], player: "guojia", condition: ctx => ctx.targets?.find(t => hasName(t, "caocao")), target: "caocao", text: "有奉孝在，不使吾有此失也！", audio: "caocao10.mp3" },
 		{ cards: ["zhangba"], player: "zhangfei", text: "得此神兵，某自当纵横天下！", audio: "zhangfei4.mp3" },
-		{ cards: ["zhangba"], player: "liuyan", text: "哈哈哈哈哈，我会图谋不轨？", audio: "liuyan1.mp3" },
+		{
+			cards: ["zhangba"],
+			player: "liuyan",
+			sequence: [
+				{ text: "奇哉怪也，此物怎会在我手中？", audio: "liuyan1.mp3" },
+				{ text: "这丈八不会打断了吧。", audio: "liuyan3.mp3" },
+				{ text: "我得此等好兵器，可用九鼎烹鹿！", audio: "liuyan4.mp3" },
+			],
+			sequenceKey: () => "liuyan",
+		},
 		{ cards: ["tao"], player: "caoying", condition: ctx => ctx.targets?.find(t => hasName(t, "zhaoyun")), text: "赵子龙，只能死在我手上", audio: "caoying1.mp3" },
 		{ cards: ["sha"], player: "dingshangwan", condition: ctx => ctx.targets?.some(t => hasName(t, "caocao")), text: "原来你曹孟德也会痛", audio: "dingshangwan1.mp3" },
 		{ cards: ["sha"], player: "dingshangwan", condition: ctx => ctx.targets?.some(t => hasName(t, "zoushi")), text: "祸水！还我儿命来！", audio: "dingshangwan2.mp3" },
@@ -105,6 +114,53 @@ decadeModule.import((lib, game, ui, get, ai, _status) => {
 		{ cards: ["sha"], player: "sunhao", condition: ctx => ctx.targets?.some(t => hasName(t, "zhangyao")), text: "吾之红楼，容不下汝！", audio: "sunhao1.mp3" },
 		{ cards: ["sha"], player: "sunhao", condition: ctx => ctx.targets?.some(t => hasName(t, "zhangxuan")), text: "形似而魂飞，汝非我佳人。", audio: "sunhao2.mp3" },
 		{ cards: ["lebu"], player: "sunhao", condition: ctx => ctx.targets?.some(t => hasName(t, "zhangxuan") || hasName(t, "zhangyao")), text: "形似而魂飞，汝非我佳人。", audio: "sunhao3.mp3" },
+		{ cards: ["tao"], player: "sunquan", condition: ctx => ctx.targets?.some(t => hasName(t, "lingtong")), text: "孤有卓世良药，可医公绩之急。", audio: "sunquan1.mp3" },
+		{ cards: ["sha"], player: "xiahoujie", condition: ctx => ctx.targets?.some(t => hasName(t, "zhangfei")), text: "就你嗓门大是吧！", audio: "xiahoujie1.mp3" },
+		{ cards: ["sha"], player: "huangzhong", condition: ctx => ctx.targets?.some(t => hasName(t, "xiahouyuan")), target: "xiahouyuan", text: "来骗！来偷袭！", audio: "xiahouyuan1.mp3" },
+		{ cards: ["jiu"], player: "xurong", text: "已饮佳酿，正待尔等骨肉下酒！", audio: "xurong1.mp3" },
+		{ cards: ["sha"], player: "caocao", condition: ctx => ctx.targets?.some(t => hasName(t, "xunyu")), text: "君要臣死，臣不得不死。", audio: "xunyu1.mp3" },
+		{ cards: ["sha"], player: "wangyi", condition: ctx => ctx.targets?.some(t => hasName(t, "yangwan")), target: "yangwan", text: "我待汝为姊妹，汝视我为仇畴。", audio: "yangwan1.mp3" },
+		{ cards: ["sha"], player: "caocao", condition: ctx => ctx.targets?.some(t => hasName(t, "yangxiu")), target: "yangxiu", text: "都是鸡肋惹的祸。", audio: "yangxiu1.mp3" },
+		{ cards: ["juedou"], player: "yuanshao", condition: ctx => ctx.targets?.some(t => hasName(t, "dongzhuo")), text: "吾剑也未尝不利！", audio: "yuanshao2.mp3" },
+		{ cards: ["shunshou"], player: "yuanshu", condition: ctx => ctx.targets?.some(t => hasName(t, "luji")), text: "陆朗做宾客，而怀橘乎？", audio: "yuanshu1.mp3" },
+		{ cards: ["tao"], player: "liubei", condition: ctx => ctx.targets?.some(t => hasName(t, "yuanshu")), target: "yuanshu", text: "多谢将军，以泌水相赠！", audio: "yuanshu2.mp3" },
+		{ cards: ["jiu"], player: "zhangfei", text: "本将军，嗝~千杯不醉！", audio: "zhangfei7.mp3" },
+		{ cards: ["sha"], player: "zhangfei", condition: ctx => ctx.targets?.some(t => hasName(t, "yanyan")), text: "老匹夫，安敢欺我无谋！", audio: "yanyan8.mp3" },
+		{ cards: ["shunshou"], player: "zhangkai", condition: ctx => ctx.targets?.some(t => hasName(t, "caocao")), text: "曹太公，把钱财交出来吧！", audio: "zhangkai1.mp3" },
+		{ cards: ["qinggang"], player: "zhaoyun", text: "宝剑，自当配于英雄！", audio: "zhaoyun2.mp3" },
+		{ cards: ["huogong"], player: "zhouyu", condition: ctx => ctx.targets?.some(t => hasName(t, "caocao")), text: "赤壁火起，曹贼霸业成空！", audio: "zhouyu1.mp3" },
+		{ cards: ["tao"], player: "caocao", condition: ctx => ctx.targets?.some(t => hasName(t, "xunyu")), text: "吾之子房也！", audio: "caocao16.mp3" },
+		{ cards: ["wugu"], player: "caocao", condition: () => game.players?.some(p => hasName(p, "yuanshao")), text: "吾任天下之智，以道御之，无所不可！", audio: "caocao18.mp3" },
+		{ cards: ["sha"], player: "dengai", condition: ctx => ctx.targets?.some(t => hasName(t, "zhugezhan")), text: "生死存亡之际，在此一举！", audio: "dengai1.mp3" },
+		{ cards: ["tao"], player: "diaochan", condition: ctx => ctx.targets?.some(t => hasName(t, "lvbu")), text: "将军不必多礼，貂蝉感激将军的救命之恩。", audio: "diaochan3.mp3" },
+		{ cards: ["juedou"], player: "dongzhuo", condition: ctx => ctx.targets?.some(t => hasName(t, "caocao")), text: "曹操这个杂种，竟敢行刺洒家！", audio: "dongzhuo2.mp3" },
+		{ cards: ["shunshou"], player: "dongzhuo", condition: ctx => ctx.targets?.some(t => hasName(t, "liru")), text: "哈哈哈，你真不愧是老夫的智囊啊！", audio: "dongzhuo3.mp3" },
+		{ cards: ["shunshou"], player: "dongzhuo", condition: ctx => ctx.targets?.some(t => hasName(t, "diaochan")), text: "哼哼哼哼，更衣好啊！", audio: "dongzhuo4.mp3" },
+		{ cards: ["sha", "juedou"], player: "dongzhuo", condition: ctx => ctx.targets?.some(t => hasName(t, "yuanshu")), text: "天下事在我！我今为之，谁敢不从！汝视我之剑不利否？", audio: "dongzhuo5.mp3" },
+		{ cards: ["guohe"], player: "ganning", condition: ctx => ctx.targets?.some(t => hasName(t, "caocao")), text: "劫寨将轻骑，驱兵饮巨瓯！", audio: "ganning1.mp3" },
+		{ cards: ["juedou"], player: "guanyu", condition: ctx => ctx.targets?.some(t => hasName(t, "huangzhong")), text: "不用拖刀计，实难取胜。", audio: "guanyu5.mp3" },
+		{ cards: ["tao"], player: "guanyu", condition: ctx => ctx.targets?.some(t => hasName(t, "liubei")), text: "关某之命即是刘兄之命，关某之躯即为刘兄之躯！", audio: "guanyu6.mp3" },
+		{ cards: ["tao"], player: "guanyu", condition: ctx => ctx.targets?.some(t => hasName(t, "zhangliao")), text: "某素知文远乃忠义之士。", audio: "guanyu8.mp3" },
+		{ cards: ["sha"], player: "guanyu", condition: ctx => ctx.targets?.some(t => hasName(t, "pangde")), text: "庞德竖子，何敢藐视吾耶！", audio: "guanyu9.mp3" },
+		{ cards: ["tao"], player: "zhangfei", condition: ctx => ctx.targets?.some(t => hasName(t, "guanyu")), target: "guanyu", text: "我的好三弟！", audio: "guanyu10.mp3" },
+		{ cards: ["sha"], player: "guanyu", condition: ctx => ctx.targets?.some(t => hasName(t, "yanwen")), text: "吾观颜良，如插标卖首耳！", audio: "guanyu11.mp3" },
+		{ cards: ["tao"], player: "guojia", condition: ctx => ctx.targets?.some(t => hasName(t, "caocao")), text: "嘉，感丞相大恩，虽死不能报万一。", audio: "guojia1.mp3" },
+		{ cards: ["tao"], player: "guotu", condition: ctx => ctx.targets?.some(t => hasName(t, "yuanshao")), text: "以明公之神武，引河朔之强众，以伐曹操，易如覆手，何必乃尔！", audio: "guotu1.mp3" },
+		{ cards: ["juedou"], player: "guotu", condition: ctx => ctx.targets?.some(t => hasName(t, "yuanshao")), text: "主公，所谓秦失其鹿，先得者王。", audio: "guotu2.mp3" },
+		{ cards: ["sha"], player: "huanggai", condition: ctx => ctx.targets?.some(t => hasName(t, "caocao")), text: "曹贼休走！", audio: "huanggai1.mp3" },
+		{ cards: ["juedou"], player: "huangzhong", condition: ctx => ctx.targets?.some(t => hasName(t, "xiahouyuan")), text: "昔廉颇年八十，尚食斗米、肉十斤，何况黄忠未及七十乎？", audio: "huangzhong1.mp3" },
+		{ cards: ["sha"], player: "huangzhong", condition: ctx => ctx.targets?.some(t => hasName(t, "xiahouyuan")), text: "夏侯小儿，纳命来！", audio: "huangzhong2.mp3" },
+		{ cards: ["tao"], player: "jiangwei", condition: ctx => ctx.targets?.some(t => hasName(t, "zhonghui")), text: "功高盖主，赏无可赏，士季兄不会没有准备吧？", audio: "jiangwei5.mp3" },
+		{ cards: ["wuzhong"], player: "jiaxu", text: "兵不厌诈，可伪许之。", audio: "jiaxu3.mp3" },
+		{ cards: ["guding"], player: "", speaker: "xusheng", condition: ctx => !hasName(ctx.player, "xusheng") && findPlayer("xusheng"), text: "我刀呢？", audio: "xusheng3.mp3" },
+		{ cards: ["sha"], player: "diaochan", condition: ctx => ctx.targets?.some(t => hasName(t, "lvbu")), text: "往日情分已断，休怪貂蝉无礼！", audio: "diaochan5.mp3" },
+		{ cards: ["tao"], player: "liubei", condition: ctx => ctx.targets?.some(t => hasName(t, "zhugeliang")), text: "君才十倍于曹丕，必能安邦定国，终定大事。", audio: "liubei6.mp3" },
+		{ cards: ["sha"], player: "liubei", condition: ctx => ctx.targets?.some(t => hasName(t, "liushan")), text: "为汝这孺子，几损我一员大将。", audio: "liubei7.mp3" },
+		{ cards: ["tao"], player: "liubei", condition: ctx => ctx.targets?.some(t => hasName(t, "wolongfengchu")), text: "卧龙凤雏，虽千万人吾往矣。", audio: "liubei8.mp3" },
+		{ cards: ["tao"], player: "liushan", condition: ctx => ctx.targets?.some(t => hasName(t, "zhugeliang")), text: "聪慧有何用，他有相父吗？朕有相父就够了。", audio: "liushan2.mp3" },
+		{ cards: ["tao", "jiu"], player: "liushan", text: "父亲，我一定要光复汉室！", audio: "liushan3.mp3" },
+		{ cards: ["wugu"], player: "liuyan", text: "益州熟，天下足！", audio: "liuyan5.mp3" },
+		{ cards: ["lebu"], player: "liuyan", condition: ctx => ctx.targets?.some(t => hasName(t, "liuhong")), text: "谁又在心怀不轨？", audio: "liuyan6.mp3" },
 	];
 
 	const originalUseCard = lib.element.Player.prototype.useCard;
@@ -117,7 +173,7 @@ decadeModule.import((lib, game, ui, get, ai, _status) => {
 			if (!rule.cards.includes(cardName)) continue;
 			if (!hasName(event.player, rule.player)) continue;
 			if (rule.condition && !rule.condition(ctx)) continue;
-			const speaker = rule.target ? ctx.targets?.find(t => hasName(t, rule.target)) : event.player;
+			const speaker = rule.speaker ? findPlayer(rule.speaker) : rule.target ? ctx.targets?.find(t => hasName(t, rule.target)) : event.player;
 			if (speaker) {
 				const seq = nextSequence(rule, ctx);
 				const text = seq?.text || rule.text;
@@ -281,6 +337,18 @@ decadeModule.import((lib, game, ui, get, ai, _status) => {
 		{ players: ["liuchen", "liushan"], dialogues: [{ player: "liuchen", text: "孩儿刘谌，宁死不降！", audio: "liuchen1.mp3", delay: 500 }] },
 		{ players: ["simahui", "liubei"], dialogues: [{ player: "simahui", text: "琴音高亢。必有英雄相听！", audio: "simahui2.mp3", delay: 500 }] },
 		{ players: ["sunchen", "sunxiu"], dialogues: [{ player: "sunchen", text: "陛下可不要忘恩负义哟~", audio: "sunchen1.mp3", delay: 500 }] },
+		{ players: ["sunquan", "gongsunyuan"], dialogues: [{ player: "sunquan", text: "说谎的人，要吞一千根针。", audio: "sunquan2.mp3", delay: 500 }] },
+		{ players: ["sunquan", "yiji"], dialogues: [{ player: "sunquan", text: "侍奉无道之君，很幸苦吧。", audio: "sunquan3.mp3", delay: 500 }] },
+		{ players: ["weiyan", "liubei"], dialogues: [{ player: "weiyan", text: "贼众，且魏拒之！贼寡，且魏吞之！", audio: "weiyan2.mp3", delay: 500 }] },
+		{ players: ["xiahoujie", "zhangfei"], dialogues: [{ player: "xiahoujie", text: "沙场重地，切勿喧哗！", audio: "xiahoujie2.mp3", delay: 500 }] },
+		{ players: ["yufan", "yujin"], dialogues: [{ player: "yufan", text: "败军之将，何颜苟活？", audio: "yufan1.mp3", delay: 500 }] },
+		{ players: ["yuanshu", "liubei"], dialogues: [{ player: "yuanshu", text: "刘玄德，是个忠厚人啊~", audio: "yuanshu3.mp3", delay: 500 }] },
+		{ players: ["zhanghu", "yuechen"], dialogues: [{ player: "zhanghu", text: "我们俩真是太强啦！", audio: "zhanghu1.mp3", delay: 500 }] },
+		{ players: ["zhoushan", "zhangfei"], dialogues: [{ player: "zhoushan", text: "有话好好说，哪有见面就动手的？", audio: "zhoushan1.mp3", delay: 500 }] },
+		{ players: ["caocao", "liubei"], dialogues: [{ player: "caocao", text: "天下英雄谁敌手！", audio: "caocao15.mp3", delay: 500 }] },
+		{ players: ["caocao", "xunyu"], dialogues: [{ player: "caocao", text: "忠正密谋，抚宁内外，文若是也！", audio: "caocao17.mp3", delay: 500 }] },
+		{ players: ["diaochan", "lvbu"], dialogues: [{ player: "diaochan", text: "将军英勇无比，貂蝉敬仰万分。", audio: "diaochan4.mp3", delay: 500 }] },
+		{ players: ["guanyu", "sunquan"], dialogues: [{ player: "guanyu", text: "虎女，安能嫁犬子？", audio: "guanyu7.mp3", delay: 500 }] },
 	];
 
 	lib.announce.subscribe("gameStart", () => {
