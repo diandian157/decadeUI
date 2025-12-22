@@ -1521,9 +1521,10 @@
 /*角色翻面背景*/
 .player > .turned-over {
 	position: absolute;
-	left: 0;
-	top: 0;
-	width: 100%;
+	left: 8px;
+	top: auto;
+	bottom: 0;
+	width: 94%;
 	height: 100%;
 	opacity: 0;
 	background-image: url("../assets/image/turn_over_mask.png");
