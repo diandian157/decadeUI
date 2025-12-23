@@ -180,4 +180,60 @@ decadeModule.import((lib, game, ui, get, ai, _status) => {
 			}
 		}
 	});
+
+	function getEquipUsableSkills(event, player) {
+		if (!event._skillChoice) return [];
+		const ownedlist = game.expandSkills(player.getSkills("invisible", false));
+		return event._skillChoice.filter(skill => !ownedlist.includes(skill) && !lib.skill.global.includes(skill));
+	}
+
+	function getCardSkills(card) {
+		const info = get.info(card);
+		return info?.skills ? game.expandSkills(info.skills.slice()) : [];
+	}
+
+	function handleEquipClick(skill) {
+		ui.click.skill(skill);
+	}
+
+	lib.hooks.checkEnd.add(function (event) {
+		if (!lib.config["extension_十周年UI_aloneEquip"]) return;
+		if (!event.isMine?.() || event.skill || !get.noSelected()) return;
+		const player = event.player;
+		if (player !== game.me) return;
+		const equipCards = player.getCards("e");
+		if (!equipCards.length) return;
+		const usableSkills = getEquipUsableSkills(event, player);
+		if (!usableSkills.length) return;
+		for (const card of equipCards) {
+			const cardSkills = getCardSkills(card);
+			const matchedSkill = cardSkills.find(s => usableSkills.includes(s));
+			if (matchedSkill) {
+				card.classList.add("selectable");
+				card._equipSkill = matchedSkill;
+				if (!card._equipClickHandler) {
+					card._equipClickHandler = () => {
+						if (card._equipSkill && card.classList.contains("selectable")) {
+							handleEquipClick(card._equipSkill);
+						}
+					};
+					card.addEventListener("click", card._equipClickHandler);
+				}
+			} else {
+				card.classList.remove("selectable");
+				delete card._equipSkill;
+			}
+		}
+	});
+
+	lib.hooks.uncheckBegin.add(function () {
+		if (!lib.config["extension_十周年UI_aloneEquip"]) return;
+		if (game.me) {
+			const equipCards = game.me.getCards("e");
+			for (const card of equipCards) {
+				card.classList.remove("selectable");
+				delete card._equipSkill;
+			}
+		}
+	});
 });

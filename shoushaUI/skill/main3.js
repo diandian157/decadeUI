@@ -265,6 +265,11 @@ app.import(function (lib, game, ui, get, ai, _status, app) {
 					});
 					return this;
 				}
+				if (lib.config["extension_十周年UI_aloneEquip"] && eSkills?.length) {
+					const expandedESkills = game.expandSkills(eSkills.slice());
+					const expandedSkill = game.expandSkills([skill]);
+					if (expandedSkill.some(s => expandedESkills.includes(s))) return this;
+				}
 				const self = this;
 				const skills = game.expandSkills([skill]).map(function (item) {
 					return app.get.skillInfo(item);
@@ -280,6 +285,10 @@ app.import(function (lib, game, ui, get, ai, _status, app) {
 				showSkills.forEach(function (item) {
 					let node = self.querySelector(`[data-id="${item.id}"]`);
 					if (node) return;
+					if (lib.config["extension_十周年UI_aloneEquip"] && eSkills?.length) {
+						const expandedESkills = game.expandSkills(eSkills.slice());
+						if (expandedESkills.includes(item.id)) return;
+					}
 					if (item.type === "enable") {
 						const skillName = get.translation(item.name).slice(0, 2);
 						const className = lib.skill[item.id].limited ? ".xiandingji" : ".skillitem";

@@ -178,6 +178,11 @@ app.import(function (lib, game, ui, get, ai, _status, app) {
 					});
 					return this;
 				}
+				if (lib.config["extension_十周年UI_aloneEquip"] && eSkills?.length) {
+					const expandedESkills = game.expandSkills(eSkills.slice());
+					const expandedSkill = game.expandSkills([skill]);
+					if (expandedSkill.some(s => expandedESkills.includes(s))) return this;
+				}
 				const self = this;
 				const nativeSkillSet = new Set();
 				if (game.me) {
@@ -223,6 +228,10 @@ app.import(function (lib, game, ui, get, ai, _status, app) {
 				showSkills.forEach(function (item) {
 					let node = self.querySelector(`[data-id="${item.id}"]`);
 					if (node) return;
+					if (lib.config["extension_十周年UI_aloneEquip"] && eSkills?.length) {
+						const expandedESkills = game.expandSkills(eSkills.slice());
+						if (expandedESkills.includes(item.id)) return;
+					}
 					const skillName = get.translation(item.name);
 					let finalName = skillName.slice(0, 2);
 					if (lib.skill[item.id] && lib.skill[item.id].zhuanhuanji) {
