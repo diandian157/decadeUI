@@ -172,10 +172,7 @@
 	display: none;
 }
 
-.card.decade-card:not(*[data-card-type="basic"]) > .name {
-	bottom: 1px;
-}
-
+.card.decade-card:not(*[data-card-type="basic"]) > .name,
 [data-card-alternate-name-visible="on"] .card.fullskin > .name,
 [data-card-alternate-name-visible="on"] .card.fullskin > .name.long,
 [data-card-alternate-name-visible="on"] .dialog .buttons > .card > .name.long,
