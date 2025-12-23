@@ -393,16 +393,15 @@ decadeModule.import((lib, game, ui, get) => {
 		if (isAskWuxie(event)) return buildWuxieTipText(event);
 		if (isJiedaoEvent(event)) return buildJiedaoTipText(event);
 
-		const promptText = sanitizePrompt(event.prompt);
-		if (!promptText) return null;
-
 		const s = text => decPrompt(sanitizePrompt(text));
 		const [min = 1, max = min] = get.select(event.selectCard) ?? [];
 		const needCount = max >= 0 ? max : min;
 		const { actionWord, cardName } = parseRespondCardInfo(event.respondTo);
 		const targetName = resolveRespondTargetName(event);
 
-		return [{ text: s(`请${actionWord}${needCount}张【`) }, { text: s(cardName), style: "phase" }, { text: s("】响应【") }, { text: s(targetName), style: "phase" }, { text: s("】") }];
+		if (!cardName && !targetName) return null;
+
+		return [{ text: s(`请${actionWord}${needCount}张【`) }, { text: s(cardName || "牌"), style: "phase" }, { text: s("】响应【") }, { text: s(targetName), style: "phase" }, { text: s("】") }];
 	};
 
 	const traverseParent = (event, maxDepth, predicate) => {
@@ -488,9 +487,7 @@ decadeModule.import((lib, game, ui, get) => {
 	};
 
 	const handleRespondUse = (event, compareSkill) => {
-		const promptIncludesRespond = typeof event.prompt === "string" && event.prompt.includes("响应");
-		const respondTipText = event.respondTo || promptIncludesRespond ? buildRespondTipText(event) : null;
-		if (!respondTipText) return false;
+		if (!event.respondTo) return false;
 
 		event.prompt = false;
 		const respondTip = ensureTip();
@@ -499,21 +496,11 @@ decadeModule.import((lib, game, ui, get) => {
 			appendSkillName(respondTip, compareSkill, event.player);
 			respondTip.appendText("，");
 		}
+
+		const respondTipText = buildRespondTipText(event);
+		if (!respondTipText) return false;
+
 		showTip(respondTip, respondTipText);
-
-		event.filterStop = function () {
-			if (this.step > 1) {
-				const currentTip = ensureTip();
-				const skill = getCompareSkill(this);
-				if (skill) {
-					appendSkillName(currentTip, skill, this.player);
-					currentTip.appendText("，");
-				}
-				const tipText = this.respondTo || (typeof this.prompt === "string" && this.prompt.includes("响应")) ? buildRespondTipText(this) : null;
-				if (tipText) showTip(currentTip, tipText);
-			}
-		};
-
 		return true;
 	};
 
@@ -604,19 +591,13 @@ decadeModule.import((lib, game, ui, get) => {
 			tip.appendText("，");
 		}
 
-		showTip(tip, buildRespondTipText(event));
-
-		event.filterStop = function () {
-			if (this.step > 1 && ui.cardDialog) {
-				const currentTip = ensureTip();
-				const skill = getCompareSkill(this);
-				if (skill) {
-					appendSkillName(currentTip, skill, this.player);
-					currentTip.appendText("，");
-				}
-				showTip(currentTip, buildRespondTipText(this));
-			}
-		};
+		const tipText = buildRespondTipText(event);
+		if (tipText) {
+			showTip(tip, tipText);
+		} else {
+			tip.appendText("请打出响应牌");
+			showTip(tip);
+		}
 	};
 
 	lib.hooks.checkBegin.add(event => {
