@@ -424,3 +424,28 @@ body[data-style="codename"] .equips-wrap > .equips-back > div {
 #arena[data-right-layout="on"] > .equips-wrap > .equips > div.equip-card-selectable.selected {
 	transform: translateX(10px);
 }
+
+/* 装备牌选中特效 */
+.equips-wrap > .equips > div.equip-card-selectable::before {
+	content: "";
+	position: absolute;
+	top: -4px;
+	left: -4px;
+	right: -4px;
+	bottom: -4px;
+	border-image-source: url("../assets/image/card_select.png");
+	border-image-slice: 8 7 7 8;
+	border-style: solid;
+	border-image-width: 4px;
+	border-width: 4px;
+	box-shadow: none;
+	border-radius: inherit;
+	opacity: 0;
+	transition: opacity 0.3s linear;
+	z-index: 2;
+	pointer-events: none;
+}
+
+.equips-wrap > .equips > div.equip-card-selectable.selected::before {
+	opacity: 1;
+}

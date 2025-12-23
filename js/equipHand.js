@@ -195,7 +195,26 @@ decadeModule.import((lib, game, ui, get, ai, _status) => {
 	function handleEquipClick(e, skill) {
 		e.stopImmediatePropagation();
 		e.preventDefault();
+		if (e.type === "touchstart") {
+			e.target._equipTouchHandled = true;
+		}
 		ui.click.skill(skill);
+	}
+
+	function addEquipClickListener(card, handler) {
+		if (lib.config.touchscreen) {
+			card.addEventListener("touchstart", handler, true);
+		} else {
+			card.addEventListener("click", handler, true);
+		}
+	}
+
+	function removeEquipClickListener(card, handler) {
+		if (lib.config.touchscreen) {
+			card.removeEventListener("touchstart", handler, true);
+		} else {
+			card.removeEventListener("click", handler, true);
+		}
 	}
 
 	function showSkillSelector(e, skills) {
@@ -230,7 +249,7 @@ decadeModule.import((lib, game, ui, get, ai, _status) => {
 			card.classList.remove("equip-card-selectable");
 			delete card._equipSkills;
 			if (card._equipClickHandler) {
-				card.removeEventListener("click", card._equipClickHandler, true);
+				removeEquipClickListener(card, card._equipClickHandler);
 				delete card._equipClickHandler;
 			}
 		}
@@ -281,7 +300,7 @@ decadeModule.import((lib, game, ui, get, ai, _status) => {
 				card.classList.add("selectable");
 				card._equipSkills = matchedSkills;
 				if (card._equipClickHandler) {
-					card.removeEventListener("click", card._equipClickHandler, true);
+					removeEquipClickListener(card, card._equipClickHandler);
 				}
 				card._equipClickHandler = e => {
 					if (!card._equipSkills?.length || !card.classList.contains("selectable")) return;
@@ -291,11 +310,11 @@ decadeModule.import((lib, game, ui, get, ai, _status) => {
 						showSkillSelector(e, card._equipSkills);
 					}
 				};
-				card.addEventListener("click", card._equipClickHandler, true);
+				addEquipClickListener(card, card._equipClickHandler);
 			} else {
 				card.classList.remove("selectable");
 				if (card._equipClickHandler) {
-					card.removeEventListener("click", card._equipClickHandler, true);
+					removeEquipClickListener(card, card._equipClickHandler);
 					delete card._equipClickHandler;
 				}
 				delete card._equipSkills;
