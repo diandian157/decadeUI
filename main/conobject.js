@@ -1025,6 +1025,7 @@ const createDecadeUIObject = () => ({
 							return this;
 						},
 						$dieAfter() {
+							this.stopDynamic();
 							this.node.gainSkill.innerHTML = null;
 							if (!this.node.dieidentity) this.node.dieidentity = ui.create.div("died-identity", this);
 							this.node.dieidentity.classList.add("died-identity");
