@@ -96,8 +96,8 @@ export let config = {
 		},
 	},
 	cardScale: {
-		name: "卡牌大小",
-		intro: "调整手牌区域卡牌大小，弃牌堆卡牌自动-0.05大小，输入0.10~1.00的小数，回车保存并生效",
+		name: "手牌大小",
+		intro: "输入0.10~1.00的小数，回车保存并生效",
 		init: "0.18",
 		input: true,
 		onblur: function () {
@@ -110,6 +110,23 @@ export let config = {
 			if (window.decadeUI) {
 				decadeUI.zooms.card = decadeUI.getCardBestScale();
 				decadeUI.layout.resize();
+			}
+		},
+	},
+	discardScale: {
+		name: "弃牌堆卡牌大小",
+		intro: "输入0.10~1.00的小数，回车保存并生效",
+		init: "0.14",
+		input: true,
+		onblur: function () {
+			this.innerHTML = this.innerHTML.replace(/<br>/g, "");
+			let value = parseFloat(this.innerHTML);
+			if (isNaN(value)) value = 0.18;
+			value = Math.max(0.1, Math.min(1, value));
+			this.innerHTML = value.toFixed(2);
+			game.saveConfig("extension_十周年UI_discardScale", value);
+			if (window.decadeUI) {
+				decadeUI.layout.updateDiscard();
 			}
 		},
 	},

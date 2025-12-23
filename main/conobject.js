@@ -5190,8 +5190,7 @@ const createDecadeUIObject = () => ({
 			const ph = bounds.height;
 			const cw = bounds.cardWidth;
 			const ch = bounds.cardHeight;
-			const cardScale = (lib && lib.config && lib.config.extension_十周年UI_cardScale) || 0.18;
-			const discardScale = Math.max(0.1, parseFloat(cardScale) - 0.05);
+			const discardScale = (lib && lib.config && lib.config.extension_十周年UI_discardScale) || 0.14;
 			const bodySize = decadeUI.get.bodySize();
 			const base = discardScale;
 			const cs = Math.min((bodySize.height * base) / ch, 1);
