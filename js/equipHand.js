@@ -199,9 +199,7 @@ decadeModule.import((lib, game, ui, get, ai, _status) => {
 	function handleEquipClick(e, skill) {
 		e.stopImmediatePropagation();
 		e.preventDefault();
-		if (e.type === "touchstart") {
-			e.target._equipTouchHandled = true;
-		}
+		e.currentTarget._equipSkillHandled = true;
 		ui.click.skill(skill);
 	}
 
@@ -224,6 +222,7 @@ decadeModule.import((lib, game, ui, get, ai, _status) => {
 	function showSkillSelector(e, skills) {
 		e.stopImmediatePropagation();
 		e.preventDefault();
+		e.currentTarget._equipSkillHandled = true;
 		if (ui._equipSkillDialog) {
 			ui._equipSkillDialog.close();
 			delete ui._equipSkillDialog;
@@ -244,6 +243,15 @@ decadeModule.import((lib, game, ui, get, ai, _status) => {
 		dialog.classList.add("forcebutton");
 		dialog.open();
 	}
+
+	const _originalClickCard = ui.click.card;
+	ui.click.card = function () {
+		if (this._equipSkillHandled) {
+			delete this._equipSkillHandled;
+			return;
+		}
+		return _originalClickCard.apply(this, arguments);
+	};
 
 	function clearEquipSelectable() {
 		if (!game.me) return;
