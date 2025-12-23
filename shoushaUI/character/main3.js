@@ -183,7 +183,8 @@ app.import((lib, game, ui, get, ai, _status, app) => {
 						const pfzwm = skinname === player["name"] || skinname === player["name"] + "_shadow" || skinname === player["name"] + "2" || skinname === player["name"] + "3" || skinname === "default_silhouette_male" || skinname === "default_silhouette_female" || skinname === "default_silhouette_double" ? "经典形象" : skinname;
 						const pifuming = ui.create.div(".pifuming", bigdialog, get.translation(pfzwm));
 						// 武将名
-						const wujiangming = ui.create.div(".wujiangming", bigdialog, get.translation(player["name"]));
+						const wujiangming = ui.create.div(".wujiangming", bigdialog);
+						wujiangming.innerHTML = get.slimNameHorizontal(player["name"]);
 						// 玩家名
 						const wanjiaming = ui.create.div(".wanjiaming", bigdialog, playname);
 						// VIP图标
@@ -464,7 +465,8 @@ app.import((lib, game, ui, get, ai, _status, app) => {
 				// 武将技能展示
 				const jineng = ui.create.div(".jineng", dialog, get.translation("武将技能"));
 				// 武将姓名
-				const wjname = ui.create.div(".wjname", dialog, get.translation(player["name"]));
+				const wjname = ui.create.div(".wjname", dialog);
+				wjname.innerHTML = get.slimNameHorizontal(player["name"]);
 				// 玩家名
 				const wanjiaming2 = ui.create.div(".wanjiaming2", dialog, playname);
 				leftPane.innerHTML = "<div></div>";

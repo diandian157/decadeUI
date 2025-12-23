@@ -86,8 +86,7 @@ app.import((lib, game, ui, get, ai, _status, app) => {
 			// 获取单个武将名
 			getSingleName(name) {
 				if (name === "unknown") return "未知";
-				if (lib.translate[name + "_ab"]) return lib.translate[name + "_ab"];
-				return get.translation(name);
+				return get.slimNameHorizontal(name);
 			},
 
 			// 获取稀有度图片URL

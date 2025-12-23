@@ -315,7 +315,7 @@ app.import(function (lib, game, ui, get, ai, _status, app) {
 					clonedSidebar.scrollTop = clonedSidebar.scrollHeight - clonedSidebar.clientHeight;
 				}
 			}
-			const prefixName = lib.translate[tar.name + "_prefix"] ? `${get.prefixSpan(get.translation(tar.name + "_prefix"), tar.name)}${get.rawName(tar.name)}` : get.translation(tar.name);
+			const prefixName = get.slimNameHorizontal(tar.name);
 			const seatnum = `(${tar.getSeatNum() === 2 ? "二" : get.cnNumber(tar.getSeatNum())}号位)`;
 			const name = ui.create.div(".name", prefixName + seatnum, namebgbg, function (event) {
 				change(event);

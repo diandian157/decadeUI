@@ -986,7 +986,7 @@ app.import((lib, game, ui, get, ai, _status, app) => {
 										};
 									}
 									const processedStr = str.replace(/##assetURL##/g, lib.assetURL);
-									const playerName = get.translation(String(player.name));
+									const playerName = get.slimNameHorizontal(String(player.name));
 									const displayName = player.nickname ? `${playerName}[${player.nickname}]` : playerName;
 									game.addChatWord(`<font color=green>${displayName}</font><font color=white>：${processedStr}</font>`);
 								},

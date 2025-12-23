@@ -191,11 +191,11 @@ app.import((lib, game, ui, get, ai, _status, app) => {
 				// 武将姓名
 				let nametext = "";
 				if (name && name2) {
-					nametext += name === "unknown" ? "未知" : lib.translate[name + "_ab"] || get.translation(name);
+					nametext += name === "unknown" ? "未知" : get.slimNameHorizontal(name);
 					nametext += " / ";
-					nametext += name2 === "unknown" ? "未知" : lib.translate[name2 + "_ab"] || get.translation(name2);
+					nametext += name2 === "unknown" ? "未知" : get.slimNameHorizontal(name2);
 				} else {
-					nametext += name === "unknown" ? "未知" : lib.translate[name + "_ab"] || get.translation(name);
+					nametext += name === "unknown" ? "未知" : get.slimNameHorizontal(name);
 				}
 				const namestyle = ui.create.div(".name", nametext, dialog);
 				namestyle.dataset.camp = group;

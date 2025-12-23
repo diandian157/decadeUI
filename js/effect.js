@@ -113,7 +113,7 @@ decadeModule.import((lib, game, ui, get, ai, _status) => {
 		getPlayerNameWithPrefix(player, useName2 = false) {
 			const name = useName2 ? player.name2 : player.name;
 			if (!name) return "";
-			return lib.translate[name + "_prefix"] ? `${get.prefixSpan(get.translation(name + "_prefix"), name)}${get.rawName(name)}` : get.translation(name);
+			return get.slimNameHorizontal(name);
 		},
 	};
 	decadeUI.effect = {

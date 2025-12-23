@@ -108,7 +108,7 @@ app.import((lib, game, ui, get, ai, _status, app) => {
 		// 获取武将名称
 		getCharacterName(name, player) {
 			if (name === "unknown") return "未知";
-			return lib.translate[name + "_prefix"] ? `${get.prefixSpan(get.translation(name + "_prefix"), name)}${get.rawName(name)}` : get.translation(name);
+			return get.slimNameHorizontal(name);
 		},
 		// 生成技能HTML
 		generateSkillHTML(nameContent, descContent, typeText) {
@@ -303,7 +303,7 @@ app.import((lib, game, ui, get, ai, _status, app) => {
 				// 势力边框
 				const kuang = ui.create.div(`.kuang`, charPic);
 				ui.create.div(`.xing`, kuang);
-				const prefixName = lib.translate[charName + "_prefix"] ? `${get.prefixSpan(get.translation(charName + "_prefix"), charName)}${get.rawName(charName)}` : get.translation(charName);
+				const prefixName = get.slimNameHorizontal(charName);
 				ui.create.div(".charName", prefixName, kuang);
 				const shili = ui.create.div(`.shili`, kuang);
 				shili.setBackgroundImage(plugin.getOlsBackgroundImage(group));

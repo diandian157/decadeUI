@@ -18,17 +18,7 @@ decadeModule.import((lib, game, ui, get) => {
 		if (!target) return null;
 		const name = typeof target === "object" && target.name ? target.name : target;
 		if (!name) return null;
-		const prefixKey = name + "_prefix";
-		if (lib.translate?.[prefixKey]) {
-			const translation = get.translation(prefixKey);
-			const prefixList = translation == null ? [] : Array.isArray(translation) ? translation : String(translation).split("|");
-			const prefixSpan = prefixList
-				.filter(Boolean)
-				.map(prefix => get.prefixSpan(prefix, name))
-				.join("");
-			if (prefixSpan) return `${prefixSpan}${get.rawName(name)}`;
-		}
-		return get.translation(name);
+		return get.slimNameHorizontal(name);
 	};
 	const closeDialog = dialog => {
 		if (!dialog) return;

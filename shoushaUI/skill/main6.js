@@ -463,7 +463,7 @@ app.import(function (lib, game, ui, get, ai, _status, app) {
 					const skill = lib.skill[this.name];
 					if (skill && skill.intro && skill.intro.markExtra) return this;
 					if (type === "character") {
-						name = get.translation(name) || name;
+						name = get.slimNameHorizontal(name) || name;
 						this._characterMark = true;
 						return this.setExtra(name);
 					}
