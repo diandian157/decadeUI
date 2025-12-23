@@ -41,7 +41,11 @@ decadeModule.import((lib, game, ui, get, ai, _status) => {
 			const selecteds = [...ui.selected.cards].map(card => player.getCards("s", i => i.relatedCard === card)[0] || card);
 			ui.selected.cards.length = 0;
 			game.check();
-			const selectables = get.selectableCards();
+			let selectables = get.selectableCards();
+			if (lib.config["extension_十周年UI_aloneEquip"]) {
+				const equipSelectables = player.getCards("e").filter(card => card.classList.contains("selectable") && card.classList.contains("equip-card-selectable"));
+				selectables = selectables.concat(equipSelectables);
+			}
 			const cards = selecteds.length ? [...new Set(selectables).difference(selecteds)] : selectables;
 			if (cards.length <= range[1]) ui.selected.cards.push(...cards);
 			else ui.selected.cards.push(...cards.randomGets(range[1]));
