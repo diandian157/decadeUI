@@ -38,13 +38,15 @@ decadeModule.import((lib, game, ui, _get, _ai, _status) => {
 		if (event.name === "chooseToRespond") return true;
 		if (event.respondTo) return true;
 		if (event.type === "wuxie") return true;
+		if (event.name === "phaseDiscard") return false;
 		const parent = event.getParent?.();
+		if (parent?.name === "phaseDiscard") return false;
 		if (parent?.name === "chooseToRespond") return true;
 		if (parent?.respondTo) return true;
 		if (parent?.name === "dying" || event.dying) return true;
 		if (event.forced || event.forceDirect) return true;
 		if (event.name === "chooseCard" && !event.dialog?.querySelector(".buttons")) return true;
-		if (event.name === "chooseToDiscard" && parent?.name !== "phaseDiscard") {
+		if (event.name === "chooseToDiscard") {
 			const range = getRange(event, "Card");
 			if (range[0] === 1 && range[1] === 1) return true;
 		}
