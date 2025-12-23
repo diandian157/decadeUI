@@ -38,6 +38,16 @@ decadeModule.import((lib, game, ui, get) => {
 		closeDialog(ui.cardDialog);
 		delete ui.cardDialog;
 	};
+	const hasVisibleTip = () => {
+		const tip = ui.cardDialog;
+		if (!tip) return false;
+		if (tip.closed) return false;
+		const info = tip.$info;
+		if (info && typeof info.innerHTML === "string" && info.innerHTML.trim()) return true;
+		const text = tip.textContent;
+		if (typeof text === "string" && text.trim()) return true;
+		return false;
+	};
 	const resetHandTips = () => {
 		closeCardDialog();
 		const tips = dui?.statics?.handTips;
@@ -417,5 +427,43 @@ decadeModule.import((lib, game, ui, get) => {
 			return originalGameOver.apply(this, args);
 		};
 	};
+	const refreshTipForCurrentEvent = event => {
+		if (!event) return;
+		if (event.player !== game.me) return;
+		if (event.name === "chooseToDiscard") {
+			handleDiscard(event);
+			return;
+		}
+		if (event.name === "chooseToUse") {
+			handleUse(event);
+			return;
+		}
+		if (event.name === "chooseToRespond") {
+			handleRespond(event);
+			return;
+		}
+		if (event.type === "phase") {
+			handlePhaseUse(event);
+		}
+	};
+	const installCancelRefresh = () => {
+		if (game.__decadePromptCancelRefreshInstalled) return;
+		const click = ui?.click;
+		if (!click || typeof click.cancel !== "function") return;
+		game.__decadePromptCancelRefreshInstalled = true;
+		const originalCancel = click.cancel;
+		click.cancel = function decadeUIPromptCancel(...args) {
+			const result = originalCancel.apply(this, args);
+			setTimeout(() => {
+				try {
+					if (hasVisibleTip()) return;
+					const current = typeof _status !== "undefined" ? _status.event : null;
+					refreshTipForCurrentEvent(current);
+				} catch (e) {}
+			}, 0);
+			return result;
+		};
+	};
 	installPromptCleanup();
+	installCancelRefresh();
 });
