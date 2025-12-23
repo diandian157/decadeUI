@@ -198,6 +198,30 @@ decadeModule.import((lib, game, ui, get, ai, _status) => {
 		ui.click.skill(skill);
 	}
 
+	function showSkillSelector(e, skills) {
+		e.stopImmediatePropagation();
+		e.preventDefault();
+		if (ui._equipSkillDialog) {
+			ui._equipSkillDialog.close();
+			delete ui._equipSkillDialog;
+		}
+		const dialog = ui.create.dialog("选择要发动的技能", "hidden");
+		ui._equipSkillDialog = dialog;
+		for (const skill of skills) {
+			const item = dialog.add('<div class="popup text pointerdiv" style="width:calc(100% - 10px);display:inline-block">' + get.skillTranslation(skill, game.me, true) + "</div>");
+			item.firstChild.link = skill;
+			item.firstChild.addEventListener(lib.config.touchscreen ? "touchend" : "click", function (ev) {
+				ev.stopPropagation();
+				dialog.close();
+				delete ui._equipSkillDialog;
+				ui.click.skill(this.link);
+			});
+		}
+		dialog.forcebutton = true;
+		dialog.classList.add("forcebutton");
+		dialog.open();
+	}
+
 	lib.hooks.checkEnd.add(function (event) {
 		if (!lib.config["extension_十周年UI_aloneEquip"]) return;
 		if (!event.isMine?.() || event.skill || !get.noSelected()) return;
@@ -209,16 +233,19 @@ decadeModule.import((lib, game, ui, get, ai, _status) => {
 		if (!usableSkills.length) return;
 		for (const card of equipCards) {
 			const cardSkills = getCardSkills(card);
-			const matchedSkill = cardSkills.find(s => usableSkills.includes(s));
-			if (matchedSkill) {
+			const matchedSkills = cardSkills.filter(s => usableSkills.includes(s));
+			if (matchedSkills.length) {
 				card.classList.add("selectable");
-				card._equipSkill = matchedSkill;
+				card._equipSkills = matchedSkills;
 				if (card._equipClickHandler) {
 					card.removeEventListener("click", card._equipClickHandler, true);
 				}
 				card._equipClickHandler = e => {
-					if (card._equipSkill && card.classList.contains("selectable")) {
-						handleEquipClick(e, card._equipSkill);
+					if (!card._equipSkills?.length || !card.classList.contains("selectable")) return;
+					if (card._equipSkills.length === 1) {
+						handleEquipClick(e, card._equipSkills[0]);
+					} else {
+						showSkillSelector(e, card._equipSkills);
 					}
 				};
 				card.addEventListener("click", card._equipClickHandler, true);
@@ -228,18 +255,22 @@ decadeModule.import((lib, game, ui, get, ai, _status) => {
 					card.removeEventListener("click", card._equipClickHandler, true);
 					delete card._equipClickHandler;
 				}
-				delete card._equipSkill;
+				delete card._equipSkills;
 			}
 		}
 	});
 
 	lib.hooks.uncheckBegin.add(function () {
 		if (!lib.config["extension_十周年UI_aloneEquip"]) return;
+		if (ui._equipSkillDialog) {
+			ui._equipSkillDialog.close();
+			delete ui._equipSkillDialog;
+		}
 		if (game.me) {
 			const equipCards = game.me.getCards("e");
 			for (const card of equipCards) {
 				card.classList.remove("selectable");
-				delete card._equipSkill;
+				delete card._equipSkills;
 				if (card._equipClickHandler) {
 					card.removeEventListener("click", card._equipClickHandler, true);
 					delete card._equipClickHandler;
