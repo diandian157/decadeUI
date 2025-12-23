@@ -37,6 +37,7 @@ decadeModule.import((lib, game, ui, _get, _ai, _status) => {
 	const isRespondEvent = event => {
 		if (event.name === "chooseToRespond") return true;
 		if (event.respondTo) return true;
+		if (event.type === "wuxie") return true;
 		const parent = event.getParent?.();
 		if (parent?.name === "chooseToRespond") return true;
 		if (parent?.respondTo) return true;

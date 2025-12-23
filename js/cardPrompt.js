@@ -295,13 +295,16 @@ decadeModule.import((lib, game, ui, get) => {
 
 	const isAskWuxie = event => {
 		if (!event) return false;
+		if (event.type === "wuxie") return true;
 		if (event.card?.name === "wuxie") return true;
 		return sanitizePrompt(event.prompt).includes("无懈可击");
 	};
 
 	const resolveWuxieTarget = (event, respondCard, parentMap) => {
 		const sourcePlayer = Array.isArray(event.respondTo) ? event.respondTo[0] : null;
-		const candidates = [respondCard?.target, respondCard?.targets, event.target, parentMap?.target, parentMap?.targets, parentMap?.isJudge ? parentMap?.player : null, sourcePlayer];
+		const judgeParent = traverseParent(event, MAX_PARENT_DEPTH_DEEP, p => p.name === "judge" || p.name === "phaseJudge");
+		const judgePlayer = judgeParent?.player;
+		const candidates = [respondCard?.target, respondCard?.targets, event.target, parentMap?.target, parentMap?.targets, judgePlayer, parentMap?.isJudge ? parentMap?.player : null, sourcePlayer];
 		for (const candidate of candidates) {
 			const name = resolveName(getSingleTarget(candidate));
 			if (name) return name;
@@ -318,14 +321,26 @@ decadeModule.import((lib, game, ui, get) => {
 
 	const buildWuxieTipText = event => {
 		const [sourcePlayer, respondCard] = Array.isArray(event.respondTo) ? event.respondTo : [];
-		const sourceName = resolveName(sourcePlayer) ?? "未知角色";
-		const cardName = respondCard ? get.translation(respondCard.name || respondCard) : "该牌";
 		const parentEvent = event.getParent?.();
 		const parentMap = parentEvent?._info_map;
-		const targetName = resolveWuxieTarget(event, respondCard, parentMap);
-		const stateWord = getWuxieStateWord(event, parentMap);
+		const judgeParent = traverseParent(event, MAX_PARENT_DEPTH_DEEP, p => p.name === "judge" || p.name === "phaseJudge");
+		const judgeCard = judgeParent?.card;
+		const delayCardName = judgeCard?.viewAs || judgeCard?.name;
+		const isDelayTrick = judgeParent && delayCardName && lib.card[delayCardName]?.type === "delay";
 
+		const stateWord = getWuxieStateWord(event, parentMap);
 		const s = text => decPrompt(sanitizePrompt(text));
+
+		if (isDelayTrick) {
+			const judgePlayer = judgeParent?.player;
+			const playerName = judgePlayer ? get.slimNameHorizontal(judgePlayer.name) : "未知角色";
+			const cardName = get.translation(delayCardName);
+			return [{ text: playerName, style: "phase" }, { text: s("的") }, { text: s(cardName), style: "phase" }, { text: s("即将") }, { text: s(stateWord) }, { text: s("，是否使用【") }, { text: s("无懈可击"), style: "phase" }, { text: s("】？") }];
+		}
+
+		const cardName = respondCard ? get.translation(respondCard.name || respondCard) : "该牌";
+		const targetName = resolveWuxieTarget(event, respondCard, parentMap);
+		const sourceName = resolveName(sourcePlayer) ?? "未知角色";
 		return [{ text: s(sourceName), style: "phase" }, { text: s("对") }, { text: s(targetName), style: "phase" }, { text: s("使用的【") }, { text: s(cardName), style: "phase" }, { text: s("】即将") }, { text: s(stateWord) }, { text: s("，是否使用【") }, { text: s("无懈可击"), style: "phase" }, { text: s("】？") }];
 	};
 
@@ -553,9 +568,22 @@ decadeModule.import((lib, game, ui, get) => {
 		return true;
 	};
 
+	const handleWuxieUse = event => {
+		if (event.type !== "wuxie") return false;
+
+		closeDialog(event.dialog);
+		event.dialog = false;
+		event.prompt = false;
+
+		const wuxieTip = ensureTip();
+		showTip(wuxieTip, buildWuxieTipText(event));
+		return true;
+	};
+
 	const handleUse = event => {
 		const compareSkill = getCompareSkill(event);
 
+		if (handleWuxieUse(event)) return;
 		if (handleRespondUse(event, compareSkill)) return;
 		if (handleDyingUse(event)) return;
 		if (handleSkillUse(event)) return;
