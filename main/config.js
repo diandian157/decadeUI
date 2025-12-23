@@ -431,37 +431,23 @@ export let config = {
 			if (window.decadeUI) {
 				const value = lib.config.extension_十周年UI_borderLevel;
 				ui.arena.dataset.borderLevel = value;
+				ui.arena.dataset.longLevel = value;
 				if (_status.gameStarted) {
 					const players = ui.arena?.querySelectorAll?.(".player") || [];
 					if (value === "random") {
 						const levels = ["one", "two", "three", "four", "five"];
 						players.forEach(p => {
-							p.dataset.borderLevel = levels[Math.floor(Math.random() * levels.length)];
+							const level = levels[Math.floor(Math.random() * levels.length)];
+							p.dataset.borderLevel = level;
+							p.dataset.longLevel = level;
 						});
 					} else {
 						players.forEach(p => {
 							delete p.dataset.borderLevel;
+							delete p.dataset.longLevel;
 						});
 					}
 				}
-			}
-		},
-	},
-	longLevel: {
-		name: "等阶龙头",
-		init: "eight",
-		item: {
-			eight: "关闭",
-			one: "银龙",
-			two: "金龙",
-			three: "玉龙",
-			five: "炎龙",
-			sex: "随机",
-			seven: "评级",
-		},
-		update() {
-			if (window.decadeUI) {
-				ui.arena.dataset.longLevel = lib.config.extension_十周年UI_longLevel;
 			}
 		},
 	},

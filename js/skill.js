@@ -27,65 +27,21 @@ decadeModule.import((lib, game, ui, get, ai, _status) => {
 				});
 			},
 		},
-		mx_longLevel: {
+		mx_borderLevel: {
 			trigger: {
 				global: "gameStart",
 			},
 			silent: true,
 			forced: true,
 			filter(event, player) {
-				return ["sex", "seven"].includes(lib.config.extension_十周年UI_longLevel);
+				return lib.config.extension_十周年UI_newDecadeStyle === "off" && lib.config.extension_十周年UI_borderLevel === "random";
 			},
 			async content(event, trigger, player) {
-				game.removeGlobalSkill("mx_longLevel");
-				const longLevel = lib.config.extension_十周年UI_longLevel;
-				const createAndAppendDragon = (target, src, styles) => {
-					const img = document.createElement("img");
-					img.src = src;
-					Object.assign(img.style, {
-						pointerEvents: "none",
-						position: "absolute",
-						display: "block",
-						...styles,
-					});
-					target.appendChild(img);
-				};
-				const dragonData = {
-					yan: {
-						src: `${decadeUIPath}/assets/image/long1_yan.png`,
-						style: { top: "-88px", left: "-23px", height: "213%", width: "160%", zIndex: "98" },
-					},
-					yu: {
-						src: `${decadeUIPath}/assets/image/long1_yu.png`,
-						style: { top: "-40px", left: "-25px", height: "139%", width: "156%", zIndex: "85" },
-					},
-				};
-				game.players.forEach(target => {
-					let rarity;
-					if (longLevel === "seven") {
-						const rarityMap = {
-							junk: "silver",
-							common: "gold",
-							rare: "yu",
-							epic: "yan",
-							legend: "yan",
-						};
-						rarity = rarityMap[game.getRarity(target.name)];
-					} else if (longLevel === "sex") {
-						const rarityList = ["gold", "yu", "yan"];
-						rarity = rarityList[Math.floor(Math.random() * rarityList.length)];
-					}
-					if (dragonData[rarity]) {
-						const data = dragonData[rarity];
-						createAndAppendDragon(target, data.src, data.style);
-					} else {
-						const src1 = `${decadeUIPath}/assets/image/long_${rarity}1.png`;
-						const styles1 = { top: "-36px", right: "-26px", height: "133px", width: "80px", zIndex: "80" };
-						createAndAppendDragon(target, src1, styles1);
-						const src2 = `${decadeUIPath}/assets/image/long_${rarity}2.png`;
-						const styles2 = { bottom: "-10px", right: "-13px", height: "40px", width: "92px", zIndex: "99" };
-						createAndAppendDragon(target, src2, styles2);
-					}
+				game.removeGlobalSkill("mx_borderLevel");
+				const levels = ["two", "three", "four", "five"];
+				game.players.forEach(p => {
+					const level = levels[Math.floor(Math.random() * levels.length)];
+					p.dataset.longLevel = level;
 				});
 			},
 		},
