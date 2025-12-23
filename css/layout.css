@@ -633,8 +633,6 @@ body > .background {
 	position: static;
 	height: calc(100% - 4px);
 	line-height: normal;
-	margin-left: 6px !important;
-	margin-right: 6px !important;
 	text-shadow: none;
 	font-size: inherit;
 	cursor: pointer;
@@ -661,9 +659,9 @@ body > .background {
 	padding-right: 0px;
 	padding-top: 0px;
 	padding-bottom: 0px;
-	height: 100%;
-	margin-left: 8px !important;
-	margin-right: 8px !important;
+	height: 95%;
+	margin-left: 15px !important;
+	margin-right: 15px !important;
 	opacity: 1;
 }
 
