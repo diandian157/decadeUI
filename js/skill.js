@@ -90,6 +90,7 @@ decadeModule.import((lib, game, ui, get, ai, _status) => {
 			popup: false,
 			silent: true,
 			filter(event, player) {
+				if (lib.config.extension_十周年UI_newDecadeStyle === "off") return false;
 				const recastableCards = ["tiesuo", "lulitongxin", "zhibi"];
 				const cardName = get.name(event.card);
 				return recastableCards.includes(cardName) && (!event.targets || event.targets.length === 0);
@@ -859,55 +860,57 @@ decadeModule.import((lib, game, ui, get, ai, _status) => {
 				Object.assign(lib.skill[key].subSkill[j], decadeUI.inheritSubSkill[key][j]);
 			}
 		}
-		const recastableCards = ["tiesuo", "lulitongxin", "zhibi"];
-		recastableCards.forEach(cardName => {
-			const card = lib.card[cardName];
-			if (!card || !card.recastable) return;
-			const originalSelectTarget = card.selectTarget;
-			const minTarget = Array.isArray(originalSelectTarget) ? originalSelectTarget[0] : originalSelectTarget || 1;
-			const maxTarget = Array.isArray(originalSelectTarget) ? originalSelectTarget[1] : originalSelectTarget || 1;
-			Object.assign(card, {
-				selectTarget: [0, maxTarget],
-				filterOk() {
-					const player = _status.event.player;
-					const cardObj = get.card();
-					if (ui.selected.targets.length === 0) {
-						return cardObj && player.canRecast(cardObj);
+		if (lib.config.extension_十周年UI_newDecadeStyle !== "off") {
+			const recastableCards = ["tiesuo", "lulitongxin", "zhibi"];
+			recastableCards.forEach(cardName => {
+				const card = lib.card[cardName];
+				if (!card || !card.recastable) return;
+				const originalSelectTarget = card.selectTarget;
+				const minTarget = Array.isArray(originalSelectTarget) ? originalSelectTarget[0] : originalSelectTarget || 1;
+				const maxTarget = Array.isArray(originalSelectTarget) ? originalSelectTarget[1] : originalSelectTarget || 1;
+				Object.assign(card, {
+					selectTarget: [0, maxTarget],
+					filterOk() {
+						const player = _status.event.player;
+						const cardObj = get.card();
+						if (ui.selected.targets.length === 0) {
+							return cardObj && player.canRecast(cardObj);
+						}
+						return ui.selected.targets.length >= minTarget;
+					},
+				});
+			});
+			if (lib.skill._recasting) {
+				const originalFilterCard = lib.skill._recasting.filterCard;
+				lib.skill._recasting.filterCard = function (card, player) {
+					if (recastableCards.includes(get.name(card))) return false;
+					return originalFilterCard.call(this, card, player);
+				};
+			}
+			if (lib.hooks?.checkEnd) {
+				lib.hooks.checkEnd.add("_decadeUI_recastable_confirm", (event, { ok }) => {
+					if (!ui.confirm) return;
+					const card = get.card();
+					if (!card) return;
+					const cardName = get.name(card);
+					const okBtn = ui.confirm.firstChild;
+					if (!okBtn || okBtn.link !== "ok") return;
+					if (recastableCards.includes(cardName) && ui.selected.targets.length === 0) {
+						okBtn.innerHTML = "重铸";
+					} else if (okBtn.innerHTML === "重铸") {
+						okBtn.innerHTML = "确定";
 					}
-					return ui.selected.targets.length >= minTarget;
-				},
-			});
-		});
-		if (lib.skill._recasting) {
-			const originalFilterCard = lib.skill._recasting.filterCard;
-			lib.skill._recasting.filterCard = function (card, player) {
-				if (recastableCards.includes(get.name(card))) return false;
-				return originalFilterCard.call(this, card, player);
-			};
-		}
-		if (lib.hooks?.checkEnd) {
-			lib.hooks.checkEnd.add("_decadeUI_recastable_confirm", (event, { ok }) => {
-				if (!ui.confirm) return;
-				const card = get.card();
-				if (!card) return;
-				const cardName = get.name(card);
-				const okBtn = ui.confirm.firstChild;
-				if (!okBtn || okBtn.link !== "ok") return;
-				if (recastableCards.includes(cardName) && ui.selected.targets.length === 0) {
-					okBtn.innerHTML = "重铸";
-				} else if (okBtn.innerHTML === "重铸") {
-					okBtn.innerHTML = "确定";
-				}
-			});
-		}
-		if (lib.hooks?.uncheckEnd) {
-			lib.hooks.uncheckEnd.add("_decadeUI_recastable_confirm_reset", () => {
-				if (!ui.confirm) return;
-				const okBtn = ui.confirm.firstChild;
-				if (okBtn && okBtn.innerHTML === "重铸") {
-					okBtn.innerHTML = "确定";
-				}
-			});
+				});
+			}
+			if (lib.hooks?.uncheckEnd) {
+				lib.hooks.uncheckEnd.add("_decadeUI_recastable_confirm_reset", () => {
+					if (!ui.confirm) return;
+					const okBtn = ui.confirm.firstChild;
+					if (okBtn && okBtn.innerHTML === "重铸") {
+						okBtn.innerHTML = "确定";
+					}
+				});
+			}
 		}
 	}
 });
