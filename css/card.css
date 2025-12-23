@@ -153,11 +153,44 @@
 }
 
 /*卡名辅助显示及控制*/
-.card > .name,
 .card.fullskin > .name,
 .card.fullskin > .name.long,
 .dialog .buttons > .card > .name.long {
+	top: auto;
+	bottom: 5px;
+	line-height: 16px;
+	color: black;
+	font-size: 16px;
+	font-weight: bold;
+	font-family: shousha;
+	text-shadow:
+		0 0 1px white,
+		0 0 3px white;
+	border: 1px solid black;
+	border-radius: 2px;
+	z-index: 1;
 	display: none;
+}
+
+.card.decade-card:not(*[data-card-type="basic"]) > .name {
+	bottom: 1px;
+}
+
+[data-card-alternate-name-visible="on"] .card.fullskin > .name,
+[data-card-alternate-name-visible="on"] .card.fullskin > .name.long,
+[data-card-alternate-name-visible="on"] .dialog .buttons > .card > .name.long,
+[data-card-alternate-name-visible="on"] .card > .name {
+	left: 1px;
+	bottom: 1px;
+	display: block;
+	font-family: yuanli;
+	font-size: 18px;
+	font-weight: bold;
+	color: rgb(0, 0, 0);
+	background-color: rgb(188, 190, 31);
+	border-radius: 2px;
+	padding: 2px 4px;
+	z-index: 3;
 }
 
 /****** 转换牌显示 ******/
