@@ -151,6 +151,26 @@ decadeModule.import((lib, game, ui, get) => {
 		const segmentName = name => decPrompt(name);
 		return [{ text: segmentName(sourceName), style: "phase" }, { text: segment("对") }, { text: segmentName(targetName), style: "phase" }, { text: segment("使用的【") }, { text: segment(cardName), style: "phase" }, { text: segment("】即将") }, { text: segment(stateWord) }, { text: segment("，是否使用【") }, { text: segment("无懈可击"), style: "phase" }, { text: segment("】？") }];
 	};
+	const isJiedaoEvent = event => {
+		if (!event?.respondTo) return false;
+		const card = Array.isArray(event.respondTo) ? event.respondTo[1] : null;
+		return card?.name === "jiedao";
+	};
+	const buildJiedaoTipText = event => {
+		const [sourcePlayer, respondCard] = event.respondTo;
+		const sourceName = resolveName(sourcePlayer) ?? "未知角色";
+		const targetName = resolveName(event.sourcex) ?? "目标";
+		const wrapText = text => decPrompt(sanitizePrompt(text));
+		return [
+			{ text: wrapText("请对"), style: "" },
+			{ text: wrapText(targetName), style: "phase" },
+			{ text: wrapText("使用【"), style: "" },
+			{ text: wrapText("杀"), style: "phase" },
+			{ text: wrapText("】，或令"), style: "" },
+			{ text: wrapText(sourceName), style: "phase" },
+			{ text: wrapText("获得你的武器"), style: "" },
+		];
+	};
 	const parseRespondCardInfo = respondCard => {
 		if (!Array.isArray(respondCard) || !respondCard[1]) return { actionWord: "打出", cardName: "" };
 		const card = respondCard[1];
@@ -181,6 +201,7 @@ decadeModule.import((lib, game, ui, get) => {
 	const buildRespondTipText = event => {
 		if (!event) return null;
 		if (isAskWuxie(event)) return buildWuxieTipText(event);
+		if (isJiedaoEvent(event)) return buildJiedaoTipText(event);
 		const promptText = sanitizePrompt(event.prompt);
 		if (!promptText) return null;
 		const wrapText = text => decPrompt(sanitizePrompt(text));
