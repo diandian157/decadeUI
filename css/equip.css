@@ -406,3 +406,21 @@ body[data-style="off"] {
 body[data-style="codename"] .equips-wrap > .equips-back > div {
 	opacity: 0.5;
 }
+
+/* 技能选择装备牌时不突出显示 */
+.equips-wrap > .equips > div.equip-card-selectable {
+	transform: none;
+}
+
+#arena[data-right-layout="on"] > .equips-wrap > .equips > div.equip-card-selectable {
+	transform: none;
+}
+
+/* 选中时突出显示 */
+.equips-wrap > .equips > div.equip-card-selectable.selected {
+	transform: translateX(-10px);
+}
+
+#arena[data-right-layout="on"] > .equips-wrap > .equips > div.equip-card-selectable.selected {
+	transform: translateX(10px);
+}

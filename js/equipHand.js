@@ -222,15 +222,58 @@ decadeModule.import((lib, game, ui, get, ai, _status) => {
 		dialog.open();
 	}
 
+	function clearEquipSelectable() {
+		if (!game.me) return;
+		const equipCards = game.me.getCards("e");
+		for (const card of equipCards) {
+			card.classList.remove("selectable");
+			card.classList.remove("equip-card-selectable");
+			delete card._equipSkills;
+			if (card._equipClickHandler) {
+				card.removeEventListener("click", card._equipClickHandler, true);
+				delete card._equipClickHandler;
+			}
+		}
+	}
+
+	function setupEquipCardSelection(event, player) {
+		if (!event.position || typeof event.position !== "string" || !event.position.includes("e")) return;
+		if (!event.filterCard) return;
+		const equipCards = player.getCards("e");
+		for (const card of equipCards) {
+			if (event.filterCard(card, player, event.target)) {
+				card.classList.add("selectable");
+				card.classList.add("equip-card-selectable");
+			}
+		}
+	}
+
 	lib.hooks.checkEnd.add(function (event) {
 		if (!lib.config["extension_十周年UI_aloneEquip"]) return;
-		if (!event.isMine?.() || event.skill || !get.noSelected()) return;
 		const player = event.player;
 		if (player !== game.me) return;
+		if (!event.isMine?.()) return;
+
 		const equipCards = player.getCards("e");
 		if (!equipCards.length) return;
+
+		if (event.skill) {
+			clearEquipSelectable();
+			setupEquipCardSelection(event, player);
+			return;
+		}
+
+		if (!get.noSelected()) {
+			clearEquipSelectable();
+			setupEquipCardSelection(event, player);
+			return;
+		}
+
 		const usableSkills = getEquipUsableSkills(event, player);
-		if (!usableSkills.length) return;
+		if (!usableSkills.length) {
+			clearEquipSelectable();
+			return;
+		}
 		for (const card of equipCards) {
 			const cardSkills = getCardSkills(card);
 			const matchedSkills = cardSkills.filter(s => usableSkills.includes(s));
@@ -266,16 +309,6 @@ decadeModule.import((lib, game, ui, get, ai, _status) => {
 			ui._equipSkillDialog.close();
 			delete ui._equipSkillDialog;
 		}
-		if (game.me) {
-			const equipCards = game.me.getCards("e");
-			for (const card of equipCards) {
-				card.classList.remove("selectable");
-				delete card._equipSkills;
-				if (card._equipClickHandler) {
-					card.removeEventListener("click", card._equipClickHandler, true);
-					delete card._equipClickHandler;
-				}
-			}
-		}
+		clearEquipSelectable();
 	});
 });
