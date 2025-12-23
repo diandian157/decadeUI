@@ -31,6 +31,24 @@ export let config = {
 			game.saveConfig("enable_drag", !enabled);
 		},
 	},
+	autoSelect: {
+		name: "自动选择",
+		intro: "开启后会自动关闭自动确认，合法单个目标时会自动选择，响应卡牌时候会自动选择卡牌，重启生效",
+		init: true,
+		onclick(bool) {
+			game.saveConfig("extension_十周年UI_autoSelect", bool);
+			if (bool) {
+				game.saveConfig("auto_confirm", false);
+				lib.config.auto_confirm = false;
+			}
+		},
+		update() {
+			if (lib.config.extension_十周年UI_autoSelect !== false) {
+				game.saveConfig("auto_confirm", false);
+				lib.config.auto_confirm = false;
+			}
+		},
+	},
 	newDecadeStyle: {
 		name: "切换样式",
 		intro: "切换武将边框样式和界面布局，初始为十周年样式，根据个人喜好自行切换，选择不同的设置后游戏会自动重启以生效新的设置",

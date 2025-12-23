@@ -485,6 +485,20 @@ decadeModule.import((lib, game, ui, get) => {
 			respondTip.appendText("，");
 		}
 		showTip(respondTip, respondTipText);
+
+		event.filterStop = function () {
+			if (this.step > 1) {
+				const currentTip = ensureTip();
+				const skill = getCompareSkill(this);
+				if (skill) {
+					appendSkillName(currentTip, skill, this.player);
+					currentTip.appendText("，");
+				}
+				const tipText = this.respondTo || (typeof this.prompt === "string" && this.prompt.includes("响应")) ? buildRespondTipText(this) : null;
+				if (tipText) showTip(currentTip, tipText);
+			}
+		};
+
 		return true;
 	};
 
@@ -540,7 +554,6 @@ decadeModule.import((lib, game, ui, get) => {
 	};
 
 	const handleUse = event => {
-		closeCardDialog();
 		const compareSkill = getCompareSkill(event);
 
 		if (handleRespondUse(event, compareSkill)) return;
@@ -550,10 +563,10 @@ decadeModule.import((lib, game, ui, get) => {
 	};
 
 	const handleRespond = event => {
-		closeCardDialog();
 		closeDialog(event.dialog);
 		event.dialog = false;
 		event.prompt2 = false;
+		event.prompt = false;
 
 		const tip = ensureTip();
 		const compareSkill = getCompareSkill(event);
@@ -563,8 +576,19 @@ decadeModule.import((lib, game, ui, get) => {
 			tip.appendText("，");
 		}
 
-		event.prompt = false;
 		showTip(tip, buildRespondTipText(event));
+
+		event.filterStop = function () {
+			if (this.step > 1 && ui.cardDialog) {
+				const currentTip = ensureTip();
+				const skill = getCompareSkill(this);
+				if (skill) {
+					appendSkillName(currentTip, skill, this.player);
+					currentTip.appendText("，");
+				}
+				showTip(currentTip, buildRespondTipText(this));
+			}
+		};
 	};
 
 	lib.hooks.checkBegin.add(event => {
