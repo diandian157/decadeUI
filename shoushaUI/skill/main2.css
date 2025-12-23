@@ -249,6 +249,45 @@
 	-webkit-filter: grayscale(100%);
 }
 
+/* 技能选中特效 - 持续呼吸光晕 */
+@keyframes skill-select-glow {
+	0%,
+	100% {
+		filter: brightness(1.02) drop-shadow(0 0 2px rgba(100, 255, 100, 0.4));
+	}
+	50% {
+		filter: brightness(1.12) drop-shadow(0 0 6px rgba(100, 255, 100, 0.85));
+	}
+}
+
+/* 限定技选中特效 - 呼吸光晕 */
+@keyframes skill-select-glow-xianding {
+	0%,
+	100% {
+		filter: brightness(1.02) drop-shadow(0 0 2px rgba(255, 80, 80, 0.4));
+	}
+	50% {
+		filter: brightness(1.12) drop-shadow(0 0 6px rgba(255, 80, 80, 0.85));
+	}
+}
+
+.skill-control > .enable > .skillitem.select {
+	animation: skill-select-glow 1.5s ease-in-out infinite;
+}
+
+.skill-control > .enable > .xiandingji.select {
+	animation: skill-select-glow-xianding 1.5s ease-in-out infinite;
+}
+
+/* 左手模式选中特效 */
+.skill-controlzuoshou > .enable > .skillitem.select {
+	animation: skill-select-glow 1.5s ease-in-out infinite;
+}
+
+.skill-controlzuoshou > .enable > .xiandingji.select {
+	animation: skill-select-glow-xianding 1.5s ease-in-out infinite;
+}
+
 .skillMarks {
 	overflow-y: auto;
 	left: 120px !important;

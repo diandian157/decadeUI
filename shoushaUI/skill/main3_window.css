@@ -66,6 +66,38 @@
 	background-image: url("./yijiang/new_btnn1.png");
 	background-size: 100% 100%;
 	opacity: 1;
+	position: relative;
+}
+
+.skill-control > .enable > .skillitem > .zhuanhuanji-mark,
+.gskill-control > .enable > .skillitem > .zhuanhuanji-mark {
+	position: absolute;
+	left: -5px;
+	top: -5px;
+	--w: 18px;
+	--h: 18px;
+	width: var(--w);
+	height: var(--h);
+	background-size: 100% 100%;
+	background-repeat: no-repeat;
+	transform-style: preserve-3d;
+	pointer-events: none;
+	z-index: 1;
+}
+
+.skill-control > .enable > .skillitem > .zhuanhuanji-mark.yang,
+.gskill-control > .enable > .skillitem > .zhuanhuanji-mark.yang {
+	background-image: url("./yijiang/new_mark_yang.png");
+}
+
+.skill-control > .enable > .skillitem > .zhuanhuanji-mark.yin,
+.gskill-control > .enable > .skillitem > .zhuanhuanji-mark.yin {
+	background-image: url("./yijiang/new_mark_ying.png");
+}
+
+.skill-control > .enable > .skillitem > .zhuanhuanji-mark.flipping,
+.gskill-control > .enable > .skillitem > .zhuanhuanji-mark.flipping {
+	animation: fanzhuan 1.5s;
 }
 
 .skill-control > .enable > .xiandingji,
@@ -85,6 +117,29 @@
 	background-image: url("./yijiang/new_btnn4.png");
 	background-size: 100% 100%;
 	opacity: 1;
+	position: relative;
+}
+
+.skill-control > .enable > .xiandingji > .xiandingji-mark,
+.gskill-control > .enable > .xiandingji > .xiandingji-mark {
+	position: absolute;
+	left: -5px;
+	top: -5px;
+	--w: 18px;
+	--h: 18px;
+	width: var(--w);
+	height: var(--h);
+	background-image: url("./yijiang/new_xiandingji.png");
+	background-size: 100% 100%;
+	background-repeat: no-repeat;
+	pointer-events: none;
+	z-index: 1;
+}
+
+.skill-control > .enable > .xiandingji.used > .xiandingji-mark,
+.gskill-control > .enable > .xiandingji.used > .xiandingji-mark {
+	filter: grayscale(1);
+	-webkit-filter: grayscale(1);
 }
 
 /*技能按钮不可用时变灰*/
@@ -112,6 +167,115 @@
 	flex: 0 0 95px !important;
 	background-image: url("./yijiang/new_btnn4.png");
 	background-size: 100% 100%;
+}
+
+/* 技能发动特效 */
+.skill-control > .enable > .skillitem.activated,
+.skill-control > .enable > .skillcol > .skillitem.activated,
+.skill-control > .enable > .xiandingji.activated,
+.skill-control > .enable > .skillcol > .xiandingji.activated,
+.gskill-control > .enable > .skillitem.activated,
+.gskill-control > .enable > .xiandingji.activated {
+	animation: skill-activate 0.6s ease-out;
+}
+
+@keyframes skill-activate {
+	0% {
+		transform: scale(1);
+		box-shadow: 0 0 0 0 rgba(245, 215, 142, 0.8);
+		filter: brightness(1);
+	}
+	30% {
+		transform: scale(1.15);
+		box-shadow: 0 0 15px 5px rgba(245, 215, 142, 0.9);
+		filter: brightness(1.3);
+	}
+	60% {
+		transform: scale(1.05);
+		box-shadow: 0 0 25px 10px rgba(245, 215, 142, 0.4);
+		filter: brightness(1.15);
+	}
+	100% {
+		transform: scale(1);
+		box-shadow: 0 0 0 0 rgba(245, 215, 142, 0);
+		filter: brightness(1);
+	}
+}
+
+/* 限定技发动特效 - 更醒目的金色 */
+.skill-control > .enable > .xiandingji.activated,
+.skill-control > .enable > .skillcol > .xiandingji.activated,
+.gskill-control > .enable > .xiandingji.activated {
+	animation: skill-activate-xianding 0.8s ease-out;
+}
+
+@keyframes skill-activate-xianding {
+	0% {
+		transform: scale(1);
+		box-shadow: 0 0 0 0 rgba(255, 200, 50, 0.9);
+		filter: brightness(1);
+	}
+	25% {
+		transform: scale(1.2);
+		box-shadow: 0 0 20px 8px rgba(255, 200, 50, 1);
+		filter: brightness(1.4);
+	}
+	50% {
+		transform: scale(1.1);
+		box-shadow: 0 0 30px 15px rgba(255, 200, 50, 0.6);
+		filter: brightness(1.2);
+	}
+	100% {
+		transform: scale(1);
+		box-shadow: 0 0 0 0 rgba(255, 200, 50, 0);
+		filter: brightness(1);
+	}
+}
+
+/* 左手模式技能发动特效 */
+.skill-controlzuoshou > .enable > .skillitem.activated,
+.skill-controlzuoshou > .enable > .skillcol > .skillitem.activated {
+	animation: skill-activate 0.6s ease-out;
+}
+
+.skill-controlzuoshou > .enable > .xiandingji.activated,
+.skill-controlzuoshou > .enable > .skillcol > .xiandingji.activated {
+	animation: skill-activate-xianding 0.8s ease-out;
+}
+
+/* 技能选中特效 - 持续呼吸光晕 */
+@keyframes skill-select-glow {
+	0%,
+	100% {
+		filter: brightness(1.02) drop-shadow(0 0 2px rgba(100, 255, 100, 0.4));
+	}
+	50% {
+		filter: brightness(1.12) drop-shadow(0 0 6px rgba(100, 255, 100, 0.85));
+	}
+}
+
+/* 限定技选中特效 - 呼吸光晕 */
+@keyframes skill-select-glow-xianding {
+	0%,
+	100% {
+		filter: brightness(1.02) drop-shadow(0 0 2px rgba(255, 80, 80, 0.4));
+	}
+	50% {
+		filter: brightness(1.12) drop-shadow(0 0 6px rgba(255, 80, 80, 0.85));
+	}
+}
+
+/* 技能选中特效 */
+.skill-control > .enable > .skillitem.select,
+.skill-control > .enable > .skillcol > .skillitem.select,
+.gskill-control > .enable > .skillitem.select {
+	animation: skill-select-glow 1.5s ease-in-out infinite;
+}
+
+.skill-control > .enable > .xiandingji.select,
+.skill-control > .enable > .skillcol > .xiandingji.select,
+.gskill-control > .enable > .xiandingji.select {
+	animation: skill-select-glow-xianding 1.5s ease-in-out infinite;
 }
 
 .skillMarks {

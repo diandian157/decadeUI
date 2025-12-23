@@ -168,6 +168,32 @@ app.import(function (lib, game, ui, get, ai, _status, app) {
 			});
 			plugin.updateSkillMarks(player, xiandingji, juexingji);
 		},
+		updateZhuanhuanjiMark(mark, skillId) {
+			if (!game.me) return;
+			const info = lib.skill[skillId];
+			if (!info || !info.zhuanhuanji) return;
+			const storage = game.me.storage[skillId];
+			const isYin = storage === true || storage === "yin";
+			const newState = isYin ? "yin" : "yang";
+			const oldState = mark.dataset.state;
+			if (oldState && oldState !== newState) {
+				mark.classList.remove("yang", "yin");
+				mark.classList.add(newState, "flipping");
+				mark.dataset.state = newState;
+				mark.addEventListener("animationend", function handler() {
+					mark.classList.remove("flipping");
+					mark.removeEventListener("animationend", handler);
+				});
+			} else if (!oldState) {
+				mark.classList.add(newState);
+				mark.dataset.state = newState;
+			}
+		},
+		updateXiandingjiMark(node, skillId) {
+			if (!game.me) return;
+			const isUsed = game.me.awakenedSkills.includes(skillId);
+			node.classList[isUsed ? "add" : "remove"]("used");
+		},
 		initRewrites() {
 			app.reWriteFunction(lib.element.player, {
 				addSkill: [
@@ -291,10 +317,19 @@ app.import(function (lib, game, ui, get, ai, _status, app) {
 					}
 					if (item.type === "enable") {
 						const skillName = get.translation(item.name).slice(0, 2);
-						const className = lib.skill[item.id].limited ? ".xiandingji" : ".skillitem";
+						const isLimited = lib.skill[item.id].limited;
+						const className = isLimited ? ".xiandingji" : ".skillitem";
 						node = ui.create.div(className, self.node.enable, skillName);
 						node.dataset.id = item.id;
-						if (lib.skill[item.id]?.zhuanhuanji) node.classList.add("zhuanhuanji");
+						if (lib.skill[item.id]?.zhuanhuanji) {
+							node.classList.add("zhuanhuanji");
+							const mark = ui.create.div(".zhuanhuanji-mark", node);
+							plugin.updateZhuanhuanjiMark(mark, item.id);
+						}
+						if (isLimited) {
+							ui.create.div(".xiandingji-mark", node);
+							plugin.updateXiandingjiMark(node, item.id);
+						}
 						if (get.is.locked(item.id, game.me)) node.classList.add("locked");
 						node.addEventListener(lib.config.touchscreen ? "touchend" : "click", function () {
 							if (lib.config["extension_十周年UI_bettersound"]) game.playAudio("..", "extension", "十周年UI", "audio/SkillBtn");
@@ -307,7 +342,11 @@ app.import(function (lib, game, ui, get, ai, _status, app) {
 					const targetNode = lib.config.phonelayout ? "trigger" : "enable";
 					node = ui.create.div(".skillitem", self.node[targetNode], get.translation(item.name).slice(0, 2));
 					node.dataset.id = item.id;
-					if (lib.skill[item.id]?.zhuanhuanji) node.classList.add("zhuanhuanji");
+					if (lib.skill[item.id]?.zhuanhuanji) {
+						node.classList.add("zhuanhuanji");
+						const mark = ui.create.div(".zhuanhuanji-mark", node);
+						plugin.updateZhuanhuanjiMark(mark, item.id);
+					}
 					if (get.is.locked(item.id, game.me)) node.classList.add("locked");
 				});
 				return this;
@@ -323,6 +362,9 @@ app.import(function (lib, game, ui, get, ai, _status, app) {
 				Array.from(this.node.enable.childNodes).forEach(function (item) {
 					item.classList[skills.includes(item.dataset.id) ? "add" : "remove"]("usable");
 					item.classList[_status.event.skill === item.dataset.id ? "add" : "remove"]("select");
+					const mark = item.querySelector(".zhuanhuanji-mark");
+					if (mark) plugin.updateZhuanhuanjiMark(mark, item.dataset.id);
+					if (item.classList.contains("xiandingji")) plugin.updateXiandingjiMark(item, item.dataset.id);
 				});
 				const level1 = Math.min(4, this.node.trigger.childNodes.length);
 				const level2 = this.node.enable.childNodes.length > 2 ? 4 : this.node.enable.childNodes.length > 0 ? 2 : 0;
