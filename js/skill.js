@@ -769,6 +769,139 @@ decadeModule.import((lib, game, ui, get, ai, _status) => {
 				player[player.storage[skill][0] <= 0 ? "removeSkill" : "markSkill"](skill);
 			},
 		},
+		guhuo_guess: {
+			async content(event, trigger, player) {
+				player.addTempSkill("guhuo_phase");
+				event.fake = false;
+				event.betrayer = null;
+				const [card] = trigger.cards;
+				if (card.name != trigger.card.name || (card.name == "sha" && !get.is.sameNature(trigger.card, card))) {
+					event.fake = true;
+				}
+				player.popup(trigger.card.name, "metal");
+				const next = player.lose(card, ui.ordering);
+				next.relatedEvent = trigger;
+				await next;
+				trigger.throw = false;
+				trigger.skill = "xinfu_guhuo_backup";
+				game.log(player, "声明", trigger.targets && trigger.targets.length ? "对" : "", trigger.targets || "", trigger.name == "useCard" ? "使用" : "打出", trigger.card);
+				event.prompt = get.translation(player) + "声明" + (trigger.targets && trigger.targets.length ? "对" + get.translation(trigger.targets) : "") + (trigger.name == "useCard" ? "使用" : "打出") + (get.translation(trigger.card.nature) || "") + get.translation(trigger.card.name) + "，是否质疑？";
+				event.targets = game
+					.filterPlayer(function (current) {
+						return current != player && !current.hasSkill("chanyuan");
+					})
+					.sortBySeat(_status.currentPhase);
+				game.broadcastAll(
+					function (card, player) {
+						const bounds = dui.boundsCaches.arena;
+						if (!bounds.updated) bounds.update();
+						const scale = bounds.cardScale;
+						const centerX = (bounds.width - bounds.cardWidth) / 2;
+						const centerY = bounds.height * 0.45 - bounds.cardHeight / 2;
+						const x = Math.round(centerX);
+						const y = Math.round(centerY);
+						const node = _status.event.guhuoNode = card.copy("thrown");
+						node.classList.add("infohidden");
+						node.classList.remove("decade-card");
+						node.style.background = "";
+						node.style.transform = `translate(${x}px, ${y}px) scale(${scale}) perspective(600px) rotateY(180deg)`;
+						ui.arena.appendChild(node);
+						ui.thrown.push(node);
+						const setion = ui.create.div(".cardsetion", get.cardsetion(player), node);
+						setion.style.setProperty("display", "block", "important");
+					},
+					card,
+					player
+				);
+				for (const target of event.targets) {
+					const links = await target
+						.chooseButton([event.prompt, [["reguhuo_ally", "reguhuo_betray"], "vcard"]], true)
+						.set("ai", function (button) {
+							const player = _status.event.player;
+							const evt = _status.event.getParent("guhuo_guess"),
+								evtx = evt.getTrigger();
+							if (!evt) {
+								return Math.random();
+							}
+							const card = { name: evtx.card.name, nature: evtx.card.nature, isCard: true };
+							const ally = button.link[2] == "reguhuo_ally";
+							if (ally && (player.hp <= 1 || get.attitude(player, evt.player) >= 0)) {
+								return 1.1;
+							}
+							if (!ally && get.attitude(player, evt.player) < 0 && evtx.name == "useCard") {
+								let eff = 0;
+								const targetsx = evtx.targets || [];
+								for (const target of targetsx) {
+									const isMe = target == evt.player;
+									eff += get.effect(target, card, evt.player, player) / (isMe ? 1.5 : 1);
+								}
+								eff /= 1.5 * targetsx.length || 1;
+								if (eff > 0) {
+									return 0;
+								}
+								if (eff < -7) {
+									return Math.random() + Math.pow(-(eff + 7) / 8, 2);
+								}
+								return Math.pow((get.value(card, evt.player, "raw") - 4) / (eff == 0 ? 5 : 10), 2);
+							}
+							return Math.random();
+						})
+						.forResultLinks();
+					if (links[0][2] == "reguhuo_betray") {
+						target.addExpose(0.2);
+						game.log(target, "#y质疑");
+						target.popup("质疑！", "fire");
+						event.betrayer = target;
+						break;
+					} else {
+						game.log(target, "#g不质疑");
+						target.popup("不质疑", "wood");
+					}
+					await game.delayx();
+				}
+				game.broadcastAll(function (node) {
+					const bounds = dui.boundsCaches.arena;
+					if (!bounds.updated) bounds.update();
+					const scale = bounds.cardScale;
+					const centerX = (bounds.width - bounds.cardWidth) / 2;
+					const centerY = bounds.height * 0.45 - bounds.cardHeight / 2;
+					const x = Math.round(centerX);
+					const y = Math.round(centerY);
+					node.style.transition = "all ease-in 0.3s";
+					node.style.transform = `translate(${x}px, ${y}px) scale(${scale}) perspective(600px) rotateY(270deg) translateX(52px)`;
+					node.listenTransition(() => {
+						node.classList.remove("infohidden");
+						if (card.classList.contains("decade-card")) {
+							node.classList.add("decade-card");
+							node.style.background = card.style.background;
+						}
+						node.style.transition = "all 0s";
+						ui.refresh(node);
+						node.style.transform = `translate(${x}px, ${y}px) scale(${scale}) perspective(600px) rotateY(-90deg) translateX(52px)`;
+						ui.refresh(node);
+						node.style.transition = "";
+						ui.refresh(node);
+						node.style.transform = `translate(${x}px, ${y}px) scale(${scale})`;
+					});
+				}, event.guhuoNode);
+				await game.delay(2);
+				if (!event.betrayer) return;
+				if (event.fake) {
+					event.betrayer.popup("质疑正确", "wood");
+					game.log(player, "声明的", trigger.card, "作废了");
+					trigger.cancel();
+					trigger.getParent().goto(0);
+					trigger.line = false;
+				} else {
+					event.betrayer.popup("质疑错误", "fire");
+					await event.betrayer.addSkills("chanyuan");
+				}
+				await game.delay(2);
+				if (event.fake) {
+					game.broadcastAll(() => ui.clear());
+				}
+			},
+		},
 	};
 	decadeUI.inheritSubSkill = {
 		olziruo: {

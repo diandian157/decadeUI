@@ -2487,7 +2487,7 @@ const createDecadeUIObject = () => ({
 							if (!bounds.updated) bounds.update();
 							const scale = bounds.cardScale;
 							const centerX = (bounds.width - bounds.cardWidth) / 2;
-							const centerY = (bounds.height - bounds.cardHeight) / 2;
+							const centerY = bounds.height * 0.45 - bounds.cardHeight / 2;
 							const leftX = Math.round(centerX - 62);
 							const rightX = Math.round(centerX + 62);
 							const y = Math.round(centerY);
@@ -2553,8 +2553,8 @@ const createDecadeUIObject = () => ({
 							if (!bounds.updated) bounds.update();
 							const scale = bounds.cardScale;
 							const centerX = (bounds.width - bounds.cardWidth) / 2;
-							const centerY = (bounds.height - bounds.cardHeight) / 2;
-							const y = Math.round(centerY + 62);
+							const centerY = bounds.height * 0.45 - bounds.cardHeight / 2;
+							const y = Math.round(centerY);
 							const totalCards = targets.length + 1;
 							const spacing = 124;
 							const startX = Math.round(centerX - (spacing * (totalCards - 1)) / 2);
