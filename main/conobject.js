@@ -82,9 +82,6 @@ const createDecadeUIObject = () => ({
 					content: {
 						lose: lib.element.content.lose,
 						gain: lib.element.content.gain,
-						chooseToCompare: lib.element.content.chooseToCompare.slice(),
-						chooseToCompareMultiple: lib.element.content.chooseToCompareMultiple.slice(),
-						chooseToCompareEffect: lib.element.content.chooseToCompareEffect.slice(),
 					},
 					dialog: {
 						close: lib.element.dialog.close,
@@ -2467,36 +2464,142 @@ const createDecadeUIObject = () => ({
 							}
 						},
 						$compare(card1, target, card2) {
+							const player = this;
+							let cardsetions;
+							if (lib.config.card_animation_info) {
+								cardsetions = {};
+								cardsetions[player.playerid] = get.cardsetion(player);
+								cardsetions[target.playerid] = get.cardsetion(target);
+							}
 							game.broadcast(
-								function (player, target, card1, card2) {
-									player.$compare(card1, target, card2);
+								function (player, target, card1, card2, cardsetions) {
+									player.$compare(card1, target, card2, cardsetions);
 								},
 								this,
 								target,
 								card1,
-								card2
+								card2,
+								cardsetions
 							);
 							game.addVideo("compare", this, [get.cardInfo(card1), target.dataset.position, get.cardInfo(card2)]);
-							const player = this;
-							target.$throwordered2(card2.copy(false));
-							player.$throwordered2(card1.copy(false));
+							const bounds = dui.boundsCaches.arena;
+							if (!bounds.updated) bounds.update();
+							const scale = bounds.cardScale;
+							const centerX = (bounds.width - bounds.cardWidth) / 2;
+							const centerY = (bounds.height - bounds.cardHeight) / 2;
+							const leftX = Math.round(centerX - 62);
+							const rightX = Math.round(centerX + 62);
+							const y = Math.round(centerY);
+							const createFlipCard = (card, owner, x, delay) => {
+								const node = card.copy("thrown");
+								node.classList.add("infohidden");
+								node.classList.remove("decade-card");
+								node.style.background = "";
+								node.style.transform = `translate(${x}px, ${y}px) scale(${scale}) perspective(600px) rotateY(180deg)`;
+								ui.arena.appendChild(node);
+								ui.thrown.push(node);
+								if (cardsetions && cardsetions[owner.playerid]) {
+									const setion = ui.create.div(".cardsetion", cardsetions[owner.playerid], node);
+									setion.style.setProperty("display", "block", "important");
+								}
+								setTimeout(() => {
+									node.style.transition = "all ease-in 0.3s";
+									node.style.transform = `translate(${x}px, ${y}px) scale(${scale}) perspective(600px) rotateY(270deg) translateX(52px)`;
+									node.listenTransition(() => {
+										node.classList.remove("infohidden");
+										if (card.classList.contains("decade-card")) {
+											node.classList.add("decade-card");
+											node.style.background = card.style.background;
+										}
+										node.style.transition = "all 0s";
+										ui.refresh(node);
+										node.style.transform = `translate(${x}px, ${y}px) scale(${scale}) perspective(600px) rotateY(-90deg) translateX(52px)`;
+										ui.refresh(node);
+										node.style.transition = "";
+										ui.refresh(node);
+										node.style.transform = `translate(${x}px, ${y}px) scale(${scale})`;
+									});
+								}, delay);
+								return node;
+							};
+							createFlipCard(card1, player, leftX, 300);
+							setTimeout(() => {
+								createFlipCard(card2, target, rightX, 200);
+							}, 200);
 						},
 						$compareMultiple(card1, targets, cards) {
+							const player = this;
+							let cardsetions;
+							if (lib.config.card_animation_info) {
+								cardsetions = {};
+								cardsetions[player.playerid] = get.cardsetion(player);
+								for (let target of targets) {
+									cardsetions[target.playerid] = get.cardsetion(target);
+								}
+							}
 							game.broadcast(
-								function (player, card1, targets, cards) {
-									player.$compareMultiple(card1, targets, cards);
+								function (player, card1, targets, cards, cardsetions) {
+									player.$compareMultiple(card1, targets, cards, cardsetions);
 								},
 								this,
 								card1,
 								targets,
-								cards
+								cards,
+								cardsetions
 							);
 							game.addVideo("compareMultiple", this, [get.cardInfo(card1), get.targetsInfo(targets), get.cardsInfo(cards)]);
-							const player = this;
-							for (let i = targets.length - 1; i >= 0; i--) {
-								targets[i].$throwordered2(cards[i].copy(false));
+							const bounds = dui.boundsCaches.arena;
+							if (!bounds.updated) bounds.update();
+							const scale = bounds.cardScale;
+							const centerX = (bounds.width - bounds.cardWidth) / 2;
+							const centerY = (bounds.height - bounds.cardHeight) / 2;
+							const y = Math.round(centerY + 62);
+							const totalCards = targets.length + 1;
+							const spacing = 124;
+							const startX = Math.round(centerX - (spacing * (totalCards - 1)) / 2);
+							const createFlipCard = (card, owner, x, delay) => {
+								const node = card.copy("thrown");
+								node.classList.add("infohidden");
+								node.classList.remove("decade-card");
+								node.style.background = "";
+								node.style.transform = `translate(${x}px, ${y}px) scale(${scale}) perspective(600px) rotateY(180deg)`;
+								ui.arena.appendChild(node);
+								ui.thrown.push(node);
+								if (cardsetions && cardsetions[owner.playerid]) {
+									const setion = ui.create.div(".cardsetion", cardsetions[owner.playerid], node);
+									setion.style.setProperty("display", "block", "important");
+								}
+								setTimeout(() => {
+									node.style.transition = "all ease-in 0.3s";
+									node.style.transform = `translate(${x}px, ${y}px) scale(${scale}) perspective(600px) rotateY(270deg) translateX(52px)`;
+									node.listenTransition(() => {
+										node.classList.remove("infohidden");
+										if (card.classList.contains("decade-card")) {
+											node.classList.add("decade-card");
+											node.style.background = card.style.background;
+										}
+										node.style.transition = "all 0s";
+										ui.refresh(node);
+										node.style.transform = `translate(${x}px, ${y}px) scale(${scale}) perspective(600px) rotateY(-90deg) translateX(52px)`;
+										ui.refresh(node);
+										node.style.transition = "";
+										ui.refresh(node);
+										node.style.transform = `translate(${x}px, ${y}px) scale(${scale})`;
+									});
+								}, delay);
+								return node;
+							};
+							createFlipCard(card1, player, startX, 300);
+							for (let i = 0; i < targets.length; i++) {
+								(index => {
+									setTimeout(
+										() => {
+											createFlipCard(cards[index], targets[index], startX + spacing * (index + 1), 200);
+										},
+										200 * (index + 1)
+									);
+								})(i);
 							}
-							player.$throwordered2(card1.copy(false));
 						},
 					},
 					content: {
@@ -2984,376 +3087,6 @@ const createDecadeUIObject = () => ({
 							game.addVideo("turnOver", player, player.classList.contains("turnedover"));
 							player.queueCssAnimation("turned-over 0.5s linear");
 						},
-						chooseToCompare: [
-							base.lib.element.content.chooseToCompare[0],
-							async (event, trigger, player) => {
-								let __compareName = event.getParent()?.name === "trigger" ? event.name : event.getParent().name;
-								if (typeof __compareName === "string" && __compareName.startsWith("pre_")) __compareName = __compareName.slice(4);
-								event.compareName = __compareName;
-								event.compareId = `${event.compareName}_${get.id()}`;
-								event.addMessageHook("finished", function () {
-									const dialog = ui.dialogs[this.compareId];
-									if (dialog) dialog.close();
-								});
-								game.broadcastAll(
-									function (player, target, eventName, compareId) {
-										if (window.decadeUI) {
-											const dialog = decadeUI.create.compareDialog();
-											dialog.caption = get.translation(get.sourceSkillFor(eventName)) + "拼点";
-											dialog.player = player;
-											dialog.target = typeof target === "string" ? player : target;
-											dialog.open();
-											decadeUI.delay(400);
-											ui.dialogs[compareId] = dialog;
-										}
-									},
-									player,
-									event.target,
-									event.compareName,
-									event.compareId
-								);
-							},
-							...base.lib.element.content.chooseToCompare.slice(1, 3),
-							async (event, trigger, player) => {
-								game.broadcastAll(eventName => {
-									if (window.decadeUI) {
-										const dialog = ui.dialogs[eventName];
-										if (dialog) {
-											dialog.$playerCard.classList.add("infohidden");
-											dialog.$playerCard.classList.add("infoflip");
-										}
-									}
-								}, event.compareId);
-							},
-							...base.lib.element.content.chooseToCompare.slice(3, 5),
-							async (event, trigger, player) => {
-								if (event.isDelay) {
-									game.broadcastAll(eventName => {
-										if (window.decadeUI) {
-											const dialog = ui.dialogs[eventName];
-											if (dialog) dialog.close();
-										}
-									}, event.compareId);
-								}
-							},
-							base.lib.element.content.chooseToCompare[5],
-							async (event, trigger, player) => {
-								const target = event.target;
-								game.broadcastAll(
-									(eventName, player, target, playerCard, targetCard) => {
-										ui.arena.classList.add("thrownhighlight");
-										if (window.decadeUI) {
-											const dialog = ui.dialogs[eventName];
-											if (dialog) {
-												dialog.playerCard = playerCard.copy();
-												dialog.targetCard = targetCard.copy();
-												if (typeof target === "string") dialog.target = player;
-											}
-										} else {
-											ui.arena.classList.add("thrownhighlight");
-											player.$compare(playerCard, typeof target === "string" ? player : target, targetCard);
-										}
-									},
-									event.compareId,
-									player,
-									target,
-									event.card1,
-									event.card2
-								);
-								game.addVideo("thrownhighlight1");
-							},
-							base.lib.element.content.chooseToCompare[7],
-							async (event, trigger, player) => {
-								decadeUI.delay(400);
-							},
-							...base.lib.element.content.chooseToCompare.slice(9, 11),
-							async (event, trigger, player) => {
-								game.broadcastAll(
-									function (str, eventName, result) {
-										if (!window.decadeUI) {
-											const dialog = ui.create.dialog(str);
-											dialog.classList.add("center");
-											setTimeout(
-												function (dialog) {
-													dialog.close();
-												},
-												1000,
-												dialog
-											);
-											return;
-										}
-										const dialog = ui.dialogs[eventName];
-										dialog.$playerCard.dataset.result = result ? "赢" : "没赢";
-										setTimeout(
-											function (dialog, eventName) {
-												dialog.close();
-												setTimeout(
-													function (dialog) {
-														dialog.player.$throwordered2(dialog.playerCard, true);
-														dialog.target.$throwordered2(dialog.targetCard, true);
-													},
-													180,
-													dialog
-												);
-												ui.dialogs[eventName] = undefined;
-											},
-											1400,
-											dialog,
-											eventName
-										);
-									},
-									event.str,
-									event.compareId,
-									event.result.bool
-								);
-								decadeUI.delay(1800);
-							},
-							base.lib.element.content.chooseToCompare[12],
-						],
-						chooseToCompareEffect: [
-							...base.lib.element.content.chooseToCompareEffect.slice(0, 2),
-							async (event, trigger, player) => {
-								const evt = event.parentEvent;
-								const target = event.target;
-								let __compareName2 = evt.getParent()?.name === "trigger" ? evt.name : evt.getParent().name;
-								if (typeof __compareName2 === "string" && __compareName2.startsWith("pre_")) __compareName2 = __compareName2.slice(4);
-								event.compareName = __compareName2;
-								event.compareId = `${event.compareName}_${get.id()}`;
-								event.addMessageHook("finished", function () {
-									const dialog = ui.dialogs[this.compareId];
-									if (dialog) dialog.close();
-								});
-								game.broadcastAll(
-									function (player, target, eventName, compareId, playerCard, targetCard) {
-										if (window.decadeUI) {
-											const dialog = decadeUI.create.compareDialog();
-											dialog.caption = get.translation(get.sourceSkillFor(eventName)) + "拼点";
-											dialog.player = player;
-											dialog.target = target;
-											dialog.playerCard = playerCard.copy();
-											dialog.targetCard = targetCard.copy();
-											dialog.open();
-											decadeUI.delay(400);
-											ui.dialogs[compareId] = dialog;
-										} else ui.arena.classList.add("thrownhighlight");
-									},
-									player,
-									target,
-									event.compareName,
-									event.compareId,
-									event.card1,
-									event.card2
-								);
-								game.addVideo("thrownhighlight1");
-							},
-							base.lib.element.content.chooseToCompareEffect[3],
-							async (event, trigger, player) => {
-								decadeUI.delay(400);
-							},
-							...base.lib.element.content.chooseToCompareEffect.slice(5, 7),
-							async (event, trigger, player) => {
-								game.broadcastAll(
-									function (str, eventName, result) {
-										if (!window.decadeUI) {
-											const dialog = ui.create.dialog(str);
-											dialog.classList.add("center");
-											setTimeout(
-												function (dialog) {
-													dialog.close();
-												},
-												1000,
-												dialog
-											);
-											return;
-										}
-										const dialog = ui.dialogs[eventName];
-										dialog.$playerCard.dataset.result = result ? "赢" : "没赢";
-										setTimeout(
-											function (dialog, eventName) {
-												dialog.close();
-												setTimeout(
-													function (dialog) {
-														dialog.player.$throwordered2(dialog.playerCard, true);
-														dialog.target.$throwordered2(dialog.targetCard, true);
-													},
-													180,
-													dialog
-												);
-												ui.dialogs[eventName] = undefined;
-											},
-											1400,
-											dialog,
-											eventName
-										);
-									},
-									event.str,
-									event.compareId,
-									event.result.bool
-								);
-								decadeUI.delay(1800);
-							},
-							...base.lib.element.content.chooseToCompareEffect.slice(8, 10),
-						],
-						chooseToCompareMultiple: [
-							async (event, trigger, player) => {
-								const targets = event.targets;
-								await base.lib.element.content.chooseToCompareMultiple[0](event, trigger, player);
-								let __compareName3 = event.getParent()?.name === "trigger" ? event.name : event.getParent().name;
-								if (typeof __compareName3 === "string" && __compareName3.startsWith("pre_")) __compareName3 = __compareName3.slice(4);
-								event.compareName = __compareName3;
-								event.compareId = `${event.compareName}_${get.id()}`;
-								event.addMessageHook("finished", function () {
-									const dialog = ui.dialogs[this.compareId];
-									if (dialog) dialog.close();
-								});
-								game.broadcastAll(
-									function (player, target, eventName, compareId) {
-										if (!window.decadeUI) return;
-										const dialog = decadeUI.create.compareDialog();
-										dialog.caption = get.translation(get.sourceSkillFor(eventName)) + "拼点";
-										dialog.player = player;
-										dialog.target = target;
-										dialog.open();
-										decadeUI.delay(400);
-										ui.dialogs[compareId] = dialog;
-									},
-									player,
-									targets[0],
-									event.compareName,
-									event.compareId
-								);
-							},
-							...base.lib.element.content.chooseToCompareMultiple.slice(1, 4),
-							async (event, trigger, player) => {
-								game.log(player, "的拼点牌为", event.card1);
-								game.broadcastAll(
-									function (eventName, playerCard) {
-										if (!window.decadeUI) return;
-										const dialog = ui.dialogs[eventName];
-										dialog.playerCard = playerCard.copy();
-									},
-									event.compareId,
-									event.card1
-								);
-							},
-							async (event, trigger, player) => {
-								const targets = event.targets;
-								if (event.iwhile < targets.length) {
-									event.target = targets[event.iwhile];
-									event.target.addTempClass("target");
-									player.addTempClass("target");
-									event.card2 = event.cardlist[event.iwhile];
-									event.num2 = event.getNum(event.card2);
-									game.log(event.target, "的拼点牌为", event.card2);
-									player.line(event.target);
-									game.broadcastAll(
-										function (eventName, player, target, playerCard, targetCard) {
-											if (!window.decadeUI) {
-												player.$compare(playerCard, target, targetCard);
-												return;
-											}
-											let dialog = ui.dialogs[eventName];
-											if (!dialog && window.decadeUI) {
-												dialog = decadeUI.create.compareDialog();
-												dialog.caption = get.translation(get.sourceSkillFor(eventName)) + "拼点";
-												dialog.player = player;
-												dialog.playerCard = playerCard.copy();
-												dialog.open();
-												ui.dialogs[eventName] = dialog;
-											}
-											if (dialog) {
-												if (typeof dialog.show === "function") dialog.show();
-												dialog.target = target;
-												dialog.targetCard = targetCard.copy();
-											} else {
-												player.$compare(playerCard, target, targetCard);
-												return;
-											}
-										},
-										event.compareId,
-										player,
-										event.target,
-										event.card1,
-										event.card2
-									);
-									event.trigger("compare");
-								} else {
-									event.goto(12);
-								}
-							},
-							async (event, trigger, player) => {
-								decadeUI.delay(400);
-							},
-							...base.lib.element.content.chooseToCompareMultiple.slice(7, 9),
-							async (event, trigger, player) => {
-								game.broadcastAll(
-									function (str, eventName, result) {
-										if (!window.decadeUI) {
-											const dialog = ui.create.dialog(str);
-											dialog.classList.add("center");
-											setTimeout(
-												function (dialog) {
-													dialog.close();
-												},
-												1000,
-												dialog
-											);
-											return;
-										}
-										const dialog = ui.dialogs[eventName];
-										dialog.$playerCard.dataset.result = result ? "赢" : "没赢";
-										setTimeout(
-											function (dialog) {
-												dialog.close();
-												dialog.$playerCard.dataset.result = "";
-												setTimeout(
-													function (dialog) {
-														dialog.target.$throwordered2(dialog.targetCard, true);
-													},
-													180,
-													dialog
-												);
-												if (typeof eventName !== "undefined") {
-													ui.dialogs[eventName] = undefined;
-												}
-											},
-											1400,
-											dialog,
-											eventName
-										);
-									},
-									event.str,
-									event.compareId,
-									event.forceWinner === player || (event.forceWinner !== event.target && event.num1 > event.num2)
-								);
-								decadeUI.delay(1800);
-							},
-							async (event, trigger, player) => {
-								if (event.callback) {
-									game.broadcastAll(
-										function (card1, card2) {
-											if (!window.decadeUI) {
-												if (card1.clone) card1.clone.style.opacity = 0.5;
-												if (card2.clone) card2.clone.style.opacity = 0.5;
-											}
-										},
-										event.card1,
-										event.card2
-									);
-									const next = game.createEvent("compareMultiple");
-									next.player = player;
-									next.target = event.target;
-									next.card1 = event.card1;
-									next.card2 = event.card2;
-									next.num1 = event.num1;
-									next.num2 = event.num2;
-									next.winner = event.winner;
-									next.setContent(event.callback);
-									event.compareMultiple = true;
-								}
-							},
-							...base.lib.element.content.chooseToCompareMultiple.slice(11, 13),
-						],
 					},
 				},
 				init: {
@@ -3593,10 +3326,10 @@ const createDecadeUIObject = () => ({
 					spinningIdentityCard(identity, dialog) {
 						const card = ui.create.identityCard(identity);
 						const buttons = ui.create.div(".buttons", dialog.content);
-						buttons.appendChild(card);
 						setTimeout(() => {
 							buttons.appendChild(card);
 							dialog.open();
+							ui.create.cardSpinning(card);
 						}, 50);
 					},
 					arena() {
