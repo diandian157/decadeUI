@@ -236,7 +236,7 @@ decadeModule.import((lib, game, ui, get, ai, _status) => {
 		if (!game.me) return;
 		const equipCards = game.me.getCards("e");
 		for (const card of equipCards) {
-			card.classList.remove("selectable");
+			if (!card.classList.contains("selected")) card.classList.remove("selectable");
 			card.classList.remove("equip-card-selectable");
 			delete card._equipSkills;
 		}
@@ -244,11 +244,11 @@ decadeModule.import((lib, game, ui, get, ai, _status) => {
 
 	function setupEquipCardSelection(event, player) {
 		if (!event.position || typeof event.position !== "string" || !event.position.includes("e")) return;
-		if (!event.filterCard) return;
+		if (!event.filterCard || ui.selected.cards.length >= get.select(event.selectCard)[1]) return;
 		const equipCards = player.getCards("e");
 		for (const card of equipCards) {
 			if (event.filterCard(card, player, event.target)) {
-				card.classList.add("selectable");
+				if (!card.classList.contains("selected")) card.classList.add("selectable");
 				card.classList.add("equip-card-selectable");
 			}
 		}

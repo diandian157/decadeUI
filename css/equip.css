@@ -416,7 +416,7 @@ body[data-style="codename"] .equips-wrap > .equips-back > div {
 	transform: none;
 }
 
-/* 选中时突出显示 */
+/* 如果可选也突出显示 */
 .equips-wrap > .equips > div.equip-card-selectable.selectable {
 	transform: translateX(-10px);
 }
@@ -425,7 +425,7 @@ body[data-style="codename"] .equips-wrap > .equips-back > div {
 	transform: translateX(10px);
 }
 
-/* 如果可选也突出显示 */
+/* 选中时突出显示 */
 .equips-wrap > .equips > div.equip-card-selectable.selected {
 	transform: translateX(-10px);
 }
