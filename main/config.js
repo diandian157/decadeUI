@@ -33,14 +33,12 @@ export let config = {
 	},
 	autoSelect: {
 		name: "自动选择",
-		intro: "开启后会自动关闭自动确认，合法单个目标时会自动选择，响应卡牌时候会自动选择卡牌，重启生效",
+		intro: "开启后会关闭自动确认，自动选择单个合法目标和手牌，重启生效",
 		init: true,
 		onclick(bool) {
 			game.saveConfig("extension_十周年UI_autoSelect", bool);
-			if (bool) {
-				game.saveConfig("auto_confirm", false);
-				lib.config.auto_confirm = false;
-			}
+			game.saveConfig("auto_confirm", !bool);
+			lib.config.auto_confirm = !bool;
 		},
 		update() {
 			if (lib.config.extension_十周年UI_autoSelect !== false) {
