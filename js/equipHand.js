@@ -196,33 +196,11 @@ decadeModule.import((lib, game, ui, get, ai, _status) => {
 		return info?.skills ? game.expandSkills(info.skills.slice()) : [];
 	}
 
-	function handleEquipClick(e, skill) {
-		e.stopImmediatePropagation();
-		e.preventDefault();
-		e.currentTarget._equipSkillHandled = true;
+	function handleEquipClick(skill) {
 		ui.click.skill(skill);
 	}
 
-	function addEquipClickListener(card, handler) {
-		if (lib.config.touchscreen) {
-			card.addEventListener("touchstart", handler, true);
-		} else {
-			card.addEventListener("click", handler, true);
-		}
-	}
-
-	function removeEquipClickListener(card, handler) {
-		if (lib.config.touchscreen) {
-			card.removeEventListener("touchstart", handler, true);
-		} else {
-			card.removeEventListener("click", handler, true);
-		}
-	}
-
-	function showSkillSelector(e, skills) {
-		e.stopImmediatePropagation();
-		e.preventDefault();
-		e.currentTarget._equipSkillHandled = true;
+	function showSkillSelector(skills) {
 		if (ui._equipSkillDialog) {
 			ui._equipSkillDialog.close();
 			delete ui._equipSkillDialog;
@@ -246,8 +224,13 @@ decadeModule.import((lib, game, ui, get, ai, _status) => {
 
 	const _originalClickCard = ui.click.card;
 	ui.click.card = function () {
-		if (this._equipSkillHandled) {
-			delete this._equipSkillHandled;
+		if (lib.config["extension_十周年UI_aloneEquip"] && this._equipSkills?.length && this.classList.contains("selectable") && get.position(this) === "e") {
+			_status.clicked = true;
+			if (this._equipSkills.length === 1) {
+				handleEquipClick(this._equipSkills[0]);
+			} else {
+				showSkillSelector(this._equipSkills);
+			}
 			return;
 		}
 		return _originalClickCard.apply(this, arguments);
@@ -260,10 +243,6 @@ decadeModule.import((lib, game, ui, get, ai, _status) => {
 			card.classList.remove("selectable");
 			card.classList.remove("equip-card-selectable");
 			delete card._equipSkills;
-			if (card._equipClickHandler) {
-				removeEquipClickListener(card, card._equipClickHandler);
-				delete card._equipClickHandler;
-			}
 		}
 	}
 
@@ -311,24 +290,8 @@ decadeModule.import((lib, game, ui, get, ai, _status) => {
 			if (matchedSkills.length) {
 				card.classList.add("selectable");
 				card._equipSkills = matchedSkills;
-				if (card._equipClickHandler) {
-					removeEquipClickListener(card, card._equipClickHandler);
-				}
-				card._equipClickHandler = e => {
-					if (!card._equipSkills?.length || !card.classList.contains("selectable")) return;
-					if (card._equipSkills.length === 1) {
-						handleEquipClick(e, card._equipSkills[0]);
-					} else {
-						showSkillSelector(e, card._equipSkills);
-					}
-				};
-				addEquipClickListener(card, card._equipClickHandler);
 			} else {
 				card.classList.remove("selectable");
-				if (card._equipClickHandler) {
-					removeEquipClickListener(card, card._equipClickHandler);
-					delete card._equipClickHandler;
-				}
 				delete card._equipSkills;
 			}
 		}
