@@ -417,6 +417,15 @@ body[data-style="codename"] .equips-wrap > .equips-back > div {
 }
 
 /* 选中时突出显示 */
+.equips-wrap > .equips > div.equip-card-selectable.selectable {
+	transform: translateX(-10px);
+}
+
+#arena[data-right-layout="on"] > .equips-wrap > .equips > div.equip-card-selectable.selectable {
+	transform: translateX(10px);
+}
+
+/* 如果可选也突出显示 */
 .equips-wrap > .equips > div.equip-card-selectable.selected {
 	transform: translateX(-10px);
 }

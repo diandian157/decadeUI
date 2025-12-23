@@ -196,10 +196,6 @@ decadeModule.import((lib, game, ui, get, ai, _status) => {
 		return info?.skills ? game.expandSkills(info.skills.slice()) : [];
 	}
 
-	function handleEquipClick(skill) {
-		ui.click.skill(skill);
-	}
-
 	function showSkillSelector(skills) {
 		if (ui._equipSkillDialog) {
 			ui._equipSkillDialog.close();
@@ -227,7 +223,7 @@ decadeModule.import((lib, game, ui, get, ai, _status) => {
 		if (lib.config["extension_十周年UI_aloneEquip"] && this._equipSkills?.length && this.classList.contains("selectable") && get.position(this) === "e") {
 			_status.clicked = true;
 			if (this._equipSkills.length === 1) {
-				handleEquipClick(this._equipSkills[0]);
+				ui.click.skill(this._equipSkills[0]);
 			} else {
 				showSkillSelector(this._equipSkills);
 			}
