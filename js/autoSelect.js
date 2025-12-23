@@ -41,6 +41,13 @@ decadeModule.import((lib, game, ui, _get, _ai, _status) => {
 		const parent = event.getParent?.();
 		if (parent?.name === "chooseToRespond") return true;
 		if (parent?.respondTo) return true;
+		if (parent?.name === "dying" || event.dying) return true;
+		if (event.forced || event.forceDirect) return true;
+		if (event.name === "chooseCard" && !event.dialog?.querySelector(".buttons")) return true;
+		if (event.name === "chooseToDiscard" && parent?.name !== "phaseDiscard") {
+			const range = getRange(event, "Card");
+			if (range[0] === 1 && range[1] === 1) return true;
+		}
 		return false;
 	};
 
