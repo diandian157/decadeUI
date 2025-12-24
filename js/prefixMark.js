@@ -1,218 +1,219 @@
 import { lib, get } from "noname";
 
 const PREFIX_CONFIGS = Object.freeze({
-	界: { className: "jie-mark", property: "$jieMark" },
-	神: { className: "shen-mark", property: "$shenMark" },
-	武: { className: "wu-mark", property: "$wuMark" },
-	族: { className: "clan-mark", property: "$clanMark" },
-	标: { className: "std-mark", property: "$stdMark" },
-	新杀: { className: "dc-mark", property: "$dcMark" },
-	"新杀|牢": { className: "lao-mark", property: "$laoMark" },
-	乐: { className: "yue-mark", property: "$yueMark" },
-	谋: { className: "sb-mark", property: "$sbMark" },
-	新杀谋: { className: "sb-mark", property: "$sbMark" },
-	界SP: { className: "jie-mark", property: "$jieMark" },
-	OL: { className: "ol-mark", property: "$olMark" },
-	OL谋: { className: "sb-mark", property: "$sbMark" },
-	SP: { className: "sp-mark", property: "$spMark" },
-	星: { className: "star-mark", property: "$starMark" },
-	"☆": { className: "star-mark", property: "$starMark" },
-	爻: { className: "yao-mark", property: "$yaoMark" },
-	"牢|爻": { className: "lao-mark", property: "$laoMark" },
-	OL界: { className: "jie-mark", property: "$jieMark" },
-	OL谋: { className: "sb-mark", property: "$sbMark" },
-	魔: { className: "dm-mark", property: "$dmMark" },
-	闪: { className: "shan-mark", property: "$shanMark" },
-	晋: { className: "jin-mark", property: "$jinMark" },
-	威: { className: "v-mark", property: "$vMark" },
-	手杀: { className: "mb-mark", property: "$mbMark" },
-	"手杀|牢": { className: "lao-mark", property: "$laoMark" },
-	手杀SP: { className: "mb-mark", property: "$mbMark" },
-	玄: { className: "xuan-mark", property: "$xuanMark" },
-	势: { className: "pot-mark", property: "$potMark" },
-	友: { className: "you-mark", property: "$youMark" },
-	手杀界: { className: "jie-mark", property: "$jieMark" },
-	TW: { className: "tw-mark", property: "$twMark" },
-	TW谋: { className: "sb-mark", property: "$sbMark" },
-	幻: { className: "huan-mark", property: "$huanMark" },
-	起: { className: "jsrg-mark", property: "$jsrgMark" },
-	"TW|起": { className: "jsrg-mark", property: "$jsrgMark" },
-	经典: { className: "jd-mark", property: "$jdMark" },
-	经典神: { className: "shen-mark", property: "$shenMark" },
-	忍: { className: "ren-mark", property: "$renMark" },
-	有: { className: "nailong-mark", property: "$nailongMark" },
-	烈: { className: "lie-mark", property: "$lieMark" },
-	OL乐: { className: "yue-mark", property: "$yueMark" },
-	韩氏: { className: "hanshi-mark", property: "$hanshiMark" },
-	魂: { className: "hun-mark", property: "$hunMark" },
-	汉: { className: "han-mark", property: "$hanMark" },
-	OL汉: { className: "han-mark", property: "$hanMark" },
-	狂: { className: "kuang-mark", property: "$kuangMark" },
-	旧: { className: "old-mark", property: "$oldMark" },
-	"旧|OL": { className: "old-mark", property: "$oldMark" },
-	旧神: { className: "old-mark", property: "$oldMark" },
-	毅重: { className: "old-mark", property: "$oldMark" },
-	节钺: { className: "old-mark", property: "$oldMark" },
-	牢: { className: "lao-mark", property: "$laoMark" },
-	"牢|神": { className: "lao-mark", property: "$laoMark" },
-	旧晋: { className: "old-mark", property: "$oldMark" },
-	"牢|SP": { className: "lao-mark", property: "$laoMark" },
-	欢杀: { className: "Mbaby-mark", property: "$MbabyMark" },
-	"欢杀|神": { className: "shen-mark", property: "$shenMark" },
-	"SP|欢杀|神": { className: "shen-mark", property: "$shenMark" },
-	"欢杀|谋": { className: "sb-mark", property: "$sbMark" },
-	"欢杀|星": { className: "star-mark", property: "$starMark" },
-	"SP|欢杀": { className: "sp-mark", property: "$spMark" },
-	喵: { className: "miao-mark", property: "$miaoMark" },
-	念: { className: "nian-mark", property: "$nianMark" },
-	战: { className: "zhan-mark", property: "$zhanMark" },
-	微信: { className: "wei-mark", property: "$weiMark" },
-	"SP|微信|神": { className: "shen-mark", property: "$shenMark" },
-	"微信|牢": { className: "lao-mark", property: "$laoMark" },
-	"微信|神": { className: "shen-mark", property: "$shenMark" },
-	"微信|☆": { className: "star-mark", property: "$starMark" },
-	"微信|谋": { className: "sb-mark", property: "$sbMark" },
-	"微信|界": { className: "jie-mark", property: "$jieMark" },
-	"SP|微信": { className: "sp-mark", property: "$spMark" },
-	极: { className: "ji-mark", property: "$jiMark" },
-	极略SK: { className: "sk-mark", property: "$skMark" },
-	"极略★SK": { className: "sk-mark", property: "$skMark" },
-	极略SK神: { className: "shen-mark", property: "$shenMark" },
-	极略SP神: { className: "shen-mark", property: "$shenMark" },
-	极略SR: { className: "sr-mark", property: "$srMark" },
-	"旧|神": { className: "old-mark", property: "$oldMark" },
-	"旧|界": { className: "old-mark", property: "$oldMark" },
-	"旧|谋": { className: "old-mark", property: "$oldMark" },
-	"旧|幻": { className: "old-mark", property: "$oldMark" },
-	"旧|势": { className: "old-mark", property: "$oldMark" },
-	"旧|☆": { className: "old-mark", property: "$oldMark" },
-	"旧|SP": { className: "old-mark", property: "$oldMark" },
-	"旧|友": { className: "old-mark", property: "$oldMark" },
-	"旧|族": { className: "old-mark", property: "$oldMark" },
-	"旧|星": { className: "old-mark", property: "$oldMark" },
-	"旧|威": { className: "old-mark", property: "$oldMark" },
-	"旧|武": { className: "old-mark", property: "$oldMark" },
-	"旧|侠": { className: "old-mark", property: "$oldMark" },
-	"旧|起": { className: "old-mark", property: "$oldMark" },
-	"旧|玄": { className: "old-mark", property: "$oldMark" },
-	TW神: { className: "shen-mark", property: "$shenMark" },
-	手杀神: { className: "shen-mark", property: "$shenMark" },
-	OL神: { className: "shen-mark", property: "$shenMark" },
-	战役篇: { className: "zhan-mark", property: "$zhanMark" },
-	战役篇神: { className: "shen-mark", property: "$shenMark" },
-	"骏骊|神": { className: "shen-mark", property: "$shenMark" },
-	S特神: { className: "shen-mark", property: "$shenMark" },
-	桃神: { className: "shen-mark", property: "$shenMark" },
-	桃: { className: "tao-mark", property: "$taoMark" },
-	汉末神: { className: "shen-mark", property: "$shenMark" },
-	汉末: { className: "han-mark", property: "$hanMark" },
-	长安神: { className: "shen-mark", property: "$shenMark" },
-	长安: { className: "chang-mark", property: "$changMark" },
-	渭南神: { className: "shen-mark", property: "$shenMark" },
-	渭南: { className: "wn-mark", property: "$wnMark" },
-	荆神: { className: "shen-mark", property: "$shenMark" },
-	荆: { className: "jing-mark", property: "$jingMark" },
-	疑: { className: "sxrm-mark", property: "$sxrmMark" },
-	梦: { className: "meng-mark", property: "$mengMark" },
-	承: { className: "cheng-mark", property: "$chengMark" },
-	转: { className: "zhuan-mark", property: "$zhuanMark" },
-	合: { className: "he-mark", property: "$heMark" },
-	衰: { className: "shuai-mark", property: "$shuaiMark" },
-	兴: { className: "xing-mark", property: "$xingMark" },
-	SCL: { className: "scl-mark", property: "$sclMark" },
-	将: { className: "jiang-mark", property: "$jiangMark" },
-	用间: { className: "yongjian-mark", property: "$yongjianMark" },
-	"★": { className: "star-mark", property: "$starMark" },
-	君: { className: "jun-mark", property: "$junMark" },
-	侠: { className: "xia-mark", property: "$xiaMark" },
-	K系列: { className: "k-mark", property: "$kMark" },
-	智将: { className: "zhijiang-mark", property: "$zhijiangMark" },
-	龙: { className: "long-mark", property: "$longMark" },
-	欧陆: { className: "eu-mark", property: "$euMark" },
-	九鼎: { className: "jiding-mark", property: "$jidingMark" },
-	燕幽: { className: "yy-mark", property: "$yyMark" },
-	荆扬: { className: "jianghua-mark", property: "$jianghuaMark" },
-	蛇: { className: "she-mark", property: "$sheMark" },
-	青史: { className: "qingshi-mark", property: "$qingshiMark" },
-	徐兖: { className: "xuyuan-mark", property: "$xuyuanMark" },
-	风云: { className: "fengyun-mark", property: "$fengyunMark" },
-	"26|神": { className: "shen-mark", property: "$shenMark" },
-	慢: { className: "man-mark", property: "$manMark" },
-	飞鸿: { className: "feihong-mark", property: "$feihongMark" },
-	"飞鸿|神": { className: "shen-mark", property: "$shenMark" },
-	"☆神": { className: "shen-mark", property: "$shenMark" },
-	虎翼: { className: "huyi-mark", property: "$huyiMark" },
-	闪耀: { className: "shanyao-mark", property: "$shanyaoMark" },
-	领主: { className: "lingzhu-mark", property: "$lingzhuMark" },
-	闪耀战姬: { className: "shanyao-mark", property: "$shanyaoMark" },
-	志气: { className: "zhi-mark", property: "$zhiMark" },
-	"旧|魔": { className: "old-mark", property: "$oldMark" },
-	"牢|谋": { className: "lao-mark", property: "$laoMark" },
-	"26|SP": { className: "sp-mark", property: "$spMark" },
-	文心雕龙: { className: "wen-mark", property: "$wenMark" },
-	礼: { className: "li-mark", property: "$liMark" },
-	"手杀|SP": { className: "sp-mark", property: "$spMark" },
-	书: { className: "shu-mark", property: "$shuMark" },
-	数: { className: "shuxue-mark", property: "$shuxueMark" },
-	御: { className: "yu-mark", property: "$yuMark" },
-	手杀乐: { className: "yue-mark", property: "$yueMark" },
-	射: { className: "sheji-mark", property: "$shejiMark" },
+	界: "jie",
+	神: "shen",
+	武: "wu",
+	族: "clan",
+	标: "std",
+	新杀: "dc",
+	"新杀|牢": "lao",
+	乐: "yue",
+	谋: "sb",
+	新杀谋: "sb",
+	界SP: "jie",
+	OL: "ol",
+	OL谋: "sb",
+	SP: "sp",
+	星: "star",
+	"☆": "star",
+	爻: "yao",
+	"牢|爻": "lao",
+	OL界: "jie",
+	魔: "dm",
+	闪: "shan",
+	晋: "jin",
+	威: "v",
+	手杀: "mb",
+	"手杀|牢": "lao",
+	手杀SP: "mb",
+	玄: "xuan",
+	势: "pot",
+	友: "you",
+	手杀界: "jie",
+	TW: "tw",
+	TW谋: "sb",
+	幻: "huan",
+	起: "jsrg",
+	"TW|起": "jsrg",
+	经典: "jd",
+	经典神: "shen",
+	忍: "ren",
+	有: "nailong",
+	烈: "lie",
+	OL乐: "yue",
+	韩氏: "hanshi",
+	魂: "hun",
+	汉: "han",
+	OL汉: "han",
+	狂: "kuang",
+	旧: "old",
+	"旧|OL": "old",
+	旧神: "old",
+	毅重: "old",
+	节钺: "old",
+	牢: "lao",
+	"牢|神": "lao",
+	旧晋: "old",
+	"牢|SP": "lao",
+	欢杀: "Mbaby",
+	"欢杀|神": "shen",
+	"SP|欢杀|神": "shen",
+	"欢杀|谋": "sb",
+	"欢杀|星": "star",
+	"SP|欢杀": "sp",
+	喵: "miao",
+	念: "nian",
+	战: "zhan",
+	微信: "wei",
+	"SP|微信|神": "shen",
+	"微信|牢": "lao",
+	"微信|神": "shen",
+	"微信|☆": "star",
+	"微信|谋": "sb",
+	"微信|界": "jie",
+	"SP|微信": "sp",
+	极: "ji",
+	极略SK: "sk",
+	"极略★SK": "sk",
+	极略SK神: "shen",
+	极略SP神: "shen",
+	极略SR: "sr",
+	"旧|神": "old",
+	"旧|界": "old",
+	"旧|谋": "old",
+	"旧|幻": "old",
+	"旧|势": "old",
+	"旧|☆": "old",
+	"旧|SP": "old",
+	"旧|友": "old",
+	"旧|族": "old",
+	"旧|星": "old",
+	"旧|威": "old",
+	"旧|武": "old",
+	"旧|侠": "old",
+	"旧|起": "old",
+	"旧|玄": "old",
+	TW神: "shen",
+	手杀神: "shen",
+	OL神: "shen",
+	战役篇: "zhan",
+	战役篇神: "shen",
+	"骏骊|神": "shen",
+	S特神: "shen",
+	桃神: "shen",
+	桃: "tao",
+	汉末神: "shen",
+	汉末: "han",
+	长安神: "shen",
+	长安: "chang",
+	渭南神: "shen",
+	渭南: "wn",
+	荆神: "shen",
+	荆: "jing",
+	疑: "sxrm",
+	梦: "meng",
+	承: "cheng",
+	转: "zhuan",
+	合: "he",
+	衰: "shuai",
+	兴: "xing",
+	SCL: "scl",
+	将: "jiang",
+	用间: "yongjian",
+	"★": "star",
+	君: "jun",
+	侠: "xia",
+	K系列: "k",
+	智将: "zhijiang",
+	龙: "long",
+	欧陆: "eu",
+	九鼎: "jiding",
+	燕幽: "yy",
+	荆扬: "jianghua",
+	蛇: "she",
+	青史: "qingshi",
+	徐兖: "xuyuan",
+	风云: "fengyun",
+	"26|神": "shen",
+	慢: "man",
+	飞鸿: "feihong",
+	"飞鸿|神": "shen",
+	"☆神": "shen",
+	虎翼: "huyi",
+	闪耀: "shanyao",
+	领主: "lingzhu",
+	闪耀战姬: "shanyao",
+	志气: "zhi",
+	"旧|魔": "old",
+	"牢|谋": "lao",
+	"26|SP": "sp",
+	文心雕龙: "wen",
+	礼: "li",
+	"手杀|SP": "sp",
+	书: "shu",
+	数: "shuxue",
+	御: "yu",
+	手杀乐: "yue",
+	射: "sheji",
 });
 
-const CONFIG_KEYS = {
-	NEW_DECADE_STYLE: "extension_十周年UI_newDecadeStyle",
-};
+const CONFIG_KEY = "extension_十周年UI_newDecadeStyle";
+
+function getMarkId(name) {
+	return `${name}-mark`;
+}
+
+function getPropertyName(name) {
+	return `$${name}Mark`;
+}
 
 export const prefixMarkModule = {
 	prefix_configs: PREFIX_CONFIGS,
 
-	shouldShowPrefixMark() {
-		return lib.config?.[CONFIG_KEYS.NEW_DECADE_STYLE] === "on";
-	},
+	shouldShowPrefixMark: () => lib.config?.[CONFIG_KEY] === "on",
 
 	getPrefixConfig(character) {
-		const prefixKey = `${character}_prefix`;
-		const refreshPrefix = lib.translate?.[prefixKey];
-		return refreshPrefix ? PREFIX_CONFIGS[refreshPrefix] : null;
+		const prefix = lib.translate?.[`${character}_prefix`];
+		if (!prefix || !PREFIX_CONFIGS[prefix]) return null;
+		const name = PREFIX_CONFIGS[prefix];
+		return { className: getMarkId(name), property: getPropertyName(name) };
 	},
 
 	createMarkElement(config, playerElement) {
-		return playerElement[config.property] ?? (playerElement[config.property] = dui.element.create(config.className, playerElement));
-	},
-
-	updateNameElement(playerElement, character) {
-		const nameElement = playerElement.node?.name;
-		if (nameElement) {
-			nameElement.innerText = get.rawName2(character);
-		}
+		return (playerElement[config.property] ??= dui.element.create(config.className, playerElement));
 	},
 
 	showPrefixMark(character, playerElement) {
-		if (!this.shouldShowPrefixMark()) {
-			return;
-		}
+		if (!this.shouldShowPrefixMark()) return;
 
 		const config = this.getPrefixConfig(character);
-		if (!config) {
-			return;
-		}
+		if (!config) return;
 
 		const markElement = this.createMarkElement(config, playerElement);
 		if (!playerElement.contains(markElement)) {
 			playerElement.appendChild(markElement);
 		}
 
-		this.updateNameElement(playerElement, character);
+		const nameElement = playerElement.node?.name;
+		if (nameElement) {
+			nameElement.innerText = get.rawName2(character);
+		}
 	},
 
 	clearPrefixMarks(playerElement) {
 		if (!playerElement) return;
 
-		Object.values(PREFIX_CONFIGS).forEach(config => {
-			const markElement = playerElement[config.property];
+		const processedNames = new Set();
+		Object.values(PREFIX_CONFIGS).forEach(name => {
+			if (processedNames.has(name)) return;
+			processedNames.add(name);
+
+			const property = getPropertyName(name);
+			const markElement = playerElement[property];
 			if (markElement) {
 				markElement.remove();
-				delete playerElement[config.property];
+				delete playerElement[property];
 			}
 		});
 	},

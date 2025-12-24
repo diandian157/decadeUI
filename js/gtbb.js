@@ -1,110 +1,117 @@
 import { lib, ui, get } from "noname";
 
+const STORIES = ["周年", "五一", "踏青", "牛年", "开黑", "冬至", "春分", "鼠年", "盛典", "魏魂", "群魂", "蜀魂", "吴魂", "猪年", "圣诞", "国庆", "狗年", "金秋", "奇珍", "元旦", "小雪", "冬日", "招募", "梦之回廊", "虎年", "新春", "七夕", "大雪", "端午", "武将", "中秋", "庆典"];
+const BOX_TYPES = ["盒子", "宝盒", "礼包", "福袋", "礼盒", "庆典", "盛典"];
+const ACTIONS = ["通过", "使用", "开启"];
+const TAIL_MSGS = [",大家快恭喜TA吧！", ",大家快恭喜TA吧。无名杀是一款非盈利游戏(づ ●─● )づ", ",祝你新的一年天天开心，万事如意"];
+
+function getEnabledPacks() {
+	const packs = [...lib.config.characters];
+	for (const packName of Object.keys(lib.characterPack)) {
+		if (!packName.startsWith("mode_extension_")) continue;
+		const extName = packName.slice(15);
+		if (lib.config[`extension_${extName}_characters_enable`] === true) {
+			packs.push(packName);
+		}
+	}
+	return packs;
+}
+
+function mapCharacters(mapFn) {
+	const results = [];
+	for (const packName of getEnabledPacks()) {
+		const pack = lib.characterPack[packName];
+		if (!pack) continue;
+		for (const [charName, info] of Object.entries(pack)) {
+			if (info.isUnseen || lib.filter.characterDisabled(charName)) continue;
+			const result = mapFn(charName);
+			if (result) results.push(result);
+		}
+	}
+	return results;
+}
+
+function getDisplayName(charName) {
+	const name = get.slimName(charName);
+	return name && name !== charName ? name : null;
+}
+
+function getCharacterTitle(charName) {
+	let title = lib.characterTitle[charName] || "";
+	if (title.startsWith("#")) title = title.slice(2);
+	return get.plainText(title);
+}
+
+function createMarqueeHTML(config) {
+	const nickname = lib.config.connect_nickname;
+	const randomNames = mapCharacters(getDisplayName);
+	const skins = mapCharacters(name => {
+		const displayName = getDisplayName(name);
+		return displayName ? `${displayName}×1` : null;
+	});
+	const generals = mapCharacters(name => {
+		const displayName = getDisplayName(name);
+		if (!displayName) return null;
+		const title = getCharacterTitle(name);
+		return title ? `${title}·${displayName}*1（动+静）` : `${displayName}*1（动+静）`;
+	});
+
+	const name = [randomNames.randomGet(), nickname].randomGet();
+	const skin = skins.randomGet();
+	const general = generals.randomGet();
+	const reward = [`<font color="#56e4fa">${skin}</font>`, `<font color="#f3c20f">${general}</font>`].randomGet();
+
+	const useCustomFont = config.GTBBFont !== "off";
+	const fontset = useCustomFont ? "FZLBJW" : "yuanli";
+	const colorA = useCustomFont ? "#efe8dc" : "#86CC5B";
+	const colorB = useCustomFont ? "#22c622" : "#B3E1EC";
+
+	return `
+		<marquee direction="left" behavior="scroll" scrollamount="9.8" loop="1" width="100%" height="50" align="absmiddle">
+			<font face="${fontset}">
+				玩家
+				<font color="${colorA}"><b>${name}</b></font>
+				${ACTIONS.randomGet()}
+				<font color="${colorB}"><b>${STORIES.randomGet()}${BOX_TYPES.randomGet()}</b></font>
+				获得了<b>${reward}</b>${TAIL_MSGS.randomGet()}
+			</font>
+		</marquee>
+	`;
+}
+
+function applyStyles(div, div2, isStyleOn) {
+	if (isStyleOn) {
+		div.style.cssText = "pointer-events:none;width:100%;height:25px;font-size:23px;z-index:6;";
+		div2.style.cssText = "pointer-events:none;background:rgba(0,0,0,0.5);width:100%;height:27px;";
+	} else {
+		div.style.cssText = "pointer-events:none;width:56%;height:35px;font-size:18px;z-index:20;background-size:100% 100%;background-repeat:no-repeat;left:50%;top:15%;transform:translateX(-50%);";
+		div.style.backgroundImage = `url(${lib.assetURL}extension/十周年UI/shoushaUI/lbtn/images/uibutton/goutuo.png)`;
+		div2.style.cssText = "pointer-events:none;width:85.5%;height:35px;left:8%;line-height:35px;";
+	}
+}
+
 export function initGTBB(config) {
 	if (!config.GTBB) return;
 
-	const gtbbUI = {};
-	function getCharactersFromPacks(filterFn) {
-		const results = [];
-		for (const packName of lib.config.characters) {
-			const pack = lib.characterPack[packName];
-			if (!pack) continue;
-			for (const [charName, characterInfo] of Object.entries(pack)) {
-				if (characterInfo.isUnseen) continue;
-				if (lib.filter.characterDisabled(charName)) continue;
-				const result = filterFn(charName, characterInfo);
-				if (result) results.push(result);
-			}
-		}
-		for (const packName of Object.keys(lib.characterPack)) {
-			if (!packName.startsWith("mode_extension_")) continue;
-			const extName = packName.slice(15);
-			if (lib.config[`extension_${extName}_characters_enable`] !== true) continue;
-			const pack = lib.characterPack[packName];
-			if (!pack) continue;
-			for (const [charName, characterInfo] of Object.entries(pack)) {
-				if (characterInfo.isUnseen) continue;
-				if (lib.filter.characterDisabled(charName)) continue;
-				const result = filterFn(charName, characterInfo);
-				if (result) results.push(result);
-			}
-		}
-		return results;
-	}
+	const div = ui.create.div("");
+	const div2 = ui.create.div("", div);
+	const extConfig = lib.config["extension_十周年UI_GTBBFont"];
+	const interval = parseFloat(lib.config["extension_十周年UI_GTBBTime"]);
+
+	applyStyles(div, div2, config.GTBBYangshi === "on");
+
 	function showGTBB() {
-		const playerLabel = "玩家";
-		const nickname = lib.config.connect_nickname;
-		const randomNames = getCharactersFromPacks(charName => {
-			const displayName = get.slimName(charName);
-			return displayName && displayName !== charName ? displayName : null;
-		});
-		const skins = getCharactersFromPacks(charName => {
-			const displayName = get.slimName(charName);
-			return displayName && displayName !== charName ? `${displayName}×1` : null;
-		});
-		const generals = getCharactersFromPacks(charName => {
-			let title = lib.characterTitle[charName] || "";
-			if (title.startsWith("#")) title = title.slice(2);
-			title = get.plainText(title);
-			const displayName = get.slimName(charName);
-			if (displayName && displayName !== charName) {
-				return title ? `${title}·${displayName}*1（动+静）` : `${displayName}*1（动+静）`;
-			}
-			return null;
-		});
-		const suiji = randomNames.randomGet();
-		const name = [suiji, nickname].randomGet();
-		const action = ["通过", "使用", "开启"].randomGet();
-		const stories = ["周年", "五一", "踏青", "牛年", "开黑", "冬至", "春分", "鼠年", "盛典", "魏魂", "群魂", "蜀魂", "吴魂", "猪年", "圣诞", "国庆", "狗年", "金秋", "奇珍", "元旦", "小雪", "冬日", "招募", "梦之回廊", "虎年", "新春", "七夕", "大雪", "端午", "武将", "中秋", "庆典"];
-		const story = stories.randomGet();
-		const boxTypes = ["盒子", "宝盒", "礼包", "福袋", "礼盒", "庆典", "盛典"];
-		const box = boxTypes.randomGet();
-		const getText = "获得了";
-		const skin = skins.randomGet();
-		const general = generals.randomGet();
-		const reward = [`<font color="#56e4fa">${skin}</font>`, `<font color="#f3c20f">${general}</font>`].randomGet();
-		const tailMsgs = [",大家快恭喜TA吧！", ",大家快恭喜TA吧。无名杀是一款非盈利游戏(づ ●─● )づ", ",祝你新的一年天天开心，万事如意"];
-		const tail = tailMsgs.randomGet();
-		let fontset = "FZLBJW";
-		let colorA = "#efe8dc";
-		let colorB = "#22c622";
-		if (lib.config.extension_十周年UI_GTBBFont === "off") {
-			fontset = "yuanli";
-			colorA = "#86CC5B";
-			colorB = "#B3E1EC";
-		}
-		gtbbUI.div.show();
-		setTimeout(() => {
-			gtbbUI.div.hide();
-		}, 15500);
-		gtbbUI.div2.innerHTML = `
-			<marquee direction="left" behavior="scroll" scrollamount="9.8" loop="1" width="100%" height="50" align="absmiddle">
-				<font face="${fontset}">
-					${playerLabel}
-					<font color="${colorA}"><b>${name}</b></font>
-					${action}
-					<font color="${colorB}"><b>${story}${box}</b></font>
-					${getText}<b>${reward}</b>${tail}
-				</font>
-			</marquee>
-		`;
+		div2.innerHTML = createMarqueeHTML({ GTBBFont: extConfig });
+		div.show();
+		setTimeout(() => div.hide(), 15500);
 	}
-	gtbbUI.div = ui.create.div("");
-	gtbbUI.div2 = ui.create.div("", gtbbUI.div);
-	if (config.GTBBYangshi === "on") {
-		gtbbUI.div.style.cssText = "pointer-events:none;width:100%;height:25px;font-size:23px;z-index:6;";
-		gtbbUI.div2.style.cssText = "pointer-events:none;background:rgba(0,0,0,0.5);width:100%;height:27px;";
-	} else {
-		gtbbUI.div.style.cssText = "pointer-events:none;width:56%;height:35px;font-size:18px;z-index:20;background-size:100% 100%;background-repeat:no-repeat;left:50%;top:15%;transform:translateX(-50%);";
-		gtbbUI.div.style["background-image"] = `url(${lib.assetURL}extension/十周年UI/shoushaUI/lbtn/images/uibutton/goutuo.png`;
-		gtbbUI.div2.style.cssText = "pointer-events:none;width:85.5%;height:35px;left:8%;line-height:35px;";
-	}
-	const id = setInterval(() => {
-		if (!gtbbUI.div.parentNode && ui.window) {
-			ui.window.appendChild(gtbbUI.div);
-			clearInterval(id);
+
+	const checkId = setInterval(() => {
+		if (!div.parentNode && ui.window) {
+			ui.window.appendChild(div);
+			clearInterval(checkId);
 			showGTBB();
-			setInterval(showGTBB, parseFloat(lib.config["extension_十周年UI_GTBBTime"]));
+			setInterval(showGTBB, interval);
 		}
 	}, 5000);
 }
