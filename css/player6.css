@@ -46,7 +46,7 @@
 }
 
 .player::before {
-	left: -55px;
+	left: -65px;
 	top: -42px;
 	width: 230px;
 	height: 262px;
@@ -81,7 +81,7 @@
 .player::after,
 .player.selected::after,
 .player.selectable::after {
-	left: -55px;
+	left: -65px;
 	top: -42px;
 	width: 230px;
 	height: 262px;
@@ -128,14 +128,10 @@
 	transition: opacity 0.3s linear;
 }
 
-.player.un-selectable:not(.selectable) > .mask {
-	opacity: 1;
-	transition: opacity 0.3s linear;
-}
-
 #arena:not(.fewplayer) > .player:not(.minskin),
 #arena:not(.fewplayer):not(*[data-player_height=""]) > .player:not(.minskin) {
 	height: 180px !important;
+	width: 130px !important;
 }
 
 /*玩家锁链*/
@@ -314,9 +310,9 @@
 .player > .camp-wrap > .camp-border {
 	display: block;
 	left: 0px;
-	top: -15px;
-	width: 430%;
-	height: 169%;
+	top: -17px;
+	width: 445%;
+	height: 175%;
 	position: absolute;
 	background-image: url("../image/decoration_code/border_camp3.png");
 	background-size: 100% 100%;

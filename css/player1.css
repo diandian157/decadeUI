@@ -46,7 +46,7 @@
 }
 
 .player::before {
-	left: -52px;
+	left: -65px;
 	top: -42px;
 	width: 230px;
 	height: 262px;
@@ -81,7 +81,7 @@
 .player::after,
 .player.selected::after,
 .player.selectable::after {
-	left: -52px;
+	left: -65px;
 	top: -42px;
 	width: 230px;
 	height: 262px;
@@ -136,7 +136,7 @@
 #arena:not(.fewplayer) > .player:not(.minskin),
 #arena:not(.fewplayer):not(*[data-player_height=""]) > .player:not(.minskin) {
 	height: 180px !important;
-	width: 125px !important;
+	width: 130px !important;
 }
 
 /*玩家锁链*/
@@ -965,7 +965,7 @@
 /*玩家标记显示-新样式*/
 #arena[data-player-mark-style="decade"] > .player > .dui-marks {
 	left: auto;
-	top: 38px;
+	top: 30px;
 	/*下移*/
 	right: 0px;
 	/*左移*/

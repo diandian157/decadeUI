@@ -45,28 +45,10 @@
 	background-size: 100% 100% !important;
 }
 
-.player::before {
-	left: -52px;
-	top: -42px;
-	width: 230px;
-	height: 262px;
-	opacity: 0;
-	background-image: url("../assets/image/sprites_glow_blue.png");
-	background-repeat: no-repeat;
-	animation-name: kf-sprites-glow;
-	animation-duration: 0s;
-	animation-delay: 0s;
-	animation-iteration-count: infinite;
-	animation-fill-mode: forwards;
-	animation-timing-function: steps(1);
-	pointer-events: none;
-	box-shadow: none;
-	transition: opacity 0.1s linear;
-}
-
-.player.selected:not(.target):before,
-.player.glow_phase:not(.selectable):not(*[data-position="0"])::before {
-	left: -55px;
+/*-----------------分割线-----------------*/
+/*新样式*/
+#arena[data-shadow-style="off"] > .player::before {
+	left: -62px;
 	top: -30px;
 	width: 228px;
 	height: 228px;
@@ -84,27 +66,121 @@
 	transition: opacity 0s linear;
 }
 
-.player.selectable.selected.target:before,
-.player.selected:not(.target):before {
+#arena[data-shadow-style="off"] > .player.selectable.selected.target:before,
+#arena[data-shadow-style="off"] > .player.selected:not(.target):before {
 	animation-duration: 0.9s;
 	background-image: url("../assets/image/sprites_shadow_orange.png");
 	opacity: 1;
 	z-index: 79;
 }
 
-.player.selectable:not(.selected):not(.target)::before {
+#arena[data-shadow-style="off"] > .player.glow_phase:not(.selectable)::before {
 	animation-duration: 0.9s;
-	/*新增*/
+	background-image: url("../assets/image/sprites_shadow_green1.png");
+	opacity: 1;
+	z-index: 75;
+}
+
+#arena[data-shadow-style="off"] > .player.selectable:not(.selected):not(.target)::before {
+	animation-duration: 0.9s;
+	background-image: url("../assets/image/sprites_shadow_lvse.png");
+	opacity: 1;
+	z-index: 79;
+	top: -38.4px;
+	left: -55px;
+}
+
+#arena[data-shadow-style="off"] > .player::after,
+#arena[data-shadow-style="off"] > .player.selected::after,
+#arena[data-shadow-style="off"] > .player.selectable::after {
+	left: -62px;
+	top: -40px;
+	width: 228px;
+	height: 228px;
+	opacity: 0;
+	background-image: url("../assets/image/sprites_shadow_lvse.png");
+	background-repeat: no-repeat;
+	animation-name: kf-sprites-glow;
+	animation-duration: 0s;
+	animation-delay: 0s;
+	animation-iteration-count: infinite;
+	animation-fill-mode: forwards;
+	animation-timing-function: steps(1);
+	pointer-events: none;
+	box-shadow: none;
+	transition: opacity 0.1s linear;
+}
+
+#arena[data-shadow-style="off"] > .player.selectable:not(.selected):not(.target):not(*[data-position="0"])::before {
+	animation-duration: 0.9s;
+	background-image: url("../assets/image/sprites_shadow_red.png");
+	opacity: 1;
+	z-index: 89;
+	top: -30px;
+	left: -63px;
+}
+
+#arena[data-shadow-style="off"] > .player:not(*[data-position="0"])::after,
+#arena[data-shadow-style="off"] > .player.selected:not(*[data-position="0"])::after,
+#arena[data-shadow-style="off"] > .player.selectable:not(*[data-position="0"])::after {
+	left: -62px;
+	top: -40px;
+	width: 228px;
+	height: 228px;
+	opacity: 0;
+	background-image: url("../assets/image/sprites_shadow_red.png");
+	background-repeat: no-repeat;
+	animation-name: kf-sprites-glow;
+	animation-duration: 0s;
+	animation-delay: 0s;
+	animation-iteration-count: infinite;
+	animation-fill-mode: forwards;
+	animation-timing-function: steps(1);
+	pointer-events: none;
+	box-shadow: none;
+	transition: opacity 0.1s linear;
+}
+
+/*-----------------分割线-----------------*/
+/*原样式*/
+#arena[data-shadow-style="on"] > .player::before {
+	left: -56px;
+	top: -42px;
+	width: 223px;
+	height: 254px;
+	opacity: 0;
+	background-image: url("../assets/image/sprites_glow_blue.png");
+	background-repeat: no-repeat;
+	animation-name: kf-sprites-glow;
+	animation-duration: 0s;
+	animation-delay: 0s;
+	animation-iteration-count: infinite;
+	animation-fill-mode: forwards;
+	animation-timing-function: steps(1);
+	pointer-events: none;
+	box-shadow: none;
+	transition: opacity 0.1s linear;
+}
+
+#arena[data-shadow-style="on"] > .player.selected:not(.target):before,
+#arena[data-shadow-style="on"] > .player.glow_phase:not(.selectable):not(*[data-position="0"])::before {
+	animation-duration: 0.9s;
+	background-image: url("../assets/image/sprites_glow_orange.png");
 	opacity: 1;
 }
 
-.player::after,
-.player.selected::after,
-.player.selectable::after {
-	left: -52px;
+#arena[data-shadow-style="on"] > .player.selectable:not(.selected):not(.target)::before {
+	animation-duration: 0.9s;
+	opacity: 1;
+}
+
+#arena[data-shadow-style="on"] > .player::after,
+#arena[data-shadow-style="on"] > .player.selected::after,
+#arena[data-shadow-style="on"] > .player.selectable::after {
+	left: -56px;
 	top: -42px;
-	width: 230px;
-	height: 262px;
+	width: 223px;
+	height: 254px;
 	opacity: 0;
 	background-image: url("../assets/image/sprites_glow_red.png");
 	background-repeat: no-repeat;
@@ -119,22 +195,12 @@
 	transition: opacity 0.1s linear;
 }
 
-.player.glow_phase:not(.selectable)::before {
+#arena[data-shadow-style="on"] > .player.target:not(.glow_phase):not(.selectable):not(.selected)::after {
 	animation-duration: 0.9s;
-	background-image: url("../assets/image/sprites_shadow_green1.png");
 	opacity: 1;
-	left: -55px;
-	top: -30px;
-	width: 228px;
-	height: 228px;
-	z-index: 75;
 }
 
-.player.target:not(.glow_phase):not(.selectable):not(.selected)::after {
-	animation-duration: 0.9s;
-	/*新增*/
-	opacity: 1;
-}
+/*-----------------分割线-----------------*/
 
 #arena > .player {
 	z-index: 4;

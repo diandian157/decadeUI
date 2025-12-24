@@ -290,7 +290,7 @@ app.import((lib, game, ui, get, ai, _status, app) => {
 		if (isTouch) {
 			sortBtnStyle = isRightLayout ? utils.getButtonStyle(88, "81/247", "calc(100% - 35px)", "calc(100% - 380px)", 7) : utils.getButtonStyle(88, "81/247", "calc(100% - 35px)", "calc(100% - 1260px)", 7);
 		} else {
-			sortBtnStyle = isRightLayout ? utils.getButtonStyle(45, "110/170", "calc(100% - 45px)", "calc(100% - 295px)", 7) : utils.getButtonStyle(88, "81/247", "calc(100% - 33px)", "right: calc(100% - 367.2px)", 4);
+			sortBtnStyle = isRightLayout ? utils.getButtonStyle(45, "110/170", "calc(100% - 45px)", "calc(100% - 305px)", 7) : utils.getButtonStyle(88, "81/247", "calc(100% - 33px)", "right: calc(100% - 367.2px)", 4);
 		}
 		const sortBtn = utils.createImage(`extension/十周年UI/shoushaUI/lbtn/images/uibutton/${sortImg}`, sortBtnStyle);
 		sortBtn.onclick = () => {

@@ -199,45 +199,45 @@
 
 @keyframes kf-sprites-glow {
 	0% {
-		background-size: 2300px 100%;
+		background-size: 2530px 100%;
 		background-position: 0px 0px;
 	}
 
 	10.00% {
-		background-position: -230px 0px;
+		background-position: -253px 0px;
 	}
 
 	20.00% {
-		background-position: -460px 0px;
+		background-position: -506px 0px;
 	}
 
 	30.00% {
-		background-position: -690px 0px;
+		background-position: -759px 0px;
 	}
 
 	40.00% {
-		background-position: -920px 0px;
+		background-position: -1012px 0px;
 	}
 
 	50.00% {
-		background-position: -1150px 0px;
+		background-position: -1265px 0px;
 	}
 
 	60.00% {
-		background-position: -1380px 0px;
+		background-position: -1518px 0px;
 	}
 
 	70.00% {
-		background-position: -1610px 0px;
+		background-position: -1771px 0px;
 	}
 
 	80.00% {
-		background-position: -1840px 0px;
+		background-position: -2024px 0px;
 	}
 
 	90.00%,
 	100% {
-		background-size: 2300px 100%;
-		background-position: -2070px 0px;
+		background-size: 2530px 100%;
+		background-position: -2277px 0px;
 	}
 }

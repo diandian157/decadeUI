@@ -12,7 +12,7 @@
 .gskill-control {
 	max-width: 120px;
 	bottom: 65px;
-	right: 170px;
+	right: 175px;
 	z-index: 6;
 }
 
@@ -53,67 +53,20 @@
 .skill-control > .enable > .skillitem,
 .gskill-control > .enable > .skillitem {
 	margin: 1px 2px;
-	--w: 45px;
+	--w: 50px;
 	--h: calc(var(--w) * 91 / 200);
 	width: var(--w);
 	height: var(--h);
-	line-height: 21px;
+	line-height: 23px;
 	text-indent: 12px;
 	text-align: center;
 	font-family: "yuanli";
 	font-weight: 500;
-	font-size: 11px;
-	color: #f7f5e7;
+	font-size: 13px;
+	color: #000000;
 	text-shadow:
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18;
+		0 0 2px #fff,
+		0 0 2px #fff;
 	background-image: url("./shizhounian/btnnx1.png");
 	background-size: 100% 100%;
 }
@@ -121,68 +74,21 @@
 .skill-control > .enable > .zhuanhuanji,
 .gskill-control > .enable > .zhuanhuanji {
 	margin: 1px 2px;
-	--w: 45px;
+	--w: 50px;
 	--h: calc(var(--w) * 91 / 200);
 	width: var(--w);
 	height: var(--h);
-	line-height: 21px;
+	line-height: 23px;
 	/* padding-left: 18px; */
 	text-indent: 12px;
 	text-align: center;
 	font-family: "yuanli";
 	font-weight: 500;
-	font-size: 11px;
-	color: #f7f5e7;
+	font-size: 13px;
+	color: #000000;
 	text-shadow:
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18;
+		0 0 2px #fff,
+		0 0 2px #fff;
 	background-image: url("./shizhounian/btnnx3.png");
 	background-size: 100% 100%;
 }
@@ -190,68 +96,21 @@
 .skill-control > .enable > .xiandingji,
 .gskill-control > .enable > .xiandingji {
 	margin: 1px 2px;
-	--w: 45px;
+	--w: 50px;
 	--h: calc(var(--w) * 91 / 200);
 	width: var(--w);
 	height: var(--h);
-	line-height: 21px;
+	line-height: 23px;
 	/* padding-left: 18px; */
 	text-indent: 12px;
 	text-align: center;
 	font-family: "yuanli";
 	font-weight: 500;
-	color: #f7f5e7;
+	font-size: 13px;
+	color: #000000;
 	text-shadow:
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18;
-	font-size: 11px;
+		0 0 2px #fff,
+		0 0 2px #fff;
 	background-image: url("./shizhounian/btnnx4.png");
 	background-size: 100% 100%;
 }
@@ -259,68 +118,21 @@
 .skill-control > .enable > .locked,
 .gskill-control > .enable > .locked {
 	margin: 1px 2px;
-	--w: 45px;
+	--w: 50px;
 	--h: calc(var(--w) * 91 / 200);
 	width: var(--w);
 	height: var(--h);
-	line-height: 21px;
+	line-height: 23px;
 	/* padding-left: 18px; */
 	text-indent: 12px;
 	text-align: center;
 	font-family: "yuanli";
 	font-weight: 500;
-	font-size: 11px;
-	color: #f7f5e7;
+	font-size: 13px;
+	color: #000000;
 	text-shadow:
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18;
+		0 0 2px #fff,
+		0 0 2px #fff;
 	background-image: url("./shizhounian/btnnx2.png");
 	background-size: 100% 100%;
 }
@@ -443,7 +255,7 @@
 
 .skillMarks {
 	overflow-y: auto;
-	left: 120px !important;
+	left: 130px !important;
 	top: 0px !important;
 	z-index: 90 !important;
 	justify-content: center;

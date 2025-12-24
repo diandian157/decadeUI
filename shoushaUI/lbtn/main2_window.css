@@ -252,7 +252,7 @@
 }
 
 .handcardNumber > .cardPicture {
-	left: 85px;
+	left: 77px;
 	bottom: 0px;
 	width: 60px;
 	height: 50px;
@@ -264,7 +264,7 @@
 
 /*手牌数参数*/
 .handcardNumber > .cardNumber {
-	left: 105px;
+	left: 97px;
 	bottom: 23px;
 	height: 8px;
 	line-height: 29px;

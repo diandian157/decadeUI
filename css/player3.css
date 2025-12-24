@@ -35,7 +35,7 @@
 }
 
 .player::before {
-	left: -52px;
+	left: -65px;
 	top: -42px;
 	width: 230px;
 	height: 262px;
@@ -70,7 +70,7 @@
 .player::after,
 .player.selected::after,
 .player.selectable::after {
-	left: -52px;
+	left: -65px;
 	top: -42px;
 	width: 230px;
 	height: 262px;
@@ -248,7 +248,7 @@
 	display: block;
 	left: -6px;
 	height: 187px;
-	top: -17px;
+	top: -18px;
 	width: 55px;
 	position: absolute;
 	background-image: url("../image/decoration/new_border_camp.png");
@@ -262,16 +262,23 @@
 
 #arena.decadeUI[data-border-level="two"] .player > .camp-wrap > .camp-border {
 	background-image: url("../image/decoration/new_border_camp2.png");
-	left: -8px;
+	left: -5px;
+	height: 190px;
+	width: 52px;
 }
 
 #arena.decadeUI[data-border-level="three"] .player > .camp-wrap > .camp-border {
 	background-image: url("../image/decoration/new_border_camp3.png");
-	left: -8px;
+	left: -5px;
+	height: 190px;
+	width: 50px;
 }
 
 #arena.decadeUI[data-border-level="four"] .player > .camp-wrap > .camp-border {
 	background-image: url("../image/decoration/new_border_camp4.png");
+	left: -4px;
+	height: 190px;
+	width: 52px;
 }
 
 #arena.decadeUI[data-border-level="five"] .player > .camp-wrap > .camp-border {
@@ -284,16 +291,23 @@
 
 .player[data-border-level="two"] > .camp-wrap > .camp-border {
 	background-image: url("../image/decoration/new_border_camp2.png");
-	left: -8px;
+	left: -5px;
+	height: 190px;
+	width: 52px;
 }
 
 .player[data-border-level="three"] > .camp-wrap > .camp-border {
 	background-image: url("../image/decoration/new_border_camp3.png");
-	left: -8px;
+	left: -5px;
+	height: 190px;
+	width: 50px;
 }
 
 .player[data-border-level="four"] > .camp-wrap > .camp-border {
 	background-image: url("../image/decoration/new_border_camp4.png");
+	left: -4px;
+	height: 190px;
+	width: 52px;
 }
 
 .player[data-border-level="five"] > .camp-wrap > .camp-border {
@@ -1002,7 +1016,7 @@
 /*玩家标记显示-新样式*/
 #arena[data-player-mark-style="decade"] > .player > .dui-marks {
 	left: auto;
-	top: 38px;
+	top: 30px;
 	/*下移*/
 	right: 0px;
 	/*左移*/
