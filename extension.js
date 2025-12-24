@@ -1,9 +1,9 @@
 import { nonameInitialized } from "../../noname/util/index.js";
 import { lib } from "noname";
-import { config } from "./main/config.js";
-import { content } from "./main/content.js";
-import { precontent } from "./main/precontent.js";
-import { mainpackage } from "./main/package.js";
+import { config } from "./src/config.js";
+import { content } from "./src/content.js";
+import { precontent } from "./src/precontent.js";
+import { mainpackage } from "./src/package.js";
 
 export const type = "extension";
 
