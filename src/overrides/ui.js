@@ -1,9 +1,9 @@
 /**
  * UI覆写模块
- * @description 处理ui对象的覆写方法
  */
 
 import { lib, game, ui, get, _status } from "noname";
+import { throttle } from "../animation/index.js";
 
 // 基础方法引用
 let baseUiUpdate = null;
@@ -132,7 +132,7 @@ export function uiUpdatejm(player, nodes, start, inv) {
 let _uiUpdatexr = null;
 export function uiUpdatexr() {
 	if (!_uiUpdatexr) {
-		_uiUpdatexr = duilib.throttle(ui.updatex, 100, ui);
+		_uiUpdatexr = throttle(ui.updatex, 100, ui);
 	}
 	return _uiUpdatexr.apply(this, arguments);
 }

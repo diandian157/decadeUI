@@ -192,16 +192,38 @@ export class APNode {
 
 	/** 计算参考节点边界 */
 	_calcReferBounds(domNode, dpr) {
+		// 检测getBoundingClientRect是否被皮肤切换扩展修改
+		// 皮肤切换扩展在Chrome 128+会修改getBoundingClientRect，返回值已除以documentZoom
+		const isNativeGetBoundingClientRect = HTMLElement.prototype.getBoundingClientRect.toString().includes("[native code]");
+
 		let rect = domNode.getBoundingClientRect();
+
 		if (useNewDpr) {
-			let zoom = 1,
-				ele = domNode;
-			while (ele && ele !== document.body) {
-				zoom *= parseFloat(window.getComputedStyle(ele).zoom);
-				ele = ele.parentElement;
+			if (isNativeGetBoundingClientRect) {
+				// 原生函数，需要手动处理zoom
+				let zoom = 1,
+					ele = domNode;
+				while (ele && ele !== document.body) {
+					zoom *= parseFloat(window.getComputedStyle(ele).zoom);
+					ele = ele.parentElement;
+				}
+				rect = new DOMRect(rect.x / zoom, rect.y / zoom, rect.width / zoom, rect.height / zoom);
+			} else {
+				// getBoundingClientRect被修改，返回值已除以documentZoom
+				// 需要乘回documentZoom以保持与原生行为一致
+				const documentZoom = window.documentZoom || 1;
+				rect = new DOMRect(rect.x * documentZoom, rect.y * documentZoom, rect.width * documentZoom, rect.height * documentZoom);
+				// 然后按原逻辑处理父元素zoom
+				let zoom = 1,
+					ele = domNode;
+				while (ele && ele !== document.body) {
+					zoom *= parseFloat(window.getComputedStyle(ele).zoom);
+					ele = ele.parentElement;
+				}
+				rect = new DOMRect(rect.x / zoom, rect.y / zoom, rect.width / zoom, rect.height / zoom);
 			}
-			rect = new DOMRect(rect.x / zoom, rect.y / zoom, rect.width / zoom, rect.height / zoom);
 		}
+
 		const bodyHeight = decadeUI.get.bodySize().height * (useNewDpr ? window.documentZoom : 1);
 		return {
 			x: rect.left,

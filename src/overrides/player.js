@@ -1,9 +1,9 @@
 /**
  * Player 覆写模块
- * @description 玩家相关的覆写方法
  */
 
 import { lib, game, ui, get, _status } from "noname";
+import { DynamicPlayer } from "../animation/index.js";
 
 // 基础方法引用
 let basePlayerMethods = null;
@@ -731,7 +731,7 @@ export function playerPlayDynamic(animation, deputy) {
 	if (animation === undefined) return console.error("playDynamic: 参数1不能为空");
 	let dynamic = this.dynamic;
 	if (!dynamic) {
-		dynamic = new duilib.DynamicPlayer("assets/dynamic/");
+		dynamic = new DynamicPlayer("assets/dynamic/");
 		dynamic.dprAdaptive = true;
 		this.dynamic = dynamic;
 		this.$dynamicWrap.appendChild(dynamic.canvas);

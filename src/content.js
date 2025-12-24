@@ -3,8 +3,7 @@ import { ChildNodesWatcher } from "../../../noname/library/cache/childNodesWatch
 import { cardSkinMeta, cardSkinPresets } from "./config.js";
 import { registerLegacyModules } from "./ui/progress-bar.js";
 
-// 动画模块
-import "./animation/index.js";
+import { CubicBezierEase, throttle, observeSize, lerp, TimeStep, APNode, AnimationPlayer, AnimationPlayerPool, DynamicPlayer, BUILT_ID, DynamicWorkers } from "./animation/index.js";
 import { setupGameAnimation } from "./animation/gameIntegration.js";
 
 // 特效模块
@@ -814,7 +813,21 @@ const createDecadeUIObject = () => ({
 		override(game, ride.game);
 		override(get, ride.get);
 
-		decadeUI.get.extend(decadeUI, duilib);
+		// 将动画模块挂载到 decadeUI
+		Object.assign(decadeUI, {
+			throttle,
+			observeSize,
+			lerp,
+			CubicBezierEase,
+			TimeStep,
+			APNode,
+			AnimationPlayer,
+			AnimationPlayerPool,
+			DynamicPlayer,
+			BUILT_ID,
+			DynamicWorkers,
+		});
+
 		if (decadeModule.modules) {
 			for (let i = 0; i < decadeModule.modules.length; i++) {
 				decadeModule.modules[i](lib, game, ui, get, ai, _status);
@@ -2332,7 +2345,7 @@ function createDecadeUIGetModule() {
 			return (max - min) * fraction + min;
 		},
 		ease(fraction) {
-			if (!decadeUI.get._bezier3) decadeUI.get._bezier3 = new duilib.CubicBezierEase(0.25, 0.1, 0.25, 1);
+			if (!decadeUI.get._bezier3) decadeUI.get._bezier3 = new CubicBezierEase(0.25, 0.1, 0.25, 1);
 			return decadeUI.get._bezier3.ease(fraction);
 		},
 		extend(target, source) {
