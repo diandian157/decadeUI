@@ -1,7 +1,7 @@
 import { lib, game, ui, get, ai, _status } from "noname";
 import { prefixMarkModule } from "../js/prefixMark.js";
 import { initPrecontentUI } from "./ui/progress-bar.js";
-import { initCardAlternateNameVisible } from "../js/cardname.js";
+import { initCardAlternateNameVisible } from "./ui/cardAlternateName.js";
 
 // 排除的游戏模式
 const EXCLUDED_MODES = ["chess", "tafang", "hs_hearthstone"];
@@ -108,7 +108,7 @@ const initDecadeModule = () => {
 			this.css(`${decadeUIPath}css/menu.css`);
 		}
 
-		const jsFiles = ["js/spine.js", "js/component.js", "js/skill.js", "js/meihua.js", "js/luckycard.js", "js/cardPrompt.js"];
+		const jsFiles = ["js/spine.js", "js/meihua.js", "js/luckycard.js"];
 		jsFiles.forEach(path => this.jsAsync(`${decadeUIPath}${path}`));
 
 		// 加载样式相关资源

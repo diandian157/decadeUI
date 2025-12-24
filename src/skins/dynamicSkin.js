@@ -87,9 +87,6 @@ export const dynamicSkinConfig = {
 	},
 };
 
-// 扩展配置（可由其他模块添加）
-export const dynamicSkinExtend = {};
-
 /**
  * 设置动态皮肤模块
  */
@@ -97,5 +94,11 @@ export function setupDynamicSkin() {
 	if (!window.decadeUI) return;
 
 	decadeUI.dynamicSkin = { ...dynamicSkinConfig };
+
+	// 动皮共享
+	const dynamicSkinExtend = {
+		ps2080_zhouyu: decadeUI.dynamicSkin.re_zhouyu,
+		sb_zhouyu: decadeUI.dynamicSkin.re_zhouyu,
+	};
 	decadeUI.get.extend(decadeUI.dynamicSkin, dynamicSkinExtend);
 }

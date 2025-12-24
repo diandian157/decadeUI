@@ -28,6 +28,11 @@ import { element } from "./utils/element.js";
 import { layoutHandDraws, layoutDrawCards } from "./ui/layout-utils.js";
 import { cardTempSuitNum, tryAddPlayerCardUseTag } from "./ui/card-utils.js";
 import { showHandTip } from "./ui/handtip.js";
+import { initCardPrompt } from "./ui/cardPrompt.js";
+import { initComponent } from "./ui/component.js";
+
+// 技能模块
+import { initSkills } from "./skills/index.js";
 
 // 覆写模块
 import { controlAdd, controlOpen, controlClose, controlReplace, controlUpdateLayout } from "./overrides/control.js";
@@ -565,6 +570,15 @@ export const finalizeDecadeUICore = (decadeUI, config) => {
 
 	// 初始化特效模块
 	setupEffects();
+
+	// 初始化UI组件模块
+	initComponent(decadeUI);
+
+	// 初始化技能模块
+	initSkills();
+
+	// 初始化卡牌提示模块
+	initCardPrompt({ lib, game, ui, get });
 
 	// 初始化自动选择
 	setupAutoSelect();
