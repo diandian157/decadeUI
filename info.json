@@ -10,7 +10,7 @@
 		{
 			"name": "骨骼包",
 			"path": "./",
-			"condition": ["js/dynamicSkin.js"]
+			"condition": ["src/skins/dynamicSkin.js"]
 		}
 	]
 }

@@ -58,9 +58,6 @@ export let config = {
 		},
 		update() {
 			const enabled = lib.config.extension_十周年UI_translate;
-			if (enabled) {
-				lib.init.js(`${lib.assetURL}extension/十周年UI/js/cardtranslate.js`);
-			}
 			game.saveConfig("enable_drag", !enabled);
 		},
 	},

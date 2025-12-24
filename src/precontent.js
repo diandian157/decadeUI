@@ -108,7 +108,7 @@ const initDecadeModule = () => {
 			this.css(`${decadeUIPath}css/menu.css`);
 		}
 
-		const jsFiles = ["js/spine.js", "js/component.js", "js/skill.js", "js/effect.js", "js/meihua.js", "js/luckycard.js", "js/equipHand.js", "js/audioHooks.js", "js/cardPrompt.js", "js/animation.js", "js/dynamicSkin.js", "js/skillDieAudio.js", "js/autoSelect.js"];
+		const jsFiles = ["js/spine.js", "js/component.js", "js/skill.js", "js/meihua.js", "js/luckycard.js", "js/cardPrompt.js"];
 		jsFiles.forEach(path => this.jsAsync(`${decadeUIPath}${path}`));
 
 		// 加载样式相关资源

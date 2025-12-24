@@ -1,12 +1,25 @@
-/**
- * 十周年UI 核心模块
- * 整合 concore.js, conmodules.js, conobject.js
- */
-
 import { lib, game, ui, get, ai, _status } from "noname";
 import { ChildNodesWatcher } from "../../../noname/library/cache/childNodesWatcher.js";
 import { cardSkinMeta, cardSkinPresets } from "./config.js";
 import { registerLegacyModules } from "./ui/progress-bar.js";
+
+// 动画模块
+import "./animation/index.js";
+import { setupGameAnimation } from "./animation/gameIntegration.js";
+
+// 特效模块
+import { setupEffects } from "./effects/index.js";
+
+// 功能模块
+import { setupAutoSelect } from "./features/autoSelect.js";
+import { setupCardDragSort } from "./features/cardDragSort.js";
+import { setupEquipHand } from "./features/equipHand.js";
+
+// 音频模块
+import { setupSkillDieAudio, setupAudioHooks } from "./audio/index.js";
+
+// 皮肤模块
+import { setupDynamicSkin } from "./skins/index.js";
 
 // 工具模块
 import { isMobile, getRandom, getMapElementPos, delayRemoveCards } from "./utils/core.js";
@@ -547,6 +560,29 @@ export const finalizeDecadeUICore = (decadeUI, config) => {
 	decadeUI.config.update = updateFn;
 
 	decadeUI.init();
+
+	// 初始化动画系统
+	setupGameAnimation(lib, game, ui, get, ai, _status);
+
+	// 初始化特效模块
+	setupEffects();
+
+	// 初始化自动选择
+	setupAutoSelect();
+
+	// 初始化手牌拖拽排序
+	setupCardDragSort();
+
+	// 初始化装备手牌化
+	setupEquipHand();
+
+	// 初始化音频模块
+	setupSkillDieAudio();
+	setupAudioHooks();
+
+	// 初始化动态皮肤
+	setupDynamicSkin();
+
 	console.timeEnd(decadeUIName);
 	return decadeUI;
 };
@@ -1884,7 +1920,9 @@ function createLayoutModule() {
 			} else {
 				const style = lib.config.extension_十周年UI_newDecadeStyle;
 				if (style === "codename" || style === "on" || style === "othersOff") {
-					xStart = (ui.arena.offsetWidth - totalW) / 2 - bounds.x;
+					if (!lib.config.phonelayout) {
+						xStart = (ui.arena.offsetWidth - totalW) / 2 - bounds.x;
+					}
 				}
 			}
 

@@ -1,8 +1,15 @@
 "use strict";
 
+/**
+ * 手气卡换牌模块
+ * 功能：游戏开局时允许玩家消耗手气卡更换手牌
+ */
 decadeModule.import((lib, game, ui, get, ai, _status) => {
 	if (!lib.config["extension_十周年UI_luckycard"]) return;
 
+	// ==================== 工具函数 ====================
+
+	/** 检查换牌功能是否禁用 */
 	const isChangeCardDisabled = () => {
 		if (_status.connectMode) return true;
 		if (lib.config.mode === "single" && _status.mode !== "wuxianhuoli") return true;
@@ -10,6 +17,7 @@ decadeModule.import((lib, game, ui, get, ai, _status) => {
 		return !["identity", "guozhan", "doudizhu", "single"].includes(lib.config.mode);
 	};
 
+	/** 清除计时器 */
 	const clearTimers = () => {
 		["timer", "timer2"].forEach(t => {
 			if (window[t]) {
@@ -19,21 +27,25 @@ decadeModule.import((lib, game, ui, get, ai, _status) => {
 		});
 	};
 
+	/** 移除进度条 */
 	const removeProgressBar = () => {
 		document.getElementById("jindutiaopl")?.remove();
 	};
 
+	/** 显示换牌计时器 */
 	const showChangeCardTimer = () => {
 		clearTimers();
 		removeProgressBar();
 		game.Jindutiaoplayer?.();
 	};
 
+	/** 隐藏换牌计时器 */
 	const hideChangeCardTimer = () => {
 		clearTimers();
 		removeProgressBar();
 	};
 
+	/** 关闭卡牌对话框 */
 	const closeCardDialog = () => {
 		if (ui.cardDialog) {
 			ui.cardDialog.close();
@@ -41,21 +53,28 @@ decadeModule.import((lib, game, ui, get, ai, _status) => {
 		}
 	};
 
+	/** 关闭确认按钮 */
 	const closeConfirm = () => {
 		ui.confirm?.close?.();
 	};
 
+	/** 去除HTML标签 */
 	const stripTags = text => (typeof text === "string" ? text.replace(/<\/?.+?\/?>/g, "") : "");
 
+	// ==================== UI 相关 ====================
+
+	/** 设置确认按钮文本 */
 	const setupConfirmButton = () => {
 		if (!ui.confirm?.childNodes?.length) return;
 		if (lib.config.extension_十周年UI_newDecadeStyle === "off") return;
+
 		const okButton = ui.confirm.childNodes[0];
 		if (okButton?.link === "ok") {
 			okButton.innerHTML = "换牌";
 		}
 	};
 
+	/** 创建换牌确认对话框，返回 Promise */
 	const createChangeCardPromise = (event, str, useCardPrompt) => {
 		return new Promise(resolve => {
 			const cleanup = () => {
@@ -73,6 +92,7 @@ decadeModule.import((lib, game, ui, get, ai, _status) => {
 			event.custom.replace.confirm = handleResolve;
 			event.switchToAuto = () => handleResolve(false);
 
+			// 根据配置选择提示方式
 			if (useCardPrompt && typeof dui?.showHandTip === "function") {
 				closeCardDialog();
 				const tip = (ui.cardDialog = dui.showHandTip());
@@ -89,73 +109,97 @@ decadeModule.import((lib, game, ui, get, ai, _status) => {
 		});
 	};
 
-	const processPlayerDraw = (currentPlayer, num, event) => {
-		const numx = typeof num === "function" ? num(currentPlayer) : num;
-		const cards = [];
-		const otherGetCards = event.otherPile?.[currentPlayer.playerid]?.getCards;
+	// ==================== 核心逻辑 ====================
 
+	/**
+	 * 处理单个玩家的摸牌
+	 * @param {Player} player - 当前玩家
+	 * @param {number|Function} num - 摸牌数量
+	 * @param {Event} event - 事件对象
+	 */
+	const processPlayerDraw = (player, num, event) => {
+		const drawCount = typeof num === "function" ? num(player) : num;
+		const cards = [];
+		const otherGetCards = event.otherPile?.[player.playerid]?.getCards;
+
+		// 获取卡牌
 		if (otherGetCards) {
-			cards.addArray(otherGetCards(numx));
-		} else if (currentPlayer.getTopCards) {
-			cards.addArray(currentPlayer.getTopCards(numx));
+			cards.addArray(otherGetCards(drawCount));
+		} else if (player.getTopCards) {
+			cards.addArray(player.getTopCards(drawCount));
 		} else {
-			cards.addArray(get.cards(numx));
+			cards.addArray(get.cards(drawCount));
 		}
 
-		const gaintag = event.gaintag?.[currentPlayer.playerid];
+		// 处理卡牌标签
+		const gaintag = event.gaintag?.[player.playerid];
 		if (gaintag) {
-			const list = typeof gaintag === "function" ? gaintag(numx, cards) : [[cards, gaintag]];
+			const list = typeof gaintag === "function" ? gaintag(drawCount, cards) : [[cards, gaintag]];
 			game.broadcastAll(
 				(p, l) => {
 					for (let i = l.length - 1; i >= 0; i--) {
 						p.directgain(l[i][0], null, l[i][1]);
 					}
 				},
-				currentPlayer,
+				player,
 				list
 			);
 		} else {
-			currentPlayer.directgain(cards);
+			player.directgain(cards);
 		}
 
-		if (currentPlayer.singleHp === true && get.mode() !== "guozhan" && !(lib.config.mode === "doudizhu" && _status.mode === "online")) {
-			currentPlayer.doubleDraw();
+		// 双将模式额外摸牌（非国战、非斗地主联机）
+		const isGuozhan = get.mode() === "guozhan";
+		const isDoudizhuOnline = lib.config.mode === "doudizhu" && _status.mode === "online";
+		if (player.singleHp === true && !isGuozhan && !isDoudizhuOnline) {
+			player.doubleDraw();
 		}
 
-		currentPlayer._start_cards = currentPlayer.getCards("h");
+		player._start_cards = player.getCards("h");
 	};
 
+	/**
+	 * 执行换牌操作
+	 * @param {Event} event - 事件对象
+	 */
 	const exchangeCards = event => {
-		const hs = game.me.getCards("h");
-		const count = hs.length;
+		const handCards = game.me.getCards("h");
+		const count = handCards.length;
 		const { otherPile } = event;
 		const playerId = game.me.playerid;
 
-		game.addVideo("lose", game.me, [get.cardsInfo(hs), [], [], []]);
+		// 记录弃牌
+		game.addVideo("lose", game.me, [get.cardsInfo(handCards), [], [], []]);
 
-		hs.forEach(card => {
+		// 弃置当前手牌
+		handCards.forEach(card => {
 			card.removeGaintag(true);
 			otherPile?.[playerId]?.discard?.(card) ?? card.discard(false);
 		});
 
-		const cards = [];
+		// 获取新手牌
+		const newCards = [];
 		const otherGetCards = otherPile?.[playerId]?.getCards;
-		if (otherGetCards) cards.addArray(otherGetCards(count));
-		if (cards.length < count) cards.addArray(get.cards(count - cards.length));
+		if (otherGetCards) newCards.addArray(otherGetCards(count));
+		if (newCards.length < count) newCards.addArray(get.cards(count - newCards.length));
 
+		// 分配新手牌
 		const gaintag = event.gaintag?.[playerId];
 		if (gaintag) {
-			const list = typeof gaintag === "function" ? gaintag(count, cards) : [[cards, gaintag]];
+			const list = typeof gaintag === "function" ? gaintag(count, newCards) : [[newCards, gaintag]];
 			for (let i = list.length - 1; i >= 0; i--) {
 				game.me.directgain(list[i][0], null, list[i][1]);
 			}
 		} else {
-			game.me.directgain(cards);
+			game.me.directgain(newCards);
 		}
 
 		game.me._start_cards = game.me.getCards("h");
 	};
 
+	// ==================== 主入口 ====================
+
+	/** 游戏开局摸牌主逻辑 */
 	lib.element.content.gameDraw = async function () {
 		const event = get.event();
 		const player = _status.event.player || event.player;
@@ -163,18 +207,21 @@ decadeModule.import((lib, game, ui, get, ai, _status) => {
 
 		if (_status.brawl?.noGameDraw) return;
 
+		// 所有玩家依次摸牌
 		let currentPlayer = player;
 		do {
 			processPlayerDraw(currentPlayer, num, event);
 			currentPlayer = currentPlayer.next;
 		} while (currentPlayer !== player);
 
+		// 处理换牌逻辑
 		let changeCard = isChangeCardDisabled() ? "disabled" : get.config("change_card");
+		const canChange = changeCard !== "disabled" && !_status.auto && game.me.countCards("h");
 
-		if (changeCard !== "disabled" && !_status.auto && game.me.countCards("h")) {
+		if (canChange) {
+			const useCardPrompt = lib.config["extension_十周年UI_cardPrompt"];
 			let remainingChanges = 5;
 			let luckyCards = 10000 + Math.floor(Math.random() * 90000);
-			const useCardPrompt = lib.config["extension_十周年UI_cardPrompt"];
 
 			_status.imchoosing = true;
 
@@ -183,9 +230,9 @@ decadeModule.import((lib, game, ui, get, ai, _status) => {
 				showChangeCardTimer();
 
 				const { bool } = await createChangeCardPromise(event, str, useCardPrompt);
-
 				if (!bool) break;
 
+				// 更新换牌次数限制
 				if (changeCard === "once") {
 					changeCard = "disabled";
 				} else if (changeCard === "twice") {
