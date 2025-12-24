@@ -14,6 +14,16 @@ export * from "./ui.js";
 export * from "./lib.js";
 export * from "./content.js";
 
+// 导出设置基础方法的函数
+export { setBaseCardMethods } from "./card.js";
+export { setBaseContentMethods } from "./content.js";
+export { setBasePlayerMethods, setBasePlayerDraw } from "./player.js";
+export { setBaseGameMethods } from "./game.js";
+export { setBaseGetMethods } from "./get.js";
+export { setBaseUiMethods, setBaseUiCreateMethods } from "./ui.js";
+export { setBaseDialogMethods } from "./dialog.js";
+export { setBaseLibMethods } from "./lib.js";
+
 import { applyControlOverrides } from "./control.js";
 import { applyDialogOverrides } from "./dialog.js";
 import { applyEventExtensions } from "./event.js";

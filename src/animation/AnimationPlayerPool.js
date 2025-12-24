@@ -25,9 +25,9 @@ export class AnimationPlayerPool {
 				for (let i = 1; i < this.animations.length; i++) {
 					const ap = this.animations[i];
 					if (window.requestIdleCallback) {
-						requestIdleCallback(() => ap.prepSpine(this.name, true), { timeout: 200 });
+						requestIdleCallback(() => ap.prepSpine(filename, true), { timeout: 200 });
 					} else {
-						setTimeout(() => ap.prepSpine(this.name, true), 50);
+						setTimeout(() => ap.prepSpine(filename, true), 50);
 					}
 				}
 				if (onload) onload();

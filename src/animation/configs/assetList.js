@@ -87,7 +87,7 @@ export const assetList = [
 	{ name: "Ss_Gz_SanJianLiangRenDao" },
 	{ name: "Ss_ZB_YiTianJian" },
 	{ name: "Ss_ZB_YinFengYi" },
-	{ name: "zhanxiang" },
+	{ name: "Ss_ZB_ZhanXiang" },
 	{ name: "SSHW_TX_chiyanzhenhun" },
 	{ name: "SSHW_TX_xuwangzhimian" },
 	{ name: "Ss_ZB_ZheJi" },

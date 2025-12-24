@@ -23,7 +23,7 @@ if (!Array.prototype.remove) {
 }
 
 // 加载 Spine 库（非模块脚本）
-importScripts("../../js/spine.js");
+importScripts("../libs/spine.js");
 
 // 动态导入模块
 import { AnimationPlayer } from "./AnimationPlayer.js";

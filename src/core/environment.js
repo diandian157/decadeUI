@@ -1,0 +1,62 @@
+/**
+ * 环境初始化模块
+ */
+import { lib, ui } from "noname";
+import { SVG_NS, CLIP_PATHS } from "./constants.js";
+
+/** 初始化SVG裁剪路径 */
+export function initSvgClipPaths() {
+	const svg = document.body.appendChild(document.createElementNS(SVG_NS, "svg"));
+	const defs = svg.appendChild(document.createElementNS(SVG_NS, "defs"));
+	CLIP_PATHS.forEach(({ id, d }) => {
+		const clipPath = defs.appendChild(document.createElementNS(SVG_NS, "clipPath"));
+		clipPath.id = id;
+		clipPath.setAttribute("clipPathUnits", "objectBoundingBox");
+		clipPath.appendChild(document.createElementNS(SVG_NS, "path")).setAttribute("d", d);
+	});
+}
+
+/** 修补全局方法 */
+export function patchGlobalMethods(ctx) {
+	if (!window.get) return;
+
+	if (typeof window.get.cardsetion === "function") {
+		const original = window.get.cardsetion;
+		window.get.cardsetion = (...args) => {
+			try {
+				return original.apply(ctx, args);
+			} catch (e) {
+				if (e?.message?.includes("indexOf")) return "";
+				throw e;
+			}
+		};
+	}
+
+	if (typeof window.get.getPlayerIdentity === "function") {
+		const original = window.get.getPlayerIdentity;
+		window.get.getPlayerIdentity = (player, identity, chinese, isMark) => {
+			identity = identity || player?.identity || "";
+			if (typeof identity !== "string") identity = "";
+			if (player?.special_identity != null && typeof player.special_identity !== "string") {
+				player.special_identity = "";
+			}
+			return original.call(ctx, player, identity, chinese, isMark);
+		};
+	}
+}
+
+/** 初始化十周年UI环境 */
+export const initializeDecadeUIEnvironment = ctx => {
+	const sensorNode = ctx.element.create("sensor", document.body);
+	sensorNode.id = "decadeUI-body-sensor";
+	const bodySensor = new ctx.ResizeSensor(sensorNode);
+
+	initSvgClipPaths();
+	document.addEventListener("click", e => dui.set.activeElement(e.target), true);
+
+	const handTipHeight = lib.config["extension_十周年UI_handTipHeight"] || "20";
+	document.documentElement.style.setProperty("--hand-tip-bottom", `calc(${handTipHeight}% + 10px)`);
+
+	patchGlobalMethods(ctx);
+	return bodySensor;
+};

@@ -53,7 +53,7 @@
 .skill-control > .enable > .skillitem,
 .gskill-control > .enable > .skillitem {
 	margin: 1px 2px;
-	--w: 50px;
+	--w: 48px;
 	--h: calc(var(--w) * 91 / 200);
 	width: var(--w);
 	height: var(--h);
@@ -74,7 +74,7 @@
 .skill-control > .enable > .zhuanhuanji,
 .gskill-control > .enable > .zhuanhuanji {
 	margin: 1px 2px;
-	--w: 50px;
+	--w: 48px;
 	--h: calc(var(--w) * 91 / 200);
 	width: var(--w);
 	height: var(--h);
@@ -96,7 +96,7 @@
 .skill-control > .enable > .xiandingji,
 .gskill-control > .enable > .xiandingji {
 	margin: 1px 2px;
-	--w: 50px;
+	--w: 48px;
 	--h: calc(var(--w) * 91 / 200);
 	width: var(--w);
 	height: var(--h);
@@ -118,7 +118,7 @@
 .skill-control > .enable > .locked,
 .gskill-control > .enable > .locked {
 	margin: 1px 2px;
-	--w: 50px;
+	--w: 48px;
 	--h: calc(var(--w) * 91 / 200);
 	width: var(--w);
 	height: var(--h);
@@ -192,25 +192,25 @@
 
 /*单行单技能按钮*/
 .skill-control > .enable > .skillitem:last-child:nth-child(odd) {
-	flex: 0 0 95px !important;
+	flex: 0 0 100px !important;
 	background-image: url("./shizhounian/btnnx9.png");
 	background-size: 100% 100%;
 }
 
 .skill-control > .enable > .zhuanhuanji:last-child:nth-child(odd) {
-	flex: 0 0 95px !important;
+	flex: 0 0 100px !important;
 	background-image: url("./shizhounian/btnnx6.png");
 	background-size: 100% 100%;
 }
 
 .skill-control > .enable > .xiandingji:last-child:nth-child(odd) {
-	flex: 0 0 95px !important;
+	flex: 0 0 100px !important;
 	background-image: url("./shizhounian/btnnx8.png");
 	background-size: 100% 100%;
 }
 
 .skill-control > .enable > .locked:last-child:nth-child(odd) {
-	flex: 0 0 95px !important;
+	flex: 0 0 100px !important;
 	background-image: url("./shizhounian/btnnx7.png");
 	background-size: 100% 100%;
 }

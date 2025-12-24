@@ -1,11 +1,13 @@
+/**
+ * 前缀角标模块
+ * 根据武将前缀显示对应的角标样式
+ */
 import { lib, get } from "noname";
 
-/**
- * 十周年样式角标模块
- */
+// ==================== 前缀配置映射 ====================
 
-// 前缀名称 -> 标记样式类名映射
 const PREFIX_CONFIGS = Object.freeze({
+	// 基础前缀
 	界: "jie",
 	神: "shen",
 	武: "wu",
@@ -19,14 +21,17 @@ const PREFIX_CONFIGS = Object.freeze({
 	星: "star",
 	"☆": "star",
 	"★": "star",
+	// 新杀系列
 	新杀: "dc",
 	新杀谋: "sb",
 	"新杀|牢": "lao",
+	// OL系列
 	OL谋: "sb",
 	OL界: "jie",
 	OL神: "shen",
 	OL乐: "yue",
 	OL汉: "han",
+	// 手杀系列
 	手杀: "mb",
 	手杀SP: "mb",
 	手杀界: "jie",
@@ -34,9 +39,11 @@ const PREFIX_CONFIGS = Object.freeze({
 	手杀乐: "yue",
 	"手杀|牢": "lao",
 	"手杀|SP": "sp",
+	// TW系列
 	TW谋: "sb",
 	TW神: "shen",
 	"TW|起": "jsrg",
+	// 旧版系列
 	旧: "old",
 	旧神: "old",
 	旧晋: "old",
@@ -59,11 +66,13 @@ const PREFIX_CONFIGS = Object.freeze({
 	"旧|起": "old",
 	"旧|玄": "old",
 	"旧|魔": "old",
+	// 牢系列
 	牢: "lao",
 	"牢|爻": "lao",
 	"牢|神": "lao",
 	"牢|SP": "lao",
 	"牢|谋": "lao",
+	// 微信系列
 	微信: "wei",
 	"微信|牢": "lao",
 	"微信|神": "shen",
@@ -72,18 +81,21 @@ const PREFIX_CONFIGS = Object.freeze({
 	"微信|界": "jie",
 	"SP|微信": "sp",
 	"SP|微信|神": "shen",
+	// 欢杀系列
 	欢杀: "Mbaby",
 	"欢杀|神": "shen",
 	"欢杀|谋": "sb",
 	"欢杀|星": "star",
 	"SP|欢杀": "sp",
 	"SP|欢杀|神": "shen",
+	// 极略系列
 	极: "ji",
 	极略SK: "sk",
 	"极略★SK": "sk",
 	极略SK神: "shen",
 	极略SP神: "shen",
 	极略SR: "sr",
+	// 其他前缀
 	界SP: "jie",
 	爻: "yao",
 	魔: "dm",
@@ -163,21 +175,21 @@ const PREFIX_CONFIGS = Object.freeze({
 	"☆神": "shen",
 });
 
+// ==================== 工具函数 ====================
+
 const CONFIG_KEY = "extension_十周年UI_newDecadeStyle";
-
-// 生成标记元素的 CSS 类名
 const getMarkClassName = name => `${name}-mark`;
+const getPropertyName = name => `${name}Mark`;
 
-// 生成存储标记元素的属性名
-const getPropertyName = name => `$${name}Mark`;
+// ==================== 导出模块 ====================
 
 export const prefixMarkModule = {
 	prefix_configs: PREFIX_CONFIGS,
 
-	// 检查是否启用前缀标记功能
+	/** 检查是否启用前缀标记功能 */
 	shouldShowPrefixMark: () => lib.config?.[CONFIG_KEY] === "on",
 
-	// 获取武将对应的前缀配置
+	/** 获取武将对应的前缀配置 */
 	getPrefixConfig(character) {
 		const prefix = lib.translate?.[`${character}_prefix`];
 		const name = PREFIX_CONFIGS[prefix];
@@ -188,12 +200,12 @@ export const prefixMarkModule = {
 		};
 	},
 
-	// 创建或获取已有的标记元素
+	/** 创建或获取已有的标记元素 */
 	createMarkElement(config, playerElement) {
 		return (playerElement[config.property] ??= dui.element.create(config.className, playerElement));
 	},
 
-	// 显示武将前缀标记
+	/** 显示武将前缀标记 */
 	showPrefixMark(character, playerElement) {
 		if (!this.shouldShowPrefixMark()) return;
 
@@ -212,7 +224,7 @@ export const prefixMarkModule = {
 		}
 	},
 
-	// 清除所有前缀标记
+	/** 清除所有前缀标记 */
 	clearPrefixMarks(playerElement) {
 		if (!playerElement) return;
 
