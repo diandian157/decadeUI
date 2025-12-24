@@ -11,6 +11,8 @@ export * from "./player.js";
 export * from "./game.js";
 export * from "./get.js";
 export * from "./ui.js";
+export * from "./lib.js";
+export * from "./content.js";
 
 import { applyControlOverrides } from "./control.js";
 import { applyDialogOverrides } from "./dialog.js";
@@ -20,6 +22,7 @@ import { applyPlayerOverrides } from "./player.js";
 import { applyGameOverrides } from "./game.js";
 import { applyGetOverrides } from "./get.js";
 import { applyUiOverrides } from "./ui.js";
+import { applyLibOverrides } from "./lib.js";
 
 /**
  * 应用所有基础覆写
@@ -33,4 +36,5 @@ export function applyBaseOverrides() {
 	applyGameOverrides();
 	applyGetOverrides();
 	applyUiOverrides();
+	applyLibOverrides();
 }

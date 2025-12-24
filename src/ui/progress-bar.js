@@ -1,12 +1,21 @@
+/**
+ * 进度条与提示模块
+ * 包含玩家进度条、AI进度条、阶段提示等功能
+ */
+
 import { lib, game, ui, get, _status } from "noname";
 import { initGTBB } from "./gtbb.js";
+import { initPhaseTipsSkills } from "./phase-tips.js";
 
+// 常量
 const PROGRESS_BAR_ID = "jindutiaopl";
 const DEFAULT_POS = [0, 0, 100, 100];
 const ANIMATION_DURATION = 1000;
 const AI_TIMER_INTERVAL = 150;
 const RED_THRESHOLD = 395 / 3;
 const CHECK_INTERVAL = 100;
+
+// ==================== 工具函数 ====================
 
 const clearTimer = name => {
 	if (window[name]) {
@@ -21,6 +30,12 @@ const isShoushaSyle = () => {
 	const style = lib.config.extension_十周年UI_newDecadeStyle;
 	return style !== "on" && style !== "othersOff";
 };
+
+const removeFirst = (parent, className) => {
+	parent.getElementsByClassName(className)[0]?.remove();
+};
+
+// ==================== 进度条配置 ====================
 
 const getProgressBarConfig = () => {
 	const styleType = lib.config.extension_十周年UI_jindutiaoYangshi;
@@ -57,6 +72,8 @@ const getProgressBarConfig = () => {
 	};
 	return configs[styleType] ?? configs[1];
 };
+
+// ==================== 元素创建 ====================
 
 const createImg = (src, style) => {
 	const img = document.createElement("img");
@@ -107,15 +124,10 @@ const createTipImg = (className, imgName) => {
 	return img;
 };
 
-const removeFirst = (parent, className) => {
-	const el = parent.getElementsByClassName(className)[0];
-	el?.remove();
-};
-
-const removeFromAll = className => game.players.forEach(p => removeFirst(p, className));
-const hasInAny = className => game.players.some(p => p.getElementsByClassName(className)[0]);
+// ==================== 预加载UI初始化 ====================
 
 export function initPrecontentUI() {
+	// 玩家进度条
 	game.Jindutiaoplayer = () => {
 		clearTimer("timer");
 		clearTimer("timer2");
@@ -173,6 +185,7 @@ export function initPrecontentUI() {
 		}
 	};
 
+	// 文字显示
 	game.as_removeText = () => {
 		_status.as_showText?.remove();
 		delete _status.as_showText;
@@ -198,6 +211,7 @@ export function initPrecontentUI() {
 		return true;
 	};
 
+	// 图片显示
 	game.as_removeImage = () => {
 		if (_status.as_showImage) {
 			const el = _status.as_showImage;
@@ -222,6 +236,8 @@ export function initPrecontentUI() {
 		return true;
 	};
 }
+
+// ==================== 进度条监视器 ====================
 
 const setupWatcher = config => {
 	let playerShown = false,
@@ -332,14 +348,16 @@ const setupWatcher = config => {
 	lib.onover.push(stop);
 };
 
+// ==================== 提示监视器 ====================
+
 const setupTipWatcher = () => {
 	let lastPhasePlayer = null,
 		lastDiscardPlayer = null;
-	const tips = { sha: "playertipsha", shan: "playertipshan", tao: "playertiptao", jiu: "playertipjiu" };
 
 	const check = () => {
 		if (!_status.gameStarted || !game.players) return;
 
+		// 出牌阶段提示
 		const phase = _status.currentPhase;
 		if (phase && phase !== game.me && phase.isPhaseUsing?.()) {
 			if (lastPhasePlayer !== phase) {
@@ -354,6 +372,7 @@ const setupTipWatcher = () => {
 			lastPhasePlayer = null;
 		}
 
+		// 弃牌阶段提示
 		const event = _status.event;
 		if (event?.name === "phaseDiscard" && event.player !== game.me) {
 			if (lastDiscardPlayer !== event.player) {
@@ -377,10 +396,17 @@ const setupTipWatcher = () => {
 	}, CHECK_INTERVAL);
 };
 
+// ==================== 卡牌提示监视器 ====================
+
 const setupCardTipWatcher = () => {
 	if (!isShoushaSyle()) return;
 
-	const tips = { sha: { cls: "playertipsha", img: "tipsha.png" }, shan: { cls: "playertipshan", img: "tipshan.png" }, tao: { cls: "playertiptao", img: "tiptao.png" }, jiu: { cls: "playertipjiu", img: "tipjiu.png" } };
+	const tips = {
+		sha: { cls: "playertipsha", img: "tipsha.png" },
+		shan: { cls: "playertipshan", img: "tipshan.png" },
+		tao: { cls: "playertiptao", img: "tiptao.png" },
+		jiu: { cls: "playertipjiu", img: "tipjiu.png" },
+	};
 	const shown = new Map();
 
 	lib.announce.subscribe("Noname.Game.Event.Trigger", data => {
@@ -405,7 +431,10 @@ const setupCardTipWatcher = () => {
 	});
 };
 
+// ==================== 模块注册 ====================
+
 export function registerLegacyModules(config) {
+	// 兼容旧API
 	lib.removeFirstByClass = lib.removeFirstByClass || ((p, c) => p.getElementsByClassName(c)[0]?.remove());
 	lib.createTipImg =
 		lib.createTipImg ||
@@ -416,6 +445,9 @@ export function registerLegacyModules(config) {
 			i.style.cssText = st;
 			return i;
 		});
+
+	// 初始化阶段提示技能
+	initPhaseTipsSkills();
 
 	if (get.mode() === "connect") {
 		initGTBB(config);

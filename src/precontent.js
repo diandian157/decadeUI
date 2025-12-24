@@ -1,6 +1,6 @@
 import { lib, game, ui, get, ai, _status } from "noname";
 import { prefixMarkModule } from "../js/prefixMark.js";
-import { initPrecontentUI } from "../js/jindutiao.js";
+import { initPrecontentUI } from "./ui/progress-bar.js";
 import { initCardAlternateNameVisible } from "../js/cardname.js";
 
 // 排除的游戏模式
@@ -108,7 +108,7 @@ const initDecadeModule = () => {
 			this.css(`${decadeUIPath}css/menu.css`);
 		}
 
-		const jsFiles = ["js/spine.js", "js/component.js", "js/skill.js", "js/effect.js", "js/meihua.js", "js/luckycard.js", "js/jdts.js", "js/equipHand.js", "js/audioHooks.js", "js/cardPrompt.js", "js/animation.js", "js/dynamicSkin.js", "js/skillDieAudio.js", "js/autoSelect.js"];
+		const jsFiles = ["js/spine.js", "js/component.js", "js/skill.js", "js/effect.js", "js/meihua.js", "js/luckycard.js", "js/equipHand.js", "js/audioHooks.js", "js/cardPrompt.js", "js/animation.js", "js/dynamicSkin.js", "js/skillDieAudio.js", "js/autoSelect.js"];
 		jsFiles.forEach(path => this.jsAsync(`${decadeUIPath}${path}`));
 
 		// 加载样式相关资源

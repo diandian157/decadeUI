@@ -671,6 +671,176 @@ export function uiClickIntro() {
 }
 
 /**
+ * 身份点击处理
+ */
+export function uiClickIdentity(e) {
+	if (_status.dragged || !game.getIdentityList || _status.video || this.parentNode.forceShown) return;
+	_status.clicked = true;
+	let identityList = game.getIdentityList(this.parentNode);
+	if (!identityList) return;
+	if (lib.config.mark_identity_style == "click") {
+		let getNext = false;
+		let theNext;
+		const current = this.firstChild.innerText;
+		for (const key in identityList) {
+			if (theNext === null || getNext) {
+				theNext = key;
+				if (getNext) break;
+			}
+			if (current === identityList[key]) getNext = true;
+		}
+		this.parentNode.setIdentity(theNext);
+	} else {
+		if (get.mode() == "guozhan") {
+			identityList = {
+				wei: "魏",
+				shu: "蜀",
+				wu: "吴",
+				qun: "群",
+				jin: "晋",
+				ye: "野",
+			};
+			if (_status.forceKey) identityList.key = "键";
+		}
+		const _dui = window.dui;
+		if (!_dui.$identityMarkBox) {
+			_dui.$identityMarkBox = window.decadeUI.element.create("identity-mark-box");
+			_dui.$identityMarkBox.ondeactive = function () {
+				_dui.$identityMarkBox.remove();
+				_status.clicked = false;
+				if (!ui.arena.classList.contains("menupaused")) game.resume2();
+			};
+		}
+		let index = 0;
+		let node;
+		const nodes = _dui.$identityMarkBox.childNodes;
+		for (const key in identityList) {
+			node = nodes[index];
+			if (!node) {
+				node = window.decadeUI.element.create("identity-mark-item", _dui.$identityMarkBox);
+				node.addEventListener(lib.config.touchscreen ? "touchend" : "click", function () {
+					this.player.setIdentity(this.link);
+					_dui.$identityMarkBox.remove();
+					_status.clicked = false;
+				});
+			} else {
+				node.style.display = "";
+			}
+			node.link = key;
+			node.player = this.parentNode;
+			node.innerText = identityList[key];
+			index++;
+		}
+		while (index < nodes.length) {
+			nodes[index].style.display = "none";
+			index++;
+		}
+		game.pause2();
+		setTimeout(
+			function (player) {
+				player.appendChild(_dui.$identityMarkBox);
+				_dui.set.activeElement(_dui.$identityMarkBox);
+			},
+			0,
+			this.parentNode
+		);
+	}
+}
+
+/**
+ * 音量设置对话框
+ */
+export function uiClickVolumn() {
+	const setting = ui.create.dialog("hidden");
+	setting.listen(function (e) {
+		e.stopPropagation();
+	});
+	const backVolume = window.decadeUI.component.slider(0, 8, parseInt(lib.config.volumn_background));
+	const gameVolume = window.decadeUI.component.slider(0, 8, parseInt(lib.config.volumn_audio));
+	backVolume.onchange = function () {
+		game.saveConfig("volumn_background", backVolume.value);
+		ui.backgroundMusic.volume = backVolume.value / 8;
+	};
+	gameVolume.onchange = function () {
+		game.saveConfig("volumn_audio", gameVolume.value);
+	};
+	setting.add("背景音量");
+	setting.content.appendChild(backVolume);
+	setting.add("游戏音量");
+	setting.content.appendChild(gameVolume);
+	setting.add(ui.create.div(".placeholder"));
+	return setting;
+}
+
+/**
+ * 清除弃牌区
+ */
+export function uiClear() {
+	game.addVideo("uiClear");
+	const nodes = document.getElementsByClassName("thrown");
+	for (let i = nodes.length - 1; i >= 0; i--) {
+		if (nodes[i].fixed) continue;
+		if (nodes[i].classList.contains("card")) {
+			if (nodes[i].name && (nodes[i].name.startsWith("shengbei_left_") || nodes[i].name.startsWith("shengbei_right_"))) {
+				nodes[i].delete();
+			} else {
+				window.decadeUI.layout.clearout(nodes[i]);
+			}
+		} else nodes[i].delete();
+	}
+}
+
+/**
+ * 创建玩家手牌区
+ */
+export function uiCreateMe(hasme) {
+	ui.arena.dataset.layout = game.layout;
+	ui.mebg = ui.create.div("#mebg", ui.arena);
+	ui.me = ui.create.div(".hand-wrap", ui.arena);
+	ui.handcards1Container = window.decadeUI.element.create("hand-cards", ui.me);
+	ui.handcards1Container.onmousewheel = window.decadeUI.handler.handMousewheel;
+	ui.handcards2Container = ui.create.div("#handcards2");
+	ui.arena.classList.remove("nome");
+	const equipSolts = (ui.equipSolts = window.decadeUI.element.create("equips-wrap"));
+	equipSolts.back = window.decadeUI.element.create("equips-back", equipSolts);
+	for (let repetition = 0; repetition < 5; repetition++) {
+		const ediv = window.decadeUI.element.create(null, equipSolts.back);
+		ediv.dataset.type = repetition;
+	}
+	ui.arena.insertBefore(equipSolts, ui.me);
+	if (!lib.config.extension_十周年UI_aloneEquip) {
+		equipSolts.style.display = "none";
+	}
+	window.decadeUI.bodySensor.addListener(window.decadeUI.layout.resize);
+	window.decadeUI.layout.resize();
+	ui.handcards1Container.ontouchstart = ui.click.touchStart;
+	ui.handcards2Container.ontouchstart = ui.click.touchStart;
+	ui.handcards1Container.ontouchmove = ui.click.touchScroll;
+	ui.handcards2Container.ontouchmove = ui.click.touchScroll;
+	ui.handcards1Container.style.WebkitOverflowScrolling = "touch";
+	ui.handcards2Container.style.WebkitOverflowScrolling = "touch";
+	if (hasme && game.me) {
+		ui.handcards1 = game.me.node.handcards1;
+		ui.handcards2 = game.me.node.handcards2;
+		ui.handcards1Container.appendChild(ui.handcards1);
+		ui.handcards2Container.appendChild(ui.handcards2);
+	} else if (game.players.length) {
+		game.me = game.players[0];
+		ui.handcards1 = game.me.node.handcards1;
+		ui.handcards2 = game.me.node.handcards2;
+		ui.handcards1Container.appendChild(ui.handcards1);
+		ui.handcards2Container.appendChild(ui.handcards2);
+	}
+	if (lib.config.extension_十周年UI_aloneEquip) {
+		if (game.me) {
+			equipSolts.me = game.me;
+			equipSolts.equips = game.me.node.equips;
+			equipSolts.appendChild(game.me.node.equips);
+		}
+	}
+}
+
+/**
  * 应用UI覆写
  */
 export function applyUiOverrides() {
