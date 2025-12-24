@@ -184,6 +184,10 @@
 }
 
 .equips-wrap > .equips > div.selectable::before {
+	animation: none;
+}
+
+.equips-wrap > .equips > div.selected::before {
 	animation: fade-in-out-selectable 1s infinite;
 }
 
