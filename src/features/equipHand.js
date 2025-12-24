@@ -191,11 +191,10 @@ function clearEquipSelectable() {
 
 /** 设置装备牌的可选状态（用于弃牌等操作） */
 function setupEquipCardSelection(event, player) {
-	if (!event.position || typeof event.position !== "string" || !event.position.includes("e")) return;
-	if (event.filterCard && ui.selected.cards.length >= get.select(event.selectCard)[1]) return;
+	if (typeof event?.position !== "string" || !event.position.includes("e") || ui.selected.cards.length >= get.select(event.selectCard)[1]) return;
 	const equipCards = player.getCards("e");
 	for (const card of equipCards) {
-		if (event.filterCard?.(card, player, event.target)) {
+		if (event.filterCard?.(card, player, event)) {
 			if (!card.classList.contains("selected")) card.classList.add("selectable");
 			card.classList.add("equip-card-selectable");
 		}
@@ -344,28 +343,13 @@ export function setupEquipHand() {
 		const equipCards = player.getCards("e");
 		if (!equipCards.length) return;
 
-		if (event.skill) {
-			clearEquipSelectable();
-			setupEquipCardSelection(event, player);
-			return;
-		}
-
-		if (!get.noSelected()) {
-			clearEquipSelectable();
-			setupEquipCardSelection(event, player);
-			return;
-		}
-
 		clearEquipSelectable();
 		setupEquipCardSelection(event, player);
 
 		const usableSkills = getEquipUsableSkills(event, player);
-		if (!usableSkills.length) {
-			clearEquipSelectable();
-			return;
-		}
 
 		if (!usableSkills.length) return;
+
 		for (const card of equipCards) {
 			const cardSkills = getCardSkills(card);
 			const matchedSkills = cardSkills.filter(s => usableSkills.includes(s));
