@@ -126,9 +126,10 @@
 	opacity: 1 !important;
 }
 
-/* 禁用所有按钮动画 */
+/* 禁用所有按钮动画 - 防止点击技能/手牌时按钮抽搐 */
 .lbtn-confirm,
 .lbtn-confirm > *,
+.control,
 .control > div {
 	transition: none !important;
 }

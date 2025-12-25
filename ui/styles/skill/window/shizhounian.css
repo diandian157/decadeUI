@@ -6,7 +6,7 @@
 .skill-control {
 	max-width: 120px;
 	bottom: 8px;
-	right: 45px;
+	right: 43px;
 	z-index: 6;
 }
 
@@ -183,22 +183,22 @@
 
 /* 单行单技能按钮 */
 .skill-control > .enable > .skillitem:last-child:nth-child(odd) {
-	flex: 0 0 95px !important;
+	flex: 0 0 105px !important;
 	background-image: url("../../../assets/skill/shizhounian/btnnx9.png");
 }
 
 .skill-control > .enable > .zhuanhuanji:last-child:nth-child(odd) {
-	flex: 0 0 95px !important;
+	flex: 0 0 105px !important;
 	background-image: url("../../../assets/skill/shizhounian/btnnx6.png");
 }
 
 .skill-control > .enable > .xiandingji:last-child:nth-child(odd) {
-	flex: 0 0 95px !important;
+	flex: 0 0 105px !important;
 	background-image: url("../../../assets/skill/shizhounian/btnnx8.png");
 }
 
 .skill-control > .enable > .locked:last-child:nth-child(odd) {
-	flex: 0 0 95px !important;
+	flex: 0 0 105px !important;
 	background-image: url("../../../assets/skill/shizhounian/btnnx7.png");
 }
 

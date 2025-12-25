@@ -3,6 +3,14 @@
  * 对应原 shoushaUI/lbtn/main4.css
  */
 
+/* 隐藏本体轮数/牌堆显示，避免与扩展重复 */
+#arena > .cardRoundNumber,
+#gameinfo,
+.touchinfo.left,
+.touchinfo.right {
+	display: none !important;
+}
+
 /* 出牌记录 */
 #arena.chess > #arenalog {
 	display: none !important;

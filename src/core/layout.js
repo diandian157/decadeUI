@@ -48,7 +48,9 @@ export function createLayoutModule() {
 				}
 			} else {
 				const style = lib.config.extension_十周年UI_newDecadeStyle;
-				if (style === "codename" || style === "on" || style === "othersOff") {
+				if (style === "codename") {
+					xStart = (ui.arena.offsetWidth - totalW) / 2 - bounds.x;
+				} else if (style === "on" || style === "othersOff") {
 					if (!lib.config.phonelayout) {
 						xStart = (ui.arena.offsetWidth - totalW) / 2 - bounds.x;
 					}

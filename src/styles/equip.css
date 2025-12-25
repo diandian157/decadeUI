@@ -60,7 +60,7 @@
 
 /* 十周年样式 - 关闭触屏布局 */
 #arena[data-new-decade-style="on"][data-phonelayout="off"][data-right-layout="on"] > .equips-wrap {
-	left: 0%;
+	left: 1%;
 	right: auto;
 }
 

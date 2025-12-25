@@ -161,7 +161,7 @@
 .player > .camp-wrap {
 	display: block;
 	left: -19px;
-	top: -9px;
+	top: -19px;
 	width: 37px;
 	height: 128px;
 	transition: none;
@@ -1484,7 +1484,7 @@
 .player > .yu-mark,
 .player > .sheji-mark {
 	position: absolute;
-	top: 108px;
+	top: 98px;
 	left: -11px;
 	width: 22px;
 	height: 34px;

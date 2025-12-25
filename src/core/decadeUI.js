@@ -346,7 +346,12 @@ export const createDecadeUIObject = () => ({
 			}
 		}
 
-		document.body.onresize = ui.updatexr;
+		// 窗口大小变化时更新布局（修复控制台开关导致手牌区不复位的问题）
+		window.addEventListener("resize", () => {
+			ui.updatexr?.();
+			decadeUI.layout?.resize();
+		});
+
 		initHooks();
 		this.initUIExtensions();
 	},
