@@ -1,4 +1,10 @@
-﻿.menu > .button.character {
+﻿/**
+ * 十周年UI - 布局样式
+ */
+
+/* ========== 角色选择按钮 ========== */
+
+.menu > .button.character {
 	border-radius: 0;
 }
 
@@ -22,7 +28,7 @@
 	bottom: 0;
 }
 
-/* 手杀 */
+/* 手杀布局 */
 .menu > .button.character.long2 > .fakeplayer:nth-child(3) {
 	left: 0;
 	top: 5%;
@@ -39,7 +45,7 @@
 	top: 5%;
 }
 
-/* 新版 */
+/* 新版布局 */
 .menu > .button.character.nova > .fakeplayer:nth-child(3) {
 	left: 0;
 	top: 15%;
@@ -61,8 +67,35 @@
 	height: 180px;
 }
 
-/* * * * * 默认布局 * * * * */
-/*8人座*/
+/* ========== 玩家宽度变量 ========== */
+
+#arena[data-new-decade-style="on"] > .player {
+	--w: 120px !important;
+}
+
+#arena[data-new-decade-style="off"] > .player {
+	--w: 128px !important;
+}
+
+#arena[data-new-decade-style="othersOff"] > .player {
+	--w: 128px !important;
+}
+
+#arena[data-new-decade-style="onlineUI"] > .player {
+	--w: 128px !important;
+}
+
+#arena[data-new-decade-style="babysha"] > .player {
+	--w: 128px !important;
+}
+
+#arena[data-new-decade-style="codename"] > .player {
+	--w: 120px !important;
+}
+
+/* ========== 默认布局 (mobile) ========== */
+
+/* 8人座 */
 #arena[data-layout="mobile"][data-number="8"] > .player[data-position="1"] {
 	left: auto;
 	top: calc(50% - 90px);
@@ -101,7 +134,7 @@
 	top: calc(50% - 90px);
 }
 
-/*7人座*/
+/* 7人座 */
 #arena[data-layout="mobile"][data-number="7"] > .player[data-position="1"] {
 	left: auto;
 	top: calc(50% - 90px);
@@ -135,7 +168,7 @@
 	top: calc(50% - 90px);
 }
 
-/*6人座*/
+/* 6人座 */
 #arena[data-layout="mobile"][data-number="6"] > .player[data-position="1"] {
 	left: auto;
 	top: 18%;
@@ -163,7 +196,7 @@
 	top: 18%;
 }
 
-/*5人座*/
+/* 5人座 */
 #arena[data-layout="mobile"][data-number="5"] > .player[data-position="1"] {
 	left: auto;
 	top: 18%;
@@ -186,7 +219,7 @@
 	top: 18%;
 }
 
-/*4人座*/
+/* 4人座 */
 #arena[data-layout="mobile"][data-number="4"] > .player[data-position="1"] {
 	left: auto;
 	top: 18%;
@@ -203,7 +236,7 @@
 	top: 18%;
 }
 
-/*3人座*/
+/* 3人座 */
 #arena[data-layout="mobile"][data-number="3"] > .player[data-position="1"] {
 	left: auto;
 	top: 9px;
@@ -215,40 +248,15 @@
 	top: 9px;
 }
 
-/*2人座*/
+/* 2人座 */
 #arena[data-layout="mobile"][data-number="2"] > .player[data-position="1"] {
 	left: calc(50% - 60px);
 	top: 9px;
 }
 
-/* * * * * 新版布局 * * * * */
-/*--------------------分割线--------------------*/
-#arena[data-new-decade-style="on"] > .player {
-	--w: 120px !important;
-}
+/* ========== 新版布局 (nova) ========== */
 
-#arena[data-new-decade-style="off"] > .player {
-	--w: 128px !important;
-}
-
-#arena[data-new-decade-style="othersOff"] > .player {
-	--w: 128px !important;
-}
-
-#arena[data-new-decade-style="onlineUI"] > .player {
-	--w: 128px !important;
-}
-
-#arena[data-new-decade-style="babysha"] > .player {
-	--w: 128px !important;
-}
-
-#arena[data-new-decade-style="codename"] > .player {
-	--w: 120px !important;
-}
-
-/*--------------------分割线--------------------*/
-/*8人座*/
+/* 8人座 */
 #arena[data-layout="nova"][data-number="8"] > .player[data-position="1"] {
 	left: auto;
 	top: 19%;
@@ -287,7 +295,7 @@
 	top: 19%;
 }
 
-/*7人座*/
+/* 7人座 */
 #arena[data-layout="nova"][data-number="7"] > .player[data-position="1"] {
 	left: auto;
 	top: 19%;
@@ -321,7 +329,7 @@
 	top: 19%;
 }
 
-/*6人座*/
+/* 6人座 */
 #arena[data-layout="nova"][data-number="6"] > .player[data-position="1"] {
 	left: auto;
 	top: 19%;
@@ -349,7 +357,7 @@
 	top: 19%;
 }
 
-/*5人座*/
+/* 5人座 */
 #arena[data-layout="nova"][data-number="5"] > .player[data-position="1"] {
 	left: auto;
 	top: 19%;
@@ -372,7 +380,7 @@
 	top: 19%;
 }
 
-/*4人座*/
+/* 4人座 */
 #arena[data-layout="nova"][data-number="4"] > .player[data-position="1"] {
 	left: auto;
 	top: 19%;
@@ -389,7 +397,7 @@
 	top: 19%;
 }
 
-/*3人座*/
+/* 3人座 */
 #arena[data-layout="nova"][data-number="3"] > .player[data-position="1"] {
 	left: auto;
 	top: 9px;
@@ -401,14 +409,15 @@
 	top: 9px;
 }
 
-/*2人座*/
+/* 2人座 */
 #arena[data-layout="nova"][data-number="2"] > .player[data-position="1"] {
 	left: calc(50% - (var(--w) / 2));
 	top: 9px;
 }
 
-/*--------------------分割线--------------------*/
-/*8人座*/
+/* ========== nova布局 - decade-layout关闭 ========== */
+
+/* 8人座 */
 #arena[data-layout="nova"][data-decade-layout="off"][data-number="8"] > .player[data-position="1"] {
 	left: auto;
 	top: 23%;
@@ -447,7 +456,7 @@
 	top: 23%;
 }
 
-/*7人座*/
+/* 7人座 */
 #arena[data-layout="nova"][data-decade-layout="off"][data-number="7"] > .player[data-position="1"] {
 	left: auto;
 	top: 23%;
@@ -481,7 +490,7 @@
 	top: 23%;
 }
 
-/*6人座*/
+/* 6人座 */
 #arena[data-layout="nova"][data-decade-layout="off"][data-number="6"] > .player[data-position="1"] {
 	left: auto;
 	top: 23%;
@@ -509,7 +518,7 @@
 	top: 23%;
 }
 
-/*5人座*/
+/* 5人座 */
 #arena[data-layout="nova"][data-decade-layout="off"][data-number="5"] > .player[data-position="1"] {
 	left: auto;
 	top: 23%;
@@ -532,7 +541,7 @@
 	top: 23%;
 }
 
-/*4人座*/
+/* 4人座 */
 #arena[data-layout="nova"][data-decade-layout="off"][data-number="4"] > .player[data-position="1"] {
 	left: auto;
 	top: 23%;
@@ -549,7 +558,7 @@
 	top: 23%;
 }
 
-/*3人座*/
+/* 3人座 */
 #arena[data-layout="nova"][data-decade-layout="off"][data-number="3"] > .player[data-position="1"] {
 	left: auto;
 	top: 9px;
@@ -561,7 +570,9 @@
 	top: 9px;
 }
 
-/*8人座*/
+/* ========== nova布局 - 特殊样式 (onlineUI/babysha/othersOff) ========== */
+
+/* 8人座 */
 #arena[data-layout="nova"][data-new-decade-style="onlineUI"][data-number="8"] > .player[data-position="1"],
 #arena[data-layout="nova"][data-new-decade-style="babysha"][data-number="8"] > .player[data-position="1"],
 #arena[data-layout="nova"][data-new-decade-style="othersOff"][data-number="8"] > .player[data-position="1"] {
@@ -614,7 +625,7 @@
 	top: 23%;
 }
 
-/*7人座*/
+/* 7人座 */
 #arena[data-layout="nova"][data-new-decade-style="onlineUI"][data-number="7"] > .player[data-position="1"],
 #arena[data-layout="nova"][data-new-decade-style="babysha"][data-number="7"] > .player[data-position="1"],
 #arena[data-layout="nova"][data-new-decade-style="othersOff"][data-number="7"] > .player[data-position="1"] {
@@ -660,7 +671,7 @@
 	top: 23%;
 }
 
-/*6人座*/
+/* 6人座 */
 #arena[data-layout="nova"][data-new-decade-style="onlineUI"][data-number="6"] > .player[data-position="1"],
 #arena[data-layout="nova"][data-new-decade-style="babysha"][data-number="6"] > .player[data-position="1"],
 #arena[data-layout="nova"][data-new-decade-style="othersOff"][data-number="6"] > .player[data-position="1"] {
@@ -698,7 +709,7 @@
 	top: 23%;
 }
 
-/*5人座*/
+/* 5人座 */
 #arena[data-layout="nova"][data-new-decade-style="onlineUI"][data-number="5"] > .player[data-position="1"],
 #arena[data-layout="nova"][data-new-decade-style="babysha"][data-number="5"] > .player[data-position="1"],
 #arena[data-layout="nova"][data-new-decade-style="othersOff"][data-number="5"] > .player[data-position="1"] {
@@ -729,7 +740,7 @@
 	top: 23%;
 }
 
-/*4人座*/
+/* 4人座 */
 #arena[data-layout="nova"][data-new-decade-style="onlineUI"][data-number="4"] > .player[data-position="1"],
 #arena[data-layout="nova"][data-new-decade-style="babysha"][data-number="4"] > .player[data-position="1"],
 #arena[data-layout="nova"][data-new-decade-style="othersOff"][data-number="4"] > .player[data-position="1"] {
@@ -752,23 +763,23 @@
 	top: 23%;
 }
 
-/*3人座*/
+/* 3人座 */
 #arena[data-layout="nova"][data-new-decade-style="onlineUI"][data-number="3"] > .player[data-position="1"],
 #arena[data-layout="nova"][data-new-decade-style="babysha"][data-number="3"] > .player[data-position="1"],
 #arena[data-layout="nova"][data-new-decade-style="othersOff"][data-number="3"] > .player[data-position="1"] {
 	left: auto;
 	top: 9px;
-	right: calc(32.5% - (var(--w) / 2));
+	right: calc(37% - (var(--w) / 2));
 }
 
 #arena[data-layout="nova"][data-new-decade-style="onlineUI"][data-number="3"] > .player[data-position="2"],
 #arena[data-layout="nova"][data-new-decade-style="babysha"][data-number="3"] > .player[data-position="2"],
 #arena[data-layout="nova"][data-new-decade-style="othersOff"][data-number="3"] > .player[data-position="2"] {
-	left: calc(32.5% - (var(--w) / 2));
+	left: calc(37% - (var(--w) / 2));
 	top: 9px;
 }
 
-/*2人座*/
+/* 2人座 */
 #arena[data-layout="nova"][data-new-decade-style="onlineUI"][data-number="2"] > .player[data-position="1"],
 #arena[data-layout="nova"][data-new-decade-style="babysha"][data-number="2"] > .player[data-position="1"],
 #arena[data-layout="nova"][data-new-decade-style="othersOff"][data-number="2"] > .player[data-position="1"] {

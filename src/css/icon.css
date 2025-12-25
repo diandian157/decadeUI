@@ -1,4 +1,17 @@
-﻿/*所以图标均为正方形素材*/
+﻿/**
+ * 十周年UI - 图标样式
+ * 所有图标均为正方形素材
+ */
+
+/* ========== 通用样式 ========== */
+
+.icon-background {
+	width: 50px;
+	height: 50px;
+	border: solid 1px gray;
+}
+
+/* 废除状态 */
 .icon.feichu,
 .icon.feichu:before,
 .icon.feichu:after {
@@ -6,11 +19,7 @@
 	background: white;
 }
 
-.icon-background {
-	width: 50px;
-	height: 50px;
-	border: solid 1px gray;
-}
+/* ========== 宝物图标 ========== */
 
 .icon-treasure {
 	position: relative;
@@ -28,14 +37,20 @@
 	width: 80%;
 	height: 60%;
 	border-radius: 20% 20% 0 0;
-	background: linear-gradient(to right, #ed6e6e 0%, #ec8c69 100%) top no-repeat, linear-gradient(to right, #ed6e6e 0%, #ec8c69 100%) bottom no-repeat;
-	background-size: 100% 60%, 100% 30% !important;
+	background:
+		linear-gradient(to right, #ed6e6e 0%, #ec8c69 100%) top no-repeat,
+		linear-gradient(to right, #ed6e6e 0%, #ec8c69 100%) bottom no-repeat;
+	background-size:
+		100% 60%,
+		100% 30% !important;
 	clip-path: polygon(0 0, 100% 0, 100% 70%, 62% 70%, 62% 100%, 38% 100%, 38% 70%, 0 70%);
 	-webkit-clip-path: polygon(0 0, 100% 0, 100% 70%, 62% 70%, 62% 100%, 38% 100%, 38% 70%, 0 70%);
 }
 
 .icon-treasure.feichu:before {
-	background: linear-gradient(to right, white 0%, white 100%) top no-repeat, linear-gradient(to right, white 0%, white 100%) bottom no-repeat;
+	background:
+		linear-gradient(to right, white 0%, white 100%) top no-repeat,
+		linear-gradient(to right, white 0%, white 100%) bottom no-repeat;
 }
 
 .icon-treasure:after {
@@ -52,6 +67,8 @@
 	-webkit-clip-path: polygon(0 0, 29% 0, 29% 60%, 71% 60%, 71% 0, 100% 0, 100% 100%, 0 100%);
 }
 
+/* ========== 武器图标 ========== */
+
 .icon-saber {
 	width: 100%;
 	height: 100%;
@@ -60,6 +77,8 @@
 	clip-path: polygon(50% 0, 65% 15%, 60% 70%, 75% 70%, 72% 80%, 56% 82%, 56% 100%, 44% 100%, 44% 82%, 28% 80%, 25% 70%, 40% 70%, 35% 15%, 50% 0);
 	-webkit-clip-path: polygon(50% 0, 65% 15%, 60% 70%, 75% 70%, 72% 80%, 56% 82%, 56% 100%, 44% 100%, 44% 82%, 28% 80%, 25% 70%, 40% 70%, 35% 15%, 50% 0);
 }
+
+/* ========== 防具图标 ========== */
 
 .icon-shield {
 	position: relative;
@@ -91,6 +110,8 @@
 	clip-path: polygon(0 0, 100% 0, 100% 30%, 82% 72%, 50% 100%, 18% 72%, 0 30%, 0 0);
 	-webkit-clip-path: polygon(0 0, 100% 0, 100% 30%, 82% 72%, 50% 100%, 18% 72%, 0 30%, 0 0);
 }
+
+/* ========== 坐骑图标 ========== */
 
 .icon-mount {
 	width: 100%;

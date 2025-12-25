@@ -1,4 +1,10 @@
-﻿/* 用于技能和身份的字体 */
+﻿/**
+ * 十周年UI - 扩展样式
+ */
+
+/* ========== 字体定义 ========== */
+
+/* 技能和身份字体 */
 @font-face {
 	font-family: "HYZLSJ";
 	src: url("../../shoushaUI/fonts/HYZLSJ.woff2");
@@ -9,7 +15,7 @@
 	src: url("../../shoushaUI/fonts/BKJT.ttf");
 }
 
-/* 用于武将字体 */
+/* 武将字体 */
 @font-face {
 	font-family: "WDZLFT";
 	src: url("../../shoushaUI/fonts/WDZLFT.woff2");
@@ -20,7 +26,7 @@
 	src: url("../../shoushaUI/fonts/FZLBJW.woff2");
 }
 
-/* 用于角色弹框标题的字体 */
+/* 角色弹框标题字体 */
 @font-face {
 	font-family: "ATLL";
 	src: url("../../shoushaUI/fonts/ATLL.woff2");
@@ -31,12 +37,14 @@
 	src: url("../../shoushaUI/fonts/FZLSFT.woff2");
 }
 
+/* ========== 导入对话框 ========== */
+
 .menu-container > .menu.main.cxy-import-dialog {
-	top: 50% !important;
-	left: 50% !important;
 	width: 420px;
 	height: 130px;
 	padding: 15px;
+	top: 50% !important;
+	left: 50% !important;
 	transform: translate(-50%, -50%);
 }
 
@@ -45,14 +53,15 @@
 	padding-bottom: 8px;
 }
 
-/*--------（去除按钮虚化）--------*/
+/* ========== 控制按钮区 ========== */
+
 #control {
-	text-align: center;
-	z-index: 5;
+	width: calc(90% - 480px);
 	top: calc(200% / 3);
 	left: calc(5% + 240px);
-	width: calc(90% - 480px);
+	text-align: center;
 	pointer-events: none;
+	z-index: 5;
 }
 
 #control > * {
@@ -71,14 +80,14 @@
 	transition-property: opacity !important;
 }
 
-.control {
-	padding-top: 2px;
-	padding-bottom: 2px;
-	padding-left: 4px;
-	padding-right: 4px;
+#control > div {
+	position: absolute;
+	left: 50%;
 }
 
+/* 控制按钮样式 */
 .control {
+	padding: 2px 4px;
 	font-size: 18px;
 	white-space: nowrap;
 	overflow: hidden;
@@ -100,27 +109,24 @@
 	cursor: default !important;
 }
 
-#control > div {
-	position: absolute;
-	left: 50%;
-}
+/* ========== 无懈蓝框 ========== */
 
-/*-----更改无懈蓝框-------*/
 .glow:not(.button):not(.card) {
 	box-shadow: none !important;
 	-webkit-filter: grayscale(100%);
 	background-size: 100% 100%;
-	z-index: 89;
 	pointer-events: none;
+	z-index: 89;
 }
+
+/* ========== 手杀菜单 ========== */
 
 .shousha_menu {
 	width: 100%;
-	border-radius: 3px;
-	background-color: rgba(134, 200, 241, 0.5);
-	font-family: yuanli;
 	padding: 0.5px;
-	/*cursor: pointer;*/
+	font-family: yuanli;
+	background-color: rgba(134, 200, 241, 0.5);
+	border-radius: 3px;
 }
 
 .KZJS,
@@ -129,28 +135,30 @@
 .GTBBSM,
 .JMYSSM,
 .QTMHSM > .shousha_text {
-	text-align: left;
-	font-size: 14px;
 	width: 250px;
+	font-size: 14px;
+	text-align: left;
 	word-wrap: break-word;
 }
 
+/* ========== 更新弹窗 ========== */
+
 .shousha_update {
-	z-index: 999;
 	background-size: cover;
+	z-index: 999;
 }
 
 .shousha_update > .shousha_update_close {
-	z-index: 999;
-	position: fixed;
-	overflow: hidden;
 	--w: 76px;
 	--h: calc(var(--w) * 64 / 76);
+	position: fixed;
 	width: var(--w);
 	height: var(--h);
-	top: 0px;
-	right: 0px;
+	top: 0;
+	right: 0;
 	margin: 23px;
-	background-size: 100% 100%;
+	overflow: hidden;
 	background-image: url("../../shoushaUI/shousha_close.png");
+	background-size: 100% 100%;
+	z-index: 999;
 }

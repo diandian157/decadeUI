@@ -1,4 +1,10 @@
-﻿.effect-window {
+﻿/**
+ * 十周年UI - 特效样式
+ */
+
+/* ========== 特效窗口 ========== */
+
+.effect-window {
 	display: block;
 	position: absolute;
 	left: 0;
@@ -11,21 +17,20 @@
 	z-index: 9;
 }
 
-/*击杀特效*/
-.effect-window>.killer-warpper {
+/* ========== 击杀特效 ========== */
+
+/* 击杀者 */
+.effect-window > .killer-warpper {
 	display: block;
 	left: 100%;
 	top: calc(50% - 180px);
 	width: 240px;
 	height: 360px;
-	animation-name: moveout-left-killer;
-	animation-delay: 0.2s;
-	animation-duration: 2.6s;
-	animation-fill-mode: forwards;
+	animation: moveout-left-killer 2.6s 0.2s forwards;
 	z-index: 2;
 }
 
-.effect-window>.killer-warpper::before {
+.effect-window > .killer-warpper::before {
 	content: "";
 	display: block;
 	position: absolute;
@@ -33,13 +38,13 @@
 	top: -40%;
 	width: 180%;
 	height: 180%;
+	background-image: url("../../assets/image/shine.png");
 	background-size: 100% 100%;
 	background-repeat: no-repeat;
-	background-image: url("../../assets/image/shine.png");
 	z-index: -1;
 }
 
-.effect-window>.killer-warpper>.killer {
+.effect-window > .killer-warpper > .killer {
 	display: block;
 	position: absolute;
 	left: 0;
@@ -49,29 +54,25 @@
 	background-size: cover;
 	background-repeat: no-repeat;
 	background-position: top;
-	/* filter: drop-shadow(0 0 30px yellow); */
-	/* -webkit-filter: drop-shadow(0 0 30px yellow); */
 }
 
-.effect-window>.victim {
+/* 被击杀者 */
+.effect-window > .victim {
 	display: block;
 	left: 100%;
 	top: calc(50% - 135px);
 	width: 180px;
 	height: 270px;
-	animation-name: moveout-left-victim;
-	animation-delay: 0.2s;
-	animation-duration: 2.6s;
-	animation-fill-mode: forwards;
+	animation: moveout-left-victim 2.6s 0.2s forwards;
 	z-index: 1;
 }
 
-.effect-window>.victim>div {
+.effect-window > .victim > div {
 	filter: drop-shadow(0 0 3px black) grayscale(1);
 	-webkit-filter: drop-shadow(0 0 3px black) grayscale(1);
 }
 
-.effect-window>.victim>.back {
+.effect-window > .victim > .back {
 	display: block;
 	position: absolute;
 	left: 0;
@@ -80,8 +81,9 @@
 	height: 100%;
 }
 
-.effect-window>.victim>.back>.part1,
-.effect-window>.victim>.back>.part2 {
+/* 分裂效果 */
+.effect-window > .victim > .back > .part1,
+.effect-window > .victim > .back > .part2 {
 	display: block;
 	position: absolute;
 	left: 0;
@@ -96,84 +98,93 @@
 	animation-fill-mode: forwards;
 }
 
-.effect-window>.victim>.back>.part1 {
+.effect-window > .victim > .back > .part1 {
 	animation-name: split-part1;
 	clip-path: polygon(0 0, 100% 0, 100% 70%, 0 30%);
 	-webkit-clip-path: polygon(0 0, 100% 0, 100% 70%, 0 30%);
 }
 
-.effect-window>.victim>.back>.part2 {
+.effect-window > .victim > .back > .part2 {
 	animation-name: split-part2;
 	clip-path: polygon(0 30%, 100% 70%, 100% 100%, 0 100%);
 	-webkit-clip-path: polygon(0 30%, 100% 70%, 100% 100%, 0 100%);
 }
 
-.effect-window>.victim>.rout {
+/* 败字效果 */
+.effect-window > .victim > .rout {
 	display: flex;
 	align-items: center;
-	align-content: center;
 	justify-content: center;
 	left: 0;
 	top: 0;
 	width: 100%;
 	height: 100%;
-	color: rgb(70, 15, 15);
 	font-size: 100px;
 	font-family: xinwei;
+	color: rgb(70, 15, 15);
 	text-align: center;
 	text-shadow: 0 0 10px red;
 	opacity: 0;
-	animation: scale-rout 0.5s forwards;
-	animation-delay: 0.5s;
 	filter: none;
 	-webkit-filter: none;
+	animation: scale-rout 0.5s 0.5s forwards;
 }
 
-.effect-window>.victim>.rout.shadow {
-	animation: scale-rout-shadow 1s forwards;
-	animation-delay: 0.8s;
+.effect-window > .victim > .rout.shadow {
+	animation: scale-rout-shadow 1s 0.8s forwards;
 }
 
-.effect-window>.li {
+/* ========== 光效 ========== */
+
+.effect-window > .li {
 	display: block;
 	left: 100%;
 	top: calc(50% - 5px);
 	width: 300px;
 	height: 10px;
-	border-radius: 50% / 50%;
+	border-radius: 50%;
 	background-image: radial-gradient(white, rgb(250, 250, 100));
-	box-shadow: 0 0 10px rgb(250, 250, 100), 0 0 20px rgb(250, 250, 100), 0 0 30px rgb(250, 250, 100);
+	box-shadow:
+		0 0 10px rgb(250, 250, 100),
+		0 0 20px rgb(250, 250, 100),
+		0 0 30px rgb(250, 250, 100);
 	filter: blur(1px);
 	-webkit-filter: blur(1px);
 	animation: moveout-left 0.4s forwards;
 	animation-iteration-count: 2;
 }
 
-.effect-window>.li-big {
+.effect-window > .li-big {
 	display: block;
 	left: 100%;
 	top: calc(50% - 70px);
 	width: 120%;
 	height: 120px;
-	background: linear-gradient(to right, white, white 70%, transparent);
 	border-radius: 15% / 50%;
+	background: linear-gradient(to right, white, white 70%, transparent);
 	-webkit-filter: blur(10px) drop-shadow(0 0 50px yellow);
 	animation: moveout-left-li-big 0.8s linear forwards;
 }
+
+/* ========== 技能名显示 ========== */
 
 .skill-name {
 	display: block;
 	position: absolute;
 	left: 50%;
-	top: calc(50% + 150px + 15px);
-	color: rgb(215, 234, 67);
+	top: calc(50% + 165px);
 	font-size: 55px;
 	font-family: xingkai;
-	text-shadow: 0 0 5px rgb(77, 60, 51), 0 0 4px rgb(77, 60, 51);
+	color: rgb(215, 234, 67);
+	text-shadow:
+		0 0 5px rgb(77, 60, 51),
+		0 0 4px rgb(77, 60, 51);
 	transform: translateX(-50%);
-	z-index: 99 !important;
 	animation: scale-skill-name 2.18s linear forwards;
+	z-index: 99 !important;
 }
+
+/* ========== 动画定义 ========== */
 
 @keyframes moveout-left-killer {
 	0% {
