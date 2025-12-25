@@ -833,8 +833,8 @@
 /* ==================== 玩家标记(十周年样式) ==================== */
 #arena[data-player-mark-style="decade"] > .player > .dui-marks {
 	left: auto;
-	top: 30px;
-	right: 0;
+	top: 26px;
+	right: -5px;
 	width: auto;
 	height: 80px;
 	flex-direction: column;
@@ -847,7 +847,7 @@
 	display: flex;
 	width: 50px;
 	height: 25px;
-	margin-bottom: 1px;
+	margin-bottom: -8px;
 	white-space: nowrap;
 	background: url("../../assets/image/player_mark.png") no-repeat;
 	background-size: 100% 100%;
@@ -1001,8 +1001,7 @@
 	z-index: -1;
 }
 
-.player > .judges > .card > .judge-mark > div:not(.back),
-.player > .judges > .card > .judge-mark > div:not(.judge) {
+.player > .judges > .card > .judge-mark > div:not(.back):not(.judge) {
 	display: none;
 }
 

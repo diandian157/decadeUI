@@ -5,7 +5,7 @@
  */
 
 import { createBaseLbtnPlugin } from "./base.js";
-import { initChatSystem } from "../chat.js";
+import { initChatSystem } from "../chatSystem.js";
 
 export function createShoushaLbtnPlugin(lib, game, ui, get, ai, _status, app) {
 	const base = createBaseLbtnPlugin(lib, game, ui, get, ai, _status, app);

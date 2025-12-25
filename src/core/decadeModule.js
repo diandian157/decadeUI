@@ -33,6 +33,16 @@ const STYLE_TO_INDEX = {
 };
 
 /**
+ * 获取配置项值，如果未定义则返回默认值
+ * 首次导入扩展时，配置项可能还未被保存，需要使用默认值
+ */
+function getConfigValue(key, defaultValue) {
+	const configKey = `extension_十周年UI_${key}`;
+	const value = lib.config[configKey];
+	return value !== undefined ? value : defaultValue;
+}
+
+/**
  * 初始化 decadeModule
  */
 export function initDecadeModule() {
@@ -59,14 +69,16 @@ export function initDecadeModule() {
 		const cssFiles = ["src/styles/extension.css", "src/styles/decadeLayout.css", "src/styles/card.css", "src/styles/meihua.css"];
 		cssFiles.forEach(path => this.css(`${decadeUIPath}${path}`));
 
-		const style = lib.config.extension_十周年UI_newDecadeStyle;
+		// 获取样式配置，首次导入时使用默认值 "on"
+		const style = getConfigValue("newDecadeStyle", "on");
 		const styleIndex = STYLE_OPTIONS.indexOf(style);
 		this.css(`${decadeUIPath}src/styles/player${styleIndex !== -1 ? styleIndex + 1 : 2}.css`);
 		this.css(`${decadeUIPath}src/styles/equip.css`);
 		this.css(`${decadeUIPath}src/styles/layout.css`);
-		document.body.setAttribute("data-style", style ?? "on");
+		document.body.setAttribute("data-style", style);
 
-		if (lib.config.extension_十周年UI_meanPrettify) {
+		// 获取菜单美化配置，首次导入时使用默认值 false
+		if (getConfigValue("meanPrettify", false)) {
 			this.css(`${decadeUIPath}src/styles/menu.css`);
 		}
 

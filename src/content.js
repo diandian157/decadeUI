@@ -117,10 +117,10 @@ function loadUIPlugins() {
 export async function content(config, pack) {
 	if (!bootstrapExtension()) return;
 
-	// 创建全局配置对象
+	// 创建全局配置对象，首次导入时使用默认值
 	window.duicfg = {
-		dynamicSkin: lib.config.extension_十周年UI_dynamicSkin,
-		newDecadeStyle: lib.config.extension_十周年UI_newDecadeStyle,
+		dynamicSkin: lib.config.extension_十周年UI_dynamicSkin ?? false,
+		newDecadeStyle: lib.config.extension_十周年UI_newDecadeStyle ?? "on",
 	};
 
 	// 创建decadeUI核心对象

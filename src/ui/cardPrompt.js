@@ -239,13 +239,6 @@ const closeCardDialog = () => {
 	delete ui.cardDialog;
 };
 
-/** 检查提示框是否可见 */
-const hasVisibleTip = () => {
-	const tip = ui.cardDialog;
-	if (!tip || tip.closed) return false;
-	return !!(tip.$info?.innerHTML?.trim() || tip.textContent?.trim());
-};
-
 /** 重置所有手牌提示 */
 const resetHandTips = () => {
 	closeCardDialog();
@@ -574,8 +567,9 @@ const handleDyingUse = event => {
 	return true;
 };
 
-/** 处理技能使用 */
+/** 处理技能使用（出牌阶段无选中卡牌时跳过，走默认提示） */
 const handleSkillUse = event => {
+	if (event.type === "phase" && !ui.selected?.cards?.length) return false;
 	if (!event.skill) return false;
 
 	const skillTip = ensureTip();
@@ -586,6 +580,24 @@ const handleSkillUse = event => {
 	return true;
 };
 
+/** 显示出牌阶段默认提示 */
+const showPhaseDefaultTip = tip => {
+	tip.appendText("出牌阶段", "phase");
+	tip.appendText(decPrompt(stripTags("，请选择一张卡牌")));
+};
+
+/** 显示选中卡牌的提示 */
+const showCardTip = (tip, cardName) => {
+	const customPrompt = getCardPhasePrompt(cardName);
+	if (customPrompt) {
+		tip.appendText(decPrompt(stripTags(customPrompt)));
+	} else {
+		const cardInfo = get.translation(`${cardName}_info`);
+		const plainText = get.plainText ? get.plainText(cardInfo) : stripTags(cardInfo);
+		tip.appendText(decPrompt(stripTags(plainText)));
+	}
+};
+
 /** 处理出牌阶段 */
 const handlePhaseUse = event => {
 	if (event.type !== "phase") return false;
@@ -594,18 +606,9 @@ const handlePhaseUse = event => {
 	const tip = ensureTip();
 
 	if (selectedCards.length === 1) {
-		const cardName = get.name(selectedCards[0]);
-		const customPrompt = getCardPhasePrompt(cardName);
-		if (customPrompt) {
-			tip.appendText(decPrompt(stripTags(customPrompt)));
-		} else {
-			const cardInfo = get.translation(`${cardName}_info`);
-			const plainText = get.plainText ? get.plainText(cardInfo) : stripTags(cardInfo);
-			tip.appendText(decPrompt(stripTags(plainText)));
-		}
+		showCardTip(tip, get.name(selectedCards[0]));
 	} else {
-		tip.appendText("出牌阶段", "phase");
-		tip.appendText(decPrompt(stripTags("，请选择一张卡牌")));
+		showPhaseDefaultTip(tip);
 	}
 	showTip(tip);
 	return true;
@@ -656,27 +659,6 @@ const handleRespond = event => {
 	} else {
 		tip.appendText("请打出响应牌");
 		showTip(tip);
-	}
-};
-
-// ==================== 清理与刷新 ====================
-
-/** 刷新当前事件的提示 */
-const refreshTipForCurrentEvent = event => {
-	if (!event || event.player !== game.me) return;
-
-	switch (event.name) {
-		case "chooseToDiscard":
-			handleDiscard(event);
-			break;
-		case "chooseToUse":
-			handleUse(event);
-			break;
-		case "chooseToRespond":
-			handleRespond(event);
-			break;
-		default:
-			if (event.type === "phase") handlePhaseUse(event);
 	}
 };
 
@@ -749,22 +731,25 @@ export function initCardPrompt({ lib, game, ui, get }) {
 			return;
 		}
 
-		switch (event.name) {
-			case "chooseToDiscard":
-				handleDiscard(event);
-				break;
-			case "chooseToUse":
-				handleUse(event);
-				break;
-			case "chooseToRespond":
-				handleRespond(event);
-				break;
-			default:
-				closeCardDialog();
-		}
+		// 延迟执行，避免被其他钩子的关闭逻辑覆盖
+		setTimeout(() => {
+			switch (event.name) {
+				case "chooseToDiscard":
+					handleDiscard(event);
+					break;
+				case "chooseToUse":
+					handleUse(event);
+					break;
+				case "chooseToRespond":
+					handleRespond(event);
+					break;
+				default:
+					closeCardDialog();
+			}
+		}, 0);
 	});
 
-	// 安装游戏结束清理钩子
+	// 游戏结束清理钩子
 	if (!game.__decadePromptCleanupInstalled && typeof game.over === "function") {
 		game.__decadePromptCleanupInstalled = true;
 		const originalGameOver = game.over;
@@ -773,24 +758,6 @@ export function initCardPrompt({ lib, game, ui, get }) {
 				resetHandTips();
 			} catch (e) {}
 			return originalGameOver.apply(this, args);
-		};
-	}
-
-	// 安装取消按钮刷新钩子
-	const click = ui?.click;
-	if (!game.__decadePromptCancelRefreshInstalled && click && typeof click.cancel === "function") {
-		game.__decadePromptCancelRefreshInstalled = true;
-		const originalCancel = click.cancel;
-		click.cancel = function (...args) {
-			const result = originalCancel.apply(this, args);
-			setTimeout(() => {
-				try {
-					if (hasVisibleTip()) return;
-					const current = typeof _status !== "undefined" ? _status.event : null;
-					refreshTipForCurrentEvent(current);
-				} catch (e) {}
-			}, 0);
-			return result;
 		};
 	}
 }

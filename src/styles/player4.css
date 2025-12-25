@@ -1040,8 +1040,7 @@
 	z-index: -1;
 }
 
-.player > .judges > .card > .judge-mark > div:not(.back),
-.player > .judges > .card > .judge-mark > div:not(.judge) {
+.player > .judges > .card > .judge-mark > div:not(.back):not(.judge) {
 	display: none;
 }
 

@@ -3,7 +3,6 @@
  * 根据配置加载对应样式
  */
 
-import { lib } from "noname";
 import { createShoushaCharacterPlugin } from "./shousha.js";
 import { createShizhounianCharacterPlugin } from "./shizhounian.js";
 import { createXinshaCharacterPlugin } from "./xinsha.js";
@@ -35,7 +34,7 @@ const SKIN_CREATORS = {
  * 获取当前样式名称
  */
 export function getCurrentSkinName() {
-	const style = lib.config["extension_十周年UI_newDecadeStyle"] || "on";
+	const style = window.lib?.config?.["extension_十周年UI_newDecadeStyle"] || "on";
 	return STYLE_TO_SKIN[style] || "shizhounian";
 }
 
