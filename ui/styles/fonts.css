@@ -1,5 +1,6 @@
 /**
  * 字体定义
+ * 注：不要重新定义本体已有的字体（yuanli, xinwei, shousha等），避免覆盖本体字体
  */
 
 @font-face {
@@ -38,14 +39,9 @@
 	font-display: swap;
 }
 
+/* shousha字体 - 使用扩展自己的字体，不覆盖本体 */
 @font-face {
-	font-family: "shousha";
+	font-family: "dui-shousha";
 	src: url("../assets/fonts/FZLBJW.woff2") format("woff2");
-	font-display: swap;
-}
-
-@font-face {
-	font-family: "xinwei";
-	src: url("../assets/fonts/HYZLSJ.woff2") format("woff2");
 	font-display: swap;
 }

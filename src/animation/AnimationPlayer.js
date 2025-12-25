@@ -133,6 +133,12 @@ export class AnimationPlayer {
 
 	/** 加载骨骼资源 */
 	loadSpine(filename, skelType, onload, onerror) {
+		// WebGL不可用时直接返回
+		if (!this.spine.assetManager) {
+			if (onerror) onerror();
+			return;
+		}
+
 		const type = (skelType || "skel").toLowerCase();
 		const manager = this.spine.assetManager;
 		const assets = this.spine.assets;

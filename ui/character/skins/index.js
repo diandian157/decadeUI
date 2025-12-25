@@ -3,6 +3,7 @@
  * 根据配置加载对应样式
  */
 
+import { lib } from "noname";
 import { createShoushaCharacterPlugin } from "./shousha.js";
 import { createShizhounianCharacterPlugin } from "./shizhounian.js";
 import { createXinshaCharacterPlugin } from "./xinsha.js";
