@@ -1,4 +1,4 @@
-:root {
+﻿:root {
 	/* 默认样式*/
 	--equip-right: 86px;
 	--equip-right-layout-left: 90px;
@@ -102,23 +102,23 @@
 }
 
 .equips-wrap > .equips-back > div[data-type="0"] {
-	background-image: url("../image/decoration/equip1.png");
+	background-image: url("../../image/decoration/equip1.png");
 }
 
 .equips-wrap > .equips-back > div[data-type="1"] {
-	background-image: url("../image/decoration/equip2.png");
+	background-image: url("../../image/decoration/equip2.png");
 }
 
 .equips-wrap > .equips-back > div[data-type="2"] {
-	background-image: url("../image/decoration/equip3.png");
+	background-image: url("../../image/decoration/equip3.png");
 }
 
 .equips-wrap > .equips-back > div[data-type="3"] {
-	background-image: url("../image/decoration/equip4.png");
+	background-image: url("../../image/decoration/equip4.png");
 }
 
 .equips-wrap > .equips-back > div[data-type="4"] {
-	background-image: url("../image/decoration/equip5.png");
+	background-image: url("../../image/decoration/equip5.png");
 }
 
 /* 装备栏内容样式 */
@@ -446,7 +446,7 @@ body[data-style="codename"] .equips-wrap > .equips-back > div {
 	left: -4px;
 	right: -4px;
 	bottom: -4px;
-	border-image-source: url("../assets/image/card_select.png");
+	border-image-source: url("../../assets/image/card_select.png");
 	border-image-slice: 8 7 7 8;
 	border-style: solid;
 	border-image-width: 4px;

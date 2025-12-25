@@ -1,4 +1,4 @@
-.menu-container > .menu.main {
+﻿.menu-container > .menu.main {
 	/*框整体*/
 	width: 80%;
 	margin-left: 9%;
@@ -6,7 +6,7 @@
 	margin-top: 2%;
 	transition: all 0.3s;
 	transform-origin: center center;
-	background-image: url("../image/button/background.png");
+	background-image: url("../../image/button/background.png");
 	background-size: 100% 100%;
 	border: 3px solid #5c4033;
 }
@@ -37,18 +37,18 @@
 	margin-left: 5px;
 	margin-right: 5px;
 	transition: color 0.5s;
-	background-image: url("../image/button/square_light.png");
+	background-image: url("../../image/button/square_light.png");
 	background-size: 100% 100%;
 }
 
 .menu.main > .menu-tab > div:hover {
-	background-image: url("../image/button/square_light.png");
+	background-image: url("../../image/button/square_light.png");
 }
 
 .menu.main > .menu-tab > div:not(.active):not(*:hover),
 .menu.main > .menu-tab > .disabled {
 	color: #ffffff;
-	background-image: url("../image/button/square_drck.png");
+	background-image: url("../../image/button/square_drck.png");
 }
 
 .menu.main > .menu-content > div > .left.pane > div {
@@ -65,19 +65,19 @@
 	padding-top: 20.5px;
 	line-height: 1px;
 	white-space: nowrap;
-	background-image: url("../image/button/square_light.png") !important;
+	background-image: url("../../image/button/square_light.png") !important;
 	background-size: 100% 100%;
 	box-shadow: none;
 }
 
 .menu.main > .menu-content > div > .left.pane > div:hover {
-	background-image: url("../image/button/square_light.png") !important;
+	background-image: url("../../image/button/square_light.png") !important;
 }
 
 .menu.main > .menu-content > div > .left.pane > div:not(.active):not(*:hover),
 .menu.main > .menu-content > div > .left.pane > .disabled {
 	color: #ffffff;
-	background-image: url("../image/button/square_drck.png") !important;
+	background-image: url("../../image/button/square_drck.png") !important;
 }
 
 .menu.main > .menu-content > div > .left.pane > div {
@@ -176,7 +176,7 @@
 	width: var(--w);
 	height: var(--h);
 	background-color: rgba(0, 0, 0, 0);
-	background-image: url("../image/button/kg_off.png");
+	background-image: url("../../image/button/kg_off.png");
 	background-position: center center;
 	background-repeat: no-repeat;
 	background-size: 100% 100%;
@@ -186,7 +186,7 @@
 
 .config.config.toggle.on > div {
 	/*开关按钮-开启*/
-	background-image: url("../image/button/kg_on.png");
+	background-image: url("../../image/button/kg_on.png");
 	box-shadow: none;
 }
 

@@ -1,34 +1,34 @@
-/* 用于技能和身份的字体 */
+﻿/* 用于技能和身份的字体 */
 @font-face {
 	font-family: "HYZLSJ";
-	src: url("../shoushaUI/fonts/HYZLSJ.woff2");
+	src: url("../../shoushaUI/fonts/HYZLSJ.woff2");
 }
 
 @font-face {
 	font-family: "BKJT";
-	src: url("../shoushaUI/fonts/BKJT.ttf");
+	src: url("../../shoushaUI/fonts/BKJT.ttf");
 }
 
 /* 用于武将字体 */
 @font-face {
 	font-family: "WDZLFT";
-	src: url("../shoushaUI/fonts/WDZLFT.woff2");
+	src: url("../../shoushaUI/fonts/WDZLFT.woff2");
 }
 
 @font-face {
 	font-family: "FZLBJW";
-	src: url("../shoushaUI/fonts/FZLBJW.woff2");
+	src: url("../../shoushaUI/fonts/FZLBJW.woff2");
 }
 
 /* 用于角色弹框标题的字体 */
 @font-face {
 	font-family: "ATLL";
-	src: url("../shoushaUI/fonts/ATLL.woff2");
+	src: url("../../shoushaUI/fonts/ATLL.woff2");
 }
 
 @font-face {
 	font-family: "FZLSFT";
-	src: url("../shoushaUI/fonts/FZLSFT.woff2");
+	src: url("../../shoushaUI/fonts/FZLSFT.woff2");
 }
 
 .menu-container > .menu.main.cxy-import-dialog {
@@ -152,5 +152,5 @@
 	right: 0px;
 	margin: 23px;
 	background-size: 100% 100%;
-	background-image: url("../shoushaUI/shousha_close.png");
+	background-image: url("../../shoushaUI/shousha_close.png");
 }

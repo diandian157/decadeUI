@@ -1,4 +1,4 @@
-.effect-window {
+﻿.effect-window {
 	display: block;
 	position: absolute;
 	left: 0;
@@ -35,7 +35,7 @@
 	height: 180%;
 	background-size: 100% 100%;
 	background-repeat: no-repeat;
-	background-image: url("../assets/image/shine.png");
+	background-image: url("../../assets/image/shine.png");
 	z-index: -1;
 }
 

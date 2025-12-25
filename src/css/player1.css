@@ -1,4 +1,4 @@
-@import "animation.css";
+﻿@import "animation.css";
 
 /*角色基本外观*/
 .player {
@@ -27,13 +27,13 @@
 /* 国战模式使用bj2背景 */
 [data-mode="guozhan"] .player,
 .player[data-mode="guozhan"] {
-	background: url("../assets/image/bj2.png") no-repeat center center !important;
+	background: url("../../assets/image/bj2.png") no-repeat center center !important;
 	background-size: 100% 100% !important;
 }
 
 /* 其他模式保持原有的单双将判断 */
 [data-mode]:not([data-mode="guozhan"]) .player:not(.fullskin2):not(.double-character):not([data-double="1"]) {
-	background: url("../assets/image/bj1.png") no-repeat center center !important;
+	background: url("../../assets/image/bj1.png") no-repeat center center !important;
 	background-size: 100% 100% !important;
 }
 
@@ -41,7 +41,7 @@
 [data-mode]:not([data-mode="guozhan"]) .player.double-character,
 [data-mode]:not([data-mode="guozhan"]) .player[data-double="1"],
 [data-mode]:not([data-mode="guozhan"]) .player.double {
-	background: url("../assets/image/bj2.png") no-repeat center center !important;
+	background: url("../../assets/image/bj2.png") no-repeat center center !important;
 	background-size: 100% 100% !important;
 }
 
@@ -51,7 +51,7 @@
 	width: 230px;
 	height: 262px;
 	opacity: 0;
-	background-image: url("../assets/image/sprites_glow_blue.png");
+	background-image: url("../../assets/image/sprites_glow_blue.png");
 	background-repeat: no-repeat;
 	animation-name: kf-sprites-glow;
 	animation-duration: 0s;
@@ -68,7 +68,7 @@
 .player.glow_phase:not(.selectable):not(*[data-position="0"])::before {
 	animation-duration: 0.9s;
 	/*新增*/
-	background-image: url("../assets/image/sprites_glow_orange.png");
+	background-image: url("../../assets/image/sprites_glow_orange.png");
 	opacity: 1;
 }
 
@@ -86,7 +86,7 @@
 	width: 230px;
 	height: 262px;
 	opacity: 0;
-	background-image: url("../assets/image/sprites_glow_red.png");
+	background-image: url("../../assets/image/sprites_glow_red.png");
 	background-repeat: no-repeat;
 	animation-name: kf-sprites-glow;
 	animation-duration: 0s;
@@ -147,7 +147,7 @@
 	background-size: cover;
 	background-position-x: -120px;
 	background-repeat: no-repeat;
-	background-image: url("../assets/image/tie_suo.png");
+	background-image: url("../../assets/image/tie_suo.png");
 	transition-duration: 0.4s;
 	z-index: 86;
 }
@@ -274,49 +274,49 @@
 	width: 100%;
 	height: 100%;
 	position: absolute;
-	background-image: url("../image/decoration/border_camp.png");
+	background-image: url("../../image/decoration/border_camp.png");
 	background-size: 100% 100%;
 	background-repeat: no-repeat;
 }
 
 #arena.decadeUI[data-border-level="one"] .player > .camp-wrap > .camp-border {
-	background-image: url("../image/decoration/border_camp1.png");
+	background-image: url("../../image/decoration/border_camp1.png");
 }
 
 #arena.decadeUI[data-border-level="two"] .player > .camp-wrap > .camp-border {
-	background-image: url("../image/decoration/border_camp2.png");
+	background-image: url("../../image/decoration/border_camp2.png");
 }
 
 #arena.decadeUI[data-border-level="three"] .player > .camp-wrap > .camp-border {
-	background-image: url("../image/decoration/border_camp3.png");
+	background-image: url("../../image/decoration/border_camp3.png");
 }
 
 #arena.decadeUI[data-border-level="four"] .player > .camp-wrap > .camp-border {
-	background-image: url("../image/decoration/border_camp4.png");
+	background-image: url("../../image/decoration/border_camp4.png");
 }
 
 #arena.decadeUI[data-border-level="five"] .player > .camp-wrap > .camp-border {
-	background-image: url("../image/decoration/border_camp5.png");
+	background-image: url("../../image/decoration/border_camp5.png");
 }
 
 .player[data-border-level="one"] > .camp-wrap > .camp-border {
-	background-image: url("../image/decoration/border_camp1.png");
+	background-image: url("../../image/decoration/border_camp1.png");
 }
 
 .player[data-border-level="two"] > .camp-wrap > .camp-border {
-	background-image: url("../image/decoration/border_camp2.png");
+	background-image: url("../../image/decoration/border_camp2.png");
 }
 
 .player[data-border-level="three"] > .camp-wrap > .camp-border {
-	background-image: url("../image/decoration/border_camp3.png");
+	background-image: url("../../image/decoration/border_camp3.png");
 }
 
 .player[data-border-level="four"] > .camp-wrap > .camp-border {
-	background-image: url("../image/decoration/border_camp4.png");
+	background-image: url("../../image/decoration/border_camp4.png");
 }
 
 .player[data-border-level="five"] > .camp-wrap > .camp-border {
-	background-image: url("../image/decoration/border_camp5.png");
+	background-image: url("../../image/decoration/border_camp5.png");
 }
 
 .player>.camp-wrap>.avatar-name,
@@ -373,7 +373,7 @@
 #arena:not(.observe) .player:not([data-position="0"]).unseen_show > .primary-avatar,
 #arena:not(.observe) .player:not([data-position="0"]).unseen2_show > .deputy-avatar {
 	opacity: 1 !important;
-	background-image: url("../../../image/character/hidden_image.jpg") !important;
+	background-image: url("../../../../image/character/hidden_image.jpg") !important;
 }
 
 .player > .camp-wrap > .camp-name {
@@ -523,7 +523,7 @@
 	border-width: 24px 5px 21px 82px;
 	border-style: solid;
 	border-color: transparent;
-	border-image-source: url("../image/decoration/border_hp.png");
+	border-image-source: url("../../image/decoration/border_hp.png");
 	border-image-slice: 32 6 25 113 fill;
 	pointer-events: none;
 	transition-property: transform, opacity, height;
@@ -560,7 +560,7 @@
 	top: auto;
 	bottom: 43px;
 	left: -5px;
-	background-image: url("../image/decoration/shield_decade.png");
+	background-image: url("../../image/decoration/shield_decade.png");
 	background-size: 100% 100%;
 	background-repeat: no-repeat;
 	width: 20.25px;
@@ -607,43 +607,43 @@
 }
 
 #arena.decadeUI[data-border-level="one"] .player > .hp-wrap {
-	border-image-source: url("../image/decoration/border_hp1.png");
+	border-image-source: url("../../image/decoration/border_hp1.png");
 }
 
 #arena.decadeUI[data-border-level="two"] .player > .hp-wrap {
-	border-image-source: url("../image/decoration/border_hp2.png");
+	border-image-source: url("../../image/decoration/border_hp2.png");
 }
 
 #arena.decadeUI[data-border-level="three"] .player > .hp-wrap {
-	border-image-source: url("../image/decoration/border_hp3.png");
+	border-image-source: url("../../image/decoration/border_hp3.png");
 }
 
 #arena.decadeUI[data-border-level="four"] .player > .hp-wrap {
-	border-image-source: url("../image/decoration/border_hp4.png");
+	border-image-source: url("../../image/decoration/border_hp4.png");
 }
 
 #arena.decadeUI[data-border-level="five"] .player > .hp-wrap {
-	border-image-source: url("../image/decoration/border_hp.png");
+	border-image-source: url("../../image/decoration/border_hp.png");
 }
 
 .player[data-border-level="one"] > .hp-wrap {
-	border-image-source: url("../image/decoration/border_hp1.png");
+	border-image-source: url("../../image/decoration/border_hp1.png");
 }
 
 .player[data-border-level="two"] > .hp-wrap {
-	border-image-source: url("../image/decoration/border_hp2.png");
+	border-image-source: url("../../image/decoration/border_hp2.png");
 }
 
 .player[data-border-level="three"] > .hp-wrap {
-	border-image-source: url("../image/decoration/border_hp3.png");
+	border-image-source: url("../../image/decoration/border_hp3.png");
 }
 
 .player[data-border-level="four"] > .hp-wrap {
-	border-image-source: url("../image/decoration/border_hp4.png");
+	border-image-source: url("../../image/decoration/border_hp4.png");
 }
 
 .player[data-border-level="five"] > .hp-wrap {
-	border-image-source: url("../image/decoration/border_hp.png");
+	border-image-source: url("../../image/decoration/border_hp.png");
 }
 
 .player > .hp-wrap > .hp,
@@ -986,7 +986,7 @@
 	height: 25px;
 	/*高度*/
 	white-space: nowrap;
-	background-image: url("../assets/image/player_mark.png");
+	background-image: url("../../assets/image/player_mark.png");
 	background-size: 100% 100%;
 	animation: fade-in 0.5s;
 	margin-bottom: 1px;
@@ -994,11 +994,11 @@
 }
 
 #arena[data-player-mark-style="decade"] > .player > .dui-marks > .mark.own-skill {
-	background-image: url("../assets/image/player_mark.png");
+	background-image: url("../../assets/image/player_mark.png");
 }
 
 #arena[data-player-mark-style="decade"] > .player > .dui-marks > .mark.other-skill {
-	background-image: url("../assets/image/new_player_mark.png");
+	background-image: url("../../assets/image/new_player_mark.png");
 }
 
 #arena[data-player-mark-style="decade"] > .player > .dui-marks > .mark.other-skill > .mark-text {
@@ -1194,7 +1194,7 @@
 	content: "";
 	position: absolute;
 	pointer-events: none;
-	background-image: url("../image/judgeMark/feichumark.png");
+	background-image: url("../../image/judgeMark/feichumark.png");
 	width: 50px;
 	height: 50px;
 	background-size: 100% 100%;
@@ -1252,7 +1252,7 @@
 	line-height: 28px;
 	height: 28px;
 	width: 28px;
-	background: url("../image/decoration/card_count5.png");
+	background: url("../../image/decoration/card_count5.png");
 	background-repeat: no-repeat;
 	background-size: 100% 100%;
 	background-position: 0 -1px;
@@ -1486,7 +1486,7 @@
 	width: 100%;
 	height: 100%;
 	opacity: 0;
-	background-image: url("../assets/image/turn_over_mask.png");
+	background-image: url("../../assets/image/turn_over_mask.png");
 	background-size: cover;
 	pointer-events: none;
 	z-index: 62;
@@ -1528,7 +1528,7 @@
 	border-width: 10px;
 	border-image-width: 18px;
 	border-image-slice: 31 31 fill;
-	border-image-source: url("../assets/image/item_bg.png");
+	border-image-source: url("../../assets/image/item_bg.png");
 	cursor: pointer;
 	color: rgb(77, 60, 51);
 	font-family: shousha;
@@ -1554,7 +1554,7 @@
 	border-style: solid;
 	border-width: 6px 6px 14px 6px;
 	border-image-slice: 6 6 14 6 fill;
-	border-image-source: url("../assets/image/chat_bubble.png");
+	border-image-source: url("../../assets/image/chat_bubble.png");
 	box-sizing: border-box;
 	word-break: break-all;
 	z-index: 99;
@@ -1679,321 +1679,321 @@
 }
 
 .player > .shu-mark {
-	background-image: url("../image/mark/mark_shu.png");
+	background-image: url("../../image/mark/mark_shu.png");
 }
 
 .player > .jie-mark {
-	background-image: url("../image/mark/mark_jie.png");
+	background-image: url("../../image/mark/mark_jie.png");
 }
 
 .player > .shen-mark {
-	background-image: url("../image/mark/mark_shen.png");
+	background-image: url("../../image/mark/mark_shen.png");
 }
 
 .player > .wu-mark {
-	background-image: url("../image/mark/mark_wu.png");
+	background-image: url("../../image/mark/mark_wu.png");
 }
 
 .player > .clan-mark {
-	background-image: url("../image/mark/mark_clan.png");
+	background-image: url("../../image/mark/mark_clan.png");
 }
 
 .player > .std-mark {
-	background-image: url("../image/mark/mark_std.png");
+	background-image: url("../../image/mark/mark_std.png");
 }
 
 .player > .dc-mark {
-	background-image: url("../image/mark/mark_dc.png");
+	background-image: url("../../image/mark/mark_dc.png");
 }
 
 .player > .yue-mark {
-	background-image: url("../image/mark/mark_yue.png");
+	background-image: url("../../image/mark/mark_yue.png");
 }
 
 .player > .sb-mark {
-	background-image: url("../image/mark/mark_sb.png");
+	background-image: url("../../image/mark/mark_sb.png");
 }
 
 .player > .ol-mark {
-	background-image: url("../image/mark/mark_ol.png");
+	background-image: url("../../image/mark/mark_ol.png");
 }
 
 .player > .sp-mark {
-	background-image: url("../image/mark/mark_sp.png");
+	background-image: url("../../image/mark/mark_sp.png");
 }
 
 .player > .star-mark {
-	background-image: url("../image/mark/mark_star.png");
+	background-image: url("../../image/mark/mark_star.png");
 }
 
 .player > .yao-mark {
-	background-image: url("../image/mark/mark_yao.png");
+	background-image: url("../../image/mark/mark_yao.png");
 }
 
 .player > .dm-mark {
-	background-image: url("../image/mark/mark_dm.png");
+	background-image: url("../../image/mark/mark_dm.png");
 }
 
 .player > .shan-mark {
-	background-image: url("../image/mark/mark_shan.png");
+	background-image: url("../../image/mark/mark_shan.png");
 }
 
 .player > .jin-mark {
-	background-image: url("../image/mark/mark_jin.png");
+	background-image: url("../../image/mark/mark_jin.png");
 }
 
 .player > .v-mark {
-	background-image: url("../image/mark/mark_v.png");
+	background-image: url("../../image/mark/mark_v.png");
 }
 
 .player > .mb-mark {
-	background-image: url("../image/mark/mark_mb.png");
+	background-image: url("../../image/mark/mark_mb.png");
 }
 
 .player > .xuan-mark {
-	background-image: url("../image/mark/mark_xuan.png");
+	background-image: url("../../image/mark/mark_xuan.png");
 }
 
 .player > .pot-mark {
-	background-image: url("../image/mark/mark_pot.png");
+	background-image: url("../../image/mark/mark_pot.png");
 }
 
 .player > .you-mark {
-	background-image: url("../image/mark/mark_you.png");
+	background-image: url("../../image/mark/mark_you.png");
 }
 
 .player > .tw-mark {
-	background-image: url("../image/mark/mark_tw.png");
+	background-image: url("../../image/mark/mark_tw.png");
 }
 
 .player > .huan-mark {
-	background-image: url("../image/mark/mark_huan.png");
+	background-image: url("../../image/mark/mark_huan.png");
 }
 
 .player > .jsrg-mark {
-	background-image: url("../image/mark/mark_jsrg.png");
+	background-image: url("../../image/mark/mark_jsrg.png");
 }
 
 .player > .jd-mark {
-	background-image: url("../image/mark/mark_jd.png");
+	background-image: url("../../image/mark/mark_jd.png");
 }
 
 .player > .ren-mark {
-	background-image: url("../image/mark/mark_ren.png");
+	background-image: url("../../image/mark/mark_ren.png");
 }
 
 .player > .nailong-mark {
-	background-image: url("../image/mark/mark_nailong.png");
+	background-image: url("../../image/mark/mark_nailong.png");
 }
 
 .player > .lie-mark {
-	background-image: url("../image/mark/mark_lie.png");
+	background-image: url("../../image/mark/mark_lie.png");
 }
 
 .player > .hanshi-mark {
-	background-image: url("../image/mark/mark_hanshi.png");
+	background-image: url("../../image/mark/mark_hanshi.png");
 }
 
 .player > .hun-mark {
-	background-image: url("../image/mark/mark_hun.png");
+	background-image: url("../../image/mark/mark_hun.png");
 }
 
 .player > .han-mark {
-	background-image: url("../image/mark/mark_han.png");
+	background-image: url("../../image/mark/mark_han.png");
 }
 
 .player > .kuang-mark {
-	background-image: url("../image/mark/mark_kuang.png");
+	background-image: url("../../image/mark/mark_kuang.png");
 }
 
 .player > .old-mark {
-	background-image: url("../image/mark/mark_old.png");
+	background-image: url("../../image/mark/mark_old.png");
 }
 
 .player > .miao-mark {
-	background-image: url("../image/mark/mark_miao.png");
+	background-image: url("../../image/mark/mark_miao.png");
 }
 
 .player > .nian-mark {
-	background-image: url("../image/mark/mark_nian.png");
+	background-image: url("../../image/mark/mark_nian.png");
 }
 
 .player > .zhan-mark {
-	background-image: url("../image/mark/mark_zhan.png");
+	background-image: url("../../image/mark/mark_zhan.png");
 }
 
 .player > .wei-mark {
-	background-image: url("../image/mark/mark_wei.png");
+	background-image: url("../../image/mark/mark_wei.png");
 }
 
 .player > .ji-mark {
-	background-image: url("../image/mark/mark_ji.png");
+	background-image: url("../../image/mark/mark_ji.png");
 }
 
 .player > .sk-mark {
-	background-image: url("../image/mark/mark_sk.png");
+	background-image: url("../../image/mark/mark_sk.png");
 }
 
 .player > .sr-mark {
-	background-image: url("../image/mark/mark_sr.png");
+	background-image: url("../../image/mark/mark_sr.png");
 }
 
 .player > .Mbaby-mark {
-	background-image: url("../image/mark/mark_Mbaby.png");
+	background-image: url("../../image/mark/mark_Mbaby.png");
 }
 
 .player > .tao-mark {
-	background-image: url("../image/mark/mark_tao.png");
+	background-image: url("../../image/mark/mark_tao.png");
 }
 
 .player > .chang-mark {
-	background-image: url("../image/mark/mark_chang.png");
+	background-image: url("../../image/mark/mark_chang.png");
 }
 
 .player > .wn-mark {
-	background-image: url("../image/mark/mark_wn.png");
+	background-image: url("../../image/mark/mark_wn.png");
 }
 
 .player > .jing-mark {
-	background-image: url("../image/mark/mark_jing.png");
+	background-image: url("../../image/mark/mark_jing.png");
 }
 
 .player > .lao-mark {
-	background-image: url("../image/mark/mark_lao.png");
+	background-image: url("../../image/mark/mark_lao.png");
 }
 
 .player > .sxrm-mark {
-	background-image: url("../image/mark/mark_sxrm.png");
+	background-image: url("../../image/mark/mark_sxrm.png");
 }
 
 .player > .meng-mark {
-	background-image: url("../image/mark/mark_meng.png");
+	background-image: url("../../image/mark/mark_meng.png");
 }
 
 .player > .cheng-mark {
-	background-image: url("../image/mark/mark_cheng.png");
+	background-image: url("../../image/mark/mark_cheng.png");
 }
 
 .player > .zhuan-mark {
-	background-image: url("../image/mark/mark_zhuan.png");
+	background-image: url("../../image/mark/mark_zhuan.png");
 }
 
 .player > .he-mark {
-	background-image: url("../image/mark/mark_he.png");
+	background-image: url("../../image/mark/mark_he.png");
 }
 
 .player > .shuai-mark {
-	background-image: url("../image/mark/mark_shuai.png");
+	background-image: url("../../image/mark/mark_shuai.png");
 }
 
 .player > .xing-mark {
-	background-image: url("../image/mark/mark_xing.png");
+	background-image: url("../../image/mark/mark_xing.png");
 }
 
 .player > .scl-mark {
-	background-image: url("../image/mark/mark_scl.png");
+	background-image: url("../../image/mark/mark_scl.png");
 }
 
 .player > .jiang-mark {
-	background-image: url("../image/mark/mark_jiang.png");
+	background-image: url("../../image/mark/mark_jiang.png");
 }
 
 .player > .yongjian-mark {
-	background-image: url("../image/mark/mark_yongjian.png");
+	background-image: url("../../image/mark/mark_yongjian.png");
 }
 
 .player > .jun-mark {
-	background-image: url("../image/mark/mark_jun.png");
+	background-image: url("../../image/mark/mark_jun.png");
 }
 
 .player > .xia-mark {
-	background-image: url("../image/mark/mark_xia.png");
+	background-image: url("../../image/mark/mark_xia.png");
 }
 
 .player > .k-mark {
-	background-image: url("../image/mark/mark_k.png");
+	background-image: url("../../image/mark/mark_k.png");
 }
 
 .player > .zhijiang-mark {
-	background-image: url("../image/mark/mark_zhijiang.png");
+	background-image: url("../../image/mark/mark_zhijiang.png");
 }
 
 .player > .long-mark {
-	background-image: url("../image/mark/mark_long.png");
+	background-image: url("../../image/mark/mark_long.png");
 }
 
 .player > .eu-mark {
-	background-image: url("../image/mark/mark_eu.png");
+	background-image: url("../../image/mark/mark_eu.png");
 }
 
 .player > .jiding-mark {
-	background-image: url("../image/mark/mark_jiding.png");
+	background-image: url("../../image/mark/mark_jiding.png");
 }
 
 .player > .yy-mark {
-	background-image: url("../image/mark/mark_yy.png");
+	background-image: url("../../image/mark/mark_yy.png");
 }
 
 .player > .jianghua-mark {
-	background-image: url("../image/mark/mark_jianghua.png");
+	background-image: url("../../image/mark/mark_jianghua.png");
 }
 
 .player > .she-mark {
-	background-image: url("../image/mark/mark_she.png");
+	background-image: url("../../image/mark/mark_she.png");
 }
 
 .player > .qingshi-mark {
-	background-image: url("../image/mark/mark_qingshi.png");
+	background-image: url("../../image/mark/mark_qingshi.png");
 }
 
 .player > .xuyuan-mark {
-	background-image: url("../image/mark/mark_xuyuan.png");
+	background-image: url("../../image/mark/mark_xuyuan.png");
 }
 
 .player > .fengyun-mark {
-	background-image: url("../image/mark/mark_fengyun.png");
+	background-image: url("../../image/mark/mark_fengyun.png");
 }
 
 .player > .man-mark {
-	background-image: url("../image/mark/mark_man.png");
+	background-image: url("../../image/mark/mark_man.png");
 }
 
 .player > .feihong-mark {
-	background-image: url("../image/mark/mark_feihong.png");
+	background-image: url("../../image/mark/mark_feihong.png");
 }
 
 .player > .huyi-mark {
-	background-image: url("../image/mark/mark_huyi.png");
+	background-image: url("../../image/mark/mark_huyi.png");
 }
 
 .player > .shanyao-mark {
-	background-image: url("../image/mark/mark_shanyao.png");
+	background-image: url("../../image/mark/mark_shanyao.png");
 }
 
 .player > .lingzhu-mark {
-	background-image: url("../image/mark/mark_lingzhu.png");
+	background-image: url("../../image/mark/mark_lingzhu.png");
 }
 
 .player > .zhi-mark {
-	background-image: url("../image/mark/mark_zhi.png");
+	background-image: url("../../image/mark/mark_zhi.png");
 }
 
 .player > .wen-mark {
-	background-image: url("../image/mark/mark_wen.png");
+	background-image: url("../../image/mark/mark_wen.png");
 }
 
 .player > .li-mark {
-	background-image: url("../image/mark/mark_li.png");
+	background-image: url("../../image/mark/mark_li.png");
 }
 
 .player > .shuxue-mark {
-	background-image: url("../image/mark/mark_shuxue.png");
+	background-image: url("../../image/mark/mark_shuxue.png");
 }
 
 .player > .yu-mark {
-	background-image: url("../image/mark/mark_yu.png");
+	background-image: url("../../image/mark/mark_yu.png");
 }
 
 .player > .sheji-mark {
-	background-image: url("../image/mark/mark_sheji.png");
+	background-image: url("../../image/mark/mark_sheji.png");
 }

@@ -1,4 +1,4 @@
-/*选中阴影显示*/
+﻿/*选中阴影显示*/
 .card::before {
 	content: "";
 	position: absolute;
@@ -6,7 +6,7 @@
 	left: -7px;
 	height: 100%;
 	width: 100%;
-	border-image-source: url("../assets/image/card_select.png");
+	border-image-source: url("../../assets/image/card_select.png");
 	border-image-slice: 8 7 7 8;
 	border-style: solid;
 	border-image-width: 8px 7px 7px 8px;
@@ -135,7 +135,7 @@
 	text-align: center;
 	text-shadow: none;
 	white-space: normal;
-	background-image: url("../image/vcard/cardBaseMap.png") !important;
+	background-image: url("../../image/vcard/cardBaseMap.png") !important;
 	background-size: cover;
 	border-radius: 2px;
 	border: 1px solid black;
@@ -213,7 +213,7 @@
 	border-radius: 2px;
 	border: 1px solid black;
 	pointer-events: none;
-	background-image: url("../image/vcard/cardBaseMap.png") !important;
+	background-image: url("../../image/vcard/cardBaseMap.png") !important;
 	background-size: cover;
 	background-position: center;
 }
@@ -255,7 +255,7 @@
 
 .handcards.nsanruo > .card.decade-card[data-card-type="trick"]:not(*[data-card-multitarget="1"]),
 .handcards.nsanruo > .card.decade-card[data-card-name="sha"] {
-	background-image: url("../../../image/character/ns_liuzhang.jpg") !important;
+	background-image: url("../../../../image/character/ns_liuzhang.jpg") !important;
 	background-position: center;
 	background-size: cover !important;
 }
@@ -271,7 +271,7 @@
 	height: 100px;
 	line-height: 42px;
 	text-shadow: 0 0 3px #ffffff;
-	background-image: url("../assets/image/viewsuitnum.png");
+	background-image: url("../../assets/image/viewsuitnum.png");
 	background-size: 70% 60%;
 	background-repeat: no-repeat;
 	letter-spacing: -1px;

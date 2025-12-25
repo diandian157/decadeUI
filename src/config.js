@@ -232,7 +232,7 @@ export let config = {
 		onclick(bool) {
 			game.saveConfig("extension_十周年UI_meanPrettify", bool);
 			if (bool) {
-				lib.init.css(`${window.decadeUIPath}extension/十周年UI`, "menu");
+				lib.init.css(`${window.decadeUIPath}extension/十周年UI/src/css`, "menu");
 			} else {
 				document.head.querySelector("link[href*='menu.css']")?.remove();
 			}

@@ -1,4 +1,4 @@
-.handdisplays {
+﻿.handdisplays {
 	background-color: rgba(3, 3, 3, 0.3);
 	width: 35px;
 	height: 90px;
@@ -42,7 +42,7 @@
 	font-family: "yuanli";
 	font-size: 15px;
 	color: #fff;
-	background: url("../shoushaUI/skill/babysha/btnnhs3.png");
+	background: url("../../shoushaUI/skill/babysha/btnnhs3.png");
 	background-size: 100% 100%;
 	border-radius: 4px;
 	box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);

@@ -36,18 +36,19 @@ export function initDecadeModule() {
 	};
 
 	module.init = function () {
-		const cssFiles = ["css/extension.css", "css/decadeLayout.css", "css/card.css", "css/meihua.css"];
+		// CSS文件已迁移至 src/css 目录
+		const cssFiles = ["src/css/extension.css", "src/css/decadeLayout.css", "src/css/card.css", "src/css/meihua.css"];
 		cssFiles.forEach(path => this.css(`${decadeUIPath}${path}`));
 
 		const style = lib.config.extension_十周年UI_newDecadeStyle;
 		const styleIndex = STYLE_OPTIONS.indexOf(style);
-		this.css(`${decadeUIPath}css/player${styleIndex !== -1 ? styleIndex + 1 : 2}.css`);
-		this.css(`${decadeUIPath}css/equip.css`);
-		this.css(`${decadeUIPath}css/layout.css`);
+		this.css(`${decadeUIPath}src/css/player${styleIndex !== -1 ? styleIndex + 1 : 2}.css`);
+		this.css(`${decadeUIPath}src/css/equip.css`);
+		this.css(`${decadeUIPath}src/css/layout.css`);
 		document.body.setAttribute("data-style", style ?? "on");
 
 		if (lib.config.extension_十周年UI_meanPrettify) {
-			this.css(`${decadeUIPath}css/menu.css`);
+			this.css(`${decadeUIPath}src/css/menu.css`);
 		}
 
 		this.jsAsync(`${decadeUIPath}src/libs/spine.js`);

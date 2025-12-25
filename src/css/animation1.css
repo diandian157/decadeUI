@@ -1,4 +1,4 @@
-@keyframes fade-in {
+﻿@keyframes fade-in {
 	from {
 		opacity: 0;
 	}
@@ -199,45 +199,45 @@
 
 @keyframes kf-sprites-glow {
 	0% {
-		background-size: 2530px 100%;
+		background-size: 2400px 100%;
 		background-position: 0px 0px;
 	}
 
 	10.00% {
-		background-position: -253px 0px;
+		background-position: -240px 0px;
 	}
 
 	20.00% {
-		background-position: -506px 0px;
+		background-position: -480px 0px;
 	}
 
 	30.00% {
-		background-position: -759px 0px;
+		background-position: -720px 0px;
 	}
 
 	40.00% {
-		background-position: -1012px 0px;
+		background-position: -960px 0px;
 	}
 
 	50.00% {
-		background-position: -1265px 0px;
+		background-position: -1200px 0px;
 	}
 
 	60.00% {
-		background-position: -1518px 0px;
+		background-position: -1440px 0px;
 	}
 
 	70.00% {
-		background-position: -1771px 0px;
+		background-position: -1680px 0px;
 	}
 
 	80.00% {
-		background-position: -2024px 0px;
+		background-position: -1920px 0px;
 	}
 
 	90.00%,
 	100% {
-		background-size: 2530px 100%;
-		background-position: -2277px 0px;
+		background-size: 2400px 100%;
+		background-position: -2160px 0px;
 	}
 }
