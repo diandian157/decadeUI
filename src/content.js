@@ -35,6 +35,11 @@ import { setupSkillDisplay } from "./ui/skillDisplay.js";
 // 技能模块
 import { initSkills } from "./skills/index.js";
 
+// UI插件模块
+import { createLbtnPlugin } from "../ui/lbtn/plugin.js";
+import { createSkillPlugin } from "../ui/skill/plugin.js";
+import { createCharacterPlugin } from "../ui/character/plugin.js";
+
 /** 完成核心初始化 */
 export const finalizeDecadeUICore = (decadeUI, config) => {
 	registerDecadeUIUtilityModule(decadeUI);
@@ -77,9 +82,39 @@ export const finalizeDecadeUICore = (decadeUI, config) => {
 };
 
 /**
+ * 加载UI插件模块
+ */
+function loadUIPlugins() {
+	const excludedModes = ["chess", "tafang", "hs_hearthstone"];
+	if (excludedModes.includes(get.mode())) return;
+
+	const plugins = [
+		{ name: "lbtn", creator: createLbtnPlugin },
+		{ name: "skill", creator: createSkillPlugin },
+		{ name: "character", creator: createCharacterPlugin },
+	];
+
+	plugins.forEach(({ name, creator }) => {
+		try {
+			const plugin = creator(lib, game, ui, get, ai, _status, window.app);
+			if (plugin) {
+				if (plugin.name) window.app.pluginsMap[plugin.name] = plugin;
+				if (plugin.precontent && (!plugin.filter || plugin.filter())) {
+					plugin.precontent();
+				}
+				window.app.plugins.push(plugin);
+				console.log(`[十周年UI] ${name}模块加载成功`);
+			}
+		} catch (e) {
+			console.error(`[十周年UI] ${name}模块加载失败:`, e);
+		}
+	});
+}
+
+/**
  * 扩展content函数 - 无名杀扩展主入口
  */
-export function content(config, pack) {
+export async function content(config, pack) {
 	if (!bootstrapExtension()) return;
 
 	// 创建全局配置对象
@@ -101,4 +136,7 @@ export function content(config, pack) {
 
 	// 注册进度条等遗留模块
 	registerLegacyModules(config);
+
+	// 加载UI插件模块
+	loadUIPlugins();
 }

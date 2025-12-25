@@ -11,7 +11,26 @@ const EXCLUDED_MODES = ["chess", "tafang", "hs_hearthstone"];
 
 // 样式配置
 const STYLE_OPTIONS = ["on", "off", "othersOff", "onlineUI", "babysha", "codename"];
-const STYLE_MAP = { on: 2, off: 1, othersOff: 3, onlineUI: 4, babysha: 5, codename: 6 };
+
+// 样式到皮肤的映射
+const STYLE_TO_SKIN = {
+	on: "shizhounian",
+	off: "shousha",
+	othersOff: "xinsha",
+	onlineUI: "online",
+	babysha: "baby",
+	codename: "codename",
+};
+
+// 样式到索引的映射（兼容旧的main*.js命名）
+const STYLE_TO_INDEX = {
+	on: 2,
+	off: 1,
+	othersOff: 3,
+	onlineUI: 4,
+	babysha: 5,
+	codename: 6,
+};
 
 /**
  * 初始化 decadeModule
@@ -36,34 +55,48 @@ export function initDecadeModule() {
 	};
 
 	module.init = function () {
-		// CSS文件已迁移至 src/css 目录
-		const cssFiles = ["src/css/extension.css", "src/css/decadeLayout.css", "src/css/card.css", "src/css/meihua.css"];
+		// CSS文件已迁移至 src/styles 目录
+		const cssFiles = ["src/styles/extension.css", "src/styles/decadeLayout.css", "src/styles/card.css", "src/styles/meihua.css"];
 		cssFiles.forEach(path => this.css(`${decadeUIPath}${path}`));
 
 		const style = lib.config.extension_十周年UI_newDecadeStyle;
 		const styleIndex = STYLE_OPTIONS.indexOf(style);
-		this.css(`${decadeUIPath}src/css/player${styleIndex !== -1 ? styleIndex + 1 : 2}.css`);
-		this.css(`${decadeUIPath}src/css/equip.css`);
-		this.css(`${decadeUIPath}src/css/layout.css`);
+		this.css(`${decadeUIPath}src/styles/player${styleIndex !== -1 ? styleIndex + 1 : 2}.css`);
+		this.css(`${decadeUIPath}src/styles/equip.css`);
+		this.css(`${decadeUIPath}src/styles/layout.css`);
 		document.body.setAttribute("data-style", style ?? "on");
 
 		if (lib.config.extension_十周年UI_meanPrettify) {
-			this.css(`${decadeUIPath}src/css/menu.css`);
+			this.css(`${decadeUIPath}src/styles/menu.css`);
 		}
 
 		this.jsAsync(`${decadeUIPath}src/libs/spine.js`);
 
 		// 加载样式相关资源
-		const layoutPath = `${decadeUIPath}shoushaUI/`;
-		const listmap = STYLE_MAP[style] ?? 2;
 		const currentMode = get.mode();
+		const isPhoneLayout = lib.config.phonelayout;
 
 		if (!EXCLUDED_MODES.includes(currentMode)) {
-			["character", "lbtn", "skill"].forEach(pack => {
-				const cssPath = pack === "character" ? `${layoutPath}${pack}/main${listmap}.css` : `${layoutPath}${pack}/main${listmap}${lib.config.phonelayout ? "" : "_window"}.css`;
-				this.css(cssPath);
-				this.jsAsync(`${layoutPath}${pack}/main${listmap}.js`);
-			});
+			// 根据皮肤加载对应模块样式
+			const skinName = STYLE_TO_SKIN[style] || "shizhounian";
+
+			// 加载基础样式
+			const uiPath = `${decadeUIPath}ui/`;
+			this.css(`${uiPath}styles/fonts.css`);
+			this.css(`${uiPath}styles/base.css`);
+
+			// 加载各模块的皮肤CSS
+			this.css(`${uiPath}styles/character/${skinName}.css`);
+			this.css(`${uiPath}styles/lbtn/${skinName}.css`);
+			this.css(`${uiPath}styles/skill/${skinName}.css`);
+
+			// 非触屏布局加载window样式覆盖
+			if (!isPhoneLayout) {
+				this.css(`${uiPath}styles/lbtn/window/${skinName}.css`);
+				this.css(`${uiPath}styles/skill/window/${skinName}.css`);
+			}
+
+			// UI模块JS在content.js中加载
 		}
 
 		return this;

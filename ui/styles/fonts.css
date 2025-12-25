@@ -1,0 +1,51 @@
+/**
+ * 字体定义
+ */
+
+@font-face {
+	font-family: "ATLL";
+	src: url("../assets/fonts/ATLL.woff2") format("woff2");
+	font-display: swap;
+}
+
+@font-face {
+	font-family: "BKJT";
+	src: url("../assets/fonts/BKJT.ttf") format("truetype");
+	font-display: swap;
+}
+
+@font-face {
+	font-family: "FZLBJW";
+	src: url("../assets/fonts/FZLBJW.woff2") format("woff2");
+	font-display: swap;
+}
+
+@font-face {
+	font-family: "FZLSFT";
+	src: url("../assets/fonts/FZLSFT.woff2") format("woff2");
+	font-display: swap;
+}
+
+@font-face {
+	font-family: "HYZLSJ";
+	src: url("../assets/fonts/HYZLSJ.woff2") format("woff2");
+	font-display: swap;
+}
+
+@font-face {
+	font-family: "WDZLFT";
+	src: url("../assets/fonts/WDZLFT.woff2") format("woff2");
+	font-display: swap;
+}
+
+@font-face {
+	font-family: "shousha";
+	src: url("../assets/fonts/FZLBJW.woff2") format("woff2");
+	font-display: swap;
+}
+
+@font-face {
+	font-family: "xinwei";
+	src: url("../assets/fonts/HYZLSJ.woff2") format("woff2");
+	font-display: swap;
+}

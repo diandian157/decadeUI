@@ -126,7 +126,7 @@ export function initSkillDisplay() {
 			const icon = getSkillIcon(skill, player);
 			if (icon) {
 				const iconImg = document.createElement("img");
-				iconImg.src = `extension/十周年UI/shoushaUI/skill/babysha/${icon}`;
+				iconImg.src = `extension/十周年UI/ui/assets/skill/baby/${icon}`;
 				Object.assign(iconImg.style, { position: "absolute", top: "3px", right: "-15px", width: "16px", height: "16px", zIndex: "103" });
 				skillEl.appendChild(iconImg);
 			}

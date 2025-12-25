@@ -1,4 +1,4 @@
-/**
+﻿/**
  * Player 覆写模块
  */
 
@@ -324,7 +324,7 @@ export function playerChangeZhuanhuanji(skill) {
 	const mark = this.node.xSkillMarks?.querySelector(`[data-id="${skill}"]`);
 	const decadeUI = window.decadeUI;
 	const decadeUIPath = window.decadeUIPath;
-	const url = `${lib.assetURL}extension/十周年UI/shoushaUI/skill/shousha/zhuanhuanji/${skill}_yang.png`;
+	const url = `${lib.assetURL}extension/十周年UI/ui/assets/skill/shousha/zhuanhuanji/${skill}_yang.png`;
 
 	function imageExists(url) {
 		const xhr = new XMLHttpRequest();
@@ -342,10 +342,10 @@ export function playerChangeZhuanhuanji(skill) {
 	if (!mark) return;
 
 	const style = lib.config.extension_十周年UI_newDecadeStyle;
-	const yangUrl = `extension/十周年UI/shoushaUI/skill/shousha/zhuanhuanji/${skill}_yang.png`;
-	const yingUrl = `extension/十周年UI/shoushaUI/skill/shousha/zhuanhuanji/${skill}_ying.png`;
-	const defaultYangUrl = "extension/十周年UI/shoushaUI/skill/shousha/zhuanhuanji/ditu_yang.png";
-	const defaultYingUrl = "extension/十周年UI/shoushaUI/skill/shousha/zhuanhuanji/ditu_ying.png";
+	const yangUrl = `extension/十周年UI/ui/assets/skill/shousha/zhuanhuanji/${skill}_yang.png`;
+	const yingUrl = `extension/十周年UI/ui/assets/skill/shousha/zhuanhuanji/${skill}_ying.png`;
+	const defaultYangUrl = "extension/十周年UI/ui/assets/skill/shousha/zhuanhuanji/ditu_yang.png";
+	const defaultYingUrl = "extension/十周年UI/ui/assets/skill/shousha/zhuanhuanji/ditu_ying.png";
 
 	if (style != "off") {
 		if (mark.classList.contains("yin")) {
@@ -398,7 +398,7 @@ export function playerTrySkillAnimate(name) {
 				tipskilltext.style.cssText = "color:#ADC63A;text-shadow:#707852 0 0;font-size:11px;font-family:shousha;display:block;position:absolute;z-index:91;bottom:-22px;letter-spacing:1.5px;line-height:15px;left:15px;";
 
 				// 思考中底图
-				tipskillimg.src = lib.assetURL + "extension/十周年UI/shoushaUI/lbtn/images/shoushatip/skilltip.png";
+				tipskillimg.src = lib.assetURL + "extension/十周年UI/ui/assets/lbtn/shoushatip/skilltip.png";
 				tipskillimg.style.cssText = "display:block;position:absolute;z-index:91;--w: 133px;--h: calc(var(--w) * 50/431);width: var(--w);height: var(--h);bottom:-22px;";
 				tipskillbox.appendChild(tipskillimg);
 				tipskillbox.appendChild(tipskilltext);
@@ -2184,3 +2184,4 @@ export function playerAddVirtualJudge(VCard, cards) {
 		cards
 	);
 }
+

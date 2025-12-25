@@ -29,11 +29,14 @@ export function createScriptElement(path, isAsync = false) {
  * 创建样式链接元素
  */
 export function createLinkElement(path) {
-	if (document.querySelector(`link[href*="${path}"]`)) return null;
+	// 提取不带查询参数的路径进行检查
+	const basePath = path.split("?")[0];
+	if (document.querySelector(`link[href*="${basePath}"]`)) return null;
 
 	const version = lib.extensionPack.十周年UI.version;
 	const link = document.createElement("link");
 	link.rel = "stylesheet";
+	// 添加时间戳避免缓存问题
 	link.href = `${path}?v=${version}&t=${Date.now()}`;
 	document.head.appendChild(link);
 

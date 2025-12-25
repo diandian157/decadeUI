@@ -9,7 +9,7 @@ import { lib, game, get, _status } from "noname";
 const getImagePath = imageName => {
 	const style = lib.config.extension_十周年UI_JDTSYangshi;
 	const extMap = { 2: "png", 3: "webp", 4: "jpeg" };
-	return `extension/十周年UI/shoushaUI/lbtn/images/JDTS/${imageName}.${extMap[style] || "jpg"}`;
+	return `extension/十周年UI/ui/assets/lbtn/tips/${imageName}.${extMap[style] || "jpg"}`;
 };
 
 // 获取图片位置
