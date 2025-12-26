@@ -1,7 +1,7 @@
 /**
  * 玩家势力属性模块
  */
-import { lib, game, get } from "noname";
+import { lib, game, ui, get, ai, _status } from "noname";
 
 /** 处理势力样式V2 */
 function handleGroupStyleV2(group) {

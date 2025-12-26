@@ -2,7 +2,7 @@
  * 增强音效模块
  * 包含：UI点击音效、准备阶段音效、掉血音效
  */
-import { lib, game, _status } from "noname";
+import { lib, game, ui, get, ai, _status } from "noname";
 
 /** 播放扩展音效 */
 const playExtAudio = name => {

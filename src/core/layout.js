@@ -1,7 +1,7 @@
 /**
  * 布局模块
  */
-import { game, lib, ui } from "noname";
+import { lib, game, ui, get, ai, _status } from "noname";
 
 /** 创建layout模块 */
 export function createLayoutModule() {

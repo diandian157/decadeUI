@@ -1,7 +1,7 @@
 /**
  * 资源加载模块
  */
-import { lib } from "noname";
+import { lib, game, ui, get, ai, _status } from "noname";
 
 /**
  * 创建脚本元素

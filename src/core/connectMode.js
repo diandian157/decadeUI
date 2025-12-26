@@ -1,7 +1,7 @@
 /**
  * 联机模式模块
  */
-import { lib, ui, _status } from "noname";
+import { lib, game, ui, get, ai, _status } from "noname";
 
 /**
  * 设置联机模式监听

@@ -4,7 +4,7 @@
  * 击杀特效模块
  */
 
-import { game, ui } from "noname";
+import { lib, game, ui, get, ai, _status } from "noname";
 import { CONFIG } from "./config.js";
 import { create, isPlayer, getAvatar, randomPosition } from "./utils.js";
 

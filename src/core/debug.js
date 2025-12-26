@@ -1,7 +1,7 @@
 /**
  * 调试工具模块
  */
-import { lib } from "noname";
+import { lib, game, ui, get, ai, _status } from "noname";
 
 /**
  * 初始化 Eruda 调试工具

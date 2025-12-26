@@ -2,7 +2,7 @@
  * Event覆写模块
  * @description lib.element.event的扩展方法
  */
-import { lib } from "noname";
+import { lib, game, ui, get, ai, _status } from "noname";
 
 /**
  * event.addMessageHook - 添加消息钩子

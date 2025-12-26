@@ -2,7 +2,7 @@
  * Control覆写模块
  * @description lib.element.control的覆写方法
  */
-import { lib, ui, get, _status } from "noname";
+import { lib, game, ui, get, ai, _status } from "noname";
 
 /**
  * 保存原始方法的引用

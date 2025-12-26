@@ -1,7 +1,7 @@
 /**
  * Canvas动画模块
  */
-import { ui } from "noname";
+import { lib, game, ui, get, ai, _status } from "noname";
 
 /** 创建绘图上下文辅助对象 */
 function createDrawContext(canvas, deltaTime) {

@@ -1,5 +1,5 @@
 import { nonameInitialized } from "../../noname/util/index.js";
-import { lib } from "noname";
+import { lib, game, ui, get, ai, _status } from "noname";
 import { config } from "./src/config.js";
 import { content } from "./src/content.js";
 import { precontent } from "./src/precontent.js";

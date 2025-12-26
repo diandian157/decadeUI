@@ -4,7 +4,7 @@
  * 技能特效模块
  */
 
-import { lib, get, ui } from "noname";
+import { lib, game, ui, get, ai, _status } from "noname";
 import { CONFIG, GENERAL_NAME_STYLE } from "./config.js";
 import { isPlayer, getName, toKebab, getDefaultAvatar } from "./utils.js";
 

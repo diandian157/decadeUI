@@ -1,7 +1,7 @@
 /**
  * DecadeModule 初始化模块
  */
-import { lib, ui, get } from "noname";
+import { lib, game, ui, get, ai, _status } from "noname";
 import { createScriptElement, createLinkElement } from "./loader.js";
 import { checkVersionCompatibility } from "../utils/version.js";
 import { prefixMarkModule } from "../ui/prefixMark.js";

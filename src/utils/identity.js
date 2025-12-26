@@ -2,7 +2,7 @@
  * 身份相关工具函数
  * @description 从concore.js提取的身份处理函数
  */
-import { lib, game, get, _status } from "noname";
+import { lib, game, ui, get, ai, _status } from "noname";
 
 /**
  * 获取玩家身份

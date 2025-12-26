@@ -2,7 +2,7 @@
  * 卡牌别名显示模块
  * 当手牌数量超过阈值时，自动切换显示模式
  */
-import { game, ui } from "noname";
+import { lib, game, ui, get, ai, _status } from "noname";
 
 // ==================== 常量 ====================
 const CARD_COUNT_THRESHOLD = 15; // 手牌数量阈值

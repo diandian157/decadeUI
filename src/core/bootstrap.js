@@ -1,7 +1,7 @@
 /**
  * 扩展启动模块
  */
-import { lib, game, get, _status } from "noname";
+import { lib, game, ui, get, ai, _status } from "noname";
 import { INCOMPATIBLE_MODES, RECOMMENDED_LAYOUT } from "./constants.js";
 
 /** 初始化扩展，检查兼容性 */

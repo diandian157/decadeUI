@@ -1,7 +1,7 @@
 /**
  * decadeUI.create 模块
  */
-import { get } from "noname";
+import { lib, game, ui, get, ai, _status } from "noname";
 import { element } from "../utils/element.js";
 
 /** 创建decadeUI.create模块 */

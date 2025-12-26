@@ -5,7 +5,7 @@
  * 整合手牌化模式和独立装备模式
  */
 
-import { lib, game, ui, get, _status } from "noname";
+import { lib, game, ui, get, ai, _status } from "noname";
 import { setupEquipCopy } from "./equipCopy.js";
 import { setupEquipAlone, clearEquipSelectable } from "./equipAlone.js";
 

@@ -1,7 +1,7 @@
 ﻿/**
  * 钩子初始化模块
  */
-import { lib, game, ui, get, _status } from "noname";
+import { lib, game, ui, get, ai, _status } from "noname";
 
 /** 初始化钩子 */
 export function initHooks() {

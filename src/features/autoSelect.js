@@ -4,7 +4,7 @@
  * 自动选择模块 - 在特定条件下自动选择卡牌和目标
  */
 
-import { lib, game, ui, _status } from "noname";
+import { lib, game, ui, get, ai, _status } from "noname";
 
 // ==================== 工具函数 ====================
 

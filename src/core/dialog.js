@@ -1,7 +1,7 @@
 /**
  * 对话框模块
  */
-import { ui } from "noname";
+import { lib, game, ui, get, ai, _status } from "noname";
 
 /** 事件监听器管理器 */
 const createListenerManager = dialog => ({

@@ -3,7 +3,7 @@
  * 包含玩家进度条、AI进度条、阶段提示等功能
  */
 
-import { lib, game, ui, get, _status } from "noname";
+import { lib, game, ui, get, ai, _status } from "noname";
 import { initGTBB } from "./gtbb.js";
 import { initPhaseTipsSkills } from "./phase-tips.js";
 

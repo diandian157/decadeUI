@@ -4,7 +4,7 @@
  * 特效工具函数
  */
 
-import { lib, get } from "noname";
+import { lib, game, ui, get, ai, _status } from "noname";
 
 /** 获取玩家头像节点 */
 export function getAvatar(player, isUnseen = false) {

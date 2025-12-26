@@ -2,7 +2,7 @@
  * UI覆写模块
  */
 
-import { lib, game, ui, get, _status } from "noname";
+import { lib, game, ui, get, ai, _status } from "noname";
 import { throttle } from "../animation/index.js";
 
 // 基础方法引用

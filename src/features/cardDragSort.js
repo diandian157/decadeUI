@@ -5,7 +5,7 @@
  * 水平拖动排序手牌，垂直拖出则放行给本体处理拖拽选目标
  */
 
-import { ui, lib, _status, game } from "noname";
+import { lib, game, ui, get, ai, _status } from "noname";
 
 const DRAG_THRESHOLD = 5;
 const ESCAPE_THRESHOLD = 50;

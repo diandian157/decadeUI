@@ -5,7 +5,7 @@
  * 装备牌保持在装备区，可直接点击发动技能
  */
 
-import { lib, game, ui, get, _status } from "noname";
+import { lib, game, ui, get, ai, _status } from "noname";
 
 /** 获取装备牌可用技能 */
 function getUsableSkills(event, player) {

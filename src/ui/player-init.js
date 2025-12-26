@@ -1,7 +1,7 @@
 /**
  * 玩家初始化模块
  */
-import { lib, game, ui, get, _status } from "noname";
+import { lib, game, ui, get, ai, _status } from "noname";
 import { element } from "../utils/element.js";
 
 /** 创建player.$init方法 */

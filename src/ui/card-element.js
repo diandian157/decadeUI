@@ -1,7 +1,7 @@
 /**
  * 卡牌元素创建模块
  */
-import { game, lib, ui } from "noname";
+import { lib, game, ui, get, ai, _status } from "noname";
 import { element } from "../utils/element.js";
 
 /** 创建card元素 */

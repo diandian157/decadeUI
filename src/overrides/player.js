@@ -2,7 +2,7 @@
  * Player 覆写模块
  */
 
-import { lib, game, ui, get, _status } from "noname";
+import { lib, game, ui, get, ai, _status } from "noname";
 import { DynamicPlayer } from "../animation/index.js";
 import { applyCardBorder } from "../ui/cardStyles.js";
 

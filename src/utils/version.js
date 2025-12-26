@@ -1,7 +1,7 @@
 /**
  * 版本工具模块
  */
-import { lib, game } from "noname";
+import { lib, game, ui, get, ai, _status } from "noname";
 
 /**
  * 比较版本号

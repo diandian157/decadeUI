@@ -5,7 +5,7 @@
  * 播放技能语音和阵亡语音，并显示文本气泡
  */
 
-import { lib, game, get } from "noname";
+import { lib, game, ui, get, ai, _status } from "noname";
 
 /** 初始化技能/阵亡语音功能 */
 export function setupSkillDieAudio() {

@@ -1,7 +1,7 @@
 /**
  * 事件处理模块
  */
-import { ui } from "noname";
+import { lib, game, ui, get, ai, _status } from "noname";
 
 /** 创建handler模块 */
 export function createHandlerModule() {

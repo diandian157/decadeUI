@@ -5,7 +5,7 @@
  * 将装备区的牌复制到手牌区显示，参与选择
  */
 
-import { lib, game, ui, get, _status } from "noname";
+import { lib, game, ui, get, ai, _status } from "noname";
 
 const GAINTAG = "equipHand";
 

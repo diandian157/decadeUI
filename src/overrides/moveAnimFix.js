@@ -1,7 +1,7 @@
 /**
  * 移动动画修复模块
  */
-import { game } from "noname";
+import { lib, game, ui, get, ai, _status } from "noname";
 
 /**
  * 修复移动动画缩放问题

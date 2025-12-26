@@ -1,7 +1,7 @@
 /**
  * 布局初始化模块
  */
-import { lib, game, ui, get } from "noname";
+import { lib, game, ui, get, ai, _status } from "noname";
 
 /** 创建布局初始化函数 */
 export function createLayoutInit() {

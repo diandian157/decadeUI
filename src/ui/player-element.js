@@ -1,7 +1,7 @@
 /**
  * 玩家元素创建模块
  */
-import { lib, game, ui, get, _status } from "noname";
+import { lib, game, ui, get, ai, _status } from "noname";
 import { element } from "../utils/element.js";
 
 // ChildNodesWatcher实现

@@ -2,7 +2,7 @@
  * 卡牌工具函数
  * @description 从concore.js提取的卡牌相关函数
  */
-import { lib, game, ui, get, _status } from "noname";
+import { lib, game, ui, get, ai, _status } from "noname";
 
 /**
  * 卡牌临时花色点数显示

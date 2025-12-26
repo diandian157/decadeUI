@@ -2,7 +2,7 @@
  * 卡牌样式模块
  * 包含：卡牌边框、卡牌背景
  */
-import { lib } from "noname";
+import { lib, game, ui, get, ai, _status } from "noname";
 
 // 动态样式元素引用
 let borderStyleEl = null;

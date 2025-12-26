@@ -3,7 +3,7 @@
  * @description get对象相关的覆写方法
  */
 
-import { lib, game, get } from "noname";
+import { lib, game, ui, get, ai, _status } from "noname";
 
 // 基础方法引用
 let baseGetMethods = null;

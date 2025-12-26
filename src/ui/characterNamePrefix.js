@@ -1,7 +1,7 @@
 /**
  * 武将名前缀处理模块
  */
-import { lib, get } from "noname";
+import { lib, game, ui, get, ai, _status } from "noname";
 
 // 隐藏前缀列表
 const HIDDEN_PREFIXES = ["新杀", "手杀", "OL", "TW"];

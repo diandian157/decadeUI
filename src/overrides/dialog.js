@@ -2,7 +2,7 @@
  * Dialog覆写模块
  * @description lib.element.dialog的覆写方法
  */
-import { lib, ui } from "noname";
+import { lib, game, ui, get, ai, _status } from "noname";
 
 // 基础方法引用
 let baseDialogClose = null;

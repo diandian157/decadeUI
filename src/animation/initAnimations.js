@@ -4,7 +4,7 @@
  * 动画系统初始化模块
  */
 
-import { lib } from "noname";
+import { lib, game, ui, get, ai, _status } from "noname";
 import { skillDefines, cardDefines, chupaiAnimations } from "./configs/skillAnimations.js";
 import { cardTriggers } from "./configs/cardTriggers.js";
 

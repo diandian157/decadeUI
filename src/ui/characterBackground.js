@@ -1,7 +1,7 @@
 /**
  * 武将背景模式模块
  */
-import { lib, game, get } from "noname";
+import { lib, game, ui, get, ai, _status } from "noname";
 
 /** 获取当前模式是否为双将模式 */
 export const isDoubleCharacterMode = () => {

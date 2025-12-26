@@ -1,7 +1,7 @@
 /**
  * 工具模块注册
  */
-import { lib, game, _status } from "noname";
+import { lib, game, ui, get, ai, _status } from "noname";
 import { isMobile, getRandom, getMapElementPos, delayRemoveCards } from "../utils/core.js";
 import { getPlayerIdentity } from "../utils/identity.js";
 import { BoundsCache, createBoundsCaches } from "../utils/bounds.js";

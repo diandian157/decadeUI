@@ -1,7 +1,7 @@
 /**
  * 环境初始化模块
  */
-import { lib, ui } from "noname";
+import { lib, game, ui, get, ai, _status } from "noname";
 import { SVG_NS, CLIP_PATHS } from "./constants.js";
 
 /** 初始化SVG裁剪路径 */

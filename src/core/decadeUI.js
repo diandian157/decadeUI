@@ -1,7 +1,7 @@
 /**
  * decadeUI 核心对象
  */
-import { lib, game, ui, get, _status } from "noname";
+import { lib, game, ui, get, ai, _status } from "noname";
 import { initializeDecadeUIEnvironment } from "./environment.js";
 import { createDecadeUIDialogModule } from "./dialog.js";
 import { createDecadeUIAnimateModule } from "./animate.js";

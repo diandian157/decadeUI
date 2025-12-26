@@ -1,7 +1,7 @@
 /**
  * 技能外显模块 (babysha样式专用)
  */
-import { lib, game, get } from "noname";
+import { lib, game, ui, get, ai, _status } from "noname";
 import { isDoubleCharacterMode } from "./characterBackground.js";
 
 /** 播放扩展音效 */

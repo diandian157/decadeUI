@@ -3,7 +3,7 @@
  * 显示回合阶段提示图片
  */
 
-import { lib, game, get, _status } from "noname";
+import { lib, game, ui, get, ai, _status } from "noname";
 
 // 获取图片路径
 const getImagePath = imageName => {

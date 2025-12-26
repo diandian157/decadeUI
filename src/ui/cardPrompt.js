@@ -2,7 +2,7 @@
  * 卡牌提示模块 - 为玩家操作提供上下文提示
  * 功能：出牌阶段提示、响应提示、弃牌提示、无懈可击提示等
  */
-import { lib, get } from "noname";
+import { lib, game, ui, get, ai, _status } from "noname";
 
 // ==================== 常量 ====================
 const MAX_PARENT_DEPTH_SHALLOW = 5;

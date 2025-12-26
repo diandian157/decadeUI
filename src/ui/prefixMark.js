@@ -2,7 +2,7 @@
  * 前缀角标模块
  * 根据武将前缀显示对应的角标样式
  */
-import { lib, get } from "noname";
+import { lib, game, ui, get, ai, _status } from "noname";
 
 // ==================== 前缀配置映射 ====================
 

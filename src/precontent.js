@@ -1,4 +1,4 @@
-import { lib, game, get } from "noname";
+import { lib, game, ui, get, ai, _status } from "noname";
 import { initEruda, initNodeFS } from "./core/debug.js";
 import { initDecadeModule, EXCLUDED_MODES } from "./core/decadeModule.js";
 import { setupConnectMode, setupLayoutVisualMenu } from "./core/connectMode.js";

@@ -1,7 +1,7 @@
 /**
  * 角色按钮预设模块
  */
-import { lib, ui, get, _status } from "noname";
+import { lib, game, ui, get, ai, _status } from "noname";
 import { element } from "../utils/element.js";
 
 /** 创建角色按钮预设 */
