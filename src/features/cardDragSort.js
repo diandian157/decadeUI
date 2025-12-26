@@ -69,6 +69,7 @@ const cleanup = async (skipLayout = false) => {
 };
 
 const onStart = async e => {
+	if (game.me?.hasSkillTag("noSortCard")) return;
 	if (!hasPointer && e.button === 2) return;
 	if (isScrollable()) return;
 	if (sourceNode) await cleanup(true);
@@ -99,6 +100,8 @@ const onMove = async e => {
 	const card = sourceNode;
 	if (!card) return;
 	if (isScrollable()) return cleanup();
+
+	_status.dragged = true;
 
 	const { clientX, clientY, pageX, pageY } = getPoint(e);
 	const dx = clientX - startX,
@@ -179,6 +182,7 @@ const swapCards = async (src, tgt) => {
 };
 
 const onEnd = e => {
+	_status.dragged = null;
 	if (dragMode === "sort") {
 		e?.preventDefault?.();
 		e?.stopPropagation?.();
