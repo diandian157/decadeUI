@@ -1127,10 +1127,10 @@
 .player > .identity,
 #arena > .player:not(.minskin) > .identity {
 	left: auto;
-	top: 1px;
-	right: 1px;
-	width: 29px;
-	height: 31px;
+	top: 0;
+	right: 0;
+	width: 35px;
+	height: 35px;
 	line-height: 31px;
 	font-size: 31px;
 	background-size: 100% 100%;

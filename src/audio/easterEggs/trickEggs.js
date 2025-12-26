@@ -38,5 +38,4 @@ export const trickEasterEggs = [
 	{ cards: ["shunshou"], player: "liuhong", condition: ctx => ctx.targets?.some(t => ctx.hasName(t, "hejin")), text: "这卖官鬻爵，卿可愿解囊否？", audio: "liuhong2.mp3" },
 	{ cards: ["shunshou"], player: "yuanshu", condition: ctx => ctx.targets?.some(t => ctx.hasName(t, "luji")), text: "陆朗做宾客，而怀橘乎？", audio: "yuanshu1.mp3" },
 	{ cards: ["shunshou"], player: "zhangkai", condition: ctx => ctx.targets?.some(t => ctx.hasName(t, "caocao")), text: "曹太公，把钱财交出来吧！", audio: "zhangkai1.mp3" },
-	{ cards: ["xusheng"], player: "xusheng", condition: ctx => ctx.targets?.some(t => ctx.hasName(t, "caochong")), text: "今儿，给冲儿来刀狠的！", audio: "xusheng1.mp3" },
 ];

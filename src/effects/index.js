@@ -6,14 +6,12 @@
 
 export { CONFIG, GENERAL_NAME_STYLE } from "./config.js";
 export * from "./utils.js";
-export { createCompareDialog } from "./dialog.js";
 export { drawLine } from "./line.js";
 export { playKillEffect } from "./kill.js";
 export { playSkillEffect } from "./skill.js";
 
 // ==================== 游戏集成 ====================
 
-import { createCompareDialog } from "./dialog.js";
 import { drawLine } from "./line.js";
 import { playKillEffect } from "./kill.js";
 import { playSkillEffect } from "./skill.js";
@@ -28,7 +26,6 @@ export function setupEffects() {
 	decadeUI.effect = {
 		dialog: {
 			create: () => decadeUI.dialog.create("effect-dialog dui-dialog"),
-			compare: createCompareDialog,
 		},
 		line: drawLine,
 		kill: playKillEffect,

@@ -1,4 +1,5 @@
 import { lib, game, ui, get, ai, _status } from "noname";
+import { refreshCardSkin } from "./overrides/card.js";
 
 // 卡牌皮肤预设配置
 const cardSkinPresets = [
@@ -51,14 +52,12 @@ export let config = {
 	translate: {
 		name: "卡牌拖拽",
 		init: false,
-		intro: "开启后手牌可以任意拖拽牌序，自动重启",
+		intro: "开启后手牌可以任意拖拽牌序并支持本体拖拽",
 		onclick(bool) {
 			game.saveConfig("extension_十周年UI_translate", bool);
-			setTimeout(() => game.reload(), 100);
-		},
-		update() {
-			const enabled = lib.config.extension_十周年UI_translate;
-			game.saveConfig("enable_drag", !enabled);
+			// 热更新：动态启用/禁用拖拽功能
+			window.dui?.destroyCardDragSwap?.();
+			if (bool) window.dui?.initCardDragSwap?.();
 		},
 	},
 
@@ -172,16 +171,16 @@ export let config = {
 		_cardSkinMeta: cardSkinMeta,
 		onclick(item) {
 			game.saveConfig("extension_十周年UI_cardPrettify", item);
-			if (window.decadeUI) decadeUI.config.cardPrettify = item;
-			// 刷新所有玩家手牌
+			// 刷新所有卡牌皮肤
+			[ui.cardPile, ui.discardPile].forEach(pile => pile?.childNodes?.forEach(refreshCardSkin));
 			game.players?.forEach(p => {
-				p.node?.handcards1?.childNodes?.forEach(card => card.$init?.([card.suit, card.number, card.name, card.nature]));
-				p.node?.handcards2?.childNodes?.forEach(card => card.$init?.([card.suit, card.number, card.name, card.nature]));
+				["handcards1", "handcards2", "equips", "judges"].forEach(key => {
+					p.node?.[key]?.childNodes?.forEach(refreshCardSkin);
+				});
 			});
-			// 冰可乐彩蛋：bozai角色特殊处理
+			// 冰可乐彩蛋
 			game.players?.forEach(p => {
-				const isBozai = p.name === "bozai" || p.name1 === "bozai" || p.name2 === "bozai";
-				if (!isBozai) return;
+				if (![p.name, p.name1, p.name2].includes("bozai")) return;
 				if (item === "bingkele") {
 					p.node.avatar.setBackgroundImage("extension/十周年UI/image/bingkele.png");
 					if (p.node.name) p.node.name.innerHTML = "冰可乐喵";
@@ -314,52 +313,6 @@ export let config = {
 	},
 
 	// ==================== 显示设置 ====================
-	showTemp: {
-		name: "卡牌显示",
-		init: true,
-		intro: "开启此选项后，视为卡牌显示将会替换为十周年UI内置替换显示",
-		onclick(bool) {
-			game.saveConfig("extension_十周年UI_showTemp", bool);
-			if (!game.me || lib.config.cardtempname === "off") return;
-
-			const cards = game.me.getCards("h", card => card._tempName);
-			const skill = _status.event.skill;
-			const skillInfo = skill && get.info(skill);
-			const goon = skillInfo?.viewAs && !skillInfo.ignoreMod && cards.some(card => (ui.selected.cards || []).includes(card));
-
-			cards.forEach(card => {
-				card._tempName?.delete();
-				delete card._tempName;
-
-				let cardname, cardnature, cardskb;
-				if (goon) {
-					cardskb = typeof skillInfo.viewAs === "function" ? skillInfo.viewAs([card], game.me) : skillInfo.viewAs;
-					cardname = get.name(cardskb);
-					cardnature = get.nature(cardskb);
-				} else {
-					cardname = get.name(card);
-					cardnature = get.nature(card);
-				}
-
-				if (card.name === cardname && get.is.sameNature(card.nature, cardnature, true)) return;
-
-				if (bool) {
-					card._tempName = ui.create.div(".temp-name", card);
-					let tempname = get.translation(cardname);
-					if (cardnature) {
-						card._tempName.dataset.nature = cardnature;
-						if (cardname === "sha") tempname = get.translation(cardnature) + tempname;
-					}
-					card._tempName.innerHTML = tempname;
-					card._tempName.tempname = tempname;
-				} else {
-					const node = goon ? ui.create.cardTempName(cardskb, card) : ui.create.cardTempName(card);
-					if (lib.config.cardtempname !== "default") node.classList.remove("vertical");
-				}
-			});
-		},
-	},
-
 	wujiangbeijing: {
 		name: "武将背景",
 		init: true,

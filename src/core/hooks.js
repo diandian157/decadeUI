@@ -11,7 +11,7 @@ export function initHooks() {
 		target.classList[list.some(s => target.classList.contains(s)) ? "remove" : "add"]("un-selectable");
 	});
 
-	// 视为卡牌样式适配
+	// 视为卡牌样式适配（强制启用十周年UI样式）
 	const updateTempname = lib.hooks["checkCard"].indexOf(lib.hooks["checkCard"].find(i => i.name === "updateTempname"));
 	lib.hooks["checkCard"][updateTempname] = function updateTempname(card) {
 		if (lib.config.cardtempname === "off") return;
@@ -27,19 +27,14 @@ export function initHooks() {
 			cardnature = get.nature(cardskb);
 		}
 		if (card.name !== cardname || !get.is.sameNature(card.nature, cardnature, true)) {
-			if (lib.config.extension_十周年UI_showTemp) {
-				if (!card._tempName) card._tempName = ui.create.div(".temp-name", card);
-				let tempname2 = get.translation(cardname);
-				if (cardnature) {
-					card._tempName.dataset.nature = cardnature;
-					if (cardname === "sha") tempname2 = get.translation(cardnature) + tempname2;
-				}
-				card._tempName.innerHTML = tempname2;
-				card._tempName.tempname = tempname2;
-			} else {
-				const node = goon ? ui.create.cardTempName(cardskb, card) : ui.create.cardTempName(card);
-				if (lib.config.cardtempname !== "default") node.classList.remove("vertical");
+			if (!card._tempName) card._tempName = ui.create.div(".temp-name", card);
+			let tempname2 = get.translation(cardname);
+			if (cardnature) {
+				card._tempName.dataset.nature = cardnature;
+				if (cardname === "sha") tempname2 = get.translation(cardnature) + tempname2;
 			}
+			card._tempName.innerHTML = tempname2;
+			card._tempName.tempname = tempname2;
 			card.dataset.low = 1;
 		}
 		const cardnumber = get.number(card),
@@ -107,4 +102,3 @@ export function initHooks() {
 		}
 	};
 }
-

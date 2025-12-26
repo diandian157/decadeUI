@@ -252,6 +252,12 @@ export function initChatSystem(lib, game, ui, get) {
 			});
 			window.chatBg.show = false;
 
+			// 移除遮罩层
+			if (window.chatOverlay) {
+				window.chatOverlay.remove();
+				window.chatOverlay = null;
+			}
+
 			const dialogConfigs = [
 				{ name: "dialog_lifesay", prop: "left", value: `-${window.dialog_lifesay?.style.width}`, delay: DIALOG_LIFESAY_HIDE_DELAY },
 				{ name: "dialog_emoji", prop: "top", value: "100%", delay: DIALOG_HIDE_DELAY },
@@ -261,6 +267,12 @@ export function initChatSystem(lib, game, ui, get) {
 			dialogConfigs.forEach(({ name, prop, value, delay }) => hideDialog(window[name], prop, value, delay));
 			return;
 		}
+
+		// 创建遮罩层，点击关闭聊天
+		window.chatOverlay = ui.create.div("hidden");
+		window.chatOverlay.style.cssText = "position:fixed;left:0;top:0;width:100%;height:100%;z-index:98;background:transparent;";
+		window.chatOverlay.onclick = () => game.showChatWordBackgroundX();
+		ui.window.appendChild(window.chatOverlay);
 
 		window.chatBg = ui.create.div("hidden");
 		window.chatBg.classList.add("popped", "static");
@@ -290,7 +302,7 @@ export function initChatSystem(lib, game, ui, get) {
 			}
 
 			window.dialog_lifesay = createDialogBase("dialog_lifesay", {
-				styles: { height: "300px", width: "600px", left: "-600px", top: "calc(20% - 100px)", transition: "all 1s", opacity: "1", borderRadius: "8px", backgroundSize: "100% 100%" },
+				styles: { height: "300px", width: "600px", left: "-600px", top: "calc(35% - 100px)", transition: "all 1s", opacity: "1", borderRadius: "8px", backgroundSize: "100% 100%" },
 				backgroundImage: `${chatAssetPath}saydiv.png`,
 				zIndex: 999999999,
 				boxShadow: "none",
@@ -302,7 +314,6 @@ export function initChatSystem(lib, game, ui, get) {
 				pictImage: `${chatAssetPath}saydiv.png`,
 				pictBoxShadow: "none",
 				colorStyles: { height: "70%", width: "80%", left: "10%", top: "10%", borderRadius: "8px", overflowY: "scroll" },
-				colorImage: `${chatAssetPath}saydiv.png`,
 			});
 
 			let skills = game.me?.getSkills?.(null, false, false).filter(s => !get.info(s)?.charlotte) || [];
@@ -408,7 +419,7 @@ export function initChatSystem(lib, game, ui, get) {
 		window.chatBackground = ui.create.div("hidden");
 		window.chatBackground.classList.add("static");
 		window.chatBackground.show = true;
-		window.chatBackground.style.cssText = `transition:all 1s;height:330px;width:600px;top:calc(20% - 100px);left:100%;bottom:calc(${window.chatBg?.style.height || "0"} + 5px);opacity:1;border-radius:10px;background-size:100% 100%;`;
+		window.chatBackground.style.cssText = `transition:all 1s;height:330px;width:600px;top:calc(35% - 100px);left:100%;bottom:calc(${window.chatBg?.style.height || "0"} + 5px);opacity:1;border-radius:10px;background-size:100% 100%;`;
 		window.chatBackground.setBackgroundImage(`${chatAssetPath}saydiv.png`);
 		window.chatBackground.style.zIndex = 999999999;
 		window.chatBackground.style.boxShadow = "none";
@@ -436,7 +447,6 @@ export function initChatSystem(lib, game, ui, get) {
 			pictImage: `${chatAssetPath}saydiv.png`,
 			pictBoxShadow: "none",
 			colorStyles: { height: "70%", width: "80%", left: "10%", top: "10%", transition: "none", borderRadius: "8px", backgroundSize: "100% 100%" },
-			colorImage: `${chatAssetPath}saydiv.png`,
 		});
 
 		window.chatBackground2 = ui.create.div("hidden");
@@ -569,7 +579,7 @@ function createEmojiButton(chatAssetPath, EMOTION_SIZE, game, ui, lib) {
 			backgroundImage: `${chatAssetPath}saydiv.png`,
 			zIndex: 999999999,
 			boxShadow: "none",
-			animation: { top: "calc(25% - 125px)" },
+			animation: { top: "calc(35% - 125px)" },
 		});
 
 		const { bgColor } = createDialogBackground(window.dialog_emoji, {
@@ -577,7 +587,6 @@ function createEmojiButton(chatAssetPath, EMOTION_SIZE, game, ui, lib) {
 			pictImage: `${chatAssetPath}saydiv.png`,
 			pictBoxShadow: "none",
 			colorStyles: { height: "70%", width: "80%", left: "10%", top: "10%", borderRadius: "8px", overflowY: "scroll" },
-			colorImage: `${chatAssetPath}saydiv.png`,
 		});
 
 		let emotionIndex = 0;

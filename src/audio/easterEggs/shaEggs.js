@@ -61,4 +61,5 @@ export const shaEasterEggs = [
 		],
 		sequenceKey: () => "machao-cao-cao",
 	},
+	{ cards: ["sha"], player: "xusheng", condition: ctx => ctx.targets?.some(t => ctx.hasName(t, "caochong")), text: "今儿，给冲儿来刀狠的！", audio: "xusheng1.mp3" },
 ];

@@ -9,6 +9,12 @@ import { applyCardBorder } from "../ui/cardStyles.js";
 // 基础方法引用
 let basePlayerMethods = null;
 
+/** 播放出牌音效 */
+const playShowCardAudio = () => {
+	if (!lib.config["extension_十周年UI_bettersound"]) return;
+	game.playAudio("..", "extension", "十周年UI", "audio/GameShowCard.mp3");
+};
+
 /**
  * 设置基础方法引用
  */
@@ -265,6 +271,7 @@ export function playerUpdate() {
  */
 export function playerUseCard() {
 	const event = basePlayerMethods.useCard.apply(this, arguments);
+	playShowCardAudio();
 	const finish = event.finish;
 	event.finish = function () {
 		if (typeof finish === "function") finish.apply(this, arguments);
@@ -278,6 +285,14 @@ export function playerUseCard() {
 		}
 	});
 	return event;
+}
+
+/**
+ * 打出卡牌覆写
+ */
+export function playerRespond() {
+	playShowCardAudio();
+	return basePlayerMethods.respond.apply(this, arguments);
 }
 
 /**
