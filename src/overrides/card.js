@@ -118,7 +118,6 @@ export function cardInit(card) {
 	if (verticalName.style.opacity) verticalName.style.removeProperty("opacity");
 
 	while (node.info.firstChild) node.info.removeChild(node.info.lastChild);
-	while (equip.firstChild) equip.removeChild(equip.lastChild);
 
 	applyCardSkin(this, card);
 	return this;
