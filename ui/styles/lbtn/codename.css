@@ -1,6 +1,5 @@
 /**
  * 代号风格 - 按钮控制样式
- * 对应�?shoushaUI/lbtn/main6.css
  */
 
 .lbtn-controls {
@@ -105,7 +104,7 @@
 	position: fixed;
 }
 
-/* 新版小配�?*/
+/* 新版小配件 */
 .jiluButton_new {
 	display: block;
 	width: 55px;
@@ -320,7 +319,7 @@
 		0 0 4px #000;
 }
 
-/* 托管中图�?*/
+/* 托管中图标 */
 #autonode > div:last-child {
 	z-index: 10;
 	margin-bottom: -75px !important;
@@ -357,7 +356,7 @@
 		1px 1px 0 #000;
 }
 
-/* 背景选择�?*/
+/* 背景选择器 */
 .bgdialog {
 	position: absolute;
 	background: url("../../assets/lbtn/OL_line/bg/bgdialog.png");

@@ -231,12 +231,13 @@ export let config = {
 		init: false,
 		onclick(bool) {
 			game.saveConfig("extension_十周年UI_meanPrettify", bool);
+			// 移除旧样式
+			ui.css.decadeMenu?.remove();
+			delete ui.css.decadeMenu;
+			// 开启时加载新样式
 			if (bool) {
-				lib.init.css(`${window.decadeUIPath}extension/十周年UI/src/styles`, "menu");
-			} else {
-				document.head.querySelector("link[href*='menu.css']")?.remove();
+				ui.css.decadeMenu = lib.init.css(`${window.decadeUIPath}src/styles`, "menu");
 			}
-			setTimeout(() => game.reload(), 100);
 		},
 	},
 

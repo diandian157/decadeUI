@@ -1,6 +1,5 @@
 /**
  * 手杀风格 - 按钮控制样式
- * 对应?shoushaUI/lbtn/main1.css
  */
 
 .lbtn-controls {
@@ -12,7 +11,7 @@
 	z-index: 4;
 }
 
-/* 右上角二级菜?*/
+/* 右上角二级菜单 */
 .yemian {
 	--w: 566px;
 	--h: calc(var(--w) * 360 / 1560);

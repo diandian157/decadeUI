@@ -1,9 +1,8 @@
 /**
  * 手杀风格按钮样式 - 非触屏布局
- * Shousha style lbtn CSS for non-touch layout
  */
 
-/* 按钮控制�?*/
+/* 按钮控制区 */
 .lbtn-controls {
 	--width: 66px;
 	--height: 55px;
@@ -346,7 +345,7 @@
 	transform: scale(1.1) !important;
 }
 
-/* 手牌数显�?*/
+/* 手牌数显示 */
 .handcardNumber {
 	bottom: -3px;
 	right: 250px;
@@ -413,7 +412,7 @@
 	display: none !important;
 }
 
-/* 牌堆数显�?*/
+/* 牌堆数显示 */
 .cardRoundNumber {
 	top: 90px;
 	right: 120px;
@@ -486,7 +485,7 @@
 	color: #97856a;
 }
 
-/* 托管中图�?*/
+/* 托管中图标 */
 #autonode > div:last-child {
 	z-index: 10;
 	margin-left: 150px !important;

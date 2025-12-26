@@ -59,7 +59,7 @@
 	position: relative;
 }
 
-/* 新版小配�?*/
+/* 新版小配件 */
 .jiluButton_new {
 	display: block;
 	--w: 56px;
@@ -276,7 +276,7 @@
 	color: #a78d72;
 }
 
-/* 托管中图�?*/
+/* 托管中图标 */
 #autonode > div:last-child {
 	z-index: 10;
 	margin-bottom: -75px !important;
@@ -363,7 +363,7 @@
 	background-image: url("../../assets/lbtn/SFTS/Tipweizhi.png") !important;
 }
 
-/* 背景选择�?*/
+/* 背景选择器 */
 .bgdialog {
 	position: absolute;
 	background: url("../../assets/lbtn/OL_line/bg/bgdialog.png");

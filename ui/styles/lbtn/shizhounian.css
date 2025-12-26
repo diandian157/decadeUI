@@ -1,6 +1,5 @@
 /**
- * 十周年风?- 按钮控制样式
- * 对应?shoushaUI/lbtn/main2.css
+ * 十周年风格 - 按钮控制样式
  */
 
 .lbtn-controls {
@@ -112,7 +111,7 @@
 	z-index: 3;
 }
 
-/* 新版小配?*/
+/* 新版小配件 */
 .jiluButton_new {
 	display: block;
 	--w: 79px;
@@ -254,7 +253,7 @@
 	-webkit-filter: brightness(70%);
 }
 
-/* 手牌数显?*/
+/* 手牌数显示 */
 .handcardNumber {
 	bottom: 0px;
 	right: 230px;
@@ -292,7 +291,7 @@
 	letter-spacing: 0.35px;
 }
 
-/* 牌堆?*/
+/* 牌堆数 */
 .cardRoundNumber {
 	top: 16px;
 	left: 25px;
@@ -345,7 +344,7 @@
 	font-size: 17px;
 }
 
-/* 托管中图?*/
+/* 托管中图标 */
 #autonode > div:last-child {
 	z-index: 10;
 	margin-bottom: -75px !important;

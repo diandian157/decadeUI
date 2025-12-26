@@ -1,6 +1,5 @@
 /**
- * ɱ?- ɫϢʽ
- * ͼƬ·ָ ui/assets/character/xinsha/
+ * 新杀风格 - 角色信息弹窗样式
  */
 
 .button.character,
@@ -13,7 +12,7 @@
 	left: calc(50% - var(--w) / 2 + var(--bl));
 }
 
-/* Ƽ¼ */
+/* 出牌记录 */
 #arena.chess > #arenalog {
 	display: none !important;
 	background: none;
@@ -31,7 +30,7 @@
 	background: none;
 }
 
-/* ¼ */
+/* 记录栏 */
 #arenalog {
 	width: calc(65% - 230px);
 	height: calc(100% - 452px);
@@ -70,7 +69,7 @@
 	left: 240px;
 }
 
-/* ıɫ */
+/* 文本颜色 */
 .firetext {
 	color: rgb(255, 119, 63);
 }
@@ -121,7 +120,7 @@
 	animation: game_start 0.5s;
 }
 
-/* ׹ */
+/* 吊坠 */
 .xinsha-character-dialog > .diaozhui {
 	width: 38px;
 	height: 38px;
@@ -133,7 +132,7 @@
 	position: absolute;
 }
 
-/* ɫ */
+/* 角色弹窗 */
 .xinsha-character-dialog {
 	position: absolute;
 	background-size: 100% 100%;
@@ -176,7 +175,7 @@
 	position: absolute;
 }
 
-/* 佫ԭͷ */
+/* 武将立绘 */
 .xinsha-character-dialog > div.skin1 {
 	left: 5%;
 	top: -5%;
@@ -190,7 +189,7 @@
 	-webkit-mask-composite: source-in;
 }
 
-/* 佫 */
+/* 武将名 */
 .xinsha-character-dialog > div.name {
 	position: relative;
 	left: 55%;
@@ -248,7 +247,7 @@
 		0 0 5px rgb(195, 28, 237);
 }
 
-/* /װлť */
+/* 技能/装备切换按钮 */
 .xinsha-character-dialog > div.skillx {
 	top: 15%;
 	height: 25%;
@@ -279,7 +278,7 @@
 	background-image: url("../../assets/character/xinsha/equipon.png");
 }
 
-/* ܴ */
+/* 技能窗口 */
 .xinsha-character-dialog > div.right {
 	left: 31.5%;
 	height: 90%;
@@ -300,7 +299,7 @@
 	position: relative;
 }
 
-/* ܱ */
+/* 技能标题 */
 .xinsha-character-dialog > div.right .xcaption {
 	color: #dec499;
 	width: 100%;
@@ -322,7 +321,7 @@
 	left: 23%;
 }
 
-/*  */
+/* 技能描述 */
 .xinsha-character-dialog > div.right .xskill > div {
 	display: block;
 	color: #dec499;
@@ -376,7 +375,7 @@
 	margin-top: 10px;
 }
 
-/* رհť */
+/* 关闭按钮 */
 .guanbi {
 	position: absolute;
 	font-size: 4px;
@@ -392,7 +391,7 @@
 	z-index: 99;
 }
 
-/* ҳ */
+/* 资料页 */
 .bigdialog {
 	position: relative;
 	background: url("../../assets/character/xinsha/dialog3.png");
@@ -404,7 +403,7 @@
 	z-index: 1;
 }
 
-/* ͷ?*/
+/* 玩家头像 */
 .minixingxiang {
 	position: absolute;
 	left: 11.5%;
@@ -415,7 +414,7 @@
 	z-index: 69;
 }
 
-/* ǳ?*/
+/* 玩家昵称 */
 .wanjiaming {
 	position: absolute;
 	font-size: 20px;
@@ -427,7 +426,7 @@
 	z-index: 99;
 }
 
-/* 佫 */
+/* 武将名 */
 .wujiangming {
 	position: absolute;
 	font-size: 22px;
@@ -452,7 +451,7 @@
 	line-height: 1.8;
 }
 
-/* Ƥ */
+/* 皮肤名 */
 .pifuming {
 	position: absolute;
 	font-size: 16px;
@@ -463,7 +462,7 @@
 	z-index: 99;
 }
 
-/*  */
+/* 龙框 */
 .xinsha-character-dialog > div.longkuang {
 	top: 0%;
 	left: 2%;
@@ -473,7 +472,7 @@
 	z-index: 99;
 }
 
-/* һҳ佫ܵı */
+/* 技能标签 */
 .xinsha-character-dialog > div.jineng {
 	font-size: 0px;
 	width: 30px;
@@ -486,7 +485,7 @@
 	z-index: 99;
 }
 
-/* һҳ佫ܿ */
+/* 武将框 */
 .xinsha-character-dialog > div.wjkuang {
 	left: 91%;
 	top: 13%;
@@ -496,7 +495,7 @@
 	z-index: 99;
 }
 
-/* һҳ?*/
+/* 玩家名 */
 .xinsha-character-dialog > div.wanjiaming2 {
 	font-size: 20px;
 	font-family: yuanli;
@@ -507,7 +506,7 @@
 	z-index: 10;
 }
 
-/* һҳ佫 */
+/* 武将名竖排 */
 .xinsha-character-dialog > div.wjname {
 	font-size: 18px;
 	overflow-y: auto;
@@ -524,7 +523,7 @@
 	z-index: 99;
 }
 
-/* һҳlevelȼ */
+/* 等级 */
 .xinsha-character-dialog > div.level {
 	left: 2%;
 	top: 83.5%;
@@ -534,7 +533,7 @@
 	z-index: 99;
 }
 
-/*  */
+/* 左侧面板 */
 .xinsha-character-dialog > div.left {
 	left: 0;
 	width: 50%;
@@ -562,7 +561,7 @@
 	width: 105px;
 }
 
-/*  */
+/* 财主 */
 .xinsha-character-dialog > div.caizhu {
 	left: 16%;
 	top: 75.2%;
@@ -580,7 +579,7 @@
 	background-image: url("../../assets/character/xinsha/caizhu.png");
 }
 
-/* װԻ?*/
+/* 装备对话框 */
 .zbbigdialog {
 	position: absolute;
 	background-size: 100% 100%;
@@ -593,7 +592,7 @@
 	z-index: 99;
 }
 
-/* ʦ */
+/* 拜师 */
 .baishi {
 	position: absolute;
 	background-size: 100% 100%;
@@ -605,7 +604,7 @@
 	z-index: 2;
 }
 
-/*  */
+/* 灯 */
 .deng {
 	position: absolute;
 	background-size: 100% 100%;
@@ -617,7 +616,7 @@
 	z-index: 2;
 }
 
-/* ʷ?*/
+/* 历史战绩 */
 .wngs {
 	position: absolute;
 	background-size: 100% 100%;
@@ -629,7 +628,7 @@
 	z-index: 2;
 }
 
-/* ó佫չʾ */
+/* 擅长武将展示 */
 .shanchang1 {
 	position: absolute;
 	left: 30.5%;
@@ -678,7 +677,7 @@
 	filter: drop-shadow(5px 5px 5px rgba(0, 0, 0, 0.6));
 }
 
-/* Ƥ */
+/* 皮肤框 */
 .pifuk {
 	position: absolute;
 	left: 62.5%;
@@ -690,7 +689,7 @@
 	z-index: 96;
 }
 
-/* 佫Ƥչʾ */
+/* 武将皮肤展示 */
 .shanchang4 {
 	position: absolute;
 	left: 62.8%;
@@ -714,7 +713,7 @@
 	z-index: 69;
 }
 
-/* ƺ */
+/* 称号 */
 .minichenghao {
 	position: absolute;
 	left: 45.3%;
@@ -725,7 +724,7 @@
 	z-index: 99;
 }
 
-/* ȼ */
+/* 等级条 */
 .nameshutiao {
 	position: absolute;
 	left: 86%;
@@ -746,7 +745,7 @@
 	z-index: 80;
 }
 
-/*  */
+/* 公会 */
 .gonghui {
 	position: absolute;
 	font-size: 15px;
@@ -758,7 +757,7 @@
 	z-index: 97;
 }
 
-/*  */
+/* 信誉 */
 .xinyu {
 	position: absolute;
 	font-size: 14px !important;
@@ -769,7 +768,7 @@
 	z-index: 99;
 }
 
-/*  */
+/* 魅力 */
 .meili {
 	position: absolute;
 	font-size: 14px;
@@ -780,7 +779,7 @@
 	z-index: 99;
 }
 
-/* ػ */
+/* 守护 */
 .shouhu {
 	position: absolute;
 	font-size: 14px;
@@ -791,7 +790,7 @@
 	z-index: 99;
 }
 
-/* 佫 */
+/* 武将数 */
 .wujiang1 {
 	position: absolute;
 	font-size: 14px;
@@ -802,7 +801,7 @@
 	z-index: 99;
 }
 
-/* Ƥ */
+/* 皮肤数 */
 .pifu1 {
 	position: absolute;
 	font-size: 14px;
@@ -813,7 +812,7 @@
 	z-index: 99;
 }
 
-/*  */
+/* 将灵 */
 .jiangling {
 	position: absolute;
 	font-size: 14px;
@@ -824,7 +823,7 @@
 	z-index: 99;
 }
 
-/* 佫/佫չʾ */
+/* 常用武将展示 */
 .changyongwujiang {
 	position: absolute;
 	font-size: 15px;
@@ -836,7 +835,7 @@
 	z-index: 99;
 }
 
-/* 佫ֱ߿ */
+/* 武将名边框 */
 .xinsha-character-dialog > div.biankuangname {
 	position: absolute;
 	width: 15px;
@@ -861,7 +860,7 @@
 	z-index: 68;
 }
 
-/*  */
+/* 杂碎 */
 .zasui {
 	position: absolute;
 	font-size: 48px;
@@ -879,7 +878,7 @@
 	z-index: 99;
 }
 
-/* Ѱť */
+/* 好友按钮 */
 .haoyou {
 	position: absolute;
 	font-size: 4px;

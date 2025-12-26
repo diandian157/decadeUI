@@ -77,9 +77,9 @@ export function initDecadeModule() {
 		this.css(`${decadeUIPath}src/styles/layout.css`);
 		document.body.setAttribute("data-style", style);
 
-		// 获取菜单美化配置，首次导入时使用默认值 false
+		// 菜单美化样式，存储引用以便热切换
 		if (getConfigValue("meanPrettify", false)) {
-			this.css(`${decadeUIPath}src/styles/menu.css`);
+			ui.css.decadeMenu = this.css(`${decadeUIPath}src/styles/menu.css`);
 		}
 
 		this.jsAsync(`${decadeUIPath}src/libs/spine.js`);

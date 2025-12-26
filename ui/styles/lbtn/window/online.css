@@ -177,7 +177,7 @@
 	display: none;
 }
 
-/* 手牌数显�?*/
+/* 手牌数显示 */
 .handcardNumber {
 	bottom: 0px;
 	right: 230px;
@@ -198,7 +198,7 @@
 	display: none !important;
 }
 
-/* 牌堆数显�?*/
+/* 牌堆数显示 */
 .cardRoundNumber {
 	top: 59px;
 	right: 138.5px;
@@ -276,7 +276,7 @@
 	min-width: 70px;
 }
 
-/* 托管中图�?*/
+/* 托管中图标 */
 #autonode > div:last-child {
 	z-index: 10;
 	margin-bottom: -75px !important;

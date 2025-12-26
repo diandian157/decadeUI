@@ -2,7 +2,7 @@
  * 新杀风格按钮样式 - 非触屏布局
  */
 
-/* 按钮*/
+/* 按钮控制区 */
 .lbtn-controls {
 	--width: 80px;
 	--height: 58.6px;
@@ -113,7 +113,7 @@
 	display: none;
 }
 
-/* 手牌数显�?*/
+/* 手牌数显示 */
 .handcardNumber {
 	bottom: 0px;
 	right: 225px;
@@ -155,7 +155,7 @@
 	letter-spacing: 0.35px;
 }
 
-/* 牌堆数显�?*/
+/* 牌堆数显示 */
 .cardRoundNumber {
 	top: 16px;
 	left: 0px;
@@ -213,7 +213,7 @@
 	color: #a78d72;
 }
 
-/* 托管中图�?*/
+/* 托管中图标 */
 #autonode > div:last-child {
 	z-index: 10;
 	margin-bottom: -75px !important;

@@ -1,6 +1,5 @@
 /**
  * 手杀风格 - 角色信息弹窗样式
- * 对应�?shoushaUI/character/main1.css
  */
 
 .button.character,
@@ -279,7 +278,7 @@
 	z-index: 69;
 }
 
-/* 右侧技能区�?*/
+/* 右侧技能区域 */
 .shousha-character-dialog div.right {
 	left: 50%;
 	width: 50%;
@@ -364,7 +363,7 @@
 	margin-top: 5px;
 }
 
-/* 大资料主页容�?*/
+/* 大资料主页容器 */
 .bigdialog {
 	--scale: 0.6;
 	--w: calc(1467px * var(--scale));
@@ -660,7 +659,7 @@
 	z-index: 83;
 }
 
-/* 进度�?*/
+/* 进度条 */
 .typeleft {
 	left: 43%;
 	background: url("../../assets/character/shousha/dengjie/left.png");
@@ -771,7 +770,7 @@
 	top: 83%;
 }
 
-/* 资料页关闭按�?*/
+/* 资料页关闭按钮 */
 .guanbi {
 	width: 160px;
 	height: 131px;
@@ -820,7 +819,7 @@
 	position: absolute;
 }
 
-/* 信誉�?*/
+/* 信誉分 */
 .xinyufen {
 	font-size: 16px;
 	font-family: "shousha";
@@ -834,7 +833,7 @@
 	position: absolute;
 }
 
-/* 人气�?*/
+/* 人气值 */
 .renqizhi {
 	font-size: 16px;
 	font-family: "shousha";

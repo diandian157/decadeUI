@@ -1,9 +1,8 @@
 /**
  * 代号风格按钮样式 - 非触屏布局
- * Codename style lbtn CSS for non-touch layout
  */
 
-/* 按钮控制�?*/
+/* 按钮控制区 */
 .lbtn-controls {
 	--width: 80px;
 	--height: 58.6px;
@@ -236,7 +235,7 @@
 	display: none;
 }
 
-/* 手牌数显�?*/
+/* 手牌数显示 */
 .handcardNumber {
 	bottom: 0px;
 	right: 230px;
@@ -257,7 +256,7 @@
 	display: none !important;
 }
 
-/* 牌堆数显�?*/
+/* 牌堆数显示 */
 .cardRoundNumber {
 	top: 16px;
 	left: 25px;
@@ -329,7 +328,7 @@
 		0 0 4px #000;
 }
 
-/* 托管中图�?*/
+/* 托管中图标 */
 #autonode > div:last-child {
 	z-index: 10;
 	margin-bottom: -75px !important;
