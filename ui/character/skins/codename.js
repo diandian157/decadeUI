@@ -67,8 +67,8 @@ export function createCodenameCharacterPlugin(lib, game, ui, get, ai, _status, a
 				// 姓名处理
 				let name = player.name1 || player.name;
 				let name2 = player.name2;
-				if (player.classList.contains("unseen") && player !== game.me) name = "unknown";
-				if (player.classList.contains("unseen2") && player !== game.me) name2 = "unknown";
+				if (player.classList?.contains("unseen") && player !== game.me) name = "unknown";
+				if (player.classList?.contains("unseen2") && player !== game.me) name2 = "unknown";
 
 				// 主将立绘
 				if (name !== "unknown") {

@@ -237,10 +237,10 @@
 	animation: skill-select-glow-xianding 1.5s ease-in-out infinite;
 }
 
-/* 技能标记 */
+/* 技能标记区 */
 .skillMarks {
-	overflow-y: auto;
-	left: 130px !important;
+	overflow: visible;
+	left: 128px !important;
 	top: 0px !important;
 	z-index: 90 !important;
 	justify-content: center;
