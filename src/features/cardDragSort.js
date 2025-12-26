@@ -66,6 +66,7 @@ const cleanup = async (skipLayout = false) => {
 
 	sourceNode = movedNode = dragMode = savedWaitingForDrag = null;
 	if (!skipLayout) raf(() => window.dui?.layout?.updateHand?.());
+	else _status.dragged = null;
 };
 
 const onStart = async e => {
@@ -182,7 +183,6 @@ const swapCards = async (src, tgt) => {
 };
 
 const onEnd = e => {
-	_status.dragged = null;
 	if (dragMode === "sort") {
 		e?.preventDefault?.();
 		e?.stopPropagation?.();
