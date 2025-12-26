@@ -66,7 +66,7 @@ const cleanup = async (skipLayout = false) => {
 
 	sourceNode = movedNode = dragMode = savedWaitingForDrag = null;
 	if (!skipLayout) raf(() => window.dui?.layout?.updateHand?.());
-	else _status.dragged = null;
+	_status.dragged = null;
 };
 
 const onStart = async e => {

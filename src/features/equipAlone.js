@@ -24,7 +24,6 @@ function getCardSkills(card) {
 function handleClick(skill) {
 	clearSelectable();
 	ui.click.skill(skill);
-	// chooseButton类技能由ui.click.skill内部处理，不需要额外调用ok
 }
 
 /** 显示技能选择弹窗 */
@@ -84,6 +83,8 @@ export function setupEquipAlone() {
 	ui.click.card = function () {
 		if (lib.config["extension_十周年UI_aloneEquip"] && this._equipSkills?.length && this.classList.contains("selectable") && get.position(this) === "e") {
 			_status.clicked = true;
+			_status.touchnocheck = false;
+			_status.mousedown = false;
 			if (this._equipSkills.length === 1) {
 				handleClick(this._equipSkills[0]);
 			} else {
