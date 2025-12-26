@@ -2,6 +2,7 @@
  * 卡牌提示模块 - 为玩家操作提供上下文提示
  * 功能：出牌阶段提示、响应提示、弃牌提示、无懈可击提示等
  */
+import { lib, get } from "noname";
 
 // ==================== 常量 ====================
 const MAX_PARENT_DEPTH_SHALLOW = 5;
@@ -666,9 +667,9 @@ const handleRespond = event => {
 
 /**
  * 初始化卡牌提示模块
- * @param {object} context - 游戏上下文 { lib, game, ui, get }
+ * @param {object} context - 游戏上下文 { game, ui }
  */
-export function initCardPrompt({ lib, game, ui, get }) {
+export function initCardPrompt({ game, ui }) {
 	if (!lib.config["extension_十周年UI_cardPrompt"]) return;
 
 	// 暴露工具函数到全局
