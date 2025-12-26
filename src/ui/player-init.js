@@ -19,8 +19,13 @@ export function createPlayerInit(base) {
 		// 边框等级
 		const borderLevel = lib.config.extension_十周年UI_borderLevel;
 		if (borderLevel === "random") {
-			const levels = ["one", "two", "three", "four", "five"];
-			this.dataset.borderLevel = levels[Math.floor(Math.random() * levels.length)];
+			// 主玩家永远five，其他玩家随机
+			if (this === game.me) {
+				this.dataset.borderLevel = "five";
+			} else {
+				const levels = ["one", "two", "three", "four", "five"];
+				this.dataset.borderLevel = levels[Math.floor(Math.random() * levels.length)];
+			}
 		} else {
 			delete this.dataset.borderLevel;
 		}

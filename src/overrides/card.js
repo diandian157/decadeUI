@@ -5,6 +5,7 @@
 
 import { lib, game, ui, get, _status } from "noname";
 import { cardSkinMeta } from "../config.js";
+import { applyCardBorder } from "../ui/cardStyles.js";
 
 // 基础方法引用（在应用覆写时设置）
 let baseCardInit = null;
@@ -330,6 +331,11 @@ export function cardMoveTo(player) {
 	this.ty = y;
 	this.scaled = true;
 	this.style.transform = `translate(${x}px,${y}px) scale(${scale})`;
+
+	// 非主玩家卡牌根据等阶应用边框
+	if (player !== game.me) {
+		applyCardBorder(this, player);
+	}
 
 	return this;
 }

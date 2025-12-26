@@ -77,7 +77,8 @@ const animateSkill = {
 			game.removeGlobalSkill("mx_borderLevel");
 			const levels = ["two", "three", "four", "five"];
 			game.players.forEach(p => {
-				p.dataset.longLevel = levels[Math.floor(Math.random() * levels.length)];
+				// 主玩家永远five，其他玩家随机
+				p.dataset.longLevel = p === game.me ? "five" : levels[Math.floor(Math.random() * levels.length)];
 			});
 		},
 	},

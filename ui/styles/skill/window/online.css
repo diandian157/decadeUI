@@ -170,13 +170,15 @@
 	justify-content: center;
 }
 
-/* 技能标记区 */
+/* 技能标记区 - 从底部向上排列 */
 .skillMarks {
 	overflow: visible;
 	left: 110px !important;
-	top: 110px !important;
+	bottom: 0px !important;
+	top: auto !important;
 	z-index: 90 !important;
-	justify-content: center;
+	display: flex;
+	flex-direction: column-reverse;
 	align-items: center;
 }
 
@@ -223,7 +225,7 @@
 }
 
 .skillMarkItem + .skillMarkItem {
-	margin-top: 1px;
+	margin-bottom: 1px;
 }
 
 /* 觉醒技标记 */
@@ -278,9 +280,11 @@
 	0% {
 		transform: rotateY(0deg) scale(1.2);
 	}
+
 	50% {
 		transform: rotateY(180deg) scale(1.2);
 	}
+
 	100% {
 		transform: rotateY(0deg) scale(1);
 	}
@@ -375,9 +379,11 @@
 	100% {
 		transform: translateY(0);
 	}
+
 	40% {
 		transform: translateY(-3px);
 	}
+
 	60% {
 		transform: translateY(-2px);
 	}

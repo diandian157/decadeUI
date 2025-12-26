@@ -176,18 +176,18 @@ export let config = {
 		name: "卡牌边框",
 		init: "off",
 		item: { off: "关闭", kuang1: "大司马", kuang2: "大将军", kuang3: "国都护" },
-	},
-
-	cardbj: {
-		name: "卡牌背景",
-		init: "kb1",
-		item: { kb1: "默认", kb2: "国都护", kb3: "大将军", kb4: "大司马" },
-		onclick: item => game.saveConfig("extension_十周年UI_cardbj", item),
-		visualMenu: (node, link) => {
-			node.style.height = `${node.offsetWidth * 1.4}px`;
-			node.style.backgroundSize = "100% 100%";
-			node.className = "button character incardback";
-			node.setBackgroundImage(`extension/十周年UI/assets/image/${link}.png`);
+		// 边框与背景联动映射：kuang1/2/3 → kb4/3/2（大司马/大将军/国都护）
+		onclick(item) {
+			game.saveConfig("extension_十周年UI_cardkmh", item);
+			const bgMap = { off: "kb1", kuang1: "kb4", kuang2: "kb3", kuang3: "kb2" };
+			game.saveConfig("extension_十周年UI_cardbj", bgMap[item] || "kb1");
+		},
+		// 初始化时同步背景配置
+		update() {
+			if (!game?.saveConfig) return;
+			const border = lib.config.extension_十周年UI_cardkmh || "off";
+			const bgMap = { off: "kb1", kuang1: "kb4", kuang2: "kb3", kuang3: "kb2" };
+			game.saveConfig("extension_十周年UI_cardbj", bgMap[border] || "kb1");
 		},
 	},
 
@@ -439,7 +439,8 @@ export let config = {
 			if (value === "random") {
 				const levels = ["one", "two", "three", "four", "five"];
 				players.forEach(p => {
-					const level = levels[Math.floor(Math.random() * levels.length)];
+					// 主玩家永远five，其他玩家随机
+					const level = p === game.me ? "five" : levels[Math.floor(Math.random() * levels.length)];
 					p.dataset.borderLevel = level;
 					p.dataset.longLevel = level;
 				});

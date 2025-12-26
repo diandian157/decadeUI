@@ -208,6 +208,7 @@
 	100% {
 		filter: brightness(1.02) drop-shadow(0 0 2px rgba(100, 255, 100, 0.4));
 	}
+
 	50% {
 		filter: brightness(1.12) drop-shadow(0 0 6px rgba(100, 255, 100, 0.85));
 	}
@@ -218,6 +219,7 @@
 	100% {
 		filter: brightness(1.02) drop-shadow(0 0 2px rgba(255, 80, 80, 0.4));
 	}
+
 	50% {
 		filter: brightness(1.12) drop-shadow(0 0 6px rgba(255, 80, 80, 0.85));
 	}
@@ -311,9 +313,11 @@
 	0% {
 		transform: rotateY(0deg) scale(1.2);
 	}
+
 	50% {
 		transform: rotateY(180deg) scale(1.2);
 	}
+
 	100% {
 		transform: rotateY(0deg) scale(1);
 	}

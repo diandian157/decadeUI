@@ -572,6 +572,7 @@
 	99.9% {
 		opacity: 1.2;
 	}
+
 	24.9%,
 	74.9% {
 		opacity: 0.7;
@@ -584,27 +585,34 @@
 		background-image: var(--first-image);
 		opacity: 1;
 	}
+
 	24.9% {
 		opacity: 0;
 	}
+
 	25% {
 		background-image: var(--second-image);
 		opacity: 0;
 	}
+
 	49.9% {
 		opacity: 1;
 	}
+
 	50% {
 		background-image: var(--second-image);
 		opacity: 1;
 	}
+
 	74.9% {
 		opacity: 0;
 	}
+
 	75% {
 		background-image: var(--first-image);
 		opacity: 0;
 	}
+
 	99.9% {
 		opacity: 1;
 	}
@@ -619,6 +627,7 @@
 	--first-image: url("../../assets/character/online/biao1.png");
 	--second-image: url("../../assets/character/online/biao2.png");
 }
+
 .online-detail-popup .jdcuidonghua {
 	width: 100%;
 	height: 100%;
@@ -627,6 +636,7 @@
 	--first-image: url("../../assets/character/online/cui1.png");
 	--second-image: url("../../assets/character/online/cui2.png");
 }
+
 .online-detail-popup .jdguodonghua {
 	width: 100%;
 	height: 100%;
@@ -635,6 +645,7 @@
 	--first-image: url("../../assets/character/online/guo1.png");
 	--second-image: url("../../assets/character/online/guo2.png");
 }
+
 .online-detail-popup .jdjiangdonghua {
 	width: 100%;
 	height: 100%;
@@ -643,6 +654,7 @@
 	--first-image: url("../../assets/character/online/jiang1.png");
 	--second-image: url("../../assets/character/online/jiang2.png");
 }
+
 .online-detail-popup .jdjiangjiedonghua {
 	width: 100%;
 	height: 100%;
@@ -651,6 +663,7 @@
 	--first-image: url("../../assets/character/online/jiangjie1.png");
 	--second-image: url("../../assets/character/online/jiangjie2.png");
 }
+
 .online-detail-popup .jdjiedonghua {
 	width: 100%;
 	height: 100%;
@@ -659,6 +672,7 @@
 	--first-image: url("../../assets/character/online/jie1.png");
 	--second-image: url("../../assets/character/online/jie2.png");
 }
+
 .online-detail-popup .jdmoudonghua {
 	width: 100%;
 	height: 100%;
@@ -667,6 +681,7 @@
 	--first-image: url("../../assets/character/online/mou1.png");
 	--second-image: url("../../assets/character/online/mou2.png");
 }
+
 .online-detail-popup .jdqidonghua {
 	width: 100%;
 	height: 100%;
@@ -675,6 +690,7 @@
 	--first-image: url("../../assets/character/online/qi1.png");
 	--second-image: url("../../assets/character/online/qi2.png");
 }
+
 .online-detail-popup .jdshandonghua {
 	width: 100%;
 	height: 100%;
@@ -683,6 +699,7 @@
 	--first-image: url("../../assets/character/online/shan1.png");
 	--second-image: url("../../assets/character/online/shan2.png");
 }
+
 .online-detail-popup .jdshendonghua {
 	width: 100%;
 	height: 100%;
@@ -691,6 +708,7 @@
 	--first-image: url("../../assets/character/online/shen1.png");
 	--second-image: url("../../assets/character/online/shen2.png");
 }
+
 .online-detail-popup .jdspdonghua {
 	width: 100%;
 	height: 100%;
@@ -699,6 +717,7 @@
 	--first-image: url("../../assets/character/online/sp1.png");
 	--second-image: url("../../assets/character/online/sp2.png");
 }
+
 .online-detail-popup .jdwenwudonghua {
 	width: 100%;
 	height: 100%;
@@ -707,6 +726,7 @@
 	--first-image: url("../../assets/character/online/wenwu1.png");
 	--second-image: url("../../assets/character/online/wenwu2.png");
 }
+
 .online-detail-popup .jdxiandonghua {
 	width: 100%;
 	height: 100%;
@@ -715,6 +735,7 @@
 	--first-image: url("../../assets/character/online/xian1.png");
 	--second-image: url("../../assets/character/online/xian2.png");
 }
+
 .online-detail-popup .jdzudonghua {
 	width: 100%;
 	height: 100%;

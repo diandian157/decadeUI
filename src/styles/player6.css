@@ -940,33 +940,44 @@
 /* 十周年标记样式 */
 #arena[data-player-mark-style="decade"] > .player > .dui-marks {
 	left: auto;
-	top: 34px;
-	right: 0px;
+	top: 29px;
+	right: -5px;
 	width: auto;
+	height: 75px;
 	flex-direction: column;
 	flex-wrap: wrap-reverse;
-	height: 80px;
 	align-content: flex-end;
 	z-index: 88;
 }
 
+/* 九宫格拉伸：边角不变形，中间随文字自适应 */
 #arena[data-player-mark-style="decade"] > .player > .dui-marks > .mark {
 	display: flex;
-	width: 45px;
-	height: 23px;
+	align-items: center;
+	justify-content: center;
+	width: fit-content;
+	min-width: 36px;
+	height: 25px;
+	padding: 0 6px;
+	margin-bottom: -8px;
 	white-space: nowrap;
-	background: url("../../assets/image/player_mark.png") no-repeat;
-	background-size: 100% 100%;
+	background: none;
+	border-style: solid;
+	border-width: 0;
+	border-image-source: url("../../assets/image/player_mark.png");
+	border-image-slice: 40% 30% fill;
+	border-image-width: 10px;
+	border-image-outset: 0;
+	border-image-repeat: stretch;
 	animation: fade-in 0.5s;
-	margin-bottom: 1px;
 }
 
 #arena[data-player-mark-style="decade"] > .player > .dui-marks > .mark.own-skill {
-	background-image: url("../../assets/image/player_mark.png");
+	border-image-source: url("../../assets/image/player_mark.png");
 }
 
 #arena[data-player-mark-style="decade"] > .player > .dui-marks > .mark.other-skill {
-	background-image: url("../../assets/image/new_player_mark.png");
+	border-image-source: url("../../assets/image/new_player_mark.png");
 }
 
 #arena[data-player-mark-style="decade"] > .player > .dui-marks > .mark.other-skill > .mark-text,
@@ -977,13 +988,13 @@
 #arena[data-player-mark-style="decade"] > .player > .dui-marks > .mark > .mark-text {
 	display: inline;
 	position: static;
-	border-radius: 0;
 	width: auto;
 	height: auto;
-	font-family: yuanli;
 	line-height: 18px;
 	font-size: 13px;
+	font-family: yuanli;
 	color: white;
+	border-radius: 0;
 	background-image: none;
 	box-shadow: none;
 	animation: none;
@@ -1000,11 +1011,11 @@
 	width: auto;
 	height: auto;
 	line-height: 18px;
-	border-radius: 0;
-	font-size: 10px;
+	font-size: 12px;
 	font-weight: inherit;
 	color: white;
 	text-shadow: none;
+	border-radius: 0;
 	background: none;
 	box-shadow: none;
 }

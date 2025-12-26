@@ -73,34 +73,44 @@
 .firetext {
 	color: rgb(255, 119, 63);
 }
+
 .yellowtext {
 	color: #bd6420;
 }
+
 .bluetext {
 	color: #dcb452;
 }
+
 .greentext {
 	color: #c5da4f;
 }
+
 .icetext {
 	color: rgb(59, 98, 115);
 }
+
 .thundertext,
 .controlthundertext {
 	color: rgb(117, 186, 255);
 }
+
 .kamitext {
 	color: rgb(90, 118, 99);
 }
+
 .whitetext .thundertext {
 	color: #d6d0af;
 }
+
 .poisontext {
 	color: rgb(104, 221, 127);
 }
+
 .browntext {
 	color: rgb(195, 161, 223);
 }
+
 .legendtext {
 	color: rgb(233, 131, 255);
 }

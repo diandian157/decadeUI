@@ -175,11 +175,11 @@
 		0.3px 0px 1.8px #332c18;
 }
 
-/* 技能标记 */
+/* 技能标记区 */
 .skillMarks {
 	max-height: 80px;
 	overflow-y: auto;
-	left: 100px !important;
+	left: 110px !important;
 	top: 35px !important;
 	z-index: 90 !important;
 	justify-content: center;
@@ -198,8 +198,9 @@
 	border-radius: 50%;
 }
 
+/* 限定技标记 */
 .skillMarkItem.xiandingji {
-	background-image: url("../../assets/skill/baby/xiandingjihs.png");
+	background-image: url("../../../assets/skill/baby/xiandingjihs.png");
 	background-size: 100% 100%;
 	text-shadow: none;
 	--w: 30px;
@@ -214,7 +215,7 @@
 }
 
 .skillMarkItem + .skillMarkItem {
-	margin-top: -6.5px;
+	margin-top: 1px;
 }
 
 .skillMarkItem.juexingji {
@@ -258,9 +259,11 @@
 	0% {
 		transform: rotateY(0deg) scale(1.2);
 	}
+
 	50% {
 		transform: rotateY(180deg) scale(1.2);
 	}
+
 	100% {
 		transform: rotateY(0deg) scale(1);
 	}

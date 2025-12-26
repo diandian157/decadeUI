@@ -789,8 +789,7 @@ body[data-style="babysha"] .touchinfo.right {
 /* 手牌样式 */
 body[data-style="babysha"] .hand-cards > .handcards > .card {
 	left: 20px;
-	border: 1px solid;
-	border-radius: 6px;
+	/* 不设置 border，保留 cardStyles.js 的边框设置 */
 }
 
 /* 龙尾背景图 */

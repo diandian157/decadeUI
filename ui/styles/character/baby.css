@@ -125,27 +125,35 @@
 .baby-character-dialog > div.name[data-camp="wei"] {
 	color: rgb(66, 79, 98);
 }
+
 .baby-character-dialog > div.name[data-camp="shu"] {
 	color: rgb(125, 45, 34);
 }
+
 .baby-character-dialog > div.name[data-camp="Han"] {
 	color: rgb(255, 100, 100);
 }
+
 .baby-character-dialog > div.name[data-camp="qin"] {
 	color: rgb(255, 100, 100);
 }
+
 .baby-character-dialog > div.name[data-camp="wu"] {
 	color: rgb(64, 110, 81);
 }
+
 .baby-character-dialog > div.name[data-camp="qun"] {
 	color: rgb(94, 88, 92);
 }
+
 .baby-character-dialog > div.name[data-camp="shen"] {
 	color: rgb(255, 200, 0);
 }
+
 .baby-character-dialog > div.name[data-camp="ta"] {
 	color: rgb(255, 200, 0);
 }
+
 .baby-character-dialog > div.name[data-camp="ye"],
 .baby-character-dialog > div.name[data-camp="jin"] {
 	color: rgb(153, 127, 228);

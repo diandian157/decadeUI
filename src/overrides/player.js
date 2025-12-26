@@ -4,6 +4,7 @@
 
 import { lib, game, ui, get, _status } from "noname";
 import { DynamicPlayer } from "../animation/index.js";
+import { applyCardBorder } from "../ui/cardStyles.js";
 
 // 基础方法引用
 let basePlayerMethods = null;
@@ -1772,10 +1773,15 @@ export function playerGain2(cards, log) {
 	const draws = [];
 	let card;
 	let clone;
+	const player = this;
 	for (let i = 0; i < cards.length; i++) {
 		clone = cards[i].clone;
 		card = cards[i].copy("thrown", "gainingcard");
 		card.fixed = true;
+		// 非主玩家获得牌根据等阶应用边框和卡背
+		if (player !== game.me) {
+			applyCardBorder(card, player);
+		}
 		if (clone && clone.parentNode == ui.arena) {
 			card.scaled = true;
 			card.style.transform = clone.style.transform;
@@ -1789,7 +1795,6 @@ export function playerGain2(cards, log) {
 	if (cards.duiMod && this == game.me) return;
 	cards = gains.concat(draws);
 	getDui().layoutDrawCards(draws, this, true);
-	const player = this;
 	const fragment = document.createDocumentFragment();
 	for (let i = 0; i < cards.length; i++) fragment.appendChild(cards[i]);
 	ui.arena.appendChild(fragment);
@@ -1853,15 +1858,19 @@ export function playerDraw(num, init, config) {
 	const fragment = document.createDocumentFragment();
 	let card;
 	const _dui = getDui();
+	const player = this;
 	for (let i = 0; i < cards.length; i++) {
 		card = cards[i];
 		if (card == null) card = _dui.element.create("card thrown drawingcard");
 		else card = card.copy("thrown", "drawingcard", false);
 		card.fixed = true;
+		// 非主玩家摸牌根据等阶应用边框和卡背
+		if (player !== game.me) {
+			applyCardBorder(card, player);
+		}
 		cards[i] = card;
 		fragment.appendChild(card);
 	}
-	const player = this;
 	_dui.layoutDrawCards(cards, player, true);
 	ui.arena.appendChild(fragment);
 	_dui.queueNextFrameTick(function () {
@@ -2072,6 +2081,8 @@ export function playerThrowordered2(card, nosource) {
 	let tagNode = card.querySelector(".used-info");
 	if (tagNode == null) tagNode = card.appendChild(_dui.element.create("used-info"));
 	card.$usedtag = tagNode;
+	// 出牌应用边框（主玩家用配置边框，其他玩家用等阶边框）
+	applyCardBorder(card, this, this === game.me);
 	ui.thrown.push(card);
 	ui.arena.appendChild(card);
 	_dui.tryAddPlayerCardUseTag(card, this, _status.event);
@@ -2184,4 +2195,3 @@ export function playerAddVirtualJudge(VCard, cards) {
 		cards
 	);
 }
-

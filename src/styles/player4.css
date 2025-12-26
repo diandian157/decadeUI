@@ -887,23 +887,35 @@
 
 /* ==================== 玩家标记(十周年样式) ==================== */
 #arena[data-player-mark-style="decade"] > .player > .dui-marks {
-	left: 23px;
-	top: 25px;
+	left: 20px;
+	top: 15px;
 	width: auto;
-	height: 60px;
+	height: 90px;
 	flex-direction: column;
 	flex-wrap: wrap;
 	align-content: flex-start;
+	z-index: 87;
 }
 
+/* 九宫格拉伸：边角不变形，中间随文字自适应 */
 #arena[data-player-mark-style="decade"] > .player > .dui-marks > .mark {
 	display: flex;
-	width: 35px;
-	height: 15px;
-	margin-bottom: 1px;
+	align-items: center;
+	justify-content: center;
+	width: fit-content;
+	min-width: 28px;
+	height: 20px;
+	padding: 0 4px;
+	margin-bottom: -5px;
 	white-space: nowrap;
-	border-radius: 2px;
-	background: url("../../assets/image/markOL.png") no-repeat;
+	background: none;
+	border-style: solid;
+	border-width: 0;
+	border-image-source: url("../../assets/image/markOL.png");
+	border-image-slice: 40% 30% fill;
+	border-image-width: 6px;
+	border-image-outset: 0;
+	border-image-repeat: stretch;
 	animation: fade-in 0.5s;
 }
 

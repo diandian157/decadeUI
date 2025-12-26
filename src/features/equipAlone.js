@@ -99,7 +99,8 @@ export function setupEquipAlone() {
 		if (!lib.config["extension_十周年UI_aloneEquip"]) return;
 
 		const player = event.player;
-		if (player !== game.me || !event.isMine?.()) return;
+		// 必须是自己的事件，且不是 AI 自动操作
+		if (player !== game.me || !event.isMine?.() || _status.auto) return;
 
 		const equips = player.getCards("e");
 		if (!equips.length) return;
