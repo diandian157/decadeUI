@@ -189,7 +189,7 @@ export function createBaseCharacterPlugin(lib, game, ui, get, ai, _status, app) 
 					function (args, node) {
 						if (get.itemtype(node) !== "player") return;
 						if (lib.config.touchscreen) {
-							lib.setLongPress(node, plugin.click.playerIntro.bind(plugin));
+							lib.setLongPress(node, e => plugin.click.playerIntro.call(plugin, e, node));
 						} else if (lib.config.right_info) {
 							node.oncontextmenu = function (e) {
 								e?.preventDefault();

@@ -28,7 +28,7 @@ import { registerLegacyModules } from "./ui/progress-bar.js";
 import { initCardPrompt } from "./ui/cardPrompt.js";
 import { initComponent } from "./ui/component.js";
 import { setupCharacterBackground } from "./ui/characterBackground.js";
-import { setupCardStyles } from "./ui/cardStyles.js";
+import { setupCardStyles, updateCardStyles } from "./ui/cardStyles.js";
 import { setupCharacterNamePrefix } from "./ui/characterNamePrefix.js";
 import { setupSkillDisplay } from "./ui/skillDisplay.js";
 
@@ -71,6 +71,7 @@ export const finalizeDecadeUICore = (decadeUI, config) => {
 	setupEnhancedAudio();
 	setupCharacterBackground();
 	setupCardStyles();
+	decadeUI.updateCardStyles = updateCardStyles; // 暴露热更新方法
 	setupCharacterNamePrefix();
 	setupSkillDisplay();
 	setupSkillDieAudio();

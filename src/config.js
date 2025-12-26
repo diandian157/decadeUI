@@ -170,6 +170,27 @@ export let config = {
 		),
 		_cardSkinPresets: cardSkinPresets,
 		_cardSkinMeta: cardSkinMeta,
+		onclick(item) {
+			game.saveConfig("extension_十周年UI_cardPrettify", item);
+			if (window.decadeUI) decadeUI.config.cardPrettify = item;
+			// 刷新所有玩家手牌
+			game.players?.forEach(p => {
+				p.node?.handcards1?.childNodes?.forEach(card => card.$init?.([card.suit, card.number, card.name, card.nature]));
+				p.node?.handcards2?.childNodes?.forEach(card => card.$init?.([card.suit, card.number, card.name, card.nature]));
+			});
+			// 冰可乐彩蛋：bozai角色特殊处理
+			game.players?.forEach(p => {
+				const isBozai = p.name === "bozai" || p.name1 === "bozai" || p.name2 === "bozai";
+				if (!isBozai) return;
+				if (item === "bingkele") {
+					p.node.avatar.setBackgroundImage("extension/十周年UI/image/bingkele.png");
+					if (p.node.name) p.node.name.innerHTML = "冰可乐喵";
+				} else {
+					p.node.avatar.setBackground(p.name1 || p.name, "character");
+					if (p.node.name) p.node.name.innerHTML = get.slimName(p.name);
+				}
+			});
+		},
 	},
 
 	cardkmh: {
@@ -181,6 +202,8 @@ export let config = {
 			game.saveConfig("extension_十周年UI_cardkmh", item);
 			const bgMap = { off: "kb1", kuang1: "kb4", kuang2: "kb3", kuang3: "kb2" };
 			game.saveConfig("extension_十周年UI_cardbj", bgMap[item] || "kb1");
+			// 热更新样式
+			window.decadeUI?.updateCardStyles?.();
 		},
 		// 初始化时同步背景配置
 		update() {
@@ -194,7 +217,7 @@ export let config = {
 	// ==================== 特效设置 ====================
 	chupaizhishi: {
 		name: "出牌指示",
-		intro: "切换目标指示特效，重启生效",
+		intro: "切换目标指示特效",
 		init: "off",
 		item: {
 			jiangjun: "将军",
@@ -208,12 +231,17 @@ export let config = {
 			random: "随机",
 			off: "关闭",
 		},
+		onclick(item) {
+			game.saveConfig("extension_十周年UI_chupaizhishi", item);
+			this.update();
+		},
 		update() {
 			const config = lib.config.extension_十周年UI_chupaizhishi;
 			if (config === "random") {
 				const options = ["shousha", "shoushaX", "jiangjun", "weijiangjun", "cheqijiangjun", "biaoqijiangjun", "dajiangjun", "dasima"];
 				if (window.decadeUI) decadeUI.config.chupaizhishi = options.randomGet();
 			} else if (window.decadeUI) {
+				decadeUI.config.chupaizhishi = config;
 				ui.arena.dataset.chupaizhishi = config;
 			}
 		},

@@ -363,16 +363,16 @@ export function initChatSystem(lib, game, ui, get) {
 		addClickEffect(window.chatButton1);
 
 		// 创建投掷物品
-		THROW_ITEMS.forEach(item => createThrowItemElement(item, chatAssetPath));
+		THROW_ITEMS.forEach(item => createThrowItemElement(item, chatAssetPath, game, ui, lib));
 
 		// 鸡蛋风暴
-		createXuwuElement(chatAssetPath);
+		createXuwuElement(chatAssetPath, game, ui, lib);
 
 		// 菜篮子
-		createCailanziElement(chatAssetPath);
+		createCailanziElement(chatAssetPath, ui);
 
 		// 表情按钮
-		createEmojiButton(chatAssetPath, EMOTION_SIZE);
+		createEmojiButton(chatAssetPath, EMOTION_SIZE, game, ui, lib);
 
 		// 记录按钮
 		window.chatButton3 = ui.create.div("hidden", "", game.showChatWord);
@@ -484,7 +484,7 @@ export function initChatSystem(lib, game, ui, get) {
 // ==================== 内部辅助函数 ====================
 
 // 创建投掷物品元素
-function createThrowItemElement(config, chatAssetPath) {
+function createThrowItemElement(config, chatAssetPath, game, ui, lib) {
 	const { name, left, bottom, image, label, emotionType } = config;
 
 	game[`open_${name}`] = () => {
@@ -510,7 +510,7 @@ function createThrowItemElement(config, chatAssetPath) {
 }
 
 // 创建鸡蛋风暴元素
-function createXuwuElement(chatAssetPath) {
+function createXuwuElement(chatAssetPath, game, ui, lib) {
 	game.open_xuwu = () => {
 		game.players.forEach(player => {
 			player.onclick = function () {
@@ -537,7 +537,7 @@ function createXuwuElement(chatAssetPath) {
 }
 
 // 创建菜篮子元素
-function createCailanziElement(chatAssetPath) {
+function createCailanziElement(chatAssetPath, ui) {
 	window.cailanzi = ui.create.div("hidden");
 	window.cailanzi.style.cssText = "display:block;--w:100px;--h:calc(var(--w)*59/150);width:var(--w);height:var(--h);left:-230px;bottom:225px;transition:none;background-size:100% 100%";
 	window.cailanzi.setBackgroundImage(`${chatAssetPath}cailanzi.png`);
@@ -550,7 +550,7 @@ function createCailanziElement(chatAssetPath) {
 }
 
 // 创建表情按钮
-function createEmojiButton(chatAssetPath, EMOTION_SIZE) {
+function createEmojiButton(chatAssetPath, EMOTION_SIZE, game, ui, lib) {
 	game.open_emoji = () => {
 		hideOtherDialogs("dialog_emoji", [
 			{ name: "dialog_lifesay", prop: "left", value: `-${window.dialog_lifesay?.style.width}` },
