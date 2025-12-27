@@ -39,6 +39,7 @@ const PREFIX_CONFIGS = Object.freeze({
 	手杀乐: "yue",
 	"手杀|牢": "lao",
 	"手杀|SP": "sp",
+	手杀合: "he",
 	// TW系列
 	TW谋: "sb",
 	TW神: "shen",
@@ -88,6 +89,7 @@ const PREFIX_CONFIGS = Object.freeze({
 	"欢杀|星": "star",
 	"SP|欢杀": "sp",
 	"SP|欢杀|神": "shen",
+	"欢杀|界": "jie",
 	// 极略系列
 	极: "ji",
 	极略SK: "sk",
