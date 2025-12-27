@@ -16,8 +16,8 @@ export const skillDefines = {
 
 	// 神话装备
 	gx_lingbaoxianhu: { name: "SSHW_TX_lingbaoxianhu", scale: 0.5 },
-	gx_taijifuchen: { name: "SSHW_TX_taijifuchen", scale: 0.5, x: [0, 0.48] },
-	gx_chongyingshenfu: { name: "SSHW_TX_chongyingshenfu", scale: 0.5, x: [0, 0.58] },
+	gx_taijifuchen: { name: "SSHW_TX_taijifuchen", scale: 0.5 },
+	gx_chongyingshenfu: { name: "SSHW_TX_chongyingshenfu", scale: 0.5 },
 	taipingyaoshu: { name: "taipingyaoshu", scale: 0.75 },
 	taipingyaoshu_lose: { name: "effect_taipingyaoshu_xiexia", scale: 0.55 },
 	qibaodao: { name: "qibaodao2", scale: 1 },
@@ -30,8 +30,8 @@ export const skillDefines = {
 	sanjian_skill: { name: "Ss_Gz_SanJianLiangRenDao", scale: 0.4 },
 	feilongduofeng: { name: "feilongduofeng", scale: 0.5 },
 	ty_feilongduofeng_skill: { name: "feilongduofeng", scale: 0.5 },
-	xuwangzhimian: { name: "SSHW_TX_xuwangzhimian", scale: 0.5, x: [0, 0.58] },
-	chiyanzhenhunqin: { name: "SSHW_TX_chiyanzhenhun", scale: 0.5, x: [0, 0.55] },
+	xuwangzhimian: { name: "SSHW_TX_xuwangzhimian", scale: 0.5 },
+	chiyanzhenhunqin: { name: "SSHW_TX_chiyanzhenhun", scale: 0.5 },
 	duanjian: { name: "Ss_ZB_ZheJi", scale: 0.5 },
 	serafuku: { name: "Ss_ZB_NvZhuang", scale: 0.5 },
 	qixingbaodao: { name: "Ss_ZB_QiXingDao", scale: 0.5 },
@@ -44,7 +44,7 @@ export const skillDefines = {
 	cixiong_skill: { name: "effect_cixiongshuanggujian", scale: 0.5 },
 	fangtian_skill: { name: "effect_fangtianhuaji", scale: 0.7 },
 	guanshi_skill: { name: "effect_guanshifu", scale: 0.7 },
-	guding_skill: { name: "effect_gudingdao", scale: 0.6, x: [0, 0.4], y: [0, 0.05] },
+	guding_skill: { name: "effect_gudingdao", scale: 0.6 },
 	hanbing_skill: { name: "effect_hanbingjian", scale: 0.5 },
 	linglong_bagua: { name: "effect_baguazhen", scale: 0.5 },
 	qilin_skill: { name: "effect_qilingong", scale: 0.5 },
@@ -75,7 +75,7 @@ export const skillDefines = {
  * 卡牌动画配置
  */
 export const cardDefines = {
-	nanman: { name: "effect_nanmanruqin", scale: 0.6, y: [0, 0.4] },
+	nanman: { name: "effect_nanmanruqin", scale: 0.6 },
 	wanjian: { name: "effect_wanjianqifa_full", scale: 1.5 },
 	taoyuan: { name: "effect_taoyuanjieyi" },
 };
