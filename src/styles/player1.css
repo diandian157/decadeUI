@@ -849,8 +849,8 @@
 	align-items: center;
 	justify-content: center;
 	width: fit-content;
-	min-width: 36px;
-	height: 25px;
+	min-width: 40px;
+	height: 26px;
 	padding: 0 6px;
 	margin-bottom: -8px;
 	white-space: nowrap;
@@ -858,8 +858,8 @@
 	border-style: solid;
 	border-width: 0;
 	border-image-source: url("../../assets/image/player_mark.png");
-	border-image-slice: 30% 30% fill;
-	border-image-width: 10px 14px;
+	border-image-slice: 40% 40% fill;
+	border-image-width: 11px 14px;
 	border-image-outset: 0;
 	border-image-repeat: stretch;
 	animation: fade-in 0.5s;
@@ -884,7 +884,7 @@
 	width: auto;
 	height: auto;
 	line-height: 18px;
-	font-size: 13px;
+	font-size: 15px;
 	font-family: yuanli;
 	color: white;
 	border-radius: 0;
