@@ -263,7 +263,10 @@ export function createPlayerElement(position, noclick) {
 	if (!noclick) {
 		player.addEventListener(lib.config.touchscreen ? "touchend" : "click", ui.click.target);
 		player.node.identity.addEventListener(lib.config.touchscreen ? "touchend" : "click", ui.click.identity);
-		if (lib.config.touchscreen) player.addEventListener("touchstart", ui.click.playertouchstart);
+		if (lib.config.touchscreen) {
+			player.addEventListener("touchstart", ui.click.playertouchstart);
+			player.addEventListener("touchmove", ui.click.playertouchmove);
+		}
 	} else {
 		player.noclick = true;
 	}
