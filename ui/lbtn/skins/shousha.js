@@ -666,8 +666,8 @@ export function createShoushaLbtnPlugin(lib, game, ui, get, ai, _status, app) {
 						if (skill === "_recasting") {
 							// 重铸按钮使用特殊图片和class
 							item.classList.add("recasting-btn");
-							item.innerHTML = `<img draggable='false' src='${lib.assetURL}extension/十周年UI/ui/assets/lbtn/button/CZ.png'>`;
-							item.style.backgroundImage = `url('${lib.assetURL}extension/十周年UI/ui/assets/lbtn/button/game_btn_bg2.png')`;
+							item.innerHTML = `<img draggable='false' src='${lib.assetURL}extension/十周年UI/ui/assets/lbtn/uibutton/CZ.png'>`;
+							item.style.backgroundImage = `url('${lib.assetURL}extension/十周年UI/ui/assets/lbtn/uibutton/game_btn_bg2.png')`;
 							item.style.transform = "scale(0.75)";
 							item.style.setProperty("padding", "25px 10px", "important");
 							item.style.setProperty("margin", "0 -12px", "important");

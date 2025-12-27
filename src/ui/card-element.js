@@ -45,6 +45,9 @@ export function createCardElement(position, info, noclick) {
 		if (lib.config.touchscreen) {
 			card.addEventListener("touchstart", ui.click.cardtouchstart);
 			card.addEventListener("touchmove", ui.click.cardtouchmove);
+		} else {
+			card.addEventListener("mouseenter", ui.click.cardmouseenter);
+			card.addEventListener("mouseleave", ui.click.cardmouseleave);
 		}
 		if (lib.cardSelectObserver) lib.cardSelectObserver.observe(card, { attributes: true });
 	}

@@ -4,7 +4,7 @@
  * 扩展快捷开关 - 一键一键关闭其他/一键恢复其他其他扩展
  */
 
-import { lib, game, ui } from "noname";
+import { lib, game, ui, get, ai, _status } from "noname";
 
 const STORAGE_KEY = "extension_十周年UI_closedExtensions";
 const getCurrentExtName = () => window.decadeUIName || "十周年UI";

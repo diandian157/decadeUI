@@ -530,23 +530,18 @@ export function uiClickCard(e) {
 					this._tempName.delete();
 					delete this._tempName;
 				}
-				if (lib.config.extension_十周年UI_showTemp) {
-					if (!this._tempName) this._tempName = ui.create.div(".temp-name", this);
-					let tempname = "",
-						tempname2 = get.translation(vname);
-					if (vnature) {
-						this._tempName.dataset.nature = vnature;
-						if (vname == "sha") {
-							tempname2 = get.translation(vnature) + tempname2;
-						}
+				if (!this._tempName) this._tempName = ui.create.div(".temp-name", this);
+				let tempname = "",
+					tempname2 = get.translation(vname);
+				if (vnature) {
+					this._tempName.dataset.nature = vnature;
+					if (vname == "sha") {
+						tempname2 = get.translation(vnature) + tempname2;
 					}
-					tempname += tempname2;
-					this._tempName.innerHTML = tempname;
-					this._tempName.tempname = tempname;
-				} else {
-					const nodeviewas = ui.create.cardTempName(cardskb, this);
-					if (lib.config.cardtempname !== "default") nodeviewas.classList.remove("vertical");
 				}
+				tempname += tempname2;
+				this._tempName.innerHTML = tempname;
+				this._tempName.tempname = tempname;
 				this.dataset.low = 1;
 				this.dataset.view = 1;
 			}

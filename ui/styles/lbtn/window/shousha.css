@@ -280,7 +280,7 @@
 
 /* lbtn-confirm 中的 gskills 按钮样式（排除重铸按钮） */
 .lbtn-confirm > [data-type="skill2"]:not(.recasting-btn) {
-	background-image: url("../../../assets/lbtn/button/cbtn.png") !important;
+	background-image: url("../../../assets/lbtn/uibutton/cbtn.png") !important;
 	background-size: 100% 100% !important;
 	padding: 10px 15px !important;
 	margin: 0 2px !important;
@@ -571,7 +571,7 @@
 	--h: calc(var(--w) * 300 / 720);
 	width: var(--w);
 	height: var(--h);
-	background-image: url("../../assets/lbtn/button/shoupai1.png");
+	background-image: url("../../assets/lbtn/uibutton/shoupai1.png");
 	background-size: 100% 100%;
 	position: relative;
 	z-index: -10;

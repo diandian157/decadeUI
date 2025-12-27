@@ -89,7 +89,7 @@
 .lbtn-paixu {
 	width: 68px;
 	height: 55px;
-	background-image: url("../../assets/lbtn/button/btn-paixu.png");
+	background-image: url("../../assets/lbtn/uibutton/btn-paixu.png");
 	left: 1.6%;
 	bottom: 26%;
 	z-index: 5;
@@ -116,7 +116,7 @@
 	border-radius: 1px;
 	width: 68px;
 	height: 55px;
-	background-image: url("../../assets/lbtn/button/btn-jilu.png");
+	background-image: url("../../assets/lbtn/uibutton/btn-jilu.png");
 	bottom: 15%;
 	z-index: 5;
 }
@@ -161,7 +161,7 @@
 }
 
 .control > div {
-	background-image: url("../../assets/lbtn/button/cbtn.png");
+	background-image: url("../../assets/lbtn/uibutton/cbtn.png");
 	background-size: 100% 100%;
 	line-height: 30px;
 	text-align: center;
@@ -192,7 +192,7 @@
 
 /* 选项按钮 */
 .control > div.choice {
-	background-image: url("../../assets/lbtn/button/cbtn.png");
+	background-image: url("../../assets/lbtn/uibutton/cbtn.png");
 	background-size: 100% 100%;
 	text-align: center;
 	padding: 10px 15px !important;
@@ -214,7 +214,7 @@
 /* 取消按钮 */
 .control > div.primary2 {
 	font-size: 35px !important;
-	background-image: url("../../assets/lbtn/button/game_btn_bg2.png");
+	background-image: url("../../assets/lbtn/uibutton/game_btn_bg2.png");
 	transform: scale(0.75);
 	padding: 25px 10px !important;
 	margin-top: 18px !important;
@@ -238,7 +238,7 @@
 	font-size: 40px;
 	line-height: var(--sh);
 	margin: 0px 10px !important;
-	background-image: url("../../assets/lbtn/button/btn.png");
+	background-image: url("../../assets/lbtn/uibutton/btn.png");
 	padding: 22px 66px !important;
 	min-height: 22px;
 	min-width: 66px;
@@ -250,12 +250,12 @@
 
 /* 限定技专属按钮 */
 .control > div.primary.xiandingji > span {
-	background-image: url("../../assets/lbtn/button/btn2.png");
+	background-image: url("../../assets/lbtn/uibutton/btn2.png");
 }
 
 /* lbtn-confirm 中的 gskills 按钮样式（排除重铸按钮） */
 .lbtn-confirm > [data-type="skill2"]:not(.recasting-btn) {
-	background-image: url("../../assets/lbtn/button/cbtn.png") !important;
+	background-image: url("../../assets/lbtn/uibutton/cbtn.png") !important;
 	background-size: 100% 100% !important;
 	padding: 10px 15px !important;
 	margin: 0 2px !important;
@@ -281,7 +281,7 @@
 /* gskills 按钮样式 */
 .control > [data-type="skill2"] {
 	font-size: 35px !important;
-	background-image: url("../../assets/lbtn/button/game_btn_bg2.png");
+	background-image: url("../../assets/lbtn/uibutton/game_btn_bg2.png");
 	background-size: 100% 100%;
 	transform: scale(0.75);
 	padding: 25px 10px !important;
@@ -308,7 +308,7 @@
 	font-size: 40px;
 	line-height: var(--sh);
 	margin: 0px 30px !important;
-	background-image: url("../../assets/lbtn/button/huanpai2.png");
+	background-image: url("../../assets/lbtn/uibutton/huanpai2.png");
 	transform: scale(1.15);
 	background-size: 100% 100%;
 	background-repeat: no-repeat;
@@ -324,7 +324,7 @@
 	font-size: 40px;
 	line-height: var(--sh);
 	margin: 0px 10px !important;
-	background-image: url("../../assets/lbtn/button/qipai.png");
+	background-image: url("../../assets/lbtn/uibutton/qipai.png");
 	transform: scale(1.15);
 	background-size: 100% 100%;
 	background-repeat: no-repeat;
@@ -363,7 +363,7 @@
 	--h: calc(var(--w) * 300 / 720);
 	width: var(--w);
 	height: var(--h);
-	background-image: url("../../assets/lbtn/button/shoupai1.png");
+	background-image: url("../../assets/lbtn/uibutton/shoupai1.png");
 	background-size: 100% 100%;
 	position: relative;
 	z-index: -10;
@@ -425,7 +425,7 @@
 	bottom: 20px;
 	width: 44px;
 	height: 57px;
-	background-image: url("../../assets/lbtn/button/cardback.png");
+	background-image: url("../../assets/lbtn/uibutton/cardback.png");
 	background-size: 100% 100%;
 	left: 25px;
 	position: relative;
@@ -511,7 +511,7 @@
 	align-items: center;
 	justify-items: center;
 	background-size: 100% 100%;
-	background-image: url("../../assets/lbtn/button/paiduiming.png");
+	background-image: url("../../assets/lbtn/uibutton/paiduiming.png");
 }
 
 .card-statistics-title > div {
@@ -540,7 +540,7 @@
 	position: relative;
 	border-right: 3px solid;
 	border-image-slice: 0 100% 0 0;
-	border-image-source: url("../../assets/lbtn/button/paiduixian.png");
+	border-image-source: url("../../assets/lbtn/uibutton/paiduixian.png");
 	height: 96%;
 }
 
@@ -561,7 +561,7 @@
 	background-size: 90% 100%;
 	background-repeat: no-repeat;
 	background-position: center;
-	background-image: url("../../assets/lbtn/button/shousha.png");
+	background-image: url("../../assets/lbtn/uibutton/shousha.png");
 	line-height: 2;
 	border-radius: 6px;
 }
@@ -598,7 +598,7 @@
 	--h: calc(var(--w) * 169 / 365);
 	width: var(--w);
 	height: var(--h);
-	background-image: url("../../assets/lbtn/CD/tuoguan2.png");
+	background-image: url("../../assets/lbtn/shousha/tuoguan2.png");
 	background-size: 100% 100%;
 	-webkit-text-fill-color: transparent;
 	text-shadow: none !important;
@@ -785,7 +785,7 @@
 .lbtn-paixu1 {
 	width: 68px;
 	height: 55px;
-	background-image: url("../../assets/lbtn/button/btn-paixu.png");
+	background-image: url("../../assets/lbtn/uibutton/btn-paixu.png");
 	right: 1.2%;
 	bottom: 25%;
 	z-index: 5;
@@ -811,7 +811,7 @@
 	border-radius: 1px;
 	width: 68px;
 	height: 55px;
-	background-image: url("../../assets/lbtn/button/btn-jilu.png");
+	background-image: url("../../assets/lbtn/uibutton/btn-jilu.png");
 	bottom: 15%;
 	z-index: 5;
 }
@@ -832,7 +832,7 @@
 	--h: calc(var(--w) * 235 / 500);
 	width: var(--w);
 	height: var(--h);
-	background-image: url("../../assets/lbtn/button/shoupai1.png");
+	background-image: url("../../assets/lbtn/uibutton/shoupai1.png");
 	background-size: 100% 100%;
 	position: relative;
 	z-index: -1;

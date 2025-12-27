@@ -191,21 +191,14 @@ function handleDefaultTag(card, player, event, decadeUI) {
 
 		// 临时卡牌名称显示
 		if (lib.config.cardtempname !== "off" && (card.name !== cardname || !get.is.sameNature(cardnature, card.nature, true))) {
-			if (lib.config.extension_十周年UI_showTemp) {
-				if (!card._tempName) card._tempName = ui.create.div(".temp-name", card);
-				let tempname = get.translation(cardname);
-				if (cardnature && cardname === "sha") {
-					tempname = get.translation(cardnature) + tempname;
-				}
-				if (cardnature) card._tempName.dataset.nature = cardnature;
-				card._tempName.innerHTML = tempname;
-				card._tempName.tempname = tempname;
-			} else {
-				const node = ui.create.cardTempName?.(event.card, card);
-				if (node && lib.config.cardtempname !== "default") {
-					node.classList.remove("vertical");
-				}
+			if (!card._tempName) card._tempName = ui.create.div(".temp-name", card);
+			let tempname = get.translation(cardname);
+			if (cardnature && cardname === "sha") {
+				tempname = get.translation(cardnature) + tempname;
 			}
+			if (cardnature) card._tempName.dataset.nature = cardnature;
+			card._tempName.innerHTML = tempname;
+			card._tempName.tempname = tempname;
 		}
 
 		// 临时花色点数

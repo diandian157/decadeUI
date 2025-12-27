@@ -191,7 +191,7 @@
 	height: 150px;
 	left: 2px;
 	top: 2px;
-	background-image: url(../image/decoration/equipHand.png);
+	background-image: url(../../image/decoration/equipHand.png);
 	background-size: 100% 100%;
 }
 
@@ -204,4 +204,3 @@
 	font-family: "yuanli" !important;
 	bottom: var(--hand-tip-bottom, calc(20% + 10px)) !important;
 }
-
