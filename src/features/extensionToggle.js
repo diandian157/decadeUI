@@ -10,7 +10,7 @@ const STORAGE_KEY = "extension_十周年UI_closedExtensions";
 const getCurrentExtName = () => window.decadeUIName || "十周年UI";
 
 // 白名单：这些扩展不会被关闭
-const PROTECTED_EXTENSIONS = ["AI禁将", "自用插件", "奇妙工具", "全能搜索"].contat(_status.PROTECTED_EXTENSIONS ?? []);
+const PROTECTED_EXTENSIONS = ["AI禁将", "自用插件", "奇妙工具", "全能搜索"].concat(_status.PROTECTED_EXTENSIONS ?? []);
 
 const getOtherExtensions = () => {
 	const current = getCurrentExtName();
