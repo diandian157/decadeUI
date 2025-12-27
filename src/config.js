@@ -45,6 +45,18 @@ export let config = {
 	FL0: createSeparator(),
 
 	// ==================== 基础功能 ====================
+
+	extensionToggle: {
+		clear: true,
+		onclick: () => window.decadeUI?.toggleExtensions?.(),
+		update() {
+			const key = "extension_十周年UI_closedExtensions";
+			const closed = Array.isArray(lib.config[key]) ? lib.config[key] : [];
+			const menu = lib.extensionMenu?.extension_十周年UI?.extensionToggle;
+			if (menu) menu.name = closed.length > 0 ? `<ins>一键恢复 ${closed.length} 个扩展</ins>` : "<ins>一键关闭其他扩展</ins>";
+		},
+	},
+
 	eruda: {
 		name: "调试助手",
 		init: false,
