@@ -58,27 +58,21 @@ export function createLayoutModule() {
 			}
 
 			let selectedIndex = -1;
-			for (let i = 0; i < cards.length; i++) {
-				if (cards[i].classList.contains("selected")) {
-					if (selectedIndex !== -1) {
-						selectedIndex = -1;
-						break;
-					}
-					selectedIndex = i;
-				}
-			}
-
-			const folded = totalW > limitW && xMargin < csw - 0.5;
 			let spreadOffsetLeft = 0,
 				spreadOffsetRight = 0,
 				baseShift = 0;
-			if (folded && selectedIndex !== -1) {
-				const spreadOffset = Math.max(0, csw - xMargin + 2);
-				spreadOffsetLeft = Math.round(spreadOffset * 0.2);
-				spreadOffsetRight = spreadOffset;
-				const selX = xStart + selectedIndex * xMargin;
-				const maxSelX = Math.max(0, limitW - csw);
-				baseShift = Math.round(Math.max(0, Math.min(maxSelX, selX)) - selX);
+
+			const folded = totalW > limitW && xMargin < csw - 0.5;
+			if (folded && typeof ui.getSpreadOffset === "function") {
+				const spread = ui.getSpreadOffset(cards, { cardWidth: csw, currentMargin: xMargin });
+				selectedIndex = spread.selectedIndex;
+				spreadOffsetLeft = spread.spreadLeft;
+				spreadOffsetRight = spread.spreadRight;
+				if (selectedIndex !== -1) {
+					const selX = xStart + selectedIndex * xMargin;
+					const maxSelX = Math.max(0, limitW - csw);
+					baseShift = Math.round(Math.max(0, Math.min(maxSelX, selX)) - selX);
+				}
 			}
 
 			for (let i = 0; i < cards.length; i++) {
