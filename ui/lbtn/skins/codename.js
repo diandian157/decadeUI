@@ -63,7 +63,7 @@ export function createCodenameLbtnPlugin(lib, game, ui, get, ai, _status, app) {
 			const isRight = lib.config["extension_十周年UI_rightLayout"] === "on";
 
 			const btn = ui.create.node("img");
-			btn.src = `${lib.assetURL}${assetPath}button/code_zhengli.png`;
+			btn.src = `${lib.assetURL}${assetPath}uibutton/code_zhengli.png`;
 			btn.style.cssText = `display:block;position:absolute;background-color:transparent;width:55px;height:50px;bottom:1%;left:40px;z-index:4;right:auto;${isRight ? "right:calc(100% - 380px);z-index:3;" : "right:calc(100% - 1260px);z-index:3;"}`;
 
 			btn.onclick = () => self.sortHandCards();

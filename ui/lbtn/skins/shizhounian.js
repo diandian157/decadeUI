@@ -106,7 +106,7 @@ export function createShizhounianLbtnPlugin(lib, game, ui, get, ai, _status, app
 			}
 
 			const btn = ui.create.node("img");
-			btn.src = `${lib.assetURL}${assetPath}button/${sortImg}`;
+			btn.src = `${lib.assetURL}${assetPath}uibutton/${sortImg}`;
 			btn.style.cssText = style;
 			btn.style.display = "none";
 
@@ -128,7 +128,7 @@ export function createShizhounianLbtnPlugin(lib, game, ui, get, ai, _status, app
 
 			// 阴影背景
 			const shadow = ui.create.node("img");
-			shadow.src = `${lib.assetURL}${assetPath}button/yinying.png`;
+			shadow.src = `${lib.assetURL}${assetPath}uibutton/yinying.png`;
 			shadow.style.cssText = "display:block;width:100%;height:30%;position:absolute;bottom:0px;background-color:transparent;z-index:-4;";
 			document.body.appendChild(shadow);
 

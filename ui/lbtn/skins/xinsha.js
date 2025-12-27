@@ -134,7 +134,7 @@ export function createXinshaLbtnPlugin(lib, game, ui, get, ai, _status, app) {
 		// 创建阴影背景
 		createShadowBg() {
 			const shadow = ui.create.node("img");
-			shadow.src = `${lib.assetURL}${assetPath}button/yinying.png`;
+			shadow.src = `${lib.assetURL}${assetPath}uibutton/yinying.png`;
 			shadow.style.cssText = "display:block;width:100%;height:20%;position:absolute;bottom:0px;background-color:transparent;z-index:-1;";
 			document.body.appendChild(shadow);
 		},
@@ -208,7 +208,7 @@ export function createXinshaLbtnPlugin(lib, game, ui, get, ai, _status, app) {
 
 			// 设置按钮
 			const szBtn = ui.create.div(".controls", home);
-			szBtn.setBackgroundImage(`${assetPath}button/button_sz.png`);
+			szBtn.setBackgroundImage(`${assetPath}uibutton/button_sz.png`);
 			szBtn.addEventListener("click", () => {
 				game.playAudio(`../${assetPath}CD/button.mp3`);
 				ui.click.configMenu?.();
@@ -218,7 +218,7 @@ export function createXinshaLbtnPlugin(lib, game, ui, get, ai, _status, app) {
 
 			// 背景按钮
 			const bjBtn = ui.create.div(".controls", home);
-			bjBtn.setBackgroundImage(`${assetPath}button/button_bj.png`);
+			bjBtn.setBackgroundImage(`${assetPath}uibutton/button_bj.png`);
 			bjBtn.addEventListener("click", () => {
 				game.playAudio(`../${assetPath}CD/button.mp3`);
 				self.openBackgroundSelector(`../${assetPath}shousha/caidan.mp3`);
@@ -226,7 +226,7 @@ export function createXinshaLbtnPlugin(lib, game, ui, get, ai, _status, app) {
 
 			// 托管按钮
 			const tgBtn = ui.create.div(".controls", home);
-			tgBtn.setBackgroundImage(`${assetPath}button/button_tg.png`);
+			tgBtn.setBackgroundImage(`${assetPath}uibutton/button_tg.png`);
 			tgBtn.addEventListener("click", () => {
 				game.playAudio(`../${assetPath}CD/button.mp3`);
 				ui.click.auto();
@@ -234,7 +234,7 @@ export function createXinshaLbtnPlugin(lib, game, ui, get, ai, _status, app) {
 
 			// 退出按钮
 			const tcBtn = ui.create.div(".controls", home);
-			tcBtn.setBackgroundImage(`${assetPath}button/button_tc.png`);
+			tcBtn.setBackgroundImage(`${assetPath}uibutton/button_tc.png`);
 			tcBtn.addEventListener("click", () => {
 				game.playAudio(`../${assetPath}CD/button.mp3`);
 				window.location.reload();
@@ -247,7 +247,7 @@ export function createXinshaLbtnPlugin(lib, game, ui, get, ai, _status, app) {
 			const isRight = lib.config["extension_十周年UI_rightLayout"] === "on";
 
 			const btn = ui.create.node("img");
-			btn.src = `${lib.assetURL}${assetPath}button/new_zhengli.png`;
+			btn.src = `${lib.assetURL}${assetPath}uibutton/new_zhengli.png`;
 
 			const style = isRight ? "display:block;--w:88px;--h:calc(var(--w)*81/247);width:var(--w);height:var(--h);position:absolute;top:calc(100% - 46px);left:calc(100% - 335px);background-color:transparent;z-index:3;" : "display:block;--w:88px;--h:calc(var(--w)*81/247);width:var(--w);height:var(--h);position:absolute;top:calc(100% - 33px);right:calc(100% - 335px);background-color:transparent;z-index:3;";
 
@@ -273,7 +273,7 @@ export function createXinshaLbtnPlugin(lib, game, ui, get, ai, _status, app) {
 			const btn = ui.create.node("img");
 
 			const updateImage = () => {
-				btn.src = ui.selected.cards.length > 0 ? `${lib.assetURL}${assetPath}button/fanxuan.png` : `${lib.assetURL}${assetPath}button/quanxuan.png`;
+				btn.src = ui.selected.cards.length > 0 ? `${lib.assetURL}${assetPath}uibutton/fanxuan.png` : `${lib.assetURL}${assetPath}uibutton/quanxuan.png`;
 			};
 			updateImage();
 

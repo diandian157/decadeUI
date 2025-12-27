@@ -113,7 +113,7 @@
 	bottom: 19%;
 	left: 20px;
 	right: auto;
-	background-image: url("../../assets/lbtn/images/uibutton/cd_liaotian.png");
+	background-image: url("../../assets/lbtn/uibutton/cd_liaotian.png");
 	background-size: 100% 100%;
 	border-radius: 1px;
 	z-index: 4;
@@ -127,7 +127,7 @@
 	position: absolute;
 	left: 22px;
 	right: auto;
-	background-image: url("../../assets/lbtn/images/uibutton/cd_liwu.png");
+	background-image: url("../../assets/lbtn/uibutton/cd_liwu.png");
 	background-size: 100% 100%;
 	border-radius: 1px;
 	z-index: 3;
@@ -141,7 +141,7 @@
 	bottom: 9%;
 	left: 20px;
 	right: auto;
-	background-image: url("../../assets/lbtn/images/uibutton/cd_juli.png");
+	background-image: url("../../assets/lbtn/uibutton/cd_juli.png");
 	background-size: 100% 100%;
 	z-index: 3;
 }
@@ -160,7 +160,7 @@
 }
 
 .control > div {
-	background-image: url("../../assets/lbtn/images/uibutton/btnn_code1.png");
+	background-image: url("../../assets/lbtn/uibutton/btnn_code1.png");
 	background-size: 100% 100%;
 	line-height: var(--h);
 	padding: 6.4px 25px !important;
@@ -200,7 +200,7 @@
 	margin-top: 0px !important;
 	margin-bottom: -15px !important;
 	background-size: 100% 100%;
-	background-image: url("../../assets/lbtn/images/uibutton/btnn_code.png");
+	background-image: url("../../assets/lbtn/uibutton/btnn_code.png");
 	overflow: visible;
 	transition: none;
 }
@@ -219,7 +219,7 @@
 	margin-top: 0px !important;
 	margin-bottom: -15px !important;
 	background-size: 100% 100%;
-	background-image: url("../../assets/lbtn/images/uibutton/btnn_code1.png");
+	background-image: url("../../assets/lbtn/uibutton/btnn_code1.png");
 }
 
 .control > div.disabled:not([data-type="endButton"]) {
@@ -266,7 +266,7 @@
 	--h: calc(var(--w) * 173 / 160);
 	width: var(--w);
 	height: var(--h);
-	background-image: url("../../assets/lbtn/images/uibutton/codepaidui.png");
+	background-image: url("../../assets/lbtn/uibutton/codepaidui.png");
 	background-size: 100% 100%;
 	background-color: transparent;
 	position: relative;

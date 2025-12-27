@@ -109,7 +109,7 @@ export function createBabyLbtnPlugin(lib, game, ui, get, ai, _status, app) {
 			const isRight = lib.config["extension_十周年UI_rightLayout"] === "on";
 
 			const btn = ui.create.node("img");
-			btn.src = `${lib.assetURL}${assetPath}button/hs_zhengli.png`;
+			btn.src = `${lib.assetURL}${assetPath}uibutton/hs_zhengli.png`;
 			btn.style.cssText = `display:block;position:absolute;background-color:transparent;width:85px;height:50px;bottom:18%;left:22px;z-index:4;right:auto;${isRight ? "right:calc(100% - 380px);z-index:3;" : "right:calc(100% - 1260px);z-index:3;"}`;
 
 			btn.onclick = () => self.sortHandCards();
@@ -125,7 +125,7 @@ export function createBabyLbtnPlugin(lib, game, ui, get, ai, _status, app) {
 			const btn = ui.create.node("img");
 
 			const updateImage = () => {
-				btn.src = ui.selected.cards.length > 0 ? `${lib.assetURL}${assetPath}button/fanxuanhs.png` : `${lib.assetURL}${assetPath}button/quanxuanhs.png`;
+				btn.src = ui.selected.cards.length > 0 ? `${lib.assetURL}${assetPath}uibutton/fanxuanhs.png` : `${lib.assetURL}${assetPath}uibutton/quanxuanhs.png`;
 			};
 			updateImage();
 

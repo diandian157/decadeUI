@@ -34,7 +34,7 @@
 	top: 0%;
 	left: 30px;
 	background-size: 100% 100%;
-	background-image: url("../../../assets/lbtn/images/CD/hs_cd.png");
+	background-image: url("../../../assets/lbtn/CD/hs_cd.png");
 	z-index: 68;
 	position: relative;
 	transition: all 1s;
@@ -49,7 +49,7 @@
 	bottom: calc(100% - 128px);
 	left: 35px;
 	background-size: 100% 100%;
-	background-image: url("../../../assets/lbtn/images/CD/hs_shezhi.png");
+	background-image: url("../../../assets/lbtn/CD/hs_shezhi.png");
 	z-index: 99;
 	position: fixed;
 }
@@ -62,7 +62,7 @@
 	bottom: calc(100% - 375px);
 	left: 35px;
 	background-size: 100% 100%;
-	background-image: url("../../../assets/lbtn/images/CD/hs_likai.png");
+	background-image: url("../../../assets/lbtn/CD/hs_likai.png");
 	z-index: 99;
 	position: fixed;
 }
@@ -75,7 +75,7 @@
 	bottom: calc(100% - 316px);
 	left: 35px;
 	background-size: 100% 100%;
-	background-image: url("../../../assets/lbtn/images/CD/hs_fankui.png");
+	background-image: url("../../../assets/lbtn/CD/hs_fankui.png");
 	z-index: 99;
 	position: fixed;
 }
@@ -88,7 +88,7 @@
 	bottom: calc(100% - 255px);
 	left: 35px;
 	background-size: 100% 100%;
-	background-image: url("../../../assets/lbtn/images/CD/hs_touxiang.png");
+	background-image: url("../../../assets/lbtn/CD/hs_touxiang.png");
 	z-index: 99;
 	position: fixed;
 }
@@ -101,7 +101,7 @@
 	bottom: calc(100% - 191px);
 	left: 33px;
 	background-size: 100% 100%;
-	background-image: url("../../../assets/lbtn/images/CD/hs_tuoguan.png");
+	background-image: url("../../../assets/lbtn/CD/hs_tuoguan.png");
 	z-index: 99;
 	position: fixed;
 }
@@ -118,7 +118,7 @@
 	position: absolute;
 	bottom: 0.5%;
 	left: 0;
-	background-image: url("../../../assets/lbtn/images/uibutton/hs_jiaoliu.png");
+	background-image: url("../../../assets/lbtn/uibutton/hs_jiaoliu.png");
 	background-size: 100% 100%;
 	border-radius: 1px;
 	z-index: 4;
@@ -131,7 +131,7 @@
 	position: absolute;
 	bottom: 9%;
 	left: 0px;
-	background-image: url("../../../assets/lbtn/images/uibutton/hs_meigui.png");
+	background-image: url("../../../assets/lbtn/uibutton/hs_meigui.png");
 	background-size: 100% 100%;
 	z-index: 3;
 }
@@ -147,7 +147,7 @@
 }
 
 .control > div {
-	background-image: url("../../../assets/lbtn/images/uibutton/new_btnnHS.png");
+	background-image: url("../../../assets/lbtn/uibutton/new_btnnHS.png");
 	background-size: 100% 100%;
 	line-height: var(--h);
 	padding: 2.6px 23px !important;
@@ -180,7 +180,7 @@
 	margin-top: 0px !important;
 	margin-bottom: -15px !important;
 	background-size: 100% 100%;
-	background-image: url("../../../assets/lbtn/images/uibutton/new_btnnHS.png");
+	background-image: url("../../../assets/lbtn/uibutton/new_btnnHS.png");
 	overflow: visible;
 	transition: none;
 }
@@ -196,7 +196,7 @@
 	margin-top: 0px !important;
 	margin-bottom: -15px !important;
 	background-size: 100% 100%;
-	background-image: url("../../../assets/lbtn/images/uibutton/new_btnnHS.png");
+	background-image: url("../../../assets/lbtn/uibutton/new_btnnHS.png");
 }
 
 .control > div.disabled:not([data-type="endButton"]) {
@@ -242,7 +242,7 @@
 	top: -15px;
 	width: 110px;
 	height: 75px;
-	background-image: url("../../../assets/lbtn/images/uibutton/hs_jilu.png");
+	background-image: url("../../../assets/lbtn/uibutton/hs_jilu.png");
 	background-size: 100% 100%;
 	background-color: transparent;
 	position: relative;
@@ -290,7 +290,7 @@
 	--h: calc(var(--w) * 149 / 598);
 	width: var(--w);
 	height: var(--h);
-	background-image: url("../../../assets/lbtn/images/CD/tuoguan2.png");
+	background-image: url("../../../assets/lbtn/CD/tuoguan2.png");
 	background-size: 100% 100%;
 	-webkit-text-fill-color: transparent;
 	text-shadow: none !important;
@@ -306,7 +306,7 @@
 	position: absolute;
 	bottom: 14%;
 	right: 0;
-	background-image: url("../../../assets/lbtn/images/uibutton/new_xiaolian_new.png");
+	background-image: url("../../../assets/lbtn/uibutton/new_xiaolian_new.png");
 	background-size: 100% 100%;
 	z-index: 3;
 }
@@ -335,7 +335,7 @@
 	--h: calc(var(--w) * 92 / 400);
 	width: var(--w);
 	height: var(--h);
-	background-image: url("../../../assets/lbtn/images/uibutton/new_count1.png");
+	background-image: url("../../../assets/lbtn/uibutton/new_count1.png");
 	background-size: 100% 100%;
 	position: relative;
 	transform: scaleX(-1);

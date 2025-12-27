@@ -608,7 +608,7 @@
 .sfrwzhugong {
 	position: fixed;
 	background-repeat: no-repeat;
-	background-image: url("../../assets/lbtn/images/JSJM/zhugong.png") !important;
+	background-image: url("../../assets/lbtn/JSJM/zhugong.png") !important;
 	background-size: 100% 100%;
 	width: 1000px;
 	height: 435px;
@@ -619,7 +619,7 @@
 .sfrwchongchen {
 	position: fixed;
 	background-repeat: no-repeat;
-	background-image: url("../../assets/lbtn/images/JSJM/zhongchen.png") !important;
+	background-image: url("../../assets/lbtn/JSJM/zhongchen.png") !important;
 	background-size: 100% 100%;
 	width: 1000px;
 	height: 435px;
@@ -630,7 +630,7 @@
 .sfrwfanzei {
 	position: fixed;
 	background-repeat: no-repeat;
-	background-image: url("../../assets/lbtn/images/JSJM/fanzei.png") !important;
+	background-image: url("../../assets/lbtn/JSJM/fanzei.png") !important;
 	background-size: 100% 100%;
 	width: 1000px;
 	height: 435px;
@@ -641,7 +641,7 @@
 .sfrwneijian {
 	position: fixed;
 	background-repeat: no-repeat;
-	background-image: url("../../assets/lbtn/images/JSJM/neijian.png") !important;
+	background-image: url("../../assets/lbtn/JSJM/neijian.png") !important;
 	background-size: 100% 100%;
 	width: 1000px;
 	height: 435px;
@@ -652,7 +652,7 @@
 .sfrwdizhu {
 	position: fixed;
 	background-repeat: no-repeat;
-	background-image: url("../../assets/lbtn/images/JSJM/dizhu.png") !important;
+	background-image: url("../../assets/lbtn/JSJM/dizhu.png") !important;
 	background-size: 100% 100%;
 	width: 1000px;
 	height: 435px;
@@ -663,7 +663,7 @@
 .sfrwnongmin {
 	position: fixed;
 	background-repeat: no-repeat;
-	background-image: url("../../assets/lbtn/images/JSJM/nongmin.png") !important;
+	background-image: url("../../assets/lbtn/JSJM/nongmin.png") !important;
 	background-size: 100% 100%;
 	width: 1000px;
 	height: 435px;
@@ -674,7 +674,7 @@
 .sfrwhu {
 	position: fixed;
 	background-repeat: no-repeat;
-	background-image: url("../../assets/lbtn/images/JSJM/hu.png") !important;
+	background-image: url("../../assets/lbtn/JSJM/hu.png") !important;
 	background-size: 100% 100%;
 	width: 1000px;
 	height: 435px;
@@ -685,7 +685,7 @@
 .sfrwweiguo {
 	position: fixed;
 	background-repeat: no-repeat;
-	background-image: url("../../assets/lbtn/images/JSJM/weiguo.png") !important;
+	background-image: url("../../assets/lbtn/JSJM/weiguo.png") !important;
 	background-size: 100% 100%;
 	width: 1000px;
 	height: 435px;
@@ -696,7 +696,7 @@
 .sfrwshuguo {
 	position: fixed;
 	background-repeat: no-repeat;
-	background-image: url("../../assets/lbtn/images/JSJM/shuguo.png") !important;
+	background-image: url("../../assets/lbtn/JSJM/shuguo.png") !important;
 	background-size: 100% 100%;
 	width: 1000px;
 	height: 435px;
@@ -707,7 +707,7 @@
 .sfrwwuguo {
 	position: fixed;
 	background-repeat: no-repeat;
-	background-image: url("../../assets/lbtn/images/JSJM/wuguo.png") !important;
+	background-image: url("../../assets/lbtn/JSJM/wuguo.png") !important;
 	background-size: 100% 100%;
 	width: 1000px;
 	height: 435px;
@@ -718,7 +718,7 @@
 .sfrwjinguo {
 	position: fixed;
 	background-repeat: no-repeat;
-	background-image: url("../../assets/lbtn/images/JSJM/jinguo.png") !important;
+	background-image: url("../../assets/lbtn/JSJM/jinguo.png") !important;
 	background-size: 100% 100%;
 	width: 1000px;
 	height: 435px;
@@ -729,7 +729,7 @@
 .sfrwyexinjia {
 	position: fixed;
 	background-repeat: no-repeat;
-	background-image: url("../../assets/lbtn/images/JSJM/yexinjia.png") !important;
+	background-image: url("../../assets/lbtn/JSJM/yexinjia.png") !important;
 	background-size: 100% 100%;
 	width: 1000px;
 	height: 435px;
@@ -740,7 +740,7 @@
 .sfrwqunxiong {
 	position: fixed;
 	background-repeat: no-repeat;
-	background-image: url("../../assets/lbtn/images/JSJM/qunxiong.png") !important;
+	background-image: url("../../assets/lbtn/JSJM/qunxiong.png") !important;
 	background-size: 100% 100%;
 	width: 1000px;
 	height: 435px;
@@ -751,7 +751,7 @@
 .sfrwundefined {
 	position: fixed;
 	background-repeat: no-repeat;
-	background-image: url("../../assets/lbtn/images/JSJM/undefined.png") !important;
+	background-image: url("../../assets/lbtn/JSJM/undefined.png") !important;
 	background-size: 100% 100%;
 	width: 1000px;
 	height: 435px;
@@ -762,7 +762,7 @@
 .sfrwxianshou {
 	position: fixed;
 	background-repeat: no-repeat;
-	background-image: url("../../assets/lbtn/images/JSJM/xianshou.png") !important;
+	background-image: url("../../assets/lbtn/JSJM/xianshou.png") !important;
 	background-size: 100% 100%;
 	width: 1000px;
 	height: 435px;
@@ -773,7 +773,7 @@
 .sfrwhoushou {
 	position: fixed;
 	background-repeat: no-repeat;
-	background-image: url("../../assets/lbtn/images/JSJM/houshou.png") !important;
+	background-image: url("../../assets/lbtn/JSJM/houshou.png") !important;
 	background-size: 100% 100%;
 	width: 1000px;
 	height: 435px;

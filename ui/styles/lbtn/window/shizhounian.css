@@ -34,7 +34,7 @@
 	top: 7%;
 	left: calc(100% - 119px);
 	background-size: 100% 100%;
-	background-image: url("../../../assets/lbtn/images/CD/HOME.png");
+	background-image: url("../../../assets/lbtn/CD/HOME.png");
 	z-index: 68;
 	position: relative;
 	transition: all 1s;
@@ -49,7 +49,7 @@
 	bottom: calc(100% - 423px);
 	left: calc(100% - 112.5px);
 	background-size: 100% 100%;
-	background-image: url("../../../assets/lbtn/images/CD/SZ.png");
+	background-image: url("../../../assets/lbtn/CD/SZ.png");
 	z-index: 99;
 	position: fixed;
 }
@@ -62,7 +62,7 @@
 	bottom: calc(100% - 298px);
 	left: calc(100% - 112.5px);
 	background-size: 100% 100%;
-	background-image: url("../../../assets/lbtn/images/CD/LK.png");
+	background-image: url("../../../assets/lbtn/CD/LK.png");
 	z-index: 99;
 	position: fixed;
 }
@@ -75,7 +75,7 @@
 	bottom: calc(100% - 360px);
 	left: calc(100% - 112.5px);
 	background-size: 100% 100%;
-	background-image: url("../../../assets/lbtn/images/CD/BJ.png");
+	background-image: url("../../../assets/lbtn/CD/BJ.png");
 	z-index: 99;
 	position: fixed;
 }
@@ -88,7 +88,7 @@
 	bottom: calc(100% - 237px);
 	left: calc(100% - 112.5px);
 	background-size: 100% 100%;
-	background-image: url("../../../assets/lbtn/images/CD/TX.png");
+	background-image: url("../../../assets/lbtn/CD/TX.png");
 	z-index: 99;
 	position: fixed;
 }
@@ -101,7 +101,7 @@
 	bottom: calc(100% - 178px);
 	left: calc(100% - 112.5px);
 	background-size: 100% 100%;
-	background-image: url("../../../assets/lbtn/images/CD/TG.png");
+	background-image: url("../../../assets/lbtn/CD/TG.png");
 	z-index: 99;
 	position: fixed;
 }
@@ -121,7 +121,7 @@
 }
 
 .control > div {
-	background-image: url("../../../assets/lbtn/images/uibutton/btnn2.png");
+	background-image: url("../../../assets/lbtn/uibutton/btnn2.png");
 	background-size: 100% 100%;
 	line-height: var(--h);
 	padding: 2.6px 15px !important;
@@ -160,7 +160,7 @@
 	margin-top: 0px !important;
 	margin-bottom: 18px !important;
 	background-size: 100% 100%;
-	background-image: url("../../../assets/lbtn/images/uibutton/btnn.png");
+	background-image: url("../../../assets/lbtn/uibutton/btnn.png");
 	overflow: visible;
 	transition: none;
 }
@@ -179,7 +179,7 @@
 	margin-top: 0px !important;
 	margin-bottom: 18px !important;
 	background-size: 100% 100%;
-	background-image: url("../../../assets/lbtn/images/uibutton/btnn2.png");
+	background-image: url("../../../assets/lbtn/uibutton/btnn2.png");
 }
 
 .control > div.disabled:not([data-type="endButton"]) {
@@ -213,7 +213,7 @@
 	bottom: 0px;
 	width: 60px;
 	height: 50px;
-	background-image: url("../../../assets/lbtn/images/uibutton/countx1.png");
+	background-image: url("../../../assets/lbtn/uibutton/countx1.png");
 	background-size: 100% 100%;
 	position: relative;
 	z-index: -1;
@@ -249,7 +249,7 @@
 	--h: calc(var(--w) * 173 / 127);
 	width: var(--w);
 	height: var(--h);
-	background-image: url("../../../assets/lbtn/images/uibutton/cardback3.png");
+	background-image: url("../../../assets/lbtn/uibutton/cardback3.png");
 	background-size: 100% 100%;
 	background-color: transparent;
 	position: relative;
@@ -300,7 +300,7 @@
 	--h: calc(var(--w) * 149 / 598);
 	width: var(--w);
 	height: var(--h);
-	background-image: url("../../../assets/lbtn/images/CD/tuoguan2.png");
+	background-image: url("../../../assets/lbtn/CD/tuoguan2.png");
 	background-size: 100% 100%;
 	-webkit-text-fill-color: transparent;
 	text-shadow: none !important;
@@ -314,7 +314,7 @@
 	position: absolute;
 	bottom: 2%;
 	right: 0;
-	background-image: url("../../../assets/lbtn/images/uibutton/huanfu.png");
+	background-image: url("../../../assets/lbtn/uibutton/huanfu.png");
 	background-size: 100% 100%;
 	border-radius: 10px;
 	z-index: 3;
@@ -327,7 +327,7 @@
 	position: absolute;
 	bottom: 14%;
 	right: 0;
-	background-image: url("../../../assets/lbtn/images/uibutton/jilu.png");
+	background-image: url("../../../assets/lbtn/uibutton/jilu.png");
 	background-size: 100% 100%;
 	border-radius: 10px;
 	z-index: 3;
@@ -342,7 +342,7 @@
 	bottom: 1%;
 	position: absolute;
 	right: 0;
-	background-image: url("../../../assets/lbtn/images/uibutton/huanfu_new.png");
+	background-image: url("../../../assets/lbtn/uibutton/huanfu_new.png");
 	background-size: 100% 100%;
 	border-radius: 1px;
 	z-index: 3;
@@ -357,7 +357,7 @@
 	position: absolute;
 	bottom: 9.9%;
 	right: 0;
-	background-image: url("../../../assets/lbtn/images/uibutton/jilu_new.png");
+	background-image: url("../../../assets/lbtn/uibutton/jilu_new.png");
 	background-size: 100% 100%;
 	border-radius: 1px;
 	z-index: 4;
@@ -372,7 +372,7 @@
 	position: absolute;
 	bottom: 18.4%;
 	right: 0;
-	background-image: url("../../../assets/lbtn/images/uibutton/meigui_new.png");
+	background-image: url("../../../assets/lbtn/uibutton/meigui_new.png");
 	background-size: 100% 100%;
 	z-index: 3;
 }
@@ -386,7 +386,7 @@
 	position: absolute;
 	bottom: 27.1%;
 	right: 0;
-	background-image: url("../../../assets/lbtn/images/uibutton/xiaolian_new.png");
+	background-image: url("../../../assets/lbtn/uibutton/xiaolian_new.png");
 	background-size: 100% 100%;
 	z-index: 3;
 }
@@ -415,7 +415,7 @@
 	--h: calc(var(--w) * 92 / 400);
 	width: var(--w);
 	height: var(--h);
-	background-image: url("../../../assets/lbtn/images/uibutton/count1.png");
+	background-image: url("../../../assets/lbtn/uibutton/count1.png");
 	background-size: 100% 100%;
 	position: relative;
 	transform: scaleX(-1);
@@ -437,7 +437,7 @@
 /* 背景选择器 */
 .bgdialog {
 	position: absolute;
-	background: url("../../../assets/lbtn/images/OL_line/bg/bgdialog.png");
+	background: url("../../../assets/lbtn/OL_line/bg/bgdialog.png");
 	background-size: 100% 100%;
 	width: 70%;
 	height: 90%;
@@ -488,14 +488,14 @@
 	height: 40px;
 	top: 5%;
 	right: 8%;
-	background-image: url("../../../assets/lbtn/images/OL_line/uibutton/back.png");
+	background-image: url("../../../assets/lbtn/OL_line/uibutton/back.png");
 	background-size: 100% 100%;
 	z-index: 100;
 	position: absolute;
 }
 
 .bgxuanzhong {
-	background: url("../../../assets/lbtn/images/OL_line/bg/gou.png");
+	background: url("../../../assets/lbtn/OL_line/bg/gou.png");
 	background-size: 100% 100%;
 	width: 45%;
 	height: 60%;

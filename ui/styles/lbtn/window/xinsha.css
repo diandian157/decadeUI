@@ -52,7 +52,7 @@
 }
 
 .control > div {
-	background-image: url("../../../assets/lbtn/images/uibutton/new_btnn.png");
+	background-image: url("../../../assets/lbtn/uibutton/new_btnn.png");
 	background-size: 100% 100%;
 	line-height: var(--h);
 	padding: 2.6px 23px !important;
@@ -85,7 +85,7 @@
 	margin-top: 0px !important;
 	margin-bottom: -15px !important;
 	background-size: 100% 100%;
-	background-image: url("../../../assets/lbtn/images/uibutton/new_btnn.png");
+	background-image: url("../../../assets/lbtn/uibutton/new_btnn.png");
 	overflow: visible;
 	transition: none;
 }
@@ -101,7 +101,7 @@
 	margin-top: 0px !important;
 	margin-bottom: -15px !important;
 	background-size: 100% 100%;
-	background-image: url("../../../assets/lbtn/images/uibutton/new_btnn.png");
+	background-image: url("../../../assets/lbtn/uibutton/new_btnn.png");
 }
 
 .control > div.disabled:not([data-type="endButton"]) {
@@ -137,7 +137,7 @@
 	--h: calc(var(--w) * 92 / 370);
 	width: var(--w);
 	height: var(--h);
-	background-image: linear-gradient(135deg, rgba(111, 78, 55, 0.8) 0%, rgba(111, 78, 55, 0) 100%), linear-gradient(to right, rgba(36, 31, 31, 0.8), rgba(36, 31, 31, 0.8)), url("../../../assets/lbtn/images/uibutton/new_count5.png");
+	background-image: linear-gradient(135deg, rgba(111, 78, 55, 0.8) 0%, rgba(111, 78, 55, 0) 100%), linear-gradient(to right, rgba(36, 31, 31, 0.8), rgba(36, 31, 31, 0.8)), url("../../../assets/lbtn/uibutton/new_count5.png");
 	background-size: 100% 100%;
 	position: relative;
 	z-index: -1;
@@ -175,7 +175,7 @@
 	--h: calc(var(--w) * 430 / 360);
 	width: var(--w);
 	height: var(--h);
-	background-image: url("../../../assets/lbtn/images/uibutton/new_cardback3.png");
+	background-image: url("../../../assets/lbtn/uibutton/new_cardback3.png");
 	background-size: 100% 100%;
 	background-color: transparent;
 	position: relative;
@@ -224,7 +224,7 @@
 	--h: calc(var(--w) * 149 / 598);
 	width: var(--w);
 	height: var(--h);
-	background-image: url("../../../assets/lbtn/images/CD/tuoguan2.png");
+	background-image: url("../../../assets/lbtn/CD/tuoguan2.png");
 	background-size: 100% 100%;
 	-webkit-text-fill-color: transparent;
 	text-shadow: none !important;
@@ -240,7 +240,7 @@
 	bottom: 24%;
 	position: absolute;
 	right: 0;
-	background-image: url("../../../assets/lbtn/images/uibutton/new_huanfu_new.png");
+	background-image: url("../../../assets/lbtn/uibutton/new_huanfu_new.png");
 	background-size: 100% 100%;
 	border-radius: 1px;
 	z-index: 3;
@@ -255,7 +255,7 @@
 	position: absolute;
 	bottom: 4%;
 	right: 0;
-	background-image: url("../../../assets/lbtn/images/uibutton/new_jilu_new.png");
+	background-image: url("../../../assets/lbtn/uibutton/new_jilu_new.png");
 	background-size: 100% 100%;
 	border-radius: 1px;
 	z-index: 4;
@@ -270,7 +270,7 @@
 	position: absolute;
 	bottom: 14%;
 	right: 0;
-	background-image: url("../../../assets/lbtn/images/uibutton/new_xiaolian_new.png");
+	background-image: url("../../../assets/lbtn/uibutton/new_xiaolian_new.png");
 	background-size: 100% 100%;
 	z-index: 3;
 }
@@ -299,7 +299,7 @@
 	--h: calc(var(--w) * 92 / 400);
 	width: var(--w);
 	height: var(--h);
-	background-image: url("../../../assets/lbtn/images/uibutton/new_count1.png");
+	background-image: url("../../../assets/lbtn/uibutton/new_count1.png");
 	background-size: 100% 100%;
 	position: relative;
 	transform: scaleX(-1);

@@ -58,7 +58,7 @@
 	background-size: 100% 100%;
 	margin-top: 9%;
 	position: relative;
-	background-image: url("../../../assets/lbtn/images/OL_line/uibutton/gameanniubuttonsbg.png");
+	background-image: url("../../../assets/lbtn/OL_line/uibutton/gameanniubuttonsbg.png");
 	background-size: 100% 100%;
 	font-size: 20px;
 	font-weight: 550;
@@ -71,7 +71,7 @@
 }
 
 .caidanbutton {
-	background-image: url("../../../assets/lbtn/images/OL_line/uibutton/caidan.png");
+	background-image: url("../../../assets/lbtn/OL_line/uibutton/caidan.png");
 	background-size: 100% 100%;
 	display: block;
 	width: 55px;
@@ -98,7 +98,7 @@
 }
 
 .control > div {
-	background-image: url("../../../assets/lbtn/images/OL_line/uibutton/seatui_btns_ingnore.png");
+	background-image: url("../../../assets/lbtn/OL_line/uibutton/seatui_btns_ingnore.png");
 	background-size: 100% 100%;
 	line-height: var(--h);
 	padding: 4px 23px !important;
@@ -137,7 +137,7 @@
 	margin-top: 0px !important;
 	margin-bottom: -15px !important;
 	background-size: 100% 100%;
-	background-image: url("../../../assets/lbtn/images/OL_line/uibutton/seatui_btns_confirm_2.png");
+	background-image: url("../../../assets/lbtn/OL_line/uibutton/seatui_btns_confirm_2.png");
 	overflow: visible;
 	transition: none;
 	text-shadow:
@@ -159,7 +159,7 @@
 	margin-top: 0px !important;
 	margin-bottom: -15px !important;
 	background-size: 100% 100%;
-	background-image: url("../../../assets/lbtn/images/OL_line/uibutton/seatui_btns_confirm_1.png");
+	background-image: url("../../../assets/lbtn/OL_line/uibutton/seatui_btns_confirm_1.png");
 	text-shadow:
 		2px 2px 0px #5d4022,
 		-2px -2px 0px #5d4022,
@@ -219,7 +219,7 @@
 	--h: 55px;
 	width: var(--w);
 	height: var(--h);
-	background-image: url("../../../assets/lbtn/images/OL_line/uibutton/round_info_time_bg.png");
+	background-image: url("../../../assets/lbtn/OL_line/uibutton/round_info_time_bg.png");
 	background-size: 100% 100%;
 	background-color: transparent;
 	position: relative;
@@ -287,7 +287,7 @@
 	--h: calc(var(--w) * 149 / 598);
 	width: var(--w);
 	height: var(--h);
-	background-image: url("../../../assets/lbtn/images/CD/tuoguan2.png");
+	background-image: url("../../../assets/lbtn/CD/tuoguan2.png");
 	background-size: 100% 100%;
 	-webkit-text-fill-color: transparent;
 	text-shadow: none !important;
