@@ -51,9 +51,9 @@ export function initHooks() {
 		let innerHTML = UIconfig !== "othersOff" || UIconfig === "on" ? "回合结束" : "结束出牌";
 		if (UIconfig === "onlineUI") innerHTML = "取消";
 		else if (_status.event.skill || (ui.selected?.cards ?? []).length > 0) {
-			innerHTML = UIconfig === "off" ? `<img draggable='false' src=${lib.assetURL}extension/十周年UI/ui/assets/lbtn/shared/QX.png>` : "取消";
+			innerHTML = UIconfig === "off" ? `<img draggable='false' src=${lib.assetURL}extension/十周年UI/ui/assets/lbtn/uibutton/QX.png>` : "取消";
 		} else if (UIconfig === "off") {
-			innerHTML = `<img draggable='false' src=${lib.assetURL}extension/十周年UI/ui/assets/lbtn/shared/jscp.png>`;
+			innerHTML = `<img draggable='false' src=${lib.assetURL}extension/十周年UI/ui/assets/lbtn/uibutton/jscp.png>`;
 		}
 		ui.confirm.lastChild.innerHTML = innerHTML;
 		const UIcustom = ui.confirm.custom;

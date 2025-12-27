@@ -412,7 +412,7 @@ export function createShoushaLbtnPlugin(lib, game, ui, get, ai, _status, app) {
 		// 创建聊天按钮
 		createChatButton() {
 			const btn = ui.create.node("img");
-			btn.src = `${lib.assetURL}${assetPath}shared/liaotian.png`;
+			btn.src = `${lib.assetURL}${assetPath}uibutton/liaotian.png`;
 			const isRight = lib.config["extension_十周年UI_rightLayout"] === "on";
 			btn.style.cssText = `display:block;--w:135px;--h:calc(var(--w)*1019/1400);width:var(--w);height:var(--h);position:absolute;top:calc(100% - 97px);${isRight ? "right" : "left"}:calc(100% - 129px);background-color:transparent;z-index:3;${isRight ? "" : "transform:scaleX(-1);"}`;
 
@@ -579,7 +579,7 @@ export function createShoushaLbtnPlugin(lib, game, ui, get, ai, _status, app) {
 		createIdentityTip() {
 			const self = this;
 			const tip = ui.create.node("img");
-			tip.src = `${lib.assetURL}${assetPath}shared/shenfen.png`;
+			tip.src = `${lib.assetURL}${assetPath}uibutton/shenfen.png`;
 			tip.style.cssText = "display:block;--w:400px;--h:calc(var(--w)*279/2139);width:var(--w);height:var(--h);position:absolute;top:-1px;left:-45px;background-color:transparent;z-index:1;";
 
 			tip.onclick = () => {

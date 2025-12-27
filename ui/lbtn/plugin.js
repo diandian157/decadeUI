@@ -107,7 +107,7 @@ export function createLbtnPlugin(lib, game, ui, get, ai, _status, app) {
 		// 创建聊天按钮
 		_createChatButton() {
 			const btn = ui.create.node("img");
-			btn.src = `${lib.assetURL}extension/十周年UI/ui/assets/lbtn/shared/liaotian.png`;
+			btn.src = `${lib.assetURL}extension/十周年UI/ui/assets/lbtn/uibutton/liaotian.png`;
 
 			const isRight = lib.config["extension_十周年UI_rightLayout"] === "on";
 			btn.style.cssText = `display:block;--w:135px;--h:calc(var(--w)*1019/1400);width:var(--w);height:var(--h);position:absolute;top:calc(100% - 97px);${isRight ? "right" : "left"}:calc(100% - 129px);background-color:transparent;z-index:3;${isRight ? "" : "transform:scaleX(-1);"}`;
@@ -176,7 +176,7 @@ export function createLbtnPlugin(lib, game, ui, get, ai, _status, app) {
 		// 创建身份提示
 		_createIdentityTip() {
 			const tip = ui.create.node("img");
-			tip.src = `${lib.assetURL}extension/十周年UI/ui/assets/lbtn/shared/shenfen.png`;
+			tip.src = `${lib.assetURL}extension/十周年UI/ui/assets/lbtn/uibutton/shenfen.png`;
 			tip.style.cssText = "display:block;--w:400px;--h:calc(var(--w)*279/2139);width:var(--w);height:var(--h);position:absolute;top:-1px;left:-45px;background-color:transparent;z-index:1;";
 
 			tip.onclick = () => {
@@ -346,7 +346,7 @@ export function createLbtnPlugin(lib, game, ui, get, ai, _status, app) {
 					confirm.node.cancel.classList.add("primary2");
 				}
 
-				confirm.node.cancel.innerHTML = `<image style="width:80px;height:15px;" src="${lib.assetURL}extension/十周年UI/ui/assets/lbtn/shared/QX.png">`;
+				confirm.node.cancel.innerHTML = `<image style="width:80px;height:15px;" src="${lib.assetURL}extension/十周年UI/ui/assets/lbtn/uibutton/QX.png">`;
 				confirm.custom = handleConfirm;
 
 				app.reWriteFunction(confirm, {
@@ -382,8 +382,8 @@ export function createLbtnPlugin(lib, game, ui, get, ai, _status, app) {
 						item.link = skill;
 
 						if (skill === "_recasting") {
-							item.innerHTML = `<img draggable='false' src='${lib.assetURL}extension/十周年UI/ui/assets/lbtn/shared/CZ.png'>`;
-							item.style.backgroundImage = `url(${lib.assetURL}extension/十周年UI/ui/assets/lbtn/shared/game_btn_bg2.png)`;
+							item.innerHTML = `<img draggable='false' src='${lib.assetURL}extension/十周年UI/ui/assets/lbtn/uibutton/CZ.png'>`;
+							item.style.backgroundImage = `url(${lib.assetURL}extension/十周年UI/ui/assets/lbtn/uibutton/game_btn_bg2.png)`;
 							item.style.transform = "scale(0.75)";
 							item.style.setProperty("padding", "25px 10px", "important");
 						} else {
@@ -444,11 +444,11 @@ export function createLbtnPlugin(lib, game, ui, get, ai, _status, app) {
 				paixu.onclick = () => {
 					if (!window.paixuxx) {
 						AutoSort.start();
-						paixu.setBackgroundImage("extension/十周年UI/ui/assets/lbtn/shared/zidongpaixu.png");
+						paixu.setBackgroundImage("extension/十周年UI/ui/assets/lbtn/uibutton/zidongpaixu.png");
 						window.paixuxx = true;
 					} else {
 						AutoSort.stop();
-						paixu.setBackgroundImage("extension/十周年UI/ui/assets/lbtn/shared/btn-paixu.png");
+						paixu.setBackgroundImage("extension/十周年UI/ui/assets/lbtn/uibutton/btn-paixu.png");
 						window.paixuxx = false;
 					}
 				};
