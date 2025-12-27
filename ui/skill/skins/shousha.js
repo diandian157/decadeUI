@@ -34,7 +34,43 @@ export function createShoushaSkillPlugin(lib, game, ui, get, ai, _status, app) {
 					return ui.skills;
 				},
 				skills2: skills => {
-					ui.skills2 = plugin.createSkills(skills, ui.skills2);
+					// 过滤global关联技能，避免confirm区域重复
+					let filteredSkills = skills;
+					let globalSkillsList = [];
+					if (skills && game.me) {
+						const globalSkills = new Set();
+						game.me.getSkills("invisible", null, false).forEach(s => {
+							const info = get.info(s);
+							if (info?.global) {
+								const globals = Array.isArray(info.global) ? info.global : [info.global];
+								globals.forEach(g => globalSkills.add(g));
+							}
+						});
+						globalSkillsList = skills.filter(s => globalSkills.has(s));
+						filteredSkills = skills.filter(s => !globalSkills.has(s));
+					}
+					ui.skills2 = plugin.createSkills(filteredSkills, ui.skills2);
+					// 为global技能创建隐藏control节点（供点击触发）
+					if (globalSkillsList.length && !ui._globalSkillsControl) {
+						const container = ui.create.div(".control.skillControl", ui.skillControlArea);
+						Object.assign(container, lib.element.control);
+						container.style.display = "none";
+						container.skills = [];
+						container.custom = ui.click.skill;
+						ui._globalSkillsControl = container;
+					}
+					if (ui._globalSkillsControl) {
+						globalSkillsList.forEach(skill => {
+							if (!ui._globalSkillsControl.querySelector(`[data-id="${skill}"]`)) {
+								const item = ui.create.div(ui._globalSkillsControl);
+								item.link = skill;
+								item.dataset.id = skill;
+								item.addEventListener(lib.config.touchscreen ? "touchend" : "click", ui.click.control);
+								ui._globalSkillsControl.skills.push(skill);
+							}
+						});
+					}
+					if (ui.skills2) ui.skills2.allSkills = skills;
 					ui.skillControl?.update();
 					return ui.skills2;
 				},
@@ -226,15 +262,28 @@ export function createShoushaSkillPlugin(lib, game, ui, get, ai, _status, app) {
 					if (expandedS.some(s => expandedE.includes(s))) return this;
 				}
 
-				const skills = game.expandSkills([skill]).map(s => app.get.skillInfo(s));
-				let hasSame = false;
-				const enableSkills = skills.filter(s => {
-					if (s.type !== "enable") return false;
-					if (s.name === skills[0].name) hasSame = true;
-					return true;
-				});
+				// 展开技能(含group/global)
+				const expandWithGlobal = skillId => {
+					const result = [skillId];
+					const info = get.info(skillId);
+					if (info?.group) {
+						const groups = Array.isArray(info.group) ? info.group : [info.group];
+						groups.forEach(g => {
+							if (lib.skill[g]) result.push(g);
+						});
+					}
+					if (info?.global) {
+						const globals = Array.isArray(info.global) ? info.global : [info.global];
+						globals.forEach(g => {
+							if (lib.skill[g]) result.push(g);
+						});
+					}
+					return result;
+				};
 
-				if (!hasSame) enableSkills.unshift(skills[0]);
+				const skills = expandWithGlobal(skill).map(s => app.get.skillInfo(s));
+				const enableSkills = skills.filter(s => s.type === "enable");
+				// 优先显示主动技能
 				const showSkills = enableSkills.length ? enableSkills : skills;
 
 				showSkills.forEach(item => {
@@ -295,10 +344,15 @@ export function createShoushaSkillPlugin(lib, game, ui, get, ai, _status, app) {
 			// 更新显示
 			update() {
 				const skills = [];
-				// shousha 样式的 gskills (skills2) 显示在 confirm 按钮区域，不在 skillControl 中显示
 				[ui.skills, ui.skills3].forEach(s => {
 					if (s) skills.addArray(s.skills);
 				});
+				// 包含skills2所有技能（含global技能）
+				if (ui.skills2?.allSkills) {
+					skills.addArray(ui.skills2.allSkills);
+				} else if (ui.skills2) {
+					skills.addArray(ui.skills2.skills);
+				}
 
 				Array.from(this.node.enable.childNodes).forEach(item => {
 					item.classList.toggle("usable", skills.includes(item.dataset.id));

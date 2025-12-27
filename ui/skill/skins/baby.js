@@ -84,10 +84,23 @@ export function createBabySkillPlugin(lib, game, ui, get, ai, _status, app) {
 				game.expandSkills(iSkills);
 				skills.addArray(iSkills.filter(s => get.info(s)?.enable));
 
+				// 过滤掉通过global关联的技能，避免重复
+				if (gSkills) {
+					const globalSkills = new Set();
+					skills.forEach(s => {
+						const info = get.info(s);
+						if (info?.global) {
+							const globals = Array.isArray(info.global) ? info.global : [info.global];
+							globals.forEach(g => globalSkills.add(g));
+						}
+					});
+					gSkills = gSkills.filter(s => !globalSkills.has(s));
+				}
+
 				if (player === game.me) {
 					const skillControl = ui.create.skillControl(clear);
 					skillControl.add(skills, eSkills);
-					if (gSkills) skillControl.add(gSkills);
+					if (gSkills?.length) skillControl.add(gSkills);
 					skillControl.update();
 					game.addVideo("updateSkillControl", player, clear);
 				}
@@ -129,8 +142,28 @@ export function createBabySkillPlugin(lib, game, ui, get, ai, _status, app) {
 					if (expandedS.some(s => expandedE.includes(s))) return this;
 				}
 
-				const skills = game.expandSkills([skill]).map(s => app.get.skillInfo(s));
-				const enableSkills = this.getEnableSkills(skills);
+				// 展开技能(含group/global)
+				const expandWithGlobal = skillId => {
+					const result = [skillId];
+					const info = get.info(skillId);
+					if (info?.group) {
+						const groups = Array.isArray(info.group) ? info.group : [info.group];
+						groups.forEach(g => {
+							if (lib.skill[g]) result.push(g);
+						});
+					}
+					if (info?.global) {
+						const globals = Array.isArray(info.global) ? info.global : [info.global];
+						globals.forEach(g => {
+							if (lib.skill[g]) result.push(g);
+						});
+					}
+					return result;
+				};
+
+				const skills = expandWithGlobal(skill).map(s => app.get.skillInfo(s));
+				const enableSkills = skills.filter(s => s.type === "enable");
+				// 优先显示主动技能
 				const showSkills = enableSkills.length ? enableSkills : skills;
 
 				// 排序：主动技 > 被动技
@@ -157,17 +190,6 @@ export function createBabySkillPlugin(lib, game, ui, get, ai, _status, app) {
 				});
 
 				return this;
-			},
-
-			getEnableSkills(skills) {
-				let hasSame = false;
-				const enableSkills = skills.filter(s => {
-					if (s.type !== "enable") return false;
-					if (s.name === skills[0].name) hasSame = true;
-					return true;
-				});
-				if (!hasSame) enableSkills.unshift(skills[0]);
-				return enableSkills;
 			},
 
 			hasExistingNode(skillId) {
