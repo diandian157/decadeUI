@@ -93,6 +93,18 @@ export function throwEmotion(target, emotionType) {
 	}
 }
 
+// 检查是否处于投掷模式
+export function isInThrowMode() {
+	return THROW_ITEM_NAMES.some(item => window[item]?.thrownn);
+}
+
+// 退出投掷模式
+export function exitThrowMode() {
+	THROW_ITEM_NAMES.forEach(item => {
+		if (window[item]) window[item].thrownn = false;
+	});
+}
+
 // 隐藏弹窗
 export function hideDialog(dialog, styleProp, styleValue, delay = DIALOG_HIDE_DELAY) {
 	if (!dialog?.show) return;
@@ -268,10 +280,23 @@ export function initChatSystem(lib, game, ui, get) {
 			return;
 		}
 
-		// 创建遮罩层，点击关闭聊天
+		// 遮罩层：处理点击关闭和投掷转发
 		window.chatOverlay = ui.create.div("hidden");
 		window.chatOverlay.style.cssText = "position:fixed;left:0;top:0;width:100%;height:100%;z-index:98;background:transparent;";
-		window.chatOverlay.onclick = () => game.showChatWordBackgroundX();
+		window.chatOverlay.onclick = e => {
+			if (isInThrowMode()) {
+				const elementsAtPoint = document.elementsFromPoint(e.clientX, e.clientY);
+				const player = game.players?.find(p => elementsAtPoint.some(el => p === el || p.contains(el)));
+				if (player?.onclick) {
+					player.onclick.call(player);
+				} else {
+					exitThrowMode();
+					game.showChatWordBackgroundX();
+				}
+			} else {
+				game.showChatWordBackgroundX();
+			}
+		};
 		ui.window.appendChild(window.chatOverlay);
 
 		window.chatBg = ui.create.div("hidden");
@@ -513,7 +538,9 @@ function createThrowItemElement(config, chatAssetPath, game, ui, lib) {
 	labelDiv.textContent = label;
 	labelDiv.style.cssText = "position:absolute;bottom:1px;left:0;right:0;text-align:center;color:rgba(255,220,0,0.7);font-size:12px;font-family:shousha;";
 	window[name].appendChild(labelDiv);
-	window[name].onclick = () => (window[name].thrownn = true);
+	window[name].onclick = () => {
+		window[name].thrownn = true;
+	};
 	window.chatBg.appendChild(window[name]);
 	if (typeof lib !== "undefined") lib.setScroll(window[name]);
 	addClickEffect(window[name]);
@@ -540,7 +567,9 @@ function createXuwuElement(chatAssetPath, game, ui, lib) {
 	xuwuLabel.textContent = "鸡蛋风暴";
 	xuwuLabel.style.cssText = "position:absolute;bottom:1px;left:0;right:0;text-align:center;color:rgba(255,220,0,0.7);font-size:12px;font-family:shousha;";
 	window.xuwu.appendChild(xuwuLabel);
-	window.xuwu.onclick = () => (window.xuwu.thrownn = true);
+	window.xuwu.onclick = () => {
+		window.xuwu.thrownn = true;
+	};
 	window.chatBg.appendChild(window.xuwu);
 	if (typeof lib !== "undefined") lib.setScroll(window.xuwu);
 	addClickEffect(window.xuwu);

@@ -196,11 +196,11 @@ export let config = {
 		name: "卡牌边框",
 		init: "off",
 		item: { off: "关闭", kuang1: "大司马", kuang2: "大将军", kuang3: "国都护" },
-		// 边框与背景联动映射：kuang1/2/3 → kb4/3/2（大司马/大将军/国都护）
+		// 边框与背景联动映射：kuang1/2/3 → kb4/3/2（大司马/大将军/国都护），off → null（使用本体卡背）
 		onclick(item) {
 			game.saveConfig("extension_十周年UI_cardkmh", item);
-			const bgMap = { off: "kb1", kuang1: "kb4", kuang2: "kb3", kuang3: "kb2" };
-			game.saveConfig("extension_十周年UI_cardbj", bgMap[item] || "kb1");
+			const bgMap = { kuang1: "kb4", kuang2: "kb3", kuang3: "kb2" };
+			game.saveConfig("extension_十周年UI_cardbj", bgMap[item] || null);
 			// 热更新样式
 			window.decadeUI?.updateCardStyles?.();
 		},
@@ -208,8 +208,8 @@ export let config = {
 		update() {
 			if (!game?.saveConfig) return;
 			const border = lib.config.extension_十周年UI_cardkmh || "off";
-			const bgMap = { off: "kb1", kuang1: "kb4", kuang2: "kb3", kuang3: "kb2" };
-			game.saveConfig("extension_十周年UI_cardbj", bgMap[border] || "kb1");
+			const bgMap = { kuang1: "kb4", kuang2: "kb3", kuang3: "kb2" };
+			game.saveConfig("extension_十周年UI_cardbj", bgMap[border] || null);
 		},
 	},
 

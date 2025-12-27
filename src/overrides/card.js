@@ -126,16 +126,21 @@ export function cardInit(card) {
 /** 应用卡牌皮肤 */
 function applyCardSkin(cardElement, card) {
 	const skinKey = lib.config.extension_十周年UI_cardPrettify;
+	const isOff = !skinKey || skinKey === "off";
 
-	// 清除旧皮肤，恢复原始背景
-	if (cardElement._decadeRawBg) cardElement.style.background = cardElement._decadeRawBg;
+	// 清除旧皮肤样式
 	cardElement.classList.remove("decade-card");
 
-	if (!skinKey || skinKey === "off") return;
+	if (isOff) {
+		// 关闭时清除内联样式，让本体CSS生效
+		cardElement.style.removeProperty("background");
+		return;
+	}
+
 	const skin = cardSkinMeta[skinKey];
 	if (!skin) return;
 
-	// 保存原始背景（仅首次）
+	// 保存原始背景（仅首次启用皮肤时）
 	if (!cardElement._decadeRawBg) cardElement._decadeRawBg = cardElement.style.background || "";
 
 	const cardName = Array.isArray(card) ? card[2] : card.name;

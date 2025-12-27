@@ -55,7 +55,7 @@ function getBgByPlayer(player, isMe) {
 	}
 	if (!isFeatureEnabled()) return null;
 	const level = player.dataset?.borderLevel || lib.config.extension_十周年UI_borderLevel || "five";
-	return level in levelToBg ? levelToBg[level] : "kb4";
+	return levelToBg[level] || null;
 }
 
 /** 为卡牌应用边框和卡背样式 */
@@ -76,7 +76,7 @@ export function applyCardBorder(card, player, isMe = false) {
 	}
 
 	const bg = getBgByPlayer(player, isMe);
-	if (bg && bg !== "kb1" && (card.classList.contains("infohidden") || card.classList.contains("infoflip") || !card.childElementCount)) {
+	if (bg && (card.classList.contains("infohidden") || card.classList.contains("infoflip") || !card.childElementCount)) {
 		const bgUrl = `${lib.assetURL}extension/十周年UI/assets/image/${bg}.png`;
 		card.style.setProperty("background", `url('${bgUrl}')`, "important");
 		card.style.setProperty("background-size", "100% 100%", "important");
@@ -89,11 +89,11 @@ export function updateCardStyles() {
 	const cardBg = lib.config.extension_十周年UI_cardbj;
 	const selector = ".hand-cards > .handcards > .card";
 
-	// 更新边框样式
+	// 更新边框样式（关闭时清空）
 	borderStyleEl = updateStyle(borderStyleEl, getBorderCSS(borderConfig, selector, 20));
 
-	// 更新卡背样式
-	const bgCSS = cardBg && cardBg !== "kb1" ? `${selector}:empty, ${selector}.infohidden { background: url('${lib.assetURL}extension/十周年UI/assets/image/${cardBg}.png'); background-size: 100% 100% !important; }` : "";
+	// 更新卡背样式（关闭时清空，使用本体卡背）
+	const bgCSS = cardBg ? `${selector}:empty, ${selector}.infohidden { background: url('${lib.assetURL}extension/十周年UI/assets/image/${cardBg}.png'); background-size: 100% 100% !important; }` : "";
 	bgStyleEl = updateStyle(bgStyleEl, bgCSS);
 }
 
