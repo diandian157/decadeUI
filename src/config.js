@@ -1,5 +1,6 @@
 import { lib, game, ui, get, ai, _status } from "noname";
 import { refreshCardSkin } from "./overrides/card.js";
+import { chupaiAnimations } from "./animation/configs/skillAnimations.js";
 
 // 卡牌皮肤预设配置
 const cardSkinPresets = [
@@ -230,19 +231,25 @@ export let config = {
 			random: "随机",
 			off: "关闭",
 		},
-		onclick(item) {
-			game.saveConfig("extension_十周年UI_chupaizhishi", item);
-			this.update();
-		},
 		update() {
+			if (!window.decadeUI) return;
 			const config = lib.config.extension_十周年UI_chupaizhishi;
-			if (config === "random") {
-				const options = ["shousha", "shoushaX", "jiangjun", "weijiangjun", "cheqijiangjun", "biaoqijiangjun", "dajiangjun", "dasima"];
-				if (window.decadeUI) decadeUI.config.chupaizhishi = options.randomGet();
-			} else if (window.decadeUI) {
-				decadeUI.config.chupaizhishi = config;
-				ui.arena.dataset.chupaizhishi = config;
-			}
+			const options = ["shousha", "shoushaX", "jiangjun", "weijiangjun", "cheqijiangjun", "biaoqijiangjun", "dajiangjun", "dasima"];
+			decadeUI.config.chupaizhishi = config === "random" ? options.randomGet() : config;
+			ui.arena.dataset.chupaizhishi = config;
+
+			// 热更新：刷新当前可选玩家的动画
+			if (!game.players || !decadeUI.animation) return;
+			game.players.forEach(player => {
+				if (player.ChupaizhishiXid) {
+					decadeUI.animation.stopSpine(player.ChupaizhishiXid);
+					delete player.ChupaizhishiXid;
+				}
+				if (player.classList.contains("selectable") && config !== "off") {
+					const anim = chupaiAnimations[decadeUI.config.chupaizhishi];
+					if (anim) player.ChupaizhishiXid = decadeUI.animation.playSpine({ name: anim.name, loop: true }, { parent: player, scale: anim.scale });
+				}
+			});
 		},
 	},
 
