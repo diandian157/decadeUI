@@ -1,7 +1,7 @@
 "use strict";
 
 /**
- * 扩展快捷开关 - 一键一键关闭其他/一键恢复其他其他扩展
+ * 扩展快捷开关 - 关闭其他/恢复其他其他扩展
  */
 
 import { lib, game, ui, get, ai, _status } from "noname";
@@ -9,9 +9,12 @@ import { lib, game, ui, get, ai, _status } from "noname";
 const STORAGE_KEY = "extension_十周年UI_closedExtensions";
 const getCurrentExtName = () => window.decadeUIName || "十周年UI";
 
+// 白名单：这些扩展不会被关闭
+const PROTECTED_EXTENSIONS = ["AI禁将", "自用插件", "奇妙工具", "全能搜索"];
+
 const getOtherExtensions = () => {
 	const current = getCurrentExtName();
-	return (lib.config.extensions || []).filter(ext => ext !== current);
+	return (lib.config.extensions || []).filter(ext => ext !== current && !PROTECTED_EXTENSIONS.includes(ext));
 };
 
 const getEnabledExtensions = () => getOtherExtensions().filter(ext => lib.config[`extension_${ext}_enable`]);
@@ -23,7 +26,7 @@ const getClosedExtensions = () => {
 
 const hasClosedExtensions = () => getClosedExtensions().length > 0;
 
-const getButtonText = () => (hasClosedExtensions() ? "一键恢复其他扩展" : "一键关闭其他扩展");
+const getButtonText = () => (hasClosedExtensions() ? "恢复其他扩展" : "关闭其他扩展");
 
 /** 切换扩展状态 */
 const toggleExtensions = () => {
@@ -31,11 +34,11 @@ const toggleExtensions = () => {
 	const list = hasClosed ? getClosedExtensions() : getEnabledExtensions();
 
 	if (list.length === 0) {
-		alert(hasClosed ? "没有需要一键恢复其他的扩展" : "没有其他已启用的扩展");
+		alert(hasClosed ? "没有需要恢复其他的扩展" : "没有其他已启用的扩展");
 		return;
 	}
 
-	const action = hasClosed ? "一键恢复其他" : "一键关闭其他";
+	const action = hasClosed ? "恢复其他" : "关闭其他";
 	const extList = list.map(ext => `· ${ext}`).join("\n");
 	if (!confirm(`确定${action}以下 ${list.length} 个扩展？\n\n${extList}\n\n将自动重启游戏。`)) return;
 
