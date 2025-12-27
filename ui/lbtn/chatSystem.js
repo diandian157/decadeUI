@@ -124,8 +124,8 @@ export function hideOtherDialogs(excludeDialog, dialogConfigs) {
 	});
 }
 
-// 创建基础弹窗
-export function createDialogBase(name, config) {
+// 创建弹窗
+export function createDialogBase(config) {
 	const dialog = ui.create.div("hidden");
 	dialog.classList.add("popped", "static");
 	dialog.show = true;
@@ -140,21 +140,13 @@ export function createDialogBase(name, config) {
 	return dialog;
 }
 
-// 创建弹窗背景
-export function createDialogBackground(parent, config) {
-	const bgPict = ui.create.div("hidden");
-	Object.assign(bgPict.style, config.pictStyles);
-	bgPict.setBackgroundImage(config.pictImage);
-	if (config.pictBoxShadow !== undefined) bgPict.style.boxShadow = config.pictBoxShadow;
-	parent.appendChild(bgPict);
-
-	const bgColor = ui.create.div("hidden");
-	Object.assign(bgColor.style, config.colorStyles);
-	bgColor.setBackgroundImage(config.colorImage);
-	if (typeof lib !== "undefined") lib.setScroll(bgColor);
-	parent.appendChild(bgColor);
-
-	return { bgPict, bgColor };
+// 创建弹窗内容容器
+export function createContentContainer(parent, styles) {
+	const container = ui.create.div("hidden");
+	Object.assign(container.style, styles);
+	if (typeof lib !== "undefined") lib.setScroll(container);
+	parent.appendChild(container);
+	return container;
 }
 
 // 按钮点击效果
@@ -326,7 +318,7 @@ export function initChatSystem(lib, game, ui, get) {
 				return;
 			}
 
-			window.dialog_lifesay = createDialogBase("dialog_lifesay", {
+			window.dialog_lifesay = createDialogBase({
 				styles: { height: "300px", width: "600px", left: "-600px", top: "calc(35% - 100px)", transition: "all 1s", opacity: "1", borderRadius: "8px", backgroundSize: "100% 100%" },
 				backgroundImage: `${chatAssetPath}saydiv.png`,
 				zIndex: 999999999,
@@ -334,11 +326,13 @@ export function initChatSystem(lib, game, ui, get) {
 				animation: { left: "calc(50% - 300px)" },
 			});
 
-			const { bgColor } = createDialogBackground(window.dialog_lifesay, {
-				pictStyles: { height: "100%", width: "100%", left: "0%", top: "0%", borderRadius: "8px", backgroundSize: "100% 100%" },
-				pictImage: `${chatAssetPath}saydiv.png`,
-				pictBoxShadow: "none",
-				colorStyles: { height: "70%", width: "80%", left: "10%", top: "10%", borderRadius: "8px", overflowY: "scroll" },
+			const bgColor = createContentContainer(window.dialog_lifesay, {
+				height: "70%",
+				width: "80%",
+				left: "10%",
+				top: "10%",
+				borderRadius: "8px",
+				overflowY: "scroll",
 			});
 
 			let skills = game.me?.getSkills?.(null, false, false).filter(s => !get.info(s)?.charlotte) || [];
@@ -467,11 +461,14 @@ export function initChatSystem(lib, game, ui, get) {
 		game.mouseChatDiv(window.chatBackground);
 		ui.window.appendChild(window.chatBackground);
 
-		const { bgColor } = createDialogBackground(window.chatBackground, {
-			pictStyles: { height: "100%", width: "100%", left: "0%", bottom: "0%", transition: "none", borderRadius: "8px", backgroundSize: "100% 100%" },
-			pictImage: `${chatAssetPath}saydiv.png`,
-			pictBoxShadow: "none",
-			colorStyles: { height: "70%", width: "80%", left: "10%", top: "10%", transition: "none", borderRadius: "8px", backgroundSize: "100% 100%" },
+		const bgColor = createContentContainer(window.chatBackground, {
+			height: "70%",
+			width: "80%",
+			left: "10%",
+			top: "10%",
+			transition: "none",
+			borderRadius: "8px",
+			backgroundSize: "100% 100%",
 		});
 
 		window.chatBackground2 = ui.create.div("hidden");
@@ -603,7 +600,7 @@ function createEmojiButton(chatAssetPath, EMOTION_SIZE, game, ui, lib) {
 			return;
 		}
 
-		window.dialog_emoji = createDialogBase("dialog_emoji", {
+		window.dialog_emoji = createDialogBase({
 			styles: { height: "330px", width: "600px", left: "calc(50% - 300px)", top: "100%", transition: "all 1s", opacity: "1", borderRadius: "8px", backgroundSize: "100% 100%" },
 			backgroundImage: `${chatAssetPath}saydiv.png`,
 			zIndex: 999999999,
@@ -611,11 +608,13 @@ function createEmojiButton(chatAssetPath, EMOTION_SIZE, game, ui, lib) {
 			animation: { top: "calc(35% - 125px)" },
 		});
 
-		const { bgColor } = createDialogBackground(window.dialog_emoji, {
-			pictStyles: { height: "100%", width: "100%", left: "0%", top: "0%", borderRadius: "8px", backgroundSize: "100% 100%" },
-			pictImage: `${chatAssetPath}saydiv.png`,
-			pictBoxShadow: "none",
-			colorStyles: { height: "70%", width: "80%", left: "10%", top: "10%", borderRadius: "8px", overflowY: "scroll" },
+		const bgColor = createContentContainer(window.dialog_emoji, {
+			height: "70%",
+			width: "80%",
+			left: "10%",
+			top: "10%",
+			borderRadius: "8px",
+			overflowY: "scroll",
 		});
 
 		let emotionIndex = 0;
