@@ -17,6 +17,7 @@ import { setupCardDragSort } from "./features/cardDragSort.js";
 import { setupEquipHand } from "./features/equipHand.js";
 import { setupLuckyCard } from "./features/luckyCard.js";
 import { setupExtensionToggle } from "./features/extensionToggle.js";
+import { setupStyleHotkeys } from "./features/styleHotkeys.js";
 
 // 音频模块
 import { setupSkillDieAudio, setupAudioHooks, setupEnhancedAudio } from "./audio/index.js";
@@ -70,6 +71,7 @@ export const finalizeDecadeUICore = (decadeUI, config) => {
 	setupEquipHand();
 	setupLuckyCard();
 	setupExtensionToggle();
+	setupStyleHotkeys();
 	setupEnhancedAudio();
 	setupCharacterBackground();
 	setupCardStyles();
