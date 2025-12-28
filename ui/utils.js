@@ -1,12 +1,13 @@
 /**
  * 通用工具函数
  */
+import { lib, game, ui, get, ai, _status } from "noname";
 
 // 生成随机百分比
 export const getRandomPercentage = () => (Math.random() * 100).toFixed(2);
 
 // 随机整数
-export const randomInt = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
+export const randomInt = (min, max) => get.rand(min, max);
 
 // 数字转图片HTML
 export function numberToImages(number, basePath) {
@@ -99,9 +100,7 @@ export function getGroupBackgroundImage(group, skinPath) {
 }
 
 // 播放音效
-export function playAudio(path) {
-	game.playAudio(path);
-}
+export const playAudio = path => game.playAudio(path);
 
 // 按钮点击效果
 export function addClickEffect(element) {
@@ -129,6 +128,9 @@ export function hideDialog(dialog, prop, value, delay = 1000) {
 		dialog.show = false;
 	}, delay);
 }
+
+// 随机整数（兼容旧代码）
+export { randomInt as getRandom };
 
 // 工具集合（兼容旧代码）
 export const Utils = {

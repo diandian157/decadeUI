@@ -1,7 +1,8 @@
 "use strict";
 
 /**
- * 扩展快捷开关 - 关闭其他/恢复其他其他扩展
+ * 扩展快捷开关 - 关闭其他/恢复其他扩展
+ * 用户/其他扩展可以在自己扩展里通过设置 _status.PROTECTED_EXTENSIONS 来追加自己需要保护的扩展
  */
 
 import { lib, game, ui, get, ai, _status } from "noname";
@@ -9,8 +10,8 @@ import { lib, game, ui, get, ai, _status } from "noname";
 const STORAGE_KEY = "extension_十周年UI_closedExtensions";
 const getCurrentExtName = () => window.decadeUIName || "十周年UI";
 
-// 白名单：这些扩展不会被关闭
-const PROTECTED_EXTENSIONS = ["AI禁将", "自用插件", "奇妙工具", "全能搜索"].concat(_status.PROTECTED_EXTENSIONS ?? []);
+// 白名单
+const PROTECTED_EXTENSIONS = _status.PROTECTED_EXTENSIONS ?? [];
 
 const getOtherExtensions = () => {
 	const current = getCurrentExtName();
@@ -34,7 +35,7 @@ const toggleExtensions = () => {
 	const list = hasClosed ? getClosedExtensions() : getEnabledExtensions();
 
 	if (list.length === 0) {
-		alert(hasClosed ? "没有需要恢复其他的扩展" : "没有其他已启用的扩展");
+		alert(hasClosed ? "没有需要恢复的扩展" : "没有其他已启用的扩展");
 		return;
 	}
 

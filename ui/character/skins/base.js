@@ -2,6 +2,7 @@
  * character插件基础类
  * 提供所有样式共用的基础功能
  */
+import { lib, game, ui, get, ai, _status } from "noname";
 
 /**
  * 创建基础character插件

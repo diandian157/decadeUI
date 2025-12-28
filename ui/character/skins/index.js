@@ -2,7 +2,7 @@
  * character样式管理器
  * 根据配置加载对应样式
  */
-
+import { lib, game, ui, get, ai, _status } from "noname";
 import { createShoushaCharacterPlugin } from "./shousha.js";
 import { createShizhounianCharacterPlugin } from "./shizhounian.js";
 import { createXinshaCharacterPlugin } from "./xinsha.js";

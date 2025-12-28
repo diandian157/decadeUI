@@ -110,21 +110,21 @@ export function playerGetState() {
 /**
  * 检查是否应该跳过标记
  */
+const SKIP_PREFIXES = ["xinfu_falu_", "starcanxi_"];
+const SKIP_EXCEPTIONS = new Set(["starcanxi_wangsheng", "starcanxi_xiangsi", "starcanxi_cancel"]);
+
 function shouldSkipMark(item) {
-	const style = lib.config.extension_十周年UI_newDecadeStyle;
-	if (item && style != "Off") {
-		const info = get.info(item);
-		if (info && (info.zhuanhuanji || info.zhuanhuanji2 || info.limited)) return true;
-	}
-	if (item && typeof item === "string") {
-		if (item.startsWith("xinfu_falu_")) {
-			if (style === "on" || style === "othersOff") return true;
-		}
-		if (item.startsWith("starcanxi_") && item !== "starcanxi_wangsheng" && item !== "starcanxi_xiangsi" && item !== "starcanxi_cancel") {
-			if (style === "on" || style === "othersOff") return true;
-		}
-	}
-	return false;
+	if (!item) return false;
+	const style = duicfg?.newDecadeStyle ?? lib.config.extension_十周年UI_newDecadeStyle;
+	if (style === "Off") return false;
+
+	const info = get.info(item);
+	if (info?.zhuanhuanji || info?.zhuanhuanji2 || info?.limited) return true;
+
+	if (typeof item !== "string") return false;
+	if (style !== "on" && style !== "othersOff") return false;
+
+	return SKIP_PREFIXES.some(p => item.startsWith(p)) && !SKIP_EXCEPTIONS.has(item);
 }
 
 /**

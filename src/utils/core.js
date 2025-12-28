@@ -3,11 +3,13 @@
  * @description 从concore.js提取的独立工具函数
  */
 
+import { lib, game, ui, get, ai, _status } from "noname";
+
 /**
  * 判断是否移动端
  */
 export function isMobile() {
-	return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|OperaMini/i.test(navigator.userAgent);
+	return get.is.phoneLayout() || lib.device === "android" || lib.device === "ios";
 }
 
 /**
@@ -17,13 +19,7 @@ export function isMobile() {
  */
 export function getRandom(min = -2147483648, max = 2147483648) {
 	if (min > max) [min, max] = [max, min];
-	let diff = 0;
-	if (min < 0) {
-		diff = min;
-		min = 0;
-		max -= diff;
-	}
-	return Math.floor(Math.random() * (max + 1 - min)) + min + diff;
+	return Math.floor(Math.random() * (max + 1 - min)) + min;
 }
 
 /**

@@ -3,7 +3,7 @@
  * 特点：聊天系统、身份显示、手杀风格菜单、自动牌序
  * @version 2.0
  */
-
+import { lib, game, ui, get, ai, _status } from "noname";
 import { createBaseLbtnPlugin } from "./base.js";
 import { initChatSystem } from "../chatSystem.js";
 
@@ -626,7 +626,7 @@ export function createShoushaLbtnPlugin(lib, game, ui, get, ai, _status, app) {
 				confirm.node.ok.link = "ok";
 				confirm.node.ok.classList.add("primary");
 				confirm.node.cancel.classList.add("primary2");
-
+				confirm.node.cancel.innerHTML = `<img draggable='false' src='${lib.assetURL}extension/十周年UI/ui/assets/lbtn/uibutton/QX.png'>`;
 				confirm.custom = (link, target) => {
 					if (link === "ok") ui.click.ok(target);
 					else if (link === "cancel") ui.click.cancel(target);

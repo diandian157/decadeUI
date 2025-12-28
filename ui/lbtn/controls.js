@@ -1,6 +1,7 @@
 /**
  * 控制按钮模块
  */
+import { lib, game, ui, get, ai, _status } from "noname";
 
 // 牌堆统计弹窗
 export function showCardPileStatistics() {
@@ -114,29 +115,22 @@ export function showCardPileStatistics() {
 
 // 手牌排序
 export function sortHandCards() {
-	if (!game.me || game.me.hasSkillTag("noSortCard")) return;
+	if (!game.me?.node?.handcards1 || game.me.hasSkillTag("noSortCard")) return;
 
 	const cards = game.me.getCards("hs");
 	if (cards.length <= 1) return;
 
-	const sortFn = (a, b) => {
-		const order = { basic: 0, trick: 1, delay: 1, equip: 2 };
-		const ta = get.type(a);
-		const tb = get.type(b);
-		const ca = order[ta] ?? 99;
-		const cb = order[tb] ?? 99;
-
+	const TYPE_ORDER = { basic: 0, trick: 1, delay: 1, equip: 2 };
+	cards.sort((a, b) => {
+		const ca = TYPE_ORDER[get.type(a)] ?? 99;
+		const cb = TYPE_ORDER[get.type(b)] ?? 99;
 		if (ca !== cb) return ca - cb;
 		if (a.name !== b.name) return lib.sort.card(a.name, b.name);
 		if (a.suit !== b.suit) return lib.suit.indexOf(a.suit) - lib.suit.indexOf(b.suit);
 		return a.number - b.number;
-	};
-
-	cards.sort(sortFn);
-	cards.forEach(card => {
-		game.me.node.handcards1.insertBefore(card, game.me.node.handcards1.firstChild);
 	});
 
+	cards.forEach(card => game.me.node.handcards1.insertBefore(card, game.me.node.handcards1.firstChild));
 	dui.queueNextFrameTick(dui.layoutHand, dui);
 }
 
@@ -155,25 +149,24 @@ export const AutoSort = {
 		ui._autoPaixuLastCount = container.childNodes.length || 0;
 		ui._autoPaixuSorting = false;
 
-		// 监听手牌变化
 		ui._autoPaixuObserver = new MutationObserver(() => {
 			if (ui._autoPaixuSorting) return;
 
 			clearTimeout(ui._autoPaixuDebounce);
 			ui._autoPaixuDebounce = setTimeout(() => {
-				if (!game.me?.node?.handcards1) return;
+				const handcards = game.me?.node?.handcards1;
+				if (!handcards) return;
 
-				const curCount = game.me.node.handcards1.childNodes.length || 0;
+				const curCount = handcards.childNodes.length || 0;
 				if (ui._autoPaixuLastCount !== null && curCount < ui._autoPaixuLastCount) {
 					ui._autoPaixuLastCount = curCount;
 					return;
 				}
 
-				const cards = game.me.getCards("hs");
-				if (cards.length > 1) {
+				if (game.me.getCards("hs").length > 1) {
 					ui._autoPaixuSorting = true;
 					sortHandCards();
-					ui._autoPaixuLastCount = game.me.node.handcards1.childNodes.length || 0;
+					ui._autoPaixuLastCount = handcards.childNodes.length || 0;
 					setTimeout(() => (ui._autoPaixuSorting = false), 0);
 				}
 			}, 180);
@@ -181,7 +174,6 @@ export const AutoSort = {
 
 		ui._autoPaixuObserver.observe(container, { childList: true, subtree: true });
 
-		// 定期检查
 		ui._autoPaixuKeeper = setInterval(() => {
 			if (!ui._autoPaixuEnabled || !game.me?.node) return;
 

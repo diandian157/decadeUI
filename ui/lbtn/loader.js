@@ -1,6 +1,7 @@
 /**
  * Lbtn模块加载器
  */
+import { lib, game, ui, get, ai, _status } from "noname";
 import { createLbtnPlugin } from "./plugin.js";
 
 try {

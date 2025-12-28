@@ -2,7 +2,7 @@
  * lbtn样式管理器
  * 根据不同样式加载对应的按钮控制逻辑
  */
-
+import { lib, game, ui, get, ai, _status } from "noname";
 import { createShoushaLbtnPlugin } from "./shousha.js";
 import { createShizhounianLbtnPlugin } from "./shizhounian.js";
 import { createXinshaLbtnPlugin } from "./xinsha.js";

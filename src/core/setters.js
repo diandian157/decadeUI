@@ -7,13 +7,10 @@ export function createDecadeUISetModule() {
 	return {
 		activeElement(element) {
 			const deactive = dui.$activeElement;
+			if (deactive === element) return;
 			dui.$activeElement = element;
-			if (deactive && deactive !== element && typeof deactive.ondeactive === "function") {
-				deactive.ondeactive();
-			}
-			if (element && element !== deactive && typeof element.onactive === "function") {
-				element.onactive();
-			}
+			deactive?.ondeactive?.();
+			element?.onactive?.();
 		},
 	};
 }

@@ -2,7 +2,7 @@
  * 手杀风格技能插件
  * 特点：失效技能显示、转换技图标、技能次数显示、判定图标位置调整
  */
-
+import { lib, game, ui, get, ai, _status } from "noname";
 import { createBaseSkillPlugin } from "./base.js";
 
 const ASSETS_PATH = "extension/十周年UI/ui/assets/skill/shousha";

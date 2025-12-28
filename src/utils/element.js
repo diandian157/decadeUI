@@ -3,6 +3,8 @@
  * @description 从concore.js提取的element工具
  */
 
+import { lib, game, ui, get, ai, _status } from "noname";
+
 /**
  * 元素基础方法
  */
@@ -14,12 +16,10 @@ const elementBase = {
 	removeSelf(milliseconds) {
 		if (milliseconds) {
 			const ms = typeof milliseconds === "number" ? milliseconds : parseInt(milliseconds);
-			setTimeout(() => {
-				if (this.parentNode) this.parentNode.removeChild(this);
-			}, ms);
+			setTimeout(() => this.parentNode?.removeChild(this), ms);
 			return;
 		}
-		if (this.parentNode) this.parentNode.removeChild(this);
+		this.parentNode?.removeChild(this);
 	},
 };
 
@@ -32,15 +32,9 @@ const elementBase = {
 export function createElement(className, parentNode, tagName = "div") {
 	const element = document.createElement(tagName);
 	element.view = {};
-
-	// 添加基础方法
-	for (const key in elementBase) {
-		element[key] = elementBase[key];
-	}
-
+	Object.assign(element, elementBase);
 	if (className) element.className = className;
 	if (parentNode) parentNode.appendChild(element);
-
 	return element;
 }
 
@@ -50,8 +44,5 @@ export function createElement(className, parentNode, tagName = "div") {
 export const element = {
 	base: elementBase,
 	create: createElement,
-	clone(el) {
-		// 预留克隆方法
-		return el?.cloneNode?.(true);
-	},
+	clone: el => el?.cloneNode?.(true),
 };

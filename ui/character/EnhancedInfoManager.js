@@ -1,6 +1,7 @@
 ﻿/**
  * 详细资料弹窗管理器
  */
+import { lib, game, ui, get, ai, _status } from "noname";
 import { CONSTANTS } from "../constants.js";
 import { Utils, getGroupBackgroundImage } from "../utils.js";
 
@@ -174,4 +175,3 @@ export class EnhancedInfoManager {
 		});
 	}
 }
-

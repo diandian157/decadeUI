@@ -2,7 +2,7 @@
  * 十周年风格角色弹窗
  * 特点：立绘显示、分包信息、简洁布局、千幻聆音样式支持
  */
-
+import { lib, game, ui, get, ai, _status } from "noname";
 import { createBaseCharacterPlugin } from "./base.js";
 
 export function createShizhounianCharacterPlugin(lib, game, ui, get, ai, _status, app) {

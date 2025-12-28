@@ -22,7 +22,7 @@ export const registerDecadeUIUtilityModule = decadeUI => {
 	};
 
 	decadeUI.queueNextTick = (callback, ctx) => {
-		dui._tickEntries = dui._tickEntries || [];
+		dui._tickEntries ??= [];
 		dui._tickEntries.push({ ctx, callback });
 		if (dui._queueTick) return;
 		dui._queueTick = Promise.resolve().then(() => {
@@ -34,7 +34,7 @@ export const registerDecadeUIUtilityModule = decadeUI => {
 	};
 
 	decadeUI.queueNextFrameTick = (callback, ctx) => {
-		dui._frameTickEntries = dui._frameTickEntries || [];
+		dui._frameTickEntries ??= [];
 		dui._frameTickEntries.push({ ctx, callback });
 		if (dui._queueFrameTick) return;
 		dui._queueFrameTick = requestAnimationFrame(() => {
@@ -52,11 +52,11 @@ export const registerDecadeUIUtilityModule = decadeUI => {
 	decadeUI.cardTempSuitNum = (card, suit, number) => cardTempSuitNum(card, suit, number, decadeUI.element);
 	decadeUI.tryAddPlayerCardUseTag = (card, player, event) => tryAddPlayerCardUseTag(card, player, event, decadeUI);
 
+	const getCardScale = () => lib.config?.extension_十周年UI_cardScale ?? 0.18;
+
 	decadeUI.getCardBestScale = size => {
 		size = size?.height ? size : decadeUI.getHandCardSize();
-		const bodyHeight = decadeUI.get.bodySize().height;
-		const scale = lib?.config?.extension_十周年UI_cardScale || 0.18;
-		return Math.min((bodyHeight * scale) / size.height, 1);
+		return Math.min((decadeUI.get.bodySize().height * getCardScale()) / size.height, 1);
 	};
 
 	decadeUI.getHandCardSize = (useDefault = false) => {
@@ -75,18 +75,18 @@ export const enhanceDecadeUIRuntime = decadeUI => {
 	dui.showHandTip = text => showHandTip(text, decadeUI);
 
 	decadeUI.game = {
-		wait: () => game.pause(),
-		resume: () => {
-			if (!game.loopLocked) {
-				const dialog = decadeUI.eventDialog;
-				if (dialog && !dialog.finished && !dialog.finishing) {
-					dialog.finish();
-					decadeUI.eventDialog = undefined;
-				} else {
-					game.resume();
-				}
-			} else {
+		wait: game.pause,
+		resume() {
+			if (game.loopLocked) {
 				_status.paused = false;
+				return;
+			}
+			const dialog = decadeUI.eventDialog;
+			if (dialog?.finished === false && !dialog.finishing) {
+				dialog.finish();
+				decadeUI.eventDialog = undefined;
+			} else {
+				game.resume();
 			}
 		},
 	};

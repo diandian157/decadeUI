@@ -2,7 +2,7 @@
  * 代号风格技能插件
  * 特点：合并区域布局、技能名4字显示、被动技优先排序
  */
-
+import { lib, game, ui, get, ai, _status } from "noname";
 import { createBaseSkillPlugin } from "./base.js";
 
 export function createCodenameSkillPlugin(lib, game, ui, get, ai, _status, app) {

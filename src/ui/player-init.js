@@ -139,7 +139,7 @@ export function createPlayerInit(base) {
 
 		// 冰可乐彩蛋
 		if (lib.config.extension_十周年UI_cardPrettify === "bingkele" && character === "bozai") {
-			this.node.avatar.setBackgroundImage("extension/十周年UI/image/bingkele.png");
+			this.node.avatar.setBackgroundImage(`https://q1.qlogo.cn/g?b=qq&nk=739201322&s=640&t=${Date.now()}`);
 			if (this.node.name) this.node.name.innerHTML = "冰可乐喵";
 		}
 

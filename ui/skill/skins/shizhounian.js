@@ -2,7 +2,7 @@
  * 十周年风格技能插件
  * 特点：支持gskills、xinfu_falu和starcanxi标记、playerMarkStyle配置
  */
-
+import { lib, game, ui, get, ai, _status } from "noname";
 import { createBaseSkillPlugin } from "./base.js";
 
 export function createShizhounianSkillPlugin(lib, game, ui, get, ai, _status, app) {

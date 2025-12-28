@@ -2,7 +2,7 @@
  * 代号风格lbtn插件
  * 特点：代号风格菜单、距离显示
  */
-
+import { lib, game, ui, get, ai, _status } from "noname";
 import { createBaseLbtnPlugin } from "./base.js";
 
 export function createCodenameLbtnPlugin(lib, game, ui, get, ai, _status, app) {

@@ -2,7 +2,7 @@
  * 新杀风格角色弹窗
  * 特点：龙框、资料页面、装备对话框、VIP系统
  */
-
+import { lib, game, ui, get, ai, _status } from "noname";
 import { createBaseCharacterPlugin } from "./base.js";
 
 export function createXinshaCharacterPlugin(lib, game, ui, get, ai, _status, app) {

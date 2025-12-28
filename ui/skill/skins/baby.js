@@ -2,7 +2,7 @@
  * 宝宝杀风格技能插件
  * 特点：合并区域布局、技能图标（限定技/觉醒技/转换技）
  */
-
+import { lib, game, ui, get, ai, _status } from "noname";
 import { createBaseSkillPlugin } from "./base.js";
 
 const ASSETS_PATH = "extension/十周年UI/ui/assets/skill/baby";

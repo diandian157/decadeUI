@@ -1,38 +1,27 @@
 /**
  * decadeUI.get 模块
  */
-import { CubicBezierEase } from "../animation/index.js";
+import { CubicBezierEase, lerp } from "../animation/index.js";
+
+const NEGATIVE_GOOD_CARDS = new Set(["caomu", "草木皆兵", "fulei", "浮雷", "shandian", "闪电", "bingliang", "兵粮寸断", "lebu", "乐不思蜀"]);
 
 /** 创建decadeUI.get模块 */
 export function createDecadeUIGetModule() {
 	return {
 		judgeEffect(name, value) {
-			const negativeGood = new Set(["caomu", "草木皆兵", "fulei", "浮雷", "shandian", "闪电", "bingliang", "兵粮寸断", "lebu", "乐不思蜀"]);
-			return negativeGood.has(name) ? value < 0 : value;
+			return NEGATIVE_GOOD_CARDS.has(name) ? value < 0 : value;
 		},
 
-		isWebKit() {
-			return document.body.style.WebkitBoxShadow !== undefined;
-		},
+		isWebKit: () => document.body.style.WebkitBoxShadow !== undefined,
 
-		lerp(min, max, fraction) {
-			return (max - min) * fraction + min;
-		},
+		lerp,
 
 		ease(fraction) {
-			if (!decadeUI.get._bezier3) {
-				decadeUI.get._bezier3 = new CubicBezierEase(0.25, 0.1, 0.25, 1);
-			}
-			return decadeUI.get._bezier3.ease(fraction);
+			this._bezier3 ??= new CubicBezierEase(0.25, 0.1, 0.25, 1);
+			return this._bezier3.ease(fraction);
 		},
 
-		extend(target, source) {
-			if (source === null || typeof source !== "object") return target;
-			const keys = Object.keys(source);
-			let i = keys.length;
-			while (i--) target[keys[i]] = source[keys[i]];
-			return target;
-		},
+		extend: (target, source) => (source && typeof source === "object" ? Object.assign(target, source) : target),
 
 		bodySize() {
 			const size = decadeUI.dataset.bodySize;
@@ -57,20 +46,10 @@ export function createDecadeUIGetModule() {
 				let limited = false;
 				const type = get.type(cards[i]);
 				if (type === "basic") {
-					for (const b of basics) {
-						if (!cards[i].toself && b.name === cards[i].name) {
-							limited = true;
-							break;
-						}
-					}
+					limited = basics.some(b => !cards[i].toself && b.name === cards[i].name);
 					if (!limited) basics.push(cards[i]);
 				} else if (type === "equip" && !hasEquipSkill) {
-					for (const e of equips) {
-						if (get.subtype(e) === get.subtype(cards[i])) {
-							limited = true;
-							break;
-						}
-					}
+					limited = equips.some(e => get.subtype(e) === get.subtype(cards[i]));
 					if (!limited) equips.push(cards[i]);
 				}
 				if (!limited) {
@@ -96,32 +75,14 @@ export function createDecadeUIGetModule() {
 			return cheats;
 		},
 
-		elementLeftFromWindow(element) {
-			let left = element.offsetLeft,
-				current = element.offsetParent;
-			while (current) {
-				left += current.offsetLeft;
-				current = current.offsetParent;
-			}
-			return left;
-		},
+		elementLeftFromWindow: element => element.getBoundingClientRect().left + window.scrollX,
 
-		elementTopFromWindow(element) {
-			let top = element.offsetTop,
-				current = element.offsetParent;
-			while (current) {
-				top += current.offsetTop;
-				current = current.offsetParent;
-			}
-			return top;
-		},
+		elementTopFromWindow: element => element.getBoundingClientRect().top + window.scrollY,
 
 		handcardInitPos() {
 			const hand = dui.boundsCaches.hand;
 			if (!hand.updated) hand.update();
-			const cardW = hand.cardWidth,
-				cardH = hand.cardHeight,
-				scale = hand.cardScale;
+			const { cardWidth: cardW, cardHeight: cardH, cardScale: scale } = hand;
 			return {
 				x: -Math.round((cardW - cardW * scale) / 2),
 				y: (cardH * scale - cardH) / 2,

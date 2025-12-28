@@ -2,7 +2,7 @@
  * OL风格角色弹窗
  * 特点：将灯系统、段位信息、详细资料、衍生技能显示
  */
-
+import { lib, game, ui, get, ai, _status } from "noname";
 import { createBaseCharacterPlugin } from "./base.js";
 
 export function createOnlineCharacterPlugin(lib, game, ui, get, ai, _status, app) {

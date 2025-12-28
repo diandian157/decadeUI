@@ -2,7 +2,7 @@
  * 新杀风格技能插件
  * 特点：转换技翻转动画、gskillControl支持
  */
-
+import { lib, game, ui, get, ai, _status } from "noname";
 import { createBaseSkillPlugin } from "./base.js";
 
 export function createXinshaSkillPlugin(lib, game, ui, get, ai, _status, app) {

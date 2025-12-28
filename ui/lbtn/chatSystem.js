@@ -2,6 +2,8 @@
  * 聊天系统模块
  * 合并了chat.js和chatSystem.js的功能
  */
+import { lib, game, ui, get, ai, _status } from "noname";
+import { hideDialog as hideDialogUtil, addClickEffect as addClickEffectUtil } from "../utils.js";
 
 // ==================== 常量 ====================
 const MAX_CHAT_RECORDS = 50;
@@ -106,14 +108,7 @@ export function exitThrowMode() {
 }
 
 // 隐藏弹窗
-export function hideDialog(dialog, styleProp, styleValue, delay = DIALOG_HIDE_DELAY) {
-	if (!dialog?.show) return;
-	dialog.style[styleProp] = styleValue;
-	setTimeout(() => {
-		dialog.hide();
-		dialog.show = false;
-	}, delay);
-}
+export const hideDialog = hideDialogUtil;
 
 // 隐藏其他弹窗
 export function hideOtherDialogs(excludeDialog, dialogConfigs) {
@@ -150,15 +145,7 @@ export function createContentContainer(parent, styles) {
 }
 
 // 按钮点击效果
-export function addClickEffect(div) {
-	div.style.transition = "opacity 0.5s";
-	const isTouchscreen = typeof lib !== "undefined" ? lib.config.touchscreen : "ontouchstart" in window;
-	const eventType = isTouchscreen ? "touchstart" : "mousedown";
-	const endEventType = isTouchscreen ? "touchend" : "mouseup";
-	div.addEventListener(eventType, () => (div.style.transform = "scale(0.95)"));
-	div.addEventListener(endEventType, () => (div.style.transform = ""));
-	div.onmouseout = () => (div.style.transform = "");
-}
+export const addClickEffect = addClickEffectUtil;
 
 // 处理音频路径
 export function processAudioPath(path) {

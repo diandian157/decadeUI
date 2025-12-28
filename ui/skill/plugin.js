@@ -2,7 +2,7 @@
  * 技能控制插件
  * 根据当前样式加载对应的技能控制逻辑
  */
-
+import { lib, game, ui, get, ai, _status } from "noname";
 import { getCurrentSkin, createSkillPluginForSkin } from "./skins/index.js";
 
 /**

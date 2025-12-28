@@ -2,7 +2,7 @@
  * 武将详情插件
  * 根据配置自动加载对应样式
  */
-
+import { lib, game, ui, get, ai, _status } from "noname";
 import { createCharacterPluginForSkin, getCurrentSkinName } from "./skins/index.js";
 
 /**

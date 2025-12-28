@@ -2,7 +2,7 @@
  * 新杀风格lbtn插件
  * 特点：新杀风格按钮布局、全选/反选按钮
  */
-
+import { lib, game, ui, get, ai, _status } from "noname";
 import { createBaseLbtnPlugin } from "./base.js";
 
 export function createXinshaLbtnPlugin(lib, game, ui, get, ai, _status, app) {

@@ -3,19 +3,22 @@
  */
 import { lib, game, ui, get, ai, _status } from "noname";
 
+const SCROLL_STEP = 84;
+
 /** 创建handler模块 */
 export function createHandlerModule() {
 	return {
 		handMousewheel(e) {
-			if (!ui.handcards1Container) return console.error("ui.handcards1Container");
 			const hand = ui.handcards1Container;
-			if (hand.scrollNum === undefined) hand.scrollNum = 0;
-			if (hand.lastFrameTime === undefined) hand.lastFrameTime = performance.now();
+			if (!hand) return console.error("ui.handcards1Container");
 
-			function handScroll() {
+			hand.scrollNum ??= 0;
+			hand.lastFrameTime ??= performance.now();
+
+			const handScroll = () => {
 				const now = performance.now();
 				const delta = now - hand.lastFrameTime;
-				let num = Math.round((delta / 16) * 16);
+				let num = Math.round(delta);
 				hand.lastFrameTime = now;
 
 				if (hand.scrollNum > 0) {
@@ -28,16 +31,15 @@ export function createHandlerModule() {
 				}
 
 				if (hand.scrollNum === 0) {
-					hand.frameId = undefined;
-					hand.lastFrameTime = undefined;
+					hand.frameId = hand.lastFrameTime = undefined;
 				} else {
 					hand.frameId = requestAnimationFrame(handScroll);
-					ui.handcards1Container.scrollLeft += num;
+					hand.scrollLeft += num;
 				}
-			}
+			};
 
-			hand.scrollNum += e.wheelDelta > 0 ? -84 : 84;
-			if (hand.frameId === undefined) hand.frameId = requestAnimationFrame(handScroll);
+			hand.scrollNum += e.wheelDelta > 0 ? -SCROLL_STEP : SCROLL_STEP;
+			hand.frameId ??= requestAnimationFrame(handScroll);
 		},
 	};
 }

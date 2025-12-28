@@ -2,7 +2,7 @@
  * 技能样式管理器
  * 根据不同样式加载对应的技能控制逻辑
  */
-
+import { lib, game, ui, get, ai, _status } from "noname";
 import { createShoushaSkillPlugin } from "./shousha.js";
 import { createShizhounianSkillPlugin } from "./shizhounian.js";
 import { createXinshaSkillPlugin } from "./xinsha.js";

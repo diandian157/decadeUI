@@ -1,6 +1,7 @@
 /**
  * 身份显示模块
  */
+import { lib, game, ui, get, ai, _status } from "noname";
 import { GUOZHAN_IDENTITY_COLORS, IDENTITY_COLORS } from "../constants.js";
 
 // 构建模式胜利条件翻译

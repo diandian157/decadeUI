@@ -2,6 +2,7 @@
  * 左侧按钮插件
  * 根据样式自动加载对应的lbtn逻辑
  */
+import { lib, game, ui, get, ai, _status } from "noname";
 import { buildModeWinTranslations, initIdentityShow, updateIdentityShow } from "./identityShow.js";
 import { showCardPileStatistics, sortHandCards, AutoSort, DistanceDisplay, handleConfirm } from "./controls.js";
 import { addChatWord } from "./chatSystem.js";
