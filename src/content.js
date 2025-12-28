@@ -55,7 +55,6 @@ export const finalizeDecadeUICore = (decadeUI, config) => {
 			if (menu[key] && typeof menu[key].update === "function") menu[key].update();
 		}
 	};
-	duicfg.update = updateFn;
 	decadeUI.config.update = updateFn;
 
 	decadeUI.init();
@@ -121,25 +120,27 @@ function loadUIPlugins() {
 export async function content(config, pack) {
 	if (!bootstrapExtension()) return;
 
-	// 创建全局配置对象，首次导入时使用默认值
-	window.duicfg = {
-		dynamicSkin: lib.config.extension_十周年UI_dynamicSkin ?? false,
-		newDecadeStyle: lib.config.extension_十周年UI_newDecadeStyle ?? "on",
-	};
-
 	// 创建decadeUI核心对象
 	const decadeUI = createDecadeUIObject();
 	window.decadeUI = decadeUI;
-	window.dui = decadeUI;
+
+	// 初始化配置对象（合并到decadeUI.config）
+	decadeUI.config = {
+		...config,
+		dynamicSkin: lib.config.extension_十周年UI_dynamicSkin ?? false,
+		newDecadeStyle: lib.config.extension_十周年UI_newDecadeStyle ?? "on",
+		dynamicSkinOutcrop: lib.config.extension_十周年UI_dynamicSkinOutcrop ?? false,
+		rightLayout: lib.config.extension_十周年UI_rightLayout === "on",
+	};
 
 	// 增强运行时功能
 	enhanceDecadeUIRuntime(decadeUI);
 
 	// 完成初始化
-	finalizeDecadeUICore(decadeUI, config);
+	finalizeDecadeUICore(decadeUI, decadeUI.config);
 
 	// 注册进度条等遗留模块
-	registerLegacyModules(config);
+	registerLegacyModules(decadeUI.config);
 
 	// 加载UI插件模块
 	loadUIPlugins();

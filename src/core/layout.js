@@ -3,7 +3,7 @@
  */
 import { lib, game, ui, get, ai, _status } from "noname";
 
-const getStyle = () => duicfg?.newDecadeStyle ?? lib.config.extension_十周年UI_newDecadeStyle;
+const getStyle = () => decadeUI?.config?.newDecadeStyle ?? lib.config.extension_十周年UI_newDecadeStyle;
 const getDiscardScale = () => lib.config?.extension_十周年UI_discardScale ?? 0.14;
 
 /** 创建layout模块 */
@@ -28,7 +28,7 @@ export function createLayoutModule() {
 			});
 			if (!cards.length) return;
 
-			const bounds = dui.boundsCaches.hand;
+			const bounds = decadeUI.boundsCaches.hand;
 			bounds.check();
 			const { width: pw, cardWidth: cw, cardHeight: ch, cardScale: cs, x: boundsX } = bounds;
 			const csw = cw * cs;
@@ -112,7 +112,7 @@ export function createLayoutModule() {
 			if (!ui.thrown.length) return;
 
 			const cards = ui.thrown;
-			const bounds = dui.boundsCaches.arena;
+			const bounds = decadeUI.boundsCaches.arena;
 			bounds.check();
 			const { width: pw, height: ph, cardWidth: cw, cardHeight: ch } = bounds;
 			const cs = Math.min((decadeUI.get.bodySize().height * getDiscardScale()) / ch, 1);
@@ -145,13 +145,13 @@ export function createLayoutModule() {
 			}
 			if (!ui.thrown.includes(card)) {
 				ui.thrown.unshift(card);
-				dui.queueNextFrameTick(dui.layoutDiscard, dui);
+				decadeUI.queueNextFrameTick(decadeUI.layoutDiscard, decadeUI);
 			}
 			card.classList.add("invalided");
 			setTimeout(
 				c => {
 					c.remove();
-					dui.queueNextFrameTick(dui.layoutDiscard, dui);
+					decadeUI.queueNextFrameTick(decadeUI.layoutDiscard, decadeUI);
 				},
 				2333,
 				card

@@ -40,7 +40,7 @@ export function initHooks() {
 		const cardnumber = get.number(card),
 			cardsuit = get.suit(card);
 		if (card.dataset.views != 1 && (card.number != cardnumber || card.suit != cardsuit)) {
-			dui.cardTempSuitNum(card, cardsuit, cardnumber);
+			decadeUI.cardTempSuitNum(card, cardsuit, cardnumber);
 		}
 	};
 

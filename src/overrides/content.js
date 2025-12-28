@@ -46,7 +46,7 @@ export function contentChangeHp() {
 		if (evt && evt.finish) evt.finish();
 	}
 	event.trigger("changeHp");
-	window.dui.delay(68);
+	window.decadeUI.delay(68);
 }
 
 /**
@@ -82,7 +82,7 @@ export function createContentGain(baseGain) {
 					if (card.vanishtag[j][0] != "_") card.vanishtag.splice(j--, 1);
 				}
 			}
-			const _dui = window.dui;
+			const _dui = window.decadeUI;
 			const gainTo = function (cards, nodelay) {
 				cards.duiMod = event.source;
 				if (player == game.me) {
@@ -406,7 +406,7 @@ export function createContentLose(baseLose) {
 					}
 				}
 			}
-			const _dui = window.dui;
+			const _dui = window.decadeUI;
 			if (player == game.me) _dui.queueNextFrameTick(_dui.layoutHand, _dui);
 			ui.updatej(player);
 			game.broadcast(

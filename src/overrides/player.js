@@ -1,4 +1,4 @@
-﻿/**
+/**
  * Player 覆写模块
  */
 
@@ -115,7 +115,7 @@ const SKIP_EXCEPTIONS = new Set(["starcanxi_wangsheng", "starcanxi_xiangsi", "st
 
 function shouldSkipMark(item) {
 	if (!item) return false;
-	const style = duicfg?.newDecadeStyle ?? lib.config.extension_十周年UI_newDecadeStyle;
+	const style = decadeUI.config?.newDecadeStyle ?? lib.config.extension_十周年UI_newDecadeStyle;
 	if (style === "Off") return false;
 
 	const info = get.info(item);
@@ -784,7 +784,7 @@ export function playerPlayDynamic(animation, deputy) {
 		};
 	}
 	if (this.$dynamicWrap.parentNode != this) this.appendChild(this.$dynamicWrap);
-	dynamic.outcropMask = duicfg.dynamicSkinOutcrop;
+	dynamic.outcropMask = decadeUI.config.dynamicSkinOutcrop;
 	const avatar = dynamic.play(animation);
 	if (deputy === true) {
 		dynamic.deputy = avatar;
@@ -829,7 +829,7 @@ export function playerApplyDynamicSkin() {
 		this.doubleAvatar && this.name2 && game.qhly_changeDynamicSkin(this, undefined, this.name2, true, true);
 		return;
 	}
-	if (!duicfg.dynamicSkin || _status.mode == null) return;
+	if (!decadeUI.config.dynamicSkin || _status.mode == null) return;
 	decadeUI.CUR_DYNAMIC ??= 0;
 	decadeUI.MAX_DYNAMIC ??= (decadeUI.isMobile() ? 2 : 10) + (window.OffscreenCanvas ? 8 : 0);
 	if (!this.dynamic && decadeUI.CUR_DYNAMIC >= decadeUI.MAX_DYNAMIC) return;
@@ -1298,11 +1298,11 @@ export function playerDamagepop(num, nature, font, nobroadcast) {
 	}
 }
 
-// dui引用（延迟获取）
-let dui = null;
+// decadeUI引用（延迟获取）
+let _decadeUI = null;
 function getDui() {
-	if (!dui) dui = window.dui;
-	return dui;
+	if (!_decadeUI) _decadeUI = window.decadeUI;
+	return _decadeUI;
 }
 
 /**
@@ -2051,8 +2051,8 @@ export function playerThrow(cards, time, record, nosource) {
 	}
 	cards.sort((a, b) => {
 		if (a.tx === undefined && b.tx === undefined) return 0;
-		if (a.tx === undefined) return duicfg.rightLayout ? -1 : 1;
-		if (b.tx === undefined) return duicfg.rightLayout ? 1 : -1;
+		if (a.tx === undefined) return decadeUI.config.rightLayout ? -1 : 1;
+		if (b.tx === undefined) return decadeUI.config.rightLayout ? 1 : -1;
 		return a.tx - b.tx;
 	});
 	for (let i = 0; i < cards.length; i++) {

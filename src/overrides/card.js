@@ -11,7 +11,7 @@ let baseCardCopy = null;
 
 /** 处理皮肤回退 */
 function handleSkinFallback(card, asset, fallbackKey, filename) {
-	const res = window.dui?.statics?.cards;
+	const res = window.decadeUI?.statics?.cards;
 	const rawBg = card._decadeRawBg || "";
 	if (!res || !fallbackKey) {
 		card.style.background = rawBg;
@@ -38,7 +38,7 @@ export function cardCopy() {
 	const skinKey = lib.config.extension_十周年UI_cardPrettify;
 	if (!skinKey || skinKey === "off") return clone;
 
-	const res = window.dui?.statics?.cards;
+	const res = window.decadeUI?.statics?.cards;
 	const readOk = !!res?.READ_OK?.[skinKey];
 	if (!readOk) return clone;
 
@@ -155,7 +155,7 @@ function applyCardSkin(cardElement, card) {
 		filename += "_" + get.natureList(cardNature).sort(lib.sort.nature).join("_");
 	}
 
-	const res = window.dui?.statics?.cards;
+	const res = window.decadeUI?.statics?.cards;
 	const skinCache = res?.[skinKey] || (res[skinKey] = {});
 	let asset = skinCache[filename];
 	const readOk = !!res?.READ_OK?.[skinKey];
@@ -271,8 +271,8 @@ export function cardMoveTo(player) {
 	if (!player) return;
 	if (this.name?.startsWith("shengbei_left_") || this.name?.startsWith("shengbei_right_")) return this;
 
-	const dui = window.dui;
-	const arena = dui?.boundsCaches?.arena;
+	const _decadeUI = window.decadeUI;
+	const arena = _decadeUI?.boundsCaches?.arena;
 	if (!arena?.updated) arena?.update();
 
 	player.checkBoundsCache?.();

@@ -89,7 +89,7 @@ export function createBoundsCaches(decadeUI) {
 	caches.arena = new BoundsCache(null, function () {
 		this.element = window.ui?.arena;
 		if (!window.ui?.arena) return;
-		this.cardScale = decadeUI.getCardBestScale?.() || window.dui?.getCardBestScale?.();
+		this.cardScale = decadeUI.getCardBestScale?.();
 		if (this.cardWidth != null) return;
 
 		// 查找现有卡牌获取尺寸
@@ -114,7 +114,7 @@ export function createBoundsCaches(decadeUI) {
 	caches.hand = new BoundsCache(null, function () {
 		this.element = window.ui?.me;
 		if (!window.ui?.handcards1) return;
-		this.cardScale = decadeUI.getCardBestScale?.() || window.dui?.getCardBestScale?.();
+		this.cardScale = decadeUI.getCardBestScale?.();
 		if (this.cardWidth != null) return;
 
 		// 查找现有卡牌获取尺寸

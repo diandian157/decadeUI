@@ -6,9 +6,9 @@
 export function createDecadeUISetModule() {
 	return {
 		activeElement(element) {
-			const deactive = dui.$activeElement;
+			const deactive = decadeUI.$activeElement;
 			if (deactive === element) return;
-			dui.$activeElement = element;
+			decadeUI.$activeElement = element;
 			deactive?.ondeactive?.();
 			element?.onactive?.();
 		},

@@ -238,7 +238,7 @@ export const prefixMarkModule = {
 
 	/** 创建或获取已有的标记元素 */
 	createMarkElement(config, playerElement) {
-		return (playerElement[config.property] ??= dui.element.create(config.className, playerElement));
+		return (playerElement[config.property] ??= decadeUI.element.create(config.className, playerElement));
 	},
 
 	/** 显示武将前缀标记 */

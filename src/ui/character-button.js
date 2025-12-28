@@ -24,7 +24,7 @@ export function createCharacterButtonPreset() {
 		}
 
 		node.link = item;
-		dui.element.create("character", node);
+		decadeUI.element.create("character", node);
 
 		const doubleCamp = get.is.double(node._link, true);
 		if (doubleCamp) node._changeGroup = true;

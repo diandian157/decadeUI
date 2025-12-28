@@ -73,7 +73,7 @@ export class DynamicPlayer {
 		const renderer = new AnimationPlayer(decadeUIPath + pathPrefix);
 		this.canvas = renderer.canvas;
 		this.renderer = renderer;
-		dui.bodySensor.addListener(
+		decadeUI.bodySensor.addListener(
 			throttle(
 				() => {
 					this.renderer.resized = false;

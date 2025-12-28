@@ -52,7 +52,7 @@ export const initializeDecadeUIEnvironment = ctx => {
 	const bodySensor = new ctx.ResizeSensor(sensorNode);
 
 	initSvgClipPaths();
-	document.addEventListener("click", e => dui.set.activeElement(e.target), true);
+	document.addEventListener("click", e => decadeUI.set.activeElement(e.target), true);
 
 	const handTipHeight = lib.config["extension_十周年UI_handTipHeight"] || "20";
 	document.documentElement.style.setProperty("--hand-tip-bottom", `calc(${handTipHeight}% + 10px)`);

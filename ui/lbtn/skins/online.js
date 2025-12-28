@@ -767,7 +767,7 @@ export function createOnlineLbtnPlugin(lib, game, ui, get, ai, _status, app) {
 				cards.forEach((card, j) => {
 					game.me.node.handcards1.insertBefore(cards[j], game.me.node.handcards1.firstChild);
 				});
-				dui?.queueNextFrameTick(dui.layoutHand, dui);
+				decadeUI?.queueNextFrameTick(decadeUI.layoutHand, decadeUI);
 			}
 		},
 

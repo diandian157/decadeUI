@@ -225,7 +225,7 @@ export function gameLogv(player, card, targets, event, forced, logvid) {
 			node.targets = targets;
 		}
 	}
-	const bounds = dui.boundsCaches.window;
+	const bounds = decadeUI.boundsCaches.window;
 	bounds.check();
 	const fullheight = bounds.height,
 		num = Math.round((fullheight - 8) / 50),

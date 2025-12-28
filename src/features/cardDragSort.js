@@ -65,7 +65,7 @@ const cleanup = async (skipLayout = false) => {
 	window.removeEventListener("blur", onEnd);
 
 	sourceNode = movedNode = dragMode = savedWaitingForDrag = null;
-	if (!skipLayout) raf(() => window.dui?.layout?.updateHand?.());
+	if (!skipLayout) raf(() => window.decadeUI?.layout?.updateHand?.());
 	_status.dragged = null;
 };
 
@@ -159,7 +159,7 @@ const swapCards = async (src, tgt) => {
 		tgtIdx = children.indexOf(tgt);
 	if (srcIdx === -1 || tgtIdx === -1) return;
 
-	const scale = window.dui?.boundsCaches?.hand?.cardScale ?? 1;
+	const scale = window.decadeUI?.boundsCaches?.hand?.cardScale ?? 1;
 	const moveLeft = srcIdx > tgtIdx;
 
 	container.insertBefore(src, moveLeft ? tgt : tgt.nextSibling);
@@ -179,7 +179,7 @@ const swapCards = async (src, tgt) => {
 		})
 	);
 
-	raf(() => window.dui?.layout?.updateHand?.());
+	raf(() => window.decadeUI?.layout?.updateHand?.());
 };
 
 const onEnd = e => {
@@ -216,10 +216,10 @@ const destroy = () => {
 };
 
 export function setupCardDragSort(enabled = lib.config.extension_十周年UI_translate) {
-	const dui = window.dui || {};
-	window.dui = dui;
+	const _decadeUI = window.decadeUI || {};
+	window.decadeUI = _decadeUI;
 
-	Object.assign(dui, { initCardDragSwap: init, destroyCardDragSwap: destroy });
+	Object.assign(_decadeUI, { initCardDragSwap: init, destroyCardDragSwap: destroy });
 
 	if (!enabled) return destroy();
 

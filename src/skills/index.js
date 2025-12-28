@@ -609,7 +609,7 @@ const inheritSkill = {
 			moved[1].reverse().forEach(card => {
 				player.node.handcards1.insertBefore(card, player.node.handcards1.firstChild);
 			});
-			dui.queueNextFrameTick(dui.layoutHand, dui);
+			decadeUI.queueNextFrameTick(decadeUI.layoutHand, decadeUI);
 
 			cards = moved[0].slice();
 			if (cards.length) {
@@ -818,7 +818,7 @@ const inheritSkill = {
 
 			game.broadcastAll(
 				(card, player) => {
-					const bounds = dui.boundsCaches.arena;
+					const bounds = decadeUI.boundsCaches.arena;
 					if (!bounds.updated) bounds.update();
 
 					const scale = bounds.cardScale;
@@ -887,7 +887,7 @@ const inheritSkill = {
 			}
 
 			game.broadcastAll(node => {
-				const bounds = dui.boundsCaches.arena;
+				const bounds = decadeUI.boundsCaches.arena;
 				if (!bounds.updated) bounds.update();
 
 				const scale = bounds.cardScale;
@@ -968,7 +968,7 @@ const inheritSubSkill = {
 				result.moved[0].reverse().forEach(card => {
 					player.node.handcards1.insertBefore(card, player.node.handcards1.firstChild);
 				});
-				dui.queueNextFrameTick(dui.layoutHand, dui);
+				decadeUI.queueNextFrameTick(decadeUI.layoutHand, decadeUI);
 			},
 		},
 	},

@@ -37,7 +37,7 @@ export function createPlayerInit(base) {
 		decadeUI.MAX_DYNAMIC = MAX_DYNAMIC;
 
 		if (this.dynamic) this.stopDynamic();
-		const showDynamic = (this.dynamic || CUR_DYNAMIC < MAX_DYNAMIC) && duicfg.dynamicSkin;
+		const showDynamic = (this.dynamic || CUR_DYNAMIC < MAX_DYNAMIC) && decadeUI.config.dynamicSkin;
 		if (showDynamic && _status.mode !== null) {
 			const dskins = decadeUI.dynamicSkin;
 			const avatars = this.doubleAvatar ? [character, character2] : [character];

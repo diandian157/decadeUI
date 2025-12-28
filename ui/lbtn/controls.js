@@ -131,7 +131,7 @@ export function sortHandCards() {
 	});
 
 	cards.forEach(card => game.me.node.handcards1.insertBefore(card, game.me.node.handcards1.firstChild));
-	dui.queueNextFrameTick(dui.layoutHand, dui);
+	decadeUI.queueNextFrameTick(decadeUI.layoutHand, decadeUI);
 }
 
 // 自动排序控制

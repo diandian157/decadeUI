@@ -49,7 +49,7 @@ export function uiUpdatec() {
  * 更新手牌布局
  */
 export function uiUpdatehl() {
-	dui.queueNextFrameTick(dui.layoutHand, dui);
+	decadeUI.queueNextFrameTick(decadeUI.layoutHand, decadeUI);
 }
 
 /**
@@ -550,7 +550,7 @@ export function uiClickCard(e) {
 					this._tempSuitNum.delete();
 					delete this._tempSuitNum;
 				}
-				dui.cardTempSuitNum(this, vsuit, vnum);
+				decadeUI.cardTempSuitNum(this, vsuit, vnum);
 				this.dataset.views = 1;
 			}
 		}
@@ -697,7 +697,7 @@ export function uiClickIdentity(e) {
 			};
 			if (_status.forceKey) identityList.key = "键";
 		}
-		const _dui = window.dui;
+		const _dui = window.decadeUI;
 		if (!_dui.$identityMarkBox) {
 			_dui.$identityMarkBox = window.decadeUI.element.create("identity-mark-box");
 			_dui.$identityMarkBox.ondeactive = function () {

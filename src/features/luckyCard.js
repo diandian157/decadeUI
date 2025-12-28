@@ -98,9 +98,9 @@ export function setupLuckyCard() {
 
 			lc.showTimer();
 
-			if (lib.config["extension_十周年UI_cardPrompt"] && typeof dui?.showHandTip === "function") {
+			if (lib.config["extension_十周年UI_cardPrompt"] && typeof decadeUI?.showHandTip === "function") {
 				lc.closeCardDialog();
-				var tip = (ui.cardDialog = dui.showHandTip());
+				var tip = (ui.cardDialog = decadeUI.showHandTip());
 				tip.appendText(lc.stripTags(str));
 				tip.strokeText();
 				tip.show();

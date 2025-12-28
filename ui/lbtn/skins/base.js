@@ -116,8 +116,8 @@ export function createBaseLbtnPlugin(lib, game, ui, get, ai, _status, app) {
 				game.me.node.handcards1.insertBefore(card, game.me.node.handcards1.firstChild);
 			});
 
-			if (typeof dui !== "undefined") {
-				dui.queueNextFrameTick(dui.layoutHand, dui);
+			if (typeof decadeUI !== "undefined") {
+				decadeUI.queueNextFrameTick(decadeUI.layoutHand, decadeUI);
 			}
 		},
 

@@ -22,33 +22,33 @@ export const registerDecadeUIUtilityModule = decadeUI => {
 	};
 
 	decadeUI.queueNextTick = (callback, ctx) => {
-		dui._tickEntries ??= [];
-		dui._tickEntries.push({ ctx, callback });
-		if (dui._queueTick) return;
-		dui._queueTick = Promise.resolve().then(() => {
-			dui._queueTick = null;
-			const entries = dui._tickEntries;
-			dui._tickEntries = [];
+		decadeUI._tickEntries ??= [];
+		decadeUI._tickEntries.push({ ctx, callback });
+		if (decadeUI._queueTick) return;
+		decadeUI._queueTick = Promise.resolve().then(() => {
+			decadeUI._queueTick = null;
+			const entries = decadeUI._tickEntries;
+			decadeUI._tickEntries = [];
 			entries.forEach(e => e.callback.call(e.ctx));
 		});
 	};
 
 	decadeUI.queueNextFrameTick = (callback, ctx) => {
-		dui._frameTickEntries ??= [];
-		dui._frameTickEntries.push({ ctx, callback });
-		if (dui._queueFrameTick) return;
-		dui._queueFrameTick = requestAnimationFrame(() => {
-			dui._queueFrameTick = null;
-			const entries = dui._frameTickEntries;
-			dui._frameTickEntries = [];
+		decadeUI._frameTickEntries ??= [];
+		decadeUI._frameTickEntries.push({ ctx, callback });
+		if (decadeUI._queueFrameTick) return;
+		decadeUI._queueFrameTick = requestAnimationFrame(() => {
+			decadeUI._queueFrameTick = null;
+			const entries = decadeUI._frameTickEntries;
+			decadeUI._frameTickEntries = [];
 			setTimeout(() => entries.forEach(e => e.callback.call(e.ctx)), 0);
 		});
 	};
 
-	decadeUI.layoutHand = () => dui.layout.updateHand();
-	decadeUI.layoutHandDraws = cards => layoutHandDraws(cards, dui.boundsCaches);
-	decadeUI.layoutDrawCards = (cards, player, center) => layoutDrawCards(cards, player, center, dui.boundsCaches);
-	decadeUI.layoutDiscard = () => dui.layout.updateDiscard();
+	decadeUI.layoutHand = () => decadeUI.layout.updateHand();
+	decadeUI.layoutHandDraws = cards => layoutHandDraws(cards, decadeUI.boundsCaches);
+	decadeUI.layoutDrawCards = (cards, player, center) => layoutDrawCards(cards, player, center, decadeUI.boundsCaches);
+	decadeUI.layoutDiscard = () => decadeUI.layout.updateDiscard();
 	decadeUI.cardTempSuitNum = (card, suit, number) => cardTempSuitNum(card, suit, number, decadeUI.element);
 	decadeUI.tryAddPlayerCardUseTag = (card, player, event) => tryAddPlayerCardUseTag(card, player, event, decadeUI);
 
@@ -72,7 +72,7 @@ export const enhanceDecadeUIRuntime = decadeUI => {
 	decadeUI.BoundsCache = BoundsCache;
 	decadeUI.boundsCaches = createBoundsCaches(decadeUI);
 	decadeUI.element = element;
-	dui.showHandTip = text => showHandTip(text, decadeUI);
+	decadeUI.showHandTip = text => showHandTip(text, decadeUI);
 
 	decadeUI.game = {
 		wait: game.pause,

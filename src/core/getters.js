@@ -80,7 +80,7 @@ export function createDecadeUIGetModule() {
 		elementTopFromWindow: element => element.getBoundingClientRect().top + window.scrollY,
 
 		handcardInitPos() {
-			const hand = dui.boundsCaches.hand;
+			const hand = decadeUI.boundsCaches.hand;
 			if (!hand.updated) hand.update();
 			const { cardWidth: cardW, cardHeight: cardH, cardScale: scale } = hand;
 			return {

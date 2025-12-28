@@ -31,7 +31,7 @@ export function createShoushaLbtnPlugin(lib, game, ui, get, ai, _status, app) {
 			cards.forEach((card, j) => {
 				game.me.node.handcards1.insertBefore(cards[j], game.me.node.handcards1.firstChild);
 			});
-			if (typeof dui !== "undefined") dui.queueNextFrameTick(dui.layoutHand, dui);
+			if (typeof decadeUI !== "undefined") decadeUI.queueNextFrameTick(decadeUI.layoutHand, decadeUI);
 		}
 	};
 
@@ -94,13 +94,13 @@ export function createShoushaLbtnPlugin(lib, game, ui, get, ai, _status, app) {
 							}
 						}
 					}
-					if (typeof dui !== "undefined") {
-						dui.queueNextFrameTick(() => {
-							dui.layoutHand();
+					if (typeof decadeUI !== "undefined") {
+						decadeUI.queueNextFrameTick(() => {
+							decadeUI.layoutHand();
 							setTimeout(() => {
 								ui._autoPaixuSorting = false;
 							}, 0);
-						}, dui);
+						}, decadeUI);
 					} else {
 						ui._autoPaixuSorting = false;
 					}

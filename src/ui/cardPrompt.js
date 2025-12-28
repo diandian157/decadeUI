@@ -243,7 +243,7 @@ const closeCardDialog = () => {
 /** 重置所有手牌提示 */
 const resetHandTips = () => {
 	closeCardDialog();
-	const tips = dui?.statics?.handTips;
+	const tips = decadeUI?.statics?.handTips;
 	if (!Array.isArray(tips)) return;
 	tips.forEach(tip => {
 		if (!tip) return;
@@ -257,7 +257,7 @@ const resetHandTips = () => {
 /** 创建新的提示框 */
 const ensureTip = () => {
 	closeCardDialog();
-	return (ui.cardDialog = dui.showHandTip());
+	return (ui.cardDialog = decadeUI.showHandTip());
 };
 
 // ==================== 提示内容构建 ====================

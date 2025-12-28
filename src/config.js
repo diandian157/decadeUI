@@ -69,8 +69,8 @@ export let config = {
 		onclick(bool) {
 			game.saveConfig("extension_十周年UI_translate", bool);
 			// 热更新：动态启用/禁用拖拽功能
-			window.dui?.destroyCardDragSwap?.();
-			if (bool) window.dui?.initCardDragSwap?.();
+			window.decadeUI?.destroyCardDragSwap?.();
+			if (bool) window.decadeUI?.initCardDragSwap?.();
 		},
 	},
 
