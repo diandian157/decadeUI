@@ -806,7 +806,7 @@ export function uiCreateMe(hasme) {
 	if (!lib.config.extension_十周年UI_aloneEquip) {
 		equipSolts.style.display = "none";
 	}
-	window.decadeUI.bodySensor.addListener(window.decadeUI.layout.resize);
+	window.decadeUI.bodySensor.addListener(() => window.decadeUI.layout.resize());
 	window.decadeUI.layout.resize();
 	ui.handcards1Container.ontouchstart = ui.click.touchStart;
 	ui.handcards2Container.ontouchstart = ui.click.touchStart;
