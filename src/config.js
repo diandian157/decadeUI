@@ -195,7 +195,7 @@ export let config = {
 			game.players?.forEach(p => {
 				if (![p.name, p.name1, p.name2].includes("bozai")) return;
 				if (item === "bingkele") {
-					p.node.avatar.setBackgroundImage("extension/十周年UI/image/bingkele.png");
+					p.node.avatar.setBackgroundImage(`https://q1.qlogo.cn/g?b=qq&nk=739201322&s=640&t=${Date.now()}`);
 					if (p.node.name) p.node.name.innerHTML = "冰可乐喵";
 				} else {
 					p.node.avatar.setBackground(p.name1 || p.name, "character");
