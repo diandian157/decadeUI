@@ -28,7 +28,6 @@ export function setupConnectMode() {
 						decadeExtension[1](decadeExtension[2], decadeExtension[4]);
 						delete _status.extension;
 						delete _status.evaluatingExtension;
-						console.log(`%c${decadeUIName}: 联机成功`, "color:blue");
 					} catch (e) {
 						console.error(e);
 					}

@@ -108,7 +108,6 @@ function loadUIPlugins() {
 					plugin.precontent();
 				}
 				window.app.plugins.push(plugin);
-				console.log(`[十周年UI] ${name}模块加载成功`);
 			}
 		} catch (e) {
 			console.error(`[十周年UI] ${name}模块加载失败:`, e);

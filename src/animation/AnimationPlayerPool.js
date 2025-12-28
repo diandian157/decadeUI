@@ -39,7 +39,6 @@ export class AnimationPlayerPool {
 	playSpineTo(element, animation, position) {
 		if (position?.parent) {
 			position.parent = undefined;
-			console.log("playSpineTo: position.parent 参数已忽略");
 		}
 
 		// 复用已绑定的播放器

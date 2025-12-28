@@ -11,6 +11,5 @@ import { getCurrentSkin, createSkillPluginForSkin } from "./skins/index.js";
  */
 export function createSkillPlugin(lib, game, ui, get, ai, _status, app) {
 	const skinName = getCurrentSkin(lib);
-	console.log(`[SkillPlugin] Loading skin: ${skinName}`);
 	return createSkillPluginForSkin(skinName, lib, game, ui, get, ai, _status, app);
 }

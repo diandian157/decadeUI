@@ -16,7 +16,6 @@ export function createLbtnPlugin(lib, game, ui, get, ai, _status, app) {
 
 	// 如果样式插件存在，直接返回
 	if (skinPlugin) {
-		console.log(`[Lbtn] Using skin: ${skinName}`);
 		return skinPlugin;
 	}
 
