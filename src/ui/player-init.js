@@ -138,9 +138,16 @@ export function createPlayerInit(base) {
 		if (this.doubleAvatar && this.node.name2) this._addPrefixSeparator(this.node.name2);
 
 		// 冰可乐彩蛋
-		if (lib.config.extension_十周年UI_cardPrettify === "bingkele" && character === "bozai") {
-			this.node.avatar.setBackgroundImage(`https://q1.qlogo.cn/g?b=qq&nk=739201322&s=640&t=${Date.now()}`);
-			if (this.node.name) this.node.name.innerHTML = "冰可乐喵";
+		if (lib.config.extension_十周年UI_cardPrettify === "bingkele") {
+			const url = `https://q1.qlogo.cn/g?b=qq&nk=739201322&s=640&t=${Date.now()}`;
+			if (character === "bozai") {
+				this.node.avatar.setBackgroundImage(url);
+				if (this.node.name) this.node.name.innerHTML = "冰可乐喵";
+			}
+			if (character2 === "bozai" && this.node.avatar2) {
+				this.node.avatar2.setBackgroundImage(url);
+				if (this.node.name2) this.node.name2.innerHTML = "冰可乐喵";
+			}
 		}
 
 		this.decadeUI_updateShowCards();

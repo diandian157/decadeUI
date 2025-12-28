@@ -193,13 +193,29 @@ export let config = {
 			});
 			// 冰可乐彩蛋
 			game.players?.forEach(p => {
-				if (![p.name, p.name1, p.name2].includes("bozai")) return;
+				const isBozai1 = p.name === "bozai" || p.name1 === "bozai";
+				const isBozai2 = p.name2 === "bozai";
+				if (!isBozai1 && !isBozai2) return;
+
 				if (item === "bingkele") {
-					p.node.avatar.setBackgroundImage(`https://q1.qlogo.cn/g?b=qq&nk=739201322&s=640&t=${Date.now()}`);
-					if (p.node.name) p.node.name.innerHTML = "冰可乐喵";
+					const url = `https://q1.qlogo.cn/g?b=qq&nk=739201322&s=640&t=${Date.now()}`;
+					if (isBozai1) {
+						p.node.avatar.setBackgroundImage(url);
+						if (p.node.name) p.node.name.innerHTML = "冰可乐喵";
+					}
+					if (isBozai2 && p.node.avatar2) {
+						p.node.avatar2.setBackgroundImage(url);
+						if (p.node.name2) p.node.name2.innerHTML = "冰可乐喵";
+					}
 				} else {
-					p.node.avatar.setBackground(p.name1 || p.name, "character");
-					if (p.node.name) p.node.name.innerHTML = get.slimName(p.name);
+					if (isBozai1) {
+						p.node.avatar.setBackground(p.name1 || p.name, "character");
+						if (p.node.name) p.node.name.innerHTML = get.slimName(p.name1 || p.name);
+					}
+					if (isBozai2 && p.node.avatar2) {
+						p.node.avatar2.setBackground(p.name2, "character");
+						if (p.node.name2) p.node.name2.innerHTML = get.slimName(p.name2);
+					}
 				}
 			});
 		},
