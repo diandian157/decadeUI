@@ -1,13 +1,17 @@
 /**
  * 前缀角标模块
  * 根据武将前缀显示对应的角标样式
+ * 新增了三个接口，支持外部扩展新建样式
+ * registerPrefix(prefix, styleName) - 注册单个前缀
+ * registerPrefixes(configs) - 批量注册
+ * hasPrefix(prefix) - 检查前缀是否存在
  */
 import { lib, game, ui, get, ai, _status } from "noname";
 
 // ==================== 前缀配置映射 ====================
 
-const PREFIX_CONFIGS = Object.freeze({
-	// 基础前缀
+/** @type {Record<string, string>}  */
+const PREFIX_CONFIGS = {
 	界: "jie",
 	神: "shen",
 	武: "wu",
@@ -21,17 +25,14 @@ const PREFIX_CONFIGS = Object.freeze({
 	星: "star",
 	"☆": "star",
 	"★": "star",
-	// 新杀系列
 	新杀: "dc",
 	新杀谋: "sb",
 	"新杀|牢": "lao",
-	// OL系列
 	OL谋: "sb",
 	OL界: "jie",
 	OL神: "shen",
 	OL乐: "yue",
 	OL汉: "han",
-	// 手杀系列
 	手杀: "mb",
 	手杀SP: "mb",
 	手杀界: "jie",
@@ -40,11 +41,9 @@ const PREFIX_CONFIGS = Object.freeze({
 	"手杀|牢": "lao",
 	"手杀|SP": "sp",
 	手杀合: "he",
-	// TW系列
 	TW谋: "sb",
 	TW神: "shen",
 	"TW|起": "jsrg",
-	// 旧版系列
 	旧: "old",
 	旧神: "old",
 	旧晋: "old",
@@ -67,13 +66,11 @@ const PREFIX_CONFIGS = Object.freeze({
 	"旧|起": "old",
 	"旧|玄": "old",
 	"旧|魔": "old",
-	// 牢系列
 	牢: "lao",
 	"牢|爻": "lao",
 	"牢|神": "lao",
 	"牢|SP": "lao",
 	"牢|谋": "lao",
-	// 微信系列
 	微信: "wei",
 	"微信|牢": "lao",
 	"微信|神": "shen",
@@ -82,7 +79,6 @@ const PREFIX_CONFIGS = Object.freeze({
 	"微信|界": "jie",
 	"SP|微信": "sp",
 	"SP|微信|神": "shen",
-	// 欢杀系列
 	欢杀: "Mbaby",
 	"欢杀|神": "shen",
 	"欢杀|谋": "sb",
@@ -90,14 +86,12 @@ const PREFIX_CONFIGS = Object.freeze({
 	"SP|欢杀": "sp",
 	"SP|欢杀|神": "shen",
 	"欢杀|界": "jie",
-	// 极略系列
 	极: "ji",
 	极略SK: "sk",
 	"极略★SK": "sk",
 	极略SK神: "shen",
 	极略SP神: "shen",
 	极略SR: "sr",
-	// 其他前缀
 	界SP: "jie",
 	爻: "yao",
 	魔: "dm",
@@ -175,7 +169,7 @@ const PREFIX_CONFIGS = Object.freeze({
 	"26|SP": "sp",
 	"飞鸿|神": "shen",
 	"☆神": "shen",
-});
+};
 
 // ==================== 工具函数 ====================
 
@@ -186,7 +180,47 @@ const getPropertyName = name => `${name}Mark`;
 // ==================== 导出模块 ====================
 
 export const prefixMarkModule = {
-	prefix_configs: PREFIX_CONFIGS,
+	get prefixConfigs() {
+		return { ...PREFIX_CONFIGS };
+	},
+
+	/**
+	 * 注册单个前缀样式
+	 * @param {string} prefix - 前缀名称，如 "自定义"
+	 * @param {string} styleName - 样式名称，如 "custom"（对应 CSS 类名 .custom-mark）
+	 * @returns {boolean} 是否注册成功
+	 */
+	registerPrefix(prefix, styleName) {
+		if (typeof prefix !== "string" || typeof styleName !== "string") return false;
+		if (!prefix.trim() || !styleName.trim()) return false;
+		PREFIX_CONFIGS[prefix] = styleName;
+		return true;
+	},
+
+	/**
+	 * 批量注册前缀样式
+	 * @param {Record<string, string>} configs - { 前缀: 样式名 } 映射对象
+	 * @returns {string[]} 注册成功的前缀列表
+	 */
+	registerPrefixes(configs) {
+		if (!configs || typeof configs !== "object") return [];
+		const registered = [];
+		for (const [prefix, styleName] of Object.entries(configs)) {
+			if (this.registerPrefix(prefix, styleName)) {
+				registered.push(prefix);
+			}
+		}
+		return registered;
+	},
+
+	/**
+	 * 检查前缀是否已注册
+	 * @param {string} prefix - 前缀名称
+	 * @returns {boolean}
+	 */
+	hasPrefix(prefix) {
+		return prefix in PREFIX_CONFIGS;
+	},
 
 	/** 检查是否启用前缀标记功能 */
 	shouldShowPrefixMark: () => lib.config?.[CONFIG_KEY] === "on",
