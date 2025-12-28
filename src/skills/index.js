@@ -121,7 +121,7 @@ const animateSkill = {
 		},
 	},
 
-	/** 可重铸卡牌的重铸处理 */
+	/** 可重铸卡牌无目标时转为重铸 */
 	_decadeUI_recastable_recast: {
 		trigger: { player: "useCardBefore" },
 		forced: true,
@@ -129,8 +129,7 @@ const animateSkill = {
 		silent: true,
 		filter(event, player) {
 			if (lib.config.extension_十周年UI_newDecadeStyle === "off") return false;
-			const cardName = get.name(event.card);
-			return RECASTABLE_CARDS.includes(cardName) && (!event.targets || event.targets.length === 0);
+			return RECASTABLE_CARDS.includes(get.name(event.card)) && (!event.targets || event.targets.length === 0);
 		},
 		async content(event, trigger, player) {
 			trigger.cancel();
@@ -144,6 +143,17 @@ const animateSkill = {
 
 const baseSkill = {
 	ghujia: { mark: false },
+
+	/** 被禁用的可重铸卡牌仍可选中（用于重铸） */
+	_decadeUI_recastable_enable: {
+		mod: {
+			cardEnabled(card, player) {
+				if (!player?.isPhaseUsing?.()) return;
+				if (!RECASTABLE_CARDS.includes(get.name(card))) return;
+				if (player.canRecast(card)) return true;
+			},
+		},
+	},
 
 	/** 失去体力动画 */
 	_hpLossAnimation: {
@@ -1029,6 +1039,11 @@ export function initSkills() {
 	// 注册基础技能
 	Object.assign(lib.skill, baseSkill);
 
+	// 注册可重铸卡牌启用检查为全局技能
+	if (lib.config.extension_十周年UI_newDecadeStyle !== "off") {
+		game.addGlobalSkill("_decadeUI_recastable_enable");
+	}
+
 	// 合并继承技能
 	for (const key of Object.keys(inheritSkill)) {
 		if (lib.skill[key]) {
@@ -1061,6 +1076,31 @@ export function initSkills() {
 	}
 }
 
+/** 检查卡牌是否被其他技能禁用 */
+function isCardDisabledForUse(card, player) {
+	if (!player) return false;
+
+	// 临时移除重铸启用mod，检查原始cardEnabled状态
+	const skill = lib.skill._decadeUI_recastable_enable;
+	const originalMod = skill?.mod?.cardEnabled;
+	if (skill?.mod) delete skill.mod.cardEnabled;
+
+	let disabled = false;
+	if (game.checkMod(card, player, _status.event, "unchanged", "cardEnabled", player) === false) {
+		disabled = true;
+	}
+	if (!disabled && get.itemtype(card) === "card") {
+		if (game.checkMod(card, player, _status.event, "unchanged", "cardEnabled2", player) === false) {
+			disabled = true;
+		}
+	}
+
+	// 恢复mod
+	if (skill?.mod && originalMod) skill.mod.cardEnabled = originalMod;
+
+	return disabled;
+}
+
 /** 设置可重铸卡牌 */
 function setupRecastableCards() {
 	RECASTABLE_CARDS.forEach(cardName => {
@@ -1070,21 +1110,26 @@ function setupRecastableCards() {
 		const originalSelectTarget = card.selectTarget;
 		const minTarget = Array.isArray(originalSelectTarget) ? originalSelectTarget[0] : originalSelectTarget || 1;
 		const maxTarget = Array.isArray(originalSelectTarget) ? originalSelectTarget[1] : originalSelectTarget || 1;
+		const originalFilterTarget = card.filterTarget;
 
 		Object.assign(card, {
 			selectTarget: [0, maxTarget],
+			filterTarget(cardObj, player, target) {
+				const selectedCard = ui.selected.cards?.[0];
+				// 被禁用时只能重铸，不能选目标
+				if (selectedCard && isCardDisabledForUse(selectedCard, player)) return false;
+				return typeof originalFilterTarget === "function" ? originalFilterTarget(cardObj, player, target) : true;
+			},
 			filterOk() {
 				const player = _status.event.player;
 				const cardObj = get.card();
-				if (ui.selected.targets.length === 0) {
-					return cardObj && player.canRecast(cardObj);
-				}
+				if (ui.selected.targets.length === 0) return cardObj && player.canRecast(cardObj);
 				return ui.selected.targets.length >= minTarget;
 			},
 		});
 	});
 
-	// 过滤重铸技能中的可重铸卡牌
+	// 从通用重铸中排除这些卡牌
 	if (lib.skill._recasting) {
 		const originalFilterCard = lib.skill._recasting.filterCard;
 		lib.skill._recasting.filterCard = function (card, player) {
@@ -1093,7 +1138,7 @@ function setupRecastableCards() {
 		};
 	}
 
-	// 确认按钮文字切换
+	// 确认按钮文字切换为"重铸"
 	if (lib.hooks?.checkEnd) {
 		lib.hooks.checkEnd.add("_decadeUI_recastable_confirm", () => {
 			if (!ui.confirm) return;
@@ -1115,9 +1160,7 @@ function setupRecastableCards() {
 		lib.hooks.uncheckEnd.add("_decadeUI_recastable_confirm_reset", () => {
 			if (!ui.confirm) return;
 			const okBtn = ui.confirm.firstChild;
-			if (okBtn?.innerHTML === "重铸") {
-				okBtn.innerHTML = "确定";
-			}
+			if (okBtn?.innerHTML === "重铸") okBtn.innerHTML = "确定";
 		});
 	}
 }
