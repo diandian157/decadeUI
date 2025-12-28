@@ -104,13 +104,13 @@ function setupIdentityDisplay(realIdentity, player) {
 
 				const style = lib.config.extension_十周年UI_newDecadeStyle;
 				const srcMap = {
-					onlineUI: "image/decorationo/identity2_",
-					babysha: "image/decorationh/identity3_",
-					on: "image/decoration/identity_",
-					othersOff: "image/decoration/identity_",
-					codename: "image/decoration_code/identity5_",
+					onlineUI: "image/styles/online/identity2_",
+					babysha: "image/styles/baby/identity3_",
+					on: "image/styles/decade/identity_",
+					othersOff: "image/styles/decade/identity_",
+					codename: "image/styles/codename/identity5_",
 				};
-				const srcPrefix = srcMap[style] || "image/decorations/identity2_";
+				const srcPrefix = srcMap[style] || "image/styles/shousha/identity2_";
 				const src = decadeUIPath + srcPrefix + filename + ".png";
 
 				const image = new Image();
@@ -211,7 +211,7 @@ export function createPlayerElement(position, noclick) {
 		for (let i = 0; i < 40; i++) element.create("cardbg", node).style.transform = `translateX(${i * 5 - 5}px)`;
 		chainImg.onerror = undefined;
 	};
-	chainImg.src = decadeUIPath + "assets/image/tie_suo.png";
+	chainImg.src = decadeUIPath + "image/ui/chain/tie_suo.png";
 
 	const extend = {
 		$cardCount: playerExtend.node.count,

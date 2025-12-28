@@ -87,7 +87,7 @@
 		0 0 1.5px #ffded4,
 		0 0 1.5px #ffded4,
 		0 0 1.5px #ffded4 !important;
-	background: url("../../image/decoration/shield.png") no-repeat;
+	background: url("../../image/styles/decade/shield.png") no-repeat;
 	background-size: 100% 100%;
 	z-index: 100;
 }
@@ -108,27 +108,27 @@
 }
 
 #arena[data-shadow-style="off"] > .player::before {
-	background-image: url("../../assets/image/sprites_shadow_orange.png");
+	background-image: url("../../image/ui/effects/sprites_shadow_orange.png");
 }
 
 #arena[data-shadow-style="off"] > .player::after,
 #arena[data-shadow-style="off"] > .player.selected::after,
 #arena[data-shadow-style="off"] > .player.selectable::after {
-	background-image: url("../../assets/image/sprites_shadow_lvse.png");
+	background-image: url("../../image/ui/effects/sprites_shadow_lvse.png");
 	transition: opacity 0.1s linear;
 }
 
 #arena[data-shadow-style="off"] > .player:not([data-position="0"])::after,
 #arena[data-shadow-style="off"] > .player.selected:not([data-position="0"])::after,
 #arena[data-shadow-style="off"] > .player.selectable:not([data-position="0"])::after {
-	background-image: url("../../assets/image/sprites_shadow_red.png");
+	background-image: url("../../image/ui/effects/sprites_shadow_red.png");
 }
 
 /* 橙色光效(选中) */
 #arena[data-shadow-style="off"] > .player.selectable.selected.target::before,
 #arena[data-shadow-style="off"] > .player.selected:not(.target)::before {
 	animation-duration: 0.9s;
-	background-image: url("../../assets/image/sprites_shadow_orange.png");
+	background-image: url("../../image/ui/effects/sprites_shadow_orange.png");
 	opacity: 1;
 	z-index: 79;
 }
@@ -136,7 +136,7 @@
 /* 绿色光效(回合中) */
 #arena[data-shadow-style="off"] > .player.glow_phase:not(.selectable)::before {
 	animation-duration: 0.9s;
-	background-image: url("../../assets/image/sprites_shadow_green1.png");
+	background-image: url("../../image/ui/effects/sprites_shadow_green1.png");
 	opacity: 1;
 	z-index: 75;
 }
@@ -144,7 +144,7 @@
 /* 绿色光效(可选中-主玩家) */
 #arena[data-shadow-style="off"] > .player.selectable:not(.selected):not(.target)::before {
 	animation-duration: 0.9s;
-	background-image: url("../../assets/image/sprites_shadow_lvse.png");
+	background-image: url("../../image/ui/effects/sprites_shadow_lvse.png");
 	opacity: 1;
 	z-index: 79;
 	top: -38.4px;
@@ -152,7 +152,7 @@
 
 /* 红色光效(可选中-其他玩家) */
 #arena[data-shadow-style="off"] > .player.selectable:not(.selected):not(.target):not([data-position="0"])::before {
-	background-image: url("../../assets/image/sprites_shadow_red.png");
+	background-image: url("../../image/ui/effects/sprites_shadow_red.png");
 	z-index: 89;
 	top: -38.4px;
 }
@@ -173,17 +173,17 @@
 }
 
 #arena[data-shadow-style="on"] > .player::before {
-	background-image: url("../../assets/image/sprites_glow_blue.png");
+	background-image: url("../../image/ui/effects/sprites_glow_blue.png");
 }
 
 #arena[data-shadow-style="on"] > .player::after {
-	background-image: url("../../assets/image/sprites_glow_red.png");
+	background-image: url("../../image/ui/effects/sprites_glow_red.png");
 }
 
 #arena[data-shadow-style="on"] > .player.selected:not(.target)::before,
 #arena[data-shadow-style="on"] > .player.glow_phase:not(.selectable):not([data-position="0"])::before {
 	animation-duration: 0.9s;
-	background-image: url("../../assets/image/sprites_glow_orange.png");
+	background-image: url("../../image/ui/effects/sprites_glow_orange.png");
 	opacity: 1;
 }
 
@@ -234,7 +234,7 @@
 	width: 158px;
 	height: 32px;
 	visibility: hidden;
-	background: url("../../assets/image/tie_suo1.png") no-repeat;
+	background: url("../../image/ui/chain/tie_suo1.png") no-repeat;
 	background-size: cover;
 	background-position-x: -120px;
 	transition-duration: 0.4s;
@@ -375,19 +375,19 @@
 /* 银龙框 */
 #arena[data-long-level="two"] > .player > .long,
 .player[data-long-level="two"] > .long {
-	background-image: url("../../assets/image/long_silver1.png");
+	background-image: url("../../image/ui/frame/long_silver1.png");
 }
 
 /* 金龙框 */
 #arena[data-long-level="three"] > .player > .long,
 .player[data-long-level="three"] > .long {
-	background-image: url("../../assets/image/long_gold1.png");
+	background-image: url("../../image/ui/frame/long_gold1.png");
 }
 
 /* 玉龙框 */
 #arena[data-long-level="four"] > .player > .long,
 .player[data-long-level="four"] > .long {
-	background-image: url("../../assets/image/long1_yu.png");
+	background-image: url("../../image/ui/frame/long1_yu.png");
 	width: 156%;
 	height: 139%;
 	left: -25px;
@@ -397,7 +397,7 @@
 /* 炎龙框 */
 #arena[data-long-level="five"] > .player > .long,
 .player[data-long-level="five"] > .long {
-	background-image: url("../../assets/image/long1_yan.png");
+	background-image: url("../../image/ui/frame/long1_yan.png");
 	width: 160%;
 	height: 213%;
 	left: -23px;
@@ -421,12 +421,12 @@
 
 #arena[data-long-level="two"] > .player > .wei,
 .player[data-long-level="two"] > .wei {
-	background-image: url("../../assets/image/long_silver2.png");
+	background-image: url("../../image/ui/frame/long_silver2.png");
 }
 
 #arena[data-long-level="three"] > .player > .wei,
 .player[data-long-level="three"] > .wei {
-	background-image: url("../../assets/image/long_gold2.png");
+	background-image: url("../../image/ui/frame/long_gold2.png");
 }
 
 /* ==================== 武将名称 ==================== */
@@ -915,7 +915,7 @@
 	line-height: 18px;
 	word-wrap: break-word;
 	border-radius: 5px;
-	background: url("../../assets/image/update_bg.png") no-repeat;
+	background: url("../../image/ui/misc/update_bg.png") no-repeat;
 	background-size: 100% 100%;
 	box-shadow:
 		0 -1px 2px rgba(0, 0, 0, 0.5),
@@ -1131,7 +1131,7 @@
 	--h: calc(var(--w) * 41 / 110);
 	width: var(--w);
 	height: var(--h);
-	background: url("../../image/judgeMark/feichu.png") no-repeat;
+	background: url("../../image/ui/judge-mark/feichu.png") no-repeat;
 	background-size: 100% 100%;
 	pointer-events: none;
 	z-index: 3;
@@ -1181,7 +1181,7 @@
 	border: none;
 	border-radius: 0;
 	box-shadow: none;
-	background: url("../../image/decoration/card_count7.png") no-repeat;
+	background: url("../../image/styles/decade/card_count7.png") no-repeat;
 	background-size: 100% 100%;
 	background-position: 0 -1px;
 	transition: transform, opacity;
@@ -1419,7 +1419,7 @@
 	width: 82%;
 	height: 110%;
 	border-radius: inherit;
-	background: url("../../assets/image/game_player_mask_gray2.png") no-repeat;
+	background: url("../../image/ui/mask/game_player_mask_gray2.png") no-repeat;
 	background-size: 100% 100%;
 	opacity: 0;
 	transition: opacity 0.3s ease-in-out;
@@ -1444,7 +1444,7 @@
 	width: 100%;
 	height: 100%;
 	opacity: 0;
-	background: url("../../assets/image/turn_over_mask_shousha.png");
+	background: url("../../image/ui/mask/turn_over_mask_shousha.png");
 	background-size: cover;
 	pointer-events: none;
 	z-index: 62;
@@ -1491,7 +1491,7 @@
 	border-width: 10px;
 	border-image-width: 18px;
 	border-image-slice: 31 31 fill;
-	border-image-source: url("../../assets/image/item_bg.png");
+	border-image-source: url("../../image/ui/misc/item_bg.png");
 	cursor: pointer;
 	transition:
 		opacity,
@@ -1515,7 +1515,7 @@
 	border-style: solid;
 	border-width: 6px 6px 14px 6px;
 	border-image-slice: 6 6 14 6 fill;
-	border-image-source: url("../../assets/image/chat_bubble_ShouSha.png");
+	border-image-source: url("../../image/ui/dialog/chat_bubble_ShouSha.png");
 	box-sizing: border-box;
 	word-break: break-all;
 	z-index: 110;

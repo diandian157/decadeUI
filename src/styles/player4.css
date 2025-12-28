@@ -26,13 +26,13 @@
 /* 国战模式 - 双将背景 */
 [data-mode="guozhan"] .player,
 .player[data-mode="guozhan"] {
-	background: url("../../assets/image/bj2.png") no-repeat center center !important;
+	background: url("../../image/ui/player-bg/bj2.png") no-repeat center center !important;
 	background-size: 100% 100% !important;
 }
 
 /* 非国战模式 - 单将背景(OL样式) */
 [data-mode]:not([data-mode="guozhan"]) .player:not(.fullskin2):not(.double-character):not([data-double="1"]) {
-	background: url("../../assets/image/bjOL1.png") no-repeat center center !important;
+	background: url("../../image/ui/player-bg/bjOL1.png") no-repeat center center !important;
 	background-size: 100% 100% !important;
 }
 
@@ -41,7 +41,7 @@
 [data-mode]:not([data-mode="guozhan"]) .player.double-character,
 [data-mode]:not([data-mode="guozhan"]) .player[data-double="1"],
 [data-mode]:not([data-mode="guozhan"]) .player.double {
-	background: url("../../assets/image/bj2.png") no-repeat center center !important;
+	background: url("../../image/ui/player-bg/bj2.png") no-repeat center center !important;
 	background-size: 100% 100% !important;
 }
 
@@ -61,28 +61,28 @@
 }
 
 #arena[data-shadow-style="off"] > .player::before {
-	background-image: url("../../assets/image/sprites_shadow_orange.png");
+	background-image: url("../../image/ui/effects/sprites_shadow_orange.png");
 }
 
 #arena[data-shadow-style="off"] > .player::after,
 #arena[data-shadow-style="off"] > .player.selected::after,
 #arena[data-shadow-style="off"] > .player.selectable::after {
 	top: -40px;
-	background-image: url("../../assets/image/sprites_shadow_lvse.png");
+	background-image: url("../../image/ui/effects/sprites_shadow_lvse.png");
 	transition: opacity 0.1s linear;
 }
 
 #arena[data-shadow-style="off"] > .player:not([data-position="0"])::after,
 #arena[data-shadow-style="off"] > .player.selected:not([data-position="0"])::after,
 #arena[data-shadow-style="off"] > .player.selectable:not([data-position="0"])::after {
-	background-image: url("../../assets/image/sprites_shadow_red.png");
+	background-image: url("../../image/ui/effects/sprites_shadow_red.png");
 }
 
 /* 橙色光效(选中) */
 #arena[data-shadow-style="off"] > .player.selectable.selected.target::before,
 #arena[data-shadow-style="off"] > .player.selected:not(.target)::before {
 	animation-duration: 0.9s;
-	background-image: url("../../assets/image/sprites_shadow_orange.png");
+	background-image: url("../../image/ui/effects/sprites_shadow_orange.png");
 	opacity: 1;
 	z-index: 79;
 }
@@ -90,7 +90,7 @@
 /* 绿色光效(回合中) */
 #arena[data-shadow-style="off"] > .player.glow_phase:not(.selectable)::before {
 	animation-duration: 0.9s;
-	background-image: url("../../assets/image/sprites_shadow_green1.png");
+	background-image: url("../../image/ui/effects/sprites_shadow_green1.png");
 	opacity: 1;
 	z-index: 75;
 }
@@ -98,7 +98,7 @@
 /* 绿色光效(可选中-主玩家) */
 #arena[data-shadow-style="off"] > .player.selectable:not(.selected):not(.target)::before {
 	animation-duration: 0.9s;
-	background-image: url("../../assets/image/sprites_shadow_lvse.png");
+	background-image: url("../../image/ui/effects/sprites_shadow_lvse.png");
 	opacity: 1;
 	z-index: 79;
 	top: -38.4px;
@@ -107,7 +107,7 @@
 
 /* 红色光效(可选中-其他玩家) */
 #arena[data-shadow-style="off"] > .player.selectable:not(.selected):not(.target):not([data-position="0"])::before {
-	background-image: url("../../assets/image/sprites_shadow_red.png");
+	background-image: url("../../image/ui/effects/sprites_shadow_red.png");
 	z-index: 89;
 	top: -30px;
 	left: -63px;
@@ -129,17 +129,17 @@
 }
 
 #arena[data-shadow-style="on"] > .player::before {
-	background-image: url("../../assets/image/sprites_glow_blue.png");
+	background-image: url("../../image/ui/effects/sprites_glow_blue.png");
 }
 
 #arena[data-shadow-style="on"] > .player::after {
-	background-image: url("../../assets/image/sprites_glow_red.png");
+	background-image: url("../../image/ui/effects/sprites_glow_red.png");
 }
 
 #arena[data-shadow-style="on"] > .player.selected:not(.target)::before,
 #arena[data-shadow-style="on"] > .player.glow_phase:not(.selectable):not([data-position="0"])::before {
 	animation-duration: 0.9s;
-	background-image: url("../../assets/image/sprites_glow_orange.png");
+	background-image: url("../../image/ui/effects/sprites_glow_orange.png");
 	opacity: 1;
 }
 
@@ -190,7 +190,7 @@
 	width: 100%;
 	height: 24px;
 	visibility: hidden;
-	background: url("../../assets/image/tie_suo.png") no-repeat;
+	background: url("../../image/ui/chain/tie_suo.png") no-repeat;
 	background-size: cover;
 	background-position-x: -120px;
 	transition-duration: 0.4s;
@@ -264,7 +264,7 @@
 	left: 0;
 	width: 100%;
 	height: 100%;
-	background: url("../../image/decoration/border_diwen.png") no-repeat;
+	background: url("../../image/styles/decade/border_diwen.png") no-repeat;
 	background-size: 100% 100%;
 	opacity: 0.1;
 	box-shadow: 0 0 0 2px black;
@@ -325,14 +325,14 @@
 	top: 28px;
 	width: 375%;
 	height: 95%;
-	background: url("../../image/decoration/border_campOL5.png") no-repeat;
+	background: url("../../image/styles/decade/border_campOL5.png") no-repeat;
 	background-size: 100% 100%;
 }
 
 /* 边框等级样式 */
 #arena.decadeUI[data-border-level="one"] .player > .camp-wrap > .camp-border,
 .player[data-border-level="one"] > .camp-wrap > .camp-border {
-	background-image: url("../../image/decoration/border_campOL1.png");
+	background-image: url("../../image/styles/decade/border_campOL1.png");
 }
 
 #arena.decadeUI[data-border-level="two"] .player > .camp-wrap > .camp-border,
@@ -349,22 +349,22 @@
 
 #arena.decadeUI[data-border-level="two"] .player > .camp-wrap > .camp-border,
 .player[data-border-level="two"] > .camp-wrap > .camp-border {
-	background-image: url("../../image/decoration/border_campOL2.png");
+	background-image: url("../../image/styles/decade/border_campOL2.png");
 }
 
 #arena.decadeUI[data-border-level="three"] .player > .camp-wrap > .camp-border,
 .player[data-border-level="three"] > .camp-wrap > .camp-border {
-	background-image: url("../../image/decoration/border_campOL3.png");
+	background-image: url("../../image/styles/decade/border_campOL3.png");
 }
 
 #arena.decadeUI[data-border-level="four"] .player > .camp-wrap > .camp-border,
 .player[data-border-level="four"] > .camp-wrap > .camp-border {
-	background-image: url("../../image/decoration/border_campOL4.png");
+	background-image: url("../../image/styles/decade/border_campOL4.png");
 }
 
 #arena.decadeUI[data-border-level="five"] .player > .camp-wrap > .camp-border,
 .player[data-border-level="five"] > .camp-wrap > .camp-border {
-	background-image: url("../../image/decoration/border_campOL5.png");
+	background-image: url("../../image/styles/decade/border_campOL5.png");
 }
 
 /* ==================== 武将名称 ==================== */
@@ -608,7 +608,7 @@
 	font-family: "shousha";
 	font-weight: 500;
 	color: white;
-	background: url("../../image/decoration/shieldOL.png") no-repeat;
+	background: url("../../image/styles/decade/shieldOL.png") no-repeat;
 	background-size: 100% 100%;
 	z-index: 100;
 }
@@ -911,7 +911,7 @@
 	background: none;
 	border-style: solid;
 	border-width: 0;
-	border-image-source: url("../../assets/image/markOL.png");
+	border-image-source: url("../../image/ui/mark/markOL.png");
 	border-image-slice: 40% 30% fill;
 	border-image-width: 6px;
 	border-image-outset: 0;
@@ -1091,7 +1091,7 @@
 	position: absolute;
 	width: 50px;
 	height: 50px;
-	background: url("../../image/judgeMark/feichumark.png") no-repeat;
+	background: url("../../image/ui/judge-mark/feichumark.png") no-repeat;
 	background-size: 100% 100%;
 	pointer-events: none;
 	z-index: 3;
@@ -1176,7 +1176,7 @@
 	border: none;
 	border-radius: 0;
 	box-shadow: none;
-	background: url("../../image/decorationo/card_num_bg_new.png") no-repeat;
+	background: url("../../image/styles/online/card_num_bg_new.png") no-repeat;
 	background-size: 100% 100%;
 	background-position: 0 -1px;
 	transition: transform, opacity;
@@ -1394,7 +1394,7 @@
 	width: 94%;
 	height: 100%;
 	opacity: 0;
-	background: url("../../assets/image/turn_over_mask.png");
+	background: url("../../image/ui/mask/turn_over_mask.png");
 	background-size: cover;
 	pointer-events: none;
 	z-index: 62;
@@ -1441,7 +1441,7 @@
 	border-width: 10px;
 	border-image-width: 18px;
 	border-image-slice: 31 31 fill;
-	border-image-source: url("../../assets/image/item_bg.png");
+	border-image-source: url("../../image/ui/misc/item_bg.png");
 	cursor: pointer;
 	transition:
 		opacity,
@@ -1462,7 +1462,7 @@
 	border-style: solid;
 	border-width: 6px 6px 14px 6px;
 	border-image-slice: 6 6 14 6 fill;
-	border-image-source: url("../../assets/image/chat_bubble.png");
+	border-image-source: url("../../image/ui/dialog/chat_bubble.png");
 	box-sizing: border-box;
 	word-break: break-all;
 	z-index: 99;
@@ -1484,19 +1484,19 @@
 }
 
 .player > .jie-mark {
-	background-image: url("../../assets/image/mark_jie.png");
+	background-image: url("../../image/ui/mark/mark_jie.png");
 }
 
 .player > .shen-mark {
-	background-image: url("../../assets/image/mark_shen.png");
+	background-image: url("../../image/ui/mark/mark_shen.png");
 }
 
 .player > .sp-mark {
-	background-image: url("../../assets/image/mark_sp.png");
+	background-image: url("../../image/ui/mark/mark_sp.png");
 }
 
 .player > .tw-mark {
-	background-image: url("../../assets/image/mark_tw.png");
+	background-image: url("../../image/ui/mark/mark_tw.png");
 }
 
 /* ==================== Tip提示 ==================== */

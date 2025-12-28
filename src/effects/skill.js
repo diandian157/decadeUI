@@ -115,9 +115,9 @@ function loadBgImage(camp) {
 		img.onload = () => resolve(img);
 		img.onerror = () => {
 			img.onload = () => resolve(img);
-			img.src = `${decadeUIPath}assets/image/bg_xianding_qun.png`;
+			img.src = `${decadeUIPath}image/ui/misc/bg_xianding_qun.png`;
 		};
-		img.src = `${decadeUIPath}assets/image/bg_xianding_${camp}.png`;
+		img.src = `${decadeUIPath}image/ui/misc/bg_xianding_${camp}.png`;
 	});
 }
 

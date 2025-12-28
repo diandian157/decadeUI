@@ -970,18 +970,18 @@ export function playerDieAfter() {
 
 	let url;
 	if (decadeUI.config.newDecadeStyle === "onlineUI") {
-		url = `${decadeUIPath}image/decorationo/dead4_${identity}.png`;
+		url = `${decadeUIPath}image/styles/online/dead4_${identity}.png`;
 	} else if (decadeUI.config.newDecadeStyle === "babysha") {
-		url = `${decadeUIPath}image/decorationh/dead3_${identity}.png`;
+		url = `${decadeUIPath}image/styles/baby/dead3_${identity}.png`;
 	} else if (decadeUI.config.newDecadeStyle === "codename") {
-		url = `${decadeUIPath}image/decoration_code/dead_${identity}.png`;
+		url = `${decadeUIPath}image/styles/codename/dead_${identity}.png`;
 	} else if (goon) {
-		url = `${decadeUIPath}image/decoration/dead_${identity}.png`;
+		url = `${decadeUIPath}image/styles/decade/dead_${identity}.png`;
 	} else {
 		if (this != game.me) {
-			url = `${decadeUIPath}image/decorations/dead2_${identity}.png`;
+			url = `${decadeUIPath}image/styles/shousha/dead2_${identity}.png`;
 		} else {
-			url = `${decadeUIPath}image/decorations/dead2_me.png`;
+			url = `${decadeUIPath}image/styles/shousha/dead2_me.png`;
 		}
 	}
 	image.onerror = () => {
@@ -989,7 +989,7 @@ export function playerDieAfter() {
 	};
 
 	if ((that._trueMe || that) != game.me && that != game.me && lib.config.extension_十周年UI_newDecadeStyle === "off") {
-		that.node.dieidentity.innerHTML = `<div style="width:21px; height:81px; left:22.5px; top:-12px; position:absolute; background-image: url(${lib.assetURL}extension/十周年UI/assets/image/likai.png);background-size: 100% 100%;"></div>`;
+		that.node.dieidentity.innerHTML = `<div style="width:21px; height:81px; left:22.5px; top:-12px; position:absolute; background-image: url(${lib.assetURL}extension/十周年UI/image/ui/misc/likai.png);background-size: 100% 100%;"></div>`;
 	} else {
 		that.node.dieidentity.innerHTML = "";
 	}
@@ -2183,7 +2183,7 @@ export function playerAddVirtualJudge(VCard, cards) {
 				cardx.node.judgeMark.node.judge.innerText = "";
 				cardx.node.judgeMark.node.judge.style.fontSize = "";
 				const ext = (lib.config.extension_十周年UI_newDecadeStyle === "on" || lib.config.extension_十周年UI_newDecadeStyle === "othersOff") && ["bingliang", "lebu", "shandian"].includes(imageName) ? "1.png" : ".png";
-				const basePath = `${lib.assetURL}extension/十周年UI/image/judgeMark/`;
+				const basePath = `${lib.assetURL}extension/十周年UI/image/ui/judge-mark/`;
 				const tryImg = new Image();
 				tryImg.onload = function () {
 					cardx.node.judgeMark.node.judge.style.backgroundImage = `url("${tryImg.src}")`;
@@ -2199,7 +2199,7 @@ export function playerAddVirtualJudge(VCard, cards) {
 				cardx.node.judgeMark.node.judge.parentElement.children[0].style.background = "none";
 				cardx.node.judgeMark.node.judge.parentElement.children[0].style.display = "none";
 			} else {
-				cardx.node.judgeMark.node.judge.style.backgroundImage = `url("${lib.assetURL}extension/十周年UI/image/judgeMark/tongyong.png")`;
+				cardx.node.judgeMark.node.judge.style.backgroundImage = `url("${lib.assetURL}extension/十周年UI/image/ui/judge-mark/tongyong.png")`;
 			}
 			ui.updatej(player);
 		},

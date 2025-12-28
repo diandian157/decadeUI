@@ -1,4 +1,4 @@
-@import "animation.css";
+﻿@import "animation.css";
 
 /* ==================== 基础样式 ==================== */
 
@@ -42,13 +42,13 @@
 /* 国战模式 - 双将背景 */
 [data-mode="guozhan"] .player,
 .player[data-mode="guozhan"] {
-	background: url("../../assets/image/bj2.png") no-repeat center center !important;
+	background: url("../../image/ui/player-bg/bj2.png") no-repeat center center !important;
 	background-size: 100% 100% !important;
 }
 
 /* 非国战模式 - 单将背景 */
 [data-mode]:not([data-mode="guozhan"]) .player:not(.fullskin2):not(.double-character):not([data-double="1"]) {
-	background: url("../../assets/image/bj1.png") no-repeat center center !important;
+	background: url("../../image/ui/player-bg/bj1.png") no-repeat center center !important;
 	background-size: 100% 100% !important;
 }
 
@@ -57,7 +57,7 @@
 [data-mode]:not([data-mode="guozhan"]) .player.double-character,
 [data-mode]:not([data-mode="guozhan"]) .player[data-double="1"],
 [data-mode]:not([data-mode="guozhan"]) .player.double {
-	background: url("../../assets/image/bj2.png") no-repeat center center !important;
+	background: url("../../image/ui/player-bg/bj2.png") no-repeat center center !important;
 	background-size: 100% 100% !important;
 }
 
@@ -69,7 +69,7 @@
 	width: 230px;
 	height: 262px;
 	opacity: 0;
-	background-image: url("../../assets/image/sprites_glow_blue.png");
+	background-image: url("../../image/ui/effects/sprites_glow_blue.png");
 	background-repeat: no-repeat;
 	animation: kf-sprites-glow 0s infinite steps(1) forwards;
 	pointer-events: none;
@@ -81,7 +81,7 @@
 .player.selected:not(.target):before,
 .player.glow_phase:not(.selectable):not(*[data-position="0"])::before {
 	animation-duration: 0.9s;
-	background-image: url("../../assets/image/sprites_glow_orange.png");
+	background-image: url("../../image/ui/effects/sprites_glow_orange.png");
 	opacity: 1;
 }
 
@@ -100,7 +100,7 @@
 	width: 230px;
 	height: 262px;
 	opacity: 0;
-	background-image: url("../../assets/image/sprites_glow_red.png");
+	background-image: url("../../image/ui/effects/sprites_glow_red.png");
 	background-repeat: no-repeat;
 	animation: kf-sprites-glow 0s infinite steps(1) forwards;
 	pointer-events: none;
@@ -140,7 +140,7 @@
 	top: 40%;
 	height: 24px;
 	visibility: hidden;
-	background: url("../../assets/image/tie_suo.png") no-repeat;
+	background: url("../../image/ui/chain/tie_suo.png") no-repeat;
 	background-size: cover;
 	background-position-x: -120px;
 	transition-duration: 0.4s;
@@ -195,7 +195,7 @@
 /* 阵营背景 - 通用 */
 .player > .camp-wrap > .camp-back,
 .player.unseen > .camp-wrap > .camp-back {
-	background-image: url("../../image/decoration_code/fx_ui_fusu03.png");
+	background-image: url("../../image/styles/codename/fx_ui_fusu03.png");
 	width: 100%;
 	height: 90%;
 	top: 0px;
@@ -206,31 +206,31 @@
 
 /* 阵营背景 - 各势力 */
 .player > .camp-wrap[data-camp="wei"] > .camp-back {
-	background-image: url("../../image/decoration_code/ui_s1_fight_guojia_caowei.png");
+	background-image: url("../../image/styles/codename/ui_s1_fight_guojia_caowei.png");
 }
 
 .player > .camp-wrap[data-camp="shu"] > .camp-back {
-	background-image: url("../../image/decoration_code/ui_s1_fight_guojia_shuhan.png");
+	background-image: url("../../image/styles/codename/ui_s1_fight_guojia_shuhan.png");
 }
 
 .player > .camp-wrap[data-camp="wu"] > .camp-back {
-	background-image: url("../../image/decoration_code/ui_s1_fight_guojia_sunwu.png");
+	background-image: url("../../image/styles/codename/ui_s1_fight_guojia_sunwu.png");
 }
 
 .player > .camp-wrap[data-camp="qun"] > .camp-back {
-	background-image: url("../../image/decoration_code/ui_s1_fight_guojia_donghan.png");
+	background-image: url("../../image/styles/codename/ui_s1_fight_guojia_donghan.png");
 }
 
 .player > .camp-wrap[data-camp="shen"] > .camp-back {
-	background-image: url("../../image/decoration_code/ui_s1_fight_guojia_shen.png");
+	background-image: url("../../image/styles/codename/ui_s1_fight_guojia_shen.png");
 }
 
 .player > .camp-wrap[data-camp="jin"] > .camp-back {
-	background-image: url("../../image/decoration_code/ui_s1_fight_guojia_jin.png");
+	background-image: url("../../image/styles/codename/ui_s1_fight_guojia_jin.png");
 }
 
 .player > .camp-wrap[data-camp="daqin"] > .camp-back {
-	background-image: url("../../image/decoration_code/ui_s1_fight_guojia_qin.png");
+	background-image: url("../../image/styles/codename/ui_s1_fight_guojia_qin.png");
 }
 
 /* 阵营背景 - 渐变色 */
@@ -273,7 +273,7 @@
 	width: 445%;
 	height: 175%;
 	position: absolute;
-	background: url("../../image/decoration_code/border_camp3.png") no-repeat;
+	background: url("../../image/styles/codename/border_camp3.png") no-repeat;
 	background-size: 100% 100%;
 	pointer-events: none;
 }
@@ -281,37 +281,37 @@
 /* 全局等阶设置 */
 #arena.decadeUI[data-border-level="one"] .player > .camp-wrap > .camp-border,
 #arena.decadeUI[data-border-level="two"] .player > .camp-wrap > .camp-border {
-	background-image: url("../../image/decoration_code/border_camp0.png");
+	background-image: url("../../image/styles/codename/border_camp0.png");
 }
 
 #arena.decadeUI[data-border-level="three"] .player > .camp-wrap > .camp-border {
-	background-image: url("../../image/decoration_code/border_camp1.png");
+	background-image: url("../../image/styles/codename/border_camp1.png");
 }
 
 #arena.decadeUI[data-border-level="four"] .player > .camp-wrap > .camp-border {
-	background-image: url("../../image/decoration_code/border_camp2.png");
+	background-image: url("../../image/styles/codename/border_camp2.png");
 }
 
 #arena.decadeUI[data-border-level="five"] .player > .camp-wrap > .camp-border {
-	background-image: url("../../image/decoration_code/border_camp3.png");
+	background-image: url("../../image/styles/codename/border_camp3.png");
 }
 
 /* 单独玩家等阶设置 */
 .player[data-border-level="one"] > .camp-wrap > .camp-border,
 .player[data-border-level="two"] > .camp-wrap > .camp-border {
-	background-image: url("../../image/decoration_code/border_camp0.png");
+	background-image: url("../../image/styles/codename/border_camp0.png");
 }
 
 .player[data-border-level="three"] > .camp-wrap > .camp-border {
-	background-image: url("../../image/decoration_code/border_camp1.png");
+	background-image: url("../../image/styles/codename/border_camp1.png");
 }
 
 .player[data-border-level="four"] > .camp-wrap > .camp-border {
-	background-image: url("../../image/decoration_code/border_camp2.png");
+	background-image: url("../../image/styles/codename/border_camp2.png");
 }
 
 .player[data-border-level="five"] > .camp-wrap > .camp-border {
-	background-image: url("../../image/decoration_code/border_camp3.png");
+	background-image: url("../../image/styles/codename/border_camp3.png");
 }
 
 /* ==================== 武将名称 ==================== */
@@ -496,7 +496,7 @@
 	border-width: 12px 8px 21px 82px;
 	border-style: solid;
 	border-color: transparent;
-	border-image-source: url("../../image/decoration_code/new_border_hp.png");
+	border-image-source: url("../../image/styles/codename/new_border_hp.png");
 	border-image-slice: 32 6 25 113 fill;
 	pointer-events: none;
 	transition:
@@ -536,7 +536,7 @@
 	top: auto;
 	bottom: 115px;
 	right: 90px;
-	background: url("../../image/decoration/shield.png") no-repeat;
+	background: url("../../image/styles/decade/shield.png") no-repeat;
 	background-size: 100% 100%;
 	width: 20.25px;
 	height: 20.5px;
@@ -611,7 +611,7 @@
 
 /* 血量状态图标 */
 .hp:not(.text):not(.actcount):not(.treasure)[data-condition="high"] > div:not(.lost):not(.shield) {
-	background: url("../../image/decoration_code/glass1.png") no-repeat;
+	background: url("../../image/styles/codename/glass1.png") no-repeat;
 	background-size: 100% 100%;
 	transform: scale(1.4);
 	box-shadow: none;
@@ -621,7 +621,7 @@
 }
 
 .hp:not(.text):not(.actcount):not(.treasure)[data-condition="mid"] > div:not(.lost):not(.shield) {
-	background: url("../../image/decoration_code/glass2.png") no-repeat;
+	background: url("../../image/styles/codename/glass2.png") no-repeat;
 	background-size: 100% 100%;
 	transform: scale(1.4);
 	box-shadow: none;
@@ -631,7 +631,7 @@
 }
 
 .hp:not(.text):not(.actcount):not(.treasure)[data-condition="low"] > div:not(.lost):not(.shield) {
-	background: url("../../image/decoration_code/glass3.png") no-repeat;
+	background: url("../../image/styles/codename/glass3.png") no-repeat;
 	background-size: 100% 100%;
 	transform: scale(1.4);
 	box-shadow: none;
@@ -641,7 +641,7 @@
 }
 
 .hp:not(.text):not(.actcount):not(.treasure) > .lost {
-	background: url("../../image/decoration_code/glass4.png") no-repeat;
+	background: url("../../image/styles/codename/glass4.png") no-repeat;
 	background-size: 100% 100%;
 	transform: scale(1.4);
 	box-shadow: none;
@@ -650,7 +650,7 @@
 }
 
 .hp:not(.text):not(.actcount):not(.treasure) > .shield {
-	background: url("../../image/decoration/shield.png") no-repeat;
+	background: url("../../image/styles/decade/shield.png") no-repeat;
 	background-size: 100% 100%;
 	transform: scale(1.4);
 	box-shadow: none;
@@ -964,7 +964,7 @@
 	background: none;
 	border-style: solid;
 	border-width: 0;
-	border-image-source: url("../../assets/image/player_mark.png");
+	border-image-source: url("../../image/ui/mark/player_mark.png");
 	border-image-slice: 30% 30% fill;
 	border-image-width: 10px 14px;
 	border-image-outset: 0;
@@ -973,11 +973,11 @@
 }
 
 #arena[data-player-mark-style="decade"] > .player > .dui-marks > .mark.own-skill {
-	border-image-source: url("../../assets/image/player_mark.png");
+	border-image-source: url("../../image/ui/mark/player_mark.png");
 }
 
 #arena[data-player-mark-style="decade"] > .player > .dui-marks > .mark.other-skill {
-	border-image-source: url("../../assets/image/new_player_mark.png");
+	border-image-source: url("../../image/ui/mark/new_player_mark.png");
 }
 
 #arena[data-player-mark-style="decade"] > .player > .dui-marks > .mark.other-skill > .mark-text,
@@ -1148,7 +1148,7 @@
 	content: "";
 	position: absolute;
 	pointer-events: none;
-	background: url("../../image/judgeMark/feichumark.png") no-repeat;
+	background: url("../../image/ui/judge-mark/feichumark.png") no-repeat;
 	background-size: 100% 100%;
 	width: 50px;
 	height: 50px;
@@ -1174,7 +1174,7 @@
 	font-size: 10px;
 	text-align: center;
 	color: #ffe5b4;
-	background: url("../../image/decoration/card_countbj.png") no-repeat;
+	background: url("../../image/styles/decade/card_countbj.png") no-repeat;
 	background-size: 100% 100%;
 	text-shadow:
 		0 0 2px #000,
@@ -1210,7 +1210,7 @@
 	width: 28px;
 	height: 28px;
 	line-height: 28px;
-	background: url("../../image/decoration_code/card_count5.png") no-repeat;
+	background: url("../../image/styles/codename/card_count5.png") no-repeat;
 	background-size: 100% 100%;
 	background-position: 0 -1px;
 	border: none;
@@ -1443,7 +1443,7 @@
 	width: 100%;
 	height: 100%;
 	opacity: 0;
-	background: url("../../assets/image/turn_over_mask.png") no-repeat;
+	background: url("../../image/ui/mask/turn_over_mask.png") no-repeat;
 	background-size: cover;
 	pointer-events: none;
 	z-index: 62;
@@ -1486,7 +1486,7 @@
 	border-width: 10px;
 	border-image-width: 18px;
 	border-image-slice: 31 31 fill;
-	border-image-source: url("../../assets/image/item_bg.png");
+	border-image-source: url("../../image/ui/misc/item_bg.png");
 	cursor: pointer;
 	color: rgb(77, 60, 51);
 	font-family: shousha;
@@ -1513,7 +1513,7 @@
 	border-style: solid;
 	border-width: 6px 6px 14px 6px;
 	border-image-slice: 6 6 14 6 fill;
-	border-image-source: url("../../assets/image/chat_bubble.png");
+	border-image-source: url("../../image/ui/dialog/chat_bubble.png");
 	box-sizing: border-box;
 	word-break: break-all;
 	z-index: 99;

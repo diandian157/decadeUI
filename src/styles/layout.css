@@ -675,7 +675,7 @@ body > .background {
 	border-width: 15px;
 	border-style: solid;
 	border-color: transparent;
-	border-image-source: url("../../assets/image/glow_orange.png");
+	border-image-source: url("../../image/ui/effects/glow_orange.png");
 	border-image-slice: 42 46 32 46 fill;
 	box-sizing: border-box;
 	box-shadow: none;
@@ -795,10 +795,10 @@ body[data-style="babysha"] .hand-cards > .handcards > .card {
 /* 龙尾背景图 */
 body[data-style="onlineUI"] #arena[data-long-level="three"] > .player > .wei,
 body[data-style="babysha"] #arena[data-long-level="three"] > .player > .wei {
-	background-image: url("../../assets/image/long_yu2.png");
+	background-image: url("../../image/ui/frame/long_yu2.png");
 }
 
 body[data-style="onlineUI"] #arena[data-long-level="five"] > .player > .wei,
 body[data-style="babysha"] #arena[data-long-level="five"] > .player > .wei {
-	background-image: url("../../assets/image/long_yan2.png");
+	background-image: url("../../image/ui/frame/long_yan2.png");
 }

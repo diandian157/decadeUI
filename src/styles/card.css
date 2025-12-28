@@ -13,7 +13,7 @@
 	height: 100%;
 	border-width: 7px;
 	border-style: solid;
-	border-image-source: url("../../assets/image/card_select.png");
+	border-image-source: url("../../image/ui/card/card_select.png");
 	border-image-slice: 8 7 7 8;
 	border-image-width: 8px 7px 7px 8px;
 	border-radius: inherit;
@@ -147,7 +147,7 @@
 	text-align: center;
 	text-shadow: none;
 	white-space: normal;
-	background-image: url("../../image/vcard/cardBaseMap.png") !important;
+	background-image: url("../../image/ui/card-base/cardBaseMap.png") !important;
 	background-size: cover;
 	border: 1px solid black;
 	border-radius: 2px;
@@ -225,7 +225,7 @@
 	text-shadow: 0 0 2px black;
 	white-space: normal;
 	background: rgba(228, 207, 166, 0.8);
-	background-image: url("../../image/vcard/cardBaseMap.png") !important;
+	background-image: url("../../image/ui/card-base/cardBaseMap.png") !important;
 	background-size: cover;
 	background-position: center;
 	border: 1px solid black;
@@ -275,7 +275,7 @@
 	text-align: center;
 	text-shadow: 0 0 3px #fff;
 	letter-spacing: -1px;
-	background-image: url("../../assets/image/viewsuitnum.png");
+	background-image: url("../../image/ui/misc/viewsuitnum.png");
 	background-size: 70% 60%;
 	background-repeat: no-repeat;
 	transform-origin: 0 0;

@@ -43,7 +43,7 @@
 	min-height: var(--h);
 	padding: 0 !important;
 	border-radius: 0 !important;
-	background-image: url("../../assets/image/tnode-A1.png");
+	background-image: url("../../image/ui/tnode/tnode-A1.png");
 	background-size: 100% 100%;
 	line-height: var(--h);
 	text-align: center;
@@ -52,7 +52,7 @@
 #arena.decadeUI[data-loading-style="on"] > .dialog .tdnode.bluebg,
 #arena.decadeUI[data-loading-style="othersOff"] > .dialog .tdnode.bluebg,
 #arena.decadeUI[data-loading-style="onlineUI"] > .dialog .tdnode.bluebg {
-	background-image: url("../../assets/image/tnode-A2.png") !important;
+	background-image: url("../../image/ui/tnode/tnode-A2.png") !important;
 }
 
 /* 样式B: On */
@@ -65,7 +65,7 @@
 	min-height: var(--h);
 	padding: 0 !important;
 	border-radius: 3px !important;
-	background-image: url("../../assets/image/tnode-B1.png");
+	background-image: url("../../image/ui/tnode/tnode-B1.png");
 	background-size: 110% 115% !important;
 	background-position: center;
 	line-height: var(--h);
@@ -73,7 +73,7 @@
 }
 
 #arena.decadeUI[data-loading-style="On"] > .dialog .tdnode.bluebg {
-	background-image: url("../../assets/image/tnode-B3.png") !important;
+	background-image: url("../../image/ui/tnode/tnode-B3.png") !important;
 }
 
 /* 样式C: othersOn */
@@ -86,14 +86,14 @@
 	min-height: var(--h);
 	padding: 0 !important;
 	border-radius: 0 !important;
-	background-image: url("../../assets/image/tnode-C1.png");
+	background-image: url("../../image/ui/tnode/tnode-C1.png");
 	background-size: 100% 100%;
 	line-height: var(--h);
 	text-align: center;
 }
 
 #arena.decadeUI[data-loading-style="othersOn"] > .dialog .tdnode.bluebg {
-	background-image: url("../../assets/image/tnode-C2.png") !important;
+	background-image: url("../../image/ui/tnode/tnode-C2.png") !important;
 }
 
 /* ========== 选项框背景 ========== */
@@ -101,7 +101,7 @@
 #arena.decadeUI[data-loading-style="On"] > .dialog.scroll1:not(.dclieqiong),
 #arena.decadeUI[data-loading-style="On"] > .dialog.scroll2:not(.dclieqiong),
 #arena.decadeUI[data-loading-style="On"] > .dialog.addNewRow:not(.dclieqiong) {
-	background-image: url("../../assets/image/dialog1.png") !important;
+	background-image: url("../../image/ui/dialog/dialog1.png") !important;
 	background-size: 100% 100% !important;
 	background-position: center;
 	background-repeat: no-repeat !important;
@@ -112,7 +112,7 @@
 #arena.decadeUI[data-loading-style="on"] > .dialog.scroll1:not(.dclieqiong),
 #arena.decadeUI[data-loading-style="on"] > .dialog.scroll2:not(.dclieqiong),
 #arena.decadeUI[data-loading-style="on"] > .dialog.addNewRow:not(.dclieqiong) {
-	background-image: url("../../assets/image/dialog2.png") !important;
+	background-image: url("../../image/ui/dialog/dialog2.png") !important;
 	background-size: 100% 100% !important;
 	background-position: center;
 	background-repeat: no-repeat !important;
@@ -127,7 +127,7 @@
 	height: 200px;
 	left: calc(50% - 450px) !important;
 	white-space: normal;
-	background-image: url("../../assets/image/dialog3.png") !important;
+	background-image: url("../../image/ui/dialog/dialog3.png") !important;
 	background-size: 102% 100% !important;
 	background-position: center;
 	background-repeat: no-repeat !important;
@@ -142,7 +142,7 @@
 	height: 200px;
 	left: calc(50% - 450px) !important;
 	white-space: normal;
-	background-image: url("../../assets/image/dialog4.png") !important;
+	background-image: url("../../image/ui/dialog/dialog4.png") !important;
 	background-size: 100% 100% !important;
 	background-position: center;
 	background-repeat: no-repeat !important;
@@ -157,7 +157,7 @@
 	height: 200px;
 	left: calc(50% - 450px) !important;
 	white-space: normal;
-	background-image: url("../../assets/image/dialog5.png") !important;
+	background-image: url("../../image/ui/dialog/dialog5.png") !important;
 	background-size: 100% 100% !important;
 	background-position: center;
 	background-repeat: no-repeat !important;
@@ -313,7 +313,7 @@
 	border-width: 46px 59px 28px 59px;
 	border-style: solid;
 	border-color: transparent;
-	border-image-source: url("../../image/decoration/dialog.png");
+	border-image-source: url("../../image/styles/decade/dialog.png");
 	border-image-slice: 46 59 28 59 fill;
 	transition:
 		opacity 0.5s,
@@ -396,7 +396,7 @@
 	border-width: 6px 36px;
 	border-style: solid;
 	border-color: transparent;
-	border-image-source: url("../../image/decoration/button.png");
+	border-image-source: url("../../image/styles/decade/button.png");
 	border-image-slice: 6 36 6 36 fill;
 	border-radius: 0;
 	box-shadow: none;
@@ -488,7 +488,7 @@
 	width: 70px;
 	height: 70px;
 	margin: 0;
-	background: url("../../image/decoration/vs.png");
+	background: url("../../image/styles/decade/vs.png");
 }
 
 /* 拼点卡牌 */
@@ -573,7 +573,7 @@
 	border-width: 46px 59px 28px 59px;
 	border-style: solid;
 	border-color: transparent;
-	border-image-source: url("../../image/decoration/dialog.png");
+	border-image-source: url("../../image/styles/decade/dialog.png");
 	border-image-slice: 46 61 28 59 fill;
 	pointer-events: auto;
 	animation: player-died 0.5s linear forwards;
@@ -629,7 +629,7 @@
 	border-width: 6px 36px;
 	border-style: solid;
 	border-color: transparent;
-	border-image-source: url("../../image/decoration/button.png");
+	border-image-source: url("../../image/styles/decade/button.png");
 	border-image-slice: 6 36 6 36 fill;
 	border-radius: 0;
 	box-shadow: none;

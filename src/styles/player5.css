@@ -15,13 +15,13 @@
 /* 国战模式背景 */
 [data-mode="guozhan"] .player,
 .player[data-mode="guozhan"] {
-	background: url("../../assets/image/bj2.png") no-repeat center center !important;
+	background: url("../../image/ui/player-bg/bj2.png") no-repeat center center !important;
 	background-size: 100% 100% !important;
 }
 
 /* 非国战模式-单将背景 */
 [data-mode]:not([data-mode="guozhan"]) .player:not(.fullskin2):not(.double-character):not([data-double="1"]) {
-	background: url("../../assets/image/hl1.png") no-repeat center center !important;
+	background: url("../../image/ui/player-bg/hl1.png") no-repeat center center !important;
 	background-size: 100% 100% !important;
 }
 
@@ -30,7 +30,7 @@
 [data-mode]:not([data-mode="guozhan"]) .player.double-character,
 [data-mode]:not([data-mode="guozhan"]) .player[data-double="1"],
 [data-mode]:not([data-mode="guozhan"]) .player.double {
-	background: url("../../assets/image/bj2.png") no-repeat center center !important;
+	background: url("../../image/ui/player-bg/bj2.png") no-repeat center center !important;
 	background-size: 100% 100% !important;
 }
 
@@ -41,7 +41,7 @@
 	width: 230px;
 	height: 262px;
 	opacity: 0;
-	background-image: url("../../assets/image/sprites_glow_blue.png");
+	background-image: url("../../image/ui/effects/sprites_glow_blue.png");
 	background-repeat: no-repeat;
 	animation: kf-sprites-glow 0s 0s infinite forwards steps(1);
 	pointer-events: none;
@@ -53,7 +53,7 @@
 .player.selected:not(.target):before,
 .player.glow_phase:not(.selectable):not(*[data-position="0"])::before {
 	animation-duration: 0.9s;
-	background-image: url("../../assets/image/sprites_glow_orange.png");
+	background-image: url("../../image/ui/effects/sprites_glow_orange.png");
 	opacity: 1;
 }
 
@@ -72,7 +72,7 @@
 	width: 230px;
 	height: 262px;
 	opacity: 0;
-	background-image: url("../../assets/image/sprites_glow_red.png");
+	background-image: url("../../image/ui/effects/sprites_glow_red.png");
 	background-repeat: no-repeat;
 	animation: kf-sprites-glow 0s 0s infinite forwards steps(1);
 	pointer-events: none;
@@ -120,7 +120,7 @@
 	top: 40%;
 	height: 24px;
 	visibility: hidden;
-	background: url("../../assets/image/tie_suo.png") no-repeat;
+	background: url("../../image/ui/chain/tie_suo.png") no-repeat;
 	background-size: cover;
 	background-position-x: -120px;
 	transition-duration: 0.4s;
@@ -183,39 +183,39 @@
 .player > .camp-wrap > .camp-back,
 .player.unseen > .camp-wrap > .camp-back,
 .player > .camp-wrap[data-camp="shen"] > .camp-back {
-	background-image: url("../../image/decoration/babyshen.png");
+	background-image: url("../../image/styles/decade/babyshen.png");
 }
 
 /* 势力条背景-各势力 */
 .player > .camp-wrap[data-camp="wei"] > .camp-back {
-	background-image: url("../../image/decoration/babywei.png");
+	background-image: url("../../image/styles/decade/babywei.png");
 	width: 390%;
 }
 
 .player > .camp-wrap[data-camp="shu"] > .camp-back {
-	background-image: url("../../image/decoration/babyshu.png");
+	background-image: url("../../image/styles/decade/babyshu.png");
 	width: 390%;
 }
 
 .player > .camp-wrap[data-camp="wu"] > .camp-back {
-	background-image: url("../../image/decoration/babywu.png");
+	background-image: url("../../image/styles/decade/babywu.png");
 	width: 390%;
 }
 
 .player > .camp-wrap[data-camp="qun"] > .camp-back {
-	background-image: url("../../image/decoration/babyqun.png");
+	background-image: url("../../image/styles/decade/babyqun.png");
 	width: 390%;
 }
 
 .player > .camp-wrap[data-camp="shen2"] > .camp-back {
-	background-image: url("../../image/decoration/babyshen.png");
+	background-image: url("../../image/styles/decade/babyshen.png");
 	width: 390%;
 	height: 147%;
 	top: 3px;
 }
 
 .player > .camp-wrap[data-camp="key"] > .camp-back {
-	background-image: url("../../image/decoration/babyshen.png");
+	background-image: url("../../image/styles/decade/babyshen.png");
 	width: 390%;
 	height: 147%;
 	top: 3px;
@@ -225,7 +225,7 @@
 .player > .camp-wrap[data-camp="jin"] > .camp-back,
 .player > .camp-wrap[data-camp="devil"] > .camp-back,
 .player > .camp-wrap[data-camp="daqin"] > .camp-back {
-	background-image: url("../../image/decoration/babyjin.png");
+	background-image: url("../../image/styles/decade/babyjin.png");
 	width: 390%;
 }
 
@@ -245,27 +245,27 @@
 /* 边框等级样式 */
 #arena.decadeUI[data-border-level="one"] .player > .camp-wrap > .camp-border,
 .player[data-border-level="one"] > .camp-wrap > .camp-border {
-	background-image: url("../../image/decorationh/border_camphs1.png");
+	background-image: url("../../image/styles/baby/border_camphs1.png");
 }
 
 #arena.decadeUI[data-border-level="two"] .player > .camp-wrap > .camp-border,
 .player[data-border-level="two"] > .camp-wrap > .camp-border {
-	background-image: url("../../image/decorationh/border_camphs2.png");
+	background-image: url("../../image/styles/baby/border_camphs2.png");
 }
 
 #arena.decadeUI[data-border-level="three"] .player > .camp-wrap > .camp-border,
 .player[data-border-level="three"] > .camp-wrap > .camp-border {
-	background-image: url("../../image/decorationh/border_camphs3.png");
+	background-image: url("../../image/styles/baby/border_camphs3.png");
 }
 
 #arena.decadeUI[data-border-level="four"] .player > .camp-wrap > .camp-border,
 .player[data-border-level="four"] > .camp-wrap > .camp-border {
-	background-image: url("../../image/decorationh/border_camphs4.png");
+	background-image: url("../../image/styles/baby/border_camphs4.png");
 }
 
 #arena.decadeUI[data-border-level="five"] .player > .camp-wrap > .camp-border,
 .player[data-border-level="five"] > .camp-wrap > .camp-border {
-	background-image: url("../../image/decorationh/border_camphs5.png");
+	background-image: url("../../image/styles/baby/border_camphs5.png");
 }
 
 /* ==================== 武将名称 ==================== */
@@ -541,7 +541,7 @@
 	border-width: 12px 8px 21px 82px;
 	border-style: solid;
 	border-color: transparent;
-	border-image-source: url("../../image/decorationh/new_border_hp.png");
+	border-image-source: url("../../image/styles/baby/new_border_hp.png");
 	border-image-slice: 32 6 25 113 fill;
 	pointer-events: none;
 	transition-property: transform, opacity, height;
@@ -580,7 +580,7 @@
 	top: auto;
 	bottom: 43px;
 	left: -3px;
-	background-image: url("../../image/decoration/shield_baby.png");
+	background-image: url("../../image/styles/decade/shield_baby.png");
 	background-size: 100% 100%;
 	background-repeat: no-repeat;
 	width: 20.25px;
@@ -657,7 +657,7 @@
 
 /* 血量图标样式 */
 .hp:not(.text):not(.actcount):not(.treasure)[data-condition="high"] > div:not(.lost):not(.shield) {
-	background: url("../../image/decoration/shield_baby1.png") no-repeat;
+	background: url("../../image/styles/decade/shield_baby1.png") no-repeat;
 	background-size: 100% 100%;
 	transform: scale(1.4);
 	box-shadow: none;
@@ -667,7 +667,7 @@
 }
 
 .hp:not(.text):not(.actcount):not(.treasure)[data-condition="mid"] > div:not(.lost):not(.shield) {
-	background: url("../../image/decoration/shield_baby2.png") no-repeat;
+	background: url("../../image/styles/decade/shield_baby2.png") no-repeat;
 	background-size: 100% 100%;
 	transform: scale(1.4);
 	box-shadow: none;
@@ -677,7 +677,7 @@
 }
 
 .hp:not(.text):not(.actcount):not(.treasure)[data-condition="low"] > div:not(.lost):not(.shield) {
-	background: url("../../image/decoration/shield_baby3.png") no-repeat;
+	background: url("../../image/styles/decade/shield_baby3.png") no-repeat;
 	background-size: 100% 100%;
 	transform: scale(1.4);
 	box-shadow: none;
@@ -687,7 +687,7 @@
 }
 
 .hp:not(.text):not(.actcount):not(.treasure) > .lost {
-	background: url("../../image/decoration/shield_baby4.png") no-repeat;
+	background: url("../../image/styles/decade/shield_baby4.png") no-repeat;
 	background-size: 100% 100%;
 	transform: scale(1.4);
 	box-shadow: none;
@@ -696,7 +696,7 @@
 }
 
 .hp:not(.text):not(.actcount):not(.treasure) > .shield {
-	background: url("../../image/decoration/shield.png") no-repeat;
+	background: url("../../image/styles/decade/shield.png") no-repeat;
 	background-size: 100% 100%;
 	transform: scale(1.4);
 	box-shadow: none;
@@ -1017,7 +1017,7 @@
 	background: none;
 	border-style: solid;
 	border-width: 0;
-	border-image-source: url("../../assets/image/player_markhs.png");
+	border-image-source: url("../../image/ui/mark/player_markhs.png");
 	border-image-slice: 40% 30% fill;
 	border-image-width: 8px;
 	border-image-outset: 0;
@@ -1192,7 +1192,7 @@
 	position: absolute;
 	width: 50px;
 	height: 50px;
-	background: url("../../image/judgeMark/feichumark.png") no-repeat;
+	background: url("../../image/ui/judge-mark/feichumark.png") no-repeat;
 	background-size: 100% 100%;
 	pointer-events: none;
 	z-index: 3;
@@ -1216,7 +1216,7 @@
 	font-size: 13px;
 	text-align: center;
 	color: #ffe5b4;
-	background: url("../../image/decoration/card_countbj.png") no-repeat;
+	background: url("../../image/styles/decade/card_countbj.png") no-repeat;
 	background-size: 100% 100%;
 	text-shadow:
 		0 0 2px #000,
@@ -1266,7 +1266,7 @@
 	font-size: 19px;
 	text-align: center;
 	color: white;
-	background: url("../../image/decoration/card_count15.png") no-repeat;
+	background: url("../../image/styles/decade/card_count15.png") no-repeat;
 	background-size: 100% 100%;
 	background-position: 0 -1px;
 	border: none;
@@ -1491,7 +1491,7 @@
 	width: 100%;
 	height: 100%;
 	opacity: 0;
-	background: url("../../assets/image/turn_over_maskhs.png") no-repeat;
+	background: url("../../image/ui/mask/turn_over_maskhs.png") no-repeat;
 	background-size: cover;
 	pointer-events: none;
 	z-index: 62;
@@ -1537,7 +1537,7 @@
 	border-width: 10px;
 	border-image-width: 18px;
 	border-image-slice: 31 31 fill;
-	border-image-source: url("../../assets/image/item_bg.png");
+	border-image-source: url("../../image/ui/misc/item_bg.png");
 	cursor: pointer;
 	transition:
 		opacity,
@@ -1558,7 +1558,7 @@
 	border-style: solid;
 	border-width: 6px 6px 14px 6px;
 	border-image-slice: 6 6 14 6 fill;
-	border-image-source: url("../../assets/image/chat_bubble.png");
+	border-image-source: url("../../image/ui/dialog/chat_bubble.png");
 	box-sizing: border-box;
 	word-break: break-all;
 	z-index: 99;
@@ -1580,19 +1580,19 @@
 }
 
 .player > .jie-mark {
-	background-image: url("../../assets/image/mark_jie.png");
+	background-image: url("../../image/ui/mark/mark_jie.png");
 }
 
 .player > .shen-mark {
-	background-image: url("../../assets/image/mark_shen.png");
+	background-image: url("../../image/ui/mark/mark_shen.png");
 }
 
 .player > .sp-mark {
-	background-image: url("../../assets/image/mark_sp.png");
+	background-image: url("../../image/ui/mark/mark_sp.png");
 }
 
 .player > .tw-mark {
-	background-image: url("../../assets/image/mark_tw.png");
+	background-image: url("../../image/ui/mark/mark_tw.png");
 }
 
 /* ==================== Tip提示 ==================== */

@@ -45,7 +45,7 @@ export function cardCopy() {
 	const skinCache = res[skinKey];
 	let asset = skinCache?.[clone.name];
 
-	const fallbackMap = { bingkele: "decade", GoldCard: "caise" };
+	const fallbackMap = { bingkele: "decade", gold: "caise" };
 	const fallbackKey = fallbackMap[skinKey];
 	const hasFallback = fallbackKey && cardSkinMeta[fallbackKey];
 
@@ -160,7 +160,7 @@ function applyCardSkin(cardElement, card) {
 	let asset = skinCache[filename];
 	const readOk = !!res?.READ_OK?.[skinKey];
 
-	const fallbackMap = { bingkele: "decade", GoldCard: "caise" };
+	const fallbackMap = { bingkele: "decade", gold: "caise" };
 	const fallbackKey = fallbackMap[skinKey];
 	const hasFallback = fallbackKey && cardSkinMeta[fallbackKey];
 	const decadeUIName = window.decadeUI?.extensionName || "十周年UI";
@@ -184,7 +184,7 @@ function applyCardSkin(cardElement, card) {
 	} else {
 		const folder = skin.dir || skinKey;
 		const extension = skin.extension || "png";
-		const url = lib.assetURL + `extension/${decadeUIName}/image/card/${folder}/${filename}.${extension}`;
+		const url = lib.assetURL + `extension/${decadeUIName}/image/card-skins/${folder}/${filename}.${extension}`;
 
 		if (!asset) {
 			skinCache[filename] = asset = {
@@ -229,7 +229,7 @@ function loadFallbackSkin(cardElem, asset, fallbackKey, filename, decadeUIName, 
 	const fallbackSkin = cardSkinMeta[fallbackKey];
 	const fallbackFolder = fallbackSkin?.dir || fallbackKey;
 	const fallbackExtension = fallbackSkin?.extension || "png";
-	const fallbackUrl = lib.assetURL + `extension/${decadeUIName}/image/card/${fallbackFolder}/${filename}.${fallbackExtension}`;
+	const fallbackUrl = lib.assetURL + `extension/${decadeUIName}/image/card-skins/${fallbackFolder}/${filename}.${fallbackExtension}`;
 
 	const fallbackImage = new Image();
 	fallbackImage.onload = () => {

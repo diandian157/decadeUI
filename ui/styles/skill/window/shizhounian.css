@@ -193,7 +193,7 @@
 }
 
 .skill-control > .enable > .xiandingji:last-child:nth-child(odd) {
-	flex: 0 0 10px !important;
+	flex: 0 0 104px !important;
 	background-image: url("../../../assets/skill/shizhounian/btnnx8.png");
 }
 

@@ -17,7 +17,7 @@ export function createStaticsModule() {
 	const readFiles = (files, skinKey, folder, extension, entry) => {
 		if (!folder) return;
 		const skinCache = ensureSkinCache(skinKey);
-		const prefix = decadeUIPath + "image/card/" + folder + "/";
+		const prefix = decadeUIPath + "image/card-skins/" + folder + "/";
 		const ext = extension ? "." + extension.toLowerCase() : null;
 		cards.READ_OK[skinKey] = true;
 
@@ -42,14 +42,14 @@ export function createStaticsModule() {
 	if (window.fs) {
 		cardSkinPresets.forEach(skin => {
 			const folder = skin.dir || skin.key;
-			fs.readdir(__dirname + "/" + decadeUIPath + "image/card/" + folder + "/", (err, files) => {
+			fs.readdir(__dirname + "/" + decadeUIPath + "image/card-skins/" + folder + "/", (err, files) => {
 				if (!err) readFiles(files, skin.key, folder, skin.extension);
 			});
 		});
 	} else if (window.resolveLocalFileSystemURL) {
 		cardSkinPresets.forEach(skin => {
 			const folder = skin.dir || skin.key;
-			resolveLocalFileSystemURL(decadeUIResolvePath + "image/card/" + folder + "/", entry => {
+			resolveLocalFileSystemURL(decadeUIResolvePath + "image/card-skins/" + folder + "/", entry => {
 				entry.createReader().readEntries(entries => readFiles(entries, skin.key, folder, skin.extension, true));
 			});
 		});

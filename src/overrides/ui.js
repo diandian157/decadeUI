@@ -165,7 +165,7 @@ export function uiCreateRarity(button) {
 	intro.classList.add("showintro");
 	intro.classList.add("rarity");
 	if (intro.innerText) intro.innerText = "";
-	intro.style.backgroundImage = 'url("' + decadeUIPath + "assets/image/rarity_" + rarity + '.png")';
+	intro.style.backgroundImage = 'url("' + decadeUIPath + "image/ui/rarity/rarity_" + rarity + '.png")';
 }
 
 /**
@@ -277,7 +277,7 @@ export function uiCreateIdentityCard(identity, position, info, noclick) {
 	card._customintro = function (uiintro) {
 		uiintro.add(`${get.translation(identity + 2)}的身份牌`);
 	};
-	const fileName = "extension/十周年UI/image/identityCard/mougong_" + identity + ".jpg";
+	const fileName = "extension/十周年UI/image/ui/identity-card/mougong_" + identity + ".jpg";
 	new Promise((resolve, reject) => {
 		const image = new Image();
 		image.onload = () => resolve();

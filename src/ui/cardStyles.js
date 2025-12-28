@@ -21,7 +21,7 @@ const updateStyle = (styleEl, css) => {
 /** 生成边框CSS */
 const getBorderCSS = (borderName, selector, imageWidth) => {
 	if (!borderName || borderName === "off") return "";
-	const url = `${lib.assetURL}extension/十周年UI/assets/image/${borderName}.png`;
+	const url = `${lib.assetURL}extension/十周年UI/image/ui/card/${borderName}.png`;
 	return `${selector} { width: 108px; height: 150px; border: 1px solid; border-radius: 10px; border-image-source: url('${url}'); border-image-slice: 17; border-image-width: ${imageWidth}px; }`;
 };
 
@@ -63,7 +63,7 @@ export function applyCardBorder(card, player, isMe = false) {
 	const border = getBorderByPlayer(player, isMe);
 
 	if (border) {
-		const borderUrl = `${lib.assetURL}extension/十周年UI/assets/image/${border}.png`;
+		const borderUrl = `${lib.assetURL}extension/十周年UI/image/ui/card/${border}.png`;
 		Object.assign(card.style, {
 			width: "108px",
 			height: "150px",
@@ -77,7 +77,7 @@ export function applyCardBorder(card, player, isMe = false) {
 
 	const bg = getBgByPlayer(player, isMe);
 	if (bg && (card.classList.contains("infohidden") || card.classList.contains("infoflip") || !card.childElementCount)) {
-		const bgUrl = `${lib.assetURL}extension/十周年UI/assets/image/${bg}.png`;
+		const bgUrl = `${lib.assetURL}extension/十周年UI/image/ui/card/${bg}.png`;
 		card.style.setProperty("background", `url('${bgUrl}')`, "important");
 		card.style.setProperty("background-size", "100% 100%", "important");
 	}
@@ -93,7 +93,7 @@ export function updateCardStyles() {
 	borderStyleEl = updateStyle(borderStyleEl, getBorderCSS(borderConfig, selector, 20));
 
 	// 更新卡背样式（关闭时清空，使用本体卡背）
-	const bgCSS = cardBg ? `${selector}:empty, ${selector}.infohidden { background: url('${lib.assetURL}extension/十周年UI/assets/image/${cardBg}.png'); background-size: 100% 100% !important; }` : "";
+	const bgCSS = cardBg ? `${selector}:empty, ${selector}.infohidden { background: url('${lib.assetURL}extension/十周年UI/image/ui/card/${cardBg}.png'); background-size: 100% 100% !important; }` : "";
 	bgStyleEl = updateStyle(bgStyleEl, bgCSS);
 }
 

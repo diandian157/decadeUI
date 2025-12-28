@@ -8,7 +8,7 @@ const cardSkinPresets = [
 	{ key: "caise", dir: "caise", label: "彩色卡牌", extension: "webp" },
 	{ key: "decade", dir: "decade", label: "原十周年", extension: "png" },
 	{ key: "bingkele", dir: "bingkele", label: "哈基米哦", extension: "png" },
-	{ key: "GoldCard", dir: "GoldCard", label: "手杀金卡", extension: "webp" },
+	{ key: "gold", dir: "gold", label: "手杀金卡", extension: "webp" },
 ];
 
 const cardSkinMeta = cardSkinPresets.reduce((map, skin) => {
@@ -503,11 +503,11 @@ export let config = {
 		init: "off",
 		item: {
 			off: "关闭",
-			on: `<div style="width:60px;height:40px;position:relative;background-image: url(${lib.assetURL}extension/十周年UI/assets/image/dialog2.png);background-size: 100% 100%;"></div>`,
-			On: `<div style="width:60px;height:40px;position:relative;background-image: url(${lib.assetURL}extension/十周年UI/assets/image/dialog1.png);background-size: 100% 100%;"></div>`,
-			othersOn: `<div style="width:60px;height:40px;position:relative;background-image: url(${lib.assetURL}extension/十周年UI/assets/image/dialog3.png);background-size: 100% 100%;"></div>`,
-			othersOff: `<div style="width:60px;height:40px;position:relative;background-image: url(${lib.assetURL}extension/十周年UI/assets/image/dialog4.png);background-size: 100% 100%;"></div>`,
-			onlineUI: `<div style="width:60px;height:40px;position:relative;background-image: url(${lib.assetURL}extension/十周年UI/assets/image/dialog5.png);background-size: 100% 100%;"></div>`,
+			on: `<div style="width:60px;height:40px;position:relative;background-image: url(${lib.assetURL}extension/十周年UI/image/ui/dialog/dialog2.png);background-size: 100% 100%;"></div>`,
+			On: `<div style="width:60px;height:40px;position:relative;background-image: url(${lib.assetURL}extension/十周年UI/image/ui/dialog/dialog1.png);background-size: 100% 100%;"></div>`,
+			othersOn: `<div style="width:60px;height:40px;position:relative;background-image: url(${lib.assetURL}extension/十周年UI/image/ui/dialog/dialog3.png);background-size: 100% 100%;"></div>`,
+			othersOff: `<div style="width:60px;height:40px;position:relative;background-image: url(${lib.assetURL}extension/十周年UI/image/ui/dialog/dialog4.png);background-size: 100% 100%;"></div>`,
+			onlineUI: `<div style="width:60px;height:40px;position:relative;background-image: url(${lib.assetURL}extension/十周年UI/image/ui/dialog/dialog5.png);background-size: 100% 100%;"></div>`,
 		},
 		update() {
 			if (window.decadeUI) ui.arena.dataset.loadingStyle = lib.config.extension_十周年UI_loadingStyle;

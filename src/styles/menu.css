@@ -12,7 +12,7 @@
 	margin-left: 9%;
 	margin-top: 2%;
 	border: 3px solid #5c4033;
-	background-image: url("../../image/button/background.png");
+	background-image: url("../../image/ui/button/background.png");
 	background-size: 100% 100%;
 	transition: all 0.3s;
 	transform-origin: center center;
@@ -62,21 +62,21 @@
 	font-size: 20px;
 	font-family: "yuanli";
 	color: #fff;
-	background-image: url("../../image/button/square_light.png");
+	background-image: url("../../image/ui/button/square_light.png");
 	background-size: 100% 100%;
 	transition: color 0.5s;
 }
 
 /* 标签项悬停 */
 .menu.main > .menu-tab > div:hover {
-	background-image: url("../../image/button/square_light.png");
+	background-image: url("../../image/ui/button/square_light.png");
 }
 
 /* 标签项非激活/禁用状态 */
 .menu.main > .menu-tab > div:not(.active):not(*:hover),
 .menu.main > .menu-tab > .disabled {
 	color: #fff;
-	background-image: url("../../image/button/square_drck.png");
+	background-image: url("../../image/ui/button/square_drck.png");
 }
 
 /* ========== 菜单内容区 ========== */
@@ -123,7 +123,7 @@
 	text-align: center;
 	white-space: nowrap;
 	overflow: hidden;
-	background-image: url("../../image/button/square_light.png") !important;
+	background-image: url("../../image/ui/button/square_light.png") !important;
 	background-size: 100% 100%;
 	box-shadow: none;
 	transition: all 0.3s;
@@ -131,14 +131,14 @@
 
 /* 导航项悬停 */
 .menu.main > .menu-content > div > .left.pane > div:hover {
-	background-image: url("../../image/button/square_light.png") !important;
+	background-image: url("../../image/ui/button/square_light.png") !important;
 }
 
 /* 导航项非激活/禁用状态 */
 .menu.main > .menu-content > div > .left.pane > div:not(.active):not(*:hover),
 .menu.main > .menu-content > div > .left.pane > .disabled {
 	color: #fff;
-	background-image: url("../../image/button/square_drck.png") !important;
+	background-image: url("../../image/ui/button/square_drck.png") !important;
 }
 
 /* 禁止滚动 */
@@ -194,7 +194,7 @@
 	height: var(--h);
 	border-radius: 0;
 	background-color: transparent;
-	background-image: url("../../image/button/kg_off.png");
+	background-image: url("../../image/ui/button/kg_off.png");
 	background-position: center;
 	background-repeat: no-repeat;
 	background-size: 100% 100%;
@@ -203,7 +203,7 @@
 
 /* 开关开启状态 */
 .config.config.toggle.on > div {
-	background-image: url("../../image/button/kg_on.png");
+	background-image: url("../../image/ui/button/kg_on.png");
 	box-shadow: none;
 }
 
