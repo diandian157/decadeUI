@@ -65,7 +65,7 @@ export function setupLuckyCard() {
 		/** 设置确认按钮文案 */
 		setupConfirmButton() {
 			if (!ui.confirm?.childNodes?.length) return;
-			var btn = ui.confirm.childNodes[0];
+			const btn = ui.confirm.childNodes[0];
 			if (btn?.link === "ok") btn.innerHTML = "换牌";
 		},
 
@@ -100,24 +100,24 @@ export function setupLuckyCard() {
 			return;
 		}
 
-		var end = player,
+		let end = player,
 			numx = num;
 		do {
 			if (typeof num === "function") numx = num(player);
 
-			var cards = [];
-			var otherGetCards = event.otherPile?.[player.playerid]?.getCards;
+			let cards = [];
+			const otherGetCards = event.otherPile?.[player.playerid]?.getCards;
 
 			if (otherGetCards) cards.addArray(otherGetCards(numx));
 			else if (player.getTopCards) cards.addArray(player.getTopCards(numx));
 			else cards.addArray(get.cards(numx));
 
 			if (event.gaintag?.[player.playerid]) {
-				var gaintag = event.gaintag[player.playerid];
-				var list = typeof gaintag === "function" ? gaintag(numx, cards) : [[cards, gaintag]];
+				const gaintag = event.gaintag[player.playerid];
+				const list = typeof gaintag === "function" ? gaintag(numx, cards) : [[cards, gaintag]];
 				game.broadcastAll(
 					(p, l) => {
-						for (var i = l.length - 1; i >= 0; i--) p.directgain(l[i][0], null, l[i][1]);
+						for (let i = l.length - 1; i >= 0; i--) p.directgain(l[i][0], null, l[i][1]);
 					},
 					player,
 					list
@@ -143,14 +143,14 @@ export function setupLuckyCard() {
 
 		("step 1");
 		if (event.changeCard !== "disabled" && !_status.auto && game.me.countCards("h") && lib._luckyCard.canChange(event.freeChanges, event.luckyCards)) {
-			var lc = lib._luckyCard;
-			var str = lc.getPromptText(event.freeChanges, event.luckyCards);
+			const lc = lib._luckyCard;
+			const str = lc.getPromptText(event.freeChanges, event.luckyCards);
 
 			lc.showTimer();
 
 			if (typeof decadeUI?.showHandTip === "function") {
 				lc.closeCardDialog();
-				var tip = (ui.cardDialog = decadeUI.showHandTip());
+				const tip = (ui.cardDialog = decadeUI.showHandTip());
 				tip.appendText(lc.stripTags(str));
 				tip.strokeText();
 				tip.show();
@@ -186,18 +186,18 @@ export function setupLuckyCard() {
 
 		("step 3");
 		_status.imchoosing = false;
-		var lc = lib._luckyCard;
+		const lc = lib._luckyCard;
 
 		if (event.bool) {
 			game.changeCoin?.(-3);
 
-			var hs = game.me.getCards("h"),
-				cards = [];
-			var otherGetCards = event.otherPile?.[game.me.playerid]?.getCards;
-			var otherDiscard = event.otherPile?.[game.me.playerid]?.discard;
+			const hs = game.me.getCards("h");
+			let cards = [];
+			const otherGetCards = event.otherPile?.[game.me.playerid]?.getCards;
+			const otherDiscard = event.otherPile?.[game.me.playerid]?.discard;
 
 			game.addVideo("lose", game.me, [get.cardsInfo(hs), [], [], []]);
-			for (var i = 0; i < hs.length; i++) {
+			for (let i = 0; i < hs.length; i++) {
 				hs[i].removeGaintag(true);
 				otherDiscard ? otherDiscard(hs[i]) : hs[i].discard(false);
 			}
@@ -206,9 +206,9 @@ export function setupLuckyCard() {
 			else cards.addArray(get.cards(hs.length));
 
 			if (event.gaintag?.[game.me.playerid]) {
-				var gaintag = event.gaintag[game.me.playerid];
-				var list = typeof gaintag === "function" ? gaintag(hs.length, cards) : [[cards, gaintag]];
-				for (var i = list.length - 1; i >= 0; i--) game.me.directgain(list[i][0], null, list[i][1]);
+				const gaintag = event.gaintag[game.me.playerid];
+				const list = typeof gaintag === "function" ? gaintag(hs.length, cards) : [[cards, gaintag]];
+				for (let i = list.length - 1; i >= 0; i--) game.me.directgain(list[i][0], null, list[i][1]);
 			} else {
 				game.me.directgain(cards);
 			}
