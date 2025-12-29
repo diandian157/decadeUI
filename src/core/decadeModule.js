@@ -106,7 +106,7 @@ export function initDecadeModule() {
 			ui.css.decadeMenu = this.css(`${decadeUIPath}src/styles/menu.css`);
 		}
 
-		this.jsAsync(`${decadeUIPath}src/libs/spine.js`);
+		this.js(`${decadeUIPath}src/libs/spine.js`);
 
 		const currentMode = get.mode();
 		const isPhoneLayout = lib.config.phonelayout;
