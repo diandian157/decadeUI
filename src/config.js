@@ -385,12 +385,6 @@ export let config = {
 		},
 	},
 
-	luckycard: {
-		name: "手气卡美化",
-		init: true,
-		intro: "开启后手气卡锁定五次",
-	},
-
 	aloneEquip: {
 		name: "单独装备栏",
 		intro: "切换玩家装备栏为单独装备栏或非单独装备栏",

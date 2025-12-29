@@ -1,7 +1,8 @@
 "use strict";
 
 /**
- * @fileoverview 手气卡换牌模块 - 使用原生 step 机制，兼容控制台操作
+ * @fileoverview 手气卡换牌模块
+ * @description 游戏开局时允许玩家更换手牌，前3次免费，之后消耗手气卡
  */
 
 import { lib, game, ui, get, ai, _status } from "noname";
@@ -10,10 +11,15 @@ import { lib, game, ui, get, ai, _status } from "noname";
  * 初始化手气卡换牌功能
  */
 export function setupLuckyCard() {
-	if (!lib.config["extension_十周年UI_luckycard"]) return;
-
-	// 工具函数挂到 lib 上，供 step 编译器访问
+	/**
+	 * 手气卡工具对象，挂载到 lib 供 step 编译器访问
+	 * @namespace lib._luckyCard
+	 */
 	lib._luckyCard = {
+		/** @type {number} 免费换牌次数 */
+		FREE_CHANGES: 3,
+
+		/** 清除计时器 */
 		clearTimers() {
 			["timer", "timer2"].forEach(t => {
 				if (window[t]) {
@@ -22,30 +28,68 @@ export function setupLuckyCard() {
 				}
 			});
 		},
+
+		/** 移除进度条 */
 		removeProgressBar() {
 			document.getElementById("jindutiaopl")?.remove();
 		},
+
+		/** 显示计时器 */
 		showTimer() {
 			this.clearTimers();
 			this.removeProgressBar();
 			game.Jindutiaoplayer?.();
 		},
+
+		/** 隐藏计时器 */
 		hideTimer() {
 			this.clearTimers();
 			this.removeProgressBar();
 		},
+
+		/** 关闭卡牌对话框 */
 		closeCardDialog() {
 			if (ui.cardDialog) {
 				ui.cardDialog.close();
 				delete ui.cardDialog;
 			}
 		},
+
+		/**
+		 * 移除 HTML 标签
+		 * @param {string} text
+		 * @returns {string}
+		 */
 		stripTags: text => (typeof text === "string" ? text.replace(/<\/?.+?\/?>/g, "") : ""),
+
+		/** 设置确认按钮文案 */
 		setupConfirmButton() {
 			if (!ui.confirm?.childNodes?.length) return;
-			if (lib.config.extension_十周年UI_newDecadeStyle === "off") return;
 			var btn = ui.confirm.childNodes[0];
 			if (btn?.link === "ok") btn.innerHTML = "换牌";
+		},
+
+		/**
+		 * 生成提示文案
+		 * @param {number} freeChanges - 剩余免费次数
+		 * @param {number} luckyCards - 剩余手气卡数量
+		 * @returns {string}
+		 */
+		getPromptText(freeChanges, luckyCards) {
+			if (freeChanges > 0) {
+				return `本场还可免费更换<span style='color:#00c853'>${freeChanges}次</span>手牌(剩余${luckyCards}张手气卡)`;
+			}
+			return `消耗1张手气卡更换1次手牌(剩余<span style='color:#00c853'>${luckyCards}</span>张手气卡)`;
+		},
+
+		/**
+		 * 判断是否还能换牌
+		 * @param {number} freeChanges - 剩余免费次数
+		 * @param {number} luckyCards - 剩余手气卡数量
+		 * @returns {boolean}
+		 */
+		canChange(freeChanges, luckyCards) {
+			return freeChanges > 0 || luckyCards > 0;
 		},
 	};
 
@@ -94,17 +138,17 @@ export function setupLuckyCard() {
 		if (_status.connectMode || (lib.config.mode === "single" && _status.mode !== "wuxianhuoli") || (lib.config.mode === "doudizhu" && _status.mode === "online") || !["identity", "guozhan", "doudizhu", "single"].includes(lib.config.mode)) {
 			event.changeCard = "disabled";
 		}
-		event.remainingChanges = 5;
+		event.freeChanges = lib._luckyCard.FREE_CHANGES; // 免费换牌次数
 		event.luckyCards = 10000 + Math.floor(Math.random() * 90000);
 
 		("step 1");
-		if (event.changeCard !== "disabled" && !_status.auto && game.me.countCards("h")) {
+		if (event.changeCard !== "disabled" && !_status.auto && game.me.countCards("h") && lib._luckyCard.canChange(event.freeChanges, event.luckyCards)) {
 			var lc = lib._luckyCard;
-			var str = "本场还可更换<span style='color:#00c853'>" + event.remainingChanges + "次</span>手牌(剩余" + event.luckyCards + "张手气卡)";
+			var str = lc.getPromptText(event.freeChanges, event.luckyCards);
 
 			lc.showTimer();
 
-			if (lib.config["extension_十周年UI_cardPrompt"] && typeof decadeUI?.showHandTip === "function") {
+			if (typeof decadeUI?.showHandTip === "function") {
 				lc.closeCardDialog();
 				var tip = (ui.cardDialog = decadeUI.showHandTip());
 				tip.appendText(lc.stripTags(str));
@@ -170,8 +214,13 @@ export function setupLuckyCard() {
 			}
 
 			game.me._start_cards = game.me.getCards("h");
-			event.luckyCards--;
-			event.remainingChanges--;
+
+			// 消耗免费次数或手气卡
+			if (event.freeChanges > 0) {
+				event.freeChanges--;
+			} else {
+				event.luckyCards--;
+			}
 
 			lc.hideTimer();
 			lc.closeCardDialog();
@@ -179,8 +228,12 @@ export function setupLuckyCard() {
 			delete event.dialog;
 			ui.confirm?.close();
 
-			if (event.changeCard !== "disabled" && event.remainingChanges > 0) event.goto(1);
-			else setTimeout(decadeUI.effect.gameStart, 51);
+			// 只要还能换就继续
+			if (event.changeCard !== "disabled" && lc.canChange(event.freeChanges, event.luckyCards)) {
+				event.goto(1);
+			} else {
+				setTimeout(decadeUI.effect.gameStart, 51);
+			}
 		} else {
 			lc.hideTimer();
 			lc.closeCardDialog();
