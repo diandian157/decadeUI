@@ -17,7 +17,7 @@ import { initHooks } from "./hooks.js";
 import { CubicBezierEase, throttle, observeSize, lerp, TimeStep, APNode, AnimationPlayer, AnimationPlayerPool, DynamicPlayer, BUILT_ID, DynamicWorkers } from "../animation/index.js";
 import { createPlayerElement } from "../ui/player-element.js";
 import { createCardElement, createCardsWrapper } from "../ui/card-element.js";
-import { createCharacterButtonPreset } from "../ui/character-button.js";
+import { createCharacterButtonPreset, updateAllCharacterButtons } from "../ui/character-button.js";
 import { createPlayerInit } from "../ui/player-init.js";
 import { definePlayerGroupProperty } from "../ui/player-group.js";
 import { createLayoutInit } from "../ui/layout-init.js";
@@ -357,6 +357,7 @@ export const createDecadeUIObject = () => ({
 			DynamicPlayer,
 			BUILT_ID,
 			DynamicWorkers,
+			updateAllCharacterButtons,
 		});
 
 		if (decadeModule.modules) {

@@ -426,12 +426,14 @@ export let config = {
 			ui.arena.dataset.outcropSkin = style;
 			// 更新所有玩家的露头头像
 			decadeUI.updateAllOutcropAvatars?.(style);
+			decadeUI.updateAllCharacterButtons?.();
 		},
 		onclick(item) {
 			game.saveConfig("extension_十周年UI_outcropSkin", item);
 			if (window.decadeUI) {
 				ui.arena.dataset.outcropSkin = item;
 				decadeUI.updateAllOutcropAvatars?.(item);
+				decadeUI.updateAllCharacterButtons?.();
 			}
 		},
 	},
