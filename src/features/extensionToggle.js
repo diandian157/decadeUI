@@ -16,8 +16,11 @@ const STORAGE_KEY = "extension_十周年UI_closedExtensions";
  */
 const getCurrentExtName = () => window.decadeUIName || "十周年UI";
 
-/** @type {string[]} 受保护的扩展白名单 */
-const PROTECTED_EXTENSIONS = _status.PROTECTED_EXTENSIONS ?? [];
+/**
+ * 获取受保护的扩展白名单（动态读取，确保其他扩展有机会设置）
+ * @returns {string[]}
+ */
+const getProtectedExtensions = () => _status.PROTECTED_EXTENSIONS ?? [];
 
 /**
  * 获取其他扩展列表
@@ -25,7 +28,8 @@ const PROTECTED_EXTENSIONS = _status.PROTECTED_EXTENSIONS ?? [];
  */
 const getOtherExtensions = () => {
 	const current = getCurrentExtName();
-	return (lib.config.extensions || []).filter(ext => ext !== current && !PROTECTED_EXTENSIONS.includes(ext));
+	const protectedList = getProtectedExtensions();
+	return (lib.config.extensions || []).filter(ext => ext !== current && !protectedList.includes(ext));
 };
 
 /**
