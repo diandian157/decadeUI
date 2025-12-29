@@ -91,7 +91,7 @@ function getCharacterImagePath(name) {
 		}
 	}
 
-	return `${lib.assetURL}image/lihui/${realName}.jpg`;
+	return `${lib.assetURL}extension/十周年UI/image/character/lihui/${realName}.jpg`;
 }
 
 /**
@@ -130,6 +130,9 @@ function loadImage(src, player) {
  * @returns {Promise<string>} 备用图片路径
  */
 async function getFallbackSrc(src, player) {
+	if (src.includes("extension/十周年UI/image/character/lihui")) {
+		return src.replace(/extension\/十周年UI\/image\/character\/lihui/, "image/character");
+	}
 	if (src.includes("image/lihui")) {
 		return src.replace(/image\/lihui/, "image/character");
 	}

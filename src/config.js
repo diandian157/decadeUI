@@ -421,7 +421,18 @@ export let config = {
 		init: "off",
 		item: { shizhounian: "十周年露头", shousha: "手杀露头", off: "关闭" },
 		update() {
-			if (window.decadeUI) ui.arena.dataset.outcropSkin = lib.config.extension_十周年UI_outcropSkin;
+			if (!window.decadeUI) return;
+			const style = lib.config.extension_十周年UI_outcropSkin;
+			ui.arena.dataset.outcropSkin = style;
+			// 更新所有玩家的露头头像
+			decadeUI.updateAllOutcropAvatars?.(style);
+		},
+		onclick(item) {
+			game.saveConfig("extension_十周年UI_outcropSkin", item);
+			if (window.decadeUI) {
+				ui.arena.dataset.outcropSkin = item;
+				decadeUI.updateAllOutcropAvatars?.(item);
+			}
 		},
 	},
 

@@ -5,6 +5,7 @@
 
 import { lib, game, ui, get, ai, _status } from "noname";
 import { element } from "../utils/element.js";
+import { updatePlayerOutcropAvatar } from "./outcropAvatar.js";
 
 /**
  * 创建player.$init方法
@@ -167,6 +168,13 @@ export function createPlayerInit(base) {
 		}
 
 		this.decadeUI_updateShowCards();
+
+		// 应用露头头像
+		const outcropStyle = lib.config.extension_十周年UI_outcropSkin;
+		if (outcropStyle && outcropStyle !== "off") {
+			updatePlayerOutcropAvatar(this, outcropStyle);
+		}
+
 		return this;
 	};
 }

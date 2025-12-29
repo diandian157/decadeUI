@@ -36,6 +36,7 @@ import { setupCharacterBackground } from "./ui/characterBackground.js";
 import { setupCardStyles, updateCardStyles } from "./ui/cardStyles.js";
 import { setupCharacterNamePrefix } from "./ui/characterNamePrefix.js";
 import { setupSkillDisplay } from "./ui/skillDisplay.js";
+import { setupOutcropAvatar } from "./ui/outcropAvatar.js";
 
 // 技能模块
 import { initSkills } from "./skills/index.js";
@@ -82,6 +83,7 @@ export const finalizeDecadeUICore = (decadeUI, config) => {
 	decadeUI.updateCardStyles = updateCardStyles;
 	setupCharacterNamePrefix();
 	setupSkillDisplay();
+	setupOutcropAvatar();
 	setupSkillDieAudio();
 	setupAudioHooks();
 	setupDynamicSkin();
