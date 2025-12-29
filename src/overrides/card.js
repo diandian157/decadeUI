@@ -150,11 +150,8 @@ export function cardInit(card) {
  * @returns {boolean} 是否跳过
  */
 function shouldSkipCardSkin(cardElement, card) {
-	const cardName = Array.isArray(card) ? card[2] : card.name;
 	// 跳过 fullimage 类型卡牌（如技能卡）
 	if (cardElement.classList.contains("fullimage")) return true;
-	// 跳过 skillCard_ 开头的技能卡
-	if (cardName?.startsWith("skillCard_")) return true;
 	// 跳过技能按钮（vcard创建时type为undefined，表示不是有效卡牌）
 	if (Array.isArray(card) && card[0] === undefined) return true;
 	return false;
