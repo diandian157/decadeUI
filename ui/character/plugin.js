@@ -1,15 +1,13 @@
 ﻿/**
- * 武将详情插件
- * 根据配置自动加载对应样式
+ * @fileoverview 武将详情插件入口
  */
 import { lib, game, ui, get, ai, _status } from "noname";
-import { createCharacterPluginForSkin, getCurrentSkinName } from "./skins/index.js";
+import { getCurrentSkin, createCharacterPluginForSkin } from "./skins/index.js";
 
 /**
- * 创建武将详情插件
- * 根据当前样式配置自动选择对应实现
+ * 创建character插件
+ * @returns {Promise<Object|null>}
  */
-export function createCharacterPlugin(lib, game, ui, get, ai, _status, app) {
-	const skinName = getCurrentSkinName();
-	return createCharacterPluginForSkin(lib, game, ui, get, ai, _status, app);
+export async function createCharacterPlugin(lib, game, ui, get, ai, _status, app) {
+	return createCharacterPluginForSkin(getCurrentSkin(), lib, game, ui, get, ai, _status, app);
 }

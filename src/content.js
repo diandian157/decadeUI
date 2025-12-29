@@ -86,9 +86,9 @@ export const finalizeDecadeUICore = (decadeUI, config) => {
 };
 
 /**
- * 加载UI插件模块
+ * 加载UI插件模块（异步按需加载）
  */
-function loadUIPlugins() {
+async function loadUIPlugins() {
 	const excludedModes = ["chess", "tafang", "hs_hearthstone"];
 	if (excludedModes.includes(get.mode())) return;
 
@@ -98,9 +98,9 @@ function loadUIPlugins() {
 		{ name: "character", creator: createCharacterPlugin },
 	];
 
-	plugins.forEach(({ name, creator }) => {
+	for (const { name, creator } of plugins) {
 		try {
-			const plugin = creator(lib, game, ui, get, ai, _status, window.app);
+			const plugin = await creator(lib, game, ui, get, ai, _status, window.app);
 			if (plugin) {
 				if (plugin.name) window.app.pluginsMap[plugin.name] = plugin;
 				if (plugin.precontent && (!plugin.filter || plugin.filter())) {
@@ -111,7 +111,7 @@ function loadUIPlugins() {
 		} catch (e) {
 			console.error(`[十周年UI] ${name}模块加载失败:`, e);
 		}
-	});
+	}
 }
 
 /**
@@ -143,5 +143,5 @@ export async function content(config, pack) {
 	registerLegacyModules(decadeUI.config);
 
 	// 加载UI插件模块
-	loadUIPlugins();
+	await loadUIPlugins();
 }

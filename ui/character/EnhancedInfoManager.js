@@ -3,7 +3,7 @@
  */
 import { lib, game, ui, get, ai, _status } from "noname";
 import { CONSTANTS } from "../constants.js";
-import { Utils, getGroupBackgroundImage } from "../utils.js";
+import { createLeftPane, createStars, getGroupBackgroundImage } from "../utils.js";
 
 export class EnhancedInfoManager {
 	constructor() {
@@ -129,9 +129,9 @@ export class EnhancedInfoManager {
 
 			frame.setBackgroundImage(getGroupBackgroundImage(group));
 
-			const leftPane = Utils.createLeftPane(frame, name, player);
+			const leftPane = createLeftPane(frame, name, player);
 			const stars = ui.create.div(".xing", frame);
-			Utils.createStars(stars, game.getRarity(name));
+			createStars(stars, game.getRarity(name));
 
 			const nameDiv = ui.create.div(".biankuangname", frame);
 			nameDiv.innerHTML = get.slimName(name);
