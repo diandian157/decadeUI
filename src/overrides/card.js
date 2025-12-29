@@ -113,7 +113,10 @@ export function cardInit(card) {
 
 	const verticalName = this.$vertname;
 	this.$name.innerHTML = verticalName.innerHTML;
-	this.$suitnum.$num.innerHTML = (this.number !== 0 ? get.strNumber(this.number) : false) || this.number || "";
+	let cardnum = card[1] || "";
+	if (parseInt(cardnum) == cardnum) cardnum = parseInt(cardnum);
+	cardnum = get.strNumber(cardnum, true) || cardnum;
+	this.$suitnum.$num.innerHTML = typeof cardnum == "string" ? cardnum : (this.number !== 0 ? get.strNumber(this.number) : false) || this.number || "";
 	this.$suitnum.$suit.innerHTML = get.translation((this.dataset.suit = this.suit));
 
 	const equip = this.$equip;
@@ -134,9 +137,7 @@ export function cardInit(card) {
 	if (verticalName.style.opacity) verticalName.style.removeProperty("opacity");
 
 	// vcard按钮保留本体info显示（花色点数或自定义文本如"0虎符"）
-	if (!this.classList.contains("button")) {
-		while (node.info.firstChild) node.info.removeChild(node.info.lastChild);
-	}
+	while (node.info.firstChild) node.info.removeChild(node.info.lastChild);
 
 	applyCardSkin(this, card);
 	return this;
