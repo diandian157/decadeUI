@@ -5,8 +5,13 @@ import { content } from "./src/content.js";
 import { precontent } from "./src/precontent.js";
 import { mainpackage } from "./src/package.js";
 
+/** @type {import("noname").ExtensionType} */
 export const type = "extension";
 
+/**
+ * 十周年UI扩展入口
+ * @returns {Promise<import("noname").ExtensionInfo>} 扩展配置对象
+ */
 export default async function () {
 	const infoUrl = `${lib.assetURL}extension/十周年UI/info.json`;
 	const { name, ...otherInfo } = await lib.init.promises.json(infoUrl);
