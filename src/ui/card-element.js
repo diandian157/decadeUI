@@ -15,7 +15,7 @@ export function createCardElement(position, info, noclick) {
 	const card = ui.create.div(".card");
 	card.node = {
 		image: ui.create.div(".image", card),
-		info: ui.create.div(".info"),
+		info: ui.create.div(".info", card),
 		suitnum: element.create("suit-num", card),
 		name: ui.create.div(".name", card),
 		name2: ui.create.div(".name2", card),

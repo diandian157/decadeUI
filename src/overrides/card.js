@@ -133,7 +133,10 @@ export function cardInit(card) {
 	if (node.info.style.opacity) node.info.style.removeProperty("opacity");
 	if (verticalName.style.opacity) verticalName.style.removeProperty("opacity");
 
-	while (node.info.firstChild) node.info.removeChild(node.info.lastChild);
+	// vcard按钮保留本体info显示（花色点数或自定义文本如"0虎符"）
+	if (!this.classList.contains("button")) {
+		while (node.info.firstChild) node.info.removeChild(node.info.lastChild);
+	}
 
 	applyCardSkin(this, card);
 	return this;
