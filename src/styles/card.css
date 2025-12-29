@@ -166,8 +166,8 @@
 
 /** 卡名显示 */
 
-.card.fullskin > .name,
-.card.fullskin > .name.long,
+.card > .name,
+.card > .name.long,
 .dialog .buttons > .card > .name.long {
 	display: none;
 	top: auto;
@@ -190,8 +190,8 @@
 }
 
 /* 卡名辅助显示开启时 */
-[data-card-alternate-name-visible="on"] .card.fullskin > .name,
-[data-card-alternate-name-visible="on"] .card.fullskin > .name.long,
+[data-card-alternate-name-visible="on"] .card > .name,
+[data-card-alternate-name-visible="on"] .card > .name.long,
 [data-card-alternate-name-visible="on"] .dialog .buttons > .card > .name.long,
 [data-card-alternate-name-visible="on"] .card > .name {
 	display: block;
