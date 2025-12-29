@@ -196,6 +196,7 @@
 [data-card-alternate-name-visible="on"] .card > .name {
 	display: block;
 	left: 1px;
+	top: auto;
 	bottom: 1px;
 	padding: 2px 4px;
 	font-size: 18px;
