@@ -4,6 +4,7 @@
  */
 import { lib, game, ui, get, ai, _status } from "noname";
 import { createBaseSkillPlugin } from "./base.js";
+import { getAvailableSkills, updateSkillUsability, isGSkillCacheSame, shouldSkipEquipSkill } from "./gskillMixin.js";
 
 const ASSETS_PATH = "extension/十周年UI/ui/assets/skill/online";
 
@@ -107,6 +108,7 @@ export function createOnlineSkillPlugin(lib, game, ui, get, ai, _status, app) {
 					if (!ui.skillControl) {
 						const node = ui.create.div(".skill-control", ui.arena);
 						node.node = { combined: ui.create.div(".combined", node) };
+						node._cachedGSkills = [];
 						Object.assign(node, plugin.controlElement);
 						ui.skillControl = node;
 					}
@@ -147,7 +149,8 @@ export function createOnlineSkillPlugin(lib, game, ui, get, ai, _status, app) {
 				if (player === game.me) {
 					const skillControl = ui.create.skillControl(clear);
 					skillControl.add(skills, eSkills);
-					if (gSkills?.length) skillControl.add(gSkills);
+					if (gSkills?.length) skillControl.setGSkills(gSkills, eSkills);
+					skillControl.addCachedGSkills(eSkills);
 					skillControl.update();
 					game.addVideo("updateSkillControl", player, clear);
 				}
@@ -192,6 +195,70 @@ export function createOnlineSkillPlugin(lib, game, ui, get, ai, _status, app) {
 		},
 
 		controlElement: {
+			// 设置gskill缓存
+			setGSkills(skills, eSkills) {
+				if (!skills?.length) return this;
+				if (isGSkillCacheSame(this._cachedGSkills, skills)) return this;
+				this._cachedGSkills = skills.slice();
+				return this;
+			},
+
+			// 添加缓存的gskill到DOM
+			addCachedGSkills(eSkills) {
+				if (!this._cachedGSkills?.length) return this;
+				const nativeSkillSet = plugin.getNativeSkillSet();
+
+				this._cachedGSkills.forEach(skillId => {
+					if (this.querySelector(`[data-id="${skillId}"]`)) return;
+
+					const info = get.info(skillId);
+					if (!info) return;
+
+					if (shouldSkipEquipSkill(skillId, eSkills, { lib, game })) return;
+
+					const skillName = get.translation(skillId);
+					let finalName = skillName.slice(0, 2);
+
+					if (lib.skill[skillId]?.zhuanhuanji) {
+						let imgType = "yang";
+						const markNode = game.me?.node?.xSkillMarks?.querySelector(`.skillMarkItem.zhuanhuanji[data-id="${skillId}"]`);
+						if (markNode?.classList.contains("yin")) imgType = "ying";
+						const imgPath = `${ASSETS_PATH}/skillitem_yinyang_${imgType === "yang" ? "1" : "2"}.png`;
+						finalName = `<img src="${imgPath}" class="skill-zhuanhuanji-img">${skillName}`;
+					}
+
+					const cls = info.limited ? ".xiandingji.enable-skill" : ".skillitem.enable-skill";
+					const node = ui.create.div(cls, this.node.combined);
+					node.innerHTML = finalName;
+					node.dataset.id = skillId;
+					node.dataset.gskill = "true";
+
+					if (info.limited) {
+						const passImg = document.createElement("img");
+						passImg.className = "skill-xianding-pass";
+						passImg.src = `${ASSETS_PATH}/skillitem_xianding_active.png`;
+						node.style.position = "relative";
+						node.appendChild(passImg);
+					}
+
+					if (!nativeSkillSet.has(skillId)) {
+						const dot = document.createElement("img");
+						dot.className = "skill-yellow-dot";
+						dot.src = `${ASSETS_PATH}/skillitem_extra_active.png`;
+						node.style.position = "relative";
+						node.appendChild(dot);
+					}
+
+					node.addEventListener("click", () => {
+						if (lib.config["extension_十周年UI_bettersound"]) {
+							game.playAudio("..", "extension", "十周年UI", "audio/SkillBtn");
+						}
+					});
+					app.listen(node, plugin.clickSkill);
+				});
+				return this;
+			},
+
 			add(skill, eSkills) {
 				if (Array.isArray(skill)) {
 					skill.forEach(s => this.add(s, eSkills));
@@ -317,10 +384,7 @@ export function createOnlineSkillPlugin(lib, game, ui, get, ai, _status, app) {
 			},
 
 			update() {
-				const skills = [];
-				[ui.skills, ui.skills2, ui.skills3].forEach(s => {
-					if (s) skills.addArray(s.skills);
-				});
+				const skills = getAvailableSkills(ui);
 
 				// 重新排序
 				const combinedNodes = Array.from(this.node.combined.childNodes);
@@ -335,10 +399,7 @@ export function createOnlineSkillPlugin(lib, game, ui, get, ai, _status, app) {
 					combinedNodes.forEach(node => this.node.combined.appendChild(node));
 				}
 
-				Array.from(this.node.combined.childNodes).forEach(item => {
-					item.classList.toggle("usable", skills.includes(item.dataset.id));
-					item.classList.toggle("select", _status.event.skill === item.dataset.id);
-				});
+				updateSkillUsability(this.node.combined.childNodes, skills, { game, get, _status });
 
 				const count = this.node.combined.childNodes.length;
 				const level = count > 2 ? 4 : count > 0 ? 2 : 0;

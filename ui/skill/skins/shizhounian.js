@@ -4,6 +4,7 @@
  */
 import { lib, game, ui, get, ai, _status } from "noname";
 import { createBaseSkillPlugin } from "./base.js";
+import { getAvailableSkills, updateSkillUsability, isGSkillCacheSame, shouldSkipEquipSkill } from "./gskillMixin.js";
 
 export function createShizhounianSkillPlugin(lib, game, ui, get, ai, _status, app) {
 	const base = createBaseSkillPlugin(lib, game, ui, get, ai, _status, app);
@@ -17,15 +18,15 @@ export function createShizhounianSkillPlugin(lib, game, ui, get, ai, _status, ap
 			this._extendUI();
 			base.initBaseRewrites.call(this);
 
-			// 额外的gskillControl更新
+			// gskillControl 更新
 			app.reWriteFunction(game, {
 				loop: [
 					() => {
 						if (game.boss && !ui.skillControl) ui.updateSkillControl(game.me);
 						ui.skillControl?.update();
-						if (!lib.config.phonelayout && ui.gskillControl) ui.gskillControl.update();
-						if (!lib.config.phonelayout && game.me && !ui.gskillControl && ui.skills2?.skills.length) {
-							ui.updateSkillControl(game.me);
+						if (!lib.config.phonelayout) {
+							if (ui.gskillControl) ui.gskillControl.update();
+							else if (game.me) ui.updateSkillControl(game.me);
 						}
 					},
 					null,
@@ -76,6 +77,7 @@ export function createShizhounianSkillPlugin(lib, game, ui, get, ai, _status, ap
 							enable: ui.create.div(".enable", node),
 							trigger: ui.create.div(".trigger", node),
 						};
+						node._cachedGSkills = [];
 						Object.assign(node, plugin.controlElement);
 						ui.skillControl = node;
 					}
@@ -93,22 +95,14 @@ export function createShizhounianSkillPlugin(lib, game, ui, get, ai, _status, ap
 							enable: ui.create.div(".enable", node),
 							trigger: ui.create.div(".trigger", node),
 						};
-						Object.assign(node, plugin.controlElement);
-						node.update = function () {
-							const skills = ui.skills2?.skills || [];
-							Array.from(this.node.enable.childNodes).forEach(item => {
-								const skillId = item.dataset.id;
-								let isUsable = skills.includes(skillId);
-								if (isUsable && game.me && get.is.locked(skillId, game.me)) isUsable = false;
-								item.classList.toggle("usable", isUsable);
-								item.classList.toggle("select", _status.event.skill === skillId);
-							});
-						};
+						node._cachedSkills = [];
+						Object.assign(node, plugin.gskillControlElement);
 						ui.gskillControl = node;
 					}
 					if (clear) {
 						ui.gskillControl.node.enable.innerHTML = "";
 						ui.gskillControl.node.trigger.innerHTML = "";
+						ui.gskillControl._cachedSkills = [];
 					}
 					return ui.gskillControl;
 				},
@@ -120,7 +114,7 @@ export function createShizhounianSkillPlugin(lib, game, ui, get, ai, _status, ap
 			ui.updateSkillControl = (player, clear) => {
 				const eSkills = player.getSkills("e", true, false).slice(0);
 				let skills = player.getSkills("invisible", null, false);
-				let gSkills = ui.skills2?.skills.length ? ui.skills2.skills : null;
+				let gSkills = ui.skills2?.skills?.length ? ui.skills2.skills : null;
 
 				skills = skills.filter(s => {
 					const info = get.info(s);
@@ -131,7 +125,7 @@ export function createShizhounianSkillPlugin(lib, game, ui, get, ai, _status, ap
 				game.expandSkills(iSkills);
 				skills.addArray(iSkills.filter(s => get.info(s)?.enable));
 
-				// 过滤掉通过global关联的技能，避免重复
+				// 过滤global关联技能避免重复
 				if (gSkills) {
 					const globalSkills = new Set();
 					skills.forEach(s => {
@@ -147,15 +141,16 @@ export function createShizhounianSkillPlugin(lib, game, ui, get, ai, _status, ap
 				if (player === game.me) {
 					const skillControl = ui.create.skillControl(clear);
 					skillControl.add(skills, eSkills);
-					if (lib.config.phonelayout && gSkills?.length) {
-						skillControl.add(gSkills, eSkills);
+					if (lib.config.phonelayout) {
+						if (gSkills?.length) skillControl.setGSkills(gSkills, eSkills);
+						skillControl.addCachedGSkills(eSkills);
 					}
 					skillControl.update();
 
 					if (!lib.config.phonelayout) {
-						const gskillControl = ui.create.gskillControl(clear);
-						if (gskillControl && gSkills?.length) {
-							gskillControl.add(gSkills, eSkills);
+						const gskillControl = ui.create.gskillControl(false);
+						if (gskillControl) {
+							if (gSkills?.length) gskillControl.setSkills(gSkills, eSkills);
 							gskillControl.update();
 						}
 					}
@@ -182,8 +177,92 @@ export function createShizhounianSkillPlugin(lib, game, ui, get, ai, _status, ap
 			};
 		},
 
+		// gskillControl 控制元素
+		gskillControlElement: {
+			// 设置技能列表，仅在变化时重建DOM
+			setSkills(skills, eSkills) {
+				if (!skills?.length) {
+					this._cachedSkills = [];
+					this.node.enable.innerHTML = "";
+					return this;
+				}
+
+				if (isGSkillCacheSame(this._cachedSkills, skills)) return this;
+
+				this._cachedSkills = skills.slice();
+				this.node.enable.innerHTML = "";
+
+				skills.forEach(skillId => {
+					const info = get.info(skillId);
+					if (!info) return;
+
+					if (shouldSkipEquipSkill(skillId, eSkills, { lib, game })) return;
+
+					const skillName = get.translation(skillId).slice(0, 2);
+					const cls = info.limited ? ".xiandingji" : ".skillitem";
+					const node = ui.create.div(cls, this.node.enable, skillName);
+					node.dataset.id = skillId;
+
+					if (info.zhuanhuanji) node.classList.add("zhuanhuanji");
+					if (game.me && get.is.locked(skillId, game.me)) node.classList.add("locked");
+
+					node.addEventListener(lib.config.touchscreen ? "touchend" : "click", () => {
+						if (lib.config["extension_十周年UI_bettersound"]) {
+							game.playAudio("..", "extension", "十周年UI", "audio/SkillBtn");
+						}
+					});
+					app.listen(node, plugin.clickSkill);
+				});
+
+				return this;
+			},
+
+			update() {
+				const availableSkills = getAvailableSkills(ui);
+				updateSkillUsability(this.node.enable.childNodes, availableSkills, { game, get, _status });
+			},
+		},
+
 		// 控制元素方法
 		controlElement: {
+			// 设置gskill缓存（触屏布局用）
+			setGSkills(skills, eSkills) {
+				if (!skills?.length) return this;
+				if (isGSkillCacheSame(this._cachedGSkills, skills)) return this;
+				this._cachedGSkills = skills.slice();
+				return this;
+			},
+
+			// 添加缓存的gskill到DOM（触屏布局用）
+			addCachedGSkills(eSkills) {
+				if (!this._cachedGSkills?.length) return this;
+				this._cachedGSkills.forEach(skillId => {
+					if (this.querySelector(`[data-id="${skillId}"]`)) return;
+
+					const info = get.info(skillId);
+					if (!info) return;
+
+					if (shouldSkipEquipSkill(skillId, eSkills, { lib, game })) return;
+
+					const skillName = get.translation(skillId).slice(0, 2);
+					const cls = info.limited ? ".xiandingji" : ".skillitem";
+					const node = ui.create.div(cls, this.node.enable, skillName);
+					node.dataset.id = skillId;
+					node.dataset.gskill = "true";
+
+					if (info.zhuanhuanji) node.classList.add("zhuanhuanji");
+					if (game.me && get.is.locked(skillId, game.me)) node.classList.add("locked");
+
+					node.addEventListener(lib.config.touchscreen ? "touchend" : "click", () => {
+						if (lib.config["extension_十周年UI_bettersound"]) {
+							game.playAudio("..", "extension", "十周年UI", "audio/SkillBtn");
+						}
+					});
+					app.listen(node, plugin.clickSkill);
+				});
+				return this;
+			},
+
 			add(skill, eSkills) {
 				if (Array.isArray(skill)) {
 					skill.forEach(s => this.add(s, eSkills));
@@ -261,16 +340,10 @@ export function createShizhounianSkillPlugin(lib, game, ui, get, ai, _status, ap
 			},
 
 			update() {
-				const skills = [];
-				[ui.skills, ui.skills2, ui.skills3].forEach(s => {
-					if (s) skills.addArray(s.skills);
-				});
-				if (lib.config.phonelayout && ui.gskills) skills.addArray(ui.gskills.skills);
+				const skills = getAvailableSkills(ui);
+				if (lib.config.phonelayout && ui.gskills?.skills) skills.addArray(ui.gskills.skills);
 
-				Array.from(this.node.enable.childNodes).forEach(item => {
-					item.classList.toggle("usable", skills.includes(item.dataset.id));
-					item.classList.toggle("select", _status.event.skill === item.dataset.id);
-				});
+				updateSkillUsability(this.node.enable.childNodes, skills, { game, get, _status });
 
 				const level1 = Math.min(4, this.node.trigger.childNodes.length);
 				const count = this.node.enable.childNodes.length;
@@ -279,23 +352,30 @@ export function createShizhounianSkillPlugin(lib, game, ui, get, ai, _status, ap
 			},
 		},
 
-		// 创建gskills
+		// 创建gskills（兼容层）
 		createGSkills(skills, node) {
-			if (lib.config.phonelayout) return null;
+			// 触屏布局下同步更新 skillControl 的 gskill 缓存
+			if (lib.config.phonelayout) {
+				if (ui.skillControl && skills?.length) {
+					ui.skillControl.setGSkills(skills, []);
+					ui.skillControl.addCachedGSkills([]);
+				}
+				return null;
+			}
 
-			let same = true;
 			if (node) {
 				if (skills?.length) {
-					for (let i = 0; i < node.skills.length; i++) {
+					let same = true;
+					for (let i = 0; i < node.skills?.length; i++) {
 						if (node.skills[i] !== skills[i]) {
 							same = false;
 							break;
 						}
 					}
+					if (same) return node;
 				}
-				if (same) return node;
-				node.close();
-				node.delete();
+				if (node.close) node.close();
+				if (node.delete) node.delete();
 			}
 
 			if (!skills?.length) return;
@@ -312,6 +392,11 @@ export function createShizhounianSkillPlugin(lib, game, ui, get, ai, _status, ap
 
 			node.skills = skills;
 			node.custom = ui.click.skill;
+
+			if (ui.gskillControl && skills.length) {
+				ui.gskillControl.setSkills(skills, []);
+			}
+
 			return node;
 		},
 
@@ -430,12 +515,14 @@ export function createShizhounianSkillPlugin(lib, game, ui, get, ai, _status, ap
 			});
 		},
 
-		// 重写initTimer以包含标记刷新
 		initTimer() {
 			if (plugin.refreshTimer) clearInterval(plugin.refreshTimer);
 			plugin.refreshTimer = setInterval(() => {
 				plugin.refreshAllMarks();
-				if (game.me) ui.updateSkillControl?.(game.me, true);
+				if (game.me) {
+					ui.skillControl?.update();
+					ui.gskillControl?.update();
+				}
 			}, 1000);
 		},
 	};

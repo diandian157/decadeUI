@@ -4,6 +4,7 @@
  */
 import { lib, game, ui, get, ai, _status } from "noname";
 import { createBaseSkillPlugin } from "./base.js";
+import { getAvailableSkills, updateSkillUsability, isGSkillCacheSame, shouldSkipEquipSkill } from "./gskillMixin.js";
 
 const ASSETS_PATH = "extension/十周年UI/ui/assets/skill/baby";
 
@@ -65,6 +66,7 @@ export function createBabySkillPlugin(lib, game, ui, get, ai, _status, app) {
 			node.node = {
 				combined: ui.create.div(".combined", node),
 			};
+			node._cachedGSkills = [];
 			Object.assign(node, plugin.controlElement);
 			return node;
 		},
@@ -100,7 +102,8 @@ export function createBabySkillPlugin(lib, game, ui, get, ai, _status, app) {
 				if (player === game.me) {
 					const skillControl = ui.create.skillControl(clear);
 					skillControl.add(skills, eSkills);
-					if (gSkills?.length) skillControl.add(gSkills);
+					if (gSkills?.length) skillControl.setGSkills(gSkills, eSkills);
+					skillControl.addCachedGSkills(eSkills);
 					skillControl.update();
 					game.addVideo("updateSkillControl", player, clear);
 				}
@@ -130,6 +133,44 @@ export function createBabySkillPlugin(lib, game, ui, get, ai, _status, app) {
 		},
 
 		controlElement: {
+			// 设置gskill缓存
+			setGSkills(skills, eSkills) {
+				if (!skills?.length) return this;
+				if (isGSkillCacheSame(this._cachedGSkills, skills)) return this;
+				this._cachedGSkills = skills.slice();
+				return this;
+			},
+
+			// 添加缓存的gskill到DOM
+			addCachedGSkills(eSkills) {
+				if (!this._cachedGSkills?.length) return this;
+
+				this._cachedGSkills.forEach(skillId => {
+					if (this.querySelector(`[data-id="${skillId}"]`)) return;
+
+					const info = get.info(skillId);
+					if (!info) return;
+
+					if (shouldSkipEquipSkill(skillId, eSkills, { lib, game })) return;
+
+					const skillName = get.translation(skillId).slice(0, 2);
+					const cls = info.limited ? ".xiandingji.enable-skill" : ".skillitem.enable-skill";
+					const node = ui.create.div(cls, this.node.combined, skillName);
+					node.dataset.id = skillId;
+					node.dataset.gskill = "true";
+
+					this.addSkillIcon(node, skillId);
+
+					node.addEventListener("click", () => {
+						if (lib.config["extension_十周年UI_bettersound"]) {
+							game.playAudio("..", "extension", "十周年UI", "audio/SkillBtn");
+						}
+					});
+					app.listen(node, plugin.clickSkill);
+				});
+				return this;
+			},
+
 			add(skill, eSkills) {
 				if (Array.isArray(skill)) {
 					skill.forEach(s => this.add(s, eSkills));
@@ -280,7 +321,7 @@ export function createBabySkillPlugin(lib, game, ui, get, ai, _status, app) {
 			},
 
 			update() {
-				const skills = this.getAllSkills();
+				const skills = getAvailableSkills(ui);
 
 				// 重新排序
 				const combinedNodes = Array.from(this.node.combined.childNodes);
@@ -295,10 +336,7 @@ export function createBabySkillPlugin(lib, game, ui, get, ai, _status, app) {
 					combinedNodes.forEach(node => this.node.combined.appendChild(node));
 				}
 
-				Array.from(this.node.combined.childNodes).forEach(item => {
-					item.classList.toggle("usable", skills.includes(item.dataset.id));
-					item.classList.toggle("select", _status.event.skill === item.dataset.id);
-				});
+				updateSkillUsability(this.node.combined.childNodes, skills, { game, get, _status });
 
 				const count = this.node.combined.childNodes.length;
 				const level = count > 2 ? 4 : count > 0 ? 2 : 0;
@@ -309,11 +347,7 @@ export function createBabySkillPlugin(lib, game, ui, get, ai, _status, app) {
 			},
 
 			getAllSkills() {
-				const skills = [];
-				[ui.skills, ui.skills2, ui.skills3].forEach(s => {
-					if (s) skills.addArray(s.skills);
-				});
-				return skills;
+				return getAvailableSkills(ui);
 			},
 		},
 
