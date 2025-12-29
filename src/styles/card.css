@@ -2,7 +2,7 @@
  * 十周年UI - 卡牌样式
  */
 
-/* ========== 卡牌选中效果 ========== */
+/** 卡牌选中效果 */
 
 .card::before {
 	content: "";
@@ -31,7 +31,7 @@
 	opacity: 1;
 }
 
-/* ========== 卡牌层级 ========== */
+/** 卡牌层级 */
 
 #arena > .card.thrown {
 	z-index: 5;
@@ -42,7 +42,7 @@
 	z-index: 6;
 }
 
-/* ========== 卡牌动画 ========== */
+/** 卡牌动画 */
 
 .card > .animation {
 	position: absolute;
@@ -103,7 +103,7 @@
 	z-index: 8;
 }
 
-/* ========== 出牌来源提示 ========== */
+/** 出牌来源提示 */
 
 .card > .used-info {
 	position: absolute;
@@ -130,7 +130,7 @@
 	opacity: 1;
 }
 
-/* ========== 卡牌转换提示 ========== */
+/** 卡牌转换提示 */
 
 .card > .gaintag.info,
 .card.button > .gaintag.info {
@@ -164,7 +164,7 @@
 	top: calc(70% - 16px);
 }
 
-/* ========== 卡名显示 ========== */
+/** 卡名显示 */
 
 .card.fullskin > .name,
 .card.fullskin > .name.long,
@@ -207,7 +207,7 @@
 	z-index: 3;
 }
 
-/* ========== 转换牌显示 ========== */
+/** 转换牌显示 */
 
 .card > .temp-name {
 	position: absolute;
@@ -262,7 +262,7 @@
 	background-size: cover !important;
 }
 
-/* ========== 转化花色点数 ========== */
+/** 转化花色点数 */
 
 .card > .tempsuitnum {
 	top: -1px;

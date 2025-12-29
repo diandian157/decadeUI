@@ -328,7 +328,7 @@
 	filter: grayscale(100%);
 }
 
-/* ========== 左手模式 ========== */
+/** 左手模式 */
 .skill-controlzuoshou {
 	max-width: 140px;
 	bottom: 25px;

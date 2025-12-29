@@ -1,6 +1,6 @@
 ﻿@import "animation.css";
 
-/* ==================== 基础样式 ==================== */
+/** 基础样式 */
 
 .player {
 	height: 180px;
@@ -37,7 +37,7 @@
 	border-radius: 8px;
 }
 
-/* ==================== 背景图片 ==================== */
+/** 背景图片 */
 
 /* 国战模式 - 双将背景 */
 [data-mode="guozhan"] .player,
@@ -61,7 +61,7 @@
 	background-size: 100% 100% !important;
 }
 
-/* ==================== 选中/目标光效 ==================== */
+/** 选中/目标光效 */
 
 .player::before {
 	left: -65px;
@@ -113,7 +113,7 @@
 	opacity: 1;
 }
 
-/* ==================== 遮罩层 ==================== */
+/** 遮罩层 */
 
 .player > .mask {
 	position: absolute;
@@ -134,7 +134,7 @@
 	transition: opacity 0.3s linear;
 }
 
-/* ==================== 锁链效果 ==================== */
+/** 锁链效果 */
 
 .player > .chain {
 	top: 40%;
@@ -152,7 +152,7 @@
 	background-position-x: center;
 }
 
-/* ==================== 主玩家位置 ==================== */
+/** 主玩家位置 */
 
 .player[data-position="0"],
 #arena > .player[data-position="0"],
@@ -171,7 +171,7 @@
 	right: 25px;
 }
 
-/* ==================== 阵营标识 ==================== */
+/** 阵营标识 */
 
 .player > .camp-wrap {
 	display: block;
@@ -264,7 +264,7 @@
 	pointer-events: none;
 }
 
-/* ==================== 等阶边框 ==================== */
+/** 等阶边框 */
 
 .player > .camp-wrap > .camp-border {
 	display: block;
@@ -314,7 +314,7 @@
 	background-image: url("../../image/styles/codename/border_camp3.png");
 }
 
-/* ==================== 武将名称 ==================== */
+/** 武将名称 */
 
 /* 主将名 */
 .player > .camp-wrap > .avatar-name,
@@ -485,7 +485,7 @@
 	pointer-events: none;
 }
 
-/* ==================== 血量显示 ==================== */
+/** 血量显示 */
 
 .player > .hp-wrap {
 	display: block;
@@ -671,7 +671,7 @@
 	margin-left: 5px;
 }
 
-/* ==================== 武将头像 ==================== */
+/** 武将头像 */
 
 /* 主将头像 */
 .player > .primary-avatar {
@@ -749,7 +749,7 @@
 	-webkit-clip-path: url(#duor-clip);
 }
 
-/* ==================== 动态皮肤 ==================== */
+/** 动态皮肤 */
 
 .player > .dynamic-wrap {
 	display: block;
@@ -826,7 +826,7 @@
 	text-align: center;
 }
 
-/* ==================== 玩家标记 ==================== */
+/** 玩家标记 */
 
 /* 灯笼样式 */
 .player > .dui-marks {
@@ -937,7 +937,7 @@
 	background: #ffdc00;
 }
 
-/* ==================== 玩家标记(十周年样式) ==================== */
+/** 玩家标记(十周年样式) */
 #arena[data-player-mark-style="decade"] > .player > .dui-marks {
 	left: auto;
 	top: 26px;
@@ -1047,7 +1047,7 @@
 	border-radius: 4px;
 }
 
-/* ==================== 判定区 ==================== */
+/** 判定区 */
 
 .player > .judges,
 #arena > .player:not(.minskin) > .judges {
@@ -1161,7 +1161,7 @@
 	display: none !important;
 }
 
-/* ==================== 座位号 ==================== */
+/** 座位号 */
 
 .player > .seat {
 	position: absolute;
@@ -1199,7 +1199,7 @@
 	display: none !important;
 }
 
-/* ==================== 手牌数 ==================== */
+/** 手牌数 */
 
 .player > .card-count {
 	position: absolute;
@@ -1239,7 +1239,7 @@
 	z-index: -1;
 }
 
-/* ==================== 身份标记 ==================== */
+/** 身份标记 */
 
 .player > .identity,
 #arena > .player:not(.minskin) > .identity {
@@ -1300,7 +1300,7 @@
 	height: 42px;
 }
 
-/* ==================== 伤害/回复文字 ==================== */
+/** 伤害/回复文字 */
 
 .player > .damage {
 	width: 100%;
@@ -1320,7 +1320,7 @@
 	z-index: -1;
 }
 
-/* ==================== 联机时限 ==================== */
+/** 联机时限 */
 
 .player > .timerbar {
 	display: block;
@@ -1366,7 +1366,7 @@
 	z-index: 89;
 }
 
-/* ==================== 死亡状态 ==================== */
+/** 死亡状态 */
 
 .player.dead {
 	opacity: 1;
@@ -1414,7 +1414,7 @@
 	animation: fade-in 0.5s forwards 0.5s;
 }
 
-/* ==================== 获得技能显示 ==================== */
+/** 获得技能显示 */
 
 .player > .gain-skill {
 	position: absolute;
@@ -1434,7 +1434,7 @@
 	display: none;
 }
 
-/* ==================== 翻面状态 ==================== */
+/** 翻面状态 */
 
 .player > .turned-over {
 	position: absolute;
@@ -1462,7 +1462,7 @@
 	z-index: 63;
 }
 
-/* ==================== 身份标记框 ==================== */
+/** 身份标记框 */
 
 .player > .identity-mark-box {
 	display: flex;
@@ -1503,7 +1503,7 @@
 	transform: scale(0.9);
 }
 
-/* ==================== 聊天气泡 ==================== */
+/** 聊天气泡 */
 
 .player > .chat-bubble {
 	left: 0;
@@ -1519,7 +1519,7 @@
 	z-index: 99;
 }
 
-/* ==================== Tip提示 ==================== */
+/** Tip提示 */
 
 .player .tipContainer {
 	--bg: #383122;

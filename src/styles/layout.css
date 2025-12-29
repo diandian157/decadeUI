@@ -8,7 +8,7 @@
 @import "icon.css";
 @import "effect.css";
 
-/* ========== 基础样式 ========== */
+/** 基础样式 */
 
 html {
 	background: rgb(60, 60, 60);
@@ -28,7 +28,7 @@ body > .background {
 	}
 }
 
-/* ========== 画布层 ========== */
+/** 画布层 */
 
 #decadeUI-canvas,
 #decadeUI-canvas-background {
@@ -66,7 +66,7 @@ body > .background {
 	pointer-events: none;
 }
 
-/* ========== 竞技场 ========== */
+/** 画布 */
 
 #arena {
 	left: 22px;
@@ -135,7 +135,7 @@ body > .background {
 	z-index: 7;
 }
 
-/* ========== 手牌区 ========== */
+/** 手牌区 */
 
 #arena > .hand-wrap,
 #arena > .hand-back {
@@ -213,7 +213,7 @@ body > .background {
 	right: -320px;
 }
 
-/* ========== 手牌 ========== */
+/** 手牌 */
 
 .hand-cards {
 	display: inline-block;
@@ -294,7 +294,7 @@ body > .background {
 	transition: opacity 0.5s;
 }
 
-/* ========== 卡牌基础样式 ========== */
+/** 卡牌基础样式 */
 
 #arena > .card,
 #arena.oblongcard:not(.chess) > .card,
@@ -513,7 +513,7 @@ body > .background {
 	visibility: hidden;
 }
 
-/* ========== 信息显示 ========== */
+/** 信息显示 */
 
 .touchinfo {
 	top: 10%;
@@ -543,7 +543,7 @@ body > .background {
 	right: calc(2% + 50px);
 }
 
-/* ========== 控制按钮 ========== */
+/** 控制按钮 */
 
 #arena > #dui-controls {
 	position: absolute;
@@ -650,7 +650,7 @@ body > .background {
 	width: auto;
 }
 
-/* ========== 角色选择按钮 ========== */
+/** 角色选择按钮 */
 
 .dialog .buttons > .button.character.decadeUI,
 .button.character.longcharacter.decadeUI {
@@ -735,7 +735,7 @@ body > .background {
 	zoom: 0.7;
 }
 
-/* ========== babysha 样式 ========== */
+/** babysha 样式 */
 
 /* 龙框尺寸 */
 body[data-style="babysha"] .player > .long {

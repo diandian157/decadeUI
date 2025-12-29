@@ -3,7 +3,7 @@
  * 此文件在游戏界面创建后才加载，不会影响开始菜单
  */
 
-/* ========== 菜单容器 ========== */
+/** 菜单容器 */
 
 /* 主菜单框体 */
 .menu-container > .menu.main {
@@ -31,7 +31,7 @@
 	left: 10px !important;
 }
 
-/* ========== 顶部标签栏 ========== */
+/** 顶部标签栏 */
 
 .menu.main > .menu-tab {
 	position: relative;
@@ -79,7 +79,7 @@
 	background-image: url("../../image/ui/button/square_drck.png");
 }
 
-/* ========== 菜单内容区 ========== */
+/** 菜单内容区 */
 
 .menu.main > .menu-content {
 	position: relative;
@@ -106,7 +106,7 @@
 	top: 3%;
 }
 
-/* ========== 左侧导航项 ========== */
+/** 左侧导航项 */
 
 .menu.main > .menu-content > div > .left.pane > div {
 	position: relative;
@@ -161,7 +161,7 @@
 	margin-left: 8px;
 }
 
-/* ========== 圆形按钮 ========== */
+/** 圆形按钮 */
 
 /* 通用圆形按钮 */
 .menubutton.round {
@@ -185,7 +185,7 @@
 	transition: color 0.3s;
 }
 
-/* ========== 开关按钮 ========== */
+/** 开关按钮 */
 
 .config.config.toggle > div {
 	--w: 60px;

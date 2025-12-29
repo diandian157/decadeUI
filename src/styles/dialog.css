@@ -2,7 +2,7 @@
  * 十周年UI - 对话框样式
  */
 
-/* ========== 基本对话框 ========== */
+/** 基本对话框 */
 
 #arena.decadeUI > .dialog {
 	bottom: calc(20% + 85px);
@@ -29,7 +29,7 @@
 	text-align: left;
 }
 
-/* ========== 选项节点样式 ========== */
+/** 选项节点样式 */
 
 /* 样式A: on/othersOff/onlineUI */
 #arena.decadeUI[data-loading-style="on"] > .dialog .tdnode,
@@ -96,7 +96,7 @@
 	background-image: url("../../image/ui/tnode/tnode-C2.png") !important;
 }
 
-/* ========== 选项框背景 ========== */
+/** 选项框背景 */
 
 #arena.decadeUI[data-loading-style="On"] > .dialog.scroll1:not(.dclieqiong),
 #arena.decadeUI[data-loading-style="On"] > .dialog.scroll2:not(.dclieqiong),
@@ -169,7 +169,7 @@
 	height: 100%;
 }
 
-/* ========== 选将界面 ========== */
+/** 选将界面 */
 
 #arena.decadeUI.choose-character > .dialog,
 #arena.decadeUI.choose-character.dui-mobile > .dialog {
@@ -184,7 +184,7 @@
 	height: 65% !important;
 }
 
-/* ========== 出牌提示 ========== */
+/** 出牌提示 */
 
 #arena > .hand-tip {
 	left: 150px;
@@ -265,7 +265,7 @@
 	visibility: hidden;
 }
 
-/* ========== 界面文本提示框 ========== */
+/** 界面文本提示框 */
 
 #arena.decadeUI > .dialog.prompt {
 	top: auto;
@@ -302,7 +302,7 @@
 	left: 0;
 }
 
-/* ========== 技能对话框 ========== */
+/** 技能对话框 */
 
 .skill-dialog {
 	position: absolute;
@@ -423,7 +423,7 @@
 	-webkit-filter: brightness(0.8);
 }
 
-/* ========== 拼点框 ========== */
+/** 拼点框 */
 
 .skill-dialog.compare > .content {
 	display: flex;
@@ -559,7 +559,7 @@
 	animation: open 0.2s;
 }
 
-/* ========== 确认框 ========== */
+/** 确认框 */
 
 .confirm-box {
 	display: block;
@@ -610,7 +610,7 @@
 	pointer-events: auto;
 }
 
-/* ========== 观星框 ========== */
+/** 观星框 */
 
 .confirm-box.guan-xing > .button.ok {
 	position: relative;

@@ -2,7 +2,7 @@
  * 十周年UI - 组件样式
  */
 
-/* ========== 滑块控件 ========== */
+/** 滑块控件 */
 
 input[type="range"].slider {
 	position: relative;
@@ -26,7 +26,7 @@ input[type="range"].slider::-webkit-slider-thumb {
 	-webkit-appearance: none;
 }
 
-/* ========== 聊天框 ========== */
+/** 聊天框 */
 
 .chat-box {
 	display: inline-flex;

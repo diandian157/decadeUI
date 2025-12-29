@@ -1,6 +1,6 @@
 ﻿@import "animation.css";
 
-/* ==================== 基础样式 ==================== */
+/** 基础样式 */
 .player {
 	height: 180px;
 	width: 120px;
@@ -22,7 +22,7 @@
 	animation: player-died 0.5s linear 1;
 }
 
-/* ==================== 背景图片 ==================== */
+/** 背景图片 */
 /* 国战模式 - 双将背景 */
 [data-mode="guozhan"] .player,
 .player[data-mode="guozhan"] {
@@ -45,7 +45,7 @@
 	background-size: 100% 100% !important;
 }
 
-/* ==================== 选中光效 ==================== */
+/** 选中光效 */
 .player::before,
 .player::after {
 	left: -65px;
@@ -88,7 +88,7 @@
 	opacity: 1;
 }
 
-/* ==================== 遮罩层 ==================== */
+/** 遮罩层 */
 .player > .mask {
 	position: absolute;
 	left: 0;
@@ -107,7 +107,7 @@
 	opacity: 1;
 }
 
-/* ==================== 玩家尺寸 ==================== */
+/** 玩家尺寸 */
 #arena > .player {
 	z-index: 4;
 }
@@ -118,7 +118,7 @@
 	width: 130px !important;
 }
 
-/* ==================== 铁锁效果 ==================== */
+/** 铁锁效果 */
 .player > .chain {
 	top: 40%;
 	height: 24px;
@@ -135,7 +135,7 @@
 	background-position-x: center;
 }
 
-/* ==================== 手牌数位置 ==================== */
+/** 手牌数位置 */
 .player[data-position="0"] > .card-count {
 	visibility: hidden;
 }
@@ -157,7 +157,7 @@
 	right: 25px;
 }
 
-/* ==================== 势力条 ==================== */
+/** 势力条 */
 .player > .camp-wrap {
 	display: block;
 	left: -19px;
@@ -266,7 +266,7 @@
 	background-image: url("../../image/styles/decade/border_camp5.png");
 }
 
-/* ==================== 武将名称 ==================== */
+/** 武将名称 */
 .player > .camp-wrap > .avatar-name,
 #arena > .player:not(.minskin) > .name.name {
 	display: flex;
@@ -436,7 +436,7 @@
 	pointer-events: none;
 }
 
-/* ==================== 血条显示 ==================== */
+/** 血条显示 */
 .player > .hp-wrap {
 	display: block;
 	right: -2px;
@@ -564,7 +564,7 @@
 	transform: none !important;
 }
 
-/* ==================== 武将头像 ==================== */
+/** 武将头像 */
 .player > .primary-avatar {
 	left: 0;
 	top: auto;
@@ -640,7 +640,7 @@
 	-webkit-clip-path: url(#duor-clip);
 }
 
-/* ==================== 动态皮肤 ==================== */
+/** 动态皮肤 */
 .player > .dynamic-wrap {
 	display: block;
 	position: absolute;
@@ -721,7 +721,7 @@
 	text-align: center;
 }
 
-/* ==================== 玩家标记(灯笼样式) ==================== */
+/** 玩家标记(灯笼样式) */
 .player > .dui-marks {
 	display: flex;
 	flex-direction: column;
@@ -830,7 +830,7 @@
 	background: #ffdc00;
 }
 
-/* ==================== 玩家标记(十周年样式) ==================== */
+/** 玩家标记(十周年样式) */
 #arena[data-player-mark-style="decade"] > .player > .dui-marks {
 	left: auto;
 	top: 26px;
@@ -940,7 +940,7 @@
 	border-radius: 4px;
 }
 
-/* ==================== 判定区 ==================== */
+/** 判定区 */
 .player > .judges,
 #arena > .player:not(.minskin) > .judges {
 	display: flex;
@@ -1052,7 +1052,7 @@
 	z-index: 3;
 }
 
-/* ==================== 座位号 ==================== */
+/** 座位号 */
 .player > .seat {
 	display: block;
 	position: absolute;
@@ -1086,7 +1086,7 @@
 	display: none !important;
 }
 
-/* ==================== 手牌数 ==================== */
+/** 手牌数 */
 .player > .card-count {
 	position: absolute;
 	left: -12px;
@@ -1123,7 +1123,7 @@
 	z-index: -1;
 }
 
-/* ==================== 身份标记 ==================== */
+/** 身份标记 */
 .player > .identity,
 #arena > .player:not(.minskin) > .identity {
 	left: auto;
@@ -1181,7 +1181,7 @@
 	height: 42px;
 }
 
-/* ==================== 伤害/回复弹出 ==================== */
+/** 伤害/回复弹出 */
 .player > .damage {
 	width: 100%;
 	text-shadow: none;
@@ -1200,7 +1200,7 @@
 	z-index: -1;
 }
 
-/* ==================== 联机计时条 ==================== */
+/** 联机计时条 */
 .player > .timerbar {
 	display: block;
 	position: absolute;
@@ -1244,7 +1244,7 @@
 	z-index: 89;
 }
 
-/* ==================== 死亡状态 ==================== */
+/** 死亡状态 */
 .player.dead {
 	opacity: 1;
 	filter: none;
@@ -1288,7 +1288,7 @@
 	animation: fade-in 0.5s forwards 0.5s;
 }
 
-/* ==================== 获得技能提示 ==================== */
+/** 获得技能提示 */
 .player > .gain-skill {
 	position: absolute;
 	left: 15px;
@@ -1307,7 +1307,7 @@
 	display: none;
 }
 
-/* ==================== 翻面状态 ==================== */
+/** 翻面状态 */
 .player > .turned-over {
 	position: absolute;
 	left: 0;
@@ -1334,7 +1334,7 @@
 	z-index: 63;
 }
 
-/* ==================== 身份标记框 ==================== */
+/** 身份标记框 */
 .player > .identity-mark-box {
 	display: flex;
 	position: absolute;
@@ -1374,7 +1374,7 @@
 	transform: scale(0.9);
 }
 
-/* ==================== 聊天气泡 ==================== */
+/** 聊天气泡 */
 .player > .chat-bubble {
 	left: 0;
 	top: 20px;
@@ -1389,7 +1389,7 @@
 	z-index: 99;
 }
 
-/* ==================== Tip提示 ==================== */
+/** Tip提示 */
 .player .tipContainer {
 	--bg: #383122;
 	width: 82% !important;
@@ -1412,7 +1412,7 @@
 		0 1.3px 2.2px #000;
 }
 
-/* ==================== 角标(武将前缀标记) ==================== */
+/** 角标(武将前缀标记) */
 /* 通用样式 */
 .player > .jie-mark,
 .player > .shen-mark,
