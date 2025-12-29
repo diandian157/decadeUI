@@ -1,7 +1,7 @@
 "use strict";
 
 /**
- * 十周年UI动画模块入口
+ * @fileoverview 十周年UI动画模块入口，统一导出所有动画相关功能
  */
 
 export { throttle, observeSize, lerp, getBrowserInfo, useNewDpr } from "./utils.js";

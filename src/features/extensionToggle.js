@@ -1,35 +1,63 @@
 "use strict";
 
 /**
- * 扩展快捷开关 - 关闭其他/恢复其他扩展
+ * @fileoverview 扩展快捷开关 - 关闭其他/恢复其他扩展
  * 用户/其他扩展可以在自己扩展里通过设置 _status.PROTECTED_EXTENSIONS 来追加自己需要保护的扩展
  */
 
 import { lib, game, ui, get, ai, _status } from "noname";
 
+/** @type {string} 存储键名 */
 const STORAGE_KEY = "extension_十周年UI_closedExtensions";
+
+/**
+ * 获取当前扩展名称
+ * @returns {string}
+ */
 const getCurrentExtName = () => window.decadeUIName || "十周年UI";
 
-// 白名单
+/** @type {string[]} 受保护的扩展白名单 */
 const PROTECTED_EXTENSIONS = _status.PROTECTED_EXTENSIONS ?? [];
 
+/**
+ * 获取其他扩展列表
+ * @returns {string[]}
+ */
 const getOtherExtensions = () => {
 	const current = getCurrentExtName();
 	return (lib.config.extensions || []).filter(ext => ext !== current && !PROTECTED_EXTENSIONS.includes(ext));
 };
 
+/**
+ * 获取已启用的扩展列表
+ * @returns {string[]}
+ */
 const getEnabledExtensions = () => getOtherExtensions().filter(ext => lib.config[`extension_${ext}_enable`]);
 
+/**
+ * 获取已关闭的扩展列表
+ * @returns {string[]}
+ */
 const getClosedExtensions = () => {
 	const saved = lib.config[STORAGE_KEY];
 	return Array.isArray(saved) ? saved : [];
 };
 
+/**
+ * 检查是否有已关闭的扩展
+ * @returns {boolean}
+ */
 const hasClosedExtensions = () => getClosedExtensions().length > 0;
 
+/**
+ * 获取按钮文本
+ * @returns {string}
+ */
 const getButtonText = () => (hasClosedExtensions() ? "恢复其他扩展" : "关闭其他扩展");
 
-/** 切换扩展状态 */
+/**
+ * 切换扩展状态
+ */
 const toggleExtensions = () => {
 	const hasClosed = hasClosedExtensions();
 	const list = hasClosed ? getClosedExtensions() : getEnabledExtensions();
@@ -58,7 +86,9 @@ const toggleExtensions = () => {
 	setTimeout(() => game.reload(), 100);
 };
 
-/** 初始化 */
+/**
+ * 初始化扩展快捷开关
+ */
 export function setupExtensionToggle() {
 	// 暴露方法供config调用
 	if (window.decadeUI) {

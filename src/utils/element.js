@@ -1,17 +1,18 @@
 /**
- * 元素创建工具
- * @description 从concore.js提取的element工具
+ * @fileoverview 元素创建工具 - 提供DOM元素的创建和操作方法
  */
 
 import { lib, game, ui, get, ai, _status } from "noname";
 
 /**
- * 元素基础方法
+ * 元素基础方法集合
+ * @type {Object}
  */
 const elementBase = {
 	/**
-	 * 移除自身
-	 * @param {number} milliseconds 延迟毫秒数
+	 * 移除自身元素
+	 * @param {number} [milliseconds] - 延迟毫秒数
+	 * @returns {void}
 	 */
 	removeSelf(milliseconds) {
 		if (milliseconds) {
@@ -24,10 +25,11 @@ const elementBase = {
 };
 
 /**
- * 创建元素
- * @param {string} className 类名
- * @param {HTMLElement} parentNode 父节点
- * @param {string} tagName 标签名，默认div
+ * 创建DOM元素
+ * @param {string} [className] - CSS类名
+ * @param {HTMLElement} [parentNode] - 父节点
+ * @param {string} [tagName='div'] - HTML标签名
+ * @returns {HTMLElement} 创建的元素
  */
 export function createElement(className, parentNode, tagName = "div") {
 	const element = document.createElement(tagName);
@@ -40,6 +42,7 @@ export function createElement(className, parentNode, tagName = "div") {
 
 /**
  * 元素工具对象（兼容原有API）
+ * @type {{base: Object, create: Function, clone: Function}}
  */
 export const element = {
 	base: elementBase,

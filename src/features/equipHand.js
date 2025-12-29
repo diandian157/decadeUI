@@ -1,7 +1,7 @@
 "use strict";
 
 /**
- * 装备牌处理模块入口
+ * @fileoverview 装备牌处理模块入口
  * 整合手牌化模式和独立装备模式
  */
 
@@ -9,7 +9,9 @@ import { lib, game, ui, get, ai, _status } from "noname";
 import { setupEquipCopy } from "./equipCopy.js";
 import { setupEquipAlone, clearEquipSelectable } from "./equipAlone.js";
 
-/** 初始化装备处理模块 */
+/**
+ * 初始化装备处理模块
+ */
 export function setupEquipHand() {
 	// 修改"全选"按钮
 	ui.create.cardChooseAll = function () {

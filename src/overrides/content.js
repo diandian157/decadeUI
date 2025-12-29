@@ -1,15 +1,15 @@
 /**
- * Content 覆写模块
- * @description lib.element.content 相关的覆写方法
+ * @fileoverview Content覆写模块 - lib.element.content相关的覆写方法
  */
 
 import { lib, game, ui, get, ai, _status } from "noname";
 
-// 基础方法引用
+/** @type {Object|null} 基础方法引用 */
 let baseContentMethods = null;
 
 /**
  * 设置基础方法引用
+ * @param {Object} methods - 基础方法对象
  */
 export function setBaseContentMethods(methods) {
 	baseContentMethods = methods;
@@ -17,7 +17,7 @@ export function setBaseContentMethods(methods) {
 
 /**
  * 改变体力覆写
- * 注意：content方法在事件编译器中执行，需要使用window.dui而非模块内函数
+ * @description content方法在事件编译器中执行，需要使用window.dui而非模块内函数
  */
 export function contentChangeHp() {
 	game.getGlobalHistory().changeHp.push(event);

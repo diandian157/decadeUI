@@ -1,11 +1,14 @@
 /**
- * 版本工具模块
+ * @fileoverview 版本工具模块 - 提供版本号比较和兼容性检查功能
  */
+
 import { lib, game, ui, get, ai, _status } from "noname";
 
 /**
- * 比较版本号
- * @returns 1(v1>v2), -1(v1<v2), 0(相等)
+ * 比较两个版本号
+ * @param {string} v1 - 版本号1
+ * @param {string} v2 - 版本号2
+ * @returns {number} 1(v1>v2), -1(v1<v2), 0(相等)
  */
 export function compareVersions(v1, v2) {
 	const parts1 = v1.split(".").map(Number);
@@ -21,7 +24,8 @@ export function compareVersions(v1, v2) {
 }
 
 /**
- * 检查版本兼容性
+ * 检查版本兼容性并提示用户
+ * @returns {void}
  */
 export function checkVersionCompatibility() {
 	const currentVersion = lib.version;

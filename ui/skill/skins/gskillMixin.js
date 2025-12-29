@@ -1,10 +1,12 @@
 /**
- * gskill 通用工具函数
+ * @fileoverview gskill 通用工具函数
  * 提供触屏布局下 gskill 缓存和状态更新的通用逻辑
  */
 
 /**
  * 获取可用技能列表
+ * @param {Object} ui - UI对象
+ * @returns {Array} 可用技能ID列表
  */
 export function getAvailableSkills(ui) {
 	const skills = [];

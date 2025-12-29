@@ -1,16 +1,19 @@
 /**
- * UI覆写模块
+ * @fileoverview UI覆写模块 - UI相关的覆写方法
  */
 
 import { lib, game, ui, get, ai, _status } from "noname";
 import { throttle } from "../animation/index.js";
 
-// 基础方法引用
+/** @type {Function|null} 基础UI更新方法 */
 let baseUiUpdate = null;
+
+/** @type {Function|null} 基础介绍点击方法 */
 let baseUiClickIntro = null;
 
 /**
  * 设置基础UI方法引用
+ * @param {Object} base - 基础方法对象
  */
 export function setBaseUiMethods(base) {
 	baseUiUpdate = base.update;
@@ -54,6 +57,7 @@ export function uiUpdatehl() {
 
 /**
  * 更新判定区
+ * @param {Object} player - 玩家
  */
 export function uiUpdatej(player) {
 	if (!player) return;
@@ -70,6 +74,7 @@ export function uiUpdatej(player) {
 
 /**
  * 更新标记（空实现）
+ * @param {Object} player - 玩家
  */
 export function uiUpdatem(player) {}
 
@@ -111,6 +116,10 @@ export function uiUpdate() {
 
 /**
  * 更新判定标记
+ * @param {Object} player - 玩家
+ * @param {NodeList} nodes - 节点列表
+ * @param {number} [start=0] - 起始位置
+ * @param {boolean} [inv] - 是否反转
  */
 export function uiUpdatejm(player, nodes, start, inv) {
 	if (typeof start != "number") start = 0;
@@ -128,8 +137,14 @@ export function uiUpdatejm(player, nodes, start, inv) {
 
 /**
  * 节流更新 - 延迟初始化
+ * @type {Function|null}
  */
 let _uiUpdatexr = null;
+
+/**
+ * 节流更新方法
+ * @returns {*} 更新结果
+ */
 export function uiUpdatexr() {
 	if (!_uiUpdatexr) {
 		_uiUpdatexr = throttle(ui.updatex, 100, ui);
@@ -137,10 +152,15 @@ export function uiUpdatexr() {
 	return _uiUpdatexr.apply(this, arguments);
 }
 
-// ==================== ui.create 方法 ====================
+// ==================== ui.create方法 ====================
 
 /**
  * 创建预按钮
+ * @param {*} item - 项目
+ * @param {string} type - 类型
+ * @param {HTMLElement} [position] - 位置
+ * @param {boolean} [noclick] - 是否禁用点击
+ * @returns {HTMLElement} 按钮元素
  */
 export function uiCreatePrebutton(item, type, position, noclick) {
 	const button = ui.create.div();
@@ -157,6 +177,7 @@ export function uiCreatePrebutton(item, type, position, noclick) {
 
 /**
  * 创建稀有度标记
+ * @param {HTMLElement} button - 按钮元素
  */
 export function uiCreateRarity(button) {
 	if (!lib.config.show_rarity) return;
@@ -170,6 +191,7 @@ export function uiCreateRarity(button) {
 
 /**
  * 创建控制按钮
+ * @returns {HTMLElement} 控制元素
  */
 export function uiCreateControl() {
 	let controls;
@@ -203,6 +225,8 @@ export function uiCreateControl() {
 
 /**
  * 创建对话框
+ * @param {...*} args - 参数
+ * @returns {HTMLElement} 对话框元素
  */
 export function uiCreateDialog(...args) {
 	let hidden = false;
@@ -247,6 +271,11 @@ export function uiCreateDialog(...args) {
 
 /**
  * 创建选择列表
+ * @param {Array} list - 选项列表
+ * @param {*} init - 初始值
+ * @param {HTMLElement} [position] - 位置
+ * @param {Function} [onchange] - 变更回调
+ * @returns {HTMLSelectElement} 选择元素
  */
 export function uiCreateSelectlist(list, init, position, onchange) {
 	const select = document.createElement("select");
@@ -269,6 +298,11 @@ export function uiCreateSelectlist(list, init, position, onchange) {
 
 /**
  * 创建身份卡
+ * @param {string} identity - 身份
+ * @param {HTMLElement} [position] - 位置
+ * @param {*} [info] - 信息
+ * @param {boolean} [noclick] - 是否禁用点击
+ * @returns {HTMLElement} 卡牌元素
  */
 export function uiCreateIdentityCard(identity, position, info, noclick) {
 	const card = ui.create.card(position, info, noclick);
@@ -297,6 +331,8 @@ export function uiCreateIdentityCard(identity, position, info, noclick) {
 
 /**
  * 创建旋转身份卡
+ * @param {string} identity - 身份
+ * @param {HTMLElement} dialog - 对话框
  */
 export function uiCreateSpinningIdentityCard(identity, dialog) {
 	const card = ui.create.identityCard(identity);
@@ -308,14 +344,21 @@ export function uiCreateSpinningIdentityCard(identity, dialog) {
 	}, 50);
 }
 
-// 基础arena和pause方法引用
+/** @type {Function|null} 基础arena方法引用 */
 let baseUiCreateArena = null;
+
+/** @type {Function|null} 基础pause方法引用 */
 let baseUiCreatePause = null;
+
+/** @type {Function|null} 基础characterDialog方法引用 */
 let baseUiCreateCharacterDialog = null;
+
+/** @type {Function|null} 基础button方法引用 */
 let baseUiCreateButton = null;
 
 /**
  * 设置基础create方法引用
+ * @param {Object} base - 基础方法对象
  */
 export function setBaseUiCreateMethods(base) {
 	baseUiCreateArena = base.arena;
@@ -326,6 +369,12 @@ export function setBaseUiCreateMethods(base) {
 
 /**
  * 创建按钮
+ * @param {*} item - 项目
+ * @param {string} type - 类型
+ * @param {HTMLElement} [position] - 位置
+ * @param {boolean} [noclick] - 是否禁用点击
+ * @param {HTMLElement} [node] - 节点
+ * @returns {HTMLElement} 按钮元素
  */
 export function uiCreateButton(item, type, position, noclick, node) {
 	const button = baseUiCreateButton?.apply(this, arguments);
@@ -335,6 +384,7 @@ export function uiCreateButton(item, type, position, noclick, node) {
 
 /**
  * 创建游戏画面
+ * @returns {HTMLElement} 游戏画面元素
  */
 export function uiCreateArena() {
 	uiUpdatez();
@@ -358,6 +408,7 @@ export function uiCreateArena() {
 
 /**
  * 创建暂停对话框
+ * @returns {HTMLElement} 对话框元素
  */
 export function uiCreatePause() {
 	const dialog = baseUiCreatePause?.call(this);
@@ -367,6 +418,7 @@ export function uiCreatePause() {
 
 /**
  * 创建武将选择对话框
+ * @returns {HTMLElement} 对话框元素
  */
 export function uiCreateCharacterDialog() {
 	const dialog = baseUiCreateCharacterDialog?.apply(this, arguments);
@@ -452,10 +504,11 @@ export function uiCreateCharacterDialog() {
 	return dialog;
 }
 
-// ==================== ui.click 方法 ====================
+// ==================== ui.click方法 ====================
 
 /**
  * 卡牌点击处理
+ * @param {Event} e - 事件对象
  */
 export function uiClickCard(e) {
 	delete this._waitingfordrag;
@@ -667,6 +720,7 @@ export function uiClickIntro() {
 
 /**
  * 身份点击处理
+ * @param {Event} e - 事件对象
  */
 export function uiClickIdentity(e) {
 	if (_status.dragged || !game.getIdentityList || _status.video || this.parentNode.forceShown) return;
@@ -744,6 +798,7 @@ export function uiClickIdentity(e) {
 
 /**
  * 音量设置对话框
+ * @returns {HTMLElement} 设置对话框
  */
 export function uiClickVolumn() {
 	const setting = ui.create.dialog("hidden");
@@ -787,6 +842,7 @@ export function uiClear() {
 
 /**
  * 创建玩家手牌区
+ * @param {boolean} hasme - 是否有主玩家
  */
 export function uiCreateMe(hasme) {
 	ui.arena.dataset.layout = game.layout;

@@ -1,15 +1,15 @@
 /**
- * Get 覆写模块
- * @description get对象相关的覆写方法
+ * @fileoverview Get覆写模块 - get对象相关的覆写方法
  */
 
 import { lib, game, ui, get, ai, _status } from "noname";
 
-// 基础方法引用
+/** @type {Object|null} 基础方法引用 */
 let baseGetMethods = null;
 
 /**
  * 设置基础方法引用
+ * @param {Object} methods - 基础方法对象
  */
 export function setBaseGetMethods(methods) {
 	baseGetMethods = methods;
@@ -17,6 +17,8 @@ export function setBaseGetMethods(methods) {
 
 /**
  * 技能状态覆写 - 排除十周年UI技能
+ * @param {Object} player - 玩家
+ * @returns {Object} 技能状态
  */
 export function getSkillState(player) {
 	const skills = baseGetMethods.skillState.apply(this, arguments);
@@ -31,6 +33,8 @@ export function getSkillState(player) {
 
 /**
  * 对象类型判断
+ * @param {*} obj - 要判断的对象
+ * @returns {string|undefined} 对象类型
  */
 export function getObjtype(obj) {
 	obj = Object.prototype.toString.call(obj);

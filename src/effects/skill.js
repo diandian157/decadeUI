@@ -1,14 +1,20 @@
 "use strict";
 
 /**
- * 技能特效模块
+ * @fileoverview 技能特效模块，处理技能发动时的视觉效果
  */
 
 import { lib, game, ui, get, ai, _status } from "noname";
 import { CONFIG, GENERAL_NAME_STYLE } from "./config.js";
 import { isPlayer, getName, toKebab, getDefaultAvatar } from "./utils.js";
 
-/** 播放技能特效 */
+/**
+ * 播放技能特效
+ * @param {Object} player - 玩家对象
+ * @param {string} skillName - 技能名称
+ * @param {string} [vice] - 是否为副将，值为"vice"表示副将
+ * @returns {void}
+ */
 export function playSkillEffect(player, skillName, vice) {
 	if (!isPlayer(player)) return;
 
@@ -29,7 +35,15 @@ export function playSkillEffect(player, skillName, vice) {
 	loadSkillAssets(characterName, camp, player, skillName, playerName);
 }
 
-/** 加载技能特效资源 */
+/**
+ * 加载技能特效资源
+ * @param {string} characterName - 武将名称
+ * @param {string} camp - 势力
+ * @param {Object} player - 玩家对象
+ * @param {string} skillName - 技能名称
+ * @param {string} playerName - 显示名称
+ * @returns {Promise<void>}
+ */
 async function loadSkillAssets(characterName, camp, player, skillName, playerName) {
 	try {
 		const imgPath = getCharacterImagePath(characterName);
@@ -40,7 +54,11 @@ async function loadSkillAssets(characterName, camp, player, skillName, playerNam
 	}
 }
 
-/** 获取武将图片路径(优先立绘) */
+/**
+ * 获取武将图片路径(优先立绘)
+ * @param {string} name - 武将名称
+ * @returns {string|null} 图片路径
+ */
 function getCharacterImagePath(name) {
 	if (!name) return null;
 
@@ -76,7 +94,12 @@ function getCharacterImagePath(name) {
 	return `${lib.assetURL}image/lihui/${realName}.jpg`;
 }
 
-/** 加载角色图片 */
+/**
+ * 加载角色图片
+ * @param {string} src - 图片路径
+ * @param {Object} player - 玩家对象(用于获取备用图片)
+ * @returns {Promise<HTMLImageElement>} 加载完成的图片元素
+ */
 function loadImage(src, player) {
 	return new Promise((resolve, reject) => {
 		if (!src) {
@@ -100,7 +123,12 @@ function loadImage(src, player) {
 	});
 }
 
-/** 获取备用图片路径 */
+/**
+ * 获取备用图片路径
+ * @param {string} src - 原图片路径
+ * @param {Object} player - 玩家对象
+ * @returns {Promise<string>} 备用图片路径
+ */
 async function getFallbackSrc(src, player) {
 	if (src.includes("image/lihui")) {
 		return src.replace(/image\/lihui/, "image/character");
@@ -108,7 +136,11 @@ async function getFallbackSrc(src, player) {
 	return getDefaultAvatar(player);
 }
 
-/** 加载势力背景图 */
+/**
+ * 加载势力背景图
+ * @param {string} camp - 势力名称
+ * @returns {Promise<HTMLImageElement>} 加载完成的背景图片
+ */
 function loadBgImage(camp) {
 	return new Promise(resolve => {
 		const img = new Image();
@@ -121,7 +153,15 @@ function loadBgImage(camp) {
 	});
 }
 
-/** 渲染技能特效 */
+/**
+ * 渲染技能特效
+ * @param {HTMLImageElement} charImg - 武将图片
+ * @param {HTMLImageElement} bgImg - 背景图片
+ * @param {string} camp - 势力
+ * @param {string} skillName - 技能名称
+ * @param {string} playerName - 玩家显示名
+ * @returns {void}
+ */
 function renderSkillEffect(charImg, bgImg, camp, skillName, playerName) {
 	const anim = decadeUI.animation;
 	const sprite = anim.playSpine("effect_xianding");
@@ -147,7 +187,15 @@ function renderSkillEffect(charImg, bgImg, camp, skillName, playerName) {
 	createSkillUI(skillName, playerName, sprite.scale);
 }
 
-/** 设置Spine附件(带缓存) */
+/**
+ * 设置Spine附件(带缓存)
+ * @param {Object} skeleton - Spine骨骼对象
+ * @param {string} slotName - 插槽名称
+ * @param {HTMLImageElement} img - 图片元素
+ * @param {Object} anim - 动画对象
+ * @param {string} cacheKey - 缓存键
+ * @returns {void}
+ */
 function setAttachment(skeleton, slotName, img, anim, cacheKey) {
 	const slot = skeleton.findSlot(slotName);
 	const attachment = slot.getAttachment();
@@ -167,7 +215,13 @@ function setAttachment(skeleton, slotName, img, anim, cacheKey) {
 	attachment.camp = cacheKey;
 }
 
-/** 设置武将附件 */
+/**
+ * 设置武将附件
+ * @param {Object} skeleton - Spine骨骼对象
+ * @param {HTMLImageElement} img - 武将图片
+ * @param {Object} anim - 动画对象
+ * @returns {void}
+ */
 function setGeneralAttachment(skeleton, img, anim) {
 	const slot = skeleton.findSlot("wujiang");
 	const attachment = slot.getAttachment();
@@ -181,7 +235,13 @@ function setGeneralAttachment(skeleton, img, anim) {
 	attachment.updateOffset();
 }
 
-/** 创建技能UI */
+/**
+ * 创建技能UI元素
+ * @param {string} skillName - 技能名称
+ * @param {string} playerName - 玩家显示名
+ * @param {number} spriteScale - 精灵缩放比例
+ * @returns {void}
+ */
 function createSkillUI(skillName, playerName, spriteScale) {
 	// 技能名
 	const skillEl = decadeUI.element.create("skill-name");

@@ -1,8 +1,11 @@
+/**
+ * @fileoverview 扩展配置项定义
+ */
 import { lib, game, ui, get, ai, _status } from "noname";
 import { refreshCardSkin } from "./overrides/card.js";
 import { chupaiAnimations } from "./animation/configs/skillAnimations.js";
 
-// 卡牌皮肤预设配置
+/** @type {Array<{key: string, dir: string, label: string, extension: string}>} 卡牌皮肤预设 */
 const cardSkinPresets = [
 	{ key: "online", dir: "online", label: "OL卡牌", extension: "jpg" },
 	{ key: "caise", dir: "caise", label: "彩色卡牌", extension: "webp" },
@@ -11,17 +14,16 @@ const cardSkinPresets = [
 	{ key: "gold", dir: "gold", label: "手杀金卡", extension: "webp" },
 ];
 
+/** @type {Record<string, Object>} 卡牌皮肤元数据映射 */
 const cardSkinMeta = cardSkinPresets.reduce((map, skin) => {
 	map[skin.key] = skin;
 	return map;
 }, {});
 
-// 播放Ciallo音效
-const playCialloAudio = () => {
-	game.playAudio("..", "extension", "十周年UI/audio", "Ciallo");
-};
+/** 播放Ciallo音效 */
+const playCialloAudio = () => game.playAudio("..", "extension", "十周年UI/audio", "Ciallo");
 
-// 𝑪𝒊𝒂𝒍𝒍𝒐～(∠・ω< )⌒
+/** 创建分隔线配置 */
 const createSeparator = () => ({
 	name: '<b><font color="#00FF66">★𝑪𝒊𝒂𝒍𝒍𝒐～(∠・ω< )⌒★',
 	intro: "",
@@ -30,7 +32,15 @@ const createSeparator = () => ({
 	onclick: playCialloAudio,
 });
 
-// 输入框通用处理：解析数值并限制范围
+/**
+ * 解析输入框数值并限制范围
+ * @param {HTMLElement} element
+ * @param {number} defaultVal
+ * @param {number} min
+ * @param {number} max
+ * @param {number} [decimals=0]
+ * @returns {number}
+ */
 const parseInputValue = (element, defaultVal, min, max, decimals = 0) => {
 	element.innerHTML = element.innerHTML.replace(/<br>/g, "");
 	let value = parseFloat(element.innerHTML);
@@ -40,12 +50,11 @@ const parseInputValue = (element, defaultVal, min, max, decimals = 0) => {
 	return value;
 };
 
+/** @type {Object} 扩展配置项 */
 export let config = {
-	// ==================== 分隔线 ====================
 	FL0: createSeparator(),
 
-	// ==================== 基础功能 ====================
-
+	// ========== 基础功能 ==========
 	extensionToggle: {
 		clear: true,
 		onclick: () => window.decadeUI?.toggleExtensions?.(),
@@ -68,7 +77,6 @@ export let config = {
 		intro: "开启后手牌可以任意拖拽牌序并支持本体拖拽",
 		onclick(bool) {
 			game.saveConfig("extension_十周年UI_translate", bool);
-			// 热更新：动态启用/禁用拖拽功能
 			window.decadeUI?.destroyCardDragSwap?.();
 			if (bool) window.decadeUI?.initCardDragSwap?.();
 		},
@@ -91,7 +99,7 @@ export let config = {
 		},
 	},
 
-	// ==================== 样式切换 ====================
+	// ========== 样式切换 ==========
 	newDecadeStyle: {
 		name: "切换样式",
 		intro: "切换武将边框样式和界面布局，选择不同设置后游戏会自动重启，电脑端支持alt+123456快捷切换",
@@ -107,9 +115,7 @@ export let config = {
 		onclick(control) {
 			const origin = lib.config.extension_十周年UI_newDecadeStyle;
 			game.saveConfig("extension_十周年UI_newDecadeStyle", control);
-			if (origin !== control) {
-				setTimeout(() => game.reload(), 100);
-			}
+			if (origin !== control) setTimeout(() => game.reload(), 100);
 		},
 		update() {
 			if (!window.decadeUI) return;
@@ -127,9 +133,7 @@ export let config = {
 		item: { off: "左手", on: "右手" },
 		update() {
 			const layout = lib.config.extension_十周年UI_rightLayout;
-			if (layout === "on" || layout === "off") {
-				ui.arena.dataset.rightLayout = layout;
-			}
+			if (layout === "on" || layout === "off") ui.arena.dataset.rightLayout = layout;
 		},
 		onclick(item) {
 			lib.config.extension_十周年UI_rightLayout = item ?? "off";
@@ -138,7 +142,7 @@ export let config = {
 		},
 	},
 
-	// ==================== 卡牌设置 ====================
+	// ========== 卡牌设置 ==========
 	cardScale: {
 		name: "手牌大小",
 		intro: "输入0.10~1.00的小数，回车保存并生效",
@@ -162,9 +166,7 @@ export let config = {
 		onblur() {
 			const value = parseInputValue(this, 0.18, 0.1, 1, 2);
 			game.saveConfig("extension_十周年UI_discardScale", value);
-			if (window.decadeUI) {
-				decadeUI.layout.updateDiscard();
-			}
+			if (window.decadeUI) decadeUI.layout.updateDiscard();
 		},
 	},
 
@@ -184,7 +186,6 @@ export let config = {
 		_cardSkinMeta: cardSkinMeta,
 		onclick(item) {
 			game.saveConfig("extension_十周年UI_cardPrettify", item);
-			// 刷新所有卡牌皮肤
 			[ui.cardPile, ui.discardPile].forEach(pile => pile?.childNodes?.forEach(refreshCardSkin));
 			game.players?.forEach(p => {
 				["handcards1", "handcards2", "equips", "judges"].forEach(key => {
@@ -225,15 +226,12 @@ export let config = {
 		name: "卡牌边框",
 		init: "off",
 		item: { off: "关闭", kuang1: "大司马", kuang2: "大将军", kuang3: "国都护" },
-		// 边框与背景联动映射：kuang1/2/3 → kb4/3/2（大司马/大将军/国都护），off → null（使用本体卡背）
 		onclick(item) {
 			game.saveConfig("extension_十周年UI_cardkmh", item);
 			const bgMap = { kuang1: "kb4", kuang2: "kb3", kuang3: "kb2" };
 			game.saveConfig("extension_十周年UI_cardbj", bgMap[item] || null);
-			// 热更新样式
 			window.decadeUI?.updateCardStyles?.();
 		},
-		// 初始化时同步背景配置
 		update() {
 			if (!game?.saveConfig) return;
 			const border = lib.config.extension_十周年UI_cardkmh || "off";
@@ -242,7 +240,7 @@ export let config = {
 		},
 	},
 
-	// ==================== 特效设置 ====================
+	// ========== 特效设置 ==========
 	chupaizhishi: {
 		name: "出牌指示",
 		intro: "切换目标指示特效",
@@ -266,7 +264,6 @@ export let config = {
 			decadeUI.config.chupaizhishi = config === "random" ? options.randomGet() : config;
 			ui.arena.dataset.chupaizhishi = config;
 
-			// 热更新：刷新当前可选玩家的动画
 			if (!game.players || !decadeUI.animation) return;
 			game.players.forEach(player => {
 				if (player.ChupaizhishiXid) {
@@ -293,17 +290,13 @@ export let config = {
 		init: false,
 		onclick(bool) {
 			game.saveConfig("extension_十周年UI_meanPrettify", bool);
-			// 移除旧样式
 			ui.css.decadeMenu?.remove();
 			delete ui.css.decadeMenu;
-			// 开启时加载新样式
-			if (bool) {
-				ui.css.decadeMenu = lib.init.css(`${window.decadeUIPath}src/styles`, "menu");
-			}
+			if (bool) ui.css.decadeMenu = lib.init.css(`${window.decadeUIPath}src/styles`, "menu");
 		},
 	},
 
-	// ==================== 音效设置 ====================
+	// ========== 音效设置 ==========
 	bettersound: {
 		name: "更多音效",
 		intro: "开启后，点击卡牌或按钮和出牌弃牌会有音效播放",
@@ -316,7 +309,7 @@ export let config = {
 		init: true,
 	},
 
-	// ==================== 动态皮肤 ====================
+	// ========== 动态皮肤 ==========
 	dynamicSkin: {
 		name: "动态皮肤",
 		intro: "开启后显示动态皮肤，阵亡后也保留",
@@ -347,7 +340,7 @@ export let config = {
 		},
 	},
 
-	// ==================== 显示设置 ====================
+	// ========== 显示设置 ==========
 	wujiangbeijing: {
 		name: "武将背景",
 		init: true,
@@ -382,9 +375,7 @@ export let config = {
 		onblur() {
 			const value = parseInputValue(this, 20, 0, 100);
 			game.saveConfig("extension_十周年UI_handTipHeight", value);
-			if (window.decadeUI) {
-				document.documentElement.style.setProperty("--hand-tip-bottom", `calc(${value}% + 10px)`);
-			}
+			if (window.decadeUI) document.documentElement.style.setProperty("--hand-tip-bottom", `calc(${value}% + 10px)`);
 		},
 		update() {
 			if (window.decadeUI) {
@@ -455,7 +446,6 @@ export let config = {
 			if (value === "random") {
 				const levels = ["one", "two", "three", "four", "five"];
 				players.forEach(p => {
-					// 主玩家永远five，其他玩家随机
 					const level = p === game.me ? "five" : levels[Math.floor(Math.random() * levels.length)];
 					p.dataset.borderLevel = level;
 					p.dataset.longLevel = level;
@@ -514,10 +504,9 @@ export let config = {
 		},
 	},
 
-	// ==================== 分隔线 ====================
 	FL1: createSeparator(),
 
-	// ==================== 进度条设置 ====================
+	// ========== 进度条设置 ==========
 	jindutiao: {
 		init: true,
 		intro: "自己回合内显示进度条带素材",
@@ -584,10 +573,9 @@ export let config = {
 		},
 	},
 
-	// ==================== 分隔线 ====================
 	FL3: createSeparator(),
 
-	// ==================== 狗托播报 ====================
+	// ========== 狗托播报 ==========
 	GTBB: {
 		init: false,
 		intro: "开启后，顶部会出现滚动播报栏",

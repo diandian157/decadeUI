@@ -1,16 +1,25 @@
 "use strict";
 
 /**
- * 动态播放器 - 支持OffscreenCanvas的高性能播放器
+ * @fileoverview 动态播放器模块，支持OffscreenCanvas的高性能Spine动画播放器
  */
 
 import { AnimationPlayer } from "./AnimationPlayer.js";
 import { throttle, observeSize } from "./utils.js";
 
+/** @type {number} 播放器实例ID计数器 */
 let BUILT_ID = 0;
+
+/** @type {Worker[]} Web Worker实例数组 */
 const DynamicWorkers = new Array(2);
 
+/**
+ * 动态播放器类
+ */
 export class DynamicPlayer {
+	/**
+	 * @param {string} pathPrefix - 资源路径前缀
+	 */
 	constructor(pathPrefix) {
 		this.id = BUILT_ID++;
 		this.dpr = 1;
@@ -31,7 +40,11 @@ export class DynamicPlayer {
 		}
 	}
 
-	/** 初始化离屏渲染器 */
+	/**
+	 * 初始化离屏渲染器
+	 * @param {string} pathPrefix - 资源路径前缀
+	 * @private
+	 */
 	_initOffscreenRenderer(pathPrefix) {
 		for (let i = 0; i < DynamicWorkers.length; i++) {
 			if (!DynamicWorkers[i]) {
@@ -68,7 +81,11 @@ export class DynamicPlayer {
 		}
 	}
 
-	/** 初始化主线程渲染器 */
+	/**
+	 * 初始化主线程渲染器
+	 * @param {string} pathPrefix - 资源路径前缀
+	 * @private
+	 */
 	_initMainThreadRenderer(pathPrefix) {
 		const renderer = new AnimationPlayer(decadeUIPath + pathPrefix);
 		this.canvas = renderer.canvas;
@@ -85,6 +102,11 @@ export class DynamicPlayer {
 		);
 	}
 
+	/**
+	 * 播放动画
+	 * @param {string|Object} sprite - 动画名称或配置对象
+	 * @returns {Object} 动画配置对象
+	 */
 	play(sprite) {
 		const item = typeof sprite === "string" ? { name: sprite } : sprite;
 		item.id = this.BUILT_ID++;
@@ -129,6 +151,10 @@ export class DynamicPlayer {
 		return item;
 	}
 
+	/**
+	 * 停止指定动画
+	 * @param {Object} sprite - 动画配置对象
+	 */
 	stop(sprite) {
 		if (this.offscreen) {
 			this.renderer.postMessage({ message: "STOP", id: this.id, sprite });
@@ -137,6 +163,9 @@ export class DynamicPlayer {
 		}
 	}
 
+	/**
+	 * 停止所有动画
+	 */
 	stopAll() {
 		if (this.offscreen) {
 			this.renderer.postMessage({ message: "STOPALL", id: this.id });
@@ -145,6 +174,10 @@ export class DynamicPlayer {
 		}
 	}
 
+	/**
+	 * 更新播放器参数
+	 * @param {boolean} [force] - 是否强制更新
+	 */
 	update(force) {
 		if (!this.offscreen) {
 			this.renderer.resized = false;

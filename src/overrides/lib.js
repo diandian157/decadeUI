@@ -1,22 +1,22 @@
 /**
- * Lib覆写模块
- * @description lib对象的覆写方法
+ * @fileoverview Lib覆写模块 - lib对象的覆写方法
  */
 
 import { lib, game, ui, get, ai, _status } from "noname";
 
-// 基础方法引用
+/** @type {Function|null} 基础方法引用 */
 let baseLibInitCssstyles = null;
 
 /**
  * 设置基础lib方法引用
+ * @param {Object} base - 基础方法对象
  */
 export function setBaseLibMethods(base) {
 	baseLibInitCssstyles = base?.init?.cssstyles;
 }
 
 /**
- * lib.init.cssstyles 覆写
+ * lib.init.cssstyles覆写
  */
 export function libInitCssstyles() {
 	const temp = lib.config.glow_phase;

@@ -1,9 +1,15 @@
 "use strict";
 
 /**
- * 特效配置常量
+ * @fileoverview 特效模块配置常量定义
  */
 
+import { lib, game, ui, get, ai, _status } from "noname";
+
+/**
+ * 特效配置常量
+ * @type {Object}
+ */
 export const CONFIG = {
 	// 动画参数
 	ANIM_SPEED: 0.07,
@@ -28,7 +34,10 @@ export const CONFIG = {
 	GENERAL_Y: 160,
 };
 
-// 武将名样式
+/**
+ * 武将名样式配置
+ * @type {Object}
+ */
 export const GENERAL_NAME_STYLE = {
 	position: "absolute",
 	writingMode: "vertical-lr",

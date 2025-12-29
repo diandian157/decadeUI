@@ -1,11 +1,12 @@
 /**
- * Event覆写模块
- * @description lib.element.event的扩展方法
+ * @fileoverview Event覆写模块 - lib.element.event的扩展方法
  */
 import { lib, game, ui, get, ai, _status } from "noname";
 
 /**
  * event.addMessageHook - 添加消息钩子
+ * @param {string} message - 消息名称
+ * @param {Function} callback - 回调函数
  */
 export function eventAddMessageHook(message, callback) {
 	if (this._messages === undefined) this._messages = {};
@@ -16,6 +17,7 @@ export function eventAddMessageHook(message, callback) {
 
 /**
  * event.triggerMessage - 触发消息
+ * @param {string} message - 消息名称
  */
 export function eventTriggerMessage(message) {
 	if (this._messages === undefined) return;

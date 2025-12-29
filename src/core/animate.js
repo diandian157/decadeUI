@@ -1,9 +1,14 @@
 /**
- * Canvas动画模块
+ * @fileoverview Canvas动画模块，提供基于requestAnimationFrame的动画系统
  */
 import { lib, game, ui, get, ai, _status } from "noname";
 
-/** 创建绘图上下文辅助对象 */
+/**
+ * 创建绘图上下文辅助对象
+ * @param {HTMLCanvasElement} canvas - Canvas元素
+ * @param {number} deltaTime - 帧间隔时间
+ * @returns {Object} 绘图上下文辅助对象
+ */
 function createDrawContext(canvas, deltaTime) {
 	const ctx = canvas.getContext("2d");
 	return {
@@ -48,13 +53,24 @@ function createDrawContext(canvas, deltaTime) {
 	};
 }
 
-/** 创建Canvas动画模块 */
+/**
+ * 创建Canvas动画模块
+ * @returns {Object} 动画模块对象
+ */
 export const createDecadeUIAnimateModule = () => ({
+	/** @type {Array} 动画更新任务列表 */
 	updates: [],
+	/** @type {HTMLCanvasElement|null} Canvas元素 */
 	canvas: null,
+	/** @type {number|null} 动画帧ID */
 	frameId: null,
+	/** @type {number|null} 上一帧时间戳 */
 	frameTime: null,
 
+	/**
+	 * 检查并初始化Canvas
+	 * @returns {boolean} 是否初始化成功
+	 */
 	check() {
 		if (!ui.arena) return false;
 		if (!this.canvas) {
@@ -64,6 +80,11 @@ export const createDecadeUIAnimateModule = () => ({
 		return true;
 	},
 
+	/**
+	 * 添加动画更新任务
+	 * @param {Function} updateFn - 更新函数
+	 * @param {...*} initArgs - 初始化参数
+	 */
 	add(updateFn, ...initArgs) {
 		if (typeof updateFn !== "function" || !this.check()) return;
 		this.updates.push({
@@ -74,6 +95,9 @@ export const createDecadeUIAnimateModule = () => ({
 		if (!this.frameId) this.frameId = requestAnimationFrame(this.update.bind(this));
 	},
 
+	/**
+	 * 动画帧更新
+	 */
 	update() {
 		const now = performance.now();
 		const delta = now - (this.frameTime ?? now);

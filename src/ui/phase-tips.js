@@ -1,18 +1,26 @@
 /**
- * 阶段提示图片模块 (JDTS)
- * 显示回合阶段提示图片
+ * @fileoverview 阶段提示图片模块 (JDTS)
+ * 显示回合阶段提示图片，包括准备、判定、摸牌、出牌、弃牌等阶段
  */
 
 import { lib, game, ui, get, ai, _status } from "noname";
 
-// 获取图片路径
+/**
+ * 获取图片路径
+ * @param {string} imageName - 图片名称
+ * @returns {string} 完整图片路径
+ */
 const getImagePath = imageName => {
 	const style = lib.config.extension_十周年UI_JDTSYangshi;
+	/** @type {Record<string, string>} */
 	const extMap = { 2: "png", 3: "webp", 4: "jpeg" };
 	return `extension/十周年UI/ui/assets/lbtn/tips/${imageName}.${extMap[style] || "jpg"}`;
 };
 
-// 获取图片位置
+/**
+ * 获取图片位置
+ * @returns {number[]} 位置数组 [x, y, width, height]
+ */
 const getPosition = () => {
 	const style = lib.config.extension_十周年UI_JDTSYangshi;
 	if (style === "1") {
@@ -22,13 +30,19 @@ const getPosition = () => {
 	return [18, 65, 8, 4.4];
 };
 
-// 显示阶段图片
+/**
+ * 显示阶段图片
+ * @param {string} name - 图片名称
+ */
 const showPhaseImage = name => {
 	game.showJDTsImage(name, true);
 	_status.as_showImage_phase = name;
 };
 
-// 清除阶段图片
+/**
+ * 清除阶段图片
+ * @param {string} name - 图片名称
+ */
 const clearPhaseImage = name => {
 	if (_status.as_showImage_phase === name) {
 		game.as_removeImage();
@@ -36,7 +50,9 @@ const clearPhaseImage = name => {
 	}
 };
 
-// 恢复阶段图片
+/**
+ * 恢复阶段图片
+ */
 const restorePhaseImage = () => {
 	game.as_removeImage();
 	if (_status.as_showImage_phase) {
@@ -44,12 +60,27 @@ const restorePhaseImage = () => {
 	}
 };
 
-// 判断函数
+/**
+ * 判断是否为当前玩家
+ * @param {object} player - 玩家对象
+ * @returns {boolean}
+ */
 const isMe = player => player === game.me;
+
+/**
+ * 判断是否为当前玩家的回合
+ * @param {object} player - 玩家对象
+ * @returns {boolean}
+ */
 const isMyPhase = player => isMe(player) && _status.currentPhase === player;
+
+/**
+ * 判断是否为手动模式
+ * @returns {boolean}
+ */
 const isManual = () => !_status.auto;
 
-// 阶段事件配置
+/** @type {Array<[string, string, string]>} 阶段事件配置 */
 const phaseEvents = [
 	["phaseBegin", "hhks", "hhks"],
 	["phaseZhunbeiBefore", "pdjd", "zbjd"],
@@ -61,6 +92,7 @@ const phaseEvents = [
 	["phaseEnd", "hhjs", "hhjs"],
 ];
 
+/** @type {Array<[string, string]>} 阶段结束事件配置 */
 const phaseEndEvents = [
 	["phaseZhunbeiAfter", "zbjd"],
 	["phaseJudgeAfter", "pdjd"],
@@ -71,11 +103,17 @@ const phaseEndEvents = [
 	["phaseAfter", "hhjs"],
 ];
 
-/** 初始化阶段提示技能 */
+/**
+ * 初始化阶段提示技能
+ */
 export function initPhaseTipsSkills() {
 	if (!lib.config.extension_十周年UI_JDTS) return;
 
-	// 显示阶段图片方法
+	/**
+	 * 显示阶段图片方法
+	 * @param {string} imageName - 图片名称
+	 * @param {boolean|number} durationOrPersistent - 持续时间或是否持久显示
+	 */
 	game.showJDTsImage = (imageName, durationOrPersistent) => {
 		game.as_showImage(getImagePath(imageName), getPosition(), durationOrPersistent);
 	};
@@ -147,6 +185,12 @@ export function initPhaseTipsSkills() {
 		silent: true,
 		charlotte: true,
 		forced: true,
+		/**
+		 * 过滤条件
+		 * @param {object} event - 事件对象
+		 * @param {object} player - 玩家对象
+		 * @returns {boolean}
+		 */
 		filter(event, player) {
 			if (event.card.storage?.nowuxie) return false;
 			const info = get.info(event.card);

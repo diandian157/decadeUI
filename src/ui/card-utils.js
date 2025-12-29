@@ -1,15 +1,15 @@
 /**
- * 卡牌工具函数
- * @description 从concore.js提取的卡牌相关函数
+ * @fileoverview 卡牌工具函数，提供卡牌临时花色点数显示、特效播放等功能
  */
 import { lib, game, ui, get, ai, _status } from "noname";
 
 /**
  * 卡牌临时花色点数显示
- * @param {HTMLElement} card 卡牌元素
- * @param {string} suit 花色
- * @param {number} number 点数
- * @param {object} elementUtil 元素工具
+ * @param {HTMLElement} card - 卡牌元素
+ * @param {string} suit - 花色
+ * @param {number} number - 点数
+ * @param {object} [elementUtil] - 元素工具对象
+ * @returns {void}
  */
 export function cardTempSuitNum(card, suit, number, elementUtil) {
 	const create =
@@ -42,6 +42,7 @@ export function cardTempSuitNum(card, suit, number, elementUtil) {
 
 /**
  * 卡牌特效映射表
+ * @type {Object.<string, {key: string, opts?: object}>}
  */
 export const cardEffectMap = {
 	effect_caochuanjiejian: { key: "effect_caochuanjiejian" },
@@ -67,8 +68,9 @@ export const cardEffectMap = {
 
 /**
  * 获取杀的特效key
- * @param {string} nature 属性
- * @param {HTMLElement} card 卡牌
+ * @param {string} nature - 属性（thunder/fire等）
+ * @param {HTMLElement} card - 卡牌元素
+ * @returns {string} 特效key
  */
 export function getShaEffectKey(nature, card) {
 	const natureKeyMap = { thunder: "effect_leisha", fire: "effect_huosha" };
@@ -77,10 +79,11 @@ export function getShaEffectKey(nature, card) {
 
 /**
  * 尝试添加玩家卡牌使用标签
- * @param {HTMLElement} card 卡牌元素
- * @param {HTMLElement} player 玩家元素
- * @param {object} event 事件对象
- * @param {object} decadeUI DecadeUI实例
+ * @param {HTMLElement} card - 卡牌元素
+ * @param {HTMLElement} player - 玩家元素
+ * @param {object} event - 事件对象
+ * @param {object} decadeUI - DecadeUI实例
+ * @returns {void}
  */
 export function tryAddPlayerCardUseTag(card, player, event, decadeUI) {
 	if (!card || !player || !event) return;
@@ -113,6 +116,10 @@ export function tryAddPlayerCardUseTag(card, player, event, decadeUI) {
 
 /**
  * 处理判定标签
+ * @param {HTMLElement} card - 卡牌元素
+ * @param {object} event - 事件对象
+ * @param {object} decadeUI - DecadeUI实例
+ * @returns {string} 初始标签文本
  */
 function handleJudgeTag(card, event, decadeUI) {
 	const initialText = event.judgestr + "的判定牌";
@@ -178,6 +185,11 @@ function handleJudgeTag(card, event, decadeUI) {
 
 /**
  * 处理默认标签
+ * @param {HTMLElement} card - 卡牌元素
+ * @param {HTMLElement} player - 玩家元素
+ * @param {object} event - 事件对象
+ * @param {object} decadeUI - DecadeUI实例
+ * @returns {string} 标签文本
  */
 function handleDefaultTag(card, player, event, decadeUI) {
 	const evt = _status.event;

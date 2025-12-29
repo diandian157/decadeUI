@@ -1,6 +1,6 @@
 /**
- * OL风格技能插件
- * 特点：合并区域布局、技能排序（主动技优先）、转换技阴阳图标、额外技能黄点
+ * @fileoverview OL风格技能插件
+ * @description 合并区域布局、技能排序（主动技优先）、转换技阴阳图标、额外技能黄点
  */
 import { lib, game, ui, get, ai, _status } from "noname";
 import { createBaseSkillPlugin } from "./base.js";

@@ -1,33 +1,80 @@
 "use strict";
 
 /**
- * 手牌拖拽排序模块
+ * @fileoverview 手牌拖拽排序模块
  * 水平拖动排序手牌，垂直拖出则放行给本体处理拖拽选目标
  */
 
 import { lib, game, ui, get, ai, _status } from "noname";
 
+/** @type {number} 拖拽触发阈值 */
 const DRAG_THRESHOLD = 5;
+
+/** @type {number} 脱离排序模式的垂直阈值 */
 const ESCAPE_THRESHOLD = 50;
 
+/** @type {string|null} 当前拖拽模式 */
 let dragMode = null;
+
+/** @type {HTMLElement|null} 源卡牌节点 */
 let sourceNode = null;
+
+/** @type {HTMLElement|null} 移动目标节点 */
 let movedNode = null;
+
+/** @type {number} 起始X坐标 */
 let startX = 0;
+
+/** @type {number} 起始Y坐标 */
 let startY = 0;
+
+/** @type {{x: number, y: number, scale: number}} 初始变换 */
 let initialTransform = { x: 0, y: 0, scale: 1 };
+
+/** @type {string|null} 原始指针事件样式 */
 let originalPointerEvents = null;
+
+/** @type {Object|null} 保存的等待拖拽状态 */
 let savedWaitingForDrag = null;
 
+/** @type {boolean} 是否为移动设备 */
 const isMobile = /(iPhone|iPod|Android|ios|iPad|Mobile)/i.test(navigator.userAgent);
+
+/** @type {boolean} 是否支持指针事件 */
 const hasPointer = "PointerEvent" in window;
+
+/** @type {string[]} 事件名称数组 */
 const evts = hasPointer ? ["pointerdown", "pointermove", "pointerup"] : isMobile ? ["touchstart", "touchmove", "touchend"] : ["mousedown", "mousemove", "mouseup"];
+
+/** @type {string|null} 取消事件名称 */
 const cancelEvt = hasPointer ? "pointercancel" : isMobile ? "touchcancel" : null;
 
+/**
+ * 包装函数为 Promise
+ * @param {Function} fn - 要执行的函数
+ * @returns {Promise}
+ */
 const raf = fn => new Promise(r => requestAnimationFrame(() => r(fn())));
+
+/**
+ * 获取事件坐标点
+ * @param {Event} e - 事件对象
+ * @returns {Object} 坐标点
+ */
 const getPoint = e => (hasPointer ? e : (e.touches?.[0] ?? e.changedTouches?.[0] ?? e));
+
+/**
+ * 获取目标卡牌元素
+ * @param {HTMLElement} t - 目标元素
+ * @returns {HTMLElement|null}
+ */
 const getCard = t => t?.closest?.(".card") ?? null;
 
+/**
+ * 获取元素变换信息
+ * @param {HTMLElement} el - 元素
+ * @returns {Promise<{x: number, y: number, scale: number}>}
+ */
 const getTransform = el =>
 	raf(() => {
 		try {
@@ -38,8 +85,19 @@ const getTransform = el =>
 		}
 	});
 
+/**
+ * 检查是否可滚动
+ * @returns {boolean}
+ */
 const isScrollable = () => ui?.handcards1Container?.classList.contains("scrollh") || getComputedStyle(ui?.handcards1Container).overflowX === "scroll";
 
+/**
+ * 设置卡牌变换
+ * @param {HTMLElement} card - 卡牌元素
+ * @param {number} tx - X偏移
+ * @param {number} ty - Y偏移
+ * @param {number} [scale] - 缩放比例
+ */
 const setTransform = async (card, tx, ty, scale = card?.scale ?? 1) => {
 	if (!card || !Number.isFinite(tx) || !Number.isFinite(ty)) return;
 	await raf(() => {
@@ -49,6 +107,10 @@ const setTransform = async (card, tx, ty, scale = card?.scale ?? 1) => {
 	});
 };
 
+/**
+ * 清理拖拽状态
+ * @param {boolean} [skipLayout=false] - 是否跳过布局更新
+ */
 const cleanup = async (skipLayout = false) => {
 	const card = sourceNode;
 	if (!card) return;
@@ -69,6 +131,10 @@ const cleanup = async (skipLayout = false) => {
 	_status.dragged = null;
 };
 
+/**
+ * 拖拽开始处理
+ * @param {Event} e - 事件对象
+ */
 const onStart = async e => {
 	if (game.me?.hasSkillTag("noSortCard")) return;
 	if (!hasPointer && e.button === 2) return;
@@ -97,6 +163,10 @@ const onStart = async e => {
 	window.addEventListener("blur", onEnd, { once: true });
 };
 
+/**
+ * 拖拽移动处理
+ * @param {Event} e - 事件对象
+ */
 const onMove = async e => {
 	const card = sourceNode;
 	if (!card) return;
@@ -152,6 +222,11 @@ const onMove = async e => {
 	}
 };
 
+/**
+ * 交换两张卡牌位置
+ * @param {HTMLElement} src - 源卡牌
+ * @param {HTMLElement} tgt - 目标卡牌
+ */
 const swapCards = async (src, tgt) => {
 	const container = ui.handcards1;
 	const children = Array.from(container.childNodes);
@@ -182,6 +257,10 @@ const swapCards = async (src, tgt) => {
 	raf(() => window.decadeUI?.layout?.updateHand?.());
 };
 
+/**
+ * 拖拽结束处理
+ * @param {Event} e - 事件对象
+ */
 const onEnd = e => {
 	if (dragMode === "sort") {
 		e?.preventDefault?.();
@@ -204,17 +283,27 @@ const onEnd = e => {
 	cleanup();
 };
 
+/**
+ * 初始化拖拽排序
+ */
 const init = async () => {
 	if (!ui?.handcards1) return setTimeout(init, 1000);
 	ui.handcards1.removeEventListener(evts[0], onStart);
 	ui.handcards1.addEventListener(evts[0], onStart, { passive: false });
 };
 
+/**
+ * 销毁拖拽排序
+ */
 const destroy = () => {
 	cleanup(true);
 	ui?.handcards1?.removeEventListener(evts[0], onStart);
 };
 
+/**
+ * 设置手牌拖拽排序功能
+ * @param {boolean} [enabled] - 是否启用
+ */
 export function setupCardDragSort(enabled = lib.config.extension_十周年UI_translate) {
 	const _decadeUI = window.decadeUI || {};
 	window.decadeUI = _decadeUI;

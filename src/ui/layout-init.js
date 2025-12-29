@@ -1,14 +1,27 @@
 /**
- * 布局初始化模块
+ * @fileoverview 布局初始化模块
+ * 提供游戏布局的初始化和切换功能
  */
+
 import { lib, game, ui, get, ai, _status } from "noname";
 
-/** 创建布局初始化函数 */
+/**
+ * 创建布局初始化函数
+ * @returns {Function} 布局初始化函数
+ */
 export function createLayoutInit() {
+	/**
+	 * 初始化布局
+	 * @param {string} layout - 布局名称
+	 * @param {boolean} [nosave] - 是否不保存配置
+	 */
 	return function (layout, nosave) {
 		if (!nosave) game.saveConfig("layout", layout);
 		game.layout = layout;
 
+		/**
+		 * 重新布局
+		 */
 		const relayout = function () {
 			ui.arena.dataset.layout = game.layout;
 			if (lib.config.phonelayout) {

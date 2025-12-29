@@ -1,15 +1,15 @@
 /**
- * Game 覆写模块
- * @description 游戏相关的覆写方法
+ * @fileoverview Game覆写模块 - 游戏相关的覆写方法
  */
 
 import { lib, game, ui, get, ai, _status } from "noname";
 
-// 基础方法引用
+/** @type {Object|null} 基础方法引用 */
 let baseGameMethods = null;
 
 /**
  * 设置基础方法引用
+ * @param {Object} methods - 基础方法对象
  */
 export function setBaseGameMethods(methods) {
 	baseGameMethods = methods;
@@ -17,6 +17,11 @@ export function setBaseGameMethods(methods) {
 
 /**
  * 交换座位覆写
+ * @param {Object} player1 - 玩家1
+ * @param {Object} player2 - 玩家2
+ * @param {string} [prompt] - 提示信息
+ * @param {boolean} [behind] - 是否在后面
+ * @param {boolean} [noanimate] - 是否无动画
  */
 export function gameSwapSeat(player1, player2, prompt, behind, noanimate) {
 	baseGameMethods.swapSeat.apply(this, arguments);
@@ -28,6 +33,9 @@ export function gameSwapSeat(player1, player2, prompt, behind, noanimate) {
 
 /**
  * 交换玩家覆写
+ * @param {Object} player - 玩家
+ * @param {Object} [player2] - 玩家2
+ * @returns {*} 交换结果
  */
 export function gameSwapPlayer(player, player2) {
 	const list = [game.me, player];
@@ -56,6 +64,8 @@ export function gameSwapPlayer(player, player2) {
 
 /**
  * 交换控制覆写
+ * @param {Object} player - 玩家
+ * @returns {*} 交换结果
  */
 export function gameSwapControl(player) {
 	const result = baseGameMethods.swapControl.call(this, player);
@@ -93,6 +103,7 @@ export function gameSwapControl(player) {
 
 /**
  * 添加全局技能覆写
+ * @returns {*} 添加结果
  */
 export function gameAddGlobalSkill() {
 	const result = baseGameMethods.addGlobalSkill.apply(this, arguments);
@@ -102,6 +113,7 @@ export function gameAddGlobalSkill() {
 
 /**
  * 移除全局技能覆写
+ * @returns {*} 移除结果
  */
 export function gameRemoveGlobalSkill() {
 	const result = baseGameMethods.removeGlobalSkill.apply(this, arguments);
@@ -111,6 +123,13 @@ export function gameRemoveGlobalSkill() {
 
 /**
  * 日志记录覆写
+ * @param {Object} player - 玩家
+ * @param {*} card - 卡牌
+ * @param {Array} targets - 目标
+ * @param {Object} event - 事件
+ * @param {boolean} forced - 是否强制
+ * @param {string} logvid - 日志ID
+ * @returns {HTMLElement|undefined} 日志节点
  */
 export function gameLogv(player, card, targets, event, forced, logvid) {
 	if (!player) {

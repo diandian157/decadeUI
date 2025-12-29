@@ -1,18 +1,29 @@
 /**
- * App 全局对象模块
+ * @fileoverview App全局对象模块，提供事件系统、插件管理和工具函数
  */
 import { lib, game, ui, get, ai, _status } from "noname";
 
 /**
- * 初始化 app 全局对象
+ * 初始化app全局对象
  */
 export function initApp() {
+	/**
+	 * 确保监听器数组存在
+	 * @param {Object} obj - 目标对象
+	 * @param {string} key - 键名
+	 */
 	const ensureListenersArray = (obj, key) => {
 		if (!obj[key]) obj[key] = [];
 	};
 
 	window.app = {
-		// 遍历工具
+		/**
+		 * 遍历对象或数组
+		 * @param {Object|Array} obj - 要遍历的对象
+		 * @param {Function} fn - 回调函数
+		 * @param {*} node - 上下文
+		 * @returns {*} 上下文
+		 */
 		each(obj, fn, node) {
 			if (!obj) return node;
 			if (typeof obj.length === "number") {
@@ -27,16 +38,35 @@ export function initApp() {
 			return node;
 		},
 
+		/**
+		 * 判断是否为函数
+		 * @param {*} fn - 要判断的值
+		 * @returns {boolean} 是否为函数
+		 */
 		isFunction: fn => typeof fn === "function",
 
-		// 事件系统
+		/** 事件系统 */
 		event: {
+			/** @type {Object} 事件监听器映射 */
 			listens: {},
+			/**
+			 * 注册事件监听
+			 * @param {string} name - 事件名
+			 * @param {Function} listen - 监听函数
+			 * @param {boolean} remove - 是否单次触发后移除
+			 * @returns {Object} this
+			 */
 			on(name, listen, remove) {
 				ensureListenersArray(this.listens, name);
 				this.listens[name].push({ listen, remove });
 				return this;
 			},
+			/**
+			 * 移除事件监听
+			 * @param {string} name - 事件名
+			 * @param {Function} listen - 监听函数
+			 * @returns {Object} this
+			 */
 			off(name, listen) {
 				return app.each(
 					this.listens[name],
@@ -48,6 +78,12 @@ export function initApp() {
 					this
 				);
 			},
+			/**
+			 * 触发事件
+			 * @param {string} name - 事件名
+			 * @param {...*} args - 参数
+			 * @returns {Object} this
+			 */
 			emit(name, ...args) {
 				return app.each(
 					this.listens[name],
@@ -58,6 +94,12 @@ export function initApp() {
 					this
 				);
 			},
+			/**
+			 * 注册单次事件监听
+			 * @param {string} name - 事件名
+			 * @param {Function} listen - 监听函数
+			 * @returns {Object} this
+			 */
 			once(name, listen) {
 				return this.on(name, listen, true);
 			},
@@ -69,18 +111,40 @@ export function initApp() {
 		pluginsMap: {},
 
 		path: {
+			/**
+			 * 获取扩展资源路径
+			 * @param {string} path - 相对路径
+			 * @param {string} ext - 扩展名
+			 * @returns {string} 完整路径
+			 */
 			ext: (path, ext) => `${lib.assetURL}extension/${ext || app.name}/${path}`,
 		},
 
-		// 事件监听
+		/**
+		 * 注册事件监听
+		 * @param {string} event - 事件名
+		 * @param {Function} listen - 监听函数
+		 */
 		on(event, listen) {
 			ensureListenersArray(this.listens, event);
 			this.listens[event].push(listen);
 		},
+
+		/**
+		 * 注册单次事件监听
+		 * @param {string} event - 事件名
+		 * @param {Function} listen - 监听函数
+		 */
 		once(event, listen) {
 			ensureListenersArray(this.listens, event);
 			this.listens[event].push({ listen, remove: true });
 		},
+
+		/**
+		 * 移除事件监听
+		 * @param {string} event - 事件名
+		 * @param {Function} listen - 监听函数
+		 */
 		off(event, listen) {
 			const listens = this.listens[event] || [];
 			const filters = listen ? listens.filter(item => item === listen || item.listen === listen) : listens.slice();
@@ -89,6 +153,12 @@ export function initApp() {
 				if (idx > -1) listens.splice(idx, 1);
 			});
 		},
+
+		/**
+		 * 触发事件
+		 * @param {string} event - 事件名
+		 * @param {...*} args - 参数
+		 */
 		emit(event, ...args) {
 			(this.listens[event] || []).forEach(item => {
 				if (typeof item === "function") {
@@ -103,7 +173,10 @@ export function initApp() {
 			});
 		},
 
-		// 插件导入
+		/**
+		 * 导入插件
+		 * @param {Function} fn - 插件工厂函数
+		 */
 		import(fn) {
 			const obj = fn(lib, game, ui, get, ai, _status, app);
 			if (obj) {
@@ -113,7 +186,11 @@ export function initApp() {
 			this.plugins.push(obj);
 		},
 
-		// 插件文件导入
+		/**
+		 * 导入插件文件
+		 * @param {ArrayBuffer} data - 文件数据
+		 * @param {Function} setText - 进度回调
+		 */
 		importPlugin(data, setText) {
 			if (!window.JSZip) {
 				lib.init.js(`${lib.assetURL}game`, "jszip", () => app.importPlugin(data, setText));
@@ -167,7 +244,10 @@ export function initApp() {
 			ensureDir();
 		},
 
-		// 加载插件
+		/**
+		 * 加载插件
+		 * @param {Function} callback - 完成回调
+		 */
 		loadPlugins(callback) {
 			game.getFileList(`extension/${app.name}`, folders => {
 				const total = folders.length;
@@ -204,7 +284,14 @@ export function initApp() {
 			});
 		},
 
-		// 函数重写工具
+		/**
+		 * 重写函数
+		 * @param {Object} target - 目标对象
+		 * @param {string|Object} name - 函数名或配置对象
+		 * @param {Function|string|RegExp} replace - 替换内容
+		 * @param {string|Function} str - 替换字符串或后置回调
+		 * @returns {Function} 重写后的函数
+		 */
 		reWriteFunction(target, name, replace, str) {
 			if (name && typeof name === "object") {
 				return app.each(name, (item, index) => app.reWriteFunction(target, index, item[0], item[1]), target);
@@ -223,6 +310,13 @@ export function initApp() {
 			return target[name];
 		},
 
+		/**
+		 * 扩展版函数重写
+		 * @param {Object} target - 目标对象
+		 * @param {string|Object} name - 函数名或配置对象
+		 * @param {Array} replace - 替换配置数组
+		 * @returns {Function} 重写后的函数
+		 */
 		reWriteFunctionX(target, name, replace) {
 			if (name && typeof name === "object") {
 				return app.each(name, (item, index) => app.reWriteFunction(target, index, item), target);
@@ -248,7 +342,11 @@ export function initApp() {
 			return target[name];
 		},
 
-		// 等待所有函数执行完成
+		/**
+		 * 等待所有函数执行完成
+		 * @param {Array<Function>} fnList - 函数列表
+		 * @param {Function} callback - 完成回调
+		 */
 		waitAllFunction(fnList, callback) {
 			const list = fnList.slice();
 			const runNext = () => {
@@ -262,8 +360,13 @@ export function initApp() {
 
 		element: { runNext: { setTip: tip => console.info(tip) } },
 
-		// 获取技能信息
 		get: {
+			/**
+			 * 获取技能信息
+			 * @param {string} skill - 技能ID
+			 * @param {Object} node - 玩家节点
+			 * @returns {Object} 技能信息对象
+			 */
 			skillInfo(skill, node) {
 				const obj = { id: skill };
 				const info = lib.skill[skill];
@@ -288,20 +391,34 @@ export function initApp() {
 			},
 		},
 
-		// 事件监听工具
+		/**
+		 * 添加事件监听
+		 * @param {HTMLElement} node - DOM节点
+		 * @param {Function} func - 回调函数
+		 * @returns {Function} 移除监听的函数
+		 */
 		listen(node, func) {
 			const eventType = lib.config.touchscreen ? "touchend" : "click";
 			node.addEventListener(eventType, func);
 			return () => node.removeEventListener(eventType, func);
 		},
 
+		/**
+		 * 模拟触摸/点击事件
+		 * @param {HTMLElement} node - DOM节点
+		 * @returns {HTMLElement} 节点
+		 */
 		mockTouch(node) {
 			const eventType = lib.config.touchscreen ? "touchend" : "click";
 			node.dispatchEvent(new Event(eventType));
 			return node;
 		},
 
-		// 延迟执行
+		/**
+		 * 延迟执行函数
+		 * @param {Function|Array<Function>} func - 函数或函数数组
+		 * @param {number} time - 延迟时间(ms)
+		 */
 		nextTick(func, time) {
 			const funcs = Array.isArray(func) ? func.slice() : [func];
 			const next = () => {

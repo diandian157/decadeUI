@@ -1,16 +1,17 @@
 /**
- * 前缀角标模块
+ * @fileoverview 前缀角标模块
  * 根据武将前缀显示对应的角标样式
- * 新增了三个接口，支持外部扩展新建样式
- * registerPrefix(prefix, styleName) - 注册单个前缀
- * registerPrefixes(configs) - 批量注册
- * hasPrefix(prefix) - 检查前缀是否存在
+ * 提供三个接口支持外部扩展：
+ * - registerPrefix(prefix, styleName) - 注册单个前缀
+ * - registerPrefixes(configs) - 批量注册
+ * - hasPrefix(prefix) - 检查前缀是否存在
  */
+
 import { lib, game, ui, get, ai, _status } from "noname";
 
 // ==================== 前缀配置映射 ====================
 
-/** @type {Record<string, string>} */
+/** @type {Record<string, string>} 前缀到样式名的映射 */
 const PREFIX_CONFIGS = {
 	界: "jie",
 	神: "shen",
@@ -173,13 +174,30 @@ const PREFIX_CONFIGS = {
 
 // ==================== 工具函数 ====================
 
+/** @type {string} 配置键名 */
 const CONFIG_KEY = "extension_十周年UI_newDecadeStyle";
+
+/**
+ * 获取标记类名
+ * @param {string} name - 样式名称
+ * @returns {string} CSS类名
+ */
 const getMarkClassName = name => `${name}-mark`;
+
+/**
+ * 获取属性名
+ * @param {string} name - 样式名称
+ * @returns {string} 属性名
+ */
 const getPropertyName = name => `${name}Mark`;
 
 // ==================== 导出模块 ====================
 
 export const prefixMarkModule = {
+	/**
+	 * 获取前缀配置副本
+	 * @returns {Record<string, string>}
+	 */
 	get prefixConfigs() {
 		return { ...PREFIX_CONFIGS };
 	},
@@ -204,6 +222,7 @@ export const prefixMarkModule = {
 	 */
 	registerPrefixes(configs) {
 		if (!configs || typeof configs !== "object") return [];
+		/** @type {string[]} */
 		const registered = [];
 		for (const [prefix, styleName] of Object.entries(configs)) {
 			if (this.registerPrefix(prefix, styleName)) {
@@ -222,10 +241,17 @@ export const prefixMarkModule = {
 		return prefix in PREFIX_CONFIGS;
 	},
 
-	/** 检查是否启用前缀标记功能 */
+	/**
+	 * 检查是否启用前缀标记功能
+	 * @returns {boolean}
+	 */
 	shouldShowPrefixMark: () => lib.config?.[CONFIG_KEY] === "on",
 
-	/** 获取武将对应的前缀配置 */
+	/**
+	 * 获取武将对应的前缀配置
+	 * @param {string} character - 武将名称
+	 * @returns {{className: string, property: string}|null} 配置对象或null
+	 */
 	getPrefixConfig(character) {
 		const prefix = lib.translate?.[`${character}_prefix`];
 		const name = PREFIX_CONFIGS[prefix];
@@ -236,12 +262,21 @@ export const prefixMarkModule = {
 		};
 	},
 
-	/** 创建或获取已有的标记元素 */
+	/**
+	 * 创建或获取已有的标记元素
+	 * @param {{className: string, property: string}} config - 配置对象
+	 * @param {HTMLElement} playerElement - 玩家元素
+	 * @returns {HTMLElement} 标记元素
+	 */
 	createMarkElement(config, playerElement) {
 		return (playerElement[config.property] ??= decadeUI.element.create(config.className, playerElement));
 	},
 
-	/** 显示武将前缀标记 */
+	/**
+	 * 显示武将前缀标记
+	 * @param {string} character - 武将名称
+	 * @param {HTMLElement} playerElement - 玩家元素
+	 */
 	showPrefixMark(character, playerElement) {
 		if (!this.shouldShowPrefixMark()) return;
 
@@ -260,7 +295,10 @@ export const prefixMarkModule = {
 		}
 	},
 
-	/** 清除所有前缀标记 */
+	/**
+	 * 清除所有前缀标记
+	 * @param {HTMLElement} playerElement - 玩家元素
+	 */
 	clearPrefixMarks(playerElement) {
 		if (!playerElement) return;
 

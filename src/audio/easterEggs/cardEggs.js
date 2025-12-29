@@ -1,9 +1,14 @@
+/**
+ * @fileoverview 卡牌使用彩蛋配置
+ * 定义酒、桃等卡牌使用时触发的彩蛋语音规则
+ */
+
 "use strict";
 
 /**
- * 使用卡牌彩蛋配置
+ * @type {Array<Object>}
+ * 卡牌使用彩蛋配置数组
  */
-
 export const cardEasterEggs = [
 	// 酒相关
 	{ cards: ["jiu"], player: "zhugeliang", text: "北伐，启动！", audio: "zhugeliang1.mp3" },

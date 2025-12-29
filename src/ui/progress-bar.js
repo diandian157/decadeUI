@@ -1,5 +1,5 @@
 /**
- * 进度条与提示模块
+ * @fileoverview 进度条与提示模块
  * 包含玩家进度条、AI进度条、阶段提示等功能
  */
 
@@ -7,16 +7,32 @@ import { lib, game, ui, get, ai, _status } from "noname";
 import { initGTBB } from "./gtbb.js";
 import { initPhaseTipsSkills } from "./phase-tips.js";
 
-// 常量
+// ==================== 常量定义 ====================
+
+/** @type {string} 进度条元素ID */
 const PROGRESS_BAR_ID = "jindutiaopl";
+
+/** @type {number[]} 默认位置 [x, y, width, height] */
 const DEFAULT_POS = [0, 0, 100, 100];
+
+/** @type {number} 动画持续时间(毫秒) */
 const ANIMATION_DURATION = 1000;
+
+/** @type {number} AI计时器间隔(毫秒) */
 const AI_TIMER_INTERVAL = 150;
+
+/** @type {number} 红色阈值 */
 const RED_THRESHOLD = 395 / 3;
+
+/** @type {number} 检查间隔(毫秒) */
 const CHECK_INTERVAL = 100;
 
 // ==================== 工具函数 ====================
 
+/**
+ * 清除定时器
+ * @param {string} name - 定时器名称
+ */
 const clearTimer = name => {
 	if (window[name]) {
 		clearInterval(window[name]);
@@ -24,23 +40,41 @@ const clearTimer = name => {
 	}
 };
 
+/**
+ * 通过ID移除元素
+ * @param {string} id - 元素ID
+ */
 const removeElementById = id => document.getElementById(id)?.remove();
 
+/**
+ * 判断是否为手杀样式
+ * @returns {boolean}
+ */
 const isShoushaSyle = () => {
 	const style = lib.config.extension_十周年UI_newDecadeStyle;
 	return style !== "on" && style !== "othersOff";
 };
 
+/**
+ * 移除第一个匹配类名的元素
+ * @param {HTMLElement} parent - 父元素
+ * @param {string} className - 类名
+ */
 const removeFirst = (parent, className) => {
 	parent.getElementsByClassName(className)[0]?.remove();
 };
 
 // ==================== 进度条配置 ====================
 
+/**
+ * 获取进度条配置
+ * @returns {object} 进度条配置对象
+ */
 const getProgressBarConfig = () => {
 	const styleType = lib.config.extension_十周年UI_jindutiaoYangshi;
 	const bottom = parseFloat(lib.config["extension_十周年UI_jindutiaoSet"]) + "%";
 
+	/** @type {Record<string, object>} */
 	const configs = {
 		1: {
 			container: { backgroundColor: "rgba(0,0,0,0.4)", width: "620px", height: "12.3px", borderRadius: "1000px", boxShadow: "0px 0px 9px #2e2b27 inset,0px 0px 2.1px #FFFFD5", overflow: "hidden", border: "1.2px solid #000000", position: "fixed", left: "calc(50% - 300px)", bottom },
@@ -75,6 +109,12 @@ const getProgressBarConfig = () => {
 
 // ==================== 元素创建 ====================
 
+/**
+ * 创建图片元素
+ * @param {string} src - 图片路径
+ * @param {string} style - CSS样式
+ * @returns {HTMLImageElement}
+ */
 const createImg = (src, style) => {
 	const img = document.createElement("img");
 	img.src = `${lib.assetURL}${src}`;
@@ -82,6 +122,12 @@ const createImg = (src, style) => {
 	return img;
 };
 
+/**
+ * 创建div元素
+ * @param {number} data - 数据值
+ * @param {string} style - CSS样式
+ * @returns {HTMLDivElement}
+ */
 const createDiv = (data, style) => {
 	const el = document.createElement("div");
 	el.data = data;
@@ -89,6 +135,11 @@ const createDiv = (data, style) => {
 	return el;
 };
 
+/**
+ * 创建AI进度条
+ * @param {boolean} isPhase - 是否为阶段进度条
+ * @returns {{container: HTMLDivElement, boxTime: HTMLDivElement}}
+ */
 const createAIProgressBar = isPhase => {
 	const container = document.createElement("div");
 	const boxTime = document.createElement("div");
@@ -116,6 +167,12 @@ const createAIProgressBar = isPhase => {
 	return { container, boxTime };
 };
 
+/**
+ * 创建提示图片
+ * @param {string} className - CSS类名
+ * @param {string} imgName - 图片名称
+ * @returns {HTMLImageElement}
+ */
 const createTipImg = (className, imgName) => {
 	const img = document.createElement("img");
 	img.classList.add("tipshow", className);
@@ -126,6 +183,10 @@ const createTipImg = (className, imgName) => {
 
 // ==================== 预加载UI初始化 ====================
 
+/**
+ * 初始化预加载UI
+ * 包括玩家进度条、文字显示、图片显示等功能
+ */
 export function initPrecontentUI() {
 	// 玩家进度条
 	game.Jindutiaoplayer = () => {
@@ -185,13 +246,25 @@ export function initPrecontentUI() {
 		}
 	};
 
-	// 文字显示
+	/**
+	 * 移除文字显示
+	 */
 	game.as_removeText = () => {
 		_status.as_showText?.remove();
 		delete _status.as_showText;
 		_status.as_showImage?.show();
 	};
 
+	/**
+	 * 显示文字
+	 * @param {string} str - 文字内容
+	 * @param {number[]} [pos] - 位置数组
+	 * @param {boolean|number} [time] - 显示时间
+	 * @param {string} [font] - 字体
+	 * @param {number} [size] - 字号
+	 * @param {string} [color] - 颜色
+	 * @returns {boolean} 是否成功
+	 */
 	game.as_showText = (str, pos, time, font = "shousha", size = 16, color = "#ffffff") => {
 		if (!str) return false;
 		pos = Array.isArray(pos) ? pos : DEFAULT_POS;
@@ -211,7 +284,9 @@ export function initPrecontentUI() {
 		return true;
 	};
 
-	// 图片显示
+	/**
+	 * 移除图片显示
+	 */
 	game.as_removeImage = () => {
 		if (_status.as_showImage) {
 			const el = _status.as_showImage;
@@ -221,6 +296,13 @@ export function initPrecontentUI() {
 		}
 	};
 
+	/**
+	 * 显示图片
+	 * @param {string} url - 图片URL
+	 * @param {number[]} [pos] - 位置数组
+	 * @param {boolean|number} [time] - 显示时间
+	 * @returns {boolean} 是否成功
+	 */
 	game.as_showImage = (url, pos, time) => {
 		if (!url) return false;
 		pos = Array.isArray(pos) ? pos : DEFAULT_POS;
@@ -239,6 +321,10 @@ export function initPrecontentUI() {
 
 // ==================== 进度条监视器 ====================
 
+/**
+ * 设置进度条监视器
+ * @param {object} config - 配置对象
+ */
 const setupWatcher = config => {
 	let playerShown = false,
 		aiShown = false,
@@ -259,6 +345,10 @@ const setupWatcher = config => {
 		removeElementById(PROGRESS_BAR_ID);
 	};
 
+	/**
+	 * 显示AI进度条
+	 * @param {HTMLElement} player - 玩家元素
+	 */
 	const showAI = player => {
 		if (!player || player === game.me || aiPlayers.includes(player)) return;
 		aiPlayers.push(player);
@@ -289,6 +379,10 @@ const setupWatcher = config => {
 		aiPlayers = [];
 	};
 
+	/**
+	 * 显示单个AI进度条
+	 * @param {HTMLElement} player - 玩家元素
+	 */
 	const showOneAI = player => {
 		if (!player || player === game.me) return;
 		if (aiShown && aiPlayers.length === 1 && aiPlayers[0] === player) return;
@@ -350,6 +444,9 @@ const setupWatcher = config => {
 
 // ==================== 提示监视器 ====================
 
+/**
+ * 设置提示监视器
+ */
 const setupTipWatcher = () => {
 	let lastPhasePlayer = null,
 		lastDiscardPlayer = null;
@@ -398,15 +495,20 @@ const setupTipWatcher = () => {
 
 // ==================== 卡牌提示监视器 ====================
 
+/**
+ * 设置卡牌提示监视器
+ */
 const setupCardTipWatcher = () => {
 	if (!isShoushaSyle()) return;
 
+	/** @type {Record<string, {cls: string, img: string}>} */
 	const tips = {
 		sha: { cls: "playertipsha", img: "tipsha.png" },
 		shan: { cls: "playertipshan", img: "tipshan.png" },
 		tao: { cls: "playertiptao", img: "tiptao.png" },
 		jiu: { cls: "playertipjiu", img: "tipjiu.png" },
 	};
+	/** @type {Map<HTMLElement, string>} */
 	const shown = new Map();
 
 	lib.announce.subscribe("Noname.Game.Event.Trigger", data => {
@@ -433,6 +535,10 @@ const setupCardTipWatcher = () => {
 
 // ==================== 模块注册 ====================
 
+/**
+ * 注册旧版模块
+ * @param {object} config - 配置对象
+ */
 export function registerLegacyModules(config) {
 	// 兼容旧API
 	lib.removeFirstByClass = lib.removeFirstByClass || ((p, c) => p.getElementsByClassName(c)[0]?.remove());

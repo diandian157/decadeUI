@@ -1,12 +1,17 @@
 /**
- * 边界缓存类
- * @description 从concore.js提取的BoundsCache类
+ * @fileoverview 边界缓存工具 - 用于缓存和管理DOM元素的位置与尺寸信息
  */
 
+import { lib, game, ui, get, ai, _status } from "noname";
+
 /**
- * 边界缓存类 - 用于缓存元素的位置和尺寸
+ * 边界缓存类 - 缓存元素的位置和尺寸，支持延迟更新
  */
 export class BoundsCache {
+	/**
+	 * @param {HTMLElement|null} element - 要缓存的DOM元素
+	 * @param {Function} [updateBefore] - 更新前的回调函数
+	 */
 	constructor(element, updateBefore) {
 		this.element = element;
 		this.updateBefore = updateBefore;
@@ -54,14 +59,16 @@ export class BoundsCache {
 	}
 
 	/**
-	 * 检查并更新缓存
+	 * 检查并更新缓存（如未更新则触发更新）
+	 * @returns {void}
 	 */
 	check() {
 		if (!this.updated) this.update();
 	}
 
 	/**
-	 * 更新缓存
+	 * 强制更新缓存数据
+	 * @returns {void}
 	 */
 	update() {
 		if (this.updateBefore) this.updateBefore.call(this);
@@ -77,7 +84,8 @@ export class BoundsCache {
 
 /**
  * 创建边界缓存集合
- * @param {object} decadeUI DecadeUI实例
+ * @param {Object} decadeUI - DecadeUI实例
+ * @returns {{window: BoundsCache, arena: BoundsCache, hand: BoundsCache}} 缓存集合
  */
 export function createBoundsCaches(decadeUI) {
 	const caches = {};

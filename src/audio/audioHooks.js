@@ -1,8 +1,9 @@
-"use strict";
-
 /**
- * 音频彩蛋钩子模块
+ * @fileoverview 音频彩蛋钩子模块
+ * 提供游戏中各种彩蛋语音的触发机制，包括卡牌使用、受伤、死亡、回合开始等事件
  */
+
+"use strict";
 
 import { lib, game, ui, get, ai, _status } from "noname";
 import { cardEasterEggs } from "./easterEggs/cardEggs.js";
@@ -12,16 +13,45 @@ import { trickEasterEggs } from "./easterEggs/trickEggs.js";
 import { damageEasterEggs, deathEasterEggs, phaseStartEasterEggs } from "./easterEggs/eventEggs.js";
 import { gameStartDialogues } from "./easterEggs/dialogueEggs.js";
 
-// 合并所有卡牌彩蛋
+/**
+ * @type {Array<Object>}
+ * 合并所有卡牌彩蛋配置
+ */
 const allCardEasterEggs = [...cardEasterEggs, ...shaEasterEggs, ...equipEasterEggs, ...trickEasterEggs];
 
-// 工具函数
+/**
+ * 检查玩家是否包含指定名称
+ * @param {Object} player - 玩家对象
+ * @param {string} name - 要检查的名称
+ * @returns {boolean} 是否包含该名称
+ */
 const hasName = (player, name) => get.nameList(player).some(n => n?.includes(name));
+
+/**
+ * 根据名称查找玩家
+ * @param {string} name - 玩家名称
+ * @returns {Object|undefined} 找到的玩家对象
+ */
 const findPlayer = name => game.players?.find(p => hasName(p, name));
+
+/**
+ * 播放彩蛋音频
+ * @param {string} file - 音频文件名
+ */
 const playAudio = file => game.playAudio("..", "extension", "十周年UI", `audio/caidan/${file}`);
 
-// 序列状态管理
+/**
+ * @type {Map<string, number>}
+ * 序列状态管理器
+ */
 const sequenceState = new Map();
+
+/**
+ * 获取下一个序列项
+ * @param {Object} rule - 彩蛋规则
+ * @param {Object} ctx - 上下文对象
+ * @returns {Object|null} 序列项或null
+ */
 const nextSequence = (rule, ctx) => {
 	if (!rule.sequence?.length) return null;
 	const key = rule.sequenceKey?.(ctx) || `${rule.player}-${rule.cards.join(",")}`;
@@ -30,7 +60,13 @@ const nextSequence = (rule, ctx) => {
 	return rule.sequence[index % rule.sequence.length];
 };
 
-// 触发彩蛋语音
+/**
+ * 触发彩蛋语音
+ * @param {Array<Object>} rules - 彩蛋规则数组
+ * @param {Function} matcher - 匹配函数
+ * @param {Function} getSpeaker - 获取说话者函数
+ * @returns {boolean} 是否成功触发
+ */
 const triggerEasterEgg = (rules, matcher, getSpeaker) => {
 	for (const rule of rules) {
 		if (!matcher(rule)) continue;
@@ -44,7 +80,10 @@ const triggerEasterEgg = (rules, matcher, getSpeaker) => {
 	return false;
 };
 
-// 张飞拼点平局处理
+/**
+ * 处理张飞拼点平局彩蛋
+ * @param {Object} event - 拼点事件对象
+ */
 const handleZhangfeiTie = event => {
 	const player = event.player;
 	const target = event.target || event.targets?.[0];
@@ -57,7 +96,12 @@ const handleZhangfeiTie = event => {
 	}
 };
 
-// 创建上下文对象
+/**
+ * 创建彩蛋上下文对象
+ * @param {Object} event - 游戏事件
+ * @param {string} cardName - 卡牌名称
+ * @returns {Object} 上下文对象
+ */
 const createContext = (event, cardName) => ({
 	card: event.card,
 	player: event.player,
@@ -69,6 +113,7 @@ const createContext = (event, cardName) => ({
 
 /**
  * 设置音频彩蛋钩子
+ * 初始化所有彩蛋触发机制
  */
 export function setupAudioHooks() {
 	// Hook: 使用卡牌

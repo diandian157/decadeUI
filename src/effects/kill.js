@@ -1,14 +1,20 @@
 "use strict";
 
 /**
- * 击杀特效模块
+ * @fileoverview 击杀特效模块，处理玩家击杀时的视觉效果
  */
 
 import { lib, game, ui, get, ai, _status } from "noname";
 import { CONFIG } from "./config.js";
 import { create, isPlayer, getAvatar, randomPosition } from "./utils.js";
 
-/** 播放击杀特效 */
+/**
+ * 播放击杀特效
+ * @param {Object} source - 击杀者玩家对象
+ * @param {Object} target - 被击杀者玩家对象
+ * @returns {void}
+ * @throws {Error} 当source或target不是有效玩家对象时
+ */
 export function playKillEffect(source, target) {
 	if (!isPlayer(source) || !isPlayer(target)) {
 		throw new Error("source和target必须是有效的玩家对象");
@@ -60,7 +66,12 @@ export function playKillEffect(source, target) {
 	effect.close(CONFIG.KILL_CLOSE);
 }
 
-/** 降级击杀特效(无Spine时) */
+/**
+ * 降级击杀特效(无Spine时)
+ * @param {HTMLElement} effect - 特效容器元素
+ * @param {HTMLElement} victim - 被击杀者元素
+ * @returns {void}
+ */
 function fallbackKillEffect(effect, victim) {
 	create("li-big", effect);
 

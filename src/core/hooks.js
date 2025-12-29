@@ -1,9 +1,11 @@
 ﻿/**
- * 钩子初始化模块
+ * @fileoverview 钩子初始化模块，注册各种UI钩子函数
  */
 import { lib, game, ui, get, ai, _status } from "noname";
 
-/** 初始化钩子 */
+/**
+ * 初始化钩子
+ */
 export function initHooks() {
 	// target可选状态显示
 	lib.hooks["checkTarget"].push(function decadeUI_selectable(target) {
@@ -11,7 +13,7 @@ export function initHooks() {
 		target.classList[list.some(s => target.classList.contains(s)) ? "remove" : "add"]("un-selectable");
 	});
 
-	// 视为卡牌样式适配（强制启用十周年UI样式）
+	// 视为卡牌样式适配
 	const updateTempname = lib.hooks["checkCard"].indexOf(lib.hooks["checkCard"].find(i => i.name === "updateTempname"));
 	lib.hooks["checkCard"][updateTempname] = function updateTempname(card) {
 		if (lib.config.cardtempname === "off") return;

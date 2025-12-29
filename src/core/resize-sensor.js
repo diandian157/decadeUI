@@ -1,10 +1,16 @@
 /**
- * 尺寸监听器
+ * @fileoverview 尺寸监听器模块，提供元素尺寸变化检测功能
  */
 
-/** 创建ResizeSensor类 */
+/**
+ * 创建ResizeSensor类
+ * @returns {Function} ResizeSensor类
+ */
 export const createResizeSensorClass = () => {
 	class ResizeSensor {
+		/**
+		 * @param {HTMLElement} element - 要监听的元素
+		 */
 		constructor(element) {
 			this.element = element;
 			this.width = element.clientWidth || 1;
@@ -14,6 +20,9 @@ export const createResizeSensorClass = () => {
 			this.initScrollElements();
 		}
 
+		/**
+		 * 初始化滚动元素
+		 */
 		initScrollElements() {
 			const containerStyle = "position:absolute;top:0;bottom:0;left:0;right:0;z-index:-10000;overflow:hidden;visibility:hidden;transition:all 0s;";
 			const childStyle = "transition:all 0s!important;animation:none!important;";
@@ -46,12 +55,20 @@ export const createResizeSensorClass = () => {
 			this.shrink.addEventListener("scroll", this.onscroll);
 		}
 
+		/**
+		 * 创建容器元素
+		 * @param {string} style - CSS样式
+		 * @returns {HTMLElement} 容器元素
+		 */
 		createContainer(style) {
 			const div = document.createElement("div");
 			div.style.cssText = style;
 			return div;
 		}
 
+		/**
+		 * 重置滚动位置
+		 */
 		resetScroll() {
 			const maxW = this.maxSize * this.width;
 			const maxH = this.maxSize * this.height;
@@ -59,6 +76,9 @@ export const createResizeSensorClass = () => {
 			this.expand.scrollLeft = this.shrink.scrollLeft = maxW;
 		}
 
+		/**
+		 * 处理滚动事件
+		 */
 		handleScroll() {
 			const w = this.element.clientWidth || 1;
 			const h = this.element.clientHeight || 1;
@@ -70,10 +90,18 @@ export const createResizeSensorClass = () => {
 			this.resetScroll();
 		}
 
+		/**
+		 * 添加监听器
+		 * @param {Function} callback - 回调函数
+		 * @param {boolean} capture - 是否立即触发
+		 */
 		addListener(callback, capture = true) {
 			this.events.push({ callback, capture });
 		}
 
+		/**
+		 * 分发事件
+		 */
 		dispatchEvent() {
 			let hasDeferred = false;
 			this.events.forEach(evt => {
@@ -83,12 +111,18 @@ export const createResizeSensorClass = () => {
 			if (hasDeferred) requestAnimationFrame(() => this.dispatchDeferredEvents());
 		}
 
+		/**
+		 * 分发延迟事件
+		 */
 		dispatchDeferredEvents() {
 			this.events.forEach(evt => {
 				if (!evt.capture) evt.callback();
 			});
 		}
 
+		/**
+		 * 关闭监听器
+		 */
 		close() {
 			this.expand.removeEventListener("scroll", this.onscroll);
 			this.shrink.removeEventListener("scroll", this.onscroll);

@@ -1,5 +1,5 @@
 /**
- * OL风格lbtn插件
+ * @fileoverview OL风格lbtn插件
  * 特点：OL风格菜单、身份任务、礼物系统、历史记录、计时器
  */
 import { lib, game, ui, get, ai, _status } from "noname";

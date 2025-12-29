@@ -1,19 +1,37 @@
 /**
- * 布局模块
+ * @fileoverview 布局模块，负责手牌和弃牌区的布局计算与更新
  */
 import { lib, game, ui, get, ai, _status } from "noname";
 
+/**
+ * 获取当前样式配置
+ * @returns {string} 样式名称
+ */
 const getStyle = () => decadeUI?.config?.newDecadeStyle ?? lib.config.extension_十周年UI_newDecadeStyle;
+
+/**
+ * 获取弃牌缩放比例
+ * @returns {number} 缩放比例
+ */
 const getDiscardScale = () => lib.config?.extension_十周年UI_discardScale ?? 0.14;
 
-/** 创建layout模块 */
+/**
+ * 创建layout模块
+ * @returns {Object} layout模块对象
+ */
 export function createLayoutModule() {
 	return {
+		/**
+		 * 更新所有布局
+		 */
 		update() {
 			this.updateHand();
 			this.updateDiscard();
 		},
 
+		/**
+		 * 更新手牌布局
+		 */
 		updateHand() {
 			if (!game.me) return;
 			const handNode = ui.handcards1;
@@ -100,6 +118,9 @@ export function createLayoutModule() {
 			}
 		},
 
+		/**
+		 * 更新弃牌区布局
+		 */
 		updateDiscard() {
 			ui.thrown ??= [];
 			ui.thrown = ui.thrown.filter(t => {
@@ -137,6 +158,10 @@ export function createLayoutModule() {
 			});
 		},
 
+		/**
+		 * 清理卡牌
+		 * @param {HTMLElement} card - 卡牌元素
+		 */
 		clearout(card) {
 			if (!card || card.fixed || card.classList.contains("removing")) return;
 			if (card.name?.startsWith("shengbei_left_") || card.name?.startsWith("shengbei_right_")) {
@@ -158,6 +183,10 @@ export function createLayoutModule() {
 			);
 		},
 
+		/**
+		 * 防抖处理
+		 * @param {Object} config - 防抖配置
+		 */
 		_debounce(config) {
 			const { defaultDelay, maxDelay, timeoutKey, timeKey, immediateCallback, callback } = config;
 			const nowTime = Date.now();
@@ -182,6 +211,9 @@ export function createLayoutModule() {
 			);
 		},
 
+		/**
+		 * 延迟清理
+		 */
 		delayClear() {
 			this._debounce({
 				defaultDelay: 500,
@@ -193,11 +225,17 @@ export function createLayoutModule() {
 			});
 		},
 
+		/**
+		 * 使布局失效
+		 */
 		invalidate() {
 			this.invalidateHand();
 			this.invalidateDiscard();
 		},
 
+		/**
+		 * 使手牌布局失效
+		 */
 		invalidateHand() {
 			this._debounce({
 				defaultDelay: 40,
@@ -209,6 +247,9 @@ export function createLayoutModule() {
 			});
 		},
 
+		/**
+		 * 使弃牌区布局失效
+		 */
 		invalidateDiscard() {
 			this._debounce({
 				defaultDelay: ui.thrown?.length > 15 ? 80 : 40,
@@ -220,6 +261,9 @@ export function createLayoutModule() {
 			});
 		},
 
+		/**
+		 * 响应窗口大小变化
+		 */
 		resize() {
 			ui.arena.classList.toggle("dui-mobile", decadeUI.isMobile());
 

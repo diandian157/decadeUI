@@ -1,11 +1,23 @@
 /**
- * 玩家初始化模块
+ * @fileoverview 玩家初始化模块
+ * 提供玩家角色初始化相关功能，包括动态皮肤、手牌可见、角标等
  */
+
 import { lib, game, ui, get, ai, _status } from "noname";
 import { element } from "../utils/element.js";
 
-/** 创建player.$init方法 */
+/**
+ * 创建player.$init方法
+ * @param {object} base - 基础对象，包含lib.element.player.$init
+ * @returns {Function} 初始化函数
+ */
 export function createPlayerInit(base) {
+	/**
+	 * 玩家初始化函数
+	 * @param {string} character - 主将名称
+	 * @param {string} [character2] - 副将名称
+	 * @returns {HTMLElement} 玩家元素
+	 */
 	return function (character, character2) {
 		base.lib.element.player.$init.apply(this, arguments);
 		this.doubleAvatar = (character2 && lib.character[character2]) !== undefined;
@@ -23,6 +35,7 @@ export function createPlayerInit(base) {
 			if (this === game.me) {
 				this.dataset.borderLevel = "five";
 			} else {
+				/** @type {string[]} */
 				const levels = ["one", "two", "three", "four", "five"];
 				this.dataset.borderLevel = levels[Math.floor(Math.random() * levels.length)];
 			}
@@ -31,7 +44,9 @@ export function createPlayerInit(base) {
 		}
 
 		// 动态皮肤
+		/** @type {number} */
 		let CUR_DYNAMIC = decadeUI.CUR_DYNAMIC ?? 0;
+		/** @type {number} */
 		let MAX_DYNAMIC = decadeUI.MAX_DYNAMIC ?? (decadeUI.isMobile() ? 2 : 10) + (window.OffscreenCanvas ? 8 : 0);
 		decadeUI.CUR_DYNAMIC = CUR_DYNAMIC;
 		decadeUI.MAX_DYNAMIC = MAX_DYNAMIC;
@@ -88,6 +103,7 @@ export function createPlayerInit(base) {
 			const rect = player.getBoundingClientRect();
 			const winWidth = window.innerWidth || document.documentElement.clientWidth;
 			const showCards = player.node.showCards;
+			/** @type {number} */
 			const offset = 10;
 			const isBabysha = lib.config.extension_十周年UI_newDecadeStyle === "babysha";
 			if ((isBabysha && rect.left < winWidth / 2) || (!isBabysha && rect.left >= winWidth / 2)) {

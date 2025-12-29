@@ -1,5 +1,5 @@
 /**
- * 十周年风格lbtn插件
+ * @fileoverview 十周年风格lbtn插件
  * 特点：十周年风格菜单、手牌整理、全选按钮
  */
 import { lib, game, ui, get, ai, _status } from "noname";

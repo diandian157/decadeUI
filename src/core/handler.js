@@ -1,13 +1,21 @@
 /**
- * 事件处理模块
+ * @fileoverview 事件处理模块，提供手牌滚动等交互处理
  */
 import { lib, game, ui, get, ai, _status } from "noname";
 
+/** @type {number} 滚动步长 */
 const SCROLL_STEP = 84;
 
-/** 创建handler模块 */
+/**
+ * 创建handler模块
+ * @returns {Object} handler模块对象
+ */
 export function createHandlerModule() {
 	return {
+		/**
+		 * 手牌区鼠标滚轮处理
+		 * @param {WheelEvent} e - 滚轮事件
+		 */
 		handMousewheel(e) {
 			const hand = ui.handcards1Container;
 			if (!hand) return console.error("ui.handcards1Container");

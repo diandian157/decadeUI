@@ -1,14 +1,22 @@
 /**
- * 卡牌样式模块
- * 包含：卡牌边框、卡牌背景
+ * @fileoverview 卡牌样式模块，包含卡牌边框和卡牌背景样式管理
  */
-import { lib, game, ui, get, ai, _status } from "noname";
+import { lib, _status } from "noname";
 
-// 动态样式元素引用
+// ==================== 动态样式元素引用 ====================
+
+/** @type {HTMLStyleElement|null} 边框样式元素 */
 let borderStyleEl = null;
+
+/** @type {HTMLStyleElement|null} 背景样式元素 */
 let bgStyleEl = null;
 
-/** 添加或更新样式 */
+/**
+ * 添加或更新样式
+ * @param {HTMLStyleElement|null} styleEl - 样式元素
+ * @param {string} css - CSS内容
+ * @returns {HTMLStyleElement} 样式元素
+ */
 const updateStyle = (styleEl, css) => {
 	if (!styleEl) {
 		styleEl = document.createElement("style");
@@ -18,24 +26,46 @@ const updateStyle = (styleEl, css) => {
 	return styleEl;
 };
 
-/** 生成边框CSS */
+/**
+ * 生成边框CSS
+ * @param {string} borderName - 边框名称
+ * @param {string} selector - CSS选择器
+ * @param {number} imageWidth - 边框图片宽度
+ * @returns {string} CSS字符串
+ */
 const getBorderCSS = (borderName, selector, imageWidth) => {
 	if (!borderName || borderName === "off") return "";
 	const url = `${lib.assetURL}extension/十周年UI/image/ui/card/${borderName}.png`;
 	return `${selector} { width: 108px; height: 150px; border: 1px solid; border-radius: 10px; border-image-source: url('${url}'); border-image-slice: 17; border-image-width: ${imageWidth}px; }`;
 };
 
-/** 等阶→边框/卡背映射：five→大司马，four→大将军，three/two→国都护，one→无 */
+/**
+ * 等阶→边框映射：five→大司马，four→大将军，three/two→国都护，one→无
+ * @type {Object.<string, string|null>}
+ */
 const levelToBorder = { five: "kuang1", four: "kuang2", three: "kuang3", two: "kuang3", one: null };
+
+/**
+ * 等阶→卡背映射
+ * @type {Object.<string, string|null>}
+ */
 const levelToBg = { five: "kb4", four: "kb3", three: "kb2", two: "kb2", one: null };
 
-/** 检查功能是否启用（主玩家选了cardkmh才生效） */
+/**
+ * 检查功能是否启用（主玩家选了cardkmh才生效）
+ * @returns {boolean} 是否启用
+ */
 function isFeatureEnabled() {
 	const config = lib.config.extension_十周年UI_cardkmh;
 	return config && config !== "off";
 }
 
-/** 根据玩家获取边框名（主玩家用配置，其他玩家用等阶） */
+/**
+ * 根据玩家获取边框名（主玩家用配置，其他玩家用等阶）
+ * @param {HTMLElement} player - 玩家元素
+ * @param {boolean} isMe - 是否为主玩家
+ * @returns {string|null} 边框名称
+ */
 function getBorderByPlayer(player, isMe) {
 	if (!player) return null;
 	if (isMe) {
@@ -47,7 +77,12 @@ function getBorderByPlayer(player, isMe) {
 	return level in levelToBorder ? levelToBorder[level] : "kuang1";
 }
 
-/** 根据玩家获取卡背名 */
+/**
+ * 根据玩家获取卡背名
+ * @param {HTMLElement} player - 玩家元素
+ * @param {boolean} isMe - 是否为主玩家
+ * @returns {string|null} 卡背名称
+ */
 function getBgByPlayer(player, isMe) {
 	if (!player) return null;
 	if (isMe) {
@@ -58,7 +93,13 @@ function getBgByPlayer(player, isMe) {
 	return levelToBg[level] || null;
 }
 
-/** 为卡牌应用边框和卡背样式 */
+/**
+ * 为卡牌应用边框和卡背样式
+ * @param {HTMLElement} card - 卡牌元素
+ * @param {HTMLElement} player - 玩家元素
+ * @param {boolean} [isMe=false] - 是否为主玩家
+ * @returns {void}
+ */
 export function applyCardBorder(card, player, isMe = false) {
 	const border = getBorderByPlayer(player, isMe);
 
@@ -83,7 +124,10 @@ export function applyCardBorder(card, player, isMe = false) {
 	}
 }
 
-/** 更新主玩家手牌区样式（支持热更新） */
+/**
+ * 更新主玩家手牌区样式（支持热更新）
+ * @returns {void}
+ */
 export function updateCardStyles() {
 	const borderConfig = lib.config.extension_十周年UI_cardkmh;
 	const cardBg = lib.config.extension_十周年UI_cardbj;
@@ -97,7 +141,10 @@ export function updateCardStyles() {
 	bgStyleEl = updateStyle(bgStyleEl, bgCSS);
 }
 
-/** 初始化卡牌样式 */
+/**
+ * 初始化卡牌样式
+ * @returns {void}
+ */
 export function setupCardStyles() {
 	// 主玩家手牌基础布局（只需添加一次）
 	const baseStyle = document.createElement("style");

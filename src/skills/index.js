@@ -1,15 +1,23 @@
 /**
- * 十周年UI - 技能模块
+ * @fileoverview 十周年UI - 技能模块
  * 包含：动画技能、基础技能、继承技能、子技能
  */
 import { lib, game, ui, get, ai, _status } from "noname";
 
 // ==================== 常量 ====================
+
+/**
+ * @type {string[]}
+ * @description 可重铸的卡牌名称列表
+ */
 const RECASTABLE_CARDS = ["tiesuo", "lulitongxin", "zhibi"];
 
 // ==================== 工具函数 ====================
 
-/** 创建画布样式配置 */
+/**
+ * 创建画布样式配置
+ * @returns {Object} 画布CSS样式对象
+ */
 const createCanvasStyle = () => ({
 	position: "absolute",
 	width: "249px",
@@ -20,7 +28,12 @@ const createCanvasStyle = () => ({
 	border: "3px solid",
 });
 
-/** 初始化画布 */
+/**
+ * 初始化画布
+ * @param {HTMLCanvasElement} canvas - 画布元素
+ * @param {number} [size=249] - 画布尺寸
+ * @returns {CanvasRenderingContext2D} 画布2D上下文
+ */
 const initCanvas = (canvas, size = 249) => {
 	canvas.width = size;
 	canvas.height = size;
@@ -28,7 +41,13 @@ const initCanvas = (canvas, size = 249) => {
 	return canvas.getContext("2d");
 };
 
-/** 加载图片到画布 */
+/**
+ * 加载图片到画布
+ * @param {CanvasRenderingContext2D} ctx - 画布上下文
+ * @param {HTMLCanvasElement} canvas - 画布元素
+ * @param {string} name - 卡牌图片名称
+ * @returns {void}
+ */
 const loadImageToCanvas = (ctx, canvas, name) => {
 	const img = new Image();
 	img.src = `${lib.assetURL}image/card/${name}.png`;
@@ -37,6 +56,10 @@ const loadImageToCanvas = (ctx, canvas, name) => {
 
 // ==================== 动画技能 ====================
 
+/**
+ * @type {Object.<string, Object>}
+ * @description 动画技能集合
+ */
 const animateSkill = {
 	/** 游戏开始动画 */
 	mx_start: {
@@ -141,6 +164,10 @@ const animateSkill = {
 
 // ==================== 基础技能 ====================
 
+/**
+ * @type {Object.<string, Object>}
+ * @description 基础技能集合
+ */
 const baseSkill = {
 	ghujia: { mark: false },
 
@@ -289,6 +316,10 @@ const baseSkill = {
 
 // ==================== 继承技能 ====================
 
+/**
+ * @type {Object.<string, Object>}
+ * @description 继承技能集合，用于扩展已有技能
+ */
 const inheritSkill = {
 	/** 评才技能 - 擦拭宝物小游戏 */
 	xinfu_pingcai: {
@@ -939,6 +970,10 @@ const inheritSkill = {
 
 // ==================== 继承子技能 ====================
 
+/**
+ * @type {Object.<string, Object>}
+ * @description 继承子技能集合，用于扩展已有技能的子技能
+ */
 const inheritSubSkill = {
 	/** 自若排序 */
 	olziruo: {
@@ -992,6 +1027,10 @@ const inheritSubSkill = {
 
 // ==================== 势力优化技能 ====================
 
+/**
+ * @type {Object.<string, Object>}
+ * @description 势力优化相关技能
+ */
 const factionOptimizeSkill = {
 	_slyh: {
 		trigger: { global: "gameStart", player: "enterGame" },
@@ -1020,7 +1059,10 @@ const factionOptimizeSkill = {
 
 // ==================== 初始化入口 ====================
 
-/** 初始化技能模块 */
+/**
+ * 初始化技能模块
+ * @returns {void}
+ */
 export function initSkills() {
 	if (_status.connectMode) return;
 
@@ -1076,7 +1118,12 @@ export function initSkills() {
 	}
 }
 
-/** 检查卡牌是否被其他技能禁用 */
+/**
+ * 检查卡牌是否被其他技能禁用
+ * @param {Object} card - 卡牌对象
+ * @param {Object} player - 玩家对象
+ * @returns {boolean} 是否被禁用
+ */
 function isCardDisabledForUse(card, player) {
 	if (!player) return false;
 
@@ -1101,7 +1148,10 @@ function isCardDisabledForUse(card, player) {
 	return disabled;
 }
 
-/** 设置可重铸卡牌 */
+/**
+ * 设置可重铸卡牌
+ * @returns {void}
+ */
 function setupRecastableCards() {
 	RECASTABLE_CARDS.forEach(cardName => {
 		const card = lib.card[cardName];

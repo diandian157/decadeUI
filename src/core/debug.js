@@ -1,10 +1,10 @@
 /**
- * 调试工具模块
+ * @fileoverview 调试工具模块，提供Eruda调试器和Node.js文件系统初始化
  */
 import { lib, game, ui, get, ai, _status } from "noname";
 
 /**
- * 初始化 Eruda 调试工具
+ * 初始化Eruda调试工具
  */
 export function initEruda() {
 	if (!lib.config[`extension_${decadeUIName}_eruda`]) return;
@@ -16,7 +16,7 @@ export function initEruda() {
 }
 
 /**
- * 初始化 Node.js 文件系统
+ * 初始化Node.js文件系统
  */
 export function initNodeFS() {
 	if (window.require && !window.fs) {

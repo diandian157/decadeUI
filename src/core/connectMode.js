@@ -1,5 +1,5 @@
 /**
- * 联机模式模块
+ * @fileoverview 联机模式模块，处理联机状态和布局可视化菜单
  */
 import { lib, game, ui, get, ai, _status } from "noname";
 

@@ -1,15 +1,16 @@
 /**
- * UI组件模块
- * 提供滑动条、聊天框等通用UI组件
+ * @fileoverview UI组件模块，提供滑动条、聊天框等通用UI组件
  */
+import { lib, game, ui, get, ai, _status } from "noname";
 
 // ==================== 滑动条组件 ====================
 
 /**
  * 创建滑动条组件
- * @param {number} min - 最小值，默认0
- * @param {number} max - 最大值，默认100
- * @param {number} value - 初始值，默认中间值
+ * @param {number} [min=0] - 最小值
+ * @param {number} [max=100] - 最大值
+ * @param {number} [value] - 初始值，默认为中间值
+ * @returns {HTMLInputElement} 滑动条元素
  */
 export function createSlider(min = 0, max = 100, value) {
 	const slider = document.createElement("input");
@@ -46,6 +47,7 @@ export function createSlider(min = 0, max = 100, value) {
 /**
  * 创建聊天框组件
  * @param {object} decadeUI - decadeUI实例
+ * @returns {HTMLElement} 聊天框元素
  */
 export function createChatBox(decadeUI) {
 	const { dialog } = decadeUI;
@@ -135,6 +137,7 @@ export function createChatBox(decadeUI) {
 /**
  * 初始化组件模块，挂载到decadeUI
  * @param {object} decadeUI - decadeUI实例
+ * @returns {void}
  */
 export function initComponent(decadeUI) {
 	decadeUI.component = {

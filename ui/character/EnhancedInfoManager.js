@@ -1,16 +1,25 @@
 ﻿/**
- * 详细资料弹窗管理器
+ * @fileoverview 详细资料弹窗管理器
+ * 提供武将详细信息展示功能
  */
 import { lib, game, ui, get, ai, _status } from "noname";
 import { CONSTANTS } from "../constants.js";
 import { createLeftPane, createStars, getGroupBackgroundImage } from "../utils.js";
 
 export class EnhancedInfoManager {
+	/**
+	 * 构造函数
+	 */
 	constructor() {
 		this.playerDialog = null;
 	}
 
-	// 创建详细资料弹窗
+	/**
+	 * 创建详细资料弹窗
+	 * @param {Object} player - 玩家对象
+	 * @param {Object} randomData - 随机数据
+	 * @returns {HTMLElement} 弹窗容器元素
+	 */
 	createEnhancedDetailPopup(player, randomData) {
 		const container = ui.create.div(".popup-container", { background: "rgb(0,0,0,0.8)" }, ui.window);
 
@@ -31,7 +40,13 @@ export class EnhancedInfoManager {
 		return container;
 	}
 
-	// 头像信息
+	/**
+	 * 创建头像信息区域
+	 * @param {HTMLElement} dialog - 弹窗元素
+	 * @param {Object} player - 玩家对象
+	 * @param {Object} randomData - 随机数据
+	 * @private
+	 */
 	_createAvatarInfo(dialog, player, randomData) {
 		const avatar = ui.create.div(".minixingxiang", dialog);
 		const avatarBg = ui.create.div(".minixingxiangdi", dialog);
@@ -52,7 +67,13 @@ export class EnhancedInfoManager {
 		avatar.setBackgroundImage(`extension/十周年UI/ui/assets/character/shousha/xingxiang${Math.floor(Math.random() * 6)}.png`);
 	}
 
-	// 官阶信息
+	/**
+	 * 创建官阶信息区域
+	 * @param {HTMLElement} dialog - 弹窗元素
+	 * @param {Object} player - 玩家对象
+	 * @param {Object} randomData - 随机数据
+	 * @private
+	 */
 	_createRankInfo(dialog, player, randomData) {
 		const prefix = CONSTANTS.IMAGE_PATH_PREFIX;
 		const level = player === game.me ? 11 : randomData.guanjieLevel;
@@ -64,7 +85,13 @@ export class EnhancedInfoManager {
 		label.setBackgroundImage(`${prefix}offical_label_${level}.png`);
 	}
 
-	// 段位信息
+	/**
+	 * 创建段位信息区域
+	 * @param {HTMLElement} dialog - 弹窗元素
+	 * @param {Object} player - 玩家对象
+	 * @param {Object} randomData - 随机数据
+	 * @private
+	 */
 	_createDuanweiInfo(dialog, player, randomData) {
 		const prefix = CONSTANTS.IMAGE_PATH_PREFIX;
 		const paiwei = ui.create.div(".paiweiditu", dialog);
@@ -96,7 +123,13 @@ export class EnhancedInfoManager {
 		ui.create.div(".gonghui", paiwei, `(${CONSTANTS.VIP_TYPES.randomGet(1)})`);
 	}
 
-	// 擅长武将信息
+	/**
+	 * 创建擅长武将信息区域
+	 * @param {HTMLElement} dialog - 弹窗元素
+	 * @param {Object} player - 玩家对象
+	 * @param {Object} randomData - 随机数据
+	 * @private
+	 */
 	_createSkillInfo(dialog, player, randomData) {
 		// 按钮配置
 		const buttons =
@@ -144,7 +177,12 @@ export class EnhancedInfoManager {
 		});
 	}
 
-	// 创建按钮
+	/**
+	 * 创建按钮组
+	 * @param {HTMLElement} dialog - 弹窗元素
+	 * @param {Array} buttons - 按钮配置数组
+	 * @private
+	 */
 	_createButtons(dialog, buttons) {
 		buttons.forEach(btn => {
 			const el = ui.create.div(`.${btn.cls}`, dialog, get.translation(btn.text));

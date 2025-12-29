@@ -1,24 +1,42 @@
 /**
- * 玩家元素创建模块
+ * @fileoverview 玩家元素创建模块
+ * 提供玩家DOM元素的创建和初始化功能
  */
+
 import { lib, game, ui, get, ai, _status } from "noname";
 import { element } from "../utils/element.js";
 
-// ChildNodesWatcher实现
+/**
+ * 子节点监视器类
+ * 用于缓存和监视DOM子节点变化
+ */
 class ChildNodesWatcher {
+	/**
+	 * @param {HTMLElement} dom - 要监视的DOM元素
+	 */
 	constructor(dom) {
 		this.dom = dom;
+		/** @type {Node[]|null} */
 		this._cache = null;
 		const observer = new MutationObserver(() => (this._cache = null));
 		observer.observe(dom, { childList: true });
 	}
+
+	/**
+	 * 获取子节点列表
+	 * @returns {Node[]}
+	 */
 	get childNodes() {
 		if (!this._cache) this._cache = Array.from(this.dom.childNodes);
 		return this._cache;
 	}
 }
 
-/** 设置身份显示 */
+/**
+ * 设置身份显示
+ * @param {HTMLElement} realIdentity - 身份元素
+ * @param {HTMLElement} player - 玩家元素
+ */
 function setupIdentityDisplay(realIdentity, player) {
 	Object.defineProperties(realIdentity, {
 		innerHTML: {
@@ -43,6 +61,7 @@ function setupIdentityDisplay(realIdentity, player) {
 				}
 
 				const identity = this.parentNode.dataset.color;
+				/** @type {Record<string, Function>} */
 				const handlerMap = {
 					猜: () => {
 						let f = "cai";
@@ -103,6 +122,7 @@ function setupIdentityDisplay(realIdentity, player) {
 				this.style.visibility = "hidden";
 
 				const style = lib.config.extension_十周年UI_newDecadeStyle;
+				/** @type {Record<string, string>} */
 				const srcMap = {
 					onlineUI: "image/styles/online/identity2_",
 					babysha: "image/styles/baby/identity3_",
@@ -125,7 +145,12 @@ function setupIdentityDisplay(realIdentity, player) {
 	});
 }
 
-/** 创建player元素 */
+/**
+ * 创建player元素
+ * @param {HTMLElement} position - 父容器元素
+ * @param {boolean} [noclick] - 是否禁用点击事件
+ * @returns {HTMLElement} 玩家元素
+ */
 export function createPlayerElement(position, noclick) {
 	const player = ui.create.div(".player", position);
 	const playerExtend = {
@@ -301,6 +326,11 @@ export function createPlayerElement(position, noclick) {
 
 	node.gainSkill.player = player;
 	node.gainSkill.skills = [];
+
+	/**
+	 * 获得技能时的显示处理
+	 * @param {string} skill - 技能名称
+	 */
 	node.gainSkill.gain = function (skill) {
 		if (!this.skills.includes(skill) && lib.translate[skill]) {
 			if (lib.config.extension_十周年UI_newDecadeStyle === "off" && lib.config.extension_十周年UI_gainSkillsVisible !== "off") {
@@ -315,6 +345,11 @@ export function createPlayerElement(position, noclick) {
 			this.innerHTML = this.skills.map(s => lib.translate[s]).join(" ");
 		}
 	};
+
+	/**
+	 * 失去技能时的显示处理
+	 * @param {string} skill - 技能名称
+	 */
 	node.gainSkill.lose = function (skill) {
 		const index = this.skills.indexOf(skill);
 		if (index >= 0) {

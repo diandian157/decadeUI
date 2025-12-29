@@ -1,5 +1,5 @@
 /**
- * 新杀风格lbtn插件
+ * @fileoverview 新杀风格lbtn插件
  * 特点：新杀风格按钮布局、全选/反选按钮
  */
 import { lib, game, ui, get, ai, _status } from "noname";

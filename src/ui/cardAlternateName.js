@@ -1,20 +1,31 @@
 /**
- * 卡牌别名显示模块
- * 当手牌数量超过阈值时，自动切换显示模式
+ * @fileoverview 卡牌别名显示模块，当手牌数量超过阈值时自动切换显示模式
  */
 import { lib, game, ui, get, ai, _status } from "noname";
 
 // ==================== 常量 ====================
-const CARD_COUNT_THRESHOLD = 15; // 手牌数量阈值
-const POLL_INTERVAL = 500; // 轮询间隔（毫秒）
+
+/** @type {number} 手牌数量阈值 */
+const CARD_COUNT_THRESHOLD = 15;
+
+/** @type {number} 轮询间隔（毫秒） */
+const POLL_INTERVAL = 500;
+
+/** @type {string[]} 手牌区域名称列表 */
 const HANDCARD_ZONES = ["handcards1", "handcards2"];
 
 // ==================== 内部函数 ====================
 
-/** 获取玩家的手牌区域元素 */
+/**
+ * 获取玩家的手牌区域元素
+ * @returns {HTMLElement[]} 手牌区域元素数组
+ */
 const getHandcardZones = () => HANDCARD_ZONES.map(name => game.me?.node?.[name]).filter(Boolean);
 
-/** 更新卡牌别名的显示状态 */
+/**
+ * 更新卡牌别名的显示状态
+ * @returns {void}
+ */
 const updateVisibility = () => {
 	const count = game.me?.countCards("h") ?? 0;
 	const visible = count > CARD_COUNT_THRESHOLD ? "on" : "off";
@@ -23,7 +34,10 @@ const updateVisibility = () => {
 	});
 };
 
-/** 绑定 MutationObserver 监听手牌变化 */
+/**
+ * 绑定 MutationObserver 监听手牌变化
+ * @returns {boolean} 是否绑定成功
+ */
 const bindObservers = () => {
 	const zones = getHandcardZones();
 	if (!zones.length) return false;
@@ -44,7 +58,10 @@ const bindObservers = () => {
 
 // ==================== 导出函数 ====================
 
-/** 初始化卡牌别名显示功能 */
+/**
+ * 初始化卡牌别名显示功能
+ * @returns {void}
+ */
 export function initCardAlternateNameVisible() {
 	// 清理已有的定时器
 	if (window._cardAlternateNameVisibleTimer) {

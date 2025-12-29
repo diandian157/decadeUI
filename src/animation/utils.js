@@ -1,7 +1,7 @@
 "use strict";
 
 /**
- * 动画工具函数模块
+ * @fileoverview 动画工具函数模块，提供节流、尺寸观察、插值等通用功能
  */
 
 /**
@@ -9,6 +9,7 @@
  * @param {Function} func - 要节流的函数
  * @param {number} timeout - 节流时间间隔(ms)
  * @param {*} context - 执行上下文
+ * @returns {Function} 节流后的函数
  */
 export function throttle(func, timeout, context) {
 	let args, timer, previous;
@@ -31,6 +32,9 @@ export function throttle(func, timeout, context) {
 
 /**
  * 创建元素尺寸观察器
+ * @type {Function|null}
+ * @param {HTMLElement} target - 目标元素
+ * @param {Function} callback - 尺寸变化回调
  */
 export const observeSize = (() => {
 	if (!self.ResizeObserver) return null;
@@ -54,6 +58,10 @@ export const observeSize = (() => {
 
 /**
  * 线性插值
+ * @param {number} min - 最小值
+ * @param {number} max - 最大值
+ * @param {number} fraction - 插值比例(0-1)
+ * @returns {number} 插值结果
  */
 export function lerp(min, max, fraction) {
 	return (max - min) * fraction + min;
@@ -61,6 +69,7 @@ export function lerp(min, max, fraction) {
 
 /**
  * 获取浏览器信息
+ * @returns {Array} [浏览器名称, 主版本号, 次版本号, 补丁版本号]
  */
 export function getBrowserInfo() {
 	// Electron环境
@@ -96,6 +105,8 @@ export function getBrowserInfo() {
 	return ["safari", parseInt(major, 10), parseInt(minor, 10), parseInt(patch, 10)];
 }
 
-// 浏览器信息缓存
+/** @type {Array} 浏览器信息缓存 */
 const browserInfo = getBrowserInfo();
+
+/** @type {boolean} 是否使用新版DPR计算方式 */
 export const useNewDpr = (browserInfo[0] === "chrome" && browserInfo[1] >= 128) || (browserInfo[0] === "firefox" && browserInfo[1] >= 126);

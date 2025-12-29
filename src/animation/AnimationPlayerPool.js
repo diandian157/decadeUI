@@ -1,12 +1,20 @@
 "use strict";
 
 /**
- * 动画播放器对象池 - 管理多个播放器实例
+ * @fileoverview 动画播放器对象池，管理多个AnimationPlayer实例以提高性能
  */
 
 import { AnimationPlayer } from "./AnimationPlayer.js";
 
+/**
+ * 动画播放器对象池类
+ */
 export class AnimationPlayerPool {
+	/**
+	 * @param {number} [size=1] - 池大小
+	 * @param {string} pathPrefix - 资源路径前缀
+	 * @param {string} [thisName] - 池名称
+	 */
 	constructor(size, pathPrefix, thisName) {
 		if (!self.spine) {
 			console.error("spine 未定义.");
@@ -16,6 +24,13 @@ export class AnimationPlayerPool {
 		this.animations = Array.from({ length: size || 1 }, () => new AnimationPlayer(pathPrefix));
 	}
 
+	/**
+	 * 加载骨骼资源到所有播放器
+	 * @param {string} filename - 骨骼文件名
+	 * @param {string} skelType - 骨骼类型
+	 * @param {Function} [onload] - 加载成功回调
+	 * @param {Function} [onerror] - 加载失败回调
+	 */
 	loadSpine(filename, skelType, onload, onerror) {
 		this.animations[0].loadSpine(
 			filename,
@@ -36,6 +51,12 @@ export class AnimationPlayerPool {
 		);
 	}
 
+	/**
+	 * 在指定元素上播放骨骼动画
+	 * @param {HTMLElement} element - 目标元素
+	 * @param {string|Object} animation - 动画名称或配置
+	 * @param {Object} [position] - 位置配置
+	 */
 	playSpineTo(element, animation, position) {
 		if (position?.parent) {
 			position.parent = undefined;

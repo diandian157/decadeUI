@@ -1,10 +1,13 @@
 /**
- * 角色按钮预设模块
+ * @fileoverview 角色按钮预设模块，提供角色选择按钮的创建和刷新功能
  */
 import { lib, game, ui, get, ai, _status } from "noname";
 import { element } from "../utils/element.js";
 
-/** 创建角色按钮预设 */
+/**
+ * 创建角色按钮预设函数
+ * @returns {Function} 角色按钮创建函数
+ */
 export function createCharacterButtonPreset() {
 	return function (item, type, position, noclick, node) {
 		if (node) {

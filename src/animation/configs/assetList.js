@@ -1,9 +1,13 @@
 "use strict";
 
 /**
- * 预加载动画资源列表
+ * @fileoverview 预加载动画资源列表配置
  */
 
+/**
+ * 动画资源列表
+ * @type {Array<{name: string, follow?: boolean, fileType?: string}>}
+ */
 export const assetList = [
 	// 出牌指示动画
 	{ name: "aar_chupaizhishiX" },

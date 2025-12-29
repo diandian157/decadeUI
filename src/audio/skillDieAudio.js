@@ -1,16 +1,26 @@
-"use strict";
-
 /**
- * 技能/阵亡语音模块
- * 播放技能语音和阵亡语音，并显示文本气泡
+ * @fileoverview 技能/阵亡语音模块
+ * 提供技能语音和阵亡语音播放功能，并显示文本气泡
  */
+
+"use strict";
 
 import { lib, game, ui, get, ai, _status } from "noname";
 
-/** 初始化技能/阵亡语音功能 */
+/**
+ * 初始化技能/阵亡语音功能
+ * 设置 game.trySkillAudio 和 game.tryDieAudio 方法
+ */
 export function setupSkillDieAudio() {
 	/**
 	 * 尝试播放技能语音
+	 * @param {string} skill - 技能名称
+	 * @param {Object} player - 玩家对象
+	 * @param {boolean} directaudio - 是否直接播放音频
+	 * @param {boolean} nobroadcast - 是否不广播
+	 * @param {Object} skillInfo - 技能信息
+	 * @param {Array} args - 额外参数
+	 * @returns {*} 音频播放结果
 	 */
 	game.trySkillAudio = function (skill, player, directaudio, nobroadcast, skillInfo, args) {
 		if (!nobroadcast) {
@@ -36,6 +46,9 @@ export function setupSkillDieAudio() {
 
 	/**
 	 * 尝试播放阵亡语音
+	 * @param {Object} player - 阵亡的玩家对象
+	 * @param {Object} dieInfo - 阵亡信息
+	 * @returns {*} 音频播放结果
 	 */
 	game.tryDieAudio = function (player, dieInfo) {
 		game.broadcast(game.tryDieAudio, player, dieInfo);

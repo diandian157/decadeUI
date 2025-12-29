@@ -1,16 +1,22 @@
 "use strict";
 
 /**
- * 时间步进器模块
+ * @fileoverview 时间步进器模块，提供动画属性的平滑过渡控制
  */
 
 import { ease } from "./easing.js";
 import { lerp } from "./utils.js";
 
 /**
- * 动画时间步进控制器
+ * 动画时间步进控制器类
  */
 export class TimeStep {
+	/**
+	 * @param {Object} options - 配置选项
+	 * @param {number|Array} options.start - 起始值
+	 * @param {number|Array} options.end - 结束值
+	 * @param {number} options.duration - 持续时长(ms)
+	 */
 	constructor({ start, end, duration }) {
 		this.start = this.current = start;
 		this.end = end;
@@ -20,6 +26,10 @@ export class TimeStep {
 		this.completed = false;
 	}
 
+	/**
+	 * 更新时间步进状态
+	 * @param {number} delta - 时间增量(ms)
+	 */
 	update(delta) {
 		this.time += delta;
 		this.percent = ease(Math.min(this.time / this.duration, 1));

@@ -1,15 +1,26 @@
 "use strict";
 
 /**
- * Spine动画播放器 - 核心渲染引擎
+ * @fileoverview Spine动画播放器核心渲染引擎，负责WebGL渲染和骨骼动画管理
  */
 
 import { APNode } from "./APNode.js";
 
+/**
+ * Spine动画播放器类
+ */
 export class AnimationPlayer {
+	/**
+	 * @param {string} pathPrefix - 资源路径前缀
+	 * @param {HTMLElement|string} parentNode - 父节点或"offscreen"
+	 * @param {string} [elementId] - Canvas元素ID
+	 */
 	constructor(pathPrefix, parentNode, elementId) {
 		if (!window.spine) {
 			console.error("spine 未定义.");
+			this.spine = { assets: {} };
+			this.gl = null;
+			this.check();
 			return;
 		}
 
@@ -89,7 +100,9 @@ export class AnimationPlayer {
 		this.check();
 	}
 
-	/** 检查WebGL可用性 */
+	/**
+	 * 检查WebGL可用性，不可用时禁用所有方法
+	 */
 	check() {
 		if (!this.gl) {
 			const empty = () => {};
@@ -102,7 +115,12 @@ export class AnimationPlayer {
 		}
 	}
 
-	/** 创建纹理区域 */
+	/**
+	 * 创建纹理区域
+	 * @param {HTMLImageElement} image - 图像元素
+	 * @param {string} name - 纹理名称
+	 * @returns {spine.TextureAtlasRegion} 纹理区域对象
+	 */
 	createTextureRegion(image, name) {
 		const page = new spine.TextureAtlasPage();
 		page.name = name;
@@ -126,14 +144,23 @@ export class AnimationPlayer {
 		return region;
 	}
 
-	/** 检查骨骼是否已加载 */
+	/**
+	 * 检查骨骼是否已加载
+	 * @param {string} filename - 骨骼文件名
+	 * @returns {boolean} 是否已加载
+	 */
 	hasSpine(filename) {
 		return this.spine.assets[filename] !== undefined;
 	}
 
-	/** 加载骨骼资源 */
+	/**
+	 * 加载骨骼资源
+	 * @param {string} filename - 骨骼文件名
+	 * @param {string} [skelType="skel"] - 骨骼类型(skel/json)
+	 * @param {Function} [onload] - 加载成功回调
+	 * @param {Function} [onerror] - 加载失败回调
+	 */
 	loadSpine(filename, skelType, onload, onerror) {
-		// WebGL不可用时直接返回
 		if (!this.spine.assetManager) {
 			if (onerror) onerror();
 			return;
@@ -202,7 +229,12 @@ export class AnimationPlayer {
 		manager.loadText(filename + ".atlas", reader.ontextLoad, reader.onerror);
 	}
 
-	/** 获取路径前缀 */
+	/**
+	 * 获取路径前缀
+	 * @param {string} filename - 文件名
+	 * @returns {string} 路径前缀
+	 * @private
+	 */
 	_getPathPrefix(filename) {
 		const a = filename.lastIndexOf("/");
 		const b = filename.lastIndexOf("\\");
@@ -210,7 +242,12 @@ export class AnimationPlayer {
 		return filename.substring(0, Math.max(a, b) + 1);
 	}
 
-	/** 准备骨骼数据 */
+	/**
+	 * 准备骨骼数据
+	 * @param {string} filename - 骨骼文件名
+	 * @param {boolean} [autoLoad] - 是否自动加载
+	 * @returns {spine.Skeleton|string|undefined} 骨骼对象或加载状态
+	 */
 	prepSpine(filename, autoLoad) {
 		const assets = this.spine.assets;
 		if (!assets[filename]) {
@@ -276,7 +313,12 @@ export class AnimationPlayer {
 		return skeleton;
 	}
 
-	/** 播放骨骼动画 */
+	/**
+	 * 播放骨骼动画
+	 * @param {string|Object|APNode} sprite - 骨骼名称或配置对象
+	 * @param {Object} [position] - 位置配置
+	 * @returns {APNode|undefined} 动画节点
+	 */
 	playSpine(sprite, position) {
 		if (sprite === undefined) {
 			console.error("playSpine: parameter undefined");
@@ -335,14 +377,23 @@ export class AnimationPlayer {
 		return sprite;
 	}
 
-	/** 循环播放骨骼动画 */
+	/**
+	 * 循环播放骨骼动画
+	 * @param {string|Object} sprite - 骨骼名称或配置对象
+	 * @param {Object} [position] - 位置配置
+	 * @returns {APNode|undefined} 动画节点
+	 */
 	loopSpine(sprite, position) {
 		if (typeof sprite === "string") sprite = { name: sprite, loop: true };
 		else sprite.loop = true;
 		return this.playSpine(sprite, position);
 	}
 
-	/** 停止指定动画 */
+	/**
+	 * 停止指定动画
+	 * @param {APNode|number} sprite - 动画节点或ID
+	 * @returns {APNode|null} 被停止的节点
+	 */
 	stopSpine(sprite) {
 		const id = sprite.id ?? sprite;
 		for (const item of this.nodes) {
@@ -355,7 +406,9 @@ export class AnimationPlayer {
 		return null;
 	}
 
-	/** 停止所有动画 */
+	/**
+	 * 停止所有动画
+	 */
 	stopSpineAll() {
 		for (const sprite of this.nodes) {
 			if (!sprite.completed) {
@@ -365,7 +418,11 @@ export class AnimationPlayer {
 		}
 	}
 
-	/** 获取骨骼动作列表 */
+	/**
+	 * 获取骨骼动作列表
+	 * @param {string} filename - 骨骼文件名
+	 * @returns {Array<{name: string, duration: number}>|undefined} 动作列表
+	 */
 	getSpineActions(filename) {
 		if (!this.hasSpine(filename)) {
 			console.error(`getSpineActions: [${filename}] 骨骼没有加载`);
@@ -376,7 +433,11 @@ export class AnimationPlayer {
 		return skeleton.data.animations.map(a => ({ name: a.name, duration: a.duration }));
 	}
 
-	/** 获取骨骼边界 */
+	/**
+	 * 获取骨骼边界
+	 * @param {string} filename - 骨骼文件名
+	 * @returns {Object|undefined} 边界信息
+	 */
 	getSpineBounds(filename) {
 		if (!this.hasSpine(filename)) {
 			console.error(`getSpineBounds: [${filename}] 骨骼没有加载`);
@@ -394,7 +455,10 @@ export class AnimationPlayer {
 		return skeleton.bounds;
 	}
 
-	/** 渲染循环 */
+	/**
+	 * 渲染循环
+	 * @param {number} timestamp - 时间戳
+	 */
 	render(timestamp) {
 		const canvas = this.canvas;
 		const offscreen = this.offscreen;

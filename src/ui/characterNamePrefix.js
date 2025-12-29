@@ -1,18 +1,28 @@
 /**
- * 武将名前缀处理模块
+ * @fileoverview 武将名前缀处理模块，过滤隐藏前缀并格式化武将名称显示
  */
 import { lib, game, ui, get, ai, _status } from "noname";
 
-// 隐藏前缀列表
+/**
+ * 隐藏前缀列表
+ * @type {string[]}
+ */
 const HIDDEN_PREFIXES = ["新杀", "手杀", "OL", "TW"];
 
-/** 移除隐藏前缀 */
+/**
+ * 移除隐藏前缀
+ * @param {string} name - 原始名称
+ * @returns {string} 处理后的名称
+ */
 const removeHiddenPrefix = name => {
 	const prefix = HIDDEN_PREFIXES.find(p => name.startsWith(p));
 	return prefix ? name.slice(prefix.length) : name;
 };
 
-/** 初始化武将名前缀处理 */
+/**
+ * 初始化武将名前缀处理
+ * @returns {void}
+ */
 export function setupCharacterNamePrefix() {
 	/** 获取精简横向名称 */
 	get.slimNameHorizontal = function (str) {

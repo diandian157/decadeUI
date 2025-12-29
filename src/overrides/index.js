@@ -1,6 +1,5 @@
 /**
- * 覆写模块入口
- * @description 统一管理所有覆写
+ * @fileoverview 覆写模块入口 - 统一管理所有覆写
  */
 
 export * from "./control.js";

@@ -1,15 +1,20 @@
 "use strict";
 
 /**
- * 装备牌手牌化模式
+ * @fileoverview 装备牌手牌化模式
  * 将装备区的牌复制到手牌区显示，参与选择
  */
 
 import { lib, game, ui, get, ai, _status } from "noname";
 
+/** @type {string} 副本卡牌标记 */
 const GAINTAG = "equipHand";
 
-/** 创建装备牌副本 */
+/**
+ * 创建装备牌副本
+ * @param {Object} original - 原始卡牌
+ * @returns {Object} 副本卡牌
+ */
 function createCopy(original) {
 	const card = ui.create.card(ui.special);
 	card.init([original.suit, original.number, original.name, original.nature]);
@@ -39,7 +44,12 @@ function createCopy(original) {
 	return card;
 }
 
-/** 创建过滤器，排除装备区和无效特殊区卡牌 */
+/**
+ * 创建过滤器，排除装备区和无效特殊区卡牌
+ * @param {Function} filter - 原始过滤器
+ * @param {boolean} includeS - 是否包含特殊区
+ * @returns {Function} 包装后的过滤器
+ */
 function wrapFilter(filter, includeS) {
 	return (card, player, target) => {
 		const real = card.relatedCard || card;
@@ -51,7 +61,15 @@ function wrapFilter(filter, includeS) {
 	};
 }
 
-/** 处理多选时的卡牌筛选 */
+/**
+ * 处理多选时的卡牌筛选
+ * @param {Object} event - 当前事件
+ * @param {Object} player - 玩家对象
+ * @param {Object[]} copies - 副本卡牌数组
+ * @param {Object[]} filtered - 已过滤卡牌数组
+ * @param {Object[]} result - 结果数组
+ * @returns {Object[]} 处理后的卡牌数组
+ */
 function processMultiSelect(event, player, copies, filtered, result) {
 	if (!event.filterCard || !(typeof event.selectCard === "object" || event.selectCard > 1)) {
 		return event.filterCard ? filtered : copies;
@@ -78,7 +96,10 @@ function processMultiSelect(event, player, copies, filtered, result) {
 	return result;
 }
 
-/** 设置卡牌样式 */
+/**
+ * 设置卡牌样式
+ * @param {Object[]} cards - 卡牌数组
+ */
 function styleCards(cards) {
 	for (const card of cards) {
 		card.node.gaintag.classList.remove("gaintag", "info");
@@ -86,7 +107,10 @@ function styleCards(cards) {
 	}
 }
 
-/** 卡牌排序 */
+/**
+ * 卡牌排序
+ * @param {Object[]} cards - 卡牌数组
+ */
 function sortCards(cards) {
 	cards.sort((b, a) => {
 		if (a.name !== b.name) return lib.sort.card(a.name, b.name);
@@ -95,7 +119,11 @@ function sortCards(cards) {
 	});
 }
 
-/** 清理副本卡牌 */
+/**
+ * 清理副本卡牌
+ * @param {Object} event - 当前事件
+ * @param {Object} player - 玩家对象
+ */
 function cleanup(event, player) {
 	const cards = event.result?.cards;
 	if (cards) {
@@ -118,8 +146,11 @@ function cleanup(event, player) {
 	if (player === game.me) ui.updatehl();
 }
 
-/** 初始化手牌化模式 */
+/**
+ * 初始化手牌化模式
+ */
 export function setupEquipCopy() {
+	/** @type {string[]} 有效事件名称列表 */
 	const VALID_EVENTS = ["chooseCard", "chooseToUse", "chooseToRespond", "chooseToDiscard", "chooseCardTarget", "chooseToGive"];
 
 	// 选择开始：创建副本

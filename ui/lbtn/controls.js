@@ -1,9 +1,13 @@
 /**
- * 控制按钮模块
+ * @fileoverview 控制按钮模块
+ * 提供牌堆统计、手牌排序、距离显示等控制功能
  */
 import { lib, game, ui, get, ai, _status } from "noname";
 
-// 牌堆统计弹窗
+/**
+ * 显示牌堆统计弹窗
+ * @returns {void}
+ */
 export function showCardPileStatistics() {
 	if (!_status.gameStarted) return;
 	game.pause2();
@@ -113,7 +117,10 @@ export function showCardPileStatistics() {
 	});
 }
 
-// 手牌排序
+/**
+ * 手牌排序
+ * @returns {void}
+ */
 export function sortHandCards() {
 	if (!game.me?.node?.handcards1 || game.me.hasSkillTag("noSortCard")) return;
 
@@ -134,7 +141,10 @@ export function sortHandCards() {
 	decadeUI.queueNextFrameTick(decadeUI.layoutHand, decadeUI);
 }
 
-// 自动排序控制
+/**
+ * 自动排序控制器
+ * @type {Object}
+ */
 export const AutoSort = {
 	start() {
 		if (!game.me || game.me.hasSkillTag("noSortCard")) return;
@@ -212,7 +222,10 @@ export const AutoSort = {
 	},
 };
 
-// 距离显示
+/**
+ * 距离显示控制器
+ * @type {Object}
+ */
 export const DistanceDisplay = {
 	show() {
 		this.close();
@@ -258,7 +271,12 @@ export const DistanceDisplay = {
 	},
 };
 
-// 确认按钮点击
+/**
+ * 处理确认按钮点击
+ * @param {string} link - 按钮链接类型
+ * @param {Object} target - 目标元素
+ * @returns {void}
+ */
 export function handleConfirm(link, target) {
 	if (link === "ok") {
 		ui.click.ok(target);

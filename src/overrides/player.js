@@ -1,15 +1,17 @@
 /**
- * Player 覆写模块
+ * @fileoverview Player覆写模块 - 玩家相关的覆写方法
  */
 
 import { lib, game, ui, get, ai, _status } from "noname";
 import { DynamicPlayer } from "../animation/index.js";
 import { applyCardBorder } from "../ui/cardStyles.js";
 
-// 基础方法引用
+/** @type {Object|null} 基础方法引用 */
 let basePlayerMethods = null;
 
-/** 播放出牌音效 */
+/**
+ * 播放出牌音效
+ */
 const playShowCardAudio = () => {
 	if (!lib.config["extension_十周年UI_bettersound"]) return;
 	game.playAudio("..", "extension", "十周年UI", "audio/GameShowCard.mp3");
@@ -17,6 +19,7 @@ const playShowCardAudio = () => {
 
 /**
  * 设置基础方法引用
+ * @param {Object} methods - 基础方法对象
  */
 export function setBasePlayerMethods(methods) {
 	basePlayerMethods = methods;
@@ -24,6 +27,8 @@ export function setBasePlayerMethods(methods) {
 
 /**
  * 添加技能覆写
+ * @param {string} skill - 技能名
+ * @returns {*} 添加结果
  */
 export function playerAddSkill(skill) {
 	const result = basePlayerMethods.addSkill.apply(this, arguments);
@@ -47,6 +52,8 @@ export function playerAddSkill(skill) {
 
 /**
  * 移除技能覆写
+ * @param {string} skill - 技能名
+ * @returns {*} 移除结果
  */
 export function playerRemoveSkill(skill) {
 	const result = basePlayerMethods.removeSkill.apply(this, arguments);
@@ -61,6 +68,8 @@ export function playerRemoveSkill(skill) {
 
 /**
  * 觉醒技能覆写
+ * @param {string} skill - 技能名
+ * @returns {*} 觉醒结果
  */
 export function playerAwakenSkill(skill) {
 	const result = basePlayerMethods.awakenSkill.apply(this, arguments);
@@ -78,6 +87,8 @@ export function playerAwakenSkill(skill) {
 
 /**
  * 设置身份覆写
+ * @param {string} [identity] - 身份
+ * @returns {Object} 玩家对象
  */
 export function playerSetIdentity(identity) {
 	identity = identity || this.identity;
@@ -100,6 +111,7 @@ export function playerSetIdentity(identity) {
 
 /**
  * 获取状态覆写
+ * @returns {Object} 状态对象
  */
 export function playerGetState() {
 	const state = basePlayerMethods.getState.apply(this, arguments);
@@ -107,12 +119,17 @@ export function playerGetState() {
 	return state;
 }
 
-/**
- * 检查是否应该跳过标记
- */
+/** @type {string[]} 跳过标记的前缀列表 */
 const SKIP_PREFIXES = ["xinfu_falu_", "starcanxi_"];
+
+/** @type {Set<string>} 跳过标记的例外集合 */
 const SKIP_EXCEPTIONS = new Set(["starcanxi_wangsheng", "starcanxi_xiangsi", "starcanxi_cancel"]);
 
+/**
+ * 检查是否应该跳过标记
+ * @param {*} item - 要检查的项目
+ * @returns {boolean} 是否跳过
+ */
 function shouldSkipMark(item) {
 	if (!item) return false;
 	const style = decadeUI.config?.newDecadeStyle ?? lib.config.extension_十周年UI_newDecadeStyle;
@@ -129,6 +146,11 @@ function shouldSkipMark(item) {
 
 /**
  * 标记技能覆写
+ * @param {string} name - 技能名
+ * @param {*} [info] - 信息
+ * @param {*} [card] - 卡牌
+ * @param {boolean} [nobroadcast] - 是否不广播
+ * @returns {*} 标记结果
  */
 export function playerMarkSkill(name, info, card, nobroadcast) {
 	if (shouldSkipMark(name)) return;
@@ -137,6 +159,11 @@ export function playerMarkSkill(name, info, card, nobroadcast) {
 
 /**
  * 取消标记技能覆写
+ * @param {string} name - 技能名
+ * @param {*} [info] - 信息
+ * @param {*} [card] - 卡牌
+ * @param {boolean} [nobroadcast] - 是否不广播
+ * @returns {*} 取消标记结果
  */
 export function playerUnmarkSkill(name, info, card, nobroadcast) {
 	if (shouldSkipMark(name)) return;
@@ -145,6 +172,10 @@ export function playerUnmarkSkill(name, info, card, nobroadcast) {
 
 /**
  * 重新初始化武将覆写
+ * @param {string} from - 原武将
+ * @param {string} to - 目标武将
+ * @param {boolean} [log] - 是否记录日志
+ * @returns {Promise} 异步结果
  */
 export async function playerReinitCharacter(from, to, log) {
 	this.stopDynamic();
@@ -171,6 +202,7 @@ export function playerSetSeatNum() {
 
 /**
  * 玩家$uninit覆写
+ * @returns {Object} 玩家对象
  */
 export function playerUninit() {
 	// 清理所有前缀标记
@@ -194,6 +226,11 @@ export function playerUninit() {
 
 /**
  * 玩家$reinit覆写
+ * @param {string} from - 原武将
+ * @param {string} to - 目标武将
+ * @param {number} [maxHp] - 最大体力
+ * @param {boolean} [online] - 是否在线
+ * @returns {Object} 玩家对象
  */
 export function playerReinit(from, to, maxHp, online) {
 	basePlayerMethods.$reinit.apply(this, arguments);
@@ -216,6 +253,7 @@ export function playerReinit(from, to, maxHp, online) {
 
 /**
  * 玩家$update覆写
+ * @returns {Object} 玩家对象
  */
 export function playerUpdate() {
 	basePlayerMethods.$update.apply(this, arguments);
@@ -268,6 +306,7 @@ export function playerUpdate() {
 
 /**
  * 使用卡牌覆写
+ * @returns {Object} 事件对象
  */
 export function playerUseCard() {
 	const event = basePlayerMethods.useCard.apply(this, arguments);
@@ -289,6 +328,7 @@ export function playerUseCard() {
 
 /**
  * 打出卡牌覆写
+ * @returns {*} 打出结果
  */
 export function playerRespond() {
 	playShowCardAudio();
@@ -297,6 +337,7 @@ export function playerRespond() {
 
 /**
  * 失去卡牌覆写
+ * @returns {Object} 事件对象
  */
 export function playerLose() {
 	const next = basePlayerMethods.lose.apply(this, arguments);
@@ -311,6 +352,7 @@ export function playerLose() {
 
 /**
  * 使用卡牌动画前覆写
+ * @param {Object} event - 事件对象
  */
 export function playerUseCardAnimateBefore(event) {
 	basePlayerMethods.useCardAnimateBefore?.apply(this, arguments);
@@ -321,6 +363,7 @@ export function playerUseCardAnimateBefore(event) {
 
 /**
  * 响应动画前覆写
+ * @param {Object} event - 事件对象
  */
 export function playerRespondAnimateBefore(event) {
 	basePlayerMethods.respondAnimateBefore?.apply(this, arguments);
@@ -331,6 +374,7 @@ export function playerRespondAnimateBefore(event) {
 
 /**
  * 转换技覆写
+ * @param {string} skill - 技能名
  */
 export function playerChangeZhuanhuanji(skill) {
 	basePlayerMethods.$changeZhuanhuanji.apply(this, arguments);
@@ -386,6 +430,7 @@ export function playerChangeZhuanhuanji(skill) {
 
 /**
  * 尝试技能动画覆写
+ * @param {string} name - 技能名
  */
 export function playerTrySkillAnimate(name) {
 	basePlayerMethods.trySkillAnimate.apply(this, arguments);
@@ -431,6 +476,8 @@ export function playerTrySkillAnimate(name) {
 
 /**
  * 设置模式状态覆写
+ * @param {Object} info - 状态信息
+ * @returns {*} 设置结果
  */
 export function playerSetModeState(info) {
 	if (info?.seat) {
@@ -485,6 +532,10 @@ export function applyPlayerOverrides() {
 
 /**
  * 标记覆写
+ * @param {*} item - 标记项
+ * @param {*} [info] - 信息
+ * @param {string} [skill] - 技能名
+ * @returns {HTMLElement|Array} 标记元素
  */
 export function playerMark(item, info, skill) {
 	if (item && lib.config.extension_十周年UI_newDecadeStyle != "Off") {
@@ -576,6 +627,11 @@ export function playerMark(item, info, skill) {
 
 /**
  * 标记武将覆写
+ * @param {string|Object} name - 武将名
+ * @param {Object} [info] - 信息
+ * @param {*} [learn] - 学习参数
+ * @param {*} [learn2] - 学习参数2
+ * @returns {HTMLElement} 标记元素
  */
 export function playerMarkCharacter(name, info, learn, learn2) {
 	if (typeof name == "object") name = name.name;
@@ -620,6 +676,9 @@ export function playerMarkCharacter(name, info, learn, learn2) {
 
 /**
  * 更新标记覆写
+ * @param {string} name - 标记名
+ * @param {boolean} [storage] - 是否同步存储
+ * @returns {Object} 玩家对象
  */
 export function playerUpdateMark(name, storage) {
 	if (!this.marks[name]) {
@@ -668,6 +727,11 @@ export function playerUpdateMark(name, storage) {
 
 /**
  * 标记技能武将覆写
+ * @param {string} id - 标记ID
+ * @param {Object|string} target - 目标
+ * @param {string} name - 名称
+ * @param {string} content - 内容
+ * @returns {Object} 玩家对象
  */
 export function playerMarkSkillCharacter(id, target, name, content) {
 	if (typeof target == "object") target = target.name;
@@ -741,6 +805,8 @@ export function playerMarkSkillCharacter(id, target, name, content) {
 
 /**
  * 播放动态皮肤覆写
+ * @param {Object|string} animation - 动画配置或名称
+ * @param {boolean} [deputy] - 是否为副将
  */
 export function playerPlayDynamic(animation, deputy) {
 	deputy = deputy === true;
@@ -796,6 +862,8 @@ export function playerPlayDynamic(animation, deputy) {
 
 /**
  * 停止动态皮肤覆写
+ * @param {boolean} [primary] - 是否停止主将
+ * @param {boolean} [deputy] - 是否停止副将
  */
 export function playerStopDynamic(primary, deputy) {
 	const dynamic = this.dynamic;
@@ -881,6 +949,7 @@ export function playerApplyDynamicSkin() {
 
 /**
  * 说话覆写
+ * @param {string} str - 说话内容
  */
 export function playerSay(str) {
 	str = str.replace(/##assetURL##/g, lib.assetURL);
@@ -1005,6 +1074,10 @@ export function playerDieAfter() {
 
 /**
  * 技能特效覆写
+ * @param {string} name - 技能名
+ * @param {string} [type] - 类型
+ * @param {string} [color] - 颜色
+ * @param {*} [avatar] - 头像
  */
 export function playerSkill(name, type, color, avatar) {
 	const _this = this;
@@ -1030,6 +1103,7 @@ export function playerSkill(name, type, color, avatar) {
 
 /**
  * 同步扩展槽位覆写
+ * @param {Object} [map] - 槽位映射
  */
 export function playerSyncExpand(map) {
 	if (this != game.me) return;
@@ -1065,6 +1139,7 @@ export function playerSyncExpand(map) {
 
 /**
  * 添加前缀分隔符覆写
+ * @param {HTMLElement} nameNode - 名称节点
  */
 export function playerAddPrefixSeparator(nameNode) {
 	if (lib.config.extension_十周年UI_newDecadeStyle !== "off" || !nameNode) return;
@@ -1088,6 +1163,7 @@ export function playerAddPrefixSeparator(nameNode) {
 
 /**
  * 阳技能覆写
+ * @param {string} skill - 技能名
  */
 export function playerYangSkill(skill) {
 	const player = this;
@@ -1102,6 +1178,7 @@ export function playerYangSkill(skill) {
 
 /**
  * $阳技能覆写
+ * @param {string} skill - 技能名
  */
 export function player$YangSkill(skill) {
 	this.yangedSkills ??= [];
@@ -1112,6 +1189,7 @@ export function player$YangSkill(skill) {
 
 /**
  * 阴技能覆写
+ * @param {string} skill - 技能名
  */
 export function playerYingSkill(skill) {
 	const player = this;
@@ -1126,6 +1204,7 @@ export function playerYingSkill(skill) {
 
 /**
  * $阴技能覆写
+ * @param {string} skill - 技能名
  */
 export function player$YingSkill(skill) {
 	this.yingedSkills ??= [];
@@ -1136,6 +1215,7 @@ export function player$YingSkill(skill) {
 
 /**
  * 失败技能覆写
+ * @param {string} skill - 技能名
  */
 export function playerFailSkill(skill) {
 	const player = this;
@@ -1150,6 +1230,7 @@ export function playerFailSkill(skill) {
 
 /**
  * $失败技能覆写
+ * @param {string} skill - 技能名
  */
 export function player$FailSkill(skill) {
 	if (this.hiddenSkills.includes(skill) && this !== game.me) return;
@@ -1159,6 +1240,7 @@ export function player$FailSkill(skill) {
 
 /**
  * 失效技能覆写
+ * @param {string} skill - 技能名
  */
 export function playerShixiaoSkill(skill) {
 	const player = this;
@@ -1173,6 +1255,7 @@ export function playerShixiaoSkill(skill) {
 
 /**
  * $失效技能覆写
+ * @param {string} skill - 技能名
  */
 export function player$ShixiaoSkill(skill) {
 	this.shixiaoedSkills ??= [];
@@ -1181,6 +1264,7 @@ export function player$ShixiaoSkill(skill) {
 
 /**
  * 解除失效技能覆写
+ * @param {string} skill - 技能名
  */
 export function playerUnshixiaoSkill(skill) {
 	const player = this;
@@ -1195,6 +1279,7 @@ export function playerUnshixiaoSkill(skill) {
 
 /**
  * $解除失效技能覆写
+ * @param {string} skill - 技能名
  */
 export function player$UnshixiaoSkill(skill) {
 	this.shixiaoedSkills ??= [];
@@ -1203,6 +1288,10 @@ export function player$UnshixiaoSkill(skill) {
 
 /**
  * 伤害弹出覆写
+ * @param {number|string} num - 伤害数值
+ * @param {string} [nature] - 属性
+ * @param {string} [font] - 字体
+ * @param {boolean} [nobroadcast] - 是否不广播
  */
 export function playerDamagepop(num, nature, font, nobroadcast) {
 	if (typeof num == "number" || typeof num == "string") {
@@ -1298,8 +1387,13 @@ export function playerDamagepop(num, nature, font, nobroadcast) {
 	}
 }
 
-// decadeUI引用（延迟获取）
+/** @type {Object|null} decadeUI引用（延迟获取） */
 let _decadeUI = null;
+
+/**
+ * 获取decadeUI引用
+ * @returns {Object} decadeUI对象
+ */
 function getDui() {
 	if (!_decadeUI) _decadeUI = window.decadeUI;
 	return _decadeUI;
@@ -1307,6 +1401,9 @@ function getDui() {
 
 /**
  * 拼点覆写
+ * @param {Object} card1 - 卡牌1
+ * @param {Object} target - 目标玩家
+ * @param {Object} card2 - 卡牌2
  */
 export function playerCompare(card1, target, card2) {
 	const player = this;
@@ -1375,6 +1472,9 @@ export function playerCompare(card1, target, card2) {
 
 /**
  * 多人拼点覆写
+ * @param {Object} card1 - 卡牌1
+ * @param {Array} targets - 目标玩家数组
+ * @param {Array} cards - 卡牌数组
  */
 export function playerCompareMultiple(card1, targets, cards) {
 	const player = this;
@@ -1453,6 +1553,7 @@ export function playerCompareMultiple(card1, targets, cards) {
 
 /**
  * 检查并添加体验后缀覆写
+ * @param {string} characterName - 武将名
  */
 export function playerCheckAndAddExperienceSuffix(characterName) {
 	const name = characterName;
@@ -1541,6 +1642,7 @@ export function playerCheckAndAddExperienceSuffix(characterName) {
 
 /**
  * CSS动画队列覆写
+ * @param {string} animation - 动画字符串
  */
 export function playerQueueCssAnimation(animation) {
 	const current = this.style.animation;
@@ -1571,6 +1673,7 @@ export function playerQueueCssAnimation(animation) {
 
 /**
  * 伤害覆写
+ * @param {Object} [source] - 伤害来源
  */
 export function playerDamage(source) {
 	if (get.itemtype(source) == "player") {
@@ -1644,6 +1747,7 @@ export function playerUpdateShowCards() {
 
 /**
  * 检查边界缓存覆写
+ * @param {boolean} [forceUpdate] - 是否强制更新
  */
 export function playerCheckBoundsCache(forceUpdate) {
 	let update;
@@ -1664,6 +1768,8 @@ export function playerCheckBoundsCache(forceUpdate) {
 
 /**
  * 连线覆写
+ * @param {Object|Array} target - 目标玩家
+ * @param {Object} [config] - 配置
  */
 export function playerLine(target, config) {
 	if (get.itemtype(target) == "players") {
@@ -1709,6 +1815,10 @@ export function playerLine(target, config) {
 
 /**
  * 直接获得卡牌覆写
+ * @param {Array} cards - 卡牌数组
+ * @param {boolean} [broadcast] - 是否广播
+ * @param {*} [gaintag] - 获得标签
+ * @returns {Object} 玩家对象
  */
 export function playerDirectgain(cards, broadcast, gaintag) {
 	if (!cards || !cards.length) return;
@@ -1753,6 +1863,7 @@ export function playerDirectgain(cards, broadcast, gaintag) {
 
 /**
  * 阶段判定覆写
+ * @param {Object} card - 卡牌
  */
 export function playerPhaseJudge(card) {
 	game.addVideo("phaseJudge", this, get.cardInfo(card));
@@ -1768,6 +1879,8 @@ export function playerPhaseJudge(card) {
 
 /**
  * 获得卡牌2覆写
+ * @param {Array|Object} cards - 卡牌
+ * @param {boolean} [log] - 是否记录日志
  */
 export function playerGain2(cards, log) {
 	let type = get.itemtype(cards);
@@ -1819,14 +1932,22 @@ export function playerGain2(cards, log) {
 	});
 }
 
-// base引用（延迟获取）
+/** @type {Function|null} 基础摸牌方法引用 */
 let basePlayerDraw = null;
+
+/**
+ * 设置基础摸牌方法
+ * @param {Function} fn - 基础方法
+ */
 export function setBasePlayerDraw(fn) {
 	basePlayerDraw = fn;
 }
 
 /**
  * 摸牌动画覆写
+ * @param {number|Array} num - 摸牌数量或卡牌数组
+ * @param {boolean|string} [init] - 初始化参数
+ * @param {Object} [config] - 配置
  */
 export function playerDraw(num, init, config) {
 	if (game.chess) return basePlayerDraw.call(this, num, init, config);
@@ -1896,6 +2017,10 @@ export function playerDraw(num, init, config) {
 
 /**
  * 给牌动画覆写
+ * @param {Array|number} cards - 卡牌数组或数量
+ * @param {Object} target - 目标玩家
+ * @param {boolean} [log] - 是否记录日志
+ * @param {boolean} [record] - 是否记录
  */
 export function playerGive(cards, target, log, record) {
 	let itemtype;
@@ -1986,6 +2111,11 @@ export function playerGive(cards, target, log, record) {
 
 /**
  * 弃牌动画覆写
+ * @param {Array|number} cards - 卡牌数组或数量
+ * @param {number} [time] - 时间
+ * @param {boolean} [record] - 是否记录
+ * @param {boolean} [nosource] - 是否无来源
+ * @returns {HTMLElement} 最后一张卡牌元素
  */
 export function playerThrow(cards, time, record, nosource) {
 	let itemtype;
@@ -2066,6 +2196,9 @@ export function playerThrow(cards, time, record, nosource) {
 
 /**
  * 弃牌动画2覆写
+ * @param {HTMLElement} card - 卡牌元素
+ * @param {boolean} [nosource] - 是否无来源
+ * @returns {HTMLElement} 卡牌元素
  */
 export function playerThrowordered2(card, nosource) {
 	if (_status.connectMode) ui.todiscard = [];
@@ -2107,6 +2240,8 @@ export function playerThrowordered2(card, nosource) {
 
 /**
  * 添加虚拟判定覆写
+ * @param {Object} VCard - 虚拟卡牌
+ * @param {Array} cards - 实际卡牌数组
  */
 export function playerAddVirtualJudge(VCard, cards) {
 	if (game.online) return;

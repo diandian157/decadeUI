@@ -1,15 +1,24 @@
 /**
- * Card 覆写模块
+ * @fileoverview Card覆写模块 - 卡牌相关的覆写方法
  */
 
 import { lib, game, ui, get, ai, _status } from "noname";
 import { cardSkinMeta } from "../config.js";
 import { applyCardBorder } from "../ui/cardStyles.js";
 
+/** @type {Function|null} 基础卡牌初始化方法 */
 let baseCardInit = null;
+
+/** @type {Function|null} 基础卡牌复制方法 */
 let baseCardCopy = null;
 
-/** 处理皮肤回退 */
+/**
+ * 处理皮肤回退
+ * @param {HTMLElement} card - 卡牌元素
+ * @param {Object} asset - 资源对象
+ * @param {string} fallbackKey - 回退皮肤键名
+ * @param {string} filename - 文件名
+ */
 function handleSkinFallback(card, asset, fallbackKey, filename) {
 	const res = window.decadeUI?.statics?.cards;
 	const rawBg = card._decadeRawBg || "";
@@ -30,7 +39,10 @@ function handleSkinFallback(card, asset, fallbackKey, filename) {
 	}
 }
 
-/** 卡牌复制覆写 */
+/**
+ * 卡牌复制覆写
+ * @returns {HTMLElement} 复制的卡牌元素
+ */
 export function cardCopy() {
 	const clone = baseCardCopy.apply(this, arguments);
 	clone.nature = this.nature;
@@ -70,7 +82,11 @@ export function cardCopy() {
 	return clone;
 }
 
-/** 卡牌初始化覆写 */
+/**
+ * 卡牌初始化覆写
+ * @param {Array|Object} card - 卡牌信息
+ * @returns {HTMLElement} 初始化后的卡牌元素
+ */
 export function cardInit(card) {
 	baseCardInit.apply(this, arguments);
 
@@ -123,7 +139,11 @@ export function cardInit(card) {
 	return this;
 }
 
-/** 应用卡牌皮肤 */
+/**
+ * 应用卡牌皮肤
+ * @param {HTMLElement} cardElement - 卡牌DOM元素
+ * @param {Array|Object} card - 卡牌信息
+ */
 function applyCardSkin(cardElement, card) {
 	const skinKey = lib.config.extension_十周年UI_cardPrettify;
 	const isOff = !skinKey || skinKey === "off";
@@ -224,7 +244,15 @@ function applyCardSkin(cardElement, card) {
 	}
 }
 
-/** 加载回退皮肤 */
+/**
+ * 加载回退皮肤
+ * @param {HTMLElement} cardElem - 卡牌元素
+ * @param {Object} asset - 资源对象
+ * @param {string} fallbackKey - 回退皮肤键名
+ * @param {string} filename - 文件名
+ * @param {string} decadeUIName - 扩展名称
+ * @param {string} rawBg - 原始背景
+ */
 function loadFallbackSkin(cardElem, asset, fallbackKey, filename, decadeUIName, rawBg) {
 	const fallbackSkin = cardSkinMeta[fallbackKey];
 	const fallbackFolder = fallbackSkin?.dir || fallbackKey;
@@ -245,7 +273,11 @@ function loadFallbackSkin(cardElem, asset, fallbackKey, filename, decadeUIName, 
 	fallbackImage.src = fallbackUrl;
 }
 
-/** 卡牌变换更新 */
+/**
+ * 卡牌变换更新
+ * @param {boolean} bool - 是否选中
+ * @param {number} [delay] - 延迟时间
+ */
 export function cardUpdateTransform(bool, delay) {
 	if (delay) {
 		setTimeout(() => {
@@ -266,7 +298,11 @@ export function cardUpdateTransform(bool, delay) {
 	}
 }
 
-/** 卡牌移动到玩家 */
+/**
+ * 卡牌移动到玩家
+ * @param {Object} player - 目标玩家
+ * @returns {HTMLElement} 卡牌元素
+ */
 export function cardMoveTo(player) {
 	if (!player) return;
 	if (this.name?.startsWith("shengbei_left_") || this.name?.startsWith("shengbei_right_")) return this;
@@ -291,7 +327,10 @@ export function cardMoveTo(player) {
 	return this;
 }
 
-/** 卡牌移动删除 */
+/**
+ * 卡牌移动删除
+ * @param {Object} player - 目标玩家
+ */
 export function cardMoveDelete(player) {
 	this.fixed = true;
 
@@ -303,16 +342,27 @@ export function cardMoveDelete(player) {
 	}
 }
 
+/**
+ * 设置基础卡牌方法
+ * @param {Function} init - 初始化方法
+ * @param {Function} copy - 复制方法
+ */
 export function setBaseCardMethods(init, copy) {
 	baseCardInit = init;
 	baseCardCopy = copy;
 }
 
-/** 刷新卡牌皮肤（轻量级） */
+/**
+ * 刷新卡牌皮肤（轻量级）
+ * @param {HTMLElement} card - 卡牌元素
+ */
 export function refreshCardSkin(card) {
 	if (card) applyCardSkin(card, card);
 }
 
+/**
+ * 应用卡牌覆写
+ */
 export function applyCardOverrides() {
 	if (!lib.element?.card) return;
 

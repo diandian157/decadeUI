@@ -1,5 +1,5 @@
 /**
- * 宝宝杀风格角色弹窗
+ * @fileoverview 宝宝杀风格角色弹窗
  * 特点：VIP系统、官阶、简化布局、可爱风格
  */
 import { lib, game, ui, get, ai, _status } from "noname";

@@ -1,16 +1,14 @@
 /**
- * Control覆写模块
- * @description lib.element.control的覆写方法
+ * @fileoverview Control覆写模块 - lib.element.control的覆写方法
  */
 import { lib, game, ui, get, ai, _status } from "noname";
 
-/**
- * 保存原始方法的引用
- */
+/** @type {Object|null} 保存原始方法的引用 */
 let originals = null;
 
 /**
  * 保存原始方法
+ * @returns {Object} 原始方法对象
  */
 export function saveOriginals() {
 	if (originals) return originals;
@@ -25,13 +23,16 @@ export function saveOriginals() {
 
 /**
  * 获取原始方法
+ * @param {string} name - 方法名
+ * @returns {Function|undefined} 原始方法
  */
 export function getOriginal(name) {
 	return originals?.[name];
 }
 
 /**
- * control.add 覆写
+ * control.add覆写
+ * @param {*} item - 要添加的项目
  */
 export function controlAdd(item) {
 	const node = document.createElement("div");
@@ -43,7 +44,8 @@ export function controlAdd(item) {
 }
 
 /**
- * control.open 覆写
+ * control.open覆写
+ * @returns {HTMLElement} 控制元素
  */
 export function controlOpen() {
 	ui.control.insertBefore(this, _status.createControl || ui.confirm);
@@ -52,7 +54,7 @@ export function controlOpen() {
 }
 
 /**
- * control.close 覆写
+ * control.close覆写
  */
 export function controlClose() {
 	this.remove();
@@ -64,7 +66,9 @@ export function controlClose() {
 }
 
 /**
- * control.replace 覆写
+ * control.replace覆写
+ * @param {...*} args - 替换参数
+ * @returns {HTMLElement} 控制元素
  */
 export function controlReplace(...args) {
 	const items = Array.isArray(args[0]) ? args[0] : args;
@@ -96,7 +100,7 @@ export function controlReplace(...args) {
 }
 
 /**
- * control.updateLayout 新增方法
+ * control.updateLayout新增方法
  */
 export function controlUpdateLayout() {
 	const nodes = this.childNodes;

@@ -1,24 +1,20 @@
+/**
+ * @fileoverview 扩展包信息定义
+ */
+
+/**
+ * 生成扩展包信息
+ * @param {Object} otherInfo - info.json中的其他信息
+ * @returns {Object}
+ */
 export const mainpackage = otherInfo => {
 	const pkg = {
-		character: {
-			character: {},
-			translate: {},
-		},
-		card: {
-			card: {},
-			translate: {},
-			list: [],
-		},
-		skill: {
-			skill: {},
-			translate: {},
-		},
+		character: { character: {}, translate: {} },
+		card: { card: {}, translate: {}, list: [] },
+		skill: { skill: {}, translate: {} },
 	};
 
-	const pack = {
-		...pkg,
-		...otherInfo,
-	};
+	const pack = { ...pkg, ...otherInfo };
 
 	const logItems = [`十周年UI版本号：${pack.version}`, `适配本体：${otherInfo.minNonameVersion}`, "bugfix", "函数跟进", "UI界面调整", "可以自由调整卡牌大小", "添加版本检测功能", "移除旧手杀样式，新手杀改名为移动版"];
 

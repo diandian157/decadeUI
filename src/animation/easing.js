@@ -1,13 +1,19 @@
 "use strict";
 
 /**
- * 缓动函数模块
+ * @fileoverview 缓动函数模块，提供三次贝塞尔曲线缓动实现
  */
 
 /**
- * 三次贝塞尔缓动曲线
+ * 三次贝塞尔缓动曲线类
  */
 export class CubicBezierEase {
+	/**
+	 * @param {number} p1x - 控制点1的X坐标
+	 * @param {number} p1y - 控制点1的Y坐标
+	 * @param {number} p2x - 控制点2的X坐标
+	 * @param {number} p2y - 控制点2的Y坐标
+	 */
 	constructor(p1x, p1y, p2x, p2y) {
 		this.cX = 3 * p1x;
 		this.bX = 3 * (p2x - p1x) - this.cX;
@@ -17,14 +23,29 @@ export class CubicBezierEase {
 		this.aY = 1 - this.cY - this.bY;
 	}
 
+	/**
+	 * 获取X坐标值
+	 * @param {number} t - 参数t
+	 * @returns {number} X坐标
+	 */
 	getX(t) {
 		return t * (this.cX + t * (this.bX + t * this.aX));
 	}
 
+	/**
+	 * 获取X的导数值
+	 * @param {number} t - 参数t
+	 * @returns {number} X的导数
+	 */
 	getXDerivative(t) {
 		return this.cX + t * (2 * this.bX + 3 * this.aX * t);
 	}
 
+	/**
+	 * 计算缓动值
+	 * @param {number} x - 输入值(0-1)
+	 * @returns {number} 缓动后的值
+	 */
 	ease(x) {
 		let t = x,
 			prev;
@@ -36,11 +57,13 @@ export class CubicBezierEase {
 	}
 }
 
-// 默认缓动实例
+/** @type {CubicBezierEase|null} 默认缓动实例 */
 let defaultEase = null;
 
 /**
- * 默认缓动函数 (ease-out)
+ * 默认缓动函数(ease-out)
+ * @param {number} fraction - 进度值(0-1)
+ * @returns {number} 缓动后的值
  */
 export function ease(fraction) {
 	if (!defaultEase) {

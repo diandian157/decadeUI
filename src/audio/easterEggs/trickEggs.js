@@ -1,9 +1,14 @@
+/**
+ * @fileoverview 锦囊相关彩蛋配置
+ * 定义使用锦囊卡牌时触发的彩蛋语音规则
+ */
+
 "use strict";
 
 /**
- * 锦囊相关彩蛋配置
+ * @type {Array<Object>}
+ * 锦囊彩蛋配置数组
  */
-
 export const trickEasterEggs = [
 	{ cards: ["baiyin"], player: "zhangfei", condition: ctx => ctx.findPlayer?.("machao"), text: "马超！汝的头在此！敢来取否！", audio: "zhangfei3.mp3" },
 	{ cards: ["tiesuo"], player: "caocao", condition: ctx => ctx.findPlayer?.("pangtong"), text: "非先生良谋，安能破东吴也？", audio: "caocao6.mp3" },

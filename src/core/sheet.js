@@ -1,10 +1,16 @@
 /**
- * 样式表模块
+ * @fileoverview 样式表模块，提供CSS样式表的查询和操作功能
  */
 
-/** 创建sheet模块 */
+/**
+ * 创建sheet模块
+ * @returns {Object} sheet模块对象
+ */
 export function createSheetModule() {
 	return {
+		/**
+		 * 初始化样式表列表
+		 */
 		init() {
 			if (!this.sheetList) {
 				this.sheetList = [];
@@ -17,6 +23,12 @@ export function createSheetModule() {
 			if (this.sheetList) delete this.init;
 		},
 
+		/**
+		 * 获取样式规则
+		 * @param {string} selector - CSS选择器
+		 * @param {string} cssName - CSS文件名
+		 * @returns {CSSStyleDeclaration|null} 样式声明对象
+		 */
 		getStyle(selector, cssName) {
 			if (!this.sheetList) this.init();
 			if (!this.sheetList) throw "sheet not loaded";
@@ -62,6 +74,13 @@ export function createSheetModule() {
 			return null;
 		},
 
+		/**
+		 * 插入样式规则
+		 * @param {string} rule - CSS规则字符串
+		 * @param {number} index - 插入位置
+		 * @param {string} cssName - CSS文件名
+		 * @returns {CSSStyleDeclaration} 插入的样式声明
+		 */
 		insertRule(rule, index, cssName) {
 			if (!this.sheetList) this.init();
 			if (!this.sheetList) throw "sheet not loaded";

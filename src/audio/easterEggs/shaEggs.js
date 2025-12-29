@@ -1,9 +1,14 @@
+/**
+ * @fileoverview 杀相关彩蛋配置
+ * 定义使用杀卡牌时触发的彩蛋语音规则
+ */
+
 "use strict";
 
 /**
- * 杀相关彩蛋配置
+ * @type {Array<Object>}
+ * 杀彩蛋配置数组
  */
-
 export const shaEasterEggs = [
 	{ cards: ["sha"], player: "zhangfei", condition: ctx => ctx.targets?.some(t => ctx.hasName(t, "lvbu")), text: "三姓家奴休走！", audio: "zhangfei1.mp3" },
 	{ cards: ["sha"], player: "zhangxiu", condition: ctx => ctx.targets?.some(t => ctx.hasName(t, "caocao")), text: "无耻曹贼！", audio: "zhangxiu1.mp3" },

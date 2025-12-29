@@ -1,9 +1,13 @@
 "use strict";
 
 /**
- * 技能动画配置
+ * @fileoverview 技能动画配置，定义技能、卡牌和出牌指示的动画参数
  */
 
+/**
+ * 技能动画配置
+ * @type {Object.<string, {name: string, scale?: number, action?: string}>}
+ */
 export const skillDefines = {
 	// 重制版装备
 	rw_bagua_skill: { name: "XTBGZ_xiao", scale: 1 },
@@ -73,6 +77,7 @@ export const skillDefines = {
 
 /**
  * 卡牌动画配置
+ * @type {Object.<string, {name: string, scale?: number, x?: number, y?: number}>}
  */
 export const cardDefines = {
 	nanman: { name: "effect_nanmanruqin", scale: 0.6 },
@@ -82,6 +87,7 @@ export const cardDefines = {
 
 /**
  * 出牌指示动画配置
+ * @type {Object.<string, {name: string, scale: number}>}
  */
 export const chupaiAnimations = {
 	jiangjun: { name: "SF_xuanzhong_eff_jiangjun", scale: 0.6 },

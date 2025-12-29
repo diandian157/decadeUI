@@ -1,5 +1,5 @@
 /**
- * 移动动画修复模块
+ * @fileoverview 移动动画修复模块
  */
 import { lib, game, ui, get, ai, _status } from "noname";
 

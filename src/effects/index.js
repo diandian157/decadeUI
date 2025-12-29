@@ -1,8 +1,10 @@
 "use strict";
 
 /**
- * 特效模块入口
+ * @fileoverview 特效模块入口，导出所有特效相关功能
  */
+
+import { lib, game, ui, get, ai, _status } from "noname";
 
 export { CONFIG, GENERAL_NAME_STYLE } from "./config.js";
 export * from "./utils.js";
@@ -16,7 +18,10 @@ import { drawLine } from "./line.js";
 import { playKillEffect } from "./kill.js";
 import { playSkillEffect } from "./skill.js";
 
-/** 初始化特效模块到 decadeUI */
+/**
+ * 初始化特效模块到 decadeUI
+ * @returns {void}
+ */
 export function setupEffects() {
 	if (typeof decadeUI === "undefined") {
 		console.error("decadeUI 未定义，无法初始化特效模块");

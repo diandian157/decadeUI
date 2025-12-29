@@ -1,7 +1,7 @@
 "use strict";
 
 /**
- * 动画系统初始化模块
+ * @fileoverview 动画系统初始化模块，注册技能动画和卡牌触发器
  */
 
 import { lib, game, ui, get, ai, _status } from "noname";
@@ -10,6 +10,7 @@ import { cardTriggers } from "./configs/cardTriggers.js";
 
 /**
  * 初始化技能动画定义和绑定
+ * @param {AnimationPlayer} animation - 动画播放器实例
  */
 export function initSkillAnimations(animation) {
 	// 数字特效播放函数

@@ -1,9 +1,14 @@
+/**
+ * @fileoverview 装备相关彩蛋配置
+ * 定义装备卡牌使用时触发的彩蛋语音规则
+ */
+
 "use strict";
 
 /**
- * 装备相关彩蛋配置
+ * @type {Array<Object>}
+ * 装备彩蛋配置数组
  */
-
 export const equipEasterEggs = [
 	{ cards: ["zhangba"], player: "zhangfei", text: "得此神兵，某自当纵横天下！", audio: "zhangfei4.mp3" },
 	{

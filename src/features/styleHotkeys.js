@@ -1,11 +1,18 @@
+"use strict";
+
 /**
- * 电脑端快捷切换样式
+ * @fileoverview 电脑端快捷切换样式
  */
+
 import { lib, game, ui, get, ai, _status } from "noname";
 
-// Alt+1~6 对应的样式
+/** @type {string[]} Alt+1~6 对应的样式 */
 const STYLES = ["on", "off", "othersOff", "onlineUI", "babysha", "codename"];
 
+/**
+ * 处理样式快捷键
+ * @param {KeyboardEvent} event - 键盘事件
+ */
 function handleStyleHotkey(event) {
 	if (!event.altKey) return;
 
@@ -21,7 +28,9 @@ function handleStyleHotkey(event) {
 	setTimeout(() => game.reload(), 100);
 }
 
-/** Alt+1~6 快捷键切换样式 */
+/**
+ * 设置 Alt+1~6 快捷键切换样式
+ */
 export function setupStyleHotkeys() {
 	document.addEventListener("keydown", handleStyleHotkey);
 }

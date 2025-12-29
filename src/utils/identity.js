@@ -1,15 +1,16 @@
 /**
- * 身份相关工具函数
- * @description 从concore.js提取的身份处理函数
+ * @fileoverview 身份工具函数 - 处理游戏中玩家身份的获取和转换
  */
+
 import { lib, game, ui, get, ai, _status } from "noname";
 
 /**
- * 获取玩家身份
- * @param {HTMLElement} player 玩家元素
- * @param {string} identity 身份
- * @param {boolean} chinese 是否中文
- * @param {boolean} isMark 是否标记
+ * 获取玩家身份标识
+ * @param {HTMLElement} player - 玩家元素
+ * @param {string} [identity] - 身份标识
+ * @param {boolean} [chinese] - 是否返回中文
+ * @param {boolean} [isMark] - 是否为标记模式
+ * @returns {string} 身份标识字符串
  */
 export function getPlayerIdentity(player, identity, chinese, isMark) {
 	if (!(player instanceof HTMLElement && get.itemtype(player) === "player")) {
@@ -38,7 +39,11 @@ export function getPlayerIdentity(player, identity, chinese, isMark) {
 }
 
 /**
- * 处理英文身份
+ * 处理英文身份标识
+ * @param {HTMLElement} player - 玩家元素
+ * @param {string} identity - 身份标识
+ * @param {string} mode - 游戏模式
+ * @returns {string|undefined} 英文身份标识
  */
 function handleEnglishIdentity(player, identity, mode) {
 	const handlers = {
@@ -72,6 +77,9 @@ function handleEnglishIdentity(player, identity, mode) {
 
 /**
  * 处理对战模式英文身份
+ * @param {HTMLElement} player - 玩家元素
+ * @param {string} identity - 身份标识
+ * @returns {string|undefined} 英文身份标识
  */
 function handleVersusEnglish(player, identity) {
 	const handlers = {
@@ -92,7 +100,12 @@ function handleVersusEnglish(player, identity) {
 }
 
 /**
- * 处理中文身份
+ * 处理中文身份标识
+ * @param {HTMLElement} player - 玩家元素
+ * @param {string} identity - 身份标识
+ * @param {string} mode - 游戏模式
+ * @param {boolean} isMark - 是否为标记模式
+ * @returns {{identity: string, translated: boolean}} 处理结果
  */
 function handleChineseIdentity(player, identity, mode, isMark) {
 	let translated = false;
@@ -145,6 +158,10 @@ function handleChineseIdentity(player, identity, mode, isMark) {
 
 /**
  * 处理对战模式中文身份
+ * @param {HTMLElement} player - 玩家元素
+ * @param {string} identity - 身份标识
+ * @param {boolean} isMark - 是否为标记模式
+ * @returns {{identity: string, translated: boolean}} 处理结果
  */
 function handleVersusChineseIdentity(player, identity, isMark) {
 	let translated = true;

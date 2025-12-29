@@ -1,7 +1,7 @@
 "use strict";
 
 /**
- * 动态皮肤配置模块
+ * @fileoverview 动态皮肤配置模块
  *
  * 使用说明：
  * - 打开动态皮肤开关后直接替换原有武将皮肤
@@ -32,8 +32,12 @@
  *   hideSlots: [], clipSlots: [],
  * });
  */
+import { lib, game, ui, get, ai, _status } from "noname";
 
-// 动态皮肤配置表
+/**
+ * @type {Object.<string, Object>}
+ * @description 动态皮肤配置表，按武将名和皮肤名组织
+ */
 export const dynamicSkinConfig = {
 	luyi: {
 		姝丽风华: {
@@ -89,6 +93,7 @@ export const dynamicSkinConfig = {
 
 /**
  * 设置动态皮肤模块
+ * @returns {void}
  */
 export function setupDynamicSkin() {
 	if (!window.decadeUI) return;

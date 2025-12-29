@@ -1,15 +1,25 @@
 /**
- * 卡牌提示模块 - 为玩家操作提供上下文提示
- * 功能：出牌阶段提示、响应提示、弃牌提示、无懈可击提示等
+ * @fileoverview 卡牌提示模块，为玩家操作提供上下文提示（出牌阶段、响应、弃牌、无懈可击等）
  */
 import { lib, game, ui, get, ai, _status } from "noname";
 
 // ==================== 常量 ====================
+
+/** @type {number} 浅层父事件遍历深度 */
 const MAX_PARENT_DEPTH_SHALLOW = 5;
+
+/** @type {number} 深层父事件遍历深度 */
 const MAX_PARENT_DEPTH_DEEP = 10;
+
+/** @type {string[]} 拼点事件名称列表 */
 const COMPARE_EVENT_NAMES = ["compareMultiple", "chooseToCompare", "chooseToCompareMultiple"];
 
 // ==================== 卡牌提示文本映射 ====================
+
+/**
+ * 卡牌出牌阶段提示文本映射表
+ * @type {Object.<string, string>}
+ */
 const cardPhasePrompts = {
 	// 基本牌
 	sha: "选择1名角色，作为杀的目标",
@@ -199,48 +209,88 @@ const cardPhasePrompts = {
 
 // ==================== 工具函数 ====================
 
-/** 获取卡牌的出牌阶段提示 */
+/**
+ * 获取卡牌的出牌阶段提示
+ * @param {object|string} card - 卡牌对象或卡牌名称
+ * @returns {string|null} 提示文本
+ */
 export const getCardPhasePrompt = card => {
 	if (!card) return null;
 	const cardName = typeof card === "string" ? card : card.name;
 	return cardPhasePrompts[cardName];
 };
 
-/** 移除文本中的特殊标记符号 */
+/**
+ * 移除文本中的特殊标记符号
+ * @param {string} text - 原始文本
+ * @returns {string} 处理后的文本
+ */
 export const decPrompt = text => (typeof text === "string" ? text.replace(/＃/g, "") : text);
 
-/** 移除HTML标签 */
+/**
+ * 移除HTML标签
+ * @param {string} text - 原始文本
+ * @returns {string} 处理后的文本
+ */
 export const stripTags = text => (typeof text === "string" ? text.replace(/<\/?.+?\/?>/g, "") : "");
 
-/** 清理提示文本 */
+/**
+ * 清理提示文本（移除HTML标签和特殊符号）
+ * @param {string} text - 原始文本
+ * @returns {string} 处理后的文本
+ */
 export const sanitizePrompt = text => stripTags(decPrompt(text ?? "")).replace(/#/g, "");
 
-/** 获取单个目标 */
+/**
+ * 获取单个目标
+ * @param {object|Array} target - 目标对象或数组
+ * @returns {object|null} 单个目标
+ */
 const getSingleTarget = target => {
 	if (!target) return null;
 	return Array.isArray(target) ? (target[0] ?? null) : target;
 };
 
-/** 解析角色名称 */
+/**
+ * 解析角色名称
+ * @param {object|string} target - 目标对象或名称
+ * @returns {string|null} 角色名称
+ */
 const resolveName = target => {
 	if (!target) return null;
 	const name = typeof target === "object" && target.name ? target.name : target;
 	return name ? get.slimNameHorizontal(name) : null;
 };
 
-/** 清理技能名称后缀 */
+/**
+ * 清理技能名称后缀
+ * @param {string} name - 技能名称
+ * @returns {string} 清理后的名称
+ */
 const cleanSkillName = name => name?.replace(/_cost$/, "").replace(/_backup$/, "");
 
 // ==================== 对话框管理 ====================
 
+/**
+ * 关闭对话框
+ * @param {object} dialog - 对话框对象
+ * @returns {void}
+ */
 const closeDialog = dialog => dialog?.close?.();
 
+/**
+ * 关闭卡牌对话框
+ * @returns {void}
+ */
 const closeCardDialog = () => {
 	closeDialog(ui.cardDialog);
 	delete ui.cardDialog;
 };
 
-/** 重置所有手牌提示 */
+/**
+ * 重置所有手牌提示
+ * @returns {void}
+ */
 const resetHandTips = () => {
 	closeCardDialog();
 	const tips = decadeUI?.statics?.handTips;
@@ -254,7 +304,10 @@ const resetHandTips = () => {
 	});
 };
 
-/** 创建新的提示框 */
+/**
+ * 创建新的提示框
+ * @returns {object} 提示框对象
+ */
 const ensureTip = () => {
 	closeCardDialog();
 	return (ui.cardDialog = decadeUI.showHandTip());
@@ -262,7 +315,13 @@ const ensureTip = () => {
 
 // ==================== 提示内容构建 ====================
 
-/** 向提示框追加HTML内容 */
+/**
+ * 向提示框追加HTML内容
+ * @param {HTMLElement} tipNode - 提示框节点
+ * @param {string} html - HTML内容
+ * @param {string} [style] - 样式类型
+ * @returns {HTMLElement|void} 创建的节点
+ */
 const appendTipHTML = (tipNode, html, style) => {
 	if (!html) return;
 	for (const node of tipNode.childNodes) {
@@ -278,7 +337,12 @@ const appendTipHTML = (tipNode, html, style) => {
 	return tipNode.appendChild(span);
 };
 
-/** 向提示框追加文本内容 */
+/**
+ * 向提示框追加文本内容
+ * @param {HTMLElement} tipNode - 提示框节点
+ * @param {string|Array} content - 文本内容或内容数组
+ * @returns {void}
+ */
 const appendTipText = (tipNode, content) => {
 	if (!content) return;
 	if (Array.isArray(content)) {
@@ -299,7 +363,13 @@ const appendTipText = (tipNode, content) => {
 	}
 };
 
-/** 追加技能名称到提示框 */
+/**
+ * 追加技能名称到提示框
+ * @param {HTMLElement} tipNode - 提示框节点
+ * @param {string} skillName - 技能名称
+ * @param {object} player - 玩家对象
+ * @returns {void}
+ */
 const appendSkillName = (tipNode, skillName, player) => {
 	const resolvedSkill = get.sourceSkillFor ? get.sourceSkillFor(cleanSkillName(skillName)) : cleanSkillName(skillName);
 	tipNode.appendText("【");
@@ -307,7 +377,12 @@ const appendSkillName = (tipNode, skillName, player) => {
 	tipNode.appendText("】");
 };
 
-/** 显示提示框 */
+/**
+ * 显示提示框
+ * @param {object} tip - 提示框对象
+ * @param {string|Array} content - 提示内容
+ * @returns {void}
+ */
 const showTip = (tip, content) => {
 	appendTipText(tip, content);
 	tip.strokeText();
@@ -316,7 +391,13 @@ const showTip = (tip, content) => {
 
 // ==================== 事件遍历工具 ====================
 
-/** 向上遍历父事件查找匹配项 */
+/**
+ * 向上遍历父事件查找匹配项
+ * @param {object} event - 事件对象
+ * @param {number} maxDepth - 最大遍历深度
+ * @param {Function} predicate - 匹配条件函数
+ * @returns {object|null} 匹配的父事件
+ */
 const traverseParent = (event, maxDepth, predicate) => {
 	if (typeof event.getParent !== "function") return null;
 	let parent = event.getParent();
@@ -327,13 +408,25 @@ const traverseParent = (event, maxDepth, predicate) => {
 	return null;
 };
 
-/** 检查是否在弃牌阶段 */
+/**
+ * 检查是否在弃牌阶段
+ * @param {object} event - 事件对象
+ * @returns {boolean} 是否在弃牌阶段
+ */
 const markPhaseDiscard = event => traverseParent(event, MAX_PARENT_DEPTH_SHALLOW, p => p.name === "phaseDiscard") !== null;
 
-/** 获取拼点父事件 */
+/**
+ * 获取拼点父事件
+ * @param {object} event - 事件对象
+ * @returns {object|null} 拼点父事件
+ */
 const getCompareParent = event => traverseParent(event, MAX_PARENT_DEPTH_DEEP, p => COMPARE_EVENT_NAMES.includes(p.name));
 
-/** 获取触发拼点的技能名 */
+/**
+ * 获取触发拼点的技能名
+ * @param {object} event - 事件对象
+ * @returns {string|null} 技能名称
+ */
 const getCompareSkill = event => {
 	const compareParent = getCompareParent(event);
 	if (!compareParent) return null;
@@ -349,14 +442,24 @@ const getCompareSkill = event => {
 
 // ==================== 无懈可击处理 ====================
 
-/** 检查是否为无懈可击请求 */
+/**
+ * 检查是否为无懈可击请求
+ * @param {object} event - 事件对象
+ * @returns {boolean} 是否为无懈可击请求
+ */
 const isAskWuxie = event => {
 	if (!event) return false;
 	if (event.type === "wuxie" || event.card?.name === "wuxie") return true;
 	return sanitizePrompt(event.prompt).includes("无懈可击");
 };
 
-/** 解析无懈可击的目标名称 */
+/**
+ * 解析无懈可击的目标名称
+ * @param {object} event - 事件对象
+ * @param {object} respondCard - 响应卡牌
+ * @param {object} parentMap - 父事件信息映射
+ * @returns {string|undefined} 目标名称
+ */
 const resolveWuxieTarget = (event, respondCard, parentMap) => {
 	const sourcePlayer = Array.isArray(event.respondTo) ? event.respondTo[0] : null;
 	const judgeParent = traverseParent(event, MAX_PARENT_DEPTH_DEEP, p => p.name === "judge" || p.name === "phaseJudge");
@@ -368,7 +471,12 @@ const resolveWuxieTarget = (event, respondCard, parentMap) => {
 	}
 };
 
-/** 获取无懈可击状态词 */
+/**
+ * 获取无懈可击状态词
+ * @param {object} event - 事件对象
+ * @param {object} parentMap - 父事件信息映射
+ * @returns {string} 状态词（生效/失效）
+ */
 const getWuxieStateWord = (event, parentMap) => {
 	if (typeof parentMap?.state === "number") {
 		return parentMap.state > 0 ? "生效" : "失效";
@@ -377,7 +485,11 @@ const getWuxieStateWord = (event, parentMap) => {
 	return match ? (match[1] === "生" ? "生效" : "失效") : "生效或失效";
 };
 
-/** 构建无懈可击提示文本 */
+/**
+ * 构建无懈可击提示文本
+ * @param {object} event - 事件对象
+ * @returns {Array} 提示文本数组
+ */
 const buildWuxieTipText = event => {
 	const [sourcePlayer, respondCard] = Array.isArray(event.respondTo) ? event.respondTo : [];
 	const parentEvent = event.getParent?.();
@@ -407,12 +519,22 @@ const buildWuxieTipText = event => {
 
 // ==================== 借刀杀人处理 ====================
 
+/**
+ * 检查是否为借刀杀人事件
+ * @param {object} event - 事件对象
+ * @returns {boolean} 是否为借刀杀人事件
+ */
 const isJiedaoEvent = event => {
 	if (!event?.respondTo) return false;
 	const card = Array.isArray(event.respondTo) ? event.respondTo[1] : null;
 	return card?.name === "jiedao";
 };
 
+/**
+ * 构建借刀杀人提示文本
+ * @param {object} event - 事件对象
+ * @returns {Array} 提示文本数组
+ */
 const buildJiedaoTipText = event => {
 	const [sourcePlayer] = event.respondTo;
 	const sourceName = resolveName(sourcePlayer) ?? "未知角色";
@@ -424,7 +546,11 @@ const buildJiedaoTipText = event => {
 
 // ==================== 响应牌处理 ====================
 
-/** 解析响应牌信息 */
+/**
+ * 解析响应牌信息
+ * @param {Array} respondCard - 响应卡牌数组
+ * @returns {{actionWord: string, cardName: string}} 响应信息
+ */
 const parseRespondCardInfo = respondCard => {
 	const defaultResult = { actionWord: "打出", cardName: "" };
 	if (!Array.isArray(respondCard) || !respondCard[1]) return defaultResult;
@@ -443,7 +569,11 @@ const parseRespondCardInfo = respondCard => {
 	return match[1] ? { actionWord: match[1], cardName: match[2] } : { actionWord: "打出", cardName: match[3] };
 };
 
-/** 解析响应目标名称 */
+/**
+ * 解析响应目标名称
+ * @param {object} event - 事件对象
+ * @returns {string} 目标名称
+ */
 const resolveRespondTargetName = event => {
 	if (Array.isArray(event.respondTo) && event.respondTo[1]) {
 		const respondCard = event.respondTo[1];
@@ -455,7 +585,11 @@ const resolveRespondTargetName = event => {
 	return parentName ? get.skillTranslation(parentName, event.player) : "当前请求";
 };
 
-/** 构建响应提示文本 */
+/**
+ * 构建响应提示文本
+ * @param {object} event - 事件对象
+ * @returns {Array|null} 提示文本数组
+ */
 const buildRespondTipText = event => {
 	if (!event) return null;
 	if (isAskWuxie(event)) return buildWuxieTipText(event);
@@ -474,14 +608,25 @@ const buildRespondTipText = event => {
 
 // ==================== 弃牌处理 ====================
 
-/** 获取位置描述词 */
+/**
+ * 获取位置描述词
+ * @param {string} position - 位置标识
+ * @returns {string} 位置描述词
+ */
 const getPositionWord = position => {
 	if (!position || position === "h") return "手";
 	if (position === "e") return "装备";
 	return "";
 };
 
-/** 构建弃牌提示文本 */
+/**
+ * 构建弃牌提示文本
+ * @param {object} event - 事件对象
+ * @param {number} selectedCount - 已选择数量
+ * @param {number} needCount - 需要数量
+ * @param {number} min - 最小数量
+ * @returns {string} 提示文本
+ */
 const buildDiscardTipText = (event, selectedCount, needCount, min) => {
 	const positionWord = getPositionWord(event.position);
 	const prefix = event.forced ? "请" : "是否";
@@ -490,7 +635,13 @@ const buildDiscardTipText = (event, selectedCount, needCount, min) => {
 	return `${prefix}弃置${selectedCount}/${needCount}张${positionWord}牌${minText}${suffix}`;
 };
 
-/** 追加弃牌技能前缀 */
+/**
+ * 追加弃牌技能前缀
+ * @param {object} tip - 提示框对象
+ * @param {object} event - 事件对象
+ * @param {string} compareSkill - 拼点技能名
+ * @returns {void}
+ */
 const appendDiscardSkillPrefix = (tip, event, compareSkill) => {
 	const skillName = compareSkill || event.getParent?.()?.skill || event.getParent?.()?.name || "";
 	if (!skillName) return;
@@ -498,7 +649,11 @@ const appendDiscardSkillPrefix = (tip, event, compareSkill) => {
 	tip.appendText("：");
 };
 
-/** 处理弃牌事件 */
+/**
+ * 处理弃牌事件
+ * @param {object} event - 事件对象
+ * @returns {void}
+ */
 const handleDiscard = event => {
 	closeCardDialog();
 	closeDialog(event.dialog);
@@ -532,7 +687,12 @@ const handleDiscard = event => {
 
 // ==================== 使用牌处理 ====================
 
-/** 处理响应使用 */
+/**
+ * 处理响应使用
+ * @param {object} event - 事件对象
+ * @param {string} compareSkill - 拼点技能名
+ * @returns {boolean} 是否处理成功
+ */
 const handleRespondUse = (event, compareSkill) => {
 	if (!event.respondTo) return false;
 
@@ -551,7 +711,11 @@ const handleRespondUse = (event, compareSkill) => {
 	return true;
 };
 
-/** 处理濒死使用 */
+/**
+ * 处理濒死使用
+ * @param {object} event - 事件对象
+ * @returns {boolean} 是否处理成功
+ */
 const handleDyingUse = event => {
 	if (event.type !== "dying" || !event.dying) return false;
 
@@ -568,7 +732,11 @@ const handleDyingUse = event => {
 	return true;
 };
 
-/** 处理技能使用（出牌阶段无选中卡牌时跳过，走默认提示） */
+/**
+ * 处理技能使用（出牌阶段无选中卡牌时跳过，走默认提示）
+ * @param {object} event - 事件对象
+ * @returns {boolean} 是否处理成功
+ */
 const handleSkillUse = event => {
 	if (event.type === "phase" && !ui.selected?.cards?.length) return false;
 	if (!event.skill) return false;
@@ -581,13 +749,22 @@ const handleSkillUse = event => {
 	return true;
 };
 
-/** 显示出牌阶段默认提示 */
+/**
+ * 显示出牌阶段默认提示
+ * @param {object} tip - 提示框对象
+ * @returns {void}
+ */
 const showPhaseDefaultTip = tip => {
 	tip.appendText("出牌阶段", "phase");
 	tip.appendText(decPrompt(stripTags("，请选择一张卡牌")));
 };
 
-/** 显示选中卡牌的提示 */
+/**
+ * 显示选中卡牌的提示
+ * @param {object} tip - 提示框对象
+ * @param {string} cardName - 卡牌名称
+ * @returns {void}
+ */
 const showCardTip = (tip, cardName) => {
 	const customPrompt = getCardPhasePrompt(cardName);
 	if (customPrompt) {
@@ -599,7 +776,11 @@ const showCardTip = (tip, cardName) => {
 	}
 };
 
-/** 处理出牌阶段 */
+/**
+ * 处理出牌阶段
+ * @param {object} event - 事件对象
+ * @returns {boolean} 是否处理成功
+ */
 const handlePhaseUse = event => {
 	if (event.type !== "phase") return false;
 
@@ -615,7 +796,11 @@ const handlePhaseUse = event => {
 	return true;
 };
 
-/** 处理无懈可击使用 */
+/**
+ * 处理无懈可击使用
+ * @param {object} event - 事件对象
+ * @returns {boolean} 是否处理成功
+ */
 const handleWuxieUse = event => {
 	if (event.type !== "wuxie") return false;
 
@@ -628,7 +813,11 @@ const handleWuxieUse = event => {
 	return true;
 };
 
-/** 统一处理使用牌事件 */
+/**
+ * 统一处理使用牌事件
+ * @param {object} event - 事件对象
+ * @returns {void}
+ */
 const handleUse = event => {
 	const compareSkill = getCompareSkill(event);
 
@@ -639,7 +828,11 @@ const handleUse = event => {
 	handlePhaseUse(event);
 };
 
-/** 处理响应事件 */
+/**
+ * 处理响应事件
+ * @param {object} event - 事件对象
+ * @returns {void}
+ */
 const handleRespond = event => {
 	closeDialog(event.dialog);
 	event.dialog = false;

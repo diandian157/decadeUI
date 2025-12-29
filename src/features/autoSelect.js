@@ -1,17 +1,25 @@
 "use strict";
 
 /**
- * 自动选择模块 - 在特定条件下自动选择卡牌和目标
+ * @fileoverview 自动选择模块 - 在特定条件下自动选择卡牌和目标
  */
 
 import { lib, game, ui, get, ai, _status } from "noname";
 
 // ==================== 工具函数 ====================
 
-/** 检查功能是否启用 */
+/**
+ * 检查功能是否启用
+ * @returns {boolean}
+ */
 const isEnabled = () => lib.config.extension_十周年UI_autoSelect !== false;
 
-/** 获取选择数量范围，统一返回 [min, max] 格式 */
+/**
+ * 获取选择数量范围
+ * @param {Object} event - 当前事件
+ * @param {string} type - 选择类型 ('Card' 或 'Target')
+ * @returns {number[]} [min, max] 格式的范围
+ */
 const getRange = (event, type) => {
 	const select = event[`select${type}`];
 	if (select === undefined) return [1, 1];
@@ -23,7 +31,10 @@ const getRange = (event, type) => {
 	return Array.isArray(select) ? select : [1, 1];
 };
 
-/** 生成目标选择状态标识（用于防止重复触发） */
+/**
+ * 生成目标选择状态标识（用于防止重复触发）
+ * @returns {string}
+ */
 const getTargetState = () => {
 	const cards = ui.selected.cards?.map(c => c.cardid || c.name).join(",") || "";
 	const skill = _status.event?.skill || "";
@@ -32,7 +43,11 @@ const getTargetState = () => {
 
 // ==================== 条件判断 ====================
 
-/** 判断是否为响应类事件（需要快速响应的场景） */
+/**
+ * 判断是否为响应类事件（需要快速响应的场景）
+ * @param {Object} event - 当前事件
+ * @returns {boolean}
+ */
 const isRespondEvent = event => {
 	// 直接响应事件
 	if (event.name === "chooseToRespond" || event.respondTo || event.type === "wuxie") return true;
@@ -66,7 +81,11 @@ const isRespondEvent = event => {
 	return false;
 };
 
-/** 检查是否应自动选择目标 */
+/**
+ * 检查是否应自动选择目标
+ * @param {Object} event - 当前事件
+ * @returns {boolean}
+ */
 const shouldAutoSelectTarget = event => {
 	if (!isEnabled() || !event.filterTarget || _status.auto) return false;
 	if (event.noAutoSelect || event.complexSelect || event.complexTarget) return false;
@@ -78,7 +97,11 @@ const shouldAutoSelectTarget = event => {
 	return event._autoTargetState !== state;
 };
 
-/** 检查是否应自动选择卡牌 */
+/**
+ * 检查是否应自动选择卡牌
+ * @param {Object} event - 当前事件
+ * @returns {boolean}
+ */
 const shouldAutoSelectCard = event => {
 	if (!isEnabled() || !event.filterCard || _status.auto) return false;
 	if (event.noAutoSelect || event.complexSelect || event.complexCard) return false;
@@ -97,7 +120,10 @@ const shouldAutoSelectCard = event => {
 
 // ==================== 自动选择执行 ====================
 
-/** 执行自动选择目标 */
+/**
+ * 执行自动选择目标
+ * @returns {boolean} 是否执行了选择
+ */
 const performAutoSelectTarget = () => {
 	const event = _status.event;
 	if (!shouldAutoSelectTarget(event)) return false;
@@ -117,7 +143,10 @@ const performAutoSelectTarget = () => {
 	return false;
 };
 
-/** 执行自动选择卡牌 */
+/**
+ * 执行自动选择卡牌
+ * @returns {boolean} 是否执行了选择
+ */
 const performAutoSelectCard = () => {
 	const event = _status.event;
 	if (!shouldAutoSelectCard(event)) return false;
@@ -144,7 +173,10 @@ const performAutoSelectCard = () => {
 
 // ==================== 事件钩子 ====================
 
-/** 重置自动选择状态 */
+/**
+ * 重置自动选择状态
+ * @param {Object} event - 当前事件
+ */
 const resetAutoState = event => {
 	if (event) {
 		delete event._autoCardDone;
@@ -152,7 +184,9 @@ const resetAutoState = event => {
 	}
 };
 
-/** 初始化自动选择模块 */
+/**
+ * 初始化自动选择模块
+ */
 export function setupAutoSelect() {
 	// 取消时重置状态
 	const originalCancel = ui.click.cancel;

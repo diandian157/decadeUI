@@ -1,5 +1,5 @@
 /**
- * decadeUI 核心对象
+ * @fileoverview decadeUI核心对象模块，整合所有子模块并提供统一的API接口
  */
 import { lib, game, ui, get, ai, _status } from "noname";
 import { initializeDecadeUIEnvironment } from "./environment.js";
@@ -99,8 +99,15 @@ import {
 
 import { uiUpdatec, uiUpdatehl, uiUpdatej, uiUpdatem, uiUpdatez, uiUpdate, uiUpdatejm, uiUpdatexr, uiCreatePrebutton, uiCreateRarity, uiCreateButton, uiCreateControl, uiCreateDialog, uiCreateSelectlist, uiCreateIdentityCard, uiCreateSpinningIdentityCard, uiCreateArena, uiCreatePause, uiCreateCharacterDialog, uiClickCard, uiClickIntro } from "../overrides/ui.js";
 
-/** 创建decadeUI核心对象 */
+/**
+ * 创建decadeUI核心对象
+ * @returns {Object} decadeUI对象
+ */
 export const createDecadeUIObject = () => ({
+	/**
+	 * 初始化decadeUI
+	 * @returns {Object} this
+	 */
 	init() {
 		this.extensionName = decadeUIName;
 		this.bodySensor = initializeDecadeUIEnvironment(this);
@@ -108,7 +115,16 @@ export const createDecadeUIObject = () => ({
 		return this;
 	},
 
+	/**
+	 * 初始化方法覆写
+	 */
 	initOverride() {
+		/**
+		 * 递归覆写对象属性
+		 * @param {Object} dest - 目标对象
+		 * @param {Object} src - 源对象
+		 * @returns {boolean} 是否完全覆写
+		 */
 		const override = (dest, src) => {
 			let ok = true;
 			for (const key in src) {
@@ -349,7 +365,7 @@ export const createDecadeUIObject = () => ({
 			}
 		}
 
-		// 窗口大小变化时更新布局（修复控制台开关导致手牌区不复位的问题）
+		// 窗口大小变化时更新布局
 		window.addEventListener("resize", () => {
 			ui.updatexr?.();
 			decadeUI.layout?.resize();
@@ -359,6 +375,9 @@ export const createDecadeUIObject = () => ({
 		this.initUIExtensions();
 	},
 
+	/**
+	 * 初始化UI扩展
+	 */
 	initUIExtensions() {
 		ui.click.identity = uiClickIdentity;
 		ui.click.volumn = uiClickVolumn;
@@ -371,16 +390,28 @@ export const createDecadeUIObject = () => ({
 		definePlayerGroupProperty();
 	},
 
+	/** @type {Object} 对话框模块 */
 	dialog: createDecadeUIDialogModule(),
+	/** @type {Object} 动画模块 */
 	animate: createDecadeUIAnimateModule(),
+	/** @type {Function} 尺寸监听器类 */
 	ResizeSensor: createResizeSensorClass(),
+	/** @type {Object} 样式表模块 */
 	sheet: createSheetModule(),
+	/** @type {Object} 布局模块 */
 	layout: createLayoutModule(),
+	/** @type {Object} 事件处理模块 */
 	handler: createHandlerModule(),
+	/** @type {Object} 缩放配置 */
 	zooms: { body: 1, card: 1 },
+	/** @type {Object} 创建模块 */
 	create: createDecadeUICreateModule(),
+	/** @type {Object} 获取器模块 */
 	get: createDecadeUIGetModule(),
+	/** @type {Object} 设置器模块 */
 	set: createDecadeUISetModule(),
+	/** @type {Object} 静态资源模块 */
 	statics: createStaticsModule(),
+	/** @type {Object} 数据集 */
 	dataset: { animSizeUpdated: false, bodySizeUpdated: false, bodySize: { height: 1, width: 1, updated: false } },
 });

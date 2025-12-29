@@ -1,10 +1,12 @@
 /**
- * 环境初始化模块
+ * @fileoverview 环境初始化模块，负责SVG裁剪路径、全局方法修补和UI环境设置
  */
 import { lib, game, ui, get, ai, _status } from "noname";
 import { SVG_NS, CLIP_PATHS } from "./constants.js";
 
-/** 初始化SVG裁剪路径 */
+/**
+ * 初始化SVG裁剪路径
+ */
 export function initSvgClipPaths() {
 	const svg = document.body.appendChild(document.createElementNS(SVG_NS, "svg"));
 	const defs = svg.appendChild(document.createElementNS(SVG_NS, "defs"));
@@ -16,7 +18,10 @@ export function initSvgClipPaths() {
 	});
 }
 
-/** 修补全局方法 */
+/**
+ * 修补全局方法
+ * @param {Object} ctx - 上下文对象
+ */
 export function patchGlobalMethods(ctx) {
 	if (!window.get) return;
 
@@ -45,7 +50,11 @@ export function patchGlobalMethods(ctx) {
 	}
 }
 
-/** 初始化十周年UI环境 */
+/**
+ * 初始化十周年UI环境
+ * @param {Object} ctx - decadeUI上下文
+ * @returns {Object} body尺寸监听器
+ */
 export const initializeDecadeUIEnvironment = ctx => {
 	const sensorNode = ctx.element.create("sensor", document.body);
 	sensorNode.id = "decadeUI-body-sensor";

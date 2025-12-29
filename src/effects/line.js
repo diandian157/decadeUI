@@ -1,12 +1,17 @@
 "use strict";
 
 /**
- * 连线特效模块
+ * @fileoverview 连线特效模块，处理玩家间的连线动画效果
  */
 
+import { lib, game, ui, get, ai, _status } from "noname";
 import { CONFIG } from "./config.js";
 
-/** 绘制连线特效 */
+/**
+ * 绘制连线特效
+ * @param {number[]} dots - 坐标数组 [x1, y1, x2, y2]
+ * @returns {void}
+ */
 export function drawLine(dots) {
 	decadeUI.animate.add(
 		function (source, target, e) {

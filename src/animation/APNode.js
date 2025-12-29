@@ -1,16 +1,28 @@
 "use strict";
 
 /**
- * 动画播放节点模块
+ * @fileoverview 动画播放节点模块，管理单个骨骼动画的状态、变换和时间步进
  */
 
 import { TimeStep } from "./TimeStep.js";
 import { useNewDpr } from "./utils.js";
 
 /**
- * 动画播放节点 - 管理单个骨骼动画的状态和变换
+ * 动画播放节点类
  */
 export class APNode {
+	/**
+	 * @param {Object} [params={}] - 初始化参数
+	 * @param {string} [params.name] - 节点名称
+	 * @param {spine.Skeleton} [params.skeleton] - 骨骼对象
+	 * @param {number|Array} [params.x] - X坐标
+	 * @param {number|Array} [params.y] - Y坐标
+	 * @param {number} [params.scale] - 缩放比例
+	 * @param {number} [params.angle] - 旋转角度
+	 * @param {number} [params.opacity] - 透明度
+	 * @param {boolean} [params.loop] - 是否循环
+	 * @param {string} [params.action] - 动画动作名
+	 */
 	constructor(params = {}) {
 		// 基础属性
 		this.id = undefined;
@@ -59,7 +71,12 @@ export class APNode {
 		this.timestepMap = {};
 	}
 
-	/** 渐变透明度 */
+	/**
+	 * 渐变透明度
+	 * @param {number} opacity - 目标透明度
+	 * @param {number} duration - 过渡时长(ms)
+	 * @returns {APNode} 当前节点
+	 */
 	fadeTo(opacity, duration) {
 		if (opacity !== undefined) {
 			this.updateTimeStep("opacity", this.opacity ?? 1, opacity, duration);
@@ -68,7 +85,13 @@ export class APNode {
 		return this;
 	}
 
-	/** 移动到指定位置 */
+	/**
+	 * 移动到指定位置
+	 * @param {number|Array} x - 目标X坐标
+	 * @param {number|Array} y - 目标Y坐标
+	 * @param {number} duration - 过渡时长(ms)
+	 * @returns {APNode} 当前节点
+	 */
 	moveTo(x, y, duration) {
 		if (x !== undefined) {
 			this.updateTimeStep("x", this.x ?? [0, 0.5], x, duration);
@@ -81,7 +104,12 @@ export class APNode {
 		return this;
 	}
 
-	/** 缩放到指定大小 */
+	/**
+	 * 缩放到指定大小
+	 * @param {number} scale - 目标缩放比例
+	 * @param {number} duration - 过渡时长(ms)
+	 * @returns {APNode} 当前节点
+	 */
 	scaleTo(scale, duration) {
 		if (scale !== undefined) {
 			this.updateTimeStep("scale", this.scale ?? 1, scale, duration);
@@ -90,7 +118,12 @@ export class APNode {
 		return this;
 	}
 
-	/** 旋转到指定角度 */
+	/**
+	 * 旋转到指定角度
+	 * @param {number} angle - 目标角度
+	 * @param {number} duration - 过渡时长(ms)
+	 * @returns {APNode} 当前节点
+	 */
 	rotateTo(angle, duration) {
 		if (angle !== undefined) {
 			this.updateTimeStep("angle", this.angle ?? 0, angle, duration);
@@ -99,7 +132,13 @@ export class APNode {
 		return this;
 	}
 
-	/** 更新节点状态 */
+	/**
+	 * 更新节点状态
+	 * @param {Object} e - 事件参数
+	 * @param {number} e.dpr - 设备像素比
+	 * @param {number} e.delta - 时间增量
+	 * @param {HTMLCanvasElement} e.canvas - 画布元素
+	 */
 	update(e) {
 		const calc = (value, refer, dpr) => {
 			return Array.isArray(value) ? value[0] * dpr + value[1] * refer : value * dpr;
@@ -190,7 +229,13 @@ export class APNode {
 		if (this.onupdate) this.onupdate();
 	}
 
-	/** 计算参考节点边界 */
+	/**
+	 * 计算参考节点边界
+	 * @param {HTMLElement} domNode - DOM节点
+	 * @param {number} dpr - 设备像素比
+	 * @returns {Object} 边界信息
+	 * @private
+	 */
 	_calcReferBounds(domNode, dpr) {
 		// 检测getBoundingClientRect是否被皮肤切换扩展修改
 		// 皮肤切换扩展在Chrome 128+会修改getBoundingClientRect，返回值已除以documentZoom
@@ -233,7 +278,12 @@ export class APNode {
 		};
 	}
 
-	/** 应用位移变换 */
+	/**
+	 * 应用位移变换
+	 * @param {number} [x] - X坐标
+	 * @param {number} [y] - Y坐标
+	 * @private
+	 */
 	_applyTranslation(x, y) {
 		if (x !== undefined && y === undefined) {
 			this.mvp.translate(x, 0, 0);
@@ -248,7 +298,11 @@ export class APNode {
 		}
 	}
 
-	/** 设置动画动作 */
+	/**
+	 * 设置动画动作
+	 * @param {string} action - 动作名称
+	 * @param {number} [transition] - 过渡时长(ms)
+	 */
 	setAction(action, transition) {
 		if (!this.skeleton || this.skeleton.node !== this) {
 			return console.error("setAction: 节点失去关联");
@@ -260,7 +314,10 @@ export class APNode {
 		entry.mixDuration = transition === undefined ? 0.5 : transition / 1000;
 	}
 
-	/** 重置为默认动作 */
+	/**
+	 * 重置为默认动作
+	 * @param {number} [transition] - 过渡时长(ms)
+	 */
 	resetAction(transition) {
 		if (!this.skeleton || this.skeleton.node !== this) {
 			return console.error("resetAction: 节点失去关联");
@@ -269,7 +326,9 @@ export class APNode {
 		entry.mixDuration = transition === undefined ? 0.5 : transition / 1000;
 	}
 
-	/** 完成回调 */
+	/**
+	 * 完成回调处理
+	 */
 	complete() {
 		if (!this.oncomplete) return;
 		if (typeof this.oncomplete === "string") {
@@ -285,7 +344,14 @@ export class APNode {
 		if (typeof this.oncomplete === "function") this.oncomplete();
 	}
 
-	/** 更新时间步进 */
+	/**
+	 * 更新时间步进
+	 * @param {string} key - 属性键名
+	 * @param {number|Array} start - 起始值
+	 * @param {number|Array} end - 结束值
+	 * @param {number} duration - 持续时长(ms)
+	 * @returns {TimeStep|undefined} 时间步进对象
+	 */
 	updateTimeStep(key, start, end, duration) {
 		if (!duration) return;
 		let ts = this.timestepMap[key];

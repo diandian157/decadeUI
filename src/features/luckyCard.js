@@ -1,8 +1,14 @@
+"use strict";
+
 /**
- * 手气卡换牌模块 - 使用原生 step 机制，兼容控制台操作
+ * @fileoverview 手气卡换牌模块 - 使用原生 step 机制，兼容控制台操作
  */
+
 import { lib, game, ui, get, ai, _status } from "noname";
 
+/**
+ * 初始化手气卡换牌功能
+ */
 export function setupLuckyCard() {
 	if (!lib.config["extension_十周年UI_luckycard"]) return;
 

@@ -1,9 +1,14 @@
 /**
- * 玩家势力属性模块
+ * @fileoverview 玩家势力属性模块
+ * 处理玩家势力的显示样式和属性定义
  */
+
 import { lib, game, ui, get, ai, _status } from "noname";
 
-/** 处理势力样式V2 */
+/**
+ * 处理势力样式V2（强制样式2）
+ * @param {string} group - 势力名称
+ */
 function handleGroupStyleV2(group) {
 	if (!decadeUI.config.campIdentityImageMode) {
 		if (!this._finalGroup) {
@@ -30,6 +35,11 @@ function handleGroupStyleV2(group) {
 				}
 			};
 
+			/**
+			 * 加载图片
+			 * @param {string} url - 图片URL
+			 * @returns {Promise<string>}
+			 */
 			const loadImage = url =>
 				new Promise((resolve, reject) => {
 					const img = new Image();
@@ -69,7 +79,10 @@ function handleGroupStyleV2(group) {
 	}
 }
 
-/** 处理势力样式默认 */
+/**
+ * 处理势力样式默认
+ * @param {string} group - 势力名称
+ */
 function handleGroupStyleDefault(group) {
 	if (decadeUI.config.newDecadeStyle === "codename") {
 		this.node.campWrap.node.campName.innerHTML = "";
@@ -110,7 +123,10 @@ function handleGroupStyleDefault(group) {
 	}
 }
 
-/** 定义player.group属性 */
+/**
+ * 定义player.group属性
+ * 为玩家元素添加势力属性的getter和setter
+ */
 export function definePlayerGroupProperty() {
 	Object.defineProperties(lib.element.player, {
 		group: {
@@ -118,6 +134,9 @@ export function definePlayerGroupProperty() {
 			get() {
 				return this._group;
 			},
+			/**
+			 * @param {string} group - 势力名称
+			 */
 			set(group) {
 				if (!group) return;
 				this._group = group;

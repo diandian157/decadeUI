@@ -1,10 +1,16 @@
 /**
- * 卡牌元素创建模块
+ * @fileoverview 卡牌元素创建模块，提供卡牌DOM元素的创建和包装功能
  */
 import { lib, game, ui, get, ai, _status } from "noname";
 import { element } from "../utils/element.js";
 
-/** 创建card元素 */
+/**
+ * 创建卡牌DOM元素
+ * @param {HTMLElement} [position] - 父容器元素
+ * @param {string} [info] - 信息标识，传入"noclick"禁用点击事件
+ * @param {boolean} [noclick] - 是否禁用点击事件
+ * @returns {HTMLElement} 创建的卡牌元素
+ */
 export function createCardElement(position, info, noclick) {
 	const card = ui.create.div(".card");
 	card.node = {
@@ -70,7 +76,11 @@ export function createCardElement(position, info, noclick) {
 	return card;
 }
 
-/** 创建cards包装器 */
+/**
+ * 创建cards包装器，在基础创建函数后更新回合数
+ * @param {Function} baseCreate - 基础创建函数
+ * @returns {Function} 包装后的创建函数
+ */
 export function createCardsWrapper(baseCreate) {
 	return function () {
 		const result = baseCreate.apply(this, arguments);

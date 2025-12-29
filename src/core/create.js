@@ -1,12 +1,19 @@
 /**
- * decadeUI.create 模块
+ * @fileoverview decadeUI.create模块，提供对话框和UI组件创建功能
  */
 import { lib, game, ui, get, ai, _status } from "noname";
 import { element } from "../utils/element.js";
 
-/** 创建decadeUI.create模块 */
+/**
+ * 创建decadeUI.create模块
+ * @returns {Object} create模块对象
+ */
 export function createDecadeUICreateModule() {
 	return {
+		/**
+		 * 创建技能对话框
+		 * @returns {HTMLElement} 对话框元素
+		 */
 		skillDialog() {
 			const dialog = document.createElement("div");
 			dialog.className = "skill-dialog";
@@ -14,6 +21,11 @@ export function createDecadeUICreateModule() {
 			const extend = {
 				caption: undefined,
 				tip: undefined,
+				/**
+				 * 打开对话框
+				 * @param {HTMLElement} customParent - 自定义父节点
+				 * @returns {HTMLElement} this
+				 */
 				open(customParent) {
 					if (!customParent) {
 						const size = decadeUI.get.bodySize();
@@ -23,12 +35,21 @@ export function createDecadeUICreateModule() {
 					this.style.animation = "open-dialog 0.4s";
 					return this;
 				},
+				/**
+				 * 显示对话框
+				 */
 				show() {
 					this.style.animation = "open-dialog 0.4s";
 				},
+				/**
+				 * 隐藏对话框
+				 */
 				hide() {
 					this.style.animation = "close-dialog 0.1s forwards";
 				},
+				/**
+				 * 关闭对话框
+				 */
 				close() {
 					const func = function (e) {
 						if (e.animationName !== "close-dialog") return;
@@ -42,6 +63,12 @@ export function createDecadeUICreateModule() {
 						this.addEventListener("animationend", func);
 					}
 				},
+				/**
+				 * 添加控制按钮
+				 * @param {string} text - 按钮文本
+				 * @param {Function} clickFunc - 点击回调
+				 * @returns {HTMLElement} 按钮元素
+				 */
 				appendControl(text, clickFunc) {
 					const control = document.createElement("div");
 					control.className = "control-button";
@@ -79,6 +106,12 @@ export function createDecadeUICreateModule() {
 			return dialog;
 		},
 
+		/**
+		 * 创建拼点对话框
+		 * @param {Object} player - 发起拼点的玩家
+		 * @param {Object} target - 拼点目标
+		 * @returns {HTMLElement} 拼点对话框元素
+		 */
 		compareDialog(player, target) {
 			const dialog = decadeUI.create.skillDialog();
 			dialog.classList.add("compare");

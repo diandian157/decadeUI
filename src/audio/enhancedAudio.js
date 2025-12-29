@@ -1,15 +1,22 @@
 /**
- * 增强音效模块
- * 包含：UI点击音效、准备阶段音效、掉血音效
+ * @fileoverview 增强音效模块
+ * 提供UI点击音效、准备阶段音效、掉血音效等增强音效功能
  */
+
 import { lib, game, ui, get, ai, _status } from "noname";
 
-/** 播放扩展音效 */
+/**
+ * 播放扩展音效
+ * @param {string} name - 音效文件名
+ */
 const playExtAudio = name => {
 	game.playAudio("..", "extension", "十周年UI", `audio/${name}`);
 };
 
-/** 初始化增强音效 */
+/**
+ * 初始化增强音效功能
+ * 包含UI点击音效、准备阶段音效、掉血音效
+ */
 export function setupEnhancedAudio() {
 	if (!lib.config["extension_十周年UI_bettersound"]) return;
 
@@ -28,11 +35,19 @@ export function setupEnhancedAudio() {
 
 	// UI点击音效
 	if (!game._decadeUI_uiClickAudioHandler) {
+		/**
+		 * @type {Array<{test: Function, sound: string}>}
+		 * UI音效规则配置
+		 */
 		const AUDIO_RULES = [
 			{ test: t => t.closest("#dui-controls") && (t.classList?.contains("control") || t.parentElement?.classList?.contains("control")), sound: "BtnSure" },
 			{ test: t => t.closest(".menubutton, .button, .card"), sound: "card_click" },
 		];
 
+		/**
+		 * UI点击音效处理函数
+		 * @param {PointerEvent} e - 指针事件
+		 */
 		const uiClickAudioHandler = e => {
 			if (e.button !== 0) return;
 			const audioToPlay = AUDIO_RULES.find(r => r.test(e.target))?.sound;
@@ -49,7 +64,7 @@ export function setupEnhancedAudio() {
 		game._decadeUI_uiClickAudioHandler = uiClickAudioHandler;
 	}
 
-	// 准备阶段音效
+	// 准备阶段音效技能
 	lib.skill._preparePhaseAudio = {
 		charlotte: true,
 		forced: true,
@@ -61,7 +76,7 @@ export function setupEnhancedAudio() {
 		},
 	};
 
-	// 掉血音效
+	// 掉血音效技能
 	lib.skill._hpLossAudio = {
 		charlotte: true,
 		forced: true,

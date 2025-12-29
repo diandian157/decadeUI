@@ -1,7 +1,7 @@
 "use strict";
 
 /**
- * 动画系统集成 - 懒加载
+ * @fileoverview 动画系统与游戏集成模块，实现懒加载和资源预加载
  */
 
 import { AnimationPlayer } from "./AnimationPlayer.js";
@@ -9,8 +9,16 @@ import { AnimationPlayerPool } from "./AnimationPlayerPool.js";
 import { assetList } from "./configs/assetList.js";
 import { initSkillAnimations } from "./initAnimations.js";
 
+/**
+ * 资源加载优先级枚举
+ * @type {Object.<string, number>}
+ */
 const Priority = { CRITICAL: 0, HIGH: 1, NORMAL: 2, LOW: 3 };
 
+/**
+ * 资源优先级映射表
+ * @type {Object.<string, number>}
+ */
 const priorityMap = {
 	effect_youxikaishi: Priority.CRITICAL,
 	effect_youxikaishi_shousha: Priority.CRITICAL,
@@ -28,8 +36,18 @@ const priorityMap = {
 	"globaltexiao/shanghaishuzi/SZN_shuzi": Priority.HIGH,
 };
 
+/** @type {Map<string, string|Function[]>} 资源加载状态映射 */
 const loadingState = new Map();
 
+/**
+ * 设置游戏动画系统
+ * @param {Object} lib - 游戏库对象
+ * @param {Object} game - 游戏对象
+ * @param {Object} ui - UI对象
+ * @param {Object} get - 工具函数对象
+ * @param {Object} ai - AI对象
+ * @param {Object} _status - 状态对象
+ */
 export function setupGameAnimation(lib, game, ui, get, ai, _status) {
 	decadeUI.animation = (() => {
 		const animation = new AnimationPlayer(decadeUIPath + "assets/animation/", document.body, "decadeUI-canvas");

@@ -1,3 +1,6 @@
+/**
+ * @fileoverview 扩展主入口 - 游戏初始化时执行
+ */
 import { lib, game, ui, get, ai, _status } from "noname";
 
 // 核心模块
@@ -42,24 +45,26 @@ import { createLbtnPlugin } from "../ui/lbtn/plugin.js";
 import { createSkillPlugin } from "../ui/skill/plugin.js";
 import { createCharacterPlugin } from "../ui/character/plugin.js";
 
-/** 完成核心初始化 */
+/**
+ * 完成核心初始化
+ * @param {Object} decadeUI - 核心对象
+ * @param {Object} config - 配置对象
+ * @returns {Object}
+ */
 export const finalizeDecadeUICore = (decadeUI, config) => {
 	registerDecadeUIUtilityModule(decadeUI);
 	decadeUI.config = config;
 	decadeUI.config.campIdentityImageMode ??= true;
 
-	// 配置更新函数
-	const updateFn = () => {
+	decadeUI.config.update = () => {
 		const menu = lib.extensionMenu[`extension_${decadeUIName}`];
 		for (const key in menu) {
-			if (menu[key] && typeof menu[key].update === "function") menu[key].update();
+			if (menu[key]?.update) menu[key].update();
 		}
 	};
-	decadeUI.config.update = updateFn;
 
 	decadeUI.init();
 
-	// 初始化各模块
 	setupGameAnimation(lib, game, ui, get, ai, _status);
 	setupEffects();
 	initComponent(decadeUI);
@@ -74,7 +79,7 @@ export const finalizeDecadeUICore = (decadeUI, config) => {
 	setupEnhancedAudio();
 	setupCharacterBackground();
 	setupCardStyles();
-	decadeUI.updateCardStyles = updateCardStyles; // 暴露热更新方法
+	decadeUI.updateCardStyles = updateCardStyles;
 	setupCharacterNamePrefix();
 	setupSkillDisplay();
 	setupSkillDieAudio();
@@ -116,15 +121,14 @@ async function loadUIPlugins() {
 
 /**
  * 扩展content函数 - 无名杀扩展主入口
+ * @param {Object} config - 扩展配置
  */
-export async function content(config, pack) {
+export async function content(config) {
 	if (!bootstrapExtension()) return;
 
-	// 创建decadeUI核心对象
 	const decadeUI = createDecadeUIObject();
 	window.decadeUI = decadeUI;
 
-	// 初始化配置对象（合并到decadeUI.config）
 	decadeUI.config = {
 		...config,
 		dynamicSkin: lib.config.extension_十周年UI_dynamicSkin ?? false,
@@ -133,15 +137,8 @@ export async function content(config, pack) {
 		rightLayout: lib.config.extension_十周年UI_rightLayout === "on",
 	};
 
-	// 增强运行时功能
 	enhanceDecadeUIRuntime(decadeUI);
-
-	// 完成初始化
 	finalizeDecadeUICore(decadeUI, decadeUI.config);
-
-	// 注册进度条等遗留模块
 	registerLegacyModules(decadeUI.config);
-
-	// 加载UI插件模块
 	await loadUIPlugins();
 }

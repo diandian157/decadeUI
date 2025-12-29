@@ -1,22 +1,41 @@
 /**
- * 技能外显模块 (babysha样式专用)
+ * @fileoverview 技能外显模块 (babysha样式专用)
+ * 在玩家头像旁显示技能列表，支持点击查看技能描述
  */
-import { lib, game, ui, get, ai, _status } from "noname";
+
+import { lib, game, get, _status } from "noname";
 import { isDoubleCharacterMode } from "./characterBackground.js";
 
-/** 播放扩展音效 */
+/**
+ * 播放扩展音效
+ * @param {string} name - 音效名称
+ */
 const playExtAudio = name => {
 	game.playAudio("..", "extension", "十周年UI", `audio/${name}`);
 };
 
-/** 初始化技能外显 */
+/**
+ * 初始化技能外显
+ */
 export function initSkillDisplay() {
+	/** @type {number} 最大玩家数限制 */
 	const MAX_PLAYERS = 5;
+
+	/** @type {WeakMap<HTMLElement, string[]>} 玩家技能数组映射 */
 	const playerSkillArrays = new WeakMap();
 
+	/**
+	 * 获取所有玩家数量
+	 * @returns {number}
+	 */
 	const getAllPlayersCount = () => game.players.length + (game.dead?.length || 0);
 
-	/** 判断是否为需要显示的技能 */
+	/**
+	 * 判断是否为需要显示的技能
+	 * @param {string} skill - 技能名称
+	 * @param {HTMLElement} player - 玩家元素
+	 * @returns {boolean}
+	 */
 	const isDisplayableSkill = (skill, player) => {
 		if (!player || player === game.me || !lib.translate?.[skill]) return false;
 		const info = get.info(skill);
@@ -25,9 +44,19 @@ export function initSkillDisplay() {
 		return !info || !info.nopop || skill.startsWith("olhedao_tianshu_");
 	};
 
+	/**
+	 * 获取技能名称
+	 * @param {string} skill - 技能ID
+	 * @returns {string}
+	 */
 	const getSkillName = skill => lib.translate?.[skill] || skill;
 
-	/** 获取技能图标 */
+	/**
+	 * 获取技能图标
+	 * @param {string} skill - 技能名称
+	 * @param {HTMLElement} player - 玩家元素
+	 * @returns {string|null} 图标文件名或null
+	 */
 	const getSkillIcon = (skill, player) => {
 		const info = get.info(skill);
 		if (!info) return null;
@@ -40,7 +69,11 @@ export function initSkillDisplay() {
 		return null;
 	};
 
-	/** 显示技能描述弹窗 */
+	/**
+	 * 显示技能描述弹窗
+	 * @param {string} skill - 技能名称
+	 * @param {HTMLElement} targetEl - 目标元素
+	 */
 	const showSkillPopup = (skill, targetEl) => {
 		document.querySelector(".baby_skill_popup")?.remove();
 		if (!lib.skill[skill]) return;
@@ -77,7 +110,10 @@ export function initSkillDisplay() {
 		setTimeout(() => document.addEventListener("click", closeHandler), 100);
 	};
 
-	/** 更新玩家技能显示 */
+	/**
+	 * 更新玩家技能显示
+	 * @param {HTMLElement} player - 玩家元素
+	 */
 	const updateSkillDisplay = player => {
 		if (getAllPlayersCount() > MAX_PLAYERS) return;
 		const avatar = player.node?.avatar;
@@ -136,7 +172,12 @@ export function initSkillDisplay() {
 		avatar.parentNode.appendChild(frag);
 	};
 
-	/** 更新技能数组 */
+	/**
+	 * 更新技能数组
+	 * @param {HTMLElement} player - 玩家元素
+	 * @param {string} skill - 技能名称
+	 * @param {boolean} [add=true] - 是否添加
+	 */
 	const updateSkillArray = (player, skill, add = true) => {
 		if (getAllPlayersCount() > MAX_PLAYERS || !isDisplayableSkill(skill, player)) return;
 
@@ -150,7 +191,10 @@ export function initSkillDisplay() {
 		updateSkillDisplay(player);
 	};
 
-	/** 刷新玩家所有技能 */
+	/**
+	 * 刷新玩家所有技能
+	 * @param {HTMLElement} player - 玩家元素
+	 */
 	const refreshPlayerSkills = player => {
 		if (getAllPlayersCount() > MAX_PLAYERS || !player?.node?.avatar) return;
 
@@ -220,14 +264,19 @@ export function initSkillDisplay() {
 	lib.refreshPlayerSkills = refreshPlayerSkills;
 }
 
-/** 清除所有技能外显 */
+/**
+ * 清除所有技能外显
+ */
 export function clearAllSkillDisplay() {
 	for (const player of [...game.players, ...(game.dead || [])]) {
 		player.node?.avatar?.parentNode?.querySelectorAll(".baby_skill").forEach(el => el.remove());
 	}
 }
 
-/** 初始化技能外显（条件检查） */
+/**
+ * 初始化技能外显（条件检查）
+ * 仅在babysha样式且玩家数不超过5人时启用
+ */
 export function setupSkillDisplay() {
 	if (lib.config.extension_十周年UI_newDecadeStyle === "babysha" && game.players.length <= 5) {
 		initSkillDisplay();

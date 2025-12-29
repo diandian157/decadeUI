@@ -1,5 +1,5 @@
 /**
- * 手杀风格角色弹窗
+ * @fileoverview 手杀风格角色弹窗
  * 特点：官阶系统、详细资料弹窗、胜率显示、查看名片功能
  */
 import { lib, game, ui, get, ai, _status } from "noname";

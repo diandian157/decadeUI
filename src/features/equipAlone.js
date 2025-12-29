@@ -1,32 +1,47 @@
 "use strict";
 
 /**
- * 独立装备模式
+ * @fileoverview 独立装备模式
  * 装备牌保持在装备区，可直接点击发动技能
  */
 
 import { lib, game, ui, get, ai, _status } from "noname";
 
-/** 获取装备牌可用技能 */
+/**
+ * 获取装备牌可用技能
+ * @param {Object} event - 当前事件
+ * @param {Object} player - 玩家对象
+ * @returns {string[]} 可用技能列表
+ */
 function getUsableSkills(event, player) {
 	if (!event._skillChoice) return [];
 	const owned = game.expandSkills(player.getSkills("invisible", false));
 	return event._skillChoice.filter(s => !owned.includes(s) && !lib.skill.global.includes(s));
 }
 
-/** 获取卡牌附带技能 */
+/**
+ * 获取卡牌附带技能
+ * @param {Object} card - 卡牌对象
+ * @returns {string[]} 技能列表
+ */
 function getCardSkills(card) {
 	const info = get.info(card);
 	return info?.skills ? game.expandSkills(info.skills.slice()) : [];
 }
 
-/** 处理装备技能点击 */
+/**
+ * 处理装备技能点击
+ * @param {string} skill - 技能名称
+ */
 function handleClick(skill) {
 	clearSelectable();
 	ui.click.skill(skill);
 }
 
-/** 显示技能选择弹窗 */
+/**
+ * 显示技能选择弹窗
+ * @param {string[]} skills - 技能列表
+ */
 function showSelector(skills) {
 	if (ui._equipSkillDialog) {
 		ui._equipSkillDialog.close();
@@ -52,7 +67,9 @@ function showSelector(skills) {
 	dialog.open();
 }
 
-/** 清除装备牌可选状态 */
+/**
+ * 清除装备牌可选状态
+ */
 function clearSelectable() {
 	if (!game.me) return;
 	for (const card of game.me.getCards("e")) {
@@ -64,7 +81,11 @@ function clearSelectable() {
 	}
 }
 
-/** 设置装备牌可选状态（弃牌等操作） */
+/**
+ * 设置装备牌可选状态（弃牌等操作）
+ * @param {Object} event - 当前事件
+ * @param {Object} player - 玩家对象
+ */
 function setupSelection(event, player) {
 	if (typeof event?.position !== "string" || !event.position.includes("e") || ui.selected.cards.length >= get.select(event.selectCard)[1]) return;
 
@@ -76,7 +97,9 @@ function setupSelection(event, player) {
 	}
 }
 
-/** 初始化独立装备模式 */
+/**
+ * 初始化独立装备模式
+ */
 export function setupEquipAlone() {
 	// 重写卡牌点击事件
 	const originalClick = ui.click.card;

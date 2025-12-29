@@ -1,5 +1,5 @@
 /**
- * 宝宝杀风格lbtn插件
+ * @fileoverview 宝宝杀风格lbtn插件
  * 特点：简化按钮、宝宝杀风格菜单
  */
 import { lib, game, ui, get, ai, _status } from "noname";

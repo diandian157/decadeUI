@@ -1,9 +1,14 @@
+/**
+ * @fileoverview 游戏开始对话配置
+ * 定义特定武将组合在游戏开始时触发的对话彩蛋
+ */
+
 "use strict";
 
 /**
- * 游戏开始对话配置
+ * @type {Array<Object>}
+ * 游戏开始对话配置数组
  */
-
 export const gameStartDialogues = [
 	{
 		players: ["lvbu", "dongzhuo"],

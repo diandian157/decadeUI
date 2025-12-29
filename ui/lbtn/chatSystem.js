@@ -1,6 +1,6 @@
 /**
- * 聊天系统模块
- * 合并了chat.js和chatSystem.js的功能
+ * @fileoverview 聊天系统模块
+ * 合并了chat.js和chatSystem.js的功能，提供游戏内聊天、表情、投掷等交互功能
  */
 import { lib, game, ui, get, ai, _status } from "noname";
 import { hideDialog as hideDialogUtil, addClickEffect as addClickEffectUtil } from "../utils.js";
@@ -29,7 +29,10 @@ const THROW_ITEM_NAMES = ["jidan", "tuoxie", "xianhua", "meijiu", "cailan", "qic
 
 // ==================== 工具函数 ====================
 
-// 获取当前玩家
+/**
+ * 获取当前玩家
+ * @returns {Object|null} 当前玩家对象
+ */
 export function getCurrentPlayer() {
 	if (game.me) return game.me;
 	if (game.connectPlayers) {
@@ -38,7 +41,11 @@ export function getCurrentPlayer() {
 	return null;
 }
 
-// 发送聊天消息
+/**
+ * 发送聊天消息
+ * @param {string} message - 消息内容
+ * @returns {void}
+ */
 export function sendChatMessage(message) {
 	const player = getCurrentPlayer();
 	if (!player) return;
@@ -83,7 +90,12 @@ export function sendChatMessage(message) {
 	}
 }
 
-// 投掷表情
+/**
+ * 投掷表情
+ * @param {Object} target - 目标玩家
+ * @param {string} emotionType - 表情类型
+ * @returns {void}
+ */
 export function throwEmotion(target, emotionType) {
 	if (game.online) {
 		game.send("throwEmotion", target, emotionType);
@@ -95,12 +107,18 @@ export function throwEmotion(target, emotionType) {
 	}
 }
 
-// 检查是否处于投掷模式
+/**
+ * 检查是否处于投掷模式
+ * @returns {boolean} 是否处于投掷模式
+ */
 export function isInThrowMode() {
 	return THROW_ITEM_NAMES.some(item => window[item]?.thrownn);
 }
 
-// 退出投掷模式
+/**
+ * 退出投掷模式
+ * @returns {void}
+ */
 export function exitThrowMode() {
 	THROW_ITEM_NAMES.forEach(item => {
 		if (window[item]) window[item].thrownn = false;
@@ -110,7 +128,12 @@ export function exitThrowMode() {
 // 隐藏弹窗
 export const hideDialog = hideDialogUtil;
 
-// 隐藏其他弹窗
+/**
+ * 隐藏其他弹窗
+ * @param {string} excludeDialog - 排除的弹窗名称
+ * @param {Array} dialogConfigs - 弹窗配置数组
+ * @returns {void}
+ */
 export function hideOtherDialogs(excludeDialog, dialogConfigs) {
 	dialogConfigs.forEach(({ name, prop, value, delay }) => {
 		if (name !== excludeDialog && window[name]) {
@@ -119,7 +142,11 @@ export function hideOtherDialogs(excludeDialog, dialogConfigs) {
 	});
 }
 
-// 创建弹窗
+/**
+ * 创建弹窗基础元素
+ * @param {Object} config - 弹窗配置
+ * @returns {HTMLElement} 弹窗元素
+ */
 export function createDialogBase(config) {
 	const dialog = ui.create.div("hidden");
 	dialog.classList.add("popped", "static");
@@ -135,7 +162,12 @@ export function createDialogBase(config) {
 	return dialog;
 }
 
-// 创建弹窗内容容器
+/**
+ * 创建弹窗内容容器
+ * @param {HTMLElement} parent - 父元素
+ * @param {Object} styles - 样式对象
+ * @returns {HTMLElement} 容器元素
+ */
 export function createContentContainer(parent, styles) {
 	const container = ui.create.div("hidden");
 	Object.assign(container.style, styles);
@@ -147,7 +179,11 @@ export function createContentContainer(parent, styles) {
 // 按钮点击效果
 export const addClickEffect = addClickEffectUtil;
 
-// 处理音频路径
+/**
+ * 处理音频路径
+ * @param {string} path - 音频路径
+ * @returns {Object} 包含完整路径的对象
+ */
 export function processAudioPath(path) {
 	const target = "ext:";
 	const isMatch = path.startsWith(target);
@@ -160,7 +196,15 @@ export function processAudioPath(path) {
 	return { fullPath: pathWithoutExt };
 }
 
-// 创建语音项
+/**
+ * 创建语音项
+ * @param {HTMLElement} container - 容器元素
+ * @param {number} index - 索引
+ * @param {string} content - 内容
+ * @param {string} audioPath - 音频路径
+ * @param {Function} onClick - 点击回调
+ * @returns {HTMLElement} 语音项元素
+ */
 export function createVoiceItem(container, index, content, audioPath, onClick) {
 	const item = ui.create.div("hidden", "", onClick);
 	item.style.cssText = "height:10%;width:100%;left:0%;top:0%;position:relative;";
@@ -173,12 +217,19 @@ export function createVoiceItem(container, index, content, audioPath, onClick) {
 	return item;
 }
 
-// 初始化聊天记录
+/**
+ * 初始化聊天记录
+ * @returns {void}
+ */
 export function initChatRecord() {
 	if (!window.chatRecord) window.chatRecord = [];
 }
 
-// 添加聊天记录
+/**
+ * 添加聊天记录
+ * @param {string} str - 聊天内容
+ * @returns {void}
+ */
 export function addChatWord(str) {
 	initChatRecord();
 	if (window.chatRecord.length > MAX_CHAT_RECORDS) {
@@ -193,7 +244,10 @@ export function addChatWord(str) {
 	}
 }
 
-// 关闭语音弹窗
+/**
+ * 关闭语音弹窗
+ * @returns {void}
+ */
 export function closeLifesayDialog() {
 	if (window.dialog_lifesay) {
 		window.dialog_lifesay.delete();
@@ -201,7 +255,10 @@ export function closeLifesayDialog() {
 	}
 }
 
-// 关闭表情弹窗
+/**
+ * 关闭表情弹窗
+ * @returns {void}
+ */
 export function closeEmojiDialog() {
 	if (window.dialog_emoji) {
 		window.dialog_emoji.delete();

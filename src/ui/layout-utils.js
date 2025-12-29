@@ -1,12 +1,14 @@
 /**
- * 布局工具函数
- * @description 从concore.js提取的布局相关函数
+ * @fileoverview 布局工具函数模块
+ * 提供卡牌布局绘制相关的工具函数
  */
+
+import { lib, game, ui, get, ai, _status } from "noname";
 
 /**
  * 布局手牌绘制位置
- * @param {Array} cards 卡牌数组
- * @param {object} boundsCaches 边界缓存
+ * @param {Array} cards - 卡牌数组
+ * @param {object} boundsCaches - 边界缓存对象
  */
 export function layoutHandDraws(cards, boundsCaches) {
 	const bounds = boundsCaches.hand;
@@ -18,6 +20,7 @@ export function layoutHandDraws(cards, boundsCaches) {
 	const cs = bounds.cardScale;
 	const csw = cw * cs;
 
+	/** @type {Array} */
 	const draws = [];
 	const source = cards.duiMod;
 
@@ -83,10 +86,10 @@ export function layoutHandDraws(cards, boundsCaches) {
 
 /**
  * 布局绘制卡牌到玩家位置
- * @param {Array} cards 卡牌数组
- * @param {HTMLElement} player 玩家元素
- * @param {boolean} center 是否居中
- * @param {object} boundsCaches 边界缓存
+ * @param {Array} cards - 卡牌数组
+ * @param {HTMLElement} player - 玩家元素
+ * @param {boolean} center - 是否居中
+ * @param {object} boundsCaches - 边界缓存对象
  */
 export function layoutDrawCards(cards, player, center, boundsCaches) {
 	const bounds = boundsCaches.arena;

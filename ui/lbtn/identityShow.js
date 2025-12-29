@@ -1,10 +1,16 @@
 /**
- * 身份显示模块
+ * @fileoverview 身份显示模块
+ * 提供游戏内身份信息展示和胜利条件翻译功能
  */
 import { lib, game, ui, get, ai, _status } from "noname";
 import { GUOZHAN_IDENTITY_COLORS, IDENTITY_COLORS } from "../constants.js";
 
-// 构建模式胜利条件翻译
+/**
+ * 构建模式胜利条件翻译
+ * @param {string} mode - 游戏模式
+ * @param {string} versusMode - 对战模式
+ * @returns {Object} 胜利条件翻译映射
+ */
 export function buildModeWinTranslations(mode, versusMode) {
 	const baseMap = {
 		rZhu: "击败冷方主公<br>与所有野心家",
@@ -55,7 +61,10 @@ export function buildModeWinTranslations(mode, versusMode) {
 	return handlers[mode]?.() || baseMap;
 }
 
-// 初始化身份显示
+/**
+ * 初始化身份显示
+ * @returns {void}
+ */
 export function initIdentityShow() {
 	if (game.ui_identityShow) return;
 
@@ -68,7 +77,10 @@ export function initIdentityShow() {
 	ui.arena.appendChild(game.ui_identityShowx);
 }
 
-// 更新身份显示
+/**
+ * 更新身份显示
+ * @returns {void}
+ */
 export function updateIdentityShow() {
 	const show = game.ui_identityShow;
 	const showx = game.ui_identityShowx;
