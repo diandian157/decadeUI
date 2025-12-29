@@ -66,11 +66,9 @@ export function initDecadeModule() {
 		/**
 		 * 异步加载JS文件
 		 * @param {string} path - 文件路径
-		 * @param {Function} [onload] - 加载成功回调
-		 * @param {Function} [onerror] - 加载失败回调
 		 * @returns {HTMLScriptElement|null} script元素
 		 */
-		jsAsync: (path, onload, onerror) => path && createScriptElement(path, true, onload, onerror),
+		jsAsync: path => path && createScriptElement(path, true),
 		/**
 		 * 加载CSS文件
 		 * @param {string} path - 文件路径
@@ -108,9 +106,7 @@ export function initDecadeModule() {
 			ui.css.decadeMenu = this.css(`${decadeUIPath}src/styles/menu.css`);
 		}
 
-		this.jsAsync(`${decadeUIPath}src/libs/spine.js`, () => {
-			window._spineLoaded = true;
-		});
+		this.jsAsync(`${decadeUIPath}src/libs/spine.js`);
 
 		const currentMode = get.mode();
 		const isPhoneLayout = lib.config.phonelayout;
