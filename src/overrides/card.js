@@ -2,7 +2,7 @@
  * @fileoverview Card覆写模块 - 卡牌相关的覆写方法
  */
 
-import { lib, game, ui, get, ai, _status } from "noname";
+import { lib, game, ui, get, _status } from "noname";
 import { cardSkinMeta } from "../config.js";
 import { applyCardBorder } from "../ui/cardStyles.js";
 
@@ -144,11 +144,33 @@ export function cardInit(card) {
 }
 
 /**
+ * 检查是否应跳过卡牌皮肤处理
+ * @param {HTMLElement} cardElement - 卡牌DOM元素
+ * @param {Array|Object} card - 卡牌信息
+ * @returns {boolean} 是否跳过
+ */
+function shouldSkipCardSkin(cardElement, card) {
+	const cardName = Array.isArray(card) ? card[2] : card.name;
+	// 跳过 fullimage 类型卡牌（如技能卡）
+	if (cardElement.classList.contains("fullimage")) return true;
+	// 跳过 skillCard_ 开头的技能卡
+	if (cardName?.startsWith("skillCard_")) return true;
+	// 跳过技能按钮（vcard创建时type为undefined，表示不是有效卡牌）
+	if (Array.isArray(card) && card[0] === undefined) return true;
+	return false;
+}
+
+/**
  * 应用卡牌皮肤
  * @param {HTMLElement} cardElement - 卡牌DOM元素
  * @param {Array|Object} card - 卡牌信息
  */
 function applyCardSkin(cardElement, card) {
+	// 跳过不需要处理的卡牌
+	if (shouldSkipCardSkin(cardElement, card)) return;
+
+	const cardName = Array.isArray(card) ? card[2] : card.name;
+
 	const skinKey = lib.config.extension_十周年UI_cardPrettify;
 	const isOff = !skinKey || skinKey === "off";
 
@@ -166,8 +188,6 @@ function applyCardSkin(cardElement, card) {
 
 	// 保存原始背景（仅首次启用皮肤时）
 	if (!cardElement._decadeRawBg) cardElement._decadeRawBg = cardElement.style.background || "";
-
-	const cardName = Array.isArray(card) ? card[2] : card.name;
 	const cardNature = Array.isArray(card) ? card[3] : card.nature;
 	let filename = cardName;
 
