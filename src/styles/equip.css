@@ -2,7 +2,7 @@
  * 十周年UI - 装备栏样式
  */
 
-/* ========== CSS 变量 ========== */
+/** CSS 变量 */
 
 :root {
 	/* 默认样式 */
@@ -35,7 +35,7 @@
 	--player-equips-right-ol: 5%;
 }
 
-/* ========== 装备栏容器 ========== */
+/** 装备栏容器 */
 
 #arena > .equips-wrap {
 	min-width: 130px;
@@ -76,7 +76,7 @@
 	left: calc(var(--player-equips-left) + 5%);
 }
 
-/* ========== 装备栏背景 ========== */
+/** 装备栏背景 */
 
 .equips-wrap > .equips-back {
 	position: absolute;
@@ -119,7 +119,7 @@
 	background-image: url("../../image/styles/decade/equip5.png");
 }
 
-/* ========== 装备栏内容 ========== */
+/** 装备栏内容 */
 
 .equips-wrap > .equips {
 	position: absolute;
@@ -189,7 +189,7 @@
 		10px 2px !important;
 }
 
-/* ========== 装备选中状态 ========== */
+/** 装备选中状态 */
 
 .equips-wrap > .equips > div.selected {
 	box-shadow: 0 0 10px yellow;
@@ -219,7 +219,7 @@
 		0 0 8px yellow;
 }
 
-/* ========== 装备图标 ========== */
+/** 装备图标 */
 
 .equips-wrap > .equips-back > div > .icon,
 .equips-wrap > .equips > div > .icon {
@@ -231,7 +231,7 @@
 	transition: opacity 0.5s;
 }
 
-/* ========== 装备牌内容 ========== */
+/** 装备牌内容 */
 
 .equips-wrap > .equips > .card > div {
 	position: absolute;
@@ -299,7 +299,7 @@
 	display: block !important;
 }
 
-/* ========== 其他玩家装备栏 ========== */
+/** 其他玩家装备栏 */
 
 .player > .equips,
 #arena > .player:not(.minskin) > .equips {
@@ -391,7 +391,7 @@
 	color: #8b0000;
 }
 
-/* ========== 样式变量覆盖 ========== */
+/** 样式变量覆盖 */
 
 body[data-style="babysha"] {
 	--equip-right: var(--equip-right-baby);
@@ -418,7 +418,7 @@ body[data-style="codename"] .equips-wrap > .equips-back > div {
 	opacity: 0.5;
 }
 
-/* ========== 技能选择装备牌 ========== */
+/** 技能选择装备牌 */
 
 /* 默认不突出 */
 .equips-wrap > .equips > div.equip-card-selectable {

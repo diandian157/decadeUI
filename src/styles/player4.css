@@ -1,6 +1,6 @@
 ﻿@import "animation.css";
 
-/* ==================== 基础样式 ==================== */
+/** 基础样式 */
 .player {
 	height: 180px;
 	width: 120px;
@@ -22,7 +22,7 @@
 	animation: player-died 0.5s linear 1;
 }
 
-/* ==================== 背景图片 ==================== */
+/** 背景图片 */
 /* 国战模式 - 双将背景 */
 [data-mode="guozhan"] .player,
 .player[data-mode="guozhan"] {
@@ -45,7 +45,7 @@
 	background-size: 100% 100% !important;
 }
 
-/* ==================== 选中光效(新样式-关闭阴影) ==================== */
+/** 选中光效(新样式-关闭阴影) */
 #arena[data-shadow-style="off"] > .player::before,
 #arena[data-shadow-style="off"] > .player::after {
 	left: -62px;
@@ -113,7 +113,7 @@
 	left: -63px;
 }
 
-/* ==================== 选中光效(原样式-开启阴影) ==================== */
+/** 选中光效(原样式-开启阴影) */
 #arena[data-shadow-style="on"] > .player::before,
 #arena[data-shadow-style="on"] > .player::after {
 	left: -56px;
@@ -153,7 +153,7 @@
 	opacity: 1;
 }
 
-/* ==================== 遮罩层 ==================== */
+/** 遮罩层 */
 #arena > .player {
 	z-index: 4;
 }
@@ -176,14 +176,14 @@
 	opacity: 1;
 }
 
-/* ==================== 玩家尺寸 ==================== */
+/** 玩家尺寸 */
 #arena:not(.fewplayer) > .player:not(.minskin),
 #arena:not(.fewplayer):not([data-player_height=""]) > .player:not(.minskin) {
 	height: 180px !important;
 	width: 130px !important;
 }
 
-/* ==================== 锁链效果 ==================== */
+/** 锁链效果 */
 .player > .chain {
 	top: 40%;
 	left: 0;
@@ -202,7 +202,7 @@
 	background-position-x: center;
 }
 
-/* ==================== 主玩家位置 ==================== */
+/** 主玩家位置 */
 .player[data-position="0"],
 #arena > .player[data-position="0"],
 #arena > .player[data-position="0"]:not(.minskin),
@@ -220,7 +220,7 @@
 	right: 20px;
 }
 
-/* ==================== 阵营栏 ==================== */
+/** 阵营栏 */
 .player > .camp-wrap {
 	display: block;
 	left: -13px;
@@ -367,7 +367,7 @@
 	background-image: url("../../image/styles/decade/border_campOL5.png");
 }
 
-/* ==================== 武将名称 ==================== */
+/** 武将名称 */
 /* 通用名称样式 */
 .player > .camp-wrap > .avatar-name,
 .player > .camp-wrap > .avatar-name-default,
@@ -526,7 +526,7 @@
 	pointer-events: none;
 }
 
-/* ==================== 血量显示 ==================== */
+/** 血量显示 */
 .player > .hp-wrap {
 	display: block;
 	right: 127px;
@@ -613,7 +613,7 @@
 	z-index: 100;
 }
 
-/* ==================== 武将头像 ==================== */
+/** 武将头像 */
 .player > .primary-avatar {
 	left: 20px;
 	top: auto;
@@ -691,7 +691,7 @@
 	-webkit-clip-path: url(#duor-clip);
 }
 
-/* ==================== 动态皮肤 ==================== */
+/** 动态皮肤 */
 .player > .dynamic-wrap {
 	display: block;
 	position: absolute;
@@ -776,7 +776,7 @@
 	text-align: center;
 }
 
-/* ==================== 玩家标记(灯笼样式) ==================== */
+/** 玩家标记(灯笼样式) */
 .player > .dui-marks {
 	display: flex;
 	flex-direction: column;
@@ -885,7 +885,7 @@
 	background: #ffdc00;
 }
 
-/* ==================== 玩家标记(十周年样式) ==================== */
+/** 玩家标记(十周年样式) */
 #arena[data-player-mark-style="decade"] > .player > .dui-marks {
 	left: 20px;
 	top: 15px;
@@ -980,7 +980,7 @@
 	border-radius: 4px;
 }
 
-/* ==================== 判定区 ==================== */
+/** 判定区 */
 .player > .judges,
 #arena > .player:not(.minskin) > .judges {
 	display: flex;
@@ -1114,7 +1114,7 @@
 	transition: transform 0.3s;
 }
 
-/* ==================== 座位号 ==================== */
+/** 座位号 */
 .player > .seat {
 	position: absolute;
 	bottom: -20px;
@@ -1160,7 +1160,7 @@
 	content: "";
 }
 
-/* ==================== 手牌数 ==================== */
+/** 手牌数 */
 .player > .card-count {
 	position: absolute;
 	left: -3px;
@@ -1200,7 +1200,7 @@
 	z-index: -1;
 }
 
-/* ==================== 身份标记 ==================== */
+/** 身份标记 */
 .player > .identity,
 #arena > .player:not(.minskin) > .identity {
 	left: auto;
@@ -1258,7 +1258,7 @@
 	height: 42px;
 }
 
-/* ==================== 伤害/文字弹出 ==================== */
+/** 伤害/文字弹出 */
 .player > .damage {
 	width: 100%;
 	text-shadow: none;
@@ -1277,7 +1277,7 @@
 	z-index: -1;
 }
 
-/* ==================== 联机计时器 ==================== */
+/** 联机计时器 */
 .player > .timerbar {
 	display: block;
 	position: absolute;
@@ -1321,7 +1321,7 @@
 	z-index: 89;
 }
 
-/* ==================== 死亡状态 ==================== */
+/** 死亡状态 */
 .player.dead {
 	opacity: 1;
 	filter: none;
@@ -1366,7 +1366,7 @@
 	animation: fade-in 0.5s forwards 0.5s;
 }
 
-/* ==================== 获得技能显示 ==================== */
+/** 获得技能显示 */
 .player > .gain-skill {
 	position: absolute;
 	left: 15px;
@@ -1385,7 +1385,7 @@
 	display: none;
 }
 
-/* ==================== 翻面状态 ==================== */
+/** 翻面状态 */
 .player > .turned-over {
 	position: absolute;
 	left: 10px;
@@ -1413,7 +1413,7 @@
 	z-index: 63;
 }
 
-/* ==================== 身份标记框 ==================== */
+/** 身份标记框 */
 .player > .identity-mark-box {
 	display: flex;
 	position: absolute;
@@ -1453,7 +1453,7 @@
 	transform: scale(0.9);
 }
 
-/* ==================== 聊天气泡 ==================== */
+/** 聊天气泡 */
 .player > .chat-bubble {
 	left: 0;
 	top: 20px;
@@ -1468,7 +1468,7 @@
 	z-index: 99;
 }
 
-/* ==================== 特殊标记(界/神/SP/TW) ==================== */
+/** 特殊标记(界/神/SP/TW) */
 .player > .jie-mark,
 .player > .shen-mark,
 .player > .sp-mark,
@@ -1499,7 +1499,7 @@
 	background-image: url("../../image/ui/mark/mark_tw.png");
 }
 
-/* ==================== Tip提示 ==================== */
+/** Tip提示 */
 .player .tipContainer {
 	--bg: #383122;
 	width: 82% !important;

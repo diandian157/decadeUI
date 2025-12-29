@@ -7,10 +7,15 @@ import { lib, game, ui, get, ai, _status } from "noname";
  * 创建脚本元素
  * @param {string} path - 脚本路径
  * @param {boolean} isAsync - 是否异步加载
+ * @param {Function} [onload] - 加载成功回调
+ * @param {Function} [onerror] - 加载失败回调
  * @returns {HTMLScriptElement|null} 创建的script元素，如已存在则返回null
  */
-export function createScriptElement(path, isAsync = false) {
-	if (document.querySelector(`script[src*="${path}"]`)) return null;
+export function createScriptElement(path, isAsync = false, onload, onerror) {
+	if (document.querySelector(`script[src*="${path}"]`)) {
+		onload?.();
+		return null;
+	}
 
 	const version = lib.extensionPack.十周年UI.version;
 	const script = document.createElement("script");
@@ -21,8 +26,14 @@ export function createScriptElement(path, isAsync = false) {
 	}
 
 	script.src = `${path}?v=${version}&t=${Date.now()}`;
-	script.onload = () => script.remove();
-	script.onerror = () => script.remove();
+	script.onload = () => {
+		onload?.();
+		script.remove();
+	};
+	script.onerror = () => {
+		onerror?.();
+		script.remove();
+	};
 	document.head.appendChild(script);
 
 	return script;

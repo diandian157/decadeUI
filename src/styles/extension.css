@@ -3,7 +3,7 @@
  * 注：不要重新定义本体已有的字体，避免覆盖
  */
 
-/* ========== 字体定义 ========== */
+/** 字体定义 */
 
 /* 扩展专用字体 */
 @font-face {
@@ -36,7 +36,7 @@
 	src: url("../../ui/assets/fonts/FZLSFT.woff2");
 }
 
-/* ========== 导入对话框 ========== */
+/** 导入对话框 */
 
 .menu-container > .menu.main.cxy-import-dialog {
 	width: 420px;
@@ -52,7 +52,7 @@
 	padding-bottom: 8px;
 }
 
-/* ========== 控制按钮区 ========== */
+/** 控制按钮区 */
 
 #control {
 	width: calc(90% - 480px);
@@ -108,7 +108,7 @@
 	cursor: default !important;
 }
 
-/* ========== 无懈蓝框 ========== */
+/** 无懈蓝框 */
 
 .glow:not(.button):not(.card) {
 	box-shadow: none !important;
@@ -118,7 +118,7 @@
 	z-index: 89;
 }
 
-/* ========== 手杀菜单 ========== */
+/** 手杀菜单 */
 
 .shousha_menu {
 	width: 100%;
@@ -140,7 +140,7 @@
 	word-wrap: break-word;
 }
 
-/* ========== 更新弹窗 ========== */
+/** 更新弹窗 */
 
 .shousha_update {
 	background-size: cover;

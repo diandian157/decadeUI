@@ -2,7 +2,7 @@
  * 十周年UI - 美化样式
  */
 
-/* ========== 手牌显示区 ========== */
+/** 手牌显示区 */
 
 .handdisplays {
 	width: 35px;
@@ -25,7 +25,7 @@
 	text-align: center;
 }
 
-/* ========== 技能框 ========== */
+/** 技能框 */
 
 .baby_skill {
 	display: flex;
@@ -96,7 +96,7 @@
 	text-align: left;
 }
 
-/* ========== 阵营选择框 ========== */
+/** 阵营选择框 */
 
 .groupTitle {
 	position: absolute;
@@ -183,7 +183,7 @@
 	box-shadow: none !important;
 }
 
-/* ========== 装备点击效果 ========== */
+/** 装备点击效果 */
 
 .epclick {
 	position: absolute;
@@ -195,7 +195,7 @@
 	background-size: 100% 100%;
 }
 
-/* ========== 手牌提示 ========== */
+/** 手牌提示 */
 
 #arena > .hand-tip,
 #arena > .hand-tip-info,

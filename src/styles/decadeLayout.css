@@ -2,7 +2,7 @@
  * 十周年UI - 布局样式
  */
 
-/* ========== 角色选择按钮 ========== */
+/** 角色选择按钮 */
 
 .menu > .button.character {
 	border-radius: 0;
@@ -67,7 +67,7 @@
 	height: 180px;
 }
 
-/* ========== 玩家宽度变量 ========== */
+/** 玩家宽度变量 */
 
 #arena[data-new-decade-style="on"] > .player {
 	--w: 120px !important;
@@ -93,7 +93,7 @@
 	--w: 120px !important;
 }
 
-/* ========== 默认布局 (mobile) ========== */
+/** 默认布局 (mobile) */
 
 /* 8人座 */
 #arena[data-layout="mobile"][data-number="8"] > .player[data-position="1"] {
@@ -254,7 +254,7 @@
 	top: 9px;
 }
 
-/* ========== 新版布局 (nova) ========== */
+/** 新版布局 (nova) */
 
 /* 8人座 */
 #arena[data-layout="nova"][data-number="8"] > .player[data-position="1"] {
@@ -415,7 +415,7 @@
 	top: 9px;
 }
 
-/* ========== nova布局 - decade-layout关闭 ========== */
+/** nova布局 - decade-layout关闭 */
 
 /* 8人座 */
 #arena[data-layout="nova"][data-decade-layout="off"][data-number="8"] > .player[data-position="1"] {
@@ -570,7 +570,7 @@
 	top: 9px;
 }
 
-/* ========== nova布局 - 特殊样式 (onlineUI/babysha/othersOff) ========== */
+/** nova布局 - 特殊样式 (onlineUI/babysha/othersOff) */
 
 /* 8人座 */
 #arena[data-layout="nova"][data-new-decade-style="onlineUI"][data-number="8"] > .player[data-position="1"],

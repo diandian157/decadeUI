@@ -2,7 +2,7 @@
  * 十周年UI - 特效样式
  */
 
-/* ========== 特效窗口 ========== */
+/** 特效窗口 */
 
 .effect-window {
 	display: block;
@@ -17,7 +17,7 @@
 	z-index: 9;
 }
 
-/* ========== 击杀特效 ========== */
+/** 击杀特效 */
 
 /* 击杀者 */
 .effect-window > .killer-warpper {
@@ -134,7 +134,7 @@
 	animation: scale-rout-shadow 1s 0.8s forwards;
 }
 
-/* ========== 光效 ========== */
+/** 光效 */
 
 .effect-window > .li {
 	display: block;
@@ -166,7 +166,7 @@
 	animation: moveout-left-li-big 0.8s linear forwards;
 }
 
-/* ========== 技能名显示 ========== */
+/** 技能名显示 */
 
 .skill-name {
 	display: block;
@@ -184,7 +184,7 @@
 	z-index: 99 !important;
 }
 
-/* ========== 动画定义 ========== */
+/** 动画定义 */
 
 @keyframes moveout-left-killer {
 	0% {

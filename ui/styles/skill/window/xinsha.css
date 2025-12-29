@@ -242,7 +242,7 @@
 	}
 }
 
-/* ========== 左手模式 ========== */
+/** 左手模式 */
 .skill-controlzuoshou {
 	max-width: 120px;
 	bottom: 8px;
