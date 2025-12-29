@@ -16,6 +16,12 @@ const getStyle = () => decadeUI?.config?.newDecadeStyle ?? lib.config.extension_
 const getDiscardScale = () => lib.config?.extension_十周年UI_discardScale ?? 0.14;
 
 /**
+ * 弃牌区最大宽度占屏幕宽度的比例
+ * @constant {number}
+ */
+const DISCARD_MAX_WIDTH_RATIO = 0.7;
+
+/**
  * 创建layout模块
  * @returns {Object} layout模块对象
  */
@@ -120,6 +126,7 @@ export function createLayoutModule() {
 
 		/**
 		 * 更新弃牌区布局
+		 * 当卡牌总宽度超过限制宽度时，卡牌会折叠重叠显示
 		 */
 		updateDiscard() {
 			ui.thrown ??= [];
@@ -139,14 +146,20 @@ export function createLayoutModule() {
 			const cs = Math.min((decadeUI.get.bodySize().height * getDiscardScale()) / ch, 1);
 			const csw = cw * cs;
 			const y = Math.round((ph - ch) / 2);
-			let xMargin = csw + 2;
-			let xStart = (csw - cw) / 2;
-			const totalW = cards.length * csw + (cards.length - 1) * 2;
 
-			if (totalW > pw) {
-				xMargin = csw - Math.abs(pw - csw * cards.length) / (cards.length - 1);
-			} else {
-				xStart += (pw - totalW) / 2;
+			// 弃牌区最大宽度限制为屏幕宽度的70%
+			const maxWidth = pw * DISCARD_MAX_WIDTH_RATIO;
+			const totalW = cards.length * csw + (cards.length - 1) * 2;
+			// 实际可用宽度取最大宽度限制和屏幕宽度的较小值
+			const limitW = Math.min(maxWidth, pw);
+
+			let xMargin = csw + 2;
+			// 起始位置：居中显示
+			let xStart = (pw - Math.min(totalW, limitW)) / 2 + (csw - cw) / 2;
+
+			// 超出限制宽度时，压缩卡牌间距实现折叠效果
+			if (totalW > limitW) {
+				xMargin = (limitW - csw) / (cards.length - 1);
 			}
 
 			cards.forEach((card, i) => {
