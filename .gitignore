@@ -1,0 +1,13 @@
+# 忽略武将图片目录内容
+image/character/dcloutou/*
+image/character/ssloutou/*
+image/character/lihui/*
+
+# 忽略动皮资源目录内容
+assets/dynamic/*
+
+# 保留目录结构
+!image/character/dcloutou/.gitkeep
+!image/character/ssloutou/.gitkeep
+!image/character/lihui/.gitkeep
+!assets/dynamic/.gitkeep
