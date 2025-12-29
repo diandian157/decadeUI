@@ -2,7 +2,7 @@
  * @fileoverview Card覆写模块 - 卡牌相关的覆写方法
  */
 
-import { lib, game, ui, get, _status } from "noname";
+import { lib, game, ui, get, ai, _status } from "noname";
 import { cardSkinMeta } from "../config.js";
 import { applyCardBorder } from "../ui/cardStyles.js";
 
