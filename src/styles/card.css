@@ -324,39 +324,3 @@
 .card.dctuoyu-junshan-glow:before {
 	opacity: 0.2;
 }
-
-/**
- * vcard按钮info显示
- * 左下角竖向显示花色点数或自定义文本（如"0虎符"）
- */
-
-.card.button > .info {
-	position: absolute;
-	left: 3px;
-	top: 95px;
-	width: 16px;
-	height: auto;
-	max-height: 80%;
-	padding: 2px 1px;
-	font-size: 18px;
-	font-family: yuanli;
-	line-height: 1.2;
-	color: #000000;
-	text-align: center;
-	text-shadow:
-		0 0 2px #ffffff,
-		0 0 2px #ffffff;
-	writing-mode: vertical-rl;
-	border-radius: 2px;
-	overflow: hidden;
-	z-index: 3;
-}
-
-.card.button > .info:empty {
-	display: none;
-}
-
-/** 非按钮卡牌隐藏info，使用十周年UI自定义显示 */
-.card:not(.button) > .info {
-	display: none;
-}
