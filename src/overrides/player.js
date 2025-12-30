@@ -2204,10 +2204,10 @@ export function playerThrowordered2(card, nosource) {
 	if (_status.connectMode) ui.todiscard = [];
 	const _dui = getDui();
 	if (card.throwordered === undefined) {
-		let x, y;
 		const bounds = _dui.boundsCaches.arena;
 		if (!bounds.updated) bounds.update();
 		this.checkBoundsCache();
+		let x, y;
 		if (nosource) {
 			x = (bounds.width - bounds.cardWidth) / 2 - bounds.width * 0.08;
 			y = (bounds.height - bounds.cardHeight) / 2;
@@ -2215,16 +2215,11 @@ export function playerThrowordered2(card, nosource) {
 			x = (this.cacheWidth - bounds.cardWidth) / 2 + this.cacheLeft;
 			y = (this.cacheHeight - bounds.cardHeight) / 2 + this.cacheTop;
 		}
-		x = Math.round(x);
-		y = Math.round(y);
-		card.tx = x;
-		card.ty = y;
-		card.scaled = true;
-		card.classList.add("thrown");
-		card.style.transform = "translate(" + x + "px, " + y + "px)" + "scale(" + bounds.cardScale + ")";
+		card.style.transform = `translate(${Math.round(x)}px,${Math.round(y)}px) scale(${bounds.cardScale})`;
 	} else {
 		card.throwordered = undefined;
 	}
+	card.classList.add("thrown");
 	if (card.fixed) return ui.arena.appendChild(card);
 	let tagNode = card.querySelector(".used-info");
 	if (tagNode == null) tagNode = card.appendChild(_dui.element.create("used-info"));
