@@ -26,7 +26,7 @@ export function getCurrentSkin() {
  */
 export async function createSkillPluginForSkin(skinName, lib, game, ui, get, ai, _status, app) {
 	try {
-		const module = await import(`./${skinName}.js`);
+		const module = await import(/* @vite-ignore */ `./${skinName}.js`);
 		const creator = module[`create${skinName.charAt(0).toUpperCase() + skinName.slice(1)}SkillPlugin`];
 		return creator?.(lib, game, ui, get, ai, _status, app) ?? null;
 	} catch (e) {
