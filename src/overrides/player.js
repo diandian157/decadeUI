@@ -1554,8 +1554,9 @@ export function playerCompareMultiple(card1, targets, cards) {
 /**
  * 检查并添加体验后缀覆写
  * @param {string} characterName - 武将名
+ * @param {boolean} name2 - 是否为副将
  */
-export function playerCheckAndAddExperienceSuffix(characterName) {
+export function playerCheckAndAddExperienceSuffix(characterName, name2) {
 	const name = characterName;
 	const nameinfo = get.character(name);
 	if (!nameinfo) return;
@@ -1569,9 +1570,15 @@ export function playerCheckAndAddExperienceSuffix(characterName) {
 	const mode = get.mode();
 	const player = this;
 	const addExperienceSuffix = () => {
-		if (player.node?.name) {
-			const currentName = player.node.name.innerHTML;
-			if (!currentName.includes("•体验")) player.node.name.innerHTML = currentName + "•体验";
+		if (player.node?.[name2 ? "name2" : "name"]) {
+			const node = player.node[name2 ? "name2" : "name"];
+			if (!node.textContent.endsWith("•体验")) node.textContent = `${node.textContent}•体验`;
+		}
+	};
+	const removeExperienceSuffix = () => {
+		if (player.node?.[name2 ? "name2" : "name"]) {
+			const node = player.node[name2 ? "name2" : "name"];
+			if (node.textContent.endsWith("•体验")) node.textContent = node.textContent.slice(0, -3);
 		}
 	};
 	if (lib.characterPack[`mode_${mode}`] && lib.characterPack[`mode_${mode}`][realName]) {
@@ -1619,6 +1626,7 @@ export function playerCheckAndAddExperienceSuffix(characterName) {
 	} else if (dbimage) {
 		game.getDB("image", dbimage.slice(3))
 			.then(() => {
+				removeExperienceSuffix();
 				return;
 			})
 			.catch(() => {
@@ -1634,6 +1642,7 @@ export function playerCheckAndAddExperienceSuffix(characterName) {
 	}
 
 	const testImg = new Image();
+	removeExperienceSuffix();
 	testImg.onerror = () => {
 		addExperienceSuffix();
 	};

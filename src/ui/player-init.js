@@ -26,7 +26,7 @@ export function createPlayerInit(base) {
 		// othersOff样式下检查武将原画
 		if (lib.config.extension_十周年UI_newDecadeStyle === "othersOff") {
 			this.checkAndAddExperienceSuffix(character);
-			if (character2) this.checkAndAddExperienceSuffix(character2);
+			if (character2) this.checkAndAddExperienceSuffix(character2, true);
 		}
 
 		// 边框等级
