@@ -1581,7 +1581,7 @@ export function playerCheckAndAddExperienceSuffix(characterName, isDeputy) {
 		addSuffix();
 		return;
 	}
-	
+
 	const match = bgImage.match(/url\(["']?([^"')]+)["']?\)/);
 	if (!match?.[1]) {
 		addSuffix();
