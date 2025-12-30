@@ -11,13 +11,6 @@ const OUTCROP_PATHS = {
 	shousha: "extension/十周年UI/image/character/ssloutou/",
 };
 
-/** 默认剪影图片名称 */
-const DEFAULT_SILHOUETTES = {
-	male: "default_silhouette_male.jpg",
-	female: "default_silhouette_female.jpg",
-	double: "default_silhouette_double.jpg",
-};
-
 /** @type {Map<string, Promise<boolean>>} 图片存在性缓存 */
 const imageExistsCache = new Map();
 
@@ -63,27 +56,6 @@ export function getOutcropImagePath(characterName, outcropStyle) {
 		return null;
 	}
 	return `${lib.assetURL}${OUTCROP_PATHS[outcropStyle]}${characterName}.jpg`;
-}
-
-/**
- * 获取武将默认剪影图片路径
- * @param {string} characterName - 武将名称
- * @param {string} [outcropStyle] - 露头样式
- * @returns {string|null}
- */
-export function getDefaultSilhouettePath(characterName, outcropStyle) {
-	outcropStyle = outcropStyle ?? getOutcropStyle();
-	if (!outcropStyle || outcropStyle === "off" || !OUTCROP_PATHS[outcropStyle]) {
-		return null;
-	}
-
-	const info = lib.character[characterName];
-	if (!info) return null;
-
-	const sex = info[0];
-	const silhouette = sex === "female" ? DEFAULT_SILHOUETTES.female : sex === "double" ? DEFAULT_SILHOUETTES.double : DEFAULT_SILHOUETTES.male;
-
-	return `${lib.assetURL}${OUTCROP_PATHS[outcropStyle]}${silhouette}`;
 }
 
 /**
@@ -249,39 +221,9 @@ export function setupOutcropAvatar() {
 	}
 
 	// Hook 原生方法
-	hookSetBackgroundImage();
 	hookSetBackground();
 	hookSmoothAvatar();
 	hookChangeSkin();
-}
-
-/** 原始 setBackgroundImage 方法引用 */
-let originalSetBackgroundImage = null;
-
-/**
- * Hook setBackgroundImage 方法，替换剪影路径为扩展目录
- */
-function hookSetBackgroundImage() {
-	if (originalSetBackgroundImage) return;
-
-	const proto = HTMLDivElement.prototype;
-	originalSetBackgroundImage = proto.setBackgroundImage;
-
-	if (!originalSetBackgroundImage) return;
-
-	proto.setBackgroundImage = function (src, ...args) {
-		const outcropStyle = getOutcropStyle();
-
-		if (outcropStyle !== "off" && Array.isArray(src) && src.length >= 2) {
-			const fallbackPath = src[1];
-			if (typeof fallbackPath === "string" && fallbackPath.includes("default_silhouette_")) {
-				const extSilhouettePath = fallbackPath.replace("image/character/default_silhouette_", OUTCROP_PATHS[outcropStyle] + "default_silhouette_");
-				src = [src[0], extSilhouettePath];
-			}
-		}
-
-		return originalSetBackgroundImage.call(this, src, ...args);
-	};
 }
 
 /** 原始 setBackground 方法引用 */

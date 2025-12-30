@@ -1552,101 +1552,47 @@ export function playerCompareMultiple(card1, targets, cards) {
 }
 
 /**
- * 检查并添加体验后缀覆写
+ * 检查并添加体验后缀
+ * 从 avatar 节点的 backgroundImage 获取当前显示的图片 URL 进行检测
  * @param {string} characterName - 武将名
- * @param {boolean} name2 - 是否为副将
+ * @param {boolean} isDeputy - 是否为副将
  */
-export function playerCheckAndAddExperienceSuffix(characterName, name2) {
-	const name = characterName;
-	const nameinfo = get.character(name);
-	if (!nameinfo) return;
-	let src = null;
-	let extimage = null;
-	let dbimage = null;
-	let modeimage = null;
-	let gzbool = false;
-	let imgPrefixUrl = null;
-	let realName = name;
-	const mode = get.mode();
+export function playerCheckAndAddExperienceSuffix(characterName, isDeputy) {
+	if (!get.character(characterName)) return;
 	const player = this;
-	const addExperienceSuffix = () => {
-		if (player.node?.[name2 ? "name2" : "name"]) {
-			const node = player.node[name2 ? "name2" : "name"];
-			if (!node.textContent.endsWith("•体验")) node.textContent = `${node.textContent}•体验`;
+	const nameNode = player.node?.[isDeputy ? "name2" : "name"];
+	const avatarNode = player.node?.[isDeputy ? "avatar2" : "avatar"];
+	if (!nameNode) return;
+
+	const addSuffix = () => {
+		if (!nameNode.textContent.endsWith("•体验")) {
+			nameNode.textContent = `${nameNode.textContent}•体验`;
 		}
 	};
-	const removeExperienceSuffix = () => {
-		if (player.node?.[name2 ? "name2" : "name"]) {
-			const node = player.node[name2 ? "name2" : "name"];
-			if (node.textContent.endsWith("•体验")) node.textContent = node.textContent.slice(0, -3);
+
+	const removeSuffix = () => {
+		if (nameNode.textContent.endsWith("•体验")) {
+			nameNode.textContent = nameNode.textContent.slice(0, -3);
 		}
 	};
-	if (lib.characterPack[`mode_${mode}`] && lib.characterPack[`mode_${mode}`][realName]) {
-		if (mode === "guozhan") {
-			if (realName.startsWith("gz_shibing")) {
-				realName = realName.slice(3, 11);
-			} else {
-				if (lib.config.mode_config.guozhan?.guozhanSkin && nameinfo && nameinfo.hasSkinInGuozhan) gzbool = true;
-				realName = realName.slice(3);
-			}
-		} else {
-			modeimage = mode;
-		}
-	} else if (realName.includes("::")) {
-		const arr = realName.split("::");
-		modeimage = arr[0];
-		realName = arr[1];
-	}
-	if (!modeimage && nameinfo) {
-		if (nameinfo.img) {
-			imgPrefixUrl = nameinfo.img;
-		} else if (nameinfo.trashBin) {
-			for (const value of nameinfo.trashBin) {
-				if (typeof value !== "string") continue;
-				const colonIndex = value.indexOf(":");
-				if (colonIndex <= 0) continue;
-				const prefix = value.slice(0, colonIndex);
-				const payload = value.slice(colonIndex + 1);
-				const handle = {
-					img: () => (imgPrefixUrl = payload),
-					ext: () => (extimage = value),
-					db: () => (dbimage = value),
-					mode: () => (modeimage = payload),
-					character: () => (realName = payload),
-				}[prefix];
-				if (handle) handle();
-				if (imgPrefixUrl || extimage || dbimage || modeimage || realName !== name) break;
-			}
-		}
-	}
-	if (imgPrefixUrl) {
-		src = imgPrefixUrl;
-	} else if (extimage) {
-		src = extimage.replace(/^ext:/, "extension/");
-	} else if (dbimage) {
-		game.getDB("image", dbimage.slice(3))
-			.then(() => {
-				removeExperienceSuffix();
-				return;
-			})
-			.catch(() => {
-				addExperienceSuffix();
-			});
+
+	const bgImage = avatarNode?.style?.backgroundImage;
+	if (!bgImage) {
+		addSuffix();
 		return;
-	} else if (modeimage) {
-		src = `image/mode/${modeimage}/character/${realName}.jpg`;
-	} else if (lib.config.skin[realName] && arguments[2] !== "noskin") {
-		src = `image/skin/${realName}/${lib.config.skin[realName]}.jpg`;
-	} else {
-		src = `image/character/${gzbool ? "gz_" : ""}${realName}.jpg`;
+	}
+	
+	const match = bgImage.match(/url\(["']?([^"')]+)["']?\)/);
+	if (!match?.[1]) {
+		addSuffix();
+		return;
 	}
 
+	const src = match[1];
 	const testImg = new Image();
-	removeExperienceSuffix();
-	testImg.onerror = () => {
-		addExperienceSuffix();
-	};
-	testImg.src = URL.canParse(src) ? src : lib.assetURL + src;
+	removeSuffix();
+	testImg.onerror = addSuffix;
+	testImg.src = src;
 }
 
 /**
