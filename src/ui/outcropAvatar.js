@@ -124,15 +124,20 @@ export async function applyOutcropAvatar(characterName, node, outcropStyle) {
 	if (!node || !characterName) return false;
 
 	outcropStyle = outcropStyle ?? getOutcropStyle();
-	if (outcropStyle === "off") return false;
+	if (outcropStyle === "off") {
+		node.classList.remove("has-outcrop");
+		return false;
+	}
 
 	const outcropPath = getOutcropImagePath(characterName, outcropStyle);
 	if (outcropPath && (await checkImageExists(outcropPath))) {
 		node.style.backgroundImage = `url("${outcropPath}")`;
+		node.classList.add("has-outcrop");
 		return true;
 	}
 
-	// 没有露头图，交给本体处理
+	// 没有露头图，移除露头样式class，交给本体处理
+	node.classList.remove("has-outcrop");
 	if (typeof node.setBackground === "function") {
 		node.setBackground(characterName, "character");
 	}

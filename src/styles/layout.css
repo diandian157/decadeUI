@@ -717,14 +717,14 @@ body > .background {
 }
 
 /* 露头高度 - 十周年 */
-#arena[data-outcrop-skin="shizhounian"] .button.character > .character {
+#arena[data-outcrop-skin="shizhounian"] .button.character > .character.has-outcrop {
 	height: 128px;
 	clip-path: url(#solo-clip);
 	-webkit-clip-path: url(#solo-clip);
 }
 
 /* 露头高度 - 手杀 */
-#arena[data-outcrop-skin="shousha"] .button.character > .character {
+#arena[data-outcrop-skin="shousha"] .button.character > .character.has-outcrop {
 	height: 140px;
 	clip-path: url(#soloss-clip);
 	-webkit-clip-path: url(#soloss-clip);

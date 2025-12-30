@@ -34,17 +34,24 @@ function getButtonLazyObserver() {
 async function applyButtonOutcrop(node, characterName) {
 	const outcropStyle = getOutcropStyle();
 	const characterNode = node.querySelector(".character");
-	if (!characterNode || outcropStyle === "off") return;
+	if (!characterNode) return;
+
+	if (outcropStyle === "off") {
+		characterNode.classList.remove("has-outcrop");
+		return;
+	}
 
 	const outcropPath = getOutcropImagePath(characterName, outcropStyle);
 
 	// 尝试加载露头图
 	if (outcropPath && (await checkImageExists(outcropPath))) {
 		characterNode.style.backgroundImage = `url("${outcropPath}")`;
+		characterNode.classList.add("has-outcrop");
 		return;
 	}
 
-	// 没有露头图，交给本体处理
+	// 没有露头图，移除露头样式class，交给本体处理
+	characterNode.classList.remove("has-outcrop");
 	if (typeof characterNode.setBackground === "function") {
 		characterNode.setBackground(characterName, "character");
 	}

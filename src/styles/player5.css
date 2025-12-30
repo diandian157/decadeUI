@@ -769,28 +769,28 @@
 }
 
 /* 单将露头-十周年 */
-#arena[data-outcrop-skin="shizhounian"] > .player > .primary-avatar {
+#arena[data-outcrop-skin="shizhounian"] > .player > .primary-avatar.has-outcrop {
 	height: 192px;
 	clip-path: url(#solo-clip);
 	-webkit-clip-path: url(#solo-clip);
 }
 
 /* 单将露头-手杀 */
-#arena[data-outcrop-skin="shousha"] > .player > .primary-avatar {
+#arena[data-outcrop-skin="shousha"] > .player > .primary-avatar.has-outcrop {
 	height: 207px;
 	clip-path: url(#solo-clip);
 	-webkit-clip-path: url(#solo-clip);
 }
 
 /* 双将露头-十周年 */
-#arena[data-outcrop-skin="shizhounian"] > .player > .deputy-avatar {
+#arena[data-outcrop-skin="shizhounian"] > .player > .deputy-avatar.has-outcrop {
 	height: 192px;
 	clip-path: url(#solo-clip);
 	-webkit-clip-path: url(#duor-clip);
 }
 
 /* 双将露头-手杀 */
-#arena[data-outcrop-skin="shousha"] > .player > .deputy-avatar {
+#arena[data-outcrop-skin="shousha"] > .player > .deputy-avatar.has-outcrop {
 	height: 207px;
 	clip-path: url(#solo-clip);
 	-webkit-clip-path: url(#duor-clip);
