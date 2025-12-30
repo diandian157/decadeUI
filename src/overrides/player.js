@@ -1590,7 +1590,7 @@ export function playerCheckAndAddExperienceSuffix(characterName, isDeputy) {
 
 	const src = match[1];
 	const testImg = new Image();
-	removeSuffix();
+	testImg.onload = removeSuffix;
 	testImg.onerror = addSuffix;
 	testImg.src = src;
 }
