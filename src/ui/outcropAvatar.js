@@ -118,28 +118,25 @@ export function checkImageExists(path) {
  * @param {string} characterName - 武将名称
  * @param {HTMLElement} node - 目标节点
  * @param {string} [outcropStyle] - 露头样式
+ * @returns {Promise<boolean>} 是否成功应用露头图
  */
 export async function applyOutcropAvatar(characterName, node, outcropStyle) {
-	if (!node || !characterName) return;
+	if (!node || !characterName) return false;
 
 	outcropStyle = outcropStyle ?? getOutcropStyle();
-	const outcropPath = getOutcropImagePath(characterName, outcropStyle);
+	if (outcropStyle === "off") return false;
 
+	const outcropPath = getOutcropImagePath(characterName, outcropStyle);
 	if (outcropPath && (await checkImageExists(outcropPath))) {
 		node.style.backgroundImage = `url("${outcropPath}")`;
-		return;
+		return true;
 	}
 
-	const silhouettePath = getDefaultSilhouettePath(characterName, outcropStyle);
-	if (silhouettePath && (await checkImageExists(silhouettePath))) {
-		node.style.backgroundImage = `url("${silhouettePath}")`;
-		return;
-	}
-
-	// 回退到默认
+	// 没有露头图，交给本体处理
 	if (typeof node.setBackground === "function") {
 		node.setBackground(characterName, "character");
 	}
+	return false;
 }
 
 /**
@@ -245,4 +242,119 @@ export function setupOutcropAvatar() {
 		decadeUI.registerLazyOutcrop = registerLazyOutcrop;
 		decadeUI.applyOutcropAvatar = applyOutcropAvatar;
 	}
+
+	// Hook 原生方法
+	hookSetBackgroundImage();
+	hookSetBackground();
+	hookSmoothAvatar();
+	hookChangeSkin();
+}
+
+/** 原始 setBackgroundImage 方法引用 */
+let originalSetBackgroundImage = null;
+
+/**
+ * Hook setBackgroundImage 方法，替换剪影路径为扩展目录
+ */
+function hookSetBackgroundImage() {
+	if (originalSetBackgroundImage) return;
+
+	const proto = HTMLDivElement.prototype;
+	originalSetBackgroundImage = proto.setBackgroundImage;
+
+	if (!originalSetBackgroundImage) return;
+
+	proto.setBackgroundImage = function (src, ...args) {
+		const outcropStyle = getOutcropStyle();
+
+		if (outcropStyle !== "off" && Array.isArray(src) && src.length >= 2) {
+			const fallbackPath = src[1];
+			if (typeof fallbackPath === "string" && fallbackPath.includes("default_silhouette_")) {
+				const extSilhouettePath = fallbackPath.replace("image/character/default_silhouette_", OUTCROP_PATHS[outcropStyle] + "default_silhouette_");
+				src = [src[0], extSilhouettePath];
+			}
+		}
+
+		return originalSetBackgroundImage.call(this, src, ...args);
+	};
+}
+
+/** 原始 setBackground 方法引用 */
+let originalSetBackground = null;
+
+/**
+ * Hook setBackground 方法，拦截武将头像更换
+ */
+function hookSetBackground() {
+	if (originalSetBackground) return;
+
+	const proto = HTMLDivElement.prototype;
+	originalSetBackground = proto.setBackground;
+
+	if (!originalSetBackground) return;
+
+	proto.setBackground = function (name, type, ...args) {
+		const result = originalSetBackground.call(this, name, type, ...args);
+
+		if (type === "character" && getOutcropStyle() !== "off") {
+			const isPlayerAvatar = this.classList.contains("avatar") && this.parentElement?.classList.contains("player");
+			if (isPlayerAvatar) {
+				applyOutcropAvatar(name, this);
+			}
+		}
+
+		return result;
+	};
+}
+
+/**
+ * Hook smoothAvatar 方法，在换皮动画后应用露头图
+ */
+function hookSmoothAvatar() {
+	if (!lib.element?.Player?.prototype?.smoothAvatar) return;
+
+	const originalSmoothAvatar = lib.element.Player.prototype.smoothAvatar;
+
+	lib.element.Player.prototype.smoothAvatar = function (vice, video) {
+		const result = originalSmoothAvatar.call(this, vice, video);
+
+		if (getOutcropStyle() !== "off") {
+			const player = this;
+			setTimeout(() => {
+				const characterName = vice ? player.name2 : player.name1 || player.name;
+				const avatarNode = vice ? player.node?.avatar2 : player.node?.avatar;
+				if (characterName && avatarNode) {
+					applyOutcropAvatar(characterName, avatarNode);
+				}
+			}, 150);
+		}
+
+		return result;
+	};
+}
+
+/**
+ * Hook changeSkin 方法
+ */
+function hookChangeSkin() {
+	if (!lib.element?.Player?.prototype?.changeSkin) return;
+
+	const originalChangeSkin = lib.element.Player.prototype.changeSkin;
+
+	lib.element.Player.prototype.changeSkin = function (map, character) {
+		const result = originalChangeSkin.call(this, map, character);
+
+		if (getOutcropStyle() !== "off" && character) {
+			const player = this;
+			setTimeout(() => {
+				const isVice = player.name2 === character;
+				const avatarNode = isVice ? player.node?.avatar2 : player.node?.avatar;
+				if (avatarNode) {
+					applyOutcropAvatar(character, avatarNode);
+				}
+			}, 150);
+		}
+
+		return result;
+	};
 }

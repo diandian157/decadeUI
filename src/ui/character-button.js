@@ -3,7 +3,7 @@
  */
 import { lib, game, ui, get, ai, _status } from "noname";
 import { element } from "../utils/element.js";
-import { getOutcropStyle, getOutcropImagePath, getDefaultSilhouettePath, checkImageExists, createLazyObserver } from "./outcropAvatar.js";
+import { getOutcropStyle, getOutcropImagePath, checkImageExists, createLazyObserver } from "./outcropAvatar.js";
 
 /** @type {IntersectionObserver|null} 按钮懒加载观察器 */
 let buttonLazyObserver = null;
@@ -38,14 +38,15 @@ async function applyButtonOutcrop(node, characterName) {
 
 	const outcropPath = getOutcropImagePath(characterName, outcropStyle);
 
+	// 尝试加载露头图
 	if (outcropPath && (await checkImageExists(outcropPath))) {
 		characterNode.style.backgroundImage = `url("${outcropPath}")`;
 		return;
 	}
 
-	const silhouettePath = getDefaultSilhouettePath(characterName, outcropStyle);
-	if (silhouettePath && (await checkImageExists(silhouettePath))) {
-		characterNode.style.backgroundImage = `url("${silhouettePath}")`;
+	// 没有露头图，交给本体处理
+	if (typeof characterNode.setBackground === "function") {
+		characterNode.setBackground(characterName, "character");
 	}
 }
 
