@@ -28,7 +28,7 @@ export function updateSkillUsability(nodes, availableSkills, context) {
 	Array.from(nodes).forEach(item => {
 		const skillId = item.dataset.id;
 		let isUsable = availableSkills.includes(skillId);
-		if (isUsable && game.me && get.is.locked(skillId, game.me)) isUsable = false;
+		if (isUsable && game.me && !lib.skill[skillId]?.enable && get.is.locked(skillId, game.me)) isUsable = false;
 
 		item.classList.toggle("usable", isUsable);
 		item.classList.toggle("select", _status.event.skill === skillId);
