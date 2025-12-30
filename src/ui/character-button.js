@@ -1,55 +1,75 @@
 /**
- * @fileoverview 角色按钮预设模块，提供角色选择按钮的创建和刷新功能
+ * @fileoverview 角色按钮模块，支持懒加载露头头像
  */
 import { lib, game, ui, get, ai, _status } from "noname";
 import { element } from "../utils/element.js";
-import { getOutcropImagePath, getDefaultSilhouettePath, checkImageExists } from "./outcropAvatar.js";
+import { getOutcropStyle, getOutcropImagePath, getDefaultSilhouettePath, checkImageExists, createLazyObserver } from "./outcropAvatar.js";
+
+/** @type {IntersectionObserver|null} 按钮懒加载观察器 */
+let buttonLazyObserver = null;
 
 /**
- * 获取当前露头样式配置
- * @returns {string} 露头样式，可能为 "shizhounian"、"shousha" 或 "off"
+ * 获取按钮懒加载观察器（单例）
+ * @returns {IntersectionObserver}
  */
-const getOutcropStyle = () => lib.config?.extension_十周年UI_outcropSkin ?? "off";
+function getButtonLazyObserver() {
+	if (!buttonLazyObserver) {
+		buttonLazyObserver = createLazyObserver(async node => {
+			const characterName = node._lazyCharacter;
+			if (!characterName) return;
 
-/**
- * 为角色按钮设置露头头像
- * @param {HTMLElement} node - 按钮节点
- * @param {string} characterName - 武将名称
- */
-async function setButtonOutcropAvatar(node, characterName) {
-	const outcropStyle = getOutcropStyle();
-	const characterNode = node.querySelector(".character");
-	if (!characterNode) return;
-
-	const outcropPath = getOutcropImagePath(characterName, outcropStyle);
-
-	if (outcropPath) {
-		if (await checkImageExists(outcropPath)) {
-			characterNode.style.backgroundImage = `url("${outcropPath}")`;
-			return;
-		}
-
-		// 露头图不存在，尝试使用默认剪影
-		const silhouettePath = getDefaultSilhouettePath(characterName, outcropStyle);
-		if (silhouettePath && (await checkImageExists(silhouettePath))) {
-			characterNode.style.backgroundImage = `url("${silhouettePath}")`;
-			return;
-		}
+			await applyButtonOutcrop(node, characterName);
+			buttonLazyObserver.unobserve(node);
+			delete node._lazyCharacter;
+		});
 	}
-
-	characterNode.setBackground(characterName, "character");
+	return buttonLazyObserver;
 }
 
 /**
- * 更新所有选将按钮的露头头像（热更新）
+ * 应用露头头像到按钮
+ * @param {HTMLElement} node - 按钮节点
+ * @param {string} characterName - 武将名称
+ */
+async function applyButtonOutcrop(node, characterName) {
+	const outcropStyle = getOutcropStyle();
+	const characterNode = node.querySelector(".character");
+	if (!characterNode || outcropStyle === "off") return;
+
+	const outcropPath = getOutcropImagePath(characterName, outcropStyle);
+
+	if (outcropPath && (await checkImageExists(outcropPath))) {
+		characterNode.style.backgroundImage = `url("${outcropPath}")`;
+		return;
+	}
+
+	const silhouettePath = getDefaultSilhouettePath(characterName, outcropStyle);
+	if (silhouettePath && (await checkImageExists(silhouettePath))) {
+		characterNode.style.backgroundImage = `url("${silhouettePath}")`;
+	}
+}
+
+/**
+ * 注册按钮懒加载
+ * @param {HTMLElement} node - 按钮节点
+ * @param {string} characterName - 武将名称
+ */
+function registerButtonLazy(node, characterName) {
+	if (getOutcropStyle() === "off") return;
+	node._lazyCharacter = characterName;
+	getButtonLazyObserver().observe(node);
+}
+
+/**
+ * 更新所有选将按钮的露头头像
  */
 export function updateAllCharacterButtons() {
 	const buttons = document.querySelectorAll(".button.character.decadeUI");
 	const tasks = [];
 	buttons.forEach(node => {
-		const characterName = /** @type {any} */ (node).link;
+		const characterName = node.link;
 		if (characterName) {
-			tasks.push(setButtonOutcropAvatar(/** @type {HTMLElement} */ (node), characterName));
+			tasks.push(applyButtonOutcrop(node, characterName));
 		}
 	});
 	return Promise.all(tasks);
@@ -57,7 +77,7 @@ export function updateAllCharacterButtons() {
 
 /**
  * 创建角色按钮预设函数
- * @returns {Function} 角色按钮创建函数
+ * @returns {Function}
  */
 export function createCharacterButtonPreset() {
 	return function (item, type, position, noclick, node) {
@@ -87,22 +107,11 @@ export function createCharacterButtonPreset() {
 		}
 
 		node.refresh = function (node, item, intersection) {
-			if (intersection) {
-				node.awaitItem = item;
-				// 覆写 setBackground 以支持懒加载时的露头图片
-				const originalSetBackground = node.setBackground.bind(node);
-				node.setBackground = function (name, type) {
-					originalSetBackground(name, type);
-					if (type === "character") {
-						setButtonOutcropAvatar(node, name);
-					}
-				};
-				intersection.observe(node);
-			} else {
-				node.setBackground(item, "character");
-				// 应用露头头像到 .character 子元素
-				setButtonOutcropAvatar(node, item);
-			}
+			// 先设置默认背景
+			node.setBackground(item, "character");
+
+			// 注册懒加载（进入视口时才加载露头图）
+			registerButtonLazy(node, item);
 
 			if (node.node) {
 				node.node.name.remove();

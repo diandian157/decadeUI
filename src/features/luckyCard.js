@@ -79,7 +79,7 @@ export function setupLuckyCard() {
 			if (freeChanges > 0) {
 				return `本场还可免费更换<span style='color:#00c853'>${freeChanges}次</span>手牌(剩余${luckyCards}张手气卡)`;
 			}
-			return `消耗1张手气卡更换1次手牌(剩余<span style='color:#00c853'>${luckyCards}</span>张手气卡)`;
+			return `每次更换消耗一张手气卡(剩余<span style='color:#00c853'>${luckyCards}</span>张手气卡)`;
 		},
 
 		/**
