@@ -564,6 +564,9 @@ export function uiClickCard(e) {
 	} else {
 		ui.selected.cards.add(this);
 		this.classList.add("selected");
+		if (ui._handcardHover === this) {
+			ui._handcardHover = null;
+		}
 		this.updateTransform(true);
 		const skill = _status.event.skill;
 		if (get.info(skill) && get.info(skill).viewAs && !get.info(skill).ignoreMod) {

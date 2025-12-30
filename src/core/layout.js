@@ -88,7 +88,7 @@ export function createLayoutModule() {
 
 			if (folded && typeof ui.getSpreadOffset === "function") {
 				const spread = ui.getSpreadOffset(cards, { cardWidth: csw, currentMargin: xMargin });
-				({ selectedIndex, spreadLeft: spreadOffsetLeft, spreadRight: spreadOffsetRight } = spread);
+				({ spreadIndex: selectedIndex, spreadLeft: spreadOffsetLeft, spreadRight: spreadOffsetRight } = spread);
 				if (selectedIndex !== -1) {
 					const selX = xStart + selectedIndex * xMargin;
 					const maxSelX = Math.max(0, limitW - csw);
