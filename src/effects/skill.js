@@ -7,6 +7,7 @@
 import { lib, game, ui, get, ai, _status } from "noname";
 import { CONFIG, GENERAL_NAME_STYLE } from "./config.js";
 import { isPlayer, getName, toKebab, getDefaultAvatar } from "./utils.js";
+import { getOutcropStyle, getOutcropImagePath, checkImageExists } from "../ui/outcropAvatar.js";
 
 /**
  * 播放技能特效
@@ -46,8 +47,8 @@ export function playSkillEffect(player, skillName, vice) {
  */
 async function loadSkillAssets(characterName, camp, player, skillName, playerName) {
 	try {
-		const imgPath = getCharacterImagePath(characterName);
-		const [charImg, bgImg] = await Promise.all([loadImage(imgPath, player), loadBgImage(camp)]);
+		const imgPath = await getCharacterImagePath(characterName);
+		const [charImg, bgImg] = await Promise.all([loadImage(imgPath, player, characterName), loadBgImage(camp)]);
 		renderSkillEffect(charImg, bgImg, camp, skillName, playerName);
 	} catch (err) {
 		console.error("技能特效加载失败:", err);
@@ -55,11 +56,11 @@ async function loadSkillAssets(characterName, camp, player, skillName, playerNam
 }
 
 /**
- * 获取武将图片路径(优先立绘)
+ * 获取武将图片顺序
  * @param {string} name - 武将名称
- * @returns {string|null} 图片路径
+ * @returns {Promise<string|null>} 图片路径
  */
-function getCharacterImagePath(name) {
+async function getCharacterImagePath(name) {
 	if (!name) return null;
 
 	const nameinfo = get.character(name);
@@ -73,7 +74,7 @@ function getCharacterImagePath(name) {
 		}
 	}
 
-	// 优先使用皮肤
+	// 使用皮肤
 	if (lib.config.skin[realName]) {
 		return lib.config.skin[realName][1];
 	}
@@ -91,16 +92,33 @@ function getCharacterImagePath(name) {
 		}
 	}
 
-	return `${lib.assetURL}extension/十周年UI/image/character/lihui/${realName}.jpg`;
+	// 优先扩展lihui立绘目录
+	const lihuiPath = `${lib.assetURL}extension/十周年UI/image/character/lihui/${realName}.jpg`;
+	if (await checkImageExists(lihuiPath)) {
+		return lihuiPath;
+	}
+
+	// 其次露头图
+	const outcropStyle = getOutcropStyle();
+	if (outcropStyle !== "off") {
+		const outcropPath = getOutcropImagePath(realName, outcropStyle);
+		if (outcropPath && (await checkImageExists(outcropPath))) {
+			return outcropPath;
+		}
+	}
+
+	// 最后都没有扔给本体处理
+	return `${lib.assetURL}image/character/${realName}.jpg`;
 }
 
 /**
  * 加载角色图片
  * @param {string} src - 图片路径
  * @param {Object} player - 玩家对象(用于获取备用图片)
+ * @param {string} characterName - 武将名称
  * @returns {Promise<HTMLImageElement>} 加载完成的图片元素
  */
-function loadImage(src, player) {
+function loadImage(src, player, characterName) {
 	return new Promise((resolve, reject) => {
 		if (!src) {
 			reject(new Error("图片路径为空"));
@@ -110,7 +128,7 @@ function loadImage(src, player) {
 		const img = new Image();
 		img.onload = () => resolve(img);
 		img.onerror = async () => {
-			const fallback = await getFallbackSrc(src, player);
+			const fallback = await getFallbackSrc(src, player, characterName);
 			if (fallback && fallback !== src) {
 				img.onload = () => resolve(img);
 				img.onerror = () => reject(new Error("图片加载失败"));
@@ -127,15 +145,10 @@ function loadImage(src, player) {
  * 获取备用图片路径
  * @param {string} src - 原图片路径
  * @param {Object} player - 玩家对象
+ * @param {string} characterName - 武将名称
  * @returns {Promise<string>} 备用图片路径
  */
-async function getFallbackSrc(src, player) {
-	if (src.includes("extension/十周年UI/image/character/lihui")) {
-		return src.replace(/extension\/十周年UI\/image\/character\/lihui/, "image/character");
-	}
-	if (src.includes("image/lihui")) {
-		return src.replace(/image\/lihui/, "image/character");
-	}
+async function getFallbackSrc(src, player, characterName) {
 	return getDefaultAvatar(player);
 }
 
