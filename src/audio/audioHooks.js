@@ -25,7 +25,10 @@ const allCardEasterEggs = [...cardEasterEggs, ...shaEasterEggs, ...equipEasterEg
  * @param {string} name - 要检查的名称
  * @returns {boolean} 是否包含该名称
  */
-const hasName = (player, name) => get.nameList(player).some(n => n?.includes(name));
+const hasName = (player, name) => {
+	if (get.itemtype(player) !== "player") return false;
+	return get.nameList(player).some(n => n?.includes(name));
+};
 
 /**
  * 根据名称查找玩家
