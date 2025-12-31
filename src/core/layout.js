@@ -278,6 +278,7 @@ export function createLayoutModule() {
 		 * 响应窗口大小变化
 		 */
 		resize() {
+			if (!ui.arena) return;
 			ui.arena.classList.toggle("dui-mobile", decadeUI.isMobile());
 
 			decadeUI.dataset.animSizeUpdated = false;
