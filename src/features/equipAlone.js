@@ -6,7 +6,7 @@
  * 适配虚拟装备和武将牌装备
  */
 
-import { lib, game, ui, get, _status } from "noname";
+import { lib, game, ui, get, ai, _status } from "noname";
 
 /** @param {string} skill */
 const isEquipSkill = skill => lib.skill[skill]?.equipSkill === true;

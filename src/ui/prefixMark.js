@@ -97,6 +97,7 @@ const PREFIX_CONFIGS = {
 	爻: "yao",
 	魔: "dm",
 	"TW|魔": "dm",
+	"OL|魔": "dm",
 	闪: "shan",
 	晋: "jin",
 	威: "v",
