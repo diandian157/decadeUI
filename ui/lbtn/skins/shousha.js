@@ -360,6 +360,12 @@ export function createShoushaLbtnPlugin(lib, game, ui, get, ai, _status, app) {
 		initConfirmRewrite() {
 			const self = this;
 			ui.create.confirm = (str, func) => {
+				if (ui.confirm?.classList.contains("closing")) {
+					ui.confirm.remove();
+					ui.controls.remove(ui.confirm);
+					ui.confirm = null;
+				}
+
 				if (!ui.confirm) {
 					ui.confirm = self.create.confirm();
 				}
@@ -378,8 +384,9 @@ export function createShoushaLbtnPlugin(lib, game, ui, get, ai, _status, app) {
 				}
 
 				if (func) ui.confirm.custom = func;
+
 				ui.updatec();
-				ui.confirm.update();
+				ui.confirm.update?.();
 			};
 		},
 

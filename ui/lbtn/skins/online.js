@@ -171,23 +171,34 @@ export function createOnlineLbtnPlugin(lib, game, ui, get, ai, _status, app) {
 		initConfirmRewrite() {
 			const self = this;
 			ui.create.confirm = function (str, func) {
-				let confirm = ui.confirm;
-				if (!confirm) {
-					confirm = ui.confirm = self.create.confirm();
+				if (ui.confirm?.classList.contains("closing")) {
+					ui.confirm.remove();
+					ui.controls.remove(ui.confirm);
+					ui.confirm = null;
 				}
+
+				if (!ui.confirm) {
+					ui.confirm = self.create.confirm();
+				}
+
+				const confirm = ui.confirm;
 				confirm.node.ok.classList.add("disabled");
 				confirm.node.cancel.classList.add("disabled");
+
 				if (_status.event.endButton) {
-					ui.confirm.node.cancel.classList.remove("disabled");
+					confirm.node.cancel.classList.remove("disabled");
 				}
+
 				if (str) {
-					if (str.indexOf("o") !== -1) confirm.node.ok.classList.remove("disabled");
-					if (str.indexOf("c") !== -1) confirm.node.cancel.classList.remove("disabled");
+					if (str.includes("o")) confirm.node.ok.classList.remove("disabled");
+					if (str.includes("c")) confirm.node.cancel.classList.remove("disabled");
 					confirm.str = str;
 				}
+
 				if (func) confirm.custom = func;
+
 				ui.updatec();
-				confirm.update();
+				confirm.update?.();
 			};
 		},
 

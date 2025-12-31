@@ -427,9 +427,19 @@ export function createBaseLbtnPlugin(lib, game, ui, get, ai, _status, app) {
 			});
 
 			// 重写确认对话框
-			this.initConfirmRewrite();
+			game.Check.confirm = function (event, confirm) {
+				ui.arena.classList.add("selecting");
+				if (event.filterTarget && (!event.filterCard || !event.position || (typeof event.position == "string" && !event.position.includes("e")))) {
+					ui.arena.classList.add("tempnoe");
+				}
+				game.countChoose();
+				if (!_status.noconfirm && !_status.event.noconfirm) {
+					ui.create.confirm(confirm);
+				}
+			};
 
 			// 拦截取消
+			this.initConfirmRewrite();
 			this.initCancelIntercept();
 		},
 
@@ -437,6 +447,12 @@ export function createBaseLbtnPlugin(lib, game, ui, get, ai, _status, app) {
 		initConfirmRewrite() {
 			const self = this;
 			ui.create.confirm = (str, func) => {
+				if (ui.confirm?.classList.contains("closing")) {
+					ui.confirm.remove();
+					ui.controls.remove(ui.confirm);
+					ui.confirm = null;
+				}
+
 				if (!ui.confirm) {
 					ui.confirm = self.create.confirm();
 				}
@@ -455,8 +471,9 @@ export function createBaseLbtnPlugin(lib, game, ui, get, ai, _status, app) {
 				}
 
 				if (func) ui.confirm.custom = func;
+
 				ui.updatec();
-				ui.confirm.update();
+				ui.confirm.update?.();
 			};
 		},
 

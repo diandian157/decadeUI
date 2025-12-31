@@ -65,6 +65,7 @@ export function setupLuckyCard() {
 		/** 设置确认按钮文案 */
 		setupConfirmButton() {
 			if (!ui.confirm?.childNodes?.length) return;
+			if (lib.config.extension_十周年UI_newDecadeStyle === "off") return;
 			const btn = ui.confirm.childNodes[0];
 			if (btn?.link === "ok") btn.innerHTML = "换牌";
 		},
