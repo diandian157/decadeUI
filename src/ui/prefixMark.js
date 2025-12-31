@@ -96,6 +96,7 @@ const PREFIX_CONFIGS = {
 	界SP: "jie",
 	爻: "yao",
 	魔: "dm",
+	"TW|魔": "dm",
 	闪: "shan",
 	晋: "jin",
 	威: "v",
@@ -170,6 +171,8 @@ const PREFIX_CONFIGS = {
 	"26|SP": "sp",
 	"飞鸿|神": "shen",
 	"☆神": "shen",
+	"赛马|神": "shen",
+	"SP|赛马|神": "shen",
 };
 
 // ==================== 工具函数 ====================
