@@ -16,40 +16,6 @@ export function setBaseContentMethods(methods) {
 }
 
 /**
- * 改变体力覆写
- * @description content方法在事件编译器中执行，需要使用window.dui而非模块内函数
- */
-export function contentChangeHp() {
-	game.getGlobalHistory().changeHp.push(event);
-	if (num < 0 && player.hujia > 0 && event.getParent().name == "damage" && !player.hasSkillTag("nohujia")) {
-		event.hujia = Math.min(-num, player.hujia);
-		event.getParent().hujia = event.hujia;
-		event.num += event.hujia;
-		player.changeHujia(-event.hujia).type = "damage";
-	}
-	num = event.num;
-	player.hp += num;
-	if (isNaN(player.hp)) player.hp = 0;
-	if (player.hp > player.maxHp) player.hp = player.maxHp;
-	player.update();
-	if (event.popup !== false) {
-		player.$damagepop(num, "water");
-	}
-	if (_status.dying.includes(player) && player.hp > 0) {
-		_status.dying.remove(player);
-		game.broadcast(function (list) {
-			_status.dying = list;
-		}, _status.dying);
-		let evt = event.getParent("_save");
-		if (evt && evt.finish) evt.finish();
-		evt = event.getParent("dying");
-		if (evt && evt.finish) evt.finish();
-	}
-	event.trigger("changeHp");
-	window.decadeUI.delay(68);
-}
-
-/**
  * 创建获得卡牌覆写内容
  * @param {Object} baseGain - 基础gain方法数组
  * @returns {Array} 覆写后的gain方法数组
@@ -517,14 +483,4 @@ export function createContentLose(baseLose) {
 		},
 		...baseLose.slice(2),
 	];
-}
-
-/**
- * 翻面覆写
- */
-export function contentTurnOver() {
-	game.log(player, "翻面");
-	game.broadcastAll(player => player.classList.toggle("turnedover"), player);
-	game.addVideo("turnOver", player, player.classList.contains("turnedover"));
-	player.queueCssAnimation("turned-over 0.5s linear");
 }

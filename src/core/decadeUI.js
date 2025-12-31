@@ -29,14 +29,13 @@ import { controlAdd, controlOpen, controlClose, controlReplace, controlUpdateLay
 import { dialogOpen, dialogClose } from "../overrides/dialog.js";
 import { eventAddMessageHook, eventTriggerMessage } from "../overrides/event.js";
 import { cardCopy, cardInit, cardUpdateTransform, cardMoveTo, cardMoveDelete } from "../overrides/card.js";
-import { contentChangeHp, createContentGain, contentJudge, createContentLose, contentTurnOver } from "../overrides/content.js";
+import { createContentGain, contentJudge, createContentLose } from "../overrides/content.js";
 import { libInitCssstyles } from "../overrides/lib.js";
 import { getSkillState, getObjtype } from "../overrides/get.js";
 import { gameSwapSeat, gameSwapPlayer, gameSwapControl, gameAddGlobalSkill, gameRemoveGlobalSkill, gameLogv } from "../overrides/game.js";
 
 import {
-	playerAddSkill,
-	playerRemoveSkill,
+	registerDecadeUIHooks,
 	playerAwakenSkill,
 	playerSetIdentity,
 	playerGetState,
@@ -53,7 +52,6 @@ import {
 	playerUseCardAnimateBefore,
 	playerRespondAnimateBefore,
 	playerChangeZhuanhuanji,
-	playerTrySkillAnimate,
 	playerSetModeState,
 	playerHandleEquipChange,
 	playerMark,
@@ -68,16 +66,10 @@ import {
 	playerSkill,
 	playerSyncExpand,
 	playerAddPrefixSeparator,
-	playerYangSkill,
-	player$YangSkill,
-	playerYingSkill,
-	player$YingSkill,
-	playerFailSkill,
-	player$FailSkill,
-	playerShixiaoSkill,
-	player$ShixiaoSkill,
-	playerUnshixiaoSkill,
-	player$UnshixiaoSkill,
+	playerSetSkillYinYang,
+	player$SetSkillYinYang,
+	playerSetSkillState,
+	player$SetSkillState,
 	playerDamagepop,
 	playerCompare,
 	playerCompareMultiple,
@@ -87,7 +79,6 @@ import {
 	playerUpdateShowCards,
 	playerCheckBoundsCache,
 	playerLine,
-	playerDirectgain,
 	playerPhaseJudge,
 	playerGain2,
 	playerDraw,
@@ -217,8 +208,6 @@ export const createDecadeUIObject = () => ({
 						updateLayout: controlUpdateLayout,
 					},
 					player: {
-						addSkill: playerAddSkill,
-						removeSkill: playerRemoveSkill,
 						awakenSkill: playerAwakenSkill,
 						setIdentity: playerSetIdentity,
 						getState: playerGetState,
@@ -235,7 +224,6 @@ export const createDecadeUIObject = () => ({
 						useCardAnimateBefore: playerUseCardAnimateBefore,
 						respondAnimateBefore: playerRespondAnimateBefore,
 						$changeZhuanhuanji: playerChangeZhuanhuanji,
-						trySkillAnimate: playerTrySkillAnimate,
 						setModeState: playerSetModeState,
 						$handleEquipChange: playerHandleEquipChange,
 						mark: playerMark,
@@ -252,7 +240,6 @@ export const createDecadeUIObject = () => ({
 						_addPrefixSeparator: playerAddPrefixSeparator,
 						$init: createPlayerInit(base),
 						checkAndAddExperienceSuffix: playerCheckAndAddExperienceSuffix,
-						directgain: playerDirectgain,
 						$addVirtualJudge: playerAddVirtualJudge,
 						line: playerLine,
 						checkBoundsCache: playerCheckBoundsCache,
@@ -265,26 +252,18 @@ export const createDecadeUIObject = () => ({
 						$throwordered2: playerThrowordered2,
 						$phaseJudge: playerPhaseJudge,
 						decadeUI_updateShowCards: playerUpdateShowCards,
-						yangSkill: playerYangSkill,
-						$yangSkill: player$YangSkill,
-						yingSkill: playerYingSkill,
-						$yingSkill: player$YingSkill,
-						failSkill: playerFailSkill,
-						$failSkill: player$FailSkill,
-						shixiaoSkill: playerShixiaoSkill,
-						$shixiaoSkill: player$ShixiaoSkill,
-						unshixiaoSkill: playerUnshixiaoSkill,
-						$unshixiaoSkill: player$UnshixiaoSkill,
+						setSkillYinYang: playerSetSkillYinYang,
+						$setSkillYinYang: player$SetSkillYinYang,
+						setSkillState: playerSetSkillState,
+						$setSkillState: player$SetSkillState,
 						$damagepop: playerDamagepop,
 						$compare: playerCompare,
 						$compareMultiple: playerCompareMultiple,
 					},
 					content: {
-						changeHp: contentChangeHp,
 						gain: createContentGain(base.lib.element.content.gain),
 						judge: contentJudge,
 						lose: createContentLose(base.lib.element.content.lose),
-						turnOver: contentTurnOver,
 					},
 				},
 				init: { cssstyles: libInitCssstyles },
@@ -337,6 +316,9 @@ export const createDecadeUIObject = () => ({
 		setBaseUiCreateMethods(base.ui.create);
 		setBaseDialogMethods(base.lib.element.dialog);
 		setBaseLibMethods(base.lib);
+
+		// 注册hooks
+		registerDecadeUIHooks();
 
 		// 应用覆写
 		override(lib, ride.lib);

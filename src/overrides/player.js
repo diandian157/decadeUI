@@ -26,44 +26,50 @@ export function setBasePlayerMethods(methods) {
 }
 
 /**
- * 添加技能覆写
- * @param {string} skill - 技能名
- * @returns {*} 添加结果
+ * 注册hooks - 减少对本体的覆写
  */
-export function playerAddSkill(skill) {
-	const result = basePlayerMethods.addSkill.apply(this, arguments);
-	if (!Array.isArray(result)) {
-		const skills = ["name", "name1", "name2"].reduce((list, name) => {
-			if (this[name] && (name != "name1" || this.name != this.name1)) {
-				list.addArray(get.character(this[name], 3) || []);
-			}
-			return list;
-		}, []);
-		if (!skills.includes(result)) {
-			const info = get.info(result);
-			if (!(!info || info.nopop || !get.translation(result + "_info") || !lib.translate[result + "_info"])) {
-				this.node.gainSkill.gain(result);
-			}
-		}
-	}
-	[...game.players, ...game.dead].forEach(i => i.decadeUI_updateShowCards());
-	return result;
-}
+export function registerDecadeUIHooks() {
+	const addHook = (name, fn) => (lib.hooks[name] ??= []).push(fn);
 
-/**
- * 移除技能覆写
- * @param {string} skill - 技能名
- * @returns {*} 移除结果
- */
-export function playerRemoveSkill(skill) {
-	const result = basePlayerMethods.removeSkill.apply(this, arguments);
-	if (!Array.isArray(result)) {
-		if (this.node.gainSkill.skills?.includes(result)) {
-			this.node.gainSkill.lose(result);
+	// gainSkill动画 + 更新可见手牌
+	addHook("addSkillCheck", (skill, player) => {
+		if (typeof skill !== "string") return;
+		const charSkills = ["name", "name1", "name2"].flatMap(n => (player[n] && (n !== "name1" || player.name !== player.name1) ? get.character(player[n], 3) || [] : []));
+		if (!charSkills.includes(skill)) {
+			const info = get.info(skill);
+			if (info && !info.nopop && lib.translate[skill + "_info"]) {
+				player.node.gainSkill?.gain(skill);
+			}
 		}
-	}
-	[...game.players, ...game.dead].forEach(i => i.decadeUI_updateShowCards());
-	return result;
+		[...game.players, ...game.dead].forEach(i => i.decadeUI_updateShowCards?.());
+	});
+
+	// loseSkill动画 + 更新可见手牌
+	addHook("removeSkillCheck", (skill, player) => {
+		if (typeof skill !== "string") return;
+		if (player.node.gainSkill?.skills?.includes(skill)) {
+			player.node.gainSkill.lose(skill);
+		}
+		[...game.players, ...game.dead].forEach(i => i.decadeUI_updateShowCards?.());
+	});
+
+	// AI技能提示条
+	addHook("checkSkillAnimate", (player, name) => {
+		const cfg = lib.config;
+		if (!cfg["extension_十周年UI_enable"] || !cfg.extension_十周年UI_jindutiao) return;
+		if (player === game.me) return;
+
+		player.querySelector(".tipskill")?.remove();
+
+		const style = cfg.extension_十周年UI_newDecadeStyle;
+		if (["_recasting", "jiu"].includes(name) || style === "othersOff" || style === "on") return;
+
+		const box = document.createElement("div");
+		box.className = "tipskill";
+		box.innerHTML = `<img src="${lib.assetURL}extension/十周年UI/ui/assets/lbtn/shoushatip/skilltip.png"><div>${get.skillTranslation(name, player).slice(0, 2)}</div>`;
+		player.appendChild(box);
+		setTimeout(() => box.remove(), 1500);
+	});
 }
 
 /**
@@ -76,11 +82,11 @@ export function playerAwakenSkill(skill) {
 	ui.updateSkillControl?.(this);
 	if (get.info(skill)?.dutySkill) {
 		const that = this;
-		game.expandSkills([skill]).forEach(taofen => that.shixiaoSkill(taofen));
+		game.expandSkills([skill]).forEach(taofen => that.setSkillState(taofen, "shixiao"));
 	}
 	const fname = _status.event.getParent()?.skill;
 	if (fname?.endsWith("_fail") && fname?.slice(0, -5) == skill) {
-		this.failSkill(skill);
+		this.setSkillState(skill, "fail");
 	}
 	return result;
 }
@@ -145,29 +151,32 @@ function shouldSkipMark(item) {
 }
 
 /**
- * 标记技能覆写
+ * 标记/取消标记技能覆写（合并版）
  * @param {string} name - 技能名
  * @param {*} [info] - 信息
  * @param {*} [card] - 卡牌
  * @param {boolean} [nobroadcast] - 是否不广播
- * @returns {*} 标记结果
+ * @param {boolean} [isUnmark] - 是否为取消标记
+ * @returns {*} 结果
+ */
+function playerMarkSkillInternal(name, info, card, nobroadcast, isUnmark) {
+	if (shouldSkipMark(name)) return;
+	const method = isUnmark ? "unmarkSkill" : "markSkill";
+	return basePlayerMethods[method].apply(this, [name, info, card, nobroadcast]);
+}
+
+/**
+ * 标记技能覆写
  */
 export function playerMarkSkill(name, info, card, nobroadcast) {
-	if (shouldSkipMark(name)) return;
-	return basePlayerMethods.markSkill.apply(this, arguments);
+	return playerMarkSkillInternal.call(this, name, info, card, nobroadcast, false);
 }
 
 /**
  * 取消标记技能覆写
- * @param {string} name - 技能名
- * @param {*} [info] - 信息
- * @param {*} [card] - 卡牌
- * @param {boolean} [nobroadcast] - 是否不广播
- * @returns {*} 取消标记结果
  */
 export function playerUnmarkSkill(name, info, card, nobroadcast) {
-	if (shouldSkipMark(name)) return;
-	return basePlayerMethods.unmarkSkill.apply(this, arguments);
+	return playerMarkSkillInternal.call(this, name, info, card, nobroadcast, true);
 }
 
 /**
@@ -191,12 +200,11 @@ export async function playerReinitCharacter(from, to, log) {
 export function playerSetSeatNum() {
 	basePlayerMethods.setSeatNum.apply(this, arguments);
 	this.seat = this.getSeatNum();
-	game.broadcastAll(function (player) {
-		const actualSeat = player.getSeatNum ? player.getSeatNum() : player.seat;
-		if (!player.node.seat) {
-			player.node.seat = window.decadeUI.element.create("seat", player);
+	game.broadcastAll(player => {
+		const seat = player.getSeatNum?.() ?? player.seat;
+		if (player.node.seat) {
+			player.node.seat.innerHTML = get.cnNumber(seat, true);
 		}
-		player.node.seat.innerHTML = get.cnNumber(actualSeat, true);
 	}, this);
 }
 
@@ -305,29 +313,27 @@ export function playerUpdate() {
 }
 
 /**
- * 使用卡牌覆写
+ * 使用卡牌覆写 - 添加目标高亮效果
  * @returns {Object} 事件对象
  */
 export function playerUseCard() {
 	const event = basePlayerMethods.useCard.apply(this, arguments);
 	playShowCardAudio();
-	const finish = event.finish;
-	event.finish = function () {
-		if (typeof finish === "function") finish.apply(this, arguments);
-		const targets = this.targets;
-		if (Array.isArray(targets)) targets.forEach(target => target.classList.remove("target"));
-	};
-	event.pushHandler("decadeUI_LineAnimation", (event, option) => {
-		if (event.step === 1 && option.state === "begin" && !event.hideTargets) {
-			const targets = event.targets;
-			if (Array.isArray(targets)) targets.forEach(target => target.classList.add("target"));
+	event.pushHandler("decadeUI_TargetHighlight", (event, option) => {
+		if (option.state === "begin" && event.step === 1 && !event.hideTargets) {
+			event.targets?.forEach(target => target.classList.add("target"));
 		}
 	});
+	const originalFinish = event.finish;
+	event.finish = function () {
+		originalFinish?.apply(this, arguments);
+		this.targets?.forEach(target => target.classList.remove("target"));
+	};
 	return event;
 }
 
 /**
- * 打出卡牌覆写
+ * 打出卡牌覆写 - 只添加音效
  * @returns {*} 打出结果
  */
 export function playerRespond() {
@@ -336,14 +342,13 @@ export function playerRespond() {
 }
 
 /**
- * 失去卡牌覆写
+ * 失去卡牌覆写 - 设置动画标记
  * @returns {Object} 事件对象
  */
 export function playerLose() {
 	const next = basePlayerMethods.lose.apply(this, arguments);
-	let event = _status.event;
-	if (event.name === "loseAsync") event = event.getParent();
-	if (event.name == "useCard" || event.name === "respond") {
+	const event = _status.event?.name === "loseAsync" ? _status.event.getParent() : _status.event;
+	if (event?.name === "useCard" || event?.name === "respond") {
 		next.animate = true;
 		next.blameEvent = event;
 	}
@@ -417,11 +422,11 @@ export function playerChangeZhuanhuanji(skill) {
 		}
 	} else {
 		if (mark.dd === true) {
-			this.yingSkill(skill);
+			this.setSkillYinYang(skill, false);
 			mark.dd = false;
 			mark.setBackgroundImage(mark.dk ? yangUrl : defaultYangUrl);
 		} else {
-			this.yangSkill(skill);
+			this.setSkillYinYang(skill, true);
 			mark.dd = true;
 			mark.setBackgroundImage(mark.dk ? yingUrl : defaultYingUrl);
 		}
@@ -429,61 +434,10 @@ export function playerChangeZhuanhuanji(skill) {
 }
 
 /**
- * 尝试技能动画覆写
- * @param {string} name - 技能名
- */
-export function playerTrySkillAnimate(name) {
-	basePlayerMethods.trySkillAnimate.apply(this, arguments);
-	const that = this;
-
-	// AI技能提示条
-	if (lib.config["extension_十周年UI_enable"] && lib.config.extension_十周年UI_jindutiao == true) {
-		if (that != game.me) {
-			const ef = that.getElementsByClassName("tipskill");
-
-			// 移除旧的技能提示
-			if (ef[0]) ef[0].parentNode.removeChild(ef[0]);
-			const tipbanlist = ["_recasting", "jiu"];
-
-			if (!tipbanlist.includes(name) && lib.config.extension_十周年UI_newDecadeStyle != "othersOff" && lib.config.extension_十周年UI_newDecadeStyle != "on") {
-				const tipskillbox = document.createElement("div");
-				const tipskillimg = document.createElement("img");
-				const tipskilltext = document.createElement("div");
-
-				// 盒子样式
-				tipskillbox.classList.add("tipskill");
-				tipskillbox.style.cssText = "display:block;position:absolute;pointer-events:none;z-index:90;--w: 133px;--h: calc(var(--w) * 50/431);width: var(--w);height: var(--h);bottom:0px;";
-
-				// 技能文本
-				tipskilltext.innerHTML = get.skillTranslation(name, that).slice(0, 2);
-				tipskilltext.style.cssText = "color:#ADC63A;text-shadow:#707852 0 0;font-size:11px;font-family:shousha;display:block;position:absolute;z-index:91;bottom:-22px;letter-spacing:1.5px;line-height:15px;left:15px;";
-
-				// 思考中底图
-				tipskillimg.src = lib.assetURL + "extension/十周年UI/ui/assets/lbtn/shoushatip/skilltip.png";
-				tipskillimg.style.cssText = "display:block;position:absolute;z-index:91;--w: 133px;--h: calc(var(--w) * 50/431);width: var(--w);height: var(--h);bottom:-22px;";
-				tipskillbox.appendChild(tipskillimg);
-				tipskillbox.appendChild(tipskilltext);
-				that.appendChild(tipskillbox);
-
-				// 自动移除提示
-				setTimeout(() => {
-					if (tipskillbox.parentNode) tipskillbox.parentNode.removeChild(tipskillbox);
-				}, 1500);
-			}
-		}
-	}
-}
-
-/**
- * 设置模式状态覆写
- * @param {Object} info - 状态信息
- * @returns {*} 设置结果
+ * 设置模式状态覆写 - 座位号节点已在$init中创建
  */
 export function playerSetModeState(info) {
-	if (info?.seat) {
-		if (!this.node.seat) {
-			this.node.seat = window.decadeUI.element.create("seat", this);
-		}
+	if (info?.seat && this.node.seat) {
 		this.node.seat.innerHTML = get.cnNumber(info.seat, true);
 	}
 	return basePlayerMethods.setModeState.apply(this, arguments);
@@ -1162,228 +1116,77 @@ export function playerAddPrefixSeparator(nameNode) {
 }
 
 /**
- * 阳技能覆写
+ * 技能阴阳状态管理
  * @param {string} skill - 技能名
+ * @param {boolean} isYang - true为阳，false为阴
  */
-export function playerYangSkill(skill) {
-	const player = this;
-	game.broadcastAll(
-		function (player, skill) {
-			player.$yangSkill(skill);
-		},
-		player,
-		skill
-	);
+export function playerSetSkillYinYang(skill, isYang) {
+	game.broadcastAll((player, skill, isYang) => player.$setSkillYinYang(skill, isYang), this, skill, isYang);
 }
 
 /**
- * $阳技能覆写
+ * $技能阴阳状态管理
  * @param {string} skill - 技能名
+ * @param {boolean} isYang - true为阳，false为阴
  */
-export function player$YangSkill(skill) {
+export function player$SetSkillYinYang(skill, isYang) {
 	this.yangedSkills ??= [];
-	this.yangedSkills.add(skill);
 	this.yingedSkills ??= [];
-	this.yingedSkills.remove(skill);
+	if (isYang) {
+		this.yangedSkills.add(skill);
+		this.yingedSkills.remove(skill);
+	} else {
+		this.yingedSkills.add(skill);
+		this.yangedSkills.remove(skill);
+	}
 }
 
 /**
- * 阴技能覆写
+ * 技能状态管理（失败/失效）
  * @param {string} skill - 技能名
+ * @param {'fail'|'shixiao'|'unshixiao'} state - 状态类型
  */
-export function playerYingSkill(skill) {
-	const player = this;
-	game.broadcastAll(
-		function (player, skill) {
-			player.$yingSkill(skill);
-		},
-		player,
-		skill
-	);
+export function playerSetSkillState(skill, state) {
+	game.broadcastAll((player, skill, state) => player.$setSkillState(skill, state), this, skill, state);
 }
 
 /**
- * $阴技能覆写
+ * $技能状态管理（失败/失效）
  * @param {string} skill - 技能名
+ * @param {'fail'|'shixiao'|'unshixiao'} state - 状态类型
  */
-export function player$YingSkill(skill) {
-	this.yingedSkills ??= [];
-	this.yingedSkills.add(skill);
-	this.yangedSkills ??= [];
-	this.yangedSkills.remove(skill);
+export function player$SetSkillState(skill, state) {
+	if (state === "fail") {
+		if (this.hiddenSkills.includes(skill) && this !== game.me) return;
+		const mark = this.node.xSkillMarks?.querySelector(`[data-id="${skill}"]`);
+		if (mark) mark.classList.add("fail");
+	} else if (state === "shixiao") {
+		this.shixiaoedSkills ??= [];
+		this.shixiaoedSkills.add(skill);
+	} else if (state === "unshixiao") {
+		this.shixiaoedSkills ??= [];
+		this.shixiaoedSkills.remove(skill);
+	}
 }
 
 /**
- * 失败技能覆写
- * @param {string} skill - 技能名
- */
-export function playerFailSkill(skill) {
-	const player = this;
-	game.broadcastAll(
-		function (player, skill) {
-			player.$failSkill(skill);
-		},
-		player,
-		skill
-	);
-}
-
-/**
- * $失败技能覆写
- * @param {string} skill - 技能名
- */
-export function player$FailSkill(skill) {
-	if (this.hiddenSkills.includes(skill) && this !== game.me) return;
-	const mark = this.node.xSkillMarks.querySelector('[data-id="' + skill + '"]');
-	if (mark) mark.classList.add("fail");
-}
-
-/**
- * 失效技能覆写
- * @param {string} skill - 技能名
- */
-export function playerShixiaoSkill(skill) {
-	const player = this;
-	game.broadcastAll(
-		function (player, skill) {
-			player.$shixiaoSkill(skill);
-		},
-		player,
-		skill
-	);
-}
-
-/**
- * $失效技能覆写
- * @param {string} skill - 技能名
- */
-export function player$ShixiaoSkill(skill) {
-	this.shixiaoedSkills ??= [];
-	this.shixiaoedSkills.add(skill);
-}
-
-/**
- * 解除失效技能覆写
- * @param {string} skill - 技能名
- */
-export function playerUnshixiaoSkill(skill) {
-	const player = this;
-	game.broadcastAll(
-		function (player, skill) {
-			player.$unshixiaoSkill(skill);
-		},
-		player,
-		skill
-	);
-}
-
-/**
- * $解除失效技能覆写
- * @param {string} skill - 技能名
- */
-export function player$UnshixiaoSkill(skill) {
-	this.shixiaoedSkills ??= [];
-	this.shixiaoedSkills.remove(skill);
-}
-
-/**
- * 伤害弹出覆写
+ * 伤害弹出覆写 - 只播放Spine动画，不显示数字
  * @param {number|string} num - 伤害数值
  * @param {string} [nature] - 属性
- * @param {string} [font] - 字体
- * @param {boolean} [nobroadcast] - 是否不广播
  */
-export function playerDamagepop(num, nature, font, nobroadcast) {
-	if (typeof num == "number" || typeof num == "string") {
-		game.addVideo("damagepop", this, [num, nature, font]);
-		if (nobroadcast !== false) {
-			game.broadcast(
-				function (player, num, nature, font) {
-					player.$damagepop(num, nature, font);
-				},
-				this,
-				num,
-				nature,
-				font
-			);
-		}
-		let node;
-		if (this.popupNodeCache && this.popupNodeCache.length) {
-			node = this.popupNodeCache.shift();
-		} else {
-			node = decadeUI.element.create("damage");
-		}
-		if (font) {
-			node.classList.add("normal-font");
-		} else {
-			node.classList.remove("normal-font");
-		}
-		if (typeof num == "number") {
-			node.popupNumber = num;
-			num = "";
-		} else {
-			node.popupNumber = null;
-		}
-		node.innerHTML = num;
-		node.dataset.text = node.textContent || node.innerText;
-		node.nature = nature || "soil";
-		this.damagepopups.push(node);
-	}
-	if (this.damagepopups.length && !this.damagepopLocked) {
-		const node = this.damagepopups.shift();
-		this.damagepopLocked = true;
-		if (this != node.parentNode) this.appendChild(node);
-		const player = this;
-		if (typeof node.popupNumber == "number") {
-			const popupNum = node.popupNumber;
-			if (popupNum < 0) {
-				if (node.nature != "water") {
-					const actionPairs = {
-						thunder: ["play5", "play6"],
-						fire: ["play3", "play4"],
-						__default: ["play1", "play2"],
-					};
-					const pair = actionPairs[node.nature] || actionPairs.__default;
-					const action = popupNum <= -2 ? pair[1] : pair[0];
-					decadeUI.animation.playSpine(
-						{
-							name: "effect_shoujidonghua",
-							action: action,
-						},
-						{
-							scale: 0.8,
-							parent: player,
-						}
-					);
-				}
-			} else {
-				if (node.nature == "wood") {
-					decadeUI.animation.playSpine("effect_zhiliao", {
-						scale: 0.7,
-						parent: player,
-					});
-				}
-			}
-		}
-		node.style.animation = "open-fade-in-out 1.2s";
-		setTimeout(
-			function (player, node) {
-				if (!player.popupNodeCache) player.popupNodeCache = [];
-				node.style.animation = "";
-				player.popupNodeCache.push(node);
-			},
-			1210,
-			player,
-			node
-		);
-		setTimeout(
-			function (player) {
-				player.damagepopLocked = false;
-				player.$damagepop();
-			},
-			500,
-			player
-		);
+export function playerDamagepop(num, nature) {
+	if (typeof num !== "number") return;
+	const player = this;
+	if (num < 0 && nature !== "water") {
+		const actionPairs = {
+			thunder: ["play5", "play6"],
+			fire: ["play3", "play4"],
+			__default: ["play1", "play2"],
+		};
+		const pair = actionPairs[nature] || actionPairs.__default;
+		decadeUI.animation.playSpine({ name: "effect_shoujidonghua", action: num <= -2 ? pair[1] : pair[0] }, { scale: 0.8, parent: player });
+	} else if (num > 0 && nature === "wood") {
+		decadeUI.animation.playSpine("effect_zhiliao", { scale: 0.7, parent: player });
 	}
 }
 
@@ -1400,155 +1203,99 @@ function getDui() {
 }
 
 /**
- * 拼点覆写
- * @param {Object} card1 - 卡牌1
- * @param {Object} target - 目标玩家
- * @param {Object} card2 - 卡牌2
+ * 创建翻牌动画节点
+ * @param {Object} card - 卡牌
+ * @param {Object} owner - 所有者
+ * @param {number} x - X坐标
+ * @param {number} y - Y坐标
+ * @param {number} scale - 缩放
+ * @param {Object} cardsetions - 卡牌信息
+ * @param {number} delay - 延迟
  */
-export function playerCompare(card1, target, card2) {
-	const player = this;
-	let cardsetions;
-	if (lib.config.card_animation_info) {
-		cardsetions = {};
-		cardsetions[player.playerid] = get.cardsetion(player);
-		cardsetions[target.playerid] = get.cardsetion(target);
+function createFlipCard(card, owner, x, y, scale, cardsetions, delay) {
+	const node = card.copy("thrown");
+	node.classList.add("infohidden");
+	node.classList.remove("decade-card");
+	node.style.background = "";
+	node.style.transform = `translate(${x}px, ${y}px) scale(${scale}) perspective(600px) rotateY(180deg)`;
+	ui.arena.appendChild(node);
+	ui.thrown.push(node);
+	if (cardsetions?.[owner.playerid]) {
+		ui.create.div(".cardsetion", cardsetions[owner.playerid], node).style.setProperty("display", "block", "important");
 	}
-	game.broadcast(
-		function (player, target, card1, card2, cardsetions) {
-			player.$compare(card1, target, card2, cardsetions);
-		},
-		this,
-		target,
-		card1,
-		card2,
-		cardsetions
-	);
-	game.addVideo("compare", this, [get.cardInfo(card1), target.dataset.position, get.cardInfo(card2)]);
+	setTimeout(() => {
+		node.style.transition = "all ease-in 0.3s";
+		node.style.transform = `translate(${x}px, ${y}px) scale(${scale}) perspective(600px) rotateY(270deg) translateX(52px)`;
+		node.listenTransition(() => {
+			node.classList.remove("infohidden");
+			if (card.classList.contains("decade-card")) {
+				node.classList.add("decade-card");
+				node.style.background = card.style.background;
+			}
+			node.style.transition = "all 0s";
+			ui.refresh(node);
+			node.style.transform = `translate(${x}px, ${y}px) scale(${scale}) perspective(600px) rotateY(-90deg) translateX(52px)`;
+			ui.refresh(node);
+			node.style.transition = "";
+			ui.refresh(node);
+			node.style.transform = `translate(${x}px, ${y}px) scale(${scale})`;
+		});
+	}, delay);
+	return node;
+}
+
+/**
+ * 获取拼点动画的基础参数
+ */
+function getCompareParams() {
 	const bounds = getDui().boundsCaches.arena;
 	if (!bounds.updated) bounds.update();
-	const scale = bounds.cardScale;
-	const centerX = (bounds.width - bounds.cardWidth) / 2;
-	const centerY = bounds.height * 0.45 - bounds.cardHeight / 2;
-	const leftX = Math.round(centerX - 62);
-	const rightX = Math.round(centerX + 62);
-	const y = Math.round(centerY);
-	const createFlipCard = (card, owner, x, delay) => {
-		const node = card.copy("thrown");
-		node.classList.add("infohidden");
-		node.classList.remove("decade-card");
-		node.style.background = "";
-		node.style.transform = `translate(${x}px, ${y}px) scale(${scale}) perspective(600px) rotateY(180deg)`;
-		ui.arena.appendChild(node);
-		ui.thrown.push(node);
-		if (cardsetions && cardsetions[owner.playerid]) {
-			const setion = ui.create.div(".cardsetion", cardsetions[owner.playerid], node);
-			setion.style.setProperty("display", "block", "important");
-		}
-		setTimeout(() => {
-			node.style.transition = "all ease-in 0.3s";
-			node.style.transform = `translate(${x}px, ${y}px) scale(${scale}) perspective(600px) rotateY(270deg) translateX(52px)`;
-			node.listenTransition(() => {
-				node.classList.remove("infohidden");
-				if (card.classList.contains("decade-card")) {
-					node.classList.add("decade-card");
-					node.style.background = card.style.background;
-				}
-				node.style.transition = "all 0s";
-				ui.refresh(node);
-				node.style.transform = `translate(${x}px, ${y}px) scale(${scale}) perspective(600px) rotateY(-90deg) translateX(52px)`;
-				ui.refresh(node);
-				node.style.transition = "";
-				ui.refresh(node);
-				node.style.transform = `translate(${x}px, ${y}px) scale(${scale})`;
-			});
-		}, delay);
-		return node;
+	return {
+		scale: bounds.cardScale,
+		centerX: (bounds.width - bounds.cardWidth) / 2,
+		y: Math.round(bounds.height * 0.45 - bounds.cardHeight / 2),
 	};
-	createFlipCard(card1, player, leftX, 300);
-	setTimeout(() => {
-		createFlipCard(card2, target, rightX, 200);
-	}, 200);
+}
+
+/**
+ * 收集卡牌信息
+ */
+function collectCardsetions(players) {
+	if (!lib.config.card_animation_info) return null;
+	const cardsetions = {};
+	players.forEach(p => (cardsetions[p.playerid] = get.cardsetion(p)));
+	return cardsetions;
+}
+
+/**
+ * 拼点覆写
+ */
+export function playerCompare(card1, target, card2) {
+	const cardsetions = collectCardsetions([this, target]);
+	game.broadcast((p, t, c1, c2, cs) => p.$compare(c1, t, c2, cs), this, target, card1, card2, cardsetions);
+	game.addVideo("compare", this, [get.cardInfo(card1), target.dataset.position, get.cardInfo(card2)]);
+
+	const { scale, centerX, y } = getCompareParams();
+	createFlipCard(card1, this, Math.round(centerX - 62), y, scale, cardsetions, 300);
+	setTimeout(() => createFlipCard(card2, target, Math.round(centerX + 62), y, scale, cardsetions, 200), 200);
 }
 
 /**
  * 多人拼点覆写
- * @param {Object} card1 - 卡牌1
- * @param {Array} targets - 目标玩家数组
- * @param {Array} cards - 卡牌数组
  */
 export function playerCompareMultiple(card1, targets, cards) {
-	const player = this;
-	let cardsetions;
-	if (lib.config.card_animation_info) {
-		cardsetions = {};
-		cardsetions[player.playerid] = get.cardsetion(player);
-		for (let target of targets) {
-			cardsetions[target.playerid] = get.cardsetion(target);
-		}
-	}
-	game.broadcast(
-		function (player, card1, targets, cards, cardsetions) {
-			player.$compareMultiple(card1, targets, cards, cardsetions);
-		},
-		this,
-		card1,
-		targets,
-		cards,
-		cardsetions
-	);
+	const cardsetions = collectCardsetions([this, ...targets]);
+	game.broadcast((p, c1, ts, cs, cst) => p.$compareMultiple(c1, ts, cs, cst), this, card1, targets, cards, cardsetions);
 	game.addVideo("compareMultiple", this, [get.cardInfo(card1), get.targetsInfo(targets), get.cardsInfo(cards)]);
-	const bounds = getDui().boundsCaches.arena;
-	if (!bounds.updated) bounds.update();
-	const scale = bounds.cardScale;
-	const centerX = (bounds.width - bounds.cardWidth) / 2;
-	const centerY = bounds.height * 0.45 - bounds.cardHeight / 2;
-	const y = Math.round(centerY);
-	const totalCards = targets.length + 1;
+
+	const { scale, centerX, y } = getCompareParams();
 	const spacing = 124;
-	const startX = Math.round(centerX - (spacing * (totalCards - 1)) / 2);
-	const createFlipCard = (card, owner, x, delay) => {
-		const node = card.copy("thrown");
-		node.classList.add("infohidden");
-		node.classList.remove("decade-card");
-		node.style.background = "";
-		node.style.transform = `translate(${x}px, ${y}px) scale(${scale}) perspective(600px) rotateY(180deg)`;
-		ui.arena.appendChild(node);
-		ui.thrown.push(node);
-		if (cardsetions && cardsetions[owner.playerid]) {
-			const setion = ui.create.div(".cardsetion", cardsetions[owner.playerid], node);
-			setion.style.setProperty("display", "block", "important");
-		}
-		setTimeout(() => {
-			node.style.transition = "all ease-in 0.3s";
-			node.style.transform = `translate(${x}px, ${y}px) scale(${scale}) perspective(600px) rotateY(270deg) translateX(52px)`;
-			node.listenTransition(() => {
-				node.classList.remove("infohidden");
-				if (card.classList.contains("decade-card")) {
-					node.classList.add("decade-card");
-					node.style.background = card.style.background;
-				}
-				node.style.transition = "all 0s";
-				ui.refresh(node);
-				node.style.transform = `translate(${x}px, ${y}px) scale(${scale}) perspective(600px) rotateY(-90deg) translateX(52px)`;
-				ui.refresh(node);
-				node.style.transition = "";
-				ui.refresh(node);
-				node.style.transform = `translate(${x}px, ${y}px) scale(${scale})`;
-			});
-		}, delay);
-		return node;
-	};
-	createFlipCard(card1, player, startX, 300);
-	for (let i = 0; i < targets.length; i++) {
-		(index => {
-			setTimeout(
-				() => {
-					createFlipCard(cards[index], targets[index], startX + spacing * (index + 1), 200);
-				},
-				200 * (index + 1)
-			);
-		})(i);
-	}
+	const startX = Math.round(centerX - (spacing * targets.length) / 2);
+
+	createFlipCard(card1, this, startX, y, scale, cardsetions, 300);
+	targets.forEach((target, i) => {
+		setTimeout(() => createFlipCard(cards[i], target, startX + spacing * (i + 1), y, scale, cardsetions, 200), 200 * (i + 1));
+	});
 }
 
 /**
@@ -1769,54 +1516,6 @@ export function playerLine(target, config) {
 }
 
 /**
- * 直接获得卡牌覆写
- * @param {Array} cards - 卡牌数组
- * @param {boolean} [broadcast] - 是否广播
- * @param {*} [gaintag] - 获得标签
- * @returns {Object} 玩家对象
- */
-export function playerDirectgain(cards, broadcast, gaintag) {
-	if (!cards || !cards.length) return;
-	const player = this;
-	const handcards = player.node.handcards1;
-	const fragment = document.createDocumentFragment();
-	if (_status.event.name == "gameDraw") {
-		player.$draw(cards.length);
-	}
-	for (let i = 0; i < cards.length; i++) {
-		const card = cards[i];
-		card.fix();
-		if (card.parentNode == handcards) {
-			cards.splice(i--, 1);
-			continue;
-		}
-		if (gaintag) card.addGaintag(gaintag);
-		fragment.appendChild(card);
-	}
-	if (player == game.me) {
-		getDui().layoutHandDraws(cards);
-		getDui().queueNextFrameTick(getDui().layoutHand, getDui());
-	}
-	const s = player.getCards("s");
-	if (s.length) handcards.insertBefore(fragment, s[0]);
-	else handcards.appendChild(fragment);
-	if (!_status.video) {
-		game.addVideo("directgain", this, get.cardsInfo(cards));
-		this.update();
-	}
-	if (broadcast !== false) {
-		game.broadcast(
-			(player, cards) => {
-				player.directgain(cards);
-			},
-			this,
-			cards
-		);
-	}
-	return this;
-}
-
-/**
  * 阶段判定覆写
  * @param {Object} card - 卡牌
  */
@@ -1861,7 +1560,6 @@ export function playerGain2(cards, log) {
 		clone = cards[i].clone;
 		card = cards[i].copy("thrown", "gainingcard");
 		card.fixed = true;
-		// 非主玩家获得牌根据等阶应用边框和卡背
 		if (player !== game.me) {
 			applyCardBorder(card, player);
 		}

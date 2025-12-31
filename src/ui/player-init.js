@@ -154,6 +154,11 @@ export function createPlayerInit(base) {
 		this._addPrefixSeparator(this.node.name);
 		if (this.doubleAvatar && this.node.name2) this._addPrefixSeparator(this.node.name2);
 
+		// 座位号节点
+		if (!this.node.seat) {
+			this.node.seat = element.create("seat", this);
+		}
+
 		// 冰可乐彩蛋
 		if (lib.config.extension_十周年UI_cardPrettify === "bingkele") {
 			const url = `https://q1.qlogo.cn/g?b=qq&nk=739201322&s=640&t=${Date.now()}`;
