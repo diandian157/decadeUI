@@ -7,7 +7,7 @@ import { lib, game, ui, get, ai, _status } from "noname";
  * 创建脚本元素
  * @param {string} path - 脚本路径
  * @param {boolean} isAsync - 是否异步加载
- * @returns {HTMLScriptElement|null} 创建的script元素，如已存在则返回null
+ * @returns {HTMLScriptElement|Promise<HTMLScriptElement>|null} 创建的script元素，如已存在则返回null
  */
 export function createScriptElement(path, isAsync = false) {
 	if (document.querySelector(`script[src*="${path}"]`)) return null;
@@ -18,14 +18,25 @@ export function createScriptElement(path, isAsync = false) {
 	if (isAsync) {
 		script.async = true;
 		script.defer = true;
+		script.src = `${path}?v=${version}&t=${Date.now()}`;
+		script.onload = () => script.remove();
+		script.onerror = () => script.remove();
+		document.head.appendChild(script);
+		return script;
 	}
 
-	script.src = `${path}?v=${version}&t=${Date.now()}`;
-	script.onload = () => script.remove();
-	script.onerror = () => script.remove();
-	document.head.appendChild(script);
-
-	return script;
+	return new Promise((resolve, reject) => {
+		script.src = `${path}?v=${version}&t=${Date.now()}`;
+		script.onload = () => {
+			script.remove();
+			resolve(script);
+		};
+		script.onerror = () => {
+			script.remove();
+			reject(new Error(`Failed to load script: ${path}`));
+		};
+		document.head.appendChild(script);
+	});
 }
 
 /**

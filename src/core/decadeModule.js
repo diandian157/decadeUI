@@ -89,9 +89,9 @@ export function initDecadeModule() {
 
 	/**
 	 * 初始化模块
-	 * @returns {Object} this
+	 * @returns {Promise<Object>} this
 	 */
-	module.init = function () {
+	module.init = async function () {
 		const cssFiles = ["src/styles/extension.css", "src/styles/decadeLayout.css", "src/styles/card.css", "src/styles/meihua.css"];
 		cssFiles.forEach(path => this.css(`${decadeUIPath}${path}`));
 
@@ -106,7 +106,8 @@ export function initDecadeModule() {
 			ui.css.decadeMenu = this.css(`${decadeUIPath}src/styles/menu.css`);
 		}
 
-		this.js(`${decadeUIPath}src/libs/spine.js`);
+		// 同步等待 spine.js 加载完成
+		await this.js(`${decadeUIPath}src/libs/spine.js`);
 
 		const currentMode = get.mode();
 		const isPhoneLayout = lib.config.phonelayout;

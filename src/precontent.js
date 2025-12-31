@@ -21,7 +21,7 @@ export async function precontent() {
 	initNodeFS();
 	setupLayoutVisualMenu();
 
-	window.decadeModule = initDecadeModule();
+	window.decadeModule = await initDecadeModule();
 
 	setupConnectMode();
 	initApp();
