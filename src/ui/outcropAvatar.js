@@ -45,6 +45,49 @@ const requestQueue = {
 export const getOutcropStyle = () => lib.config?.extension_十周年UI_outcropSkin ?? "off";
 
 /**
+ * 从武将的 img 属性中提取实际的武将名称
+ * 例如: "image/character/yj_puyuan.jpg" -> "yj_puyuan"
+ * 支持jpg、png、webp、gif格式
+ * @param {string} imgPath - 图片路径
+ * @returns {string|null}
+ */
+function extractCharacterNameFromImg(imgPath) {
+	if (!imgPath || typeof imgPath !== "string") return null;
+	const match = imgPath.match(/image\/character\/([^\/]+)\.(jpg|png|webp|gif)$/i);
+	return match ? match[1] : null;
+}
+
+/**
+ * 获取武将用于露头图查找的实际名称
+ * 优先使用武将的 img 属性中指定的名称，否则使用武将本身的名称
+ * @param {string} characterName - 武将名称
+ * @returns {string}
+ */
+export function getOutcropCharacterName(characterName) {
+	if (!characterName) return characterName;
+
+	const characterInfo = lib.character?.[characterName];
+	if (!characterInfo) return characterName;
+
+	let imgPath = null;
+	if (Array.isArray(characterInfo)) {
+		const ext = characterInfo[4];
+		if (ext && typeof ext === "object" && ext.img) {
+			imgPath = ext.img;
+		}
+	} else if (typeof characterInfo === "object" && characterInfo.img) {
+		imgPath = characterInfo.img;
+	}
+
+	if (imgPath) {
+		const extractedName = extractCharacterNameFromImg(imgPath);
+		if (extractedName) return extractedName;
+	}
+
+	return characterName;
+}
+
+/**
  * 获取武将露头图片路径
  * @param {string} characterName - 武将名称
  * @param {string} [outcropStyle] - 露头样式
@@ -55,7 +98,9 @@ export function getOutcropImagePath(characterName, outcropStyle) {
 	if (!outcropStyle || outcropStyle === "off" || !OUTCROP_PATHS[outcropStyle]) {
 		return null;
 	}
-	return `${lib.assetURL}${OUTCROP_PATHS[outcropStyle]}${characterName}.jpg`;
+
+	const actualName = getOutcropCharacterName(characterName);
+	return `${lib.assetURL}${OUTCROP_PATHS[outcropStyle]}${actualName}.jpg`;
 }
 
 /**
