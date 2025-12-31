@@ -3,7 +3,7 @@
  * 支持懒加载和请求节流，避免大量并发请求导致卡顿
  */
 
-import { lib, game, ui, get, ai, _status } from "noname";
+import { lib, game } from "noname";
 
 /** @type {Record<string, string>} 露头样式对应的图片目录 */
 const OUTCROP_PATHS = {
@@ -45,21 +45,38 @@ const requestQueue = {
 export const getOutcropStyle = () => lib.config?.extension_十周年UI_outcropSkin ?? "off";
 
 /**
- * 从武将的 img 属性中提取实际的武将名称
- * 例如: "image/character/yj_puyuan.jpg" -> "yj_puyuan"
- * 支持jpg、png、webp、gif格式
- * @param {string} imgPath - 图片路径
+ * 解析武将图片引用，提取实际武将名称
+ * 支持格式:
+ * 1. 图片路径: "image/character/yj_puyuan.jpg" -> "yj_puyuan"
+ * 2. 武将引用: "character:xurong" -> "xurong"
+ * @param {string} ref - 图片路径或武将引用
  * @returns {string|null}
  */
-function extractCharacterNameFromImg(imgPath) {
-	if (!imgPath || typeof imgPath !== "string") return null;
-	const match = imgPath.match(/image\/character\/([^\/]+)\.(jpg|png|webp|gif)$/i);
+function parseCharacterRef(ref) {
+	if (!ref || typeof ref !== "string") return null;
+	if (ref.startsWith("character:")) return ref.slice(10);
+	const match = ref.match(/image\/character\/([^\/]+)\.(jpg|png|webp|gif)$/i);
 	return match ? match[1] : null;
 }
 
 /**
+ * 从武将扩展信息数组中查找 character:xxx 引用
+ * @param {Array} extArray - 扩展信息数组
+ * @returns {string|null}
+ */
+function findCharacterRefInArray(extArray) {
+	if (!Array.isArray(extArray)) return null;
+	for (const item of extArray) {
+		if (typeof item === "string" && item.startsWith("character:")) {
+			return item.slice(10);
+		}
+	}
+	return null;
+}
+
+/**
  * 获取武将用于露头图查找的实际名称
- * 优先使用武将的 img 属性中指定的名称，否则使用武将本身的名称
+ * 优先级: img属性 > trashBin中的character引用 > 武将本身名称
  * @param {string} characterName - 武将名称
  * @returns {string}
  */
@@ -69,20 +86,13 @@ export function getOutcropCharacterName(characterName) {
 	const characterInfo = lib.character?.[characterName];
 	if (!characterInfo) return characterName;
 
-	let imgPath = null;
-	if (Array.isArray(characterInfo)) {
-		const ext = characterInfo[4];
-		if (ext && typeof ext === "object" && ext.img) {
-			imgPath = ext.img;
-		}
-	} else if (typeof characterInfo === "object" && characterInfo.img) {
-		imgPath = characterInfo.img;
+	if (characterInfo.img) {
+		const name = parseCharacterRef(characterInfo.img);
+		if (name) return name;
 	}
 
-	if (imgPath) {
-		const extractedName = extractCharacterNameFromImg(imgPath);
-		if (extractedName) return extractedName;
-	}
+	const refName = findCharacterRefInArray(characterInfo.trashBin);
+	if (refName) return refName;
 
 	return characterName;
 }
