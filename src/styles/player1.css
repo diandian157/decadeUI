@@ -836,7 +836,7 @@
 	top: 26px;
 	right: -5px;
 	width: auto;
-	height: 85px;
+	height: 80px;
 	flex-direction: column;
 	flex-wrap: wrap-reverse;
 	align-content: flex-end;
@@ -850,8 +850,8 @@
 	justify-content: center;
 	width: fit-content;
 	min-width: 40px;
-	height: 26px;
-	padding: 0 6px;
+	height: 24px;
+	padding: 0 4px;
 	margin-bottom: -8px;
 	white-space: nowrap;
 	background: none;
@@ -878,39 +878,27 @@
 	color: #ffd700;
 }
 
-#arena[data-player-mark-style="decade"] > .player > .dui-marks > .mark > .mark-text {
+#arena[data-player-mark-style="decade"] > .player > .dui-marks > .mark > .mark-text,
+#arena[data-player-mark-style="decade"] > .player > .dui-marks > .mark > .mark-count {
 	display: inline;
 	position: static;
 	width: auto;
 	height: auto;
-	line-height: 18px;
-	font-size: 15px;
-	font-family: yuanli;
 	color: white;
 	border-radius: 0;
-	background-image: none;
+	background: none;
 	box-shadow: none;
+}
+
+#arena[data-player-mark-style="decade"] > .player > .dui-marks > .mark > .mark-text {
+	line-height: 18px;
+	font-size: 12px;
+	font-family: yuanli;
 	animation: none;
 }
 
 #arena[data-player-mark-style="decade"] > .player > .dui-marks > .mark > .mark-text::before {
 	display: none;
-}
-
-#arena[data-player-mark-style="decade"] > .player > .dui-marks > .mark > .mark-count {
-	display: inline;
-	position: static;
-	padding: 3px 0;
-	width: auto;
-	height: auto;
-	line-height: 18px;
-	font-size: 12px;
-	font-weight: inherit;
-	color: white;
-	text-shadow: none;
-	border-radius: 0;
-	background: none;
-	box-shadow: none;
 }
 
 /* 标记样式 */
