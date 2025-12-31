@@ -1,6 +1,7 @@
 /**
  * @fileoverview 覆写模块入口 - 统一管理所有覆写
  */
+import { lib, game, ui, get, ai, _status } from "noname";
 
 export * from "./control.js";
 export * from "./dialog.js";

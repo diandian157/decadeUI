@@ -3,6 +3,7 @@
 /**
  * @fileoverview 动画工具函数模块，提供节流、尺寸观察、插值等通用功能
  */
+import { lib, game, ui, get, ai, _status } from "noname";
 
 /**
  * 节流函数 - 限制函数执行频率

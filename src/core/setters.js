@@ -1,6 +1,7 @@
 /**
  * @fileoverview decadeUI.set模块，提供各种设置器方法
  */
+import { lib, game, ui, get, ai, _status } from "noname";
 
 /**
  * 创建decadeUI.set模块

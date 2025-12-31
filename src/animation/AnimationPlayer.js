@@ -3,7 +3,7 @@
 /**
  * @fileoverview Spine动画播放器核心渲染引擎，负责WebGL渲染和骨骼动画管理
  */
-
+import { lib, game, ui, get, ai, _status } from "noname";
 import { APNode } from "./APNode.js";
 
 /**

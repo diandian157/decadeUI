@@ -3,7 +3,7 @@
 /**
  * @fileoverview 动画播放节点模块，管理单个骨骼动画的状态、变换和时间步进
  */
-
+import { lib, game, ui, get, ai, _status } from "noname";
 import { TimeStep } from "./TimeStep.js";
 import { useNewDpr } from "./utils.js";
 

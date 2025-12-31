@@ -1,6 +1,7 @@
 /**
  * @fileoverview 样式表模块，提供CSS样式表的查询和操作功能
  */
+import { lib, game, ui, get, ai, _status } from "noname";
 
 /**
  * 创建sheet模块

@@ -1,6 +1,7 @@
 /**
  * @fileoverview 尺寸监听器模块，提供元素尺寸变化检测功能
  */
+import { lib, game, ui, get, ai, _status } from "noname";
 
 /**
  * 创建ResizeSensor类

@@ -3,7 +3,7 @@
  * 支持懒加载和请求节流，避免大量并发请求导致卡顿
  */
 
-import { lib, game } from "noname";
+import { lib, game, ui, get, ai, _status } from "noname";
 
 /** @type {Record<string, string>} 露头样式对应的图片目录 */
 const OUTCROP_PATHS = {

@@ -3,6 +3,7 @@
 /**
  * @fileoverview 缓动函数模块，提供三次贝塞尔曲线缓动实现
  */
+import { lib, game, ui, get, ai, _status } from "noname";
 
 /**
  * 三次贝塞尔缓动曲线类

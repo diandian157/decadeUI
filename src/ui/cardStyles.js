@@ -1,7 +1,7 @@
 /**
  * @fileoverview 卡牌样式模块，包含卡牌边框和卡牌背景样式管理
  */
-import { lib, _status } from "noname";
+import { lib, game, ui, get, ai, _status } from "noname";
 
 // ==================== 动态样式元素引用 ====================
 

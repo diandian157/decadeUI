@@ -3,7 +3,7 @@
 /**
  * @fileoverview 动态播放器模块，支持OffscreenCanvas的高性能Spine动画播放器
  */
-
+import { lib, game, ui, get, ai, _status } from "noname";
 import { AnimationPlayer } from "./AnimationPlayer.js";
 import { throttle, observeSize } from "./utils.js";
 

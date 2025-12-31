@@ -3,7 +3,7 @@
  * 在玩家头像旁显示技能列表，支持点击查看技能描述
  */
 
-import { lib, game, get, _status } from "noname";
+import { lib, game, ui, get, ai, _status } from "noname";
 import { isDoubleCharacterMode } from "./characterBackground.js";
 
 /**

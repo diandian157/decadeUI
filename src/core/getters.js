@@ -1,6 +1,7 @@
 /**
  * @fileoverview decadeUI.get模块，提供各种获取器方法
  */
+import { lib, game, ui, get, ai, _status } from "noname";
 import { CubicBezierEase, lerp } from "../animation/index.js";
 
 /** @type {Set<string>} 负面效果卡牌集合 */

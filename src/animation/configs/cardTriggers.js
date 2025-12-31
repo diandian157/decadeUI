@@ -4,6 +4,8 @@
  * @fileoverview 卡牌触发器配置，定义装备和延时锦囊的特效触发逻辑
  */
 
+import { lib, game, ui, get, ai, _status } from "noname";
+
 /**
  * 卡牌触发器配置对象
  * @type {Object.<string, {onEquip?: Function, onLose?: Function, effect?: Function}>}

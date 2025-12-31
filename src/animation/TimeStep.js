@@ -3,7 +3,7 @@
 /**
  * @fileoverview 时间步进器模块，提供动画属性的平滑过渡控制
  */
-
+import { lib, game, ui, get, ai, _status } from "noname";
 import { ease } from "./easing.js";
 import { lerp } from "./utils.js";
 

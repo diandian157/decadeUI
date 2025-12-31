@@ -3,7 +3,7 @@
 /**
  * @fileoverview 动画播放器对象池，管理多个AnimationPlayer实例以提高性能
  */
-
+import { lib, game, ui, get, ai, _status } from "noname";
 import { AnimationPlayer } from "./AnimationPlayer.js";
 
 /**
