@@ -20,10 +20,10 @@ export function getAvailableSkills(ui) {
  * 更新技能可用状态
  * @param {NodeList|Array} nodes 技能节点列表
  * @param {Array} availableSkills 可用技能ID列表
- * @param {Object} context { game, get, _status }
+ * @param {Object} context { lib, game, ui, get, ai, _status }
  */
 export function updateSkillUsability(nodes, availableSkills, context) {
-	const { game, get, _status } = context;
+	const { lib, game, ui, get, ai, _status } = context;
 
 	Array.from(nodes).forEach(item => {
 		const skillId = item.dataset.id;
@@ -52,11 +52,11 @@ export function isGSkillCacheSame(cachedSkills, newSkills) {
  * 检查技能是否应该跳过（装备技能过滤）
  * @param {string} skillId 技能ID
  * @param {Array} eSkills 装备技能列表
- * @param {Object} context { lib, game }
+ * @param {Object} context { lib, game, ui, get, ai, _status }
  * @returns {boolean}
  */
 export function shouldSkipEquipSkill(skillId, eSkills, context) {
-	const { lib, game } = context;
+	const { lib, game, ui, get, ai, _status } = context;
 	if (lib.config["extension_十周年UI_aloneEquip"] && eSkills?.length) {
 		return game.expandSkills(eSkills.slice()).includes(skillId);
 	}

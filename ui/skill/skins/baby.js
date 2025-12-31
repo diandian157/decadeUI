@@ -171,7 +171,7 @@ export function createBabySkillPlugin(lib, game, ui, get, ai, _status, app) {
 					const info = get.info(skillId);
 					if (!info) return;
 
-					if (shouldSkipEquipSkill(skillId, eSkills, { lib, game })) return;
+					if (shouldSkipEquipSkill(skillId, eSkills, { lib, game, ui, get, ai, _status })) return;
 
 					const skillName = get.translation(skillId).slice(0, 2);
 					const cls = info.limited ? ".xiandingji.enable-skill" : ".skillitem.enable-skill";
@@ -356,7 +356,7 @@ export function createBabySkillPlugin(lib, game, ui, get, ai, _status, app) {
 					combinedNodes.forEach(node => this.node.combined.appendChild(node));
 				}
 
-				updateSkillUsability(this.node.combined.childNodes, skills, { game, get, _status });
+				updateSkillUsability(this.node.combined.childNodes, skills, { lib, game, ui, get, ai, _status });
 
 				const count = this.node.combined.childNodes.length;
 				const level = count > 2 ? 4 : count > 0 ? 2 : 0;

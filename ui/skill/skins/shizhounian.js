@@ -216,7 +216,7 @@ export function createShizhounianSkillPlugin(lib, game, ui, get, ai, _status, ap
 					const info = get.info(skillId);
 					if (!info) return;
 
-					if (shouldSkipEquipSkill(skillId, eSkills, { lib, game })) return;
+					if (shouldSkipEquipSkill(skillId, eSkills, { lib, game, ui, get, ai, _status })) return;
 
 					const skillName = get.translation(skillId).slice(0, 2);
 					const cls = info.limited ? ".xiandingji" : ".skillitem";
@@ -239,7 +239,7 @@ export function createShizhounianSkillPlugin(lib, game, ui, get, ai, _status, ap
 
 			update() {
 				const availableSkills = getAvailableSkills(ui);
-				updateSkillUsability(this.node.enable.childNodes, availableSkills, { game, get, _status });
+				updateSkillUsability(this.node.enable.childNodes, availableSkills, { lib, game, ui, get, ai, _status });
 			},
 		},
 
@@ -262,7 +262,7 @@ export function createShizhounianSkillPlugin(lib, game, ui, get, ai, _status, ap
 					const info = get.info(skillId);
 					if (!info) return;
 
-					if (shouldSkipEquipSkill(skillId, eSkills, { lib, game })) return;
+					if (shouldSkipEquipSkill(skillId, eSkills, { lib, game, ui, get, ai, _status })) return;
 
 					const skillName = get.translation(skillId).slice(0, 2);
 					const cls = info.limited ? ".xiandingji" : ".skillitem";
@@ -363,7 +363,7 @@ export function createShizhounianSkillPlugin(lib, game, ui, get, ai, _status, ap
 				const skills = getAvailableSkills(ui);
 				if (lib.config.phonelayout && ui.gskills?.skills) skills.addArray(ui.gskills.skills);
 
-				updateSkillUsability(this.node.enable.childNodes, skills, { game, get, _status });
+				updateSkillUsability(this.node.enable.childNodes, skills, { lib, game, ui, get, ai, _status });
 
 				const level1 = Math.min(4, this.node.trigger.childNodes.length);
 				const count = this.node.enable.childNodes.length;

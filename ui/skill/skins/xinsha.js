@@ -258,7 +258,7 @@ export function createXinshaSkillPlugin(lib, game, ui, get, ai, _status, app) {
 					const info = get.info(skillId);
 					if (!info) return;
 
-					if (shouldSkipEquipSkill(skillId, eSkills, { lib, game })) return;
+					if (shouldSkipEquipSkill(skillId, eSkills, { lib, game, ui, get, ai, _status })) return;
 
 					const skillName = get.translation(skillId).slice(0, 2);
 					const isLimited = info.limited;
@@ -326,7 +326,7 @@ export function createXinshaSkillPlugin(lib, game, ui, get, ai, _status, app) {
 					const info = get.info(skillId);
 					if (!info) return;
 
-					if (shouldSkipEquipSkill(skillId, eSkills, { lib, game })) return;
+					if (shouldSkipEquipSkill(skillId, eSkills, { lib, game, ui, get, ai, _status })) return;
 
 					const skillName = get.translation(skillId).slice(0, 2);
 					const isLimited = info.limited;
