@@ -2,45 +2,92 @@
 
 /**
  * @fileoverview 独立装备模式
- * 装备牌保持在装备区，可直接点击发动技能
+ * 装备牌可直接点击发动技能
+ * 适配虚拟装备和武将牌装备
  */
 
-import { lib, game, ui, get, ai, _status } from "noname";
+import { lib, game, ui, get, _status } from "noname";
 
-/**
- * 获取装备牌可用技能
- * @param {Object} event - 当前事件
- * @param {Object} player - 玩家对象
- * @returns {string[]} 可用技能列表
- */
-function getUsableSkills(event, player) {
-	if (!event._skillChoice) return [];
-	const owned = game.expandSkills(player.getSkills("invisible", false));
-	return event._skillChoice.filter(s => !owned.includes(s) && !lib.skill.global.includes(s));
-}
+/** @param {string} skill */
+const isEquipSkill = skill => lib.skill[skill]?.equipSkill === true;
+
+/** @param {string} skill */
+const getSourceSkill = skill => lib.skill[skill]?.sourceSkill;
+
+/** @param {import("noname").Player} player */
+const getEquipNodes = player => (player?.node?.equips ? Array.from(player.node.equips.childNodes) : []);
 
 /**
- * 获取卡牌附带技能
- * @param {Object} card - 卡牌对象
- * @returns {string[]} 技能列表
+ * @param {string} cardName
+ * @returns {string[]}
  */
-function getCardSkills(card) {
-	const info = get.info(card);
+function getCardSkills(cardName) {
+	const info = lib.card[cardName];
 	return info?.skills ? game.expandSkills(info.skills.slice()) : [];
 }
 
 /**
- * 处理装备技能点击
- * @param {string} skill - 技能名称
+ * 获取所有装备区卡牌的技能集合
+ * @param {import("noname").Player} player
+ * @returns {Set<string>}
  */
+function getAllEquipCardSkills(player) {
+	const skills = new Set();
+	for (const card of player.getCards("e")) {
+		for (const s of getCardSkills(card.name)) {
+			skills.add(s);
+		}
+	}
+	return skills;
+}
+
+/**
+ * 获取可用的装备相关技能
+ * @param {import("noname").GameEvent} event
+ * @param {import("noname").Player} player
+ * @returns {string[]}
+ */
+function getUsableEquipSkills(event, player) {
+	if (!event._skillChoice) return [];
+	const equipCardSkills = getAllEquipCardSkills(player);
+	return event._skillChoice.filter(s => isEquipSkill(s) || equipCardSkills.has(s));
+}
+
+/**
+ * 匹配虚拟装备的可用技能
+ * @param {[string, string, Function?]} extraEquipInfo - [sourceSkill, equipName, preserve]
+ * @param {string[]} usableSkills
+ * @returns {string[]}
+ */
+function matchExtraEquipSkills(extraEquipInfo, usableSkills) {
+	if (!extraEquipInfo) return [];
+	const [sourceSkill, equipName] = extraEquipInfo;
+
+	const bySource = usableSkills.filter(s => getSourceSkill(s) === sourceSkill);
+	if (bySource.length) return bySource;
+
+	return equipName ? getCardSkills(equipName).filter(s => usableSkills.includes(s)) : [];
+}
+
+/**
+ * 匹配真实装备的可用技能
+ * @param {import("noname").Card} card
+ * @param {string[]} usableSkills
+ * @returns {string[]}
+ */
+function matchRealEquipSkills(card, usableSkills) {
+	return getCardSkills(card.name).filter(s => usableSkills.includes(s));
+}
+
+/** @param {string} skill */
 function handleClick(skill) {
 	clearSelectable();
 	ui.click.skill(skill);
 }
 
 /**
- * 显示技能选择弹窗
- * @param {string[]} skills - 技能列表
+ * 多技能选择弹窗
+ * @param {string[]} skills
  */
 function showSelector(skills) {
 	if (ui._equipSkillDialog) {
@@ -51,10 +98,11 @@ function showSelector(skills) {
 	const dialog = ui.create.dialog("选择要发动的技能", "hidden");
 	ui._equipSkillDialog = dialog;
 
+	const eventType = lib.config.touchscreen ? "touchend" : "click";
 	for (const skill of skills) {
-		const item = dialog.add('<div class="popup text pointerdiv" style="width:calc(100% - 10px);display:inline-block">' + get.skillTranslation(skill, game.me, true) + "</div>");
+		const item = dialog.add(`<div class="popup text pointerdiv" style="width:calc(100% - 10px);display:inline-block">${get.skillTranslation(skill, game.me, true)}</div>`);
 		item.firstChild.link = skill;
-		item.firstChild.addEventListener(lib.config.touchscreen ? "touchend" : "click", function (ev) {
+		item.firstChild.addEventListener(eventType, function (ev) {
 			ev.stopPropagation();
 			dialog.close();
 			delete ui._equipSkillDialog;
@@ -67,27 +115,27 @@ function showSelector(skills) {
 	dialog.open();
 }
 
-/**
- * 清除装备牌可选状态
- */
+/** 清除装备可选状态 */
 function clearSelectable() {
 	if (!game.me) return;
-	for (const card of game.me.getCards("e")) {
-		if (!card.classList.contains("selected")) {
-			card.classList.remove("selectable");
+	for (const node of getEquipNodes(game.me)) {
+		if (!node.classList.contains("selected")) {
+			node.classList.remove("selectable");
 		}
-		card.classList.remove("equip-card-selectable");
-		delete card._equipSkills;
+		node.classList.remove("equip-card-selectable");
+		delete node._equipSkills;
 	}
 }
 
 /**
- * 设置装备牌可选状态（弃牌等操作）
- * @param {Object} event - 当前事件
- * @param {Object} player - 玩家对象
+ * 设置弃牌时的装备可选状态
+ * @param {import("noname").GameEvent} event
+ * @param {import("noname").Player} player
  */
-function setupSelection(event, player) {
-	if (typeof event?.position !== "string" || !event.position.includes("e") || ui.selected.cards.length >= get.select(event.selectCard)[1]) return;
+function setupDiscardSelection(event, player) {
+	const pos = event?.position;
+	if (typeof pos !== "string" || !pos.includes("e")) return;
+	if (ui.selected.cards.length >= get.select(event.selectCard)[1]) return;
 
 	for (const card of player.getCards("e")) {
 		if (event.filterCard?.(card, player, event)) {
@@ -98,16 +146,42 @@ function setupSelection(event, player) {
 }
 
 /**
- * 初始化独立装备模式
+ * 为装备区绑定技能
+ * @param {import("noname").Player} player
+ * @param {string[]} usableSkills
  */
+function bindEquipSkills(player, usableSkills) {
+	for (const node of getEquipNodes(player)) {
+		let matched = [];
+
+		if (node.extraEquip) {
+			matched = matchExtraEquipSkills(node.extraEquip, usableSkills);
+		} else if (get.position(node) === "e") {
+			matched = matchRealEquipSkills(node, usableSkills);
+		}
+
+		if (matched.length) {
+			node.classList.add("selectable");
+			node._equipSkills = matched;
+		}
+	}
+}
+
+/** 初始化独立装备模式 */
 export function setupEquipAlone() {
-	// 重写卡牌点击事件
 	const originalClick = ui.click.card;
+
 	ui.click.card = function () {
-		if (lib.config["extension_十周年UI_aloneEquip"] && this._equipSkills?.length && this.classList.contains("selectable") && get.position(this) === "e") {
+		const enabled = lib.config["extension_十周年UI_aloneEquip"];
+		const hasSkills = this._equipSkills?.length;
+		const isSelectable = this.classList.contains("selectable");
+		const isEquip = get.position(this) === "e" || this.extraEquip;
+
+		if (enabled && hasSkills && isSelectable && isEquip) {
 			_status.clicked = true;
 			_status.touchnocheck = false;
 			_status.mousedown = false;
+
 			if (this._equipSkills.length === 1) {
 				handleClick(this._equipSkills[0]);
 			} else {
@@ -118,33 +192,21 @@ export function setupEquipAlone() {
 		return originalClick.apply(this, arguments);
 	};
 
-	// 检查结束：设置装备牌状态
 	lib.hooks.checkEnd.add(event => {
 		if (!lib.config["extension_十周年UI_aloneEquip"]) return;
 
 		const player = event.player;
-		// 必须是自己的事件，且不是 AI 自动操作
 		if (player !== game.me || !event.isMine?.() || _status.auto) return;
 
-		const equips = player.getCards("e");
-		if (!equips.length) return;
-
 		clearSelectable();
-		setupSelection(event, player);
+		setupDiscardSelection(event, player);
 
-		const usable = getUsableSkills(event, player);
+		const usable = getUsableEquipSkills(event, player);
 		if (!usable.length) return;
 
-		for (const card of equips) {
-			const matched = getCardSkills(card).filter(s => usable.includes(s));
-			if (matched.length) {
-				card.classList.add("selectable");
-				card._equipSkills = matched;
-			}
-		}
+		bindEquipSkills(player, usable);
 	});
 
-	// 取消选择：清理弹窗和状态
 	lib.hooks.uncheckBegin.add(() => {
 		if (!lib.config["extension_十周年UI_aloneEquip"]) return;
 

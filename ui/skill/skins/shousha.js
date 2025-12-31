@@ -100,10 +100,30 @@ export function createShoushaSkillPlugin(lib, game, ui, get, ai, _status, app) {
 			});
 		},
 
+		// 获取虚拟装备的技能
+		_getExtraEquipSkills(player) {
+			const skills = [];
+			if (!player?.extraEquip?.length) return skills;
+			for (const [sourceSkill, equipName] of player.extraEquip) {
+				const info = lib.skill[sourceSkill];
+				if (info?.group) {
+					const groups = Array.isArray(info.group) ? info.group : [info.group];
+					groups.forEach(g => {
+						if (lib.skill[g]?.equipSkill) skills.push(g);
+					});
+				}
+				if (equipName && lib.card[equipName]?.skills) {
+					skills.push(...lib.card[equipName].skills);
+				}
+			}
+			return skills;
+		},
+
 		// 扩展ui
 		_extendUI() {
 			ui.updateSkillControl = (player, clear) => {
 				const eSkills = player.getSkills("e", true, false).slice(0);
+				eSkills.addArray(plugin._getExtraEquipSkills(player));
 				let skills = player.getSkills("invisible", null, false);
 
 				// 过滤nopop技能
