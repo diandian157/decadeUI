@@ -65,8 +65,23 @@ export function registerDecadeUIHooks() {
 		if (["_recasting", "jiu"].includes(name) || style === "othersOff" || style === "on") return;
 
 		const box = document.createElement("div");
+		const img = document.createElement("img");
+		const text = document.createElement("div");
+
+		// 盒子样式
 		box.className = "tipskill";
-		box.innerHTML = `<img src="${lib.assetURL}extension/十周年UI/ui/assets/lbtn/shoushatip/skilltip.png"><div>${get.skillTranslation(name, player).slice(0, 2)}</div>`;
+		box.style.cssText = "display:block;position:absolute;pointer-events:none;z-index:90;--w: 133px;--h: calc(var(--w) * 50/431);width: var(--w);height: var(--h);bottom:0px;";
+
+		// 技能文本
+		text.innerHTML = get.skillTranslation(name, player).slice(0, 2);
+		text.style.cssText = "color:#ADC63A;text-shadow:#707852 0 0;font-size:11px;font-family:shousha;display:block;position:absolute;z-index:91;bottom:-22px;letter-spacing:1.5px;line-height:15px;left:15px;";
+
+		// 思考中底图
+		img.src = lib.assetURL + "extension/十周年UI/ui/assets/lbtn/shoushatip/skilltip.png";
+		img.style.cssText = "display:block;position:absolute;z-index:91;--w: 133px;--h: calc(var(--w) * 50/431);width: var(--w);height: var(--h);bottom:-22px;";
+
+		box.appendChild(img);
+		box.appendChild(text);
 		player.appendChild(box);
 		setTimeout(() => box.remove(), 1500);
 	});
