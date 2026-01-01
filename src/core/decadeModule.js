@@ -128,6 +128,9 @@ export function initDecadeModule() {
 			}
 		}
 
+		// 初始化亮将钩子
+		this.prefixMark.setupShowCharacterHook();
+
 		return this;
 	};
 

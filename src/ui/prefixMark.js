@@ -195,6 +195,27 @@ const getMarkClassName = name => `${name}-mark`;
  */
 const getPropertyName = name => `${name}Mark`;
 
+/**
+ * 检查武将是否已亮将
+ * @param {HTMLElement} playerElement - 玩家元素
+ * @param {string} character - 武将名称
+ * @returns {boolean} 是否已亮将
+ */
+const isCharacterRevealed = (playerElement, character) => {
+	// 国战模式特殊处理：初始化时unseen class还没添加，需要检查游戏状态
+	if (get.mode() === "guozhan") {
+		if (!_status.gameStarted) return false;
+
+		if (typeof playerElement?.isUnseen === "function") {
+			if (playerElement.name1 === character) return !playerElement.isUnseen(0);
+			if (playerElement.name2 === character) return !playerElement.isUnseen(1);
+			if (playerElement.name === character) return !playerElement.isUnseen(0);
+		}
+		return false;
+	}
+	return true; // 非国战模式，视为已亮
+};
+
 // ==================== 导出模块 ====================
 
 export const prefixMarkModule = {
@@ -280,9 +301,13 @@ export const prefixMarkModule = {
 	 * 显示武将前缀标记
 	 * @param {string} character - 武将名称
 	 * @param {HTMLElement} playerElement - 玩家元素
+	 * @param {boolean} [forceShow] - 强制显示（跳过亮将检测）
 	 */
-	showPrefixMark(character, playerElement) {
+	showPrefixMark(character, playerElement, forceShow = false) {
 		if (!this.shouldShowPrefixMark()) return;
+
+		// 检查武将是否已亮将
+		if (!forceShow && !isCharacterRevealed(playerElement, character)) return;
 
 		const config = this.getPrefixConfig(character);
 		if (!config) return;
@@ -317,5 +342,39 @@ export const prefixMarkModule = {
 				delete playerElement[property];
 			}
 		});
+	},
+
+	/**
+	 * 初始化亮将钩子
+	 * 监听亮将事件，在武将亮出后显示前缀角标
+	 */
+	setupShowCharacterHook() {
+		const self = this;
+
+		lib.skill._decadePrefixMark = {
+			charlotte: true,
+			forced: true,
+			popup: false,
+			priority: 100,
+			trigger: {
+				player: ["showCharacterEnd"],
+			},
+			filter: () => self.shouldShowPrefixMark(),
+			async content(event, trigger, player) {
+				const name1 = player.name1 || player.name;
+				if (name1 && !player.isUnseen?.(0)) {
+					self.showPrefixMark(name1, player, true);
+				}
+				if (player.name2 && !player.isUnseen?.(1)) {
+					self.showPrefixMark(player.name2, player, true);
+				}
+			},
+		};
+
+		// 添加到全局技能
+		if (!lib.skill.global) lib.skill.global = [];
+		if (!lib.skill.global.includes("_decadePrefixMark")) {
+			lib.skill.global.push("_decadePrefixMark");
+		}
 	},
 };

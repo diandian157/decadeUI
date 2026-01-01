@@ -20,14 +20,33 @@ import { gameStartDialogues } from "./easterEggs/dialogueEggs.js";
 const allCardEasterEggs = [...cardEasterEggs, ...shaEasterEggs, ...equipEasterEggs, ...trickEasterEggs];
 
 /**
- * 检查玩家是否包含指定名称
+ * 检查武将名是否已亮将（非暗置状态）
+ * @param {Object} player - 玩家对象
+ * @param {string} charName - 武将名
+ * @returns {boolean} 该武将是否已亮将
+ */
+const isCharacterRevealed = (player, charName) => {
+	if (!player?.isUnseen) return true; // 非国战模式，视为已亮
+	// 检查主将
+	if (player.name1?.includes(charName) && !player.isUnseen(0)) return true;
+	// 检查副将
+	if (player.name2?.includes(charName) && !player.isUnseen(1)) return true;
+	return false;
+};
+
+/**
+ * 检查玩家是否包含指定名称且已亮将
  * @param {Object} player - 玩家对象
  * @param {string} name - 要检查的名称
- * @returns {boolean} 是否包含该名称
+ * @returns {boolean} 是否包含该名称且已亮将
  */
 const hasName = (player, name) => {
 	if (get.itemtype(player) !== "player") return false;
-	return get.nameList(player).some(n => n?.includes(name));
+	const nameList = get.nameList(player);
+	const hasChar = nameList.some(n => n?.includes(name));
+	if (!hasChar) return false;
+	// 检查该武将是否已亮将
+	return isCharacterRevealed(player, name);
 };
 
 /**
@@ -115,6 +134,41 @@ const createContext = (event, cardName) => ({
 });
 
 /**
+ * @type {Set<Object>}
+ * 已触发的游戏开始对话，防止重复触发
+ */
+const triggeredDialogues = new Set();
+
+/**
+ * 检查并触发游戏开始对话
+ * 当所有相关武将都亮将后触发
+ */
+const checkAndTriggerDialogue = () => {
+	for (const dialogue of gameStartDialogues) {
+		if (triggeredDialogues.has(dialogue)) continue;
+
+		// 检查所有相关武将是否都已亮将
+		const allRevealed = dialogue.players.every(name => findPlayer(name));
+		if (!allRevealed) continue;
+
+		// 标记为已触发
+		triggeredDialogues.add(dialogue);
+
+		// 触发对话
+		dialogue.dialogues.forEach(({ player, text, audio, delay }) => {
+			setTimeout(() => {
+				const speaker = findPlayer(player);
+				if (speaker) {
+					speaker.say?.(text);
+					if (audio) playAudio(audio);
+				}
+			}, delay);
+		});
+		break;
+	}
+};
+
+/**
  * 设置音频彩蛋钩子
  * 初始化所有彩蛋触发机制
  */
@@ -176,7 +230,7 @@ export function setupAudioHooks() {
 		return result;
 	};
 
-	// Hook: 回合开始 & 拼点
+	// Hook: 回合开始 & 拼点 & 亮将
 	const originalTrigger = lib.element.GameEvent.prototype.trigger;
 	lib.element.GameEvent.prototype.trigger = function (name) {
 		const result = originalTrigger.apply(this, arguments);
@@ -195,27 +249,26 @@ export function setupAudioHooks() {
 			handleZhangfeiTie(this);
 		}
 
+		// 亮将后检查游戏开始对话
+		if (name === "showCharacterEnd") {
+			checkAndTriggerDialogue();
+		}
+
 		return result;
 	};
 
-	// Hook: 游戏开始
+	// Hook: 游戏开始（非国战模式直接触发）
 	lib.announce.subscribe("gameStart", () => {
 		if (!game.players?.length) return;
 
-		for (const dialogue of gameStartDialogues) {
-			const foundPlayers = dialogue.players.map(findPlayer).filter(Boolean);
-			if (foundPlayers.length !== dialogue.players.length) continue;
-
-			dialogue.dialogues.forEach(({ player, text, audio, delay }) => {
-				setTimeout(() => {
-					const speaker = findPlayer(player);
-					if (speaker) {
-						speaker.say?.(text);
-						if (audio) playAudio(audio);
-					}
-				}, delay);
-			});
-			break;
+		// 检查是否为国战模式（有玩家处于暗置状态）
+		const isGuozhanMode = game.players.some(p => p.isUnseen?.());
+		if (isGuozhanMode) {
+			// 国战模式：等待亮将事件触发
+			return;
 		}
+
+		// 非国战模式：直接触发
+		checkAndTriggerDialogue();
 	});
 }
