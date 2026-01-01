@@ -355,6 +355,9 @@ export const createDecadeUIObject = () => ({
 
 		initHooks();
 		this.initUIExtensions();
+
+		// 卡牌皮肤注册API到顶层
+		this.registerCardSkin = this.statics.registerCardSkin;
 	},
 
 	/**

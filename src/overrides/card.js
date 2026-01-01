@@ -206,6 +206,12 @@ function applyCardSkin(cardElement, card) {
 			cardElement.style.background = `url("${asset.url}")`;
 		}
 	} else {
+		// 如果已经有缓存且已加载，直接使用（外部扩展注册的皮肤）
+		if (asset?.loaded === true && asset.url) {
+			cardElement.style.background = `url("${asset.url}")`;
+			return;
+		}
+
 		const folder = skin.dir || skinKey;
 		const extension = skin.extension || "png";
 		const url = lib.assetURL + `extension/${decadeUIName}/image/card-skins/${folder}/${filename}.${extension}`;
