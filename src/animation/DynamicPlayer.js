@@ -28,7 +28,9 @@ export class DynamicPlayer {
 		this.dprAdaptive = false;
 		this.BUILT_ID = 0;
 
-		const supportsOffscreen = self.OffscreenCanvas !== undefined;
+		// 暂时禁用 OffscreenCanvas，因为 Worker 需要非模块化的脚本
+		// TODO: 创建打包后的 Worker 脚本以支持 OffscreenCanvas
+		const supportsOffscreen = false; // self.OffscreenCanvas !== undefined;
 		this.offscreen = false;
 
 		if (supportsOffscreen) {
@@ -48,8 +50,8 @@ export class DynamicPlayer {
 	_initOffscreenRenderer(pathPrefix) {
 		for (let i = 0; i < DynamicWorkers.length; i++) {
 			if (!DynamicWorkers[i]) {
-				// 使用 ES Module Worker
-				DynamicWorkers[i] = new Worker(decadeUIPath + "src/animation/dynamicWorker.js", { type: "module" });
+				// 使用传统 Worker（非 ES Module）
+				DynamicWorkers[i] = new Worker(decadeUIPath + "src/animation/dynamicWorker.js");
 				DynamicWorkers[i].capacity = 0;
 			} else if (DynamicWorkers[i].capacity >= 4) {
 				continue;
@@ -87,7 +89,7 @@ export class DynamicPlayer {
 	 * @private
 	 */
 	_initMainThreadRenderer(pathPrefix) {
-		const renderer = new AnimationPlayer(decadeUIPath + pathPrefix);
+		const renderer = new AnimationPlayer(pathPrefix);
 		this.canvas = renderer.canvas;
 		this.renderer = renderer;
 		decadeUI.bodySensor.addListener(

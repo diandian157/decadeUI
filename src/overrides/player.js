@@ -782,7 +782,7 @@ export function playerPlayDynamic(animation, deputy) {
 	if (animation === undefined) return console.error("playDynamic: 参数1不能为空");
 	let dynamic = this.dynamic;
 	if (!dynamic) {
-		dynamic = new DynamicPlayer("assets/dynamic/");
+		dynamic = new DynamicPlayer(decadeUIPath + "assets/dynamic/");
 		dynamic.dprAdaptive = true;
 		this.dynamic = dynamic;
 		this.$dynamicWrap.appendChild(dynamic.canvas);

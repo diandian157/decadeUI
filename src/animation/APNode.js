@@ -150,8 +150,10 @@ export class APNode {
 		const domNode = this.referNode instanceof HTMLElement ? this.referNode : undefined;
 
 		// 计算参考节点边界
-		if (domNode && (this.referFollow || !this.referBounds)) {
-			this.referBounds = this._calcReferBounds(domNode, dpr);
+		if (domNode) {
+			if (this.referFollow || !this.referBounds) {
+				this.referBounds = this._calcReferBounds(domNode, dpr);
+			}
 			referSize.height = this.referBounds.height * dpr;
 			referSize.width = this.referBounds.width * dpr;
 		}
