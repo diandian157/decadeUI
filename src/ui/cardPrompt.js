@@ -871,8 +871,13 @@ export function initCardPrompt({ game, ui }) {
 	// 检查开始钩子：预处理事件
 	lib.hooks.checkBegin.add(event => {
 		if (event.player !== game.me) return;
-		if (event.name === "chooseToUse" && event.type === "dying" && event.dying) event.prompt = false;
+		if (event.name === "chooseToUse") {
+			if ((event.type === "dying" && event.dying) || event.respondTo) {
+				event.prompt = false;
+			}
+		}
 		if (event.name === "chooseToDiscard") event.prompt = false;
+		if (event.name === "chooseToRespond") event.prompt = false;
 	});
 
 	// 按钮检查钩子：处理按钮选择状态
