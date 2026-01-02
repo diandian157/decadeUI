@@ -28,6 +28,7 @@ const PREFIX_CONFIGS = {
 	"★": "star",
 	新杀: "dc",
 	新杀谋: "sb",
+	"新杀|谋": "sb",
 	"新杀|牢": "lao",
 	OL谋: "sb",
 	OL界: "jie",
