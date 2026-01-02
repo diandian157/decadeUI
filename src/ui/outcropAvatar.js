@@ -1,14 +1,15 @@
 /**
  * @fileoverview 露头头像模块
  * 支持懒加载和请求节流，避免大量并发请求导致卡顿
+ * 支持扩展按约定目录结构提供露头图
  */
 
-import { lib, game, ui, get, ai, _status } from "noname";
+import { lib, game, _status } from "noname";
 
-/** @type {Record<string, string>} 露头样式对应的图片目录 */
-const OUTCROP_PATHS = {
-	shizhounian: "extension/十周年UI/image/character/dcloutou/",
-	shousha: "extension/十周年UI/image/character/ssloutou/",
+/** @type {Record<string, string>} 露头样式对应的子目录名 */
+const OUTCROP_SUBDIRS = {
+	shizhounian: "dcloutou",
+	shousha: "ssloutou",
 };
 
 /** @type {Map<string, Promise<boolean>>} 图片存在性缓存 */
@@ -75,6 +76,33 @@ function findCharacterRefInArray(extArray) {
 }
 
 /**
+ * 获取武将所属扩展名
+ * 从武将图片路径中提取扩展名
+ * @param {string} characterName - 武将名称
+ * @returns {string|null} 扩展名
+ */
+function getCharacterExtension(characterName) {
+	const characterInfo = lib.character?.[characterName];
+	if (!characterInfo) return null;
+
+	if (characterInfo.img) {
+		const match = characterInfo.img.match(/^extension\/([^\/]+)\//);
+		if (match) return match[1];
+	}
+
+	if (Array.isArray(characterInfo.trashBin)) {
+		for (const item of characterInfo.trashBin) {
+			if (typeof item === "string" && item.startsWith("img:")) {
+				const match = item.slice(4).match(/^extension\/([^\/]+)\//);
+				if (match) return match[1];
+			}
+		}
+	}
+
+	return null;
+}
+
+/**
  * 获取武将用于露头图查找的实际名称
  * 优先级: img属性 > trashBin中的character引用 > 武将本身名称
  * @param {string} characterName - 武将名称
@@ -99,18 +127,28 @@ export function getOutcropCharacterName(characterName) {
 
 /**
  * 获取武将露头图片路径
+ * 查找顺序：扩展目录 > 十周年UI目录
  * @param {string} characterName - 武将名称
  * @param {string} [outcropStyle] - 露头样式
  * @returns {string|null}
  */
 export function getOutcropImagePath(characterName, outcropStyle) {
 	outcropStyle = outcropStyle ?? getOutcropStyle();
-	if (!outcropStyle || outcropStyle === "off" || !OUTCROP_PATHS[outcropStyle]) {
+	if (!outcropStyle || outcropStyle === "off" || !OUTCROP_SUBDIRS[outcropStyle]) {
 		return null;
 	}
 
 	const actualName = getOutcropCharacterName(characterName);
-	return `${lib.assetURL}${OUTCROP_PATHS[outcropStyle]}${actualName}.jpg`;
+	const subdir = OUTCROP_SUBDIRS[outcropStyle];
+
+	// 先检查武将所属扩展的露头图目录
+	const extName = getCharacterExtension(characterName);
+	if (extName) {
+		return `${lib.assetURL}extension/${extName}/image/character/${subdir}/${actualName}.jpg`;
+	}
+
+	// 回退到十周年UI目录
+	return `${lib.assetURL}extension/十周年UI/image/character/${subdir}/${actualName}.jpg`;
 }
 
 /**
@@ -156,11 +194,31 @@ export async function applyOutcropAvatar(characterName, node, outcropStyle) {
 		return false;
 	}
 
-	const outcropPath = getOutcropImagePath(characterName, outcropStyle);
-	if (outcropPath && (await checkImageExists(outcropPath))) {
-		node.style.backgroundImage = `url("${outcropPath}")`;
-		node.classList.add("has-outcrop");
-		return true;
+	const actualName = getOutcropCharacterName(characterName);
+	const subdir = OUTCROP_SUBDIRS[outcropStyle];
+	if (!subdir) {
+		node.classList.remove("has-outcrop");
+		return false;
+	}
+
+	const candidatePaths = [];
+
+	// 1. 扩展目录的露头图
+	const extName = getCharacterExtension(characterName);
+	if (extName) {
+		candidatePaths.push(`${lib.assetURL}extension/${extName}/image/character/${subdir}/${actualName}.jpg`);
+	}
+
+	// 2. 十周年UI目录的露头图
+	candidatePaths.push(`${lib.assetURL}extension/十周年UI/image/character/${subdir}/${actualName}.jpg`);
+
+	// 依次检查路径
+	for (const path of candidatePaths) {
+		if (await checkImageExists(path)) {
+			node.style.backgroundImage = `url("${path}")`;
+			node.classList.add("has-outcrop");
+			return true;
+		}
 	}
 
 	// 没有露头图，移除露头样式class，交给本体处理
