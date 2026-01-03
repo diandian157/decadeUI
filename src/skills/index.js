@@ -7,10 +7,16 @@ import { lib, game, ui, get, ai, _status } from "noname";
 // ==================== 常量 ====================
 
 /**
- * @type {string[]}
- * @description 可重铸的卡牌名称列表
+ * 检查卡牌是否为可重铸卡牌（通过卡牌本身的 recastable/chongzhu 属性判断）
+ * @param {Object|string} card - 卡牌对象或卡牌名称
+ * @returns {boolean} 是否为可重铸卡牌
  */
-const RECASTABLE_CARDS = ["tiesuo", "lulitongxin", "zhibi"];
+function isRecastableCard(card) {
+	const info = get.info(card);
+	if (!info) return false;
+	const recastable = info.recastable || info.chongzhu;
+	return typeof recastable === "function" ? !!recastable(_status.event, get.owner(card)) : !!recastable;
+}
 
 // ==================== 工具函数 ====================
 
@@ -164,7 +170,7 @@ const animateSkill = {
 		silent: true,
 		filter(event, player) {
 			if (lib.config.extension_十周年UI_newDecadeStyle === "off") return false;
-			if (!RECASTABLE_CARDS.includes(get.name(event.card))) return false;
+			if (!isRecastableCard(event.card)) return false;
 			if (event.targets && event.targets.length > 0) return false;
 			const cards = event.cards?.slice() || [];
 			if (cards.length === 0) return false;
@@ -195,7 +201,7 @@ const baseSkill = {
 		mod: {
 			cardEnabled(card, player) {
 				if (!player?.isPhaseUsing?.()) return;
-				if (!RECASTABLE_CARDS.includes(get.name(card))) return;
+				if (!isRecastableCard(card)) return;
 				if (!isRealHandCard(card, player)) return;
 				return true;
 			},
@@ -1173,9 +1179,9 @@ function isCardDisabledForUse(card, player) {
  * @returns {void}
  */
 function setupRecastableCards() {
-	RECASTABLE_CARDS.forEach(cardName => {
+	for (const cardName of Object.keys(lib.card)) {
 		const card = lib.card[cardName];
-		if (!card?.recastable) return;
+		if (!card?.recastable && !card?.chongzhu) continue;
 
 		const originalSelectTarget = card.selectTarget;
 		const minTarget = Array.isArray(originalSelectTarget) ? originalSelectTarget[0] : originalSelectTarget || 1;
@@ -1195,13 +1201,13 @@ function setupRecastableCards() {
 				return typeof originalFilterTarget === "function" ? originalFilterTarget(cardObj, player, target) : true;
 			},
 		});
-	});
+	}
 
-	// 从通用重铸中排除这些卡牌
+	// 从通用重铸中排除这些卡牌（因为已有专门的重铸逻辑）
 	if (lib.skill._recasting) {
 		const originalFilterCard = lib.skill._recasting.filterCard;
 		lib.skill._recasting.filterCard = function (card, player) {
-			if (RECASTABLE_CARDS.includes(get.name(card))) return false;
+			if (isRecastableCard(card)) return false;
 			return originalFilterCard.call(this, card, player);
 		};
 	}
@@ -1211,7 +1217,7 @@ function setupRecastableCards() {
 		lib.hooks.checkEnd.add("_decadeUI_recastable_check", (event, result) => {
 			if (!ui.confirm) return;
 			const card = get.card();
-			if (!card || !RECASTABLE_CARDS.includes(get.name(card))) return;
+			if (!card || !isRecastableCard(card)) return;
 
 			const okBtn = ui.confirm.firstChild;
 			if (!okBtn || okBtn.link !== "ok") return;
