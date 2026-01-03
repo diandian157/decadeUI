@@ -135,20 +135,19 @@ function applyStyles(div, div2, isStyleOn) {
 
 /**
  * 初始化滚动播报功能
- * @param {object} config - 配置对象
- * @param {boolean} config.GTBB - 是否启用播报
- * @param {string} config.GTBBYangshi - 样式配置
  * @returns {void}
  */
-export function initGTBB(config) {
-	if (!config.GTBB) return;
+export function initGTBB() {
+	const styleType = lib.config.extension_十周年UI_GTBBYangshi;
+	if (styleType === "0") return;
 
 	const div = ui.create.div("");
 	const div2 = ui.create.div("", div);
+	div.id = "gtbb-container";
 	const extConfig = lib.config["extension_十周年UI_GTBBFont"];
 	const interval = parseFloat(lib.config["extension_十周年UI_GTBBTime"]);
 
-	applyStyles(div, div2, config.GTBBYangshi === "on");
+	applyStyles(div, div2, styleType === "1");
 
 	function showGTBB() {
 		div2.innerHTML = createMarqueeHTML({ GTBBFont: extConfig });
@@ -161,7 +160,8 @@ export function initGTBB(config) {
 			ui.window.appendChild(div);
 			clearInterval(checkId);
 			showGTBB();
-			setInterval(showGTBB, interval);
+			window._gtbbInterval = setInterval(showGTBB, interval);
 		}
 	}, 5000);
+	window._gtbbCheckId = checkId;
 }

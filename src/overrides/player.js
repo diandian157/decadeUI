@@ -56,7 +56,7 @@ export function registerDecadeUIHooks() {
 	// AI技能提示条
 	addHook("checkSkillAnimate", (player, name) => {
 		const cfg = lib.config;
-		if (!cfg["extension_十周年UI_enable"] || !cfg.extension_十周年UI_jindutiao) return;
+		if (!cfg["extension_十周年UI_enable"] || cfg.extension_十周年UI_jindutiaoYangshi === "0") return;
 		if (player === game.me) return;
 
 		player.querySelector(".tipskill")?.remove();

@@ -80,50 +80,6 @@ function handleGroupStyleV2(group) {
 }
 
 /**
- * 处理势力样式默认
- * @param {string} group - 势力名称
- */
-function handleGroupStyleDefault(group) {
-	if (decadeUI.config.newDecadeStyle === "codename") {
-		this.node.campWrap.node.campName.innerHTML = "";
-	} else if (!this._finalGroup) {
-		this.node.campWrap.node.campName.innerHTML = "";
-	} else {
-		const name = get.translation(this._finalGroup);
-		const str = get.plainText(name);
-		this.node.campWrap.node.campName.innerHTML = str.length <= 1 ? name : str[0];
-	}
-
-	if (decadeUI.config.newDecadeStyle === "off") {
-		const prefix = "image/styles/shousha/name2_";
-		const url = decadeUIPath + prefix + group + ".png";
-		this._finalGroup = group;
-
-		const image = new Image();
-		image.onerror = () => {
-			if (decadeUI.config.newDecadeStyle === "codename" || !this._finalGroup) {
-				this.node.campWrap.node.campName.innerHTML = "";
-			} else {
-				const name = get.translation(this._finalGroup);
-				const str = get.plainText(name);
-				this.node.campWrap.node.campName.innerHTML = str.length <= 1 ? name : str[0];
-			}
-		};
-		this.node.campWrap.node.campName.style.backgroundImage = `url("${url}")`;
-		image.src = url;
-	} else {
-		this._finalGroup = group;
-		if (decadeUI.config.newDecadeStyle === "codename" || !this._finalGroup) {
-			this.node.campWrap.node.campName.innerHTML = "";
-		} else {
-			const name = get.translation(this._finalGroup);
-			const str = get.plainText(name);
-			this.node.campWrap.node.campName.innerHTML = str.length <= 1 ? name : str[0];
-		}
-	}
-}
-
-/**
  * 定义player.group属性
  * 为玩家元素添加势力属性的getter和setter
  */
@@ -142,11 +98,7 @@ export function definePlayerGroupProperty() {
 				this._group = group;
 				this.node.campWrap.dataset.camp = get.character(this.name)?.groupBorder || group;
 
-				if (lib.config.extension_十周年UI_forcestyle === "2") {
-					handleGroupStyleV2.call(this, group);
-				} else {
-					handleGroupStyleDefault.call(this, group);
-				}
+				handleGroupStyleV2.call(this, group);
 			},
 		},
 	});

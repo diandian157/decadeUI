@@ -92,9 +92,9 @@
 	z-index: 100;
 }
 
-/** 选中光效(新样式-关闭阴影) */
-#arena[data-shadow-style="off"] > .player::before,
-#arena[data-shadow-style="off"] > .player::after {
+/** 选中光效 */
+#arena > .player::before,
+#arena > .player::after {
 	left: -55px;
 	top: -40px;
 	width: 228px;
@@ -107,26 +107,26 @@
 	transition: opacity 0s linear;
 }
 
-#arena[data-shadow-style="off"] > .player::before {
+#arena > .player::before {
 	background-image: url("../../image/ui/effects/sprites_shadow_orange.png");
 }
 
-#arena[data-shadow-style="off"] > .player::after,
-#arena[data-shadow-style="off"] > .player.selected::after,
-#arena[data-shadow-style="off"] > .player.selectable::after {
+#arena > .player::after,
+#arena > .player.selected::after,
+#arena > .player.selectable::after {
 	background-image: url("../../image/ui/effects/sprites_shadow_lvse.png");
 	transition: opacity 0.1s linear;
 }
 
-#arena[data-shadow-style="off"] > .player:not([data-position="0"])::after,
-#arena[data-shadow-style="off"] > .player.selected:not([data-position="0"])::after,
-#arena[data-shadow-style="off"] > .player.selectable:not([data-position="0"])::after {
+#arena > .player:not([data-position="0"])::after,
+#arena > .player.selected:not([data-position="0"])::after,
+#arena > .player.selectable:not([data-position="0"])::after {
 	background-image: url("../../image/ui/effects/sprites_shadow_red.png");
 }
 
 /* 橙色光效(选中) */
-#arena[data-shadow-style="off"] > .player.selectable.selected.target::before,
-#arena[data-shadow-style="off"] > .player.selected:not(.target)::before {
+#arena > .player.selectable.selected.target::before,
+#arena > .player.selected:not(.target)::before {
 	animation-duration: 0.9s;
 	background-image: url("../../image/ui/effects/sprites_shadow_orange.png");
 	opacity: 1;
@@ -134,7 +134,7 @@
 }
 
 /* 绿色光效(回合中) */
-#arena[data-shadow-style="off"] > .player.glow_phase:not(.selectable)::before {
+#arena > .player.glow_phase:not(.selectable)::before {
 	animation-duration: 0.9s;
 	background-image: url("../../image/ui/effects/sprites_shadow_green1.png");
 	opacity: 1;
@@ -142,7 +142,7 @@
 }
 
 /* 绿色光效(可选中-主玩家) */
-#arena[data-shadow-style="off"] > .player.selectable:not(.selected):not(.target)::before {
+#arena > .player.selectable:not(.selected):not(.target)::before {
 	animation-duration: 0.9s;
 	background-image: url("../../image/ui/effects/sprites_shadow_lvse.png");
 	opacity: 1;
@@ -151,50 +151,10 @@
 }
 
 /* 红色光效(可选中-其他玩家) */
-#arena[data-shadow-style="off"] > .player.selectable:not(.selected):not(.target):not([data-position="0"])::before {
+#arena > .player.selectable:not(.selected):not(.target):not([data-position="0"])::before {
 	background-image: url("../../image/ui/effects/sprites_shadow_red.png");
 	z-index: 89;
 	top: -38.4px;
-}
-
-/** 选中光效(原样式-开启阴影) */
-#arena[data-shadow-style="on"] > .player::before,
-#arena[data-shadow-style="on"] > .player::after {
-	left: -56px;
-	top: -42px;
-	width: 223px;
-	height: 254px;
-	opacity: 0;
-	background-repeat: no-repeat;
-	animation: kf-sprites-glow 0s infinite steps(1) forwards;
-	pointer-events: none;
-	box-shadow: none;
-	transition: opacity 0.1s linear;
-}
-
-#arena[data-shadow-style="on"] > .player::before {
-	background-image: url("../../image/ui/effects/sprites_glow_blue.png");
-}
-
-#arena[data-shadow-style="on"] > .player::after {
-	background-image: url("../../image/ui/effects/sprites_glow_red.png");
-}
-
-#arena[data-shadow-style="on"] > .player.selected:not(.target)::before,
-#arena[data-shadow-style="on"] > .player.glow_phase:not(.selectable):not([data-position="0"])::before {
-	animation-duration: 0.9s;
-	background-image: url("../../image/ui/effects/sprites_glow_orange.png");
-	opacity: 1;
-}
-
-#arena[data-shadow-style="on"] > .player.selectable:not(.selected):not(.target)::before {
-	animation-duration: 0.9s;
-	opacity: 1;
-}
-
-#arena[data-shadow-style="on"] > .player.target:not(.glow_phase):not(.selectable):not(.selected)::after {
-	animation-duration: 0.9s;
-	opacity: 1;
 }
 
 /** 遮罩层 */
@@ -1260,8 +1220,7 @@
 }
 
 /** 伤害/文字弹出 */
-/* 新样式(关闭阴影) */
-#arena[data-shadow-style="off"] > .player > .damage {
+#arena > .player > .damage {
 	display: flex;
 	justify-content: center;
 	width: 100%;
@@ -1280,44 +1239,25 @@
 	z-index: 999;
 }
 
-#arena[data-shadow-style="off"] > .player > .damage > .damage-child {
+#arena > .player > .damage > .damage-child {
 	-webkit-text-stroke: 4.5px #102030;
 	opacity: 0.5;
 }
 
-#arena[data-shadow-style="off"] > .player > .damage > .damage-child2 {
+#arena > .player > .damage > .damage-child2 {
 	background-image: -webkit-linear-gradient(bottom, #c7a746 58%, #f0d775 22%);
 	-webkit-background-clip: text;
 	-webkit-text-fill-color: transparent;
 	z-index: 1;
 }
 
-#arena[data-shadow-style="off"] > .player > .damage::before {
+#arena > .player > .damage::before {
 	content: attr(data-text);
 	position: absolute;
 	left: 0;
 	top: 0;
 	width: 100%;
 	color: #ff1300;
-	z-index: -1;
-}
-
-/* 原样式(开启阴影) */
-#arena[data-shadow-style="on"] > .player > .damage {
-	width: 100%;
-	text-shadow: none;
-	transition: none;
-	z-index: 91;
-}
-
-#arena[data-shadow-style="on"] > .player > .damage::before {
-	content: attr(data-text);
-	position: absolute;
-	left: 0;
-	top: 0;
-	width: 100%;
-	color: transparent;
-	-webkit-text-stroke: 4px #803b02;
 	z-index: -1;
 }
 

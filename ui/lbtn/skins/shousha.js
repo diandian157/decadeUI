@@ -397,9 +397,7 @@ export function createShoushaLbtnPlugin(lib, game, ui, get, ai, _status, app) {
 				self.initRoundUpdate();
 
 				// 聊天按钮
-				if (lib.config.extension_十周年UI_LTAN === false) {
-					self.createChatButton();
-				}
+				self.createChatButton();
 
 				// 身份显示
 				if (self.supportedModes.includes(lib.config.mode)) {

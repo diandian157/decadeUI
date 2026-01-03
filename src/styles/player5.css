@@ -390,27 +390,6 @@
 
 /* 势力名 */
 .player > .camp-wrap > .camp-name {
-	font-family: "heiti";
-	font-display: swap;
-	font-size: 18px;
-	left: 5.5px;
-	width: 100%;
-	height: 33.5%;
-	top: -3px;
-	display: flex;
-	text-align: center;
-	align-items: center;
-	align-content: center;
-	justify-content: center;
-	background-size: contain;
-	background-repeat: no-repeat;
-	background-position: center;
-	transition: none;
-	font-weight: 600;
-	font-stretch: extra-condensed !important;
-}
-
-#arena[data-forcestyle="2"] .player > .camp-wrap > .camp-name {
 	font-family: xinwei, xingkai;
 	font-display: swap;
 	font-size: 26px;

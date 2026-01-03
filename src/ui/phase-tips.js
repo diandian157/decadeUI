@@ -107,7 +107,8 @@ const phaseEndEvents = [
  * 初始化阶段提示技能
  */
 export function initPhaseTipsSkills() {
-	if (!lib.config.extension_十周年UI_JDTS) return;
+	// 始终注册技能，但在 filter 中检查配置
+	const isEnabled = () => lib.config.extension_十周年UI_JDTSYangshi !== "0";
 
 	/**
 	 * 显示阶段图片方法
@@ -115,6 +116,7 @@ export function initPhaseTipsSkills() {
 	 * @param {boolean|number} durationOrPersistent - 持续时间或是否持久显示
 	 */
 	game.showJDTsImage = (imageName, durationOrPersistent) => {
+		if (!isEnabled()) return;
 		game.as_showImage(getImagePath(imageName), getPosition(), durationOrPersistent);
 	};
 
@@ -130,7 +132,7 @@ export function initPhaseTipsSkills() {
 			direct: true,
 			priority: Infinity,
 			firstDo: true,
-			filter: (e, player) => isMyPhase(player),
+			filter: (e, player) => isEnabled() && isMyPhase(player),
 			async content() {
 				showPhaseImage(image);
 				_status.as_showImage_phase = phase;
@@ -147,7 +149,7 @@ export function initPhaseTipsSkills() {
 			direct: true,
 			priority: -Infinity,
 			lastDo: true,
-			filter: (e, player) => isMyPhase(player),
+			filter: (e, player) => isEnabled() && isMyPhase(player),
 			async content() {
 				clearPhaseImage(phase);
 			},
@@ -159,7 +161,7 @@ export function initPhaseTipsSkills() {
 		trigger: { player: "chooseToRespondBegin" },
 		silent: true,
 		direct: true,
-		filter: (e, player) => isMe(player) && isManual(),
+		filter: (e, player) => isEnabled() && isMe(player) && isManual(),
 		async content(event, trigger) {
 			trigger._jd_ddxy = true;
 			game.showJDTsImage("ddxy", 10);
@@ -172,7 +174,7 @@ export function initPhaseTipsSkills() {
 		silent: true,
 		charlotte: true,
 		forced: true,
-		filter: event => isMe(event.target),
+		filter: event => isEnabled() && isMe(event.target),
 		async content(event, trigger) {
 			trigger._jd_ddxy = true;
 			game.showJDTsImage("ddxy", true);

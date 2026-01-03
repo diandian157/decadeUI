@@ -85,33 +85,6 @@
 }
 
 /* 功能按钮 */
-.jiluButton {
-	display: block;
-	width: 80px;
-	height: 58.6px;
-	position: absolute;
-	bottom: 14%;
-	left: 0;
-	background-image: url("../../assets/lbtn/uibutton/jilu.png");
-	background-size: 100% 100%;
-	border-radius: 10px;
-	z-index: 3;
-}
-
-.huanfuButton {
-	display: block;
-	width: 80px;
-	height: 58.6px;
-	position: absolute;
-	bottom: 2%;
-	left: 0;
-	background-image: url("../../assets/lbtn/uibutton/huanfu.png");
-	background-size: 100% 100%;
-	border-radius: 10px;
-	z-index: 3;
-}
-
-/* 新版小配件 */
 .jiluButton_new {
 	display: block;
 	--w: 79px;

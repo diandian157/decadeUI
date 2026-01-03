@@ -229,7 +229,6 @@ export function initPrecontentUI() {
 			if (--boxTime.data === 0) {
 				clearTimer("timer");
 				container.remove();
-				if (lib.config.extension_十周年UI_jindutiaotuoguan && !_status.auto) ui.click.auto();
 			}
 		}, interval);
 
@@ -345,6 +344,11 @@ const setupWatcher = config => {
 		removeElementById(PROGRESS_BAR_ID);
 	};
 
+	// 暴露重置方法供配置热更新使用
+	window.resetProgressBarState = () => {
+		playerShown = false;
+	};
+
 	/**
 	 * 显示AI进度条
 	 * @param {HTMLElement} player - 玩家元素
@@ -405,11 +409,11 @@ const setupWatcher = config => {
 
 		if (waiting) {
 			if (isWuxie) {
-				if (config.jindutiao) showPlayer();
+				if (lib.config.extension_十周年UI_jindutiaoYangshi !== "0") showPlayer();
 				showAllAI();
 			} else if (event.player === game.me) {
 				hideAllAI();
-				if (config.jindutiao) showPlayer();
+				if (lib.config.extension_十周年UI_jindutiaoYangshi !== "0") showPlayer();
 			} else {
 				hidePlayer();
 				showOneAI(event.player);
@@ -556,12 +560,12 @@ export function registerLegacyModules(config) {
 	initPhaseTipsSkills();
 
 	if (get.mode() === "connect") {
-		initGTBB(config);
+		initGTBB();
 		return;
 	}
 
 	setupWatcher(config);
 	setupTipWatcher();
 	setupCardTipWatcher();
-	initGTBB(config);
+	initGTBB();
 }
