@@ -1183,10 +1183,18 @@ function setupRecastableCards() {
 		const card = lib.card[cardName];
 		if (!card?.recastable && !card?.chongzhu) continue;
 
+		const isEquip = card.type === "equip";
 		const originalSelectTarget = card.selectTarget;
-		const minTarget = Array.isArray(originalSelectTarget) ? originalSelectTarget[0] : originalSelectTarget || 1;
-		const maxTarget = Array.isArray(originalSelectTarget) ? originalSelectTarget[1] : originalSelectTarget || 1;
 		const originalFilterTarget = card.filterTarget;
+
+		let minTarget, maxTarget;
+		if (isEquip) {
+			minTarget = 1;
+			maxTarget = 1;
+		} else {
+			minTarget = Array.isArray(originalSelectTarget) ? originalSelectTarget[0] : originalSelectTarget || 1;
+			maxTarget = Array.isArray(originalSelectTarget) ? originalSelectTarget[1] : originalSelectTarget || 1;
+		}
 
 		card._originalMinTarget = minTarget;
 
@@ -1197,6 +1205,9 @@ function setupRecastableCards() {
 				// 被禁用时不能选目标（只能重铸）
 				if (selectedCard && isRealHandCard(selectedCard, player) && isCardDisabledForUse(selectedCard, player)) {
 					return false;
+				}
+				if (isEquip) {
+					return target === player && player.canEquip(cardObj, true);
 				}
 				return typeof originalFilterTarget === "function" ? originalFilterTarget(cardObj, player, target) : true;
 			},
