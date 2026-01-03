@@ -594,6 +594,7 @@ body > .background {
 	justify-content: center;
 	position: static;
 	height: calc(100% - 4px);
+	margin-top: 25px;
 	font-size: inherit;
 	line-height: normal;
 	text-shadow: none;
