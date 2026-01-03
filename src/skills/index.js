@@ -15,6 +15,18 @@ const RECASTABLE_CARDS = ["tiesuo", "lulitongxin", "zhibi"];
 // ==================== 工具函数 ====================
 
 /**
+ * 检查卡牌是否为玩家的真实手牌（排除"视为手牌"的情况）
+ * @param {Object} card - 卡牌对象
+ * @param {Object} player - 玩家对象
+ * @returns {boolean} 是否为真实手牌
+ */
+function isRealHandCard(card, player) {
+	if (!card || !player) return false;
+	if (card.classList?.contains("glows")) return false;
+	return true;
+}
+
+/**
  * 创建画布样式配置
  * @returns {Object} 画布CSS样式对象
  */
@@ -152,12 +164,19 @@ const animateSkill = {
 		silent: true,
 		filter(event, player) {
 			if (lib.config.extension_十周年UI_newDecadeStyle === "off") return false;
-			return RECASTABLE_CARDS.includes(get.name(event.card)) && (!event.targets || event.targets.length === 0);
+			if (!RECASTABLE_CARDS.includes(get.name(event.card))) return false;
+			if (event.targets && event.targets.length > 0) return false;
+			const cards = event.cards?.slice() || [];
+			if (cards.length === 0) return false;
+			for (const card of cards) {
+				if (!isRealHandCard(card, player)) return false;
+			}
+			return true;
 		},
 		async content(event, trigger, player) {
 			trigger.cancel();
-			const cards = trigger.cards?.slice() || [];
-			if (cards.length > 0) await player.recast(cards);
+			const cards = trigger.cards.slice();
+			await player.recast(cards);
 		},
 	},
 };
@@ -177,7 +196,8 @@ const baseSkill = {
 			cardEnabled(card, player) {
 				if (!player?.isPhaseUsing?.()) return;
 				if (!RECASTABLE_CARDS.includes(get.name(card))) return;
-				if (player.canRecast(card)) return true;
+				if (!isRealHandCard(card, player)) return;
+				return true;
 			},
 		},
 	},
@@ -1162,19 +1182,17 @@ function setupRecastableCards() {
 		const maxTarget = Array.isArray(originalSelectTarget) ? originalSelectTarget[1] : originalSelectTarget || 1;
 		const originalFilterTarget = card.filterTarget;
 
+		card._originalMinTarget = minTarget;
+
 		Object.assign(card, {
 			selectTarget: [0, maxTarget],
 			filterTarget(cardObj, player, target) {
 				const selectedCard = ui.selected.cards?.[0];
-				// 被禁用时只能重铸，不能选目标
-				if (selectedCard && isCardDisabledForUse(selectedCard, player)) return false;
+				// 被禁用时不能选目标（只能重铸）
+				if (selectedCard && isRealHandCard(selectedCard, player) && isCardDisabledForUse(selectedCard, player)) {
+					return false;
+				}
 				return typeof originalFilterTarget === "function" ? originalFilterTarget(cardObj, player, target) : true;
-			},
-			filterOk() {
-				const player = _status.event.player;
-				const cardObj = get.card();
-				if (ui.selected.targets.length === 0) return cardObj && player.canRecast(cardObj);
-				return ui.selected.targets.length >= minTarget;
 			},
 		});
 	});
@@ -1188,20 +1206,35 @@ function setupRecastableCards() {
 		};
 	}
 
-	// 确认按钮文字切换为"重铸"
+	// 在 checkEnd hook 里控制确认按钮，以便适配如手牌版使用或打出
 	if (lib.hooks?.checkEnd) {
-		lib.hooks.checkEnd.add("_decadeUI_recastable_confirm", () => {
+		lib.hooks.checkEnd.add("_decadeUI_recastable_check", (event, result) => {
 			if (!ui.confirm) return;
 			const card = get.card();
-			if (!card) return;
+			if (!card || !RECASTABLE_CARDS.includes(get.name(card))) return;
 
 			const okBtn = ui.confirm.firstChild;
 			if (!okBtn || okBtn.link !== "ok") return;
 
-			if (RECASTABLE_CARDS.includes(get.name(card)) && ui.selected.targets.length === 0) {
-				okBtn.innerHTML = "重铸";
-			} else if (okBtn.innerHTML === "重铸") {
+			const selectedCard = ui.selected.cards?.[0];
+			const player = event?.player;
+
+			if (ui.selected.targets.length === 0) {
+				if (selectedCard && player && isRealHandCard(selectedCard, player)) {
+					okBtn.innerHTML = "重铸";
+					okBtn.classList.remove("disabled");
+				} else {
+					okBtn.innerHTML = "确定";
+					okBtn.classList.add("disabled");
+				}
+			} else {
+				const minTarget = lib.card[get.name(card)]?._originalMinTarget || 1;
 				okBtn.innerHTML = "确定";
+				if (ui.selected.targets.length >= minTarget) {
+					okBtn.classList.remove("disabled");
+				} else {
+					okBtn.classList.add("disabled");
+				}
 			}
 		});
 	}
