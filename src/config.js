@@ -4,98 +4,10 @@
 import { lib, game, ui, get, ai, _status } from "noname";
 import { refreshCardSkin } from "./overrides/card.js";
 import { chupaiAnimations } from "./animation/configs/skillAnimations.js";
-
-/**
- * 获取从当前元素到结束标记之间的所有兄弟元素
- * @description 用于实现折叠菜单功能，收集需要隐藏/显示的菜单项
- * @param {HTMLElement} parent - 起始元素（标题元素）
- * @param {string} endId - 结束标记元素的ID
- * @returns {HTMLElement[]} 介于起始和结束标记之间的所有DOM元素
- */
-function getMenuItems(parent, endId) {
-	const items = [];
-	let next = parent.nextSibling;
-	while (next) {
-		const idEl = next.querySelector?.("[id]");
-		if (idEl?.id === endId) break;
-		items.push(next);
-		next = next.nextSibling;
-	}
-	return items;
-}
-
-/**
- * 折叠菜单切换函数
- * @description 点击标题时切换菜单项的显示/隐藏状态
- * @this {HTMLElement} 标题元素
- * @param {string} configKey - 配置键名，用于存储折叠状态和元素引用
- * @param {string} title - 菜单标题文本
- * @param {string} [color="gold"] - 标题颜色
- */
-function colMenu(configKey, title, color = "gold") {
-	const endId = configKey + "_end";
-	const isCollapsed = !lib.config[configKey];
-
-	if (isCollapsed) {
-		lib.config[configKey] = getMenuItems(this, endId);
-		this.innerHTML = `<span style='color:${color}'><font size='4'>${title}（点击展开）▷</font></span>`;
-		lib.config[configKey].forEach(el => (el.style.display = "none"));
-	} else {
-		this.innerHTML = `<span style='color:${color}'><font size='4'>${title}（点击折叠）▽</font></span>`;
-		lib.config[configKey].forEach(el => (el.style.display = ""));
-		delete lib.config[configKey];
-	}
-}
-
-/** @type {Array<{key: string, dir: string, label: string, extension: string}>} 卡牌皮肤预设 */
-const cardSkinPresets = [
-	{ key: "online", dir: "online", label: "OL卡牌", extension: "jpg" },
-	{ key: "caise", dir: "caise", label: "彩色卡牌", extension: "webp" },
-	{ key: "decade", dir: "decade", label: "原十周年", extension: "png" },
-	{ key: "bingkele", dir: "bingkele", label: "哈基米哦", extension: "png" },
-	{ key: "gold", dir: "gold", label: "手杀金卡", extension: "webp" },
-];
-
-/** @type {Record<string, Object>} 卡牌皮肤元数据映射 */
-const cardSkinMeta = cardSkinPresets.reduce((map, skin) => {
-	map[skin.key] = skin;
-	return map;
-}, {});
-
-/** 播放Ciallo音效 */
-const playCialloAudio = () => game.playAudio("..", "extension", "十周年UI/audio", "Ciallo");
-
-/** 创建分隔线配置 */
-const createSeparator = () => ({
-	name: '<b><font color="#00FF66">★𝑪𝒊𝒂𝒍𝒍𝒐～(∠・ω< )⌒★',
-	intro: "",
-	init: true,
-	clear: true,
-	onclick: playCialloAudio,
-});
-
-/**
- * 解析输入框数值并限制范围
- * @param {HTMLElement} element
- * @param {number} defaultVal
- * @param {number} min
- * @param {number} max
- * @param {number} [decimals=0]
- * @returns {number}
- */
-const parseInputValue = (element, defaultVal, min, max, decimals = 0) => {
-	element.innerHTML = element.innerHTML.replace(/<br>/g, "");
-	let value = parseFloat(element.innerHTML);
-	if (isNaN(value)) value = defaultVal;
-	value = Math.max(min, Math.min(max, value));
-	element.innerHTML = decimals > 0 ? value.toFixed(decimals) : value;
-	return value;
-};
+import { createCollapseTitle, createCollapseEnd, parseInputValue, cardSkinPresets, cardSkinMeta } from "./config-utils.js";
 
 /** @type {Object} 扩展配置项 */
 export let config = {
-	FL0: createSeparator(),
-
 	extensionToggle: {
 		clear: true,
 		onclick: () => window.decadeUI?.toggleExtensions?.(),
@@ -113,13 +25,7 @@ export let config = {
 	},
 
 	// 整体外观
-	outward_title: {
-		clear: true,
-		name: `<span style='color:orange'><font size='4'>整体外观（点击折叠）▽</font></span>`,
-		onclick() {
-			colMenu.call(this, "outward_title", "整体外观", "orange");
-		},
-	},
+	outward_title: createCollapseTitle("outward_title", "整体外观"),
 
 	newDecadeStyle: {
 		name: "切换样式",
@@ -286,16 +192,10 @@ export let config = {
 		init: true,
 	},
 
-	outward_title_end: { clear: true, name: "<span id='outward_title_end'></span>" },
+	outward_title_end: createCollapseEnd("outward_title"),
 
 	// 卡牌相关
-	card_title: {
-		clear: true,
-		name: `<span style='color:orange'><font size='4'>卡牌相关（点击折叠）▽</font></span>`,
-		onclick() {
-			colMenu.call(this, "card_title", "卡牌相关", "orange");
-		},
-	},
+	card_title: createCollapseTitle("card_title", "卡牌相关"),
 
 	translate: {
 		name: "卡牌拖拽",
@@ -490,16 +390,10 @@ export let config = {
 		},
 	},
 
-	card_title_end: { clear: true, name: "<span id='card_title_end'></span>" },
+	card_title_end: createCollapseEnd("card_title"),
 
 	// 部件管理
-	component_title: {
-		clear: true,
-		name: `<span style='color:orange'><font size='4'>部件管理（点击折叠）▽</font></span>`,
-		onclick() {
-			colMenu.call(this, "component_title", "部件管理", "orange");
-		},
-	},
+	component_title: createCollapseTitle("component_title", "部件管理"),
 
 	jindutiaoYangshi: {
 		name: "进度条",
@@ -643,16 +537,10 @@ export let config = {
 		},
 	},
 
-	component_title_end: { clear: true, name: "<span id='component_title_end'></span>" },
+	component_title_end: createCollapseEnd("component_title"),
 
 	// 小小玩楞
-	stuff_title: {
-		clear: true,
-		name: `<span style='color:orange'><font size='4'>小小玩楞（点击折叠）▽</font></span>`,
-		onclick() {
-			colMenu.call(this, "stuff_title", "小小玩楞", "orange");
-		},
-	},
+	stuff_title: createCollapseTitle("stuff_title", "小小玩楞"),
 
 	bettersound: {
 		name: "更多音效",
@@ -682,10 +570,10 @@ export let config = {
 		name: "自由选将筛选框",
 		init: "extension-OL-system",
 		intro: "更改自由选将筛选框",
-		item: { default: "默认本体框", "extension-OL-system": "扩展内置框", offDialog: "关闭筛选框" },
+		item: { default: "默认本体框", "extension-OL-system": "扩展内置框", offDialog: "关���筛选框" },
 	},
 
-	stuff_title_end: { clear: true, name: "<span id='stuff_title_end'></span>" },
+	stuff_title_end: createCollapseEnd("stuff_title"),
 };
 
 export { cardSkinPresets, cardSkinMeta };
