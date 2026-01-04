@@ -661,58 +661,68 @@ function createEmojiButton(chatAssetPath, EMOTION_SIZE, game, ui, lib) {
 			overflowY: "scroll",
 		});
 
-		let emotionIndex = 0;
-		const emotionList = typeof lib !== "undefined" ? lib.emotionList : {};
-		const assetURL = typeof lib !== "undefined" ? lib.assetURL : "";
+		const srcBase = `${lib.assetURL}image/emotion/`;
+		const packList = [];
 
-		Object.keys(emotionList || {}).forEach(pack => {
-			const packDiv = ui.create.div("hidden", "", function () {
-				Object.keys(emotionList || {}).forEach(p => {
-					if (window[`dialog_emojiPack_${p}`]) window[`dialog_emojiPack_${p}`].style.display = "none";
-				});
-				for (let i = 0; i < emotionIndex; i++) {
-					const content = window[`dialog_emojiContent_${i}`];
-					if (content) content.style.display = content.packName === this.packName ? "" : "none";
-				}
-			});
-			packDiv.style.cssText = "height:70px;width:70px;margin:0 5px 5px 0;display:inline-block;left:15px;top:0px;position:relative;background-size:100% 100%;";
-			packDiv.packName = pack;
-			packDiv.setBackgroundImage(`image/emotion/${pack}/1.gif`);
-			window[`dialog_emojiPack_${pack}`] = packDiv;
-			bgColor.appendChild(packDiv);
-			addClickEffect(packDiv);
-		});
+		// 动态获取表情包列表
+		game.getFileList(
+			srcBase,
+			folders => {
+				folders
+					.filter(pack => pack !== "throw_emotion")
+					.forEach(pack => {
+						packList.push(pack);
+						const packDiv = ui.create.div("hidden", "", function () {
+							packList.forEach(p => {
+								if (window[`dialog_emojiPack_${p}`]) window[`dialog_emojiPack_${p}`].style.display = "none";
+							});
+							document.querySelectorAll(".dialog_emojiContent").forEach(el => {
+								el.style.display = el.dataset.pack === this.packName ? "" : "none";
+							});
+						});
+						packDiv.style.cssText = "height:70px;width:70px;margin:0 5px 5px 0;display:inline-block;left:15px;top:0px;position:relative;background-size:100% 100%;";
+						packDiv.packName = pack;
+						packDiv.setBackgroundImage(`image/emotion/${pack}/1.gif`);
+						window[`dialog_emojiPack_${pack}`] = packDiv;
+						bgColor.appendChild(packDiv);
+						addClickEffect(packDiv);
 
-		Object.keys(emotionList || {}).forEach(pack => {
-			const count = emotionList[pack];
-			for (let i = 1; i <= count; i++) {
-				const emotionDiv = ui.create.div("hidden", "", function () {
-					Object.keys(emotionList || {}).forEach(p => {
-						if (window[`dialog_emojiPack_${p}`]) window[`dialog_emojiPack_${p}`].style.display = "";
+						game.getFileList(
+							`${srcBase}${pack}/`,
+							(_, files) => {
+								files.forEach(file => {
+									const emotionDiv = ui.create.div("hidden", "", function () {
+										packList.forEach(p => {
+											if (window[`dialog_emojiPack_${p}`]) window[`dialog_emojiPack_${p}`].style.display = "";
+										});
+										document.querySelectorAll(".dialog_emojiContent").forEach(el => {
+											el.style.display = "none";
+										});
+										const str = `<img src="${srcBase}${this.dataset.pack}/${this.dataset.file}" width="${parseInt(EMOTION_SIZE)}" height="${parseInt(EMOTION_SIZE)}">`;
+										sendChatMessage(str);
+										closeEmojiDialog();
+									});
+									emotionDiv.className = "dialog_emojiContent";
+									emotionDiv.style.cssText = "height:70px;width:70px;margin:0 5px 5px 0;display:inline-block;left:15px;top:0px;position:relative;background-size:100% 100%;display:none;";
+									emotionDiv.dataset.pack = pack;
+									emotionDiv.dataset.file = file;
+									emotionDiv.setBackgroundImage(`image/emotion/${pack}/${file}`);
+									bgColor.appendChild(emotionDiv);
+									addClickEffect(emotionDiv);
+								});
+							},
+							() => {}
+						);
 					});
-					for (let j = 0; j < emotionIndex; j++) {
-						if (window[`dialog_emojiContent_${j}`]) window[`dialog_emojiContent_${j}`].style.display = "none";
-					}
-					const str = `<img src="${assetURL}image/emotion/${this.packName}/${this.emotionNum}.gif" width="${parseInt(EMOTION_SIZE)}" height="${parseInt(EMOTION_SIZE)}">`;
-					sendChatMessage(str);
-					closeEmojiDialog();
-				});
-				emotionDiv.style.cssText = "height:70px;width:70px;margin:0 5px 5px 0;display:inline-block;left:15px;top:0px;position:relative;background-size:100% 100%;display:none;";
-				emotionDiv.packName = pack;
-				emotionDiv.emotionNum = i;
-				emotionDiv.setBackgroundImage(`image/emotion/${pack}/${i}.gif`);
-				window[`dialog_emojiContent_${emotionIndex}`] = emotionDiv;
-				bgColor.appendChild(emotionDiv);
-				addClickEffect(emotionDiv);
-				emotionIndex++;
-			}
-		});
+			},
+			() => {}
+		);
 	};
 
 	window.chatButton2 = ui.create.div("hidden", "", game.open_emoji);
 	window.chatButton2.style.cssText = "display:block;--w:75px;--h:calc(var(--w)*82/98);width:var(--w);height:var(--h);left:120px;bottom:15px;transition:none;background-size:100% 100%";
 	window.chatButton2.setBackgroundImage(`${chatAssetPath}emoji.png`);
-	if (typeof lib !== "undefined") lib.setScroll(window.chatButton2);
+	lib.setScroll(window.chatButton2);
 	window.chatBg.appendChild(window.chatButton2);
 	addClickEffect(window.chatButton2);
 }

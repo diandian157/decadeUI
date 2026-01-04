@@ -737,21 +737,36 @@ export function createOnlineLbtnPlugin(lib, game, ui, get, ai, _status, app) {
 			Object.assign(list2.style, gridStyle);
 			list2.style.display = "none";
 
-			Object.keys(lib.emotionList).forEach(pack => {
-				const packDiv = ui.create.div(".card.fullskin", `<img src="${lib.assetURL}image/emotion/${pack}/1.gif" width="80" height="80">`, list1, () => {
-					list2.innerHTML = "";
-					for (let j = 1; j <= lib.emotionList[pack]; j++) {
-						const btn = ui.create.div(".card.fullskin", `<img src="${lib.assetURL}image/emotion/${pack}/${j}.gif" width="80" height="80">`, list2, () => {
-							if (game.online) game.send("emotion", game.onlineID, pack, j);
-							else game.me.emotion(pack, j);
+			const srcBase = `${lib.assetURL}image/emotion/`;
+			game.getFileList(
+				srcBase,
+				folders => {
+					folders
+						.filter(pack => pack !== "throw_emotion")
+						.forEach(pack => {
+							const packDiv = ui.create.div(".card.fullskin", `<img src="${srcBase}${pack}/1.gif" width="80" height="80">`, list1, () => {
+								list2.innerHTML = "";
+								game.getFileList(
+									`${srcBase}${pack}/`,
+									(_, files) => {
+										files.forEach(file => {
+											const btn = ui.create.div(".card.fullskin", `<img src="${srcBase}${pack}/${file}" width="80" height="80">`, list2, () => {
+												if (game.online) game.send("emotion", game.onlineID, pack, file);
+												else game.me.emotion(pack, file);
+											});
+											btn.style.cssText = "width:80px;height:80px;";
+										});
+									},
+									() => {}
+								);
+								list1.style.display = "none";
+								list2.style.display = "grid";
+							});
+							packDiv.style.cssText = "width:80px;height:80px;";
 						});
-						btn.style.cssText = "width:80px;height:80px;";
-					}
-					list1.style.display = "none";
-					list2.style.display = "grid";
-				});
-				packDiv.style.cssText = "width:80px;height:80px;";
-			});
+				},
+				() => {}
+			);
 		},
 
 		// 创建历史消息
