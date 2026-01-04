@@ -2,6 +2,7 @@
  * @fileoverview 手杀风格技能插件
  * 特点：失效技能显示、转换技图标、技能次数显示、判定图标位置调整、gskillControl支持
  */
+import { lib, game, ui, get, ai, _status } from "noname";
 import { createBaseSkillPlugin } from "./base.js";
 import { getAvailableSkills, isGSkillCacheSame, shouldSkipEquipSkill } from "./gskillMixin.js";
 
