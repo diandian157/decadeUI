@@ -257,19 +257,19 @@ export function playerUninit() {
  */
 export function playerReinit(from, to, maxHp, online) {
 	basePlayerMethods.$reinit.apply(this, arguments);
+	const character1 = this.name1 || this.name;
 	if (window.decadeModule?.prefixMark) {
 		window.decadeModule.prefixMark.clearPrefixMarks(this);
-		const currentCharacter = this.name1 || this.name;
-		if (currentCharacter) {
-			window.decadeModule.prefixMark.showPrefixMark(currentCharacter, this);
+		if (character1) {
+			window.decadeModule.prefixMark.showPrefixMark(character1, this);
 		}
 		if (this.doubleAvatar && this.name2) {
 			window.decadeModule.prefixMark.showPrefixMark(this.name2, this);
 		}
 	}
-	this._addPrefixSeparator(this.node.name);
+	this._addPrefixSeparator(this.node.name, character1);
 	if (this.doubleAvatar && this.node.name2) {
-		this._addPrefixSeparator(this.node.name2);
+		this._addPrefixSeparator(this.node.name2, this.name2);
 	}
 	return this;
 }
@@ -1109,23 +1109,30 @@ export function playerSyncExpand(map) {
 /**
  * 添加前缀分隔符覆写
  * @param {HTMLElement} nameNode - 名称节点
+ * @param {string} character - 武将名
  */
-export function playerAddPrefixSeparator(nameNode) {
-	if (lib.config.extension_十周年UI_newDecadeStyle !== "off" || !nameNode) return;
+export function playerAddPrefixSeparator(nameNode, character) {
+	if (lib.config.extension_十周年UI_newDecadeStyle !== "off" || !nameNode || !character) return;
+	const slimName = get.slimName(character);
+	if (!slimName.includes("<span>")) return;
 	setTimeout(() => {
 		if (!nameNode) return;
 		const children = Array.from(nameNode.childNodes);
-		for (let i = 0; i < children.length - 1; i++) {
-			const current = children[i];
-			const next = children[i + 1];
-			if (current.nodeType === Node.ELEMENT_NODE && next.nodeType === Node.TEXT_NODE && next.textContent.trim() && !next.textContent.startsWith("•")) {
-				next.textContent = "•" + next.textContent;
-				return;
+		let lastPrefixIndex = -1;
+		for (let i = children.length - 2; i >= 0; i--) {
+			if (children[i].nodeType === Node.ELEMENT_NODE) {
+				lastPrefixIndex = i;
+				break;
 			}
 		}
-		if (nameNode.firstChild && nameNode.firstChild.nodeType === Node.ELEMENT_NODE && nameNode.childNodes.length > 1) {
+		if (lastPrefixIndex === -1) return;
+		const next = children[lastPrefixIndex + 1];
+		if (!next) return;
+		if (next.nodeType === Node.TEXT_NODE && next.textContent.trim() && !next.textContent.startsWith("•")) {
+			next.textContent = "•" + next.textContent;
+		} else if (next.nodeType === Node.ELEMENT_NODE) {
 			const separator = document.createTextNode("•");
-			nameNode.insertBefore(separator, nameNode.childNodes[1]);
+			nameNode.insertBefore(separator, next);
 		}
 	}, 0);
 }
