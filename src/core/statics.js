@@ -102,7 +102,7 @@ export function createStaticsModule() {
 	 *   cardNames: ['mycard1', 'mycard2']
 	 * });
 	 * @example
-	 * // 方式2：自动扫描目录 （可能会占用资源
+	 * // 方式2：自动扫描目录（可能会占用资源
 	 * registerDecadeCardSkin({
 	 *   extensionName: '我的扩展',
 	 *   skinKey: 'decade'
