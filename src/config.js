@@ -308,6 +308,16 @@ export let config = {
 		},
 	},
 
+	cardGhostEffect: {
+		name: "幻影出牌",
+		intro: "开启后，卡牌打出或摸牌时会产生幻影拖尾效果，性能杀手请注意",
+		init: true,
+		onclick(bool) {
+			game.saveConfig("extension_十周年UI_cardGhostEffect", bool);
+			window.decadeUI?.effect?.ghost?.setEnabled?.(bool);
+		},
+	},
+
 	autoSelect: {
 		name: "自动选择",
 		intro: "开启后会关闭自动确认，自动选择单个合法目标和手牌，重启生效",

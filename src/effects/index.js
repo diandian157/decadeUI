@@ -11,12 +11,14 @@ export * from "./utils.js";
 export { drawLine } from "./line.js";
 export { playKillEffect } from "./kill.js";
 export { playSkillEffect } from "./skill.js";
+export { setupCardGhost, addGhostTrail, setGhostEffectEnabled, GHOST_CONFIG } from "./cardGhost.js";
 
 // ==================== 游戏集成 ====================
 
 import { drawLine } from "./line.js";
 import { playKillEffect } from "./kill.js";
 import { playSkillEffect } from "./skill.js";
+import { setupCardGhost, addGhostTrail, setGhostEffectEnabled } from "./cardGhost.js";
 
 /**
  * 初始化特效模块到 decadeUI
@@ -35,5 +37,11 @@ export function setupEffects() {
 		line: drawLine,
 		kill: playKillEffect,
 		skill: playSkillEffect,
+		ghost: {
+			add: addGhostTrail,
+			setEnabled: setGhostEffectEnabled,
+		},
 	};
+
+	setupCardGhost();
 }
