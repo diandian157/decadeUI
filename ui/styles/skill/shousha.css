@@ -181,7 +181,7 @@
 	background-image: url("../../assets/skill/shousha/longfeng_no.png");
 }
 
-.skill-control > .enable > *.select:not(.skillitem_smh_yeyan):not(.skillitem_smh_huoji):not(.skillitem_smh_lianhuan)::before {
+.skill-control > .enable > *.select:not(.skillitem_smh_yeyan):not(.skillitem_smh_huoji):not(.skillitem_smh_lianhuan):not([data-gskill="true"])::before {
 	background-image: url("../../assets/skill/shousha/btn1.png");
 }
 
@@ -611,7 +611,7 @@
 	background-size: 100% 100%;
 }
 
-.skill-controlzuoshou > .enable > *.select:not(.skillitem_smh_yeyan):not(.skillitem_smh_huoji):not(.skillitem_smh_lianhuan)::before {
+.skill-controlzuoshou > .enable > *.select:not(.skillitem_smh_yeyan):not(.skillitem_smh_huoji):not(.skillitem_smh_lianhuan):not([data-gskill="true"])::before {
 	background-image: url("../../assets/skill/shousha/btn1.png");
 }
 
@@ -778,18 +778,15 @@
 /* gskill按钮红色背景（用于区分） */
 .skill-control > .enable > .skillitem[data-gskill="true"]::before,
 .skill-controlzuoshou > .enable > .skillitem[data-gskill="true"]::before {
-	background-image: url("../../assets/skill/shousha/btn0.png");
-	filter: hue-rotate(-50deg) saturate(2);
-}
-
-.skill-control > .enable > .skillitem[data-gskill="true"].select::before,
-.skill-controlzuoshou > .enable > .skillitem[data-gskill="true"].select::before {
-	background-image: url("../../assets/skill/shousha/btn1.png");
-	filter: hue-rotate(-50deg) saturate(2);
+	background-image: url("../../assets/skill/shousha/gskill1.png");
 }
 
 .skill-control > .enable > .skillitem[data-gskill="true"]:not(.usable):not(.select)::before,
 .skill-controlzuoshou > .enable > .skillitem[data-gskill="true"]:not(.usable):not(.select)::before {
-	background-image: url("../../assets/skill/shousha/btn2.png");
-	filter: hue-rotate(-50deg) saturate(1.5);
+	background-image: url("../../assets/skill/shousha/gskill0.png");
+}
+
+.skill-control > .enable > .skillitem[data-gskill="true"].select::before,
+.skill-controlzuoshou > .enable > .skillitem[data-gskill="true"].select::before {
+	background-image: url("../../assets/skill/shousha/gskill2.png");
 }
