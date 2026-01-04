@@ -663,12 +663,14 @@ export function createShoushaLbtnPlugin(lib, game, ui, get, ai, _status, app) {
 					});
 				});
 
-				// shousha 样式显示 gskills (重铸按钮等)
+				// shousha 样式只显示重铸按钮，其他gskills由skill插件处理
 				if (ui.skills2?.skills?.length) {
-					confirm.skills2 = ui.skills2.skills.map(skill => {
-						const item = document.createElement("div");
-						item.link = skill;
-						if (skill === "_recasting") {
+					// 只过滤出重铸按钮
+					const recastingSkills = ui.skills2.skills.filter(skill => skill === "_recasting");
+					if (recastingSkills.length) {
+						confirm.skills2 = recastingSkills.map(skill => {
+							const item = document.createElement("div");
+							item.link = skill;
 							// 重铸按钮使用特殊图片和class
 							item.classList.add("recasting-btn");
 							item.innerHTML = `<img draggable='false' src='${lib.assetURL}extension/十周年UI/ui/assets/lbtn/uibutton/CZ.png'>`;
@@ -676,19 +678,17 @@ export function createShoushaLbtnPlugin(lib, game, ui, get, ai, _status, app) {
 							item.style.transform = "scale(0.75)";
 							item.style.setProperty("padding", "25px 10px", "important");
 							item.style.setProperty("margin", "0 -12px", "important");
-						} else {
-							item.innerHTML = get.translation(skill);
-						}
-						item.dataset.type = "skill2";
-						item.addEventListener(lib.config.touchscreen ? "touchend" : "click", function (e) {
-							if (_status.event?.skill === "_recasting") return;
-							e.stopPropagation();
-							ui.click.skill(this.link);
-							ui.updateSkillControl?.(game.me, true);
+							item.dataset.type = "skill2";
+							item.addEventListener(lib.config.touchscreen ? "touchend" : "click", function (e) {
+								if (_status.event?.skill === "_recasting") return;
+								e.stopPropagation();
+								ui.click.skill(this.link);
+								ui.updateSkillControl?.(game.me, true);
+							});
+							return item;
 						});
-						return item;
-					});
-					confirm.skills2.forEach(item => confirm.insertBefore(item, confirm.firstChild));
+						confirm.skills2.forEach(item => confirm.insertBefore(item, confirm.firstChild));
+					}
 				}
 
 				confirm.update = () => {

@@ -6,7 +6,7 @@
 .skill-control {
 	max-width: 181px;
 	bottom: 30px;
-	right: 175px;
+	right: 160px;
 	z-index: 6;
 }
 
@@ -773,4 +773,23 @@
 	position: absolute;
 	left: -7px;
 	z-index: -1;
+}
+
+/* gskill按钮红色背景（用于区分） */
+.skill-control > .enable > .skillitem[data-gskill="true"]::before,
+.skill-controlzuoshou > .enable > .skillitem[data-gskill="true"]::before {
+	background-image: url("../../assets/skill/shousha/btn0.png");
+	filter: hue-rotate(-50deg) saturate(2);
+}
+
+.skill-control > .enable > .skillitem[data-gskill="true"].select::before,
+.skill-controlzuoshou > .enable > .skillitem[data-gskill="true"].select::before {
+	background-image: url("../../assets/skill/shousha/btn1.png");
+	filter: hue-rotate(-50deg) saturate(2);
+}
+
+.skill-control > .enable > .skillitem[data-gskill="true"]:not(.usable):not(.select)::before,
+.skill-controlzuoshou > .enable > .skillitem[data-gskill="true"]:not(.usable):not(.select)::before {
+	background-image: url("../../assets/skill/shousha/btn2.png");
+	filter: hue-rotate(-50deg) saturate(1.5);
 }
