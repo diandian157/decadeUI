@@ -79,12 +79,18 @@ function spawnGhost(card) {
 	const style = getComputedStyle(card);
 	const bgImage = style.backgroundImage;
 
+	const arenaRect = ui.arena.getBoundingClientRect();
+	const scaleX = arenaRect.width / ui.arena.offsetWidth || 1;
+	const scaleY = arenaRect.height / ui.arena.offsetHeight || 1;
+	const relativeLeft = (rect.left - arenaRect.left) / scaleX + ui.arena.scrollLeft;
+	const relativeTop = (rect.top - arenaRect.top) / scaleY + ui.arena.scrollTop;
+
 	ghost.style.cssText = `
-		position: fixed;
-		left: ${rect.left}px;
-		top: ${rect.top}px;
-		width: ${rect.width}px;
-		height: ${rect.height}px;
+		position: absolute;
+		left: ${relativeLeft}px;
+		top: ${relativeTop}px;
+		width: ${rect.width / scaleX}px;
+		height: ${rect.height / scaleY}px;
 		background-image: ${bgImage};
 		background-size: cover;
 		background-position: center;
