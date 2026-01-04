@@ -136,13 +136,13 @@
 .skill-control > .enable > .xiandingji > .xiandingji-mark,
 .skill-control > .enable > .skillcol > .xiandingji > .xiandingji-mark {
 	position: absolute;
-	left: -10px;
-	top: -10px;
-	--w: 30px;
-	--h: 30px;
+	left: 0px;
+	top: 0px;
+	--w: 18px;
+	--h: 18px;
 	width: var(--w);
 	height: var(--h);
-	background-image: url("../../assets/skill/yijiang/new_xiandingji.png");
+	background-image: url("../../assets/skill/online/skillitem_xianding_active.png");
 	background-size: 100% 100%;
 	background-repeat: no-repeat;
 	pointer-events: none;
@@ -469,13 +469,13 @@
 .skill-controlzuoshou > .enable > .xiandingji > .xiandingji-mark,
 .skill-controlzuoshou > .enable > .skillcol > .xiandingji > .xiandingji-mark {
 	position: absolute;
-	left: -6px;
-	top: -6px;
-	--w: 20px;
-	--h: 20px;
+	left: 0px;
+	top: 0px;
+	--w: 18px;
+	--h: 18px;
 	width: var(--w);
 	height: var(--h);
-	background-image: url("../../assets/skill/yijiang/new_xiandingji.png");
+	background-image: url("../../assets/skill/online/skillitem_xianding_active.png");
 	background-size: 100% 100%;
 	background-repeat: no-repeat;
 	pointer-events: none;

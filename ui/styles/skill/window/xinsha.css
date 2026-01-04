@@ -127,13 +127,13 @@
 .skill-control > .enable > .xiandingji > .xiandingji-mark,
 .gskill-control > .enable > .xiandingji > .xiandingji-mark {
 	position: absolute;
-	left: -5px;
-	top: -5px;
-	--w: 18px;
-	--h: 18px;
+	left: 0px;
+	top: 0px;
+	--w: 13px;
+	--h: 13px;
 	width: var(--w);
 	height: var(--h);
-	background-image: url("../../../assets/skill/yijiang/new_xiandingji.png");
+	background-image: url("../../../assets/skill/online/skillitem_xianding_active.png");
 	background-size: 100% 100%;
 	background-repeat: no-repeat;
 	pointer-events: none;
