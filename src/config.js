@@ -570,7 +570,7 @@ export let config = {
 		name: "自由选将筛选框",
 		init: "extension-OL-system",
 		intro: "更改自由选将筛选框",
-		item: { default: "默认本体框", "extension-OL-system": "扩展内置框", offDialog: "关���筛选框" },
+		item: { default: "默认本体框", "extension-OL-system": "扩展内置框", offDialog: "关闭筛选框" },
 	},
 
 	stuff_title_end: createCollapseEnd("stuff_title"),
