@@ -3,34 +3,9 @@
  * 包含：动画技能、基础技能、继承技能、子技能
  */
 import { lib, game, ui, get, ai, _status } from "noname";
-
-// ==================== 常量 ====================
-
-/**
- * 检查卡牌是否为可重铸卡牌（通过卡牌本身的 recastable/chongzhu 属性判断）
- * @param {Object|string} card - 卡牌对象或卡牌名称
- * @returns {boolean} 是否为可重铸卡牌
- */
-function isRecastableCard(card) {
-	const info = get.info(card);
-	if (!info) return false;
-	const recastable = info.recastable || info.chongzhu;
-	return typeof recastable === "function" ? !!recastable(_status.event, get.owner(card)) : !!recastable;
-}
+import { initRecast, canRecastCard } from "./recast.js";
 
 // ==================== 工具函数 ====================
-
-/**
- * 检查卡牌是否为玩家的真实手牌（排除"视为手牌"的情况）
- * @param {Object} card - 卡牌对象
- * @param {Object} player - 玩家对象
- * @returns {boolean} 是否为真实手牌
- */
-function isRealHandCard(card, player) {
-	if (!card || !player) return false;
-	if (card.classList?.contains("glows")) return false;
-	return true;
-}
 
 /**
  * 创建画布样式配置
@@ -161,30 +136,6 @@ const animateSkill = {
 			);
 		},
 	},
-
-	/** 可重铸卡牌无目标时转为重铸 */
-	_decadeUI_recastable_recast: {
-		trigger: { player: "useCardBefore" },
-		forced: true,
-		popup: false,
-		silent: true,
-		filter(event, player) {
-			if (lib.config.extension_十周年UI_newDecadeStyle === "off") return false;
-			if (!isRecastableCard(event.card)) return false;
-			if (event.targets && event.targets.length > 0) return false;
-			const cards = event.cards?.slice() || [];
-			if (cards.length === 0) return false;
-			for (const card of cards) {
-				if (!isRealHandCard(card, player)) return false;
-			}
-			return true;
-		},
-		async content(event, trigger, player) {
-			trigger.cancel();
-			const cards = trigger.cards.slice();
-			await player.recast(cards);
-		},
-	},
 };
 
 // ==================== 基础技能 ====================
@@ -195,18 +146,6 @@ const animateSkill = {
  */
 const baseSkill = {
 	ghujia: { mark: false },
-
-	/** 被禁用的可重铸卡牌仍可选中（用于重铸） */
-	_decadeUI_recastable_enable: {
-		mod: {
-			cardEnabled(card, player) {
-				if (!player?.isPhaseUsing?.()) return;
-				if (!isRecastableCard(card)) return;
-				if (!isRealHandCard(card, player)) return;
-				return true;
-			},
-		},
-	},
 
 	/** 失去体力动画 */
 	_hpLossAnimation: {
@@ -1107,11 +1046,6 @@ export function initSkills() {
 	// 注册基础技能
 	Object.assign(lib.skill, baseSkill);
 
-	// 注册可重铸卡牌启用检查为全局技能
-	if (lib.config.extension_十周年UI_newDecadeStyle !== "off") {
-		game.addGlobalSkill("_decadeUI_recastable_enable");
-	}
-
 	// 合并继承技能
 	for (const key of Object.keys(inheritSkill)) {
 		if (lib.skill[key]) {
@@ -1138,129 +1072,6 @@ export function initSkills() {
 		lib.skill._slyh = factionOptimizeSkill._slyh;
 	}
 
-	// 处理可重铸卡牌
-	if (lib.config.extension_十周年UI_newDecadeStyle !== "off") {
-		setupRecastableCards();
-	}
-}
-
-/**
- * 检查卡牌是否被其他技能禁用
- * @param {Object} card - 卡牌对象
- * @param {Object} player - 玩家对象
- * @returns {boolean} 是否被禁用
- */
-function isCardDisabledForUse(card, player) {
-	if (!player) return false;
-
-	// 临时移除重铸启用mod，检查原始cardEnabled状态
-	const skill = lib.skill._decadeUI_recastable_enable;
-	const originalMod = skill?.mod?.cardEnabled;
-	if (skill?.mod) delete skill.mod.cardEnabled;
-
-	let disabled = false;
-	if (game.checkMod(card, player, _status.event, "unchanged", "cardEnabled", player) === false) {
-		disabled = true;
-	}
-	if (!disabled && get.itemtype(card) === "card") {
-		if (game.checkMod(card, player, _status.event, "unchanged", "cardEnabled2", player) === false) {
-			disabled = true;
-		}
-	}
-
-	// 恢复mod
-	if (skill?.mod && originalMod) skill.mod.cardEnabled = originalMod;
-
-	return disabled;
-}
-
-/**
- * 设置可重铸卡牌
- * @returns {void}
- */
-function setupRecastableCards() {
-	for (const cardName of Object.keys(lib.card)) {
-		const card = lib.card[cardName];
-		if (!card?.recastable && !card?.chongzhu) continue;
-
-		const isEquip = card.type === "equip";
-		const originalSelectTarget = card.selectTarget;
-		const originalFilterTarget = card.filterTarget;
-
-		let minTarget, maxTarget;
-		if (isEquip) {
-			minTarget = 1;
-			maxTarget = 1;
-		} else {
-			minTarget = Array.isArray(originalSelectTarget) ? originalSelectTarget[0] : originalSelectTarget || 1;
-			maxTarget = Array.isArray(originalSelectTarget) ? originalSelectTarget[1] : originalSelectTarget || 1;
-		}
-
-		card._originalMinTarget = minTarget;
-
-		Object.assign(card, {
-			selectTarget: [0, maxTarget],
-			filterTarget(cardObj, player, target) {
-				const selectedCard = ui.selected.cards?.[0];
-				// 被禁用时不能选目标（只能重铸）
-				if (selectedCard && isRealHandCard(selectedCard, player) && isCardDisabledForUse(selectedCard, player)) {
-					return false;
-				}
-				if (isEquip) {
-					return target === player && player.canEquip(cardObj, true);
-				}
-				return typeof originalFilterTarget === "function" ? originalFilterTarget(cardObj, player, target) : true;
-			},
-		});
-	}
-
-	// 从通用重铸中排除这些卡牌（因为已有专门的重铸逻辑）
-	if (lib.skill._recasting) {
-		const originalFilterCard = lib.skill._recasting.filterCard;
-		lib.skill._recasting.filterCard = function (card, player) {
-			if (isRecastableCard(card)) return false;
-			return originalFilterCard.call(this, card, player);
-		};
-	}
-
-	// 在 checkEnd hook 里控制确认按钮，以便适配如手牌版使用或打出
-	if (lib.hooks?.checkEnd) {
-		lib.hooks.checkEnd.add("_decadeUI_recastable_check", (event, result) => {
-			if (!ui.confirm) return;
-			const card = get.card();
-			if (!card || !isRecastableCard(card)) return;
-
-			const okBtn = ui.confirm.firstChild;
-			if (!okBtn || okBtn.link !== "ok") return;
-
-			const selectedCard = ui.selected.cards?.[0];
-			const player = event?.player;
-
-			if (ui.selected.targets.length === 0) {
-				if (selectedCard && player && isRealHandCard(selectedCard, player)) {
-					okBtn.innerHTML = "重铸";
-					okBtn.classList.remove("disabled");
-				} else {
-					okBtn.innerHTML = "确定";
-					okBtn.classList.add("disabled");
-				}
-			} else {
-				const minTarget = lib.card[get.name(card)]?._originalMinTarget || 1;
-				okBtn.innerHTML = "确定";
-				if (ui.selected.targets.length >= minTarget) {
-					okBtn.classList.remove("disabled");
-				} else {
-					okBtn.classList.add("disabled");
-				}
-			}
-		});
-	}
-
-	if (lib.hooks?.uncheckEnd) {
-		lib.hooks.uncheckEnd.add("_decadeUI_recastable_confirm_reset", () => {
-			if (!ui.confirm) return;
-			const okBtn = ui.confirm.firstChild;
-			if (okBtn?.innerHTML === "重铸") okBtn.innerHTML = "确定";
-		});
-	}
+	// 初始化重铸模块
+	initRecast();
 }
