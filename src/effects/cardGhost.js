@@ -25,7 +25,7 @@ let lastSpawnTime = 0;
 const SPAWN_INTERVAL = 10;
 
 /** @type {number} 幻影持续时间(ms) */
-const GHOST_DURATION = 500;
+const GHOST_DURATION = 300;
 
 /** @type {string} 发光颜色 */
 const GLOW_COLOR = "rgba(255, 0, 0, 0.53)";
