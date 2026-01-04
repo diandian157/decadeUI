@@ -1,4 +1,3 @@
-import { nonameInitialized } from "../../noname/util/index.js";
 import { lib, game, ui, get, ai, _status } from "noname";
 import { config } from "./src/config.js";
 import { content } from "./src/content.js";
@@ -18,12 +17,10 @@ export default async function () {
 
 	const extensionName = name;
 	const extensionPath = `${lib.assetURL}extension/${extensionName}/`;
-	const extensionResolvePath = `${nonameInitialized}extension/${extensionName}/`;
 
 	Object.assign(window, {
 		decadeUIName: extensionName,
 		decadeUIPath: extensionPath,
-		decadeUIResolvePath: extensionResolvePath,
 	});
 
 	const packageData = mainpackage(otherInfo);

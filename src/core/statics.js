@@ -21,6 +21,35 @@ if (!window.registerDecadeCardSkin) {
 }
 
 /**
+ * 扫描目录获取文件列表
+ * @param {string} dir - 相对路径
+ * @returns {Promise<string[]>} 文件名列表
+ */
+const scanDirectory = dir => {
+	return new Promise(resolve => {
+		if (typeof game.getFileList === "function") {
+			game.getFileList(
+				dir,
+				(_, files) => resolve(files || []),
+				() => resolve([])
+			);
+		} else {
+			resolve([]);
+		}
+	});
+};
+
+/**
+ * 从文件列表中提取卡牌名称
+ * @param {string[]} files - 文件名列表
+ * @param {string} ext - 扩展名（如 ".png"）
+ * @returns {string[]} 卡牌名称列表
+ */
+const extractCardNames = (files, ext) => {
+	return files.filter(f => f.toLowerCase().endsWith(ext)).map(f => f.substring(0, f.length - ext.length));
+};
+
+/**
  * 创建statics模块
  * @returns {{cards: Object, handTips: Array, registerCardSkin: Function}} statics模块对象
  */
@@ -42,38 +71,19 @@ export function createStaticsModule() {
 	};
 
 	/**
-	 * 读取文件列表并注册到缓存（十周年UI自带皮肤用）
-	 * @param {Array} files - 文件列表
+	 * 批量注册卡牌皮肤到缓存
 	 * @param {string} skinKey - 皮肤键名
-	 * @param {string} folder - 文件夹名
-	 * @param {string} extension - 文件扩展名
-	 * @param {boolean} [entry=false] - 是否为目录条目（resolveLocalFileSystemURL返回的格式）
+	 * @param {string} baseUrl - 图片基础URL
+	 * @param {string[]} cardNames - 卡牌名称列表
+	 * @param {string} ext - 扩展名
 	 */
-	const readFiles = (files, skinKey, folder, extension, entry) => {
-		if (!folder) return;
+	const registerSkins = (skinKey, baseUrl, cardNames, ext) => {
 		const skinCache = ensureSkinCache(skinKey);
-		const prefix = decadeUIPath + "image/card-skins/" + folder + "/";
-		const ext = extension ? "." + extension.toLowerCase() : null;
-		cards.READ_OK[skinKey] = true;
-
-		for (const current of files) {
-			const filename = entry ? current.name : current;
-			if (!filename || (entry && current.isDirectory)) continue;
-
-			const lower = filename.toLowerCase();
-			let cardname = filename;
-
-			if (ext) {
-				if (!lower.endsWith(ext)) continue;
-				cardname = filename.substring(0, filename.length - ext.length);
-			} else {
-				const dotIndex = filename.lastIndexOf(".");
-				if (dotIndex === -1) continue;
-				cardname = filename.substring(0, dotIndex);
-			}
-
-			skinCache[cardname] = { url: prefix + filename, name: cardname, loaded: true };
+		for (const name of cardNames) {
+			if (!name || skinCache[name]) continue;
+			skinCache[name] = { url: `${baseUrl}${name}.${ext}`, name, loaded: true };
 		}
+		cards.READ_OK[skinKey] = true;
 	};
 
 	/**
@@ -107,53 +117,20 @@ export function createStaticsModule() {
 		}
 
 		const skinFolder = folder || skinKey;
-		const baseUrl = lib.assetURL + `extension/${extensionName}/image/card-skins/${skinFolder}/`;
-		const skinCache = ensureSkinCache(skinKey);
+		const baseUrl = `${lib.assetURL}extension/${extensionName}/image/card-skins/${skinFolder}/`;
 
 		// 方式1：直接注册指定的卡牌列表
 		if (Array.isArray(cardNames) && cardNames.length > 0) {
-			for (const cardName of cardNames) {
-				if (!cardName || skinCache[cardName]) continue;
-				skinCache[cardName] = {
-					url: `${baseUrl}${cardName}.${extension}`,
-					name: cardName,
-					loaded: true,
-				};
-			}
+			registerSkins(skinKey, baseUrl, cardNames, extension);
 			return;
 		}
 
 		// 方式2：扫描目录自动注册
-		const basePath = `extension/${extensionName}/image/card-skins/${skinFolder}/`;
-		const ext = "." + extension.toLowerCase();
-
-		const processFiles = (files, isEntry) => {
-			for (const current of files) {
-				const filename = isEntry ? current.name : current;
-				if (!filename || (isEntry && current.isDirectory)) continue;
-				if (!filename.toLowerCase().endsWith(ext)) continue;
-
-				const cardName = filename.substring(0, filename.length - ext.length);
-				if (skinCache[cardName]) continue;
-
-				skinCache[cardName] = {
-					url: baseUrl + filename,
-					name: cardName,
-					loaded: true,
-				};
-			}
-		};
-
-		if (window.fs) {
-			fs.readdir(__dirname + "/" + basePath, (err, files) => {
-				if (!err) processFiles(files, false);
-			});
-		} else if (window.resolveLocalFileSystemURL) {
-			const resolvePath = (typeof nonameInitialized !== "undefined" ? nonameInitialized : lib.assetURL) + basePath;
-			resolveLocalFileSystemURL(resolvePath, entry => {
-				entry.createReader().readEntries(entries => processFiles(entries, true));
-			});
-		}
+		const dir = `extension/${extensionName}/image/card-skins/${skinFolder}`;
+		scanDirectory(dir).then(files => {
+			const names = extractCardNames(files, `.${extension.toLowerCase()}`);
+			registerSkins(skinKey, baseUrl, names, extension);
+		});
 	};
 
 	/**
@@ -161,43 +138,29 @@ export function createStaticsModule() {
 	 */
 	const processQueue = () => {
 		const queue = window._decadeUICardSkinQueue || [];
-		if (queue.length > 0) {
-			queue.forEach(options => registerCardSkin(options));
-			window._decadeUICardSkinQueue = [];
-		}
+		queue.forEach(options => registerCardSkin(options));
+		window._decadeUICardSkinQueue = [];
 		window.registerDecadeCardSkin = registerCardSkin;
 	};
 
 	// 加载十周年UI自带的卡牌皮肤资源
-	if (window.fs) {
-		let pending = cardSkinPresets.length;
-		cardSkinPresets.forEach(skin => {
+	const loadBuiltinSkins = async () => {
+		const tasks = cardSkinPresets.map(async skin => {
 			const folder = skin.dir || skin.key;
-			fs.readdir(__dirname + "/" + decadeUIPath + "image/card-skins/" + folder + "/", (err, files) => {
-				if (!err) readFiles(files, skin.key, folder, skin.extension);
-				if (--pending === 0) processQueue();
-			});
+			const dir = `extension/${decadeUIName}/image/card-skins/${folder}`;
+			const ext = skin.extension ? `.${skin.extension.toLowerCase()}` : ".png";
+			const baseUrl = `${decadeUIPath}image/card-skins/${folder}/`;
+
+			const files = await scanDirectory(dir);
+			const names = extractCardNames(files, ext);
+			registerSkins(skin.key, baseUrl, names, skin.extension || "png");
 		});
-	} else if (window.resolveLocalFileSystemURL) {
-		let pending = cardSkinPresets.length;
-		cardSkinPresets.forEach(skin => {
-			const folder = skin.dir || skin.key;
-			resolveLocalFileSystemURL(
-				decadeUIResolvePath + "image/card-skins/" + folder + "/",
-				entry => {
-					entry.createReader().readEntries(entries => {
-						readFiles(entries, skin.key, folder, skin.extension, true);
-						if (--pending === 0) processQueue();
-					});
-				},
-				() => {
-					if (--pending === 0) processQueue();
-				}
-			);
-		});
-	} else {
-		setTimeout(processQueue, 0);
-	}
+
+		await Promise.all(tasks);
+		processQueue();
+	};
+
+	loadBuiltinSkins();
 
 	return { cards, handTips: [], registerCardSkin };
 }
