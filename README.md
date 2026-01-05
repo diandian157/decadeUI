@@ -42,6 +42,7 @@
 - [前缀角标注册](docs/prefix-mark-api.md) - 武将前缀角标的配置方法
 - [动态皮肤配置](docs/dynamic-skin-api.md) - Spine骨骼动画皮肤的配置方法
 - [露头头像配置](docs/outcrop-avatar-api.md) - 露头头像的目录结构和API
+- [报错兜底处理](docs/secret.md) - 与无名杀版本不匹配下游玩方法
 
 ## 技术信息
 
