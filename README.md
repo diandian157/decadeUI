@@ -34,37 +34,6 @@
 3. 打开本体设置-选项-通用-自动导入扩展
 4. 重启游戏，在扩展列表中启用"十周年UI"
 
-## 外部扩展API
-
-十周年UI提供以下API供外部扩展调用：
-
-### 1. 卡牌皮肤注册
-
-```javascript
-// 全局函数，可在十周年UI加载前后调用
-registerDecadeCardSkin({
-	extensionName: "我的扩展", // 必填，扩展名称
-	skinKey: "decade", // 皮肤类型：decade/caise/online/gold/bingkele
-	cardNames: ["mycard1", "mycard2"], // 推荐：指定卡牌列表
-	extension: "png", // 图片格式，默认png
-});
-
-// 图片路径：extension/我的扩展/image/card-skins/decade/mycard1.png
-```
-
-### 2. 十周年样式前缀角标注册
-
-```javascript
-// 通过 decadeModule.prefixMark 访问
-decadeModule.prefixMark.registerPrefix("自定义", "custom");
-// 批量注册
-decadeModule.prefixMark.registerPrefixes({ 前缀A: "styleA", 前缀B: "styleB" });
-// 检查前缀
-decadeModule.prefixMark.hasPrefix("自定义"); // true
-```
-
-需配合CSS样式：`.custom-mark { background-image: url(...); }`
-
 ## 技术信息
 
 **开发语言**：JavaScript (ES6+ Modules)
