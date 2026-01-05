@@ -191,11 +191,11 @@ const baseSkill = {
 
 	/** 伤害数字显示 */
 	_wjmh_shanghaishuzi_: {
-		priority: 210,
+		priority: 10,
 		forced: true,
-		trigger: { player: "damageBegin4" },
+		trigger: { player: "damage" },
 		filter(event) {
-			return event.num > 1 && event.num <= 9 && lib.config.extension_十周年UI_newDecadeStyle;
+			return event.num > 1 && event.num <= 9 && !event.unreal && lib.config.extension_十周年UI_newDecadeStyle;
 		},
 		async content(event, trigger, player) {
 			decadeUI.animation?.playDamageNumber?.(player, trigger.num);
