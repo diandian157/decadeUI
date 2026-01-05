@@ -34,6 +34,15 @@
 3. 打开本体设置-选项-通用-自动导入扩展
 4. 重启游戏，在扩展列表中启用"十周年UI"
 
+## 使用帮助
+
+详细的配置说明请参考 `docs/` 目录：
+
+- [卡牌皮肤注册](docs/card-skin-api.md) - 外部扩展注册卡牌皮肤的方法
+- [前缀角标注册](docs/prefix-mark-api.md) - 武将前缀角标的配置方法
+- [动态皮肤配置](docs/dynamic-skin-api.md) - Spine骨骼动画皮肤的配置方法
+- [露头头像配置](docs/outcrop-avatar-api.md) - 露头头像的目录结构和API
+
 ## 技术信息
 
 **开发语言**：JavaScript (ES6+ Modules)
