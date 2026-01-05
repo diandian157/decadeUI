@@ -67,4 +67,9 @@ export const shaEasterEggs = [
 		sequenceKey: () => "machao-cao-cao",
 	},
 	{ cards: ["sha"], player: "xusheng", condition: ctx => ctx.targets?.some(t => ctx.hasName(t, "caochong")), text: "今儿，给冲儿来刀狠的！", audio: "xusheng1.mp3" },
+	{ cards: ["sha"], player: "luxun", condition: ctx => ctx.targets?.some(t => ctx.hasName(t, "liubei")), text: "刘备兵疲意沮，取之正在今日！", audio: "luxun2.mp3" },
+	{ cards: ["sha"], player: "luzhi", condition: ctx => ctx.targets?.some(t => ctx.hasName(t, "zhangjiao") || ctx.hasName(t, "zhangliang") || ctx.hasName(t, "zhangbao")), text: "平定黄巾之乱，吾之本职。", audio: "luzhi1.mp3" },
+	{ cards: ["sha"], player: "lvbu", condition: ctx => ctx.targets?.some(t => ctx.hasName(t, "dongzhuo")), text: "大丈夫生于天地之间，岂能郁郁久居人下！", audio: "lvbu6.mp3" },
+	{ cards: ["sha", "juedou"], player: "sunjian", condition: ctx => ctx.targets?.some(t => ctx.hasName(t, "dongzhuo")), text: "休要走脱了此篡逆之辈！", audio: "sunjian2.mp3" },
+	{ cards: ["sha"], player: "pangde", condition: ctx => ctx.targets?.some(t => ctx.hasName(t, "guanyu")), text: "吾闻勇将不怯死以苟免，壮士不毁节而求生。", audio: "pangde1.mp3" },
 ];

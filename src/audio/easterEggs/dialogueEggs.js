@@ -79,4 +79,5 @@ export const gameStartDialogues = [
 	{ players: ["caocao", "xunyu"], dialogues: [{ player: "caocao", text: "忠正密谋，抚宁内外，文若是也！", audio: "caocao17.mp3", delay: 500 }] },
 	{ players: ["diaochan", "lvbu"], dialogues: [{ player: "diaochan", text: "将军英勇无比，貂蝉敬仰万分。", audio: "diaochan4.mp3", delay: 500 }] },
 	{ players: ["guanyu", "sunquan"], dialogues: [{ player: "guanyu", text: "虎女，安能嫁犬子？", audio: "guanyu7.mp3", delay: 500 }] },
+	{ players: ["caocao", "yuanshao"], dialogues: [{ player: "caocao", text: "今见本初，心头涌起多少青葱岁月", audio: "caocao19.mp3", delay: 500 }] },
 ];

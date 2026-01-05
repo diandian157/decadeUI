@@ -31,4 +31,5 @@ export const equipEasterEggs = [
 	{ cards: ["qinggang"], player: "zhaoyun", text: "宝剑，自当配于英雄！", audio: "zhaoyun2.mp3" },
 	{ cards: ["guding"], player: "xusheng", text: "在下，要给诸位来刀狠的", audio: "xusheng2.mp3" },
 	{ cards: ["guding"], player: "", speaker: "xusheng", condition: ctx => !ctx.hasName(ctx.player, "xusheng") && ctx.findPlayer?.("xusheng"), text: "我刀呢？", audio: "xusheng3.mp3" },
+	{ cards: ["guding"], player: "sunjian", text: "看着我的刀再说一遍！", audio: "sunjian3.mp3" },
 ];

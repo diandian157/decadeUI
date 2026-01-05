@@ -57,4 +57,9 @@ export const cardEasterEggs = [
 	{ cards: ["tao"], player: "guanyu", condition: ctx => ctx.targets?.some(t => ctx.hasName(t, "liubei")), text: "关某之命即是刘兄之命，关某之躯即为刘兄之躯！", audio: "guanyu6.mp3" },
 	{ cards: ["tao"], player: "guanyu", condition: ctx => ctx.targets?.some(t => ctx.hasName(t, "zhangliao")), text: "某素知文远乃忠义之士。", audio: "guanyu8.mp3" },
 	{ cards: ["tao"], player: "caocao", condition: ctx => ctx.targets?.some(t => ctx.hasName(t, "xunyu")), text: "吾之子房也！", audio: "caocao16.mp3" },
+	{ cards: ["tao"], condition: ctx => ctx.player?.group === "wei" && ctx.targets?.some(t => ctx.hasName(t, "caocao")), target: "caocao", text: "得卿助力，孤方能登极捧日。", audio: "caocao21.mp3" },
+	{ cards: ["tao"], player: "sunjian", condition: ctx => ctx.targets?.some(t => ctx.hasName(t, "sunce")), text: "汉室倾覆之际，大丈夫当有所作为。", audio: "sunjian1.mp3" },
+	{ cards: ["tao"], player: "simashi", condition: ctx => ctx.targets?.some(t => ctx.hasName(t, "simayi")), text: "父亲，时机已至，何不一鼓作气？", audio: "simashi1.mp3" },
+	{ cards: ["tao"], player: "simashi", condition: ctx => ctx.targets?.some(t => ctx.hasName(t, "xunyu")), text: "贤才未有及荀令君者也。", audio: "simayi4.mp3" },
+	{ cards: ["tao"], player: "simazhao", condition: ctx => ctx.targets?.some(t => ctx.hasName(t, "zhonghui")), text: "今四海安定，将勇兵精，可乘势取蜀，再顺流而下，水陆并进，平吴亦不在话下。", audio: "simazhao1.mp3" },
 ];

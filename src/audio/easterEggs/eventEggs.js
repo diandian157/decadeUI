@@ -9,7 +9,10 @@
  * @type {Array<Object>}
  * 受伤彩蛋配置数组
  */
-export const damageEasterEggs = [{ player: "diaochan", text: "嗯啊~", audio: "diaochan1.mp3" }];
+export const damageEasterEggs = [
+	{ player: "diaochan", text: "嗯啊~", audio: "diaochan1.mp3" },
+	{ player: "simayi", text: "记住，耐不住性子是成不了事的", audio: "simayi3.mp3" },
+];
 
 /**
  * @type {Array<Object>}
