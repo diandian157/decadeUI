@@ -313,12 +313,16 @@ export const prefixMarkModule = {
 		const config = this.getPrefixConfig(character);
 		if (!config) return;
 
+		// 只有主将才显示前缀角标，副将的前缀不显示在主将位置
+		const mainCharacter = playerElement.name1 || playerElement.name;
+		if (character !== mainCharacter) return;
+
 		const markElement = this.createMarkElement(config, playerElement);
 		if (!playerElement.contains(markElement)) {
 			playerElement.appendChild(markElement);
 		}
 
-		// 更新武将名称（去除前缀）
+		// 更新主将名称显示（去除前缀）
 		const nameElement = playerElement.node?.name;
 		if (nameElement) {
 			nameElement.innerText = get.rawName2(character);

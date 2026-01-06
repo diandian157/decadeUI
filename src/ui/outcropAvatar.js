@@ -223,9 +223,6 @@ export async function applyOutcropAvatar(characterName, node, outcropStyle) {
 
 	// 没有露头图，移除露头样式class，交给本体处理
 	node.classList.remove("has-outcrop");
-	if (typeof node.setBackground === "function") {
-		node.setBackground(characterName, "character");
-	}
 	return false;
 }
 

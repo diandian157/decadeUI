@@ -83,7 +83,18 @@ export let config = {
 			game.saveConfig("extension_十周年UI_outcropSkin", item);
 			if (window.decadeUI) {
 				ui.arena.dataset.outcropSkin = item;
-				decadeUI.updateAllOutcropAvatars?.(item);
+				decadeUI.clearOutcropCache?.();
+				const players = [...(game.players || []), ...(game.dead || [])];
+				players.forEach(player => {
+					if (!player?.node) return;
+					const name1 = player.name1 || player.name;
+					if (player.node.avatar && name1) {
+						player.node.avatar.setBackground(name1, "character");
+					}
+					if (player.node.avatar2 && player.name2) {
+						player.node.avatar2.setBackground(player.name2, "character");
+					}
+				});
 			}
 		},
 	},
