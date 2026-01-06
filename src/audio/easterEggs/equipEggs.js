@@ -1,6 +1,18 @@
 /**
  * @fileoverview 装备相关彩蛋配置
  * 定义装备卡牌使用时触发的彩蛋语音规则
+ *
+ * 配置字段说明：
+ * - cards: 触发卡牌名称数组
+ * - player: 使用者武将名（可选，空字符串表示任意玩家）
+ * - needPlayer: 场上需存在的武将名（可选）
+ * - speaker: 语音播放者武将名（可选）
+ * - target: 语音播放者武将名，默认为 player（可选）
+ * - text: 彩蛋台词
+ * - audio: 音频文件名
+ * - sequence: 序列台词数组，循环播放（可选）
+ * - sequenceKey: 序列状态键生成函数（可选）
+ * - condition: 复杂条件函数，用于无法用声明式表达的场景（可选）
  */
 
 "use strict";
@@ -30,6 +42,6 @@ export const equipEasterEggs = [
 	{ cards: ["dilu"], player: "liubei", text: "乘良驹渡险，愿盘息冲天！", audio: "liubei1.mp3" },
 	{ cards: ["qinggang"], player: "zhaoyun", text: "宝剑，自当配于英雄！", audio: "zhaoyun2.mp3" },
 	{ cards: ["guding"], player: "xusheng", text: "在下，要给诸位来刀狠的", audio: "xusheng2.mp3" },
-	{ cards: ["guding"], player: "", speaker: "xusheng", condition: ctx => !ctx.hasName(ctx.player, "xusheng") && ctx.findPlayer?.("xusheng"), text: "我刀呢？", audio: "xusheng3.mp3" },
+	{ cards: ["guding"], player: "", speaker: "xusheng", needPlayer: "xusheng", text: "我刀呢？", audio: "xusheng3.mp3" },
 	{ cards: ["guding"], player: "sunjian", text: "看着我的刀再说一遍！", audio: "sunjian3.mp3" },
 ];

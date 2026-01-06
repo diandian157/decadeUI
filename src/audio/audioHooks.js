@@ -169,6 +169,44 @@ const checkAndTriggerDialogue = () => {
 };
 
 /**
+ * 匹配彩蛋规则（声明式配置）
+ * @param {Object} rule - 彩蛋规则
+ * @param {Object} ctx - 上下文对象
+ * @returns {boolean} 是否匹配
+ */
+const matchCardEasterEgg = (rule, ctx) => {
+	// 卡牌匹配
+	if (!rule.cards.includes(ctx.cardName)) return false;
+
+	// 使用者匹配（空字符串表示任意玩家，用于排除特定玩家的场景）
+	if (rule.player && !hasName(ctx.player, rule.player)) return false;
+	if (rule.player === "" && rule.speaker && hasName(ctx.player, rule.speaker)) return false;
+
+	// 使用者势力匹配
+	if (rule.group && ctx.player?.group !== rule.group) return false;
+
+	// 场上需存在某武将
+	if (rule.needPlayer && !findPlayer(rule.needPlayer)) return false;
+
+	// 目标中需包含某武将
+	if (rule.targetHas) {
+		const names = Array.isArray(rule.targetHas) ? rule.targetHas : [rule.targetHas];
+		const hasTarget = ctx.targets?.some(t => names.some(n => hasName(t, n)));
+		if (!hasTarget) return false;
+	}
+
+	// 目标阵营匹配
+	if (rule.targetGroup) {
+		const hasTargetGroup = ctx.targets?.some(t => t.group === rule.targetGroup);
+		if (!hasTargetGroup) return false;
+	}
+
+	if (rule.condition && !rule.condition(ctx)) return false;
+
+	return true;
+};
+
+/**
  * 设置音频彩蛋钩子
  * 初始化所有彩蛋触发机制
  */
@@ -183,9 +221,7 @@ export function setupAudioHooks() {
 		const ctx = createContext(event, cardName);
 
 		for (const rule of allCardEasterEggs) {
-			if (!rule.cards.includes(cardName)) continue;
-			if (rule.player && !hasName(event.player, rule.player)) continue;
-			if (rule.condition && !rule.condition(ctx)) continue;
+			if (!matchCardEasterEgg(rule, ctx)) continue;
 
 			const speaker = rule.speaker ? findPlayer(rule.speaker) : rule.target ? ctx.targets?.find(t => hasName(t, rule.target)) : event.player;
 
