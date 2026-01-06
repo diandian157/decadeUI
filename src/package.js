@@ -21,7 +21,7 @@ export const mainpackage = otherInfo => {
 
 	pack.intro = `<a href="javascript:void(0)" onclick="${copyHandler}" style="color: #FFFACD;">点击复制仓库地址</a>`;
 
-	pack.author = `<img src="https://q1.qlogo.cn/g?b=qq&nk=2173890060&s=100&t=${Date.now()}" class="author-avatar" onclick="new Audio('extension/十周年UI/audio/Ciallo.mp3').play()" style="cursor:pointer">点点`;
+	pack.author = `<img src="https://q1.qlogo.cn/g?b=qq&nk=2173890060&s=100&t=${Date.now()}" class="author-avatar" onclick="new Audio('extension/十周年UI/audio/Ciallo.mp3').play()" style="cursor:pointer;border-radius:50%;width:60px;height:60px">点点`;
 
 	return pack;
 };
