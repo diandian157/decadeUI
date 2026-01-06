@@ -6,18 +6,15 @@
 "use strict";
 
 import { lib, game, ui, get, ai, _status } from "noname";
-import { cardEasterEggs } from "./easterEggs/cardEggs.js";
-import { shaEasterEggs } from "./easterEggs/shaEggs.js";
-import { equipEasterEggs } from "./easterEggs/equipEggs.js";
-import { trickEasterEggs } from "./easterEggs/trickEggs.js";
+import { cardEasterEggs } from "./easterEggs/cardEasterEggs.js";
 import { damageEasterEggs, deathEasterEggs, phaseStartEasterEggs } from "./easterEggs/eventEggs.js";
 import { gameStartDialogues } from "./easterEggs/dialogueEggs.js";
 
 /**
  * @type {Array<Object>}
- * 合并所有卡牌彩蛋配置
+ * 所有卡牌彩蛋配置（已在 cardEasterEggs.js 中合并）
  */
-const allCardEasterEggs = [...cardEasterEggs, ...shaEasterEggs, ...equipEasterEggs, ...trickEasterEggs];
+const allCardEasterEggs = cardEasterEggs;
 
 /**
  * 检查武将名是否已亮将（非暗置状态）
