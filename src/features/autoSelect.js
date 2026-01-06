@@ -4,7 +4,7 @@
  * @fileoverview 自动选择模块 - 在特定条件下自动选择卡牌和目标
  */
 
-import { lib, game, ui, get, ai, _status } from "noname";
+import { lib, game, ui, _status } from "noname";
 
 // ==================== 工具函数 ====================
 
@@ -63,11 +63,14 @@ const isRespondEvent = event => {
 	// 濒死求桃
 	if (parent?.name === "dying" || event.dying) return true;
 
-	// 强制事件
-	if (event.forced || event.forceDirect) return true;
+	// 强制直接事件（forceDirect 通常是系统级的，forced 让玩家自己选）
+	if (event.forceDirect) return true;
 
-	// 无按钮的选牌事件
-	if (event.name === "chooseCard" && !event.dialog?.querySelector(".buttons")) return true;
+	// 无按钮的选牌事件（仅限单张选择）
+	if (event.name === "chooseCard" && !event.dialog?.querySelector(".buttons")) {
+		const range = getRange(event, "Card");
+		if (range[0] === 1 && range[1] === 1) return true;
+	}
 
 	// 单张弃牌
 	if (event.name === "chooseToDiscard") {
@@ -200,11 +203,7 @@ export function setupAutoSelect() {
 	ui.click.card = function () {
 		const event = _status.event;
 		if (event) {
-			if (this.classList?.contains("selected")) {
-				event._autoCardDone = true;
-			} else {
-				resetAutoState(event);
-			}
+			event._autoCardDone = true;
 		}
 		return originalCard.apply(this, arguments);
 	};
