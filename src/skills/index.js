@@ -558,8 +558,8 @@ const inheritSkill = {
 				])
 				.set("filterOk", moved => moved[1].some(i => !get.owner(i)))
 				.set("processAI", list => {
-					const player = get.event("player");
-					const limit = Math.min(get.event("num"), player.countCards("h"));
+					const player = get.event().player;
+					const limit = Math.min(get.event().num, player.countCards("h"));
 					let cards = list[0][1].slice();
 					let hs = player.getCards("h");
 
@@ -838,36 +838,34 @@ const inheritSkill = {
 			);
 
 			for (const target of event.targets) {
-				const links = await target
-					.chooseButton([event.prompt, [["reguhuo_ally", "reguhuo_betray"], "vcard"]], true)
-					.set("ai", button => {
-						const player = _status.event.player;
-						const evt = _status.event.getParent("guhuo_guess");
-						const evtx = evt?.getTrigger();
-						if (!evt) return Math.random();
+				const result = await target.chooseButton([event.prompt, [["reguhuo_ally", "reguhuo_betray"], "vcard"]], true).set("ai", button => {
+					const player = _status.event.player;
+					const evt = _status.event.getParent("guhuo_guess");
+					const evtx = evt?.getTrigger();
+					if (!evt) return Math.random();
 
-						const card = { name: evtx.card.name, nature: evtx.card.nature, isCard: true };
-						const ally = button.link[2] === "reguhuo_ally";
+					const card = { name: evtx.card.name, nature: evtx.card.nature, isCard: true };
+					const ally = button.link[2] === "reguhuo_ally";
 
-						if (ally && (player.hp <= 1 || get.attitude(player, evt.player) >= 0)) return 1.1;
+					if (ally && (player.hp <= 1 || get.attitude(player, evt.player) >= 0)) return 1.1;
 
-						if (!ally && get.attitude(player, evt.player) < 0 && evtx.name === "useCard") {
-							const targetsx = evtx.targets || [];
-							let eff = 0;
+					if (!ally && get.attitude(player, evt.player) < 0 && evtx.name === "useCard") {
+						const targetsx = evtx.targets || [];
+						let eff = 0;
 
-							for (const t of targetsx) {
-								const isMe = t === evt.player;
-								eff += get.effect(t, card, evt.player, player) / (isMe ? 1.5 : 1);
-							}
-							eff /= 1.5 * targetsx.length || 1;
-
-							if (eff > 0) return 0;
-							if (eff < -7) return Math.random() + Math.pow(-(eff + 7) / 8, 2);
-							return Math.pow((get.value(card, evt.player, "raw") - 4) / (eff === 0 ? 5 : 10), 2);
+						for (const t of targetsx) {
+							const isMe = t === evt.player;
+							eff += get.effect(t, card, evt.player, player) / (isMe ? 1.5 : 1);
 						}
-						return Math.random();
-					})
-					.forResultLinks();
+						eff /= 1.5 * targetsx.length || 1;
+
+						if (eff > 0) return 0;
+						if (eff < -7) return Math.random() + Math.pow(-(eff + 7) / 8, 2);
+						return Math.pow((get.value(card, evt.player, "raw") - 4) / (eff === 0 ? 5 : 10), 2);
+					}
+					return Math.random();
+				});
+				const links = result.links;
 
 				if (links[0][2] === "reguhuo_betray") {
 					target.addExpose(0.2);

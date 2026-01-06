@@ -10,9 +10,6 @@ import { fixMoveAnimZoom } from "./overrides/moveAnimFix.js";
 import { initPrecontentUI } from "./ui/progress-bar.js";
 import { initCardAlternateNameVisible } from "./ui/cardAlternateName.js";
 
-// 英格力士名称
-lib.translate["extension_十周年UI"] = "decadeUI";
-
 /**
  * Precontent主入口 - 游戏初始化前执行
  */

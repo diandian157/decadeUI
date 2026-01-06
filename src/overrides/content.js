@@ -154,7 +154,7 @@ export function contentJudge() {
 	game.broadcastAll(
 		function (player, card, id, cardid) {
 			const event = game.online ? {} : _status.event;
-			if (game.chess) event.node = card.copy("thrown", "center", ui.arena).animate("start");
+			if (game.chess) event.node = card.copy("thrown", "center", ui.arena).addTempClass("start");
 			else event.node = player.$throwordered2(card.copy(), true);
 			if (lib.cardOL) lib.cardOL[cardid] = event.node;
 			event.node.cardid = cardid;

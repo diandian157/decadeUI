@@ -129,7 +129,7 @@ export const createDecadeUIDialogModule = () => ({
 	close(delay, fadeOut) {
 		if (this === decadeUI.dialog || !this.parentNode) return;
 		this.listens.clear();
-		if (fadeOut && delay) this.animate("opacity", delay, [0]);
+		if (fadeOut && delay) this.addTempClass("opacity", delay, [0]);
 		if (delay) {
 			const ms = typeof delay === "number" ? delay : parseInt(delay);
 			setTimeout(() => this.parentNode?.removeChild(this), ms);

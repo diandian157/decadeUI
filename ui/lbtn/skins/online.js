@@ -206,7 +206,7 @@ export function createOnlineLbtnPlugin(lib, game, ui, get, ai, _status, app) {
 		showHistoryPanel() {
 			const node = ui.create.pause();
 			if (!node) return;
-			node.animate("start");
+			node.addTempClass("start");
 
 			const bigbg = ui.create.div(".bigbgjilu", node);
 			const historybg = ui.create.div(".historybg", node);
