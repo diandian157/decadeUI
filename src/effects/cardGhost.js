@@ -22,10 +22,10 @@ let globalRafId = null;
 let lastSpawnTime = 0;
 
 /** @type {number} 幻影生成间隔(ms) */
-const SPAWN_INTERVAL = 10;
+const SPAWN_INTERVAL = 15;
 
 /** @type {number} 幻影持续时间(ms) */
-const GHOST_DURATION = 300;
+const GHOST_DURATION = 250;
 
 /** @type {string} 发光颜色 */
 const GLOW_COLOR = "rgba(255, 0, 0, 0.53)";
@@ -191,14 +191,6 @@ export function addGhostTrail(card, duration = 800) {
 	if (!enabled || !card) return;
 
 	startTracking(card);
-
-	// 监听动画结束
-	const cleanup = () => {
-		setTimeout(() => stopTracking(card), 100);
-	};
-
-	card.addEventListener("transitionend", cleanup, { once: true });
-	card.addEventListener("transitioncancel", cleanup, { once: true });
 
 	// 备用清理 （应该用不到，万一呢
 	setTimeout(() => stopTracking(card), duration);
