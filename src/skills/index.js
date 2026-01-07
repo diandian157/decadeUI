@@ -624,7 +624,10 @@ const inheritSkill = {
 
 			const {
 				result: { bool: bool2 },
-			} = await player.chooseBool(`易城：是否使用全部手牌交换${get.translation(cards)}？`).set("choice", cards.reduce((n, c) => n + get.value(c), 0) > player.getCards("h").reduce((n, c) => n + get.value(c), 0));
+			} = await player
+				.chooseBool(`易城：是否使用全部手牌交换${get.translation(cards)}？`)
+				.set("choice", cards.reduce((n, c) => n + get.value(c), 0) > player.getCards("h").reduce((n, c) => n + get.value(c), 0))
+				.forResult();
 
 			if (!bool2) return;
 
@@ -666,7 +669,8 @@ const inheritSkill = {
 
 					return get.effect(target, { name: "guohe" }, player, player) * num * (player.hp <= 1 && get.attitude(player, target) <= 0 ? 0 : 1);
 				})
-				.setHiddenSkill("twtanfeng");
+				.setHiddenSkill("twtanfeng")
+				.forResult();
 
 			if (!result?.bool) return;
 
@@ -732,7 +736,8 @@ const inheritSkill = {
 						}
 						return list2.randomGet();
 					})()
-				);
+				)
+				.forResult();
 
 			for (const [phase, name] of Object.entries(phaseMap)) {
 				if (name === cResult.control) player.skip(phase);
@@ -838,33 +843,36 @@ const inheritSkill = {
 			);
 
 			for (const target of event.targets) {
-				const result = await target.chooseButton([event.prompt, [["reguhuo_ally", "reguhuo_betray"], "vcard"]], true).set("ai", button => {
-					const player = _status.event.player;
-					const evt = _status.event.getParent("guhuo_guess");
-					const evtx = evt?.getTrigger();
-					if (!evt) return Math.random();
+				const result = await target
+					.chooseButton([event.prompt, [["reguhuo_ally", "reguhuo_betray"], "vcard"]], true)
+					.set("ai", button => {
+						const player = _status.event.player;
+						const evt = _status.event.getParent("guhuo_guess");
+						const evtx = evt?.getTrigger();
+						if (!evt) return Math.random();
 
-					const card = { name: evtx.card.name, nature: evtx.card.nature, isCard: true };
-					const ally = button.link[2] === "reguhuo_ally";
+						const card = { name: evtx.card.name, nature: evtx.card.nature, isCard: true };
+						const ally = button.link[2] === "reguhuo_ally";
 
-					if (ally && (player.hp <= 1 || get.attitude(player, evt.player) >= 0)) return 1.1;
+						if (ally && (player.hp <= 1 || get.attitude(player, evt.player) >= 0)) return 1.1;
 
-					if (!ally && get.attitude(player, evt.player) < 0 && evtx.name === "useCard") {
-						const targetsx = evtx.targets || [];
-						let eff = 0;
+						if (!ally && get.attitude(player, evt.player) < 0 && evtx.name === "useCard") {
+							const targetsx = evtx.targets || [];
+							let eff = 0;
 
-						for (const t of targetsx) {
-							const isMe = t === evt.player;
-							eff += get.effect(t, card, evt.player, player) / (isMe ? 1.5 : 1);
+							for (const t of targetsx) {
+								const isMe = t === evt.player;
+								eff += get.effect(t, card, evt.player, player) / (isMe ? 1.5 : 1);
+							}
+							eff /= 1.5 * targetsx.length || 1;
+
+							if (eff > 0) return 0;
+							if (eff < -7) return Math.random() + Math.pow(-(eff + 7) / 8, 2);
+							return Math.pow((get.value(card, evt.player, "raw") - 4) / (eff === 0 ? 5 : 10), 2);
 						}
-						eff /= 1.5 * targetsx.length || 1;
-
-						if (eff > 0) return 0;
-						if (eff < -7) return Math.random() + Math.pow(-(eff + 7) / 8, 2);
-						return Math.pow((get.value(card, evt.player, "raw") - 4) / (eff === 0 ? 5 : 10), 2);
-					}
-					return Math.random();
-				});
+						return Math.random();
+					})
+					.forResult();
 				const links = result.links;
 
 				if (links[0][2] === "reguhuo_betray") {
