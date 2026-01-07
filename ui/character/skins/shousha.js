@@ -4,6 +4,7 @@
  */
 import { lib, game, ui, get, ai, _status } from "noname";
 import { createBaseCharacterPlugin } from "./base.js";
+import { applyOutcropAvatar } from "../../../src/ui/outcropAvatar.js";
 
 export function createShoushaCharacterPlugin(lib, game, ui, get, ai, _status, app) {
 	const base = createBaseCharacterPlugin(lib, game, ui, get, ai, _status, app);
@@ -231,7 +232,7 @@ export function createShoushaCharacterPlugin(lib, game, ui, get, ai, _status, ap
 
 				if (isUnseen("unseen")) {
 					biankuang.setBackgroundImage(this.getGroupBackgroundImage("unknown"));
-					leftPane.style.backgroundImage = "url('image/character/hidden_image.jpg')";
+					leftPane.setBackgroundImage(`${CONSTANTS.IMAGE_PATH}hidden_image.jpg`);
 				} else {
 					biankuang.setBackgroundImage(this.getGroupBackgroundImage(player.group));
 					leftPane.style.backgroundImage = player.node.avatar.style.backgroundImage;
@@ -265,7 +266,7 @@ export function createShoushaCharacterPlugin(lib, game, ui, get, ai, _status, ap
 
 				if (isUnseen("unseen")) {
 					biankuang1.setBackgroundImage(this.getGroupBackgroundImage("unknown"));
-					leftPane1.style.backgroundImage = "url('image/character/hidden_image.jpg')";
+					leftPane1.setBackgroundImage(`${CONSTANTS.IMAGE_PATH}hidden_image.jpg`);
 				} else {
 					biankuang1.setBackgroundImage(this.getGroupBackgroundImage(group1));
 					leftPane1.style.backgroundImage = player.node.avatar.style.backgroundImage;
@@ -277,7 +278,7 @@ export function createShoushaCharacterPlugin(lib, game, ui, get, ai, _status, ap
 
 				if (isUnseen("unseen2")) {
 					biankuang2.setBackgroundImage(this.getGroupBackgroundImage("unknown"));
-					leftPane2.style.backgroundImage = "url('image/character/hidden_image.jpg')";
+					leftPane2.setBackgroundImage(`${CONSTANTS.IMAGE_PATH}hidden_image.jpg`);
 				} else {
 					biankuang2.setBackgroundImage(this.getGroupBackgroundImage(group2));
 					leftPane2.setBackground(name2, "character");
@@ -571,6 +572,7 @@ export function createShoushaCharacterPlugin(lib, game, ui, get, ai, _status, ap
 
 				const leftPane = this.createLeftPane(kuang);
 				leftPane.setBackground(charName, "character");
+				applyOutcropAvatar(charName, leftPane);
 
 				const xing = ui.create.div(".xing", kuang);
 				this.utils.createStars(xing, game.getRarity(charName));
