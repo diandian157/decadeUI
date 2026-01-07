@@ -310,21 +310,41 @@ export function createXinshaCharacterPlugin(lib, game, ui, get, ai, _status, app
 						// 显示装备区域
 						const eSkills = player.getVCards("e");
 						if (eSkills.length) {
-							ui.create.div(".xcaption", "装备区域", rightPane.firstChild);
 							eSkills.forEach(card => {
-								const cardx = game.createCard(get.name(card, false), get.suit(card, false), get.number(card, false), get.nature(card, false));
-								cardx.style.zoom = "0.7";
-								rightPane.firstChild.appendChild(cardx);
-							});
-							eSkills.forEach(card => {
-								const str = [get.translation(card), get.translation(card.name + "_info")];
 								const cards = card.cards;
-								if (cards?.length && (cards?.length !== 1 || cards[0].name !== card.name)) {
-									str[0] += `（${get.translation(card.cards)}）`;
+								let isQiexie = card.name.startsWith("qiexie_");
+								let displayName = card.name + "_info";
+								// 只显示卡牌名称，不重复显示花色点数
+								let str = [get.translation(isQiexie ? card.name : card), get.translation(displayName)];
+								// 只有当cards与card本身不同时才添加原卡信息
+								if (Array.isArray(cards) && cards.length && (cards.length !== 1 || cards[0].name !== card.name)) {
+									str[0] += `（${get.translation(cards)}）`;
 								}
-								const special = card.cards?.find(item => item.name === card.name && lib.card[item.name]?.cardPrompt);
-								if (special) str[1] = lib.card[special.name].cardPrompt(special, player);
-								ui.create.div(".xskillx", `<div data-color>${str[0]}</div><div>${str[1]}</div>`, rightPane.firstChild);
+								if (lib.card[card.name]?.cardPrompt) {
+									str[1] = lib.card[card.name].cardPrompt(card, player);
+								}
+								if (isQiexie && lib.translate[card.name + "_append"]) {
+									str[1] += `<br><br><div style="font-size: 0.85em; font-family: xinwei; line-height: 1.2;">${lib.translate[card.name + "_append"]}</div>`;
+								}
+								ui.create.div(".xskillx", `<div data-color>${str[0]}</div><div>${str[1]}</div>`, rightPane.firstChild).style.marginBottom = "10px";
+							});
+						}
+
+						// 显示视为装备（extraEquip）
+						if (player.extraEquip?.length) {
+							const shownEquips = new Set();
+							player.extraEquip.forEach(info => {
+								const [skillName, equipName, preserve] = info;
+								// 检查是否满足视为装备的条件
+								if (preserve && !preserve(player)) return;
+								// 避免重复显示同一装备
+								if (shownEquips.has(equipName)) return;
+								shownEquips.add(equipName);
+
+								const skillTrans = lib.translate[skillName] || skillName;
+								const equipTrans = lib.translate[equipName] || equipName;
+								const equipInfo = lib.translate[equipName + "_info"] || "";
+								ui.create.div(".xskillx", `<div data-color>【${skillTrans}】视为装备【${equipTrans}】</div><div>${equipInfo}</div>`, rightPane.firstChild).style.marginBottom = "10px";
 							});
 						}
 

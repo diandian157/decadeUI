@@ -503,8 +503,9 @@ export function createShoushaCharacterPlugin(lib, game, ui, get, ai, _status, ap
 					let isQiexie = card.name.startsWith("qiexie_");
 					let displayName = card.name + "_info";
 					let str = [get.translation(isQiexie ? card.name : card), get.translation(displayName)];
-					if (Array.isArray(cards) && cards.length) {
-						str[0] += `（${get.translation(card.cards)}）`;
+					// 只有当cards与card本身不同时才添加原卡信息
+					if (Array.isArray(cards) && cards.length && (cards.length !== 1 || cards[0].name !== card.name)) {
+						str[0] += `（${get.translation(cards)}）`;
 					}
 					if (lib.card[card.name]?.cardPrompt) {
 						str[1] = lib.card[card.name].cardPrompt(card, player);
@@ -513,6 +514,24 @@ export function createShoushaCharacterPlugin(lib, game, ui, get, ai, _status, ap
 						str[1] += `<br><br><div style="font-size: 0.85em; font-family: xinwei; line-height: 1.2;">${lib.translate[card.name + "_append"]}</div>`;
 					}
 					ui.create.div(".xskill", `<div data-color>${str[0]}</div><div>${str[1]}</div>`, rightPane.firstChild);
+				});
+			}
+
+			// 显示视为装备（extraEquip）
+			if (player.extraEquip?.length) {
+				const shownEquips = new Set();
+				player.extraEquip.forEach(info => {
+					const [skillName, equipName, preserve] = info;
+					// 检查是否满足视为装备的条件
+					if (preserve && !preserve(player)) return;
+					// 避免重复显示同一装备
+					if (shownEquips.has(equipName)) return;
+					shownEquips.add(equipName);
+
+					const skillTrans = lib.translate[skillName] || skillName;
+					const equipTrans = lib.translate[equipName] || equipName;
+					const equipInfo = lib.translate[equipName + "_info"] || "";
+					ui.create.div(".xskill", `<div data-color>【${skillTrans}】视为装备【${equipTrans}】</div><div>${equipInfo}</div>`, rightPane.firstChild);
 				});
 			}
 

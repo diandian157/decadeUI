@@ -308,9 +308,13 @@ export function createBaseCharacterPlugin(lib, game, ui, get, ai, _status, app) 
 		// 显示装备区
 		showEquipmentArea(container, player) {
 			const equips = player.getCards("e");
-			if (!equips.length) return;
+			const hasExtraEquip = player.extraEquip?.length > 0;
+
+			if (!equips.length && !hasExtraEquip) return;
 
 			ui.create.div(".xcaption", "装备区域", container);
+
+			// 显示实际装备
 			equips.forEach(card => {
 				const isQiexie = card.name.startsWith("qiexie_");
 				let str0 = get.translation(isQiexie ? card.name : card);
@@ -324,6 +328,24 @@ export function createBaseCharacterPlugin(lib, game, ui, get, ai, _status, app) 
 
 				ui.create.div(".xskill.equip-skill", `<div data-color>${str0}</div><div>${str1}</div>`, container);
 			});
+
+			// 显示视为装备（extraEquip）
+			if (hasExtraEquip) {
+				const shownEquips = new Set();
+				player.extraEquip.forEach(info => {
+					const [skillName, equipName, preserve] = info;
+					// 检查是否满足视为装备的条件
+					if (preserve && !preserve(player)) return;
+					// 避免重复显示同一装备
+					if (shownEquips.has(equipName)) return;
+					shownEquips.add(equipName);
+
+					const skillTrans = lib.translate[skillName] || skillName;
+					const equipTrans = lib.translate[equipName] || equipName;
+					const equipInfo = lib.translate[equipName + "_info"] || "";
+					ui.create.div(".xskill.equip-skill", `<div data-color>【${skillTrans}】视为装备【${equipTrans}】</div><div>${equipInfo}</div>`, container);
+				});
+			}
 		},
 
 		// 显示判定区

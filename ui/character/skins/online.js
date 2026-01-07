@@ -335,35 +335,53 @@ export function createOnlineCharacterPlugin(lib, game, ui, get, ai, _status, app
 		// 创建OL风格装备区
 		createOLEquipmentSection(container, player) {
 			const equips = player.getCards("e");
-			if (!equips.length) return;
+			if (equips.length) {
+				ui.create.div(".xcaption", "装备区", container);
+				equips.forEach(card => {
+					const suitConfig = CONSTANTS.SUIT_CONFIG[card.suit] || { symbol: "", color: "#FFFFFF" };
+					const typeIcon = CONSTANTS.EQUIP_TYPE_ICONS[get.subtype(card)] || "default.png";
+					const dianshu = get.strNumber(card.number);
 
-			ui.create.div(".xcaption", "装备区", container);
-			equips.forEach(card => {
-				const suitConfig = CONSTANTS.SUIT_CONFIG[card.suit] || { symbol: "", color: "#FFFFFF" };
-				const typeIcon = CONSTANTS.EQUIP_TYPE_ICONS[get.subtype(card)] || "default.png";
-				const dianshu = get.strNumber(card.number);
+					const firstLine = `<div style="display:flex;align-items:center;gap:8px;position:relative;">` + `<span style="color:#f7d229;font-weight:bold;">${get.translation(card.name).replace(/[【】]/g, "")}</span>` + `<img src="${IMAGE_PATH}${typeIcon}" style="width:14px;height:20px;vertical-align:middle">` + `<div style="margin-left:0;display:flex;align-items:center;gap:2px;">` + (suitConfig.image ? `<img src="${IMAGE_PATH}${suitConfig.image}" style="width:16px;height:16px;margin-left:-2px;margin-top:3px;filter:drop-shadow(0 0 1px white);">` : `<span style="color:${suitConfig.color};margin-left:-2px;margin-top:3px;text-shadow:0 0 1px white;position:relative;">${suitConfig.symbol}</span>`) + `<span style="margin-left:3px;margin-top:3px;font-size:18px;color:${suitConfig.color === "#e03c3c" ? suitConfig.color : "#efdbb6"};font-family:shousha;">${dianshu || ""}</span>` + `</div></div>`;
 
-				const firstLine = `<div style="display:flex;align-items:center;gap:8px;position:relative;">` + `<span style="color:#f7d229;font-weight:bold;">${get.translation(card.name).replace(/[【】]/g, "")}</span>` + `<img src="${IMAGE_PATH}${typeIcon}" style="width:14px;height:20px;vertical-align:middle">` + `<div style="margin-left:0;display:flex;align-items:center;gap:2px;">` + (suitConfig.image ? `<img src="${IMAGE_PATH}${suitConfig.image}" style="width:16px;height:16px;margin-left:-2px;margin-top:3px;filter:drop-shadow(0 0 1px white);">` : `<span style="color:${suitConfig.color};margin-left:-2px;margin-top:3px;text-shadow:0 0 1px white;position:relative;">${suitConfig.symbol}</span>`) + `<span style="margin-left:3px;margin-top:3px;font-size:18px;color:${suitConfig.color === "#e03c3c" ? suitConfig.color : "#efdbb6"};font-family:shousha;">${dianshu || ""}</span>` + `</div></div>`;
-
-				let desc = "";
-				if (get.subtypes(card).includes("equip1")) {
-					let num = 1;
-					const cardInfo = get.info(card);
-					if (typeof cardInfo?.distance?.attackFrom === "number") {
-						num -= cardInfo.distance.attackFrom;
+					let desc = "";
+					if (get.subtypes(card).includes("equip1")) {
+						let num = 1;
+						const cardInfo = get.info(card);
+						if (typeof cardInfo?.distance?.attackFrom === "number") {
+							num -= cardInfo.distance.attackFrom;
+						}
+						desc += `攻击范围 :   ${num}<br>`;
 					}
-					desc += `攻击范围 :   ${num}<br>`;
-				}
-				desc += get.translation(card.name + "_info").replace(/[【】]/g, "");
+					desc += get.translation(card.name + "_info").replace(/[【】]/g, "");
 
-				// 特殊卡牌处理
-				const special = card.cards?.find(item => item.name === card.name && lib.card[item.name]?.cardPrompt);
-				if (special) {
-					desc = lib.card[special.name].cardPrompt(special, player);
-				}
+					// 特殊卡牌处理
+					const special = card.cards?.find(item => item.name === card.name && lib.card[item.name]?.cardPrompt);
+					if (special) {
+						desc = lib.card[special.name].cardPrompt(special, player);
+					}
 
-				ui.create.div(".xskillx", `${firstLine}<div style="margin-top:4px;white-space:pre-wrap;">${desc}</div>`, container);
-			});
+					ui.create.div(".xskillx", `${firstLine}<div style="margin-top:4px;white-space:pre-wrap;">${desc}</div>`, container);
+				});
+			}
+
+			// 显示视为装备（extraEquip）
+			if (player.extraEquip?.length) {
+				const shownEquips = new Set();
+				player.extraEquip.forEach(info => {
+					const [skillName, equipName, preserve] = info;
+					// 检查是否满足视为装备的条件
+					if (preserve && !preserve(player)) return;
+					// 避免重复显示同一装备
+					if (shownEquips.has(equipName)) return;
+					shownEquips.add(equipName);
+
+					const skillTrans = lib.translate[skillName] || skillName;
+					const equipTrans = lib.translate[equipName] || equipName;
+					const equipInfo = lib.translate[equipName + "_info"] || "";
+					ui.create.div(".xskillx", `<div style="color:#f7d229;font-weight:bold;">【${skillTrans}】视为装备【${equipTrans}】</div><div style="margin-top:4px;white-space:pre-wrap;">${equipInfo}</div>`, container);
+				});
+			}
 		},
 
 		// 创建详细资料弹窗
