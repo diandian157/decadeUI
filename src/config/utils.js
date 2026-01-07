@@ -1,7 +1,11 @@
 /**
- * @fileoverview 配置项相关工具函数
+ * @fileoverview 配置工具函数
+ * @description 提供配置相关的工具函数和数据
+ * @module config/utils
  */
-import { lib, game, ui, get, ai, _status } from "noname";
+import { lib, _status } from "noname";
+
+// ==================== 折叠菜单相关 ====================
 
 /**
  * 获取从当前元素到结束标记之间的所有兄弟元素
@@ -30,7 +34,7 @@ export function getMenuItems(parent, endId) {
  * @param {string} title - 菜单标题文本
  * @param {string} [color="gold"] - 标题颜色
  */
-export function colMenu(configKey, title, color = "gold") {
+export function collapseMenu(configKey, title, color = "gold") {
 	const endId = configKey + "_end";
 	const isCollapsed = !lib.config[configKey];
 
@@ -50,43 +54,56 @@ export function colMenu(configKey, title, color = "gold") {
  * @param {string} key - 配置键名（不含 _end 后缀）
  * @param {string} title - 菜单标题
  * @param {string} [color="orange"] - 标题颜色
+ * @returns {Object} 折叠标题配置对象
  */
-export const createCollapseTitle = (key, title, color = "orange") => ({
-	clear: true,
-	name: `<span style='color:${color}'><font size='4'>${title}（点击折叠）▽</font></span>`,
-	onclick() {
-		colMenu.call(this, key, title, color);
-	},
-});
+export function createCollapseTitle(key, title, color = "orange") {
+	return {
+		clear: true,
+		name: `<span style='color:${color}'><font size='4'>${title}（点击折叠）▽</font></span>`,
+		onclick() {
+			collapseMenu.call(this, key, title, color);
+		},
+	};
+}
 
 /**
  * 创建折叠菜单结束标记
  * @param {string} key - 配置键名（不含 _end 后缀）
+ * @returns {Object} 折叠结束标记配置对象
  */
-export const createCollapseEnd = key => ({
-	clear: true,
-	name: `<span id='${key}_end'></span>`,
-});
+export function createCollapseEnd(key) {
+	return {
+		clear: true,
+		name: `<span id='${key}_end'></span>`,
+	};
+}
+
+// ==================== 输入处理相关 ====================
 
 /**
  * 解析输入框数值并限制范围
- * @param {HTMLElement} element
- * @param {number} defaultVal
- * @param {number} min
- * @param {number} max
- * @param {number} [decimals=0]
- * @returns {number}
+ * @param {HTMLElement} element - 输入框元素
+ * @param {number} defaultVal - 默认值
+ * @param {number} min - 最小值
+ * @param {number} max - 最大值
+ * @param {number} [decimals=0] - 小数位数
+ * @returns {number} 解析后的数值
  */
-export const parseInputValue = (element, defaultVal, min, max, decimals = 0) => {
+export function parseInputValue(element, defaultVal, min, max, decimals = 0) {
 	element.innerHTML = element.innerHTML.replace(/<br>/g, "");
 	let value = parseFloat(element.innerHTML);
 	if (isNaN(value)) value = defaultVal;
 	value = Math.max(min, Math.min(max, value));
-	element.innerHTML = decimals > 0 ? value.toFixed(decimals) : value;
+	element.innerHTML = decimals > 0 ? value.toFixed(decimals) : String(value);
 	return value;
-};
+}
 
-/** @type {Array<{key: string, dir: string, label: string, extension: string}>} 卡牌皮肤预设 */
+// ==================== 卡牌皮肤数据 ====================
+
+/**
+ * 卡牌皮肤预设列表
+ * @type {Array<{key: string, dir: string, label: string, extension: string}>}
+ */
 export const cardSkinPresets = [
 	{ key: "online", dir: "online", label: "OL卡牌", extension: "jpg" },
 	{ key: "caise", dir: "caise", label: "彩色卡牌", extension: "webp" },
@@ -95,7 +112,10 @@ export const cardSkinPresets = [
 	{ key: "gold", dir: "gold", label: "手杀金卡", extension: "webp" },
 ];
 
-/** @type {Record<string, Object>} 卡牌皮肤元数据映射 */
+/**
+ * 卡牌皮肤元数据映射
+ * @type {Record<string, {key: string, dir: string, label: string, extension: string}>}
+ */
 export const cardSkinMeta = cardSkinPresets.reduce((map, skin) => {
 	map[skin.key] = skin;
 	return map;

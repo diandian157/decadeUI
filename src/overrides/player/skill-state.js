@@ -8,6 +8,60 @@ import { lib, game, ui, get, ai, _status } from "noname";
 import { getBasePlayerMethods } from "./base.js";
 
 /**
+ * 转换技自定义图片缓存
+ * @type {Map<string, boolean>}
+ * @private
+ */
+const zhuanhuanjiImageCache = new Map();
+
+/**
+ * 异步检查图片是否存在并缓存结果
+ * @param {string} skill - 技能名
+ * @returns {Promise<boolean>} 是否存在
+ * @private
+ */
+async function checkZhuanhuanjiImage(skill) {
+	if (zhuanhuanjiImageCache.has(skill)) {
+		return zhuanhuanjiImageCache.get(skill);
+	}
+
+	const url = `${lib.assetURL}extension/十周年UI/ui/assets/skill/shousha/zhuanhuanji/${skill}_yang.png`;
+
+	return new Promise(resolve => {
+		const img = new Image();
+		img.onload = () => {
+			zhuanhuanjiImageCache.set(skill, true);
+			resolve(true);
+		};
+		img.onerror = () => {
+			zhuanhuanjiImageCache.set(skill, false);
+			resolve(false);
+		};
+		img.src = url;
+	});
+}
+
+/**
+ * 获取缓存的图片存在状态（同步）
+ * @param {string} skill - 技能名
+ * @returns {boolean} 是否存在（未缓存时返回false）
+ * @private
+ */
+function getCachedImageExists(skill) {
+	return zhuanhuanjiImageCache.get(skill) ?? false;
+}
+
+/**
+ * 预加载转换技图片
+ * @param {string} skill - 技能名
+ */
+export function preloadZhuanhuanjiImage(skill) {
+	if (!zhuanhuanjiImageCache.has(skill)) {
+		checkZhuanhuanjiImage(skill);
+	}
+}
+
+/**
  * 转换技覆写
  * @description 处理转换技的阴阳状态切换和UI更新
  * @param {string} skill - 技能名
@@ -25,33 +79,33 @@ export function playerChangeZhuanhuanji(skill) {
 	const mark = this.node.xSkillMarks?.querySelector(`[data-id="${skill}"]`);
 	if (!mark) return;
 
-	const customImageUrl = `${lib.assetURL}extension/十周年UI/ui/assets/skill/shousha/zhuanhuanji/${skill}_yang.png`;
-	mark.dk = checkImageExists(customImageUrl);
+	// 使用缓存的结果，如果未缓存则异步加载后更新
+	if (zhuanhuanjiImageCache.has(skill)) {
+		mark.dk = getCachedImageExists(skill);
+		applyYinYangStyle(this, mark, skill);
+	} else {
+		// 异步检查并更新
+		checkZhuanhuanjiImage(skill).then(exists => {
+			mark.dk = exists;
+			applyYinYangStyle(this, mark, skill);
+		});
+	}
+}
 
+/**
+ * 应用阴阳样式
+ * @param {Object} player - 玩家对象
+ * @param {HTMLElement} mark - 标记元素
+ * @param {string} skill - 技能名
+ * @private
+ */
+function applyYinYangStyle(player, mark, skill) {
 	const style = lib.config.extension_十周年UI_newDecadeStyle;
 
 	if (style !== "off") {
 		toggleYinYangClass(mark);
 	} else {
-		toggleYinYangImage(this, mark, skill);
-	}
-}
-
-/**
- * 检查图片是否存在（同步方式）
- * @param {string} url - 图片URL
- * @returns {boolean} 是否存在
- * @private
- * @deprecated 应改用异步方式
- */
-function checkImageExists(url) {
-	try {
-		const xhr = new XMLHttpRequest();
-		xhr.open("GET", url, false);
-		xhr.send();
-		return xhr.status !== 404;
-	} catch (err) {
-		return false;
+		toggleYinYangImage(player, mark, skill);
 	}
 }
 

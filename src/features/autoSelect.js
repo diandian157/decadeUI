@@ -92,6 +92,7 @@ const isRespondEvent = event => {
 const shouldAutoSelectTarget = event => {
 	if (!isEnabled() || !event.filterTarget || _status.auto) return false;
 	if (event.noAutoSelect || event.complexSelect || event.complexTarget) return false;
+	if (event._manualTargetCancel) return false;
 
 	const range = getRange(event, "Target");
 	if (range[0] !== range[1]) return false;
@@ -109,6 +110,7 @@ const shouldAutoSelectCard = event => {
 	if (!isEnabled() || !event.filterCard || _status.auto) return false;
 	if (event.noAutoSelect || event.complexSelect || event.complexCard) return false;
 	if (!isRespondEvent(event)) return false;
+	if (event._manualCardCancel) return false;
 
 	const range = getRange(event, "Card");
 	if (range[0] !== range[1]) return false;
@@ -184,6 +186,8 @@ const resetAutoState = event => {
 	if (event) {
 		delete event._autoCardDone;
 		delete event._autoTargetState;
+		delete event._manualTargetCancel;
+		delete event._manualCardCancel;
 	}
 };
 
@@ -203,7 +207,16 @@ export function setupAutoSelect() {
 	ui.click.card = function () {
 		const event = _status.event;
 		if (event) {
-			event._autoCardDone = true;
+			if (this.classList?.contains("selected")) {
+				delete event._autoCardDone;
+				delete event._autoTargetState;
+				delete event._manualTargetCancel;
+				event._manualCardCancel = true;
+			} else {
+				delete event._manualCardCancel;
+				delete event._manualTargetCancel;
+				event._autoCardDone = true;
+			}
 		}
 		return originalCard.apply(this, arguments);
 	};
@@ -213,6 +226,17 @@ export function setupAutoSelect() {
 	ui.click.skill = function () {
 		resetAutoState(_status.event);
 		return originalSkill.apply(this, arguments);
+	};
+
+	// 取消选择目标时重置目标状态
+	const originalTarget = ui.click.target;
+	ui.click.target = function () {
+		const event = _status.event;
+		if (event && this.classList?.contains("selected")) {
+			delete event._autoTargetState;
+			event._manualTargetCancel = true;
+		}
+		return originalTarget.apply(this, arguments);
 	};
 
 	// 注册 checkEnd 钩子

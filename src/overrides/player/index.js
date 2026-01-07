@@ -20,7 +20,7 @@ export { playerUseCard, playerRespond, playerLose, playerUseCardAnimateBefore, p
 export { playerMarkSkill, playerUnmarkSkill, playerMark, playerMarkCharacter, playerUpdateMark, playerMarkSkillCharacter } from "./marks.js";
 
 // 技能状态覆写
-export { playerChangeZhuanhuanji, playerSetSkillYinYang, player$SetSkillYinYang, playerSetSkillState, player$SetSkillState } from "./skill-state.js";
+export { playerChangeZhuanhuanji, playerSetSkillYinYang, player$SetSkillYinYang, playerSetSkillState, player$SetSkillState, preloadZhuanhuanjiImage } from "./skill-state.js";
 
 // 动态皮肤覆写
 export { playerPlayDynamic, playerStopDynamic, playerApplyDynamicSkin } from "./dynamic-skin.js";
