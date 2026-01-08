@@ -2,7 +2,7 @@
  * @fileoverview 你知道吗功能模块
  */
 
-import { lib } from "noname";
+import { lib, game, ui, get, ai, _status } from "noname";
 
 // 提示列表
 let didYouKnowList = ["加载中..."];
