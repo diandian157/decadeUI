@@ -264,7 +264,7 @@ export function initRecast() {
  * 当 targets[0] 为 undefined 时，changeTarget 会报错
  */
 function patchChangeTargetCards() {
-	const cardsToFix = ["lulitongxin", "lianjunshengyan"];
+	const cardsToFix = ["lulitongxin"];
 
 	for (const cardName of cardsToFix) {
 		const cardInfo = lib.card[cardName];
