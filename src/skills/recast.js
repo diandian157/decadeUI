@@ -57,6 +57,13 @@ export function canRecastCard(card, player) {
 export function isCardDisabledForUse(card, player) {
 	if (!player) return false;
 
+	// 检查卡牌本身的 enable 条件
+	const info = get.info(card);
+	if (info?.enable) {
+		const enableResult = typeof info.enable === "function" ? info.enable(card, player) : info.enable;
+		if (enableResult === false) return true;
+	}
+
 	// 临时移除重铸启用mod，检查原始cardEnabled状态
 	const skill = lib.skill._decadeUI_recastable_enable;
 	const originalMod = skill?.mod;
@@ -247,4 +254,26 @@ export function initRecast() {
 
 	// 设置交互逻辑
 	setupRecastableCards();
+
+	// 修复有 changeTarget 的可重铸卡牌在 targets 为空时报错的问题
+	patchChangeTargetCards();
+}
+
+/**
+ * 修复有 changeTarget 的可重铸卡牌
+ * 当 targets[0] 为 undefined 时，changeTarget 会报错
+ */
+function patchChangeTargetCards() {
+	const cardsToFix = ["lulitongxin", "lianjunshengyan"];
+
+	for (const cardName of cardsToFix) {
+		const cardInfo = lib.card[cardName];
+		if (!cardInfo?.changeTarget) continue;
+
+		const originalChangeTarget = cardInfo.changeTarget;
+		cardInfo.changeTarget = function (player, targets) {
+			if (!targets[0]) return;
+			return originalChangeTarget.call(this, player, targets);
+		};
+	}
 }
