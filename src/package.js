@@ -2,6 +2,8 @@
  * @fileoverview 扩展包信息定义
  */
 
+import "./features/didYouKnow.js";
+
 /**
  * 生成扩展包信息
  * @param {Object} otherInfo - info.json中的其他信息
@@ -21,7 +23,11 @@ export const mainpackage = otherInfo => {
 
 	pack.intro = `<a href="javascript:void(0)" onclick="${copyHandler}" style="color: #FFFACD;">点击复制仓库地址</a>`;
 
-	pack.author = `<img src="https://q1.qlogo.cn/g?b=qq&nk=2173890060&s=100&t=${Date.now()}" class="author-avatar" onclick="new Audio('extension/十周年UI/audio/Ciallo.mp3').play()" style="cursor:pointer;border-radius:50%;width:60px;height:60px">点点`;
+	Object.defineProperty(pack, "author", {
+		get() {
+			return `<img src="https://q1.qlogo.cn/g?b=qq&nk=2173890060&s=100&t=${Date.now()}" class="author-avatar" onclick="new Audio('extension/十周年UI/audio/Ciallo.mp3').play()" style="cursor:pointer;border-radius:50%;width:50px;height:50px;vertical-align:bottom">点点<br>${window.decadeUIDidYouKnow.getHTML()}`;
+		},
+	});
 
 	return pack;
 };
