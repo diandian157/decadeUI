@@ -33,10 +33,13 @@ export function setupEquipHand() {
 			game.check();
 
 			// 获取可选卡牌
-			let selectables = get.selectableCards();
+			const selectables = get.selectableCards();
 			if (lib.config["extension_十周年UI_aloneEquip"]) {
-				const equipSelectables = player.getCards("e").filter(card => card.classList.contains("selectable") && card.classList.contains("equip-card-selectable"));
-				selectables = selectables.concat(equipSelectables);
+				for (const card of player.getCards("e")) {
+					if (!selectables.includes(card) && card.classList.contains("selectable") && card.classList.contains("equip-card-selectable")) {
+						selectables.push(card);
+					}
+				}
 			}
 
 			// 选择卡牌
