@@ -141,7 +141,7 @@ export class APNode {
 	 */
 	update(e) {
 		const calc = (value, refer, dpr) => {
-			return Array.isArray(value) ? value[0] * dpr + value[1] * refer : value * dpr;
+			return Array.isArray(value) ? value[0] + value[1] * refer : value;
 		};
 
 		const zoom = useNewDpr ? parseFloat(window.getComputedStyle(document.body).zoom) : 1;
@@ -152,7 +152,7 @@ export class APNode {
 		// 计算参考节点边界
 		if (domNode) {
 			if (this.referFollow || !this.referBounds) {
-				this.referBounds = this._calcReferBounds(domNode, dpr);
+				this.referBounds = this._calcReferBounds(domNode);
 			}
 			referSize.height = this.referBounds.height * dpr;
 			referSize.width = this.referBounds.width * dpr;
@@ -234,11 +234,10 @@ export class APNode {
 	/**
 	 * 计算参考节点边界
 	 * @param {HTMLElement} domNode - DOM节点
-	 * @param {number} dpr - 设备像素比
 	 * @returns {Object} 边界信息
 	 * @private
 	 */
-	_calcReferBounds(domNode, dpr) {
+	_calcReferBounds(domNode) {
 		// 检测getBoundingClientRect是否被皮肤切换扩展修改
 		// 皮肤切换扩展在Chrome 128+会修改getBoundingClientRect，返回值已除以documentZoom
 		const isNativeGetBoundingClientRect = HTMLElement.prototype.getBoundingClientRect.toString().includes("[native code]");

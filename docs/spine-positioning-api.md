@@ -25,19 +25,19 @@
 定位系统的核心是 `calc` 函数，支持两种格式：
 
 ```javascript
-const calc = (value, refer, dpr) => {
-	return Array.isArray(value) ? value[0] * dpr + value[1] * refer : value * dpr;
+const calc = (value, refer) => {
+	return Array.isArray(value) ? value[0] + value[1] * refer : value;
 };
 ```
 
 ### 2. 数组格式 `[offset, ratio]`
 
 ```javascript
-x: [10, 0.5]; // 计算结果: 10 * dpr + 0.5 * referWidth
-y: [0, 0.3]; // 计算结果: 0 * dpr + 0.3 * referHeight
+x: [10, 0.5]; // 计算结果: 10 + 0.5 * referWidth
+y: [0, 0.3]; // 计算结果: 0 + 0.3 * referHeight
 ```
 
-- `offset`：像素偏移量，会乘以设备像素比(dpr)
+- `offset`：像素偏移量
 - `ratio`：相对比例(0-1)，乘以参考尺寸
 
 **等效CSS表达式**：`calc(10px + 50%)`
@@ -45,10 +45,10 @@ y: [0, 0.3]; // 计算结果: 0 * dpr + 0.3 * referHeight
 ### 3. 数字格式
 
 ```javascript
-x: 100; // 计算结果: 100 * dpr
+x: 100; // 计算结果: 100
 ```
 
-纯像素值，直接乘以设备像素比。
+纯像素值，直接使用。
 
 ### 4. 常用定位示例
 
