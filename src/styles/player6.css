@@ -749,6 +749,12 @@
 	-webkit-clip-path: url(#duor-clip);
 }
 
+/* 隐匿状态露头图覆盖本体样式 */
+#arena:not(.observe) .player.unseen_show > .avatar.has-outcrop,
+#arena:not(.observe) .player.unseen2_show > .avatar2.has-outcrop {
+	opacity: 1 !important;
+}
+
 /** 动态皮肤 */
 
 .player > .dynamic-wrap {

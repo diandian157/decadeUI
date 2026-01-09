@@ -179,6 +179,22 @@ export function checkImageExists(path) {
 }
 
 /**
+ * 检查玩家是否处于隐匿状态
+ * @param {HTMLElement} node - avatar节点
+ * @param {boolean} isVice - 是否是副将
+ * @returns {boolean}
+ */
+function isPlayerUnseen(node, isVice) {
+	const player = node?.parentElement;
+	if (!player?.classList) return false;
+
+	if (isVice) {
+		return player.classList.contains("unseen2_show") || player.classList.contains("unseen2");
+	}
+	return player.classList.contains("unseen_show") || player.classList.contains("unseen");
+}
+
+/**
  * 应用露头头像到节点
  * @param {string} characterName - 武将名称
  * @param {HTMLElement} node - 目标节点
@@ -194,13 +210,26 @@ export async function applyOutcropAvatar(characterName, node, outcropStyle) {
 		return false;
 	}
 
-	const actualName = getOutcropCharacterName(characterName);
 	const subdir = OUTCROP_SUBDIRS[outcropStyle];
 	if (!subdir) {
 		node.classList.remove("has-outcrop");
 		return false;
 	}
 
+	// 检查是否处于隐匿状态
+	const isVice = node.classList.contains("avatar2");
+	if (isPlayerUnseen(node, isVice)) {
+		const hiddenPath = `${lib.assetURL}extension/十周年UI/image/character/${subdir}/hidden_image.jpg`;
+		if (await checkImageExists(hiddenPath)) {
+			node.style.setProperty("background-image", `url("${hiddenPath}")`, "important");
+			node.classList.add("has-outcrop");
+			return true;
+		}
+		node.classList.remove("has-outcrop");
+		return false;
+	}
+
+	const actualName = getOutcropCharacterName(characterName);
 	const candidatePaths = [];
 
 	// 1. 扩展目录的露头图
@@ -334,6 +363,7 @@ export function setupOutcropAvatar() {
 	hookSetBackground();
 	hookSmoothAvatar();
 	hookChangeSkin();
+	hookShowCharacter();
 }
 
 /** 原始 setBackground 方法引用 */
@@ -356,7 +386,9 @@ function hookSetBackground() {
 		if (type === "character" && getOutcropStyle() !== "off") {
 			const isPlayerAvatar = this.classList.contains("avatar") && this.parentElement?.classList.contains("player");
 			if (isPlayerAvatar) {
-				applyOutcropAvatar(name, this);
+				setTimeout(() => {
+					applyOutcropAvatar(name, this);
+				}, 0);
 			}
 		}
 
@@ -410,6 +442,39 @@ function hookChangeSkin() {
 					applyOutcropAvatar(character, avatarNode);
 				}
 			}, 150);
+		}
+
+		return result;
+	};
+}
+
+/**
+ * Hook $showCharacter 方法，在玩家亮出武将后更新露头图
+ */
+function hookShowCharacter() {
+	if (!lib.element?.Player?.prototype?.$showCharacter) return;
+
+	const original$showCharacter = lib.element.Player.prototype.$showCharacter;
+
+	lib.element.Player.prototype.$showCharacter = function (num, log) {
+		const result = original$showCharacter.call(this, num, log);
+
+		if (getOutcropStyle() !== "off") {
+			const player = this;
+			setTimeout(() => {
+				if ((num === 0 || num === 2) && player.node?.avatar) {
+					const name1 = player.name1 || player.name;
+					if (name1) {
+						applyOutcropAvatar(name1, player.node.avatar);
+					}
+				}
+				if ((num === 1 || num === 2) && player.node?.avatar2) {
+					const name2 = player.name2;
+					if (name2) {
+						applyOutcropAvatar(name2, player.node.avatar2);
+					}
+				}
+			}, 50);
 		}
 
 		return result;
