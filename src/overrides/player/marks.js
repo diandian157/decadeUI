@@ -192,6 +192,30 @@ function createMarkElement(item, skill) {
 		}
 
 		mark.text.innerHTML = markText;
+
+		// 阻止标记通过setBackground设置角色头像，改为显示技能名称
+		const originalSetBackground = mark.setBackground;
+		mark.setBackground = function (name, type) {
+			if (type === "character") {
+				let skillText = lib.translate[item + "_bg"];
+				if (!skillText || skillText[0] === "+" || skillText[0] === "-") {
+					skillText = get.translation(item).slice(0, 2);
+					if (markStyle !== "decade") {
+						skillText = skillText[0];
+					}
+				}
+				if (mark.text) {
+					mark.text.innerHTML = skillText;
+					if (skillText.length === 2) {
+						mark.text.classList.add("small-text");
+					} else {
+						mark.text.classList.remove("small-text");
+					}
+				}
+				return this;
+			}
+			return originalSetBackground?.apply(this, arguments);
+		};
 	}
 
 	mark.name = itemName;
@@ -370,7 +394,6 @@ function calculateMarkCount(player, name, skillInfo) {
 
 	return 0;
 }
-
 
 /**
  * 标记技能武将覆写
