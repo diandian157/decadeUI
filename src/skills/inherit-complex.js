@@ -143,7 +143,7 @@ export const inheritComplexSkill = {
 	 */
 	twtanfeng: {
 		async content(event, trigger, player) {
-			const { result } = await player
+			const result = await player
 				.chooseTarget(get.prompt2("twtanfeng"), (card, player, target) => {
 					return target !== player && target.countDiscardableCards(player, "hej") > 0;
 				})
@@ -206,7 +206,7 @@ export const inheritComplexSkill = {
 
 			const list2 = list.filter(name => name !== "判定阶段" && name !== "弃牌阶段");
 
-			const { result: cResult } = await target
+			const cResult = await target
 				.chooseControl(list)
 				.set("prompt", `探锋：令${get.translation(player)}跳过一个阶段`)
 				.set("ai", () => _status.event.choice)
