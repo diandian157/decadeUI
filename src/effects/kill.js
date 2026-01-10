@@ -54,9 +54,15 @@ export function playKillEffect(source, target) {
 
 	if (bounds) {
 		const scale = (anim.canvas.width / bounds.size.x) * CONFIG.KILL_SCALE;
+		const canvas = anim.canvas;
+		const originalZIndex = canvas.style.zIndex;
+		canvas.style.zIndex = 10;
 		anim.playSpine("effect_jisha1", { scale });
 		ui.window.appendChild(effect);
 		ui.refresh(effect);
+		setTimeout(() => {
+			canvas.style.zIndex = originalZIndex;
+		}, CONFIG.KILL_CLOSE);
 	} else {
 		fallbackKillEffect(effect, victim);
 	}

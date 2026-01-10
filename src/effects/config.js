@@ -29,8 +29,8 @@ export const CONFIG = {
 	// 技能特效尺寸
 	SKILL_MAX_W: 288,
 	SKILL_MAX_H: 378,
-	SKILL_NAME_Y: 165,
-	GENERAL_X: 200,
+	SKILL_NAME_Y: 90,
+	GENERAL_X: 170,
 	GENERAL_Y: 160,
 };
 
