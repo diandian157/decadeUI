@@ -584,7 +584,7 @@ body > .background {
 	flex-wrap: wrap !important;
 	left: 10px;
 	right: 10px;
-	bottom: calc(23% + 40px);
+	bottom: calc(23% + 60px);
 }
 
 #arena > #dui-controls > .control {
