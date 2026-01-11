@@ -388,6 +388,14 @@ function createFlipCard(card, owner, x, y, scale, cardsetions, delay) {
 			if (card.classList.contains("decade-card")) {
 				node.classList.add("decade-card");
 				node.style.background = card.style.background;
+			} else if (card.classList.contains("fullimage")) {
+				node.classList.add("fullimage");
+				if (card.style.backgroundImage) {
+					node.style.backgroundImage = card.style.backgroundImage;
+					node.style.backgroundSize = card.style.backgroundSize;
+				} else {
+					node.style.background = card.style.background;
+				}
 			}
 
 			node.style.transition = "all 0s";
