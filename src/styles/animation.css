@@ -273,3 +273,72 @@
 		background-position: calc(var(--glow-sprite-width, 2530px) / -10 * 9) 0;
 	}
 }
+
+/** 技能名称弹出动画 - 文字从两边飞入 */
+
+.player > .damage.skill-popup {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 100%;
+	font-family: yuanli;
+	font-size: 40px;
+	top: 80px;
+	color: #ffffff;
+	text-shadow: 0 0 4px #000;
+	opacity: 1;
+	z-index: 91;
+	pointer-events: none;
+}
+
+.player > .damage.skill-popup > span {
+	display: inline-block;
+	opacity: 0;
+}
+
+/* 左边字符：从左侧飞入 */
+.player > .damage.skill-popup > .char-left {
+	animation: skill-char-from-left 0.4s ease-out forwards;
+}
+
+/* 右边字符：从右侧飞入 */
+.player > .damage.skill-popup > .char-right {
+	animation: skill-char-from-right 0.4s ease-out forwards;
+}
+
+@keyframes skill-char-from-left {
+	0% {
+		opacity: 0;
+		transform: translateX(-50px);
+	}
+	100% {
+		opacity: 1;
+		transform: translateX(0);
+	}
+}
+
+@keyframes skill-char-from-right {
+	0% {
+		opacity: 0;
+		transform: translateX(50px);
+	}
+	100% {
+		opacity: 1;
+		transform: translateX(0);
+	}
+}
+
+/* 整体淡出 */
+.player > .damage.skill-popup {
+	animation: skill-popup-fadeout 1.5s ease-in-out forwards;
+}
+
+@keyframes skill-popup-fadeout {
+	0%,
+	70% {
+		opacity: 1;
+	}
+	100% {
+		opacity: 0;
+	}
+}

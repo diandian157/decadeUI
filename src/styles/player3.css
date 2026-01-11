@@ -1244,8 +1244,23 @@
 .player > .damage {
 	width: 100%;
 	text-shadow: none;
-	transition: none;
 	z-index: 91;
+	opacity: 0;
+	transform: scale(0.7);
+	transition: all 0.3s ease-out;
+}
+
+.player > .damage.damageadded {
+	opacity: 1;
+	transform: scale(1);
+}
+
+.player.linked > .damage {
+	transform: scale(0.7) rotate(90deg);
+}
+
+.player.linked > .damage.damageadded {
+	transform: scale(1) rotate(90deg);
 }
 
 .player > .damage::before {

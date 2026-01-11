@@ -19,23 +19,70 @@ const DAMAGE_ACTIONS = {
 
 /**
  * 伤害弹出覆写
- * @description 播放Spine伤害动画，不显示数字
- * @param {number|string} num - 伤害数值
+ * @description 播放Spine伤害动画，字符串时显示武将技能名称（文字从两边飞入）
+ * @param {number|string} num - 伤害数值或技能名称
  * @param {string} [nature] - 伤害属性（fire/thunder/water等）
+ * @param {boolean} [font] - 是否使用普通字体
+ * @param {boolean} [nobroadcast] - 是否不广播
  * @returns {void}
  * @this {Object} 玩家对象
  */
-export function playerDamagepop(num, nature) {
-	if (typeof num !== "number") return;
-
+export function playerDamagepop(num, nature = "soil", font, nobroadcast) {
 	const player = this;
+
+	if (typeof num === "string") {
+		const skills = player.getSkills?.(null, false, false) || [];
+		const isCharacterSkill = skills.some(skill => {
+			const skillName = lib.translate[skill];
+			return skillName && num.includes(skillName);
+		});
+
+		if (!isCharacterSkill) return;
+
+		game.addVideo("damagepop", player, [num, nature, font]);
+		if (nobroadcast !== false) {
+			game.broadcast((p, n, na, f) => p.$damagepop(n, na, f), player, num, nature, font);
+		}
+
+		const container = ui.create.div(".damage.skill-popup", player);
+		container.dataset.nature = nature || "soil";
+
+		const chars = num.split("");
+		const midIndex = Math.ceil(chars.length / 2);
+
+		chars.forEach((char, i) => {
+			const span = document.createElement("span");
+			span.textContent = char;
+			span.className = i < midIndex ? "char-left" : "char-right";
+			span.style.animationDelay = `${i * 0.05}s`;
+			container.appendChild(span);
+		});
+
+		setTimeout(() => container.delete(), 1500);
+		return;
+	}
+
+	if (typeof num !== "number") {
+		if (player.damagepopups?.length) {
+			const node = player.damagepopups[0];
+			player.appendChild(node);
+			ui.refresh(node);
+			node.classList.add("damageadded");
+			node.listenTransition(() => setTimeout(() => node.delete(), 200));
+			setTimeout(() => {
+				player.damagepopups.shift();
+				player.$damagepop();
+			}, 500);
+		}
+		return;
+	}
+
 	const animation = getDui()?.animation;
 	if (!animation) return;
 
 	if (num < 0 && nature !== "water") {
 		const pair = DAMAGE_ACTIONS[nature] || DAMAGE_ACTIONS.__default;
 		const action = num <= -2 ? pair[1] : pair[0];
-
 		animation.playSpine({ name: "effect_shoujidonghua", action }, { scale: 0.8, parent: player });
 	} else if (num > 0 && nature === "wood") {
 		animation.playSpine("effect_zhiliao", { scale: 0.7, parent: player });
