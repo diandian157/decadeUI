@@ -198,7 +198,7 @@ export function setupRecastableCards() {
 
 	// 在 checkEnd hook 里控制确认按钮
 	if (lib.hooks?.checkEnd) {
-		lib.hooks.checkEnd.add("_decadeUI_recastable_check", (event, result) => {
+		lib.hooks.checkEnd.add("_decadeUI_recastable_check", event => {
 			if (!ui.confirm) return;
 			const card = get.card();
 			if (!card) return;
@@ -210,6 +210,7 @@ export function setupRecastableCards() {
 			const player = event?.player;
 
 			if (!selectedCard || !player || !canRecastCard(selectedCard, player)) return;
+			if (event?.name !== "chooseToUse") return;
 
 			if (ui.selected.targets.length === 0) {
 				okBtn.innerHTML = "重铸";
