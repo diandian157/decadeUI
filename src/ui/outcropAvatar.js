@@ -223,7 +223,6 @@ export async function applyOutcropAvatar(characterName, node, outcropStyle) {
 		if (await checkImageExists(hiddenPath)) {
 			node.style.setProperty("background-image", `url("${hiddenPath}")`, "important");
 			node.classList.add("has-outcrop");
-			node._backgroundImage = hiddenPath;
 			return true;
 		}
 		node.classList.remove("has-outcrop");
@@ -247,7 +246,6 @@ export async function applyOutcropAvatar(characterName, node, outcropStyle) {
 		if (await checkImageExists(path)) {
 			node.style.backgroundImage = `url("${path}")`;
 			node.classList.add("has-outcrop");
-			node._backgroundImage = path;
 			return true;
 		}
 	}
