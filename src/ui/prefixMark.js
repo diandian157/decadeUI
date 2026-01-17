@@ -325,7 +325,7 @@ export const prefixMarkModule = {
 		// 更新主将名称显示（去除前缀）
 		const nameElement = playerElement.node?.name;
 		if (nameElement) {
-			nameElement.innerText = get.rawName2(character);
+			nameElement.innerText = get.plainText(get.rawName2(character));
 		}
 	},
 
