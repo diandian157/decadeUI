@@ -4,8 +4,8 @@
 	"author": "点点",
 	"diskURL": "https://github.com/diandian157/decadeUI",
 	"forumURL": "",
-	"version": "0.4.4",
-	"minNonameVersion": "1.11.0",
+	"version": "1.0.0",
+	"minNonameVersion": "1.11.1",
 	"importConfig": [
 		{
 			"name": "骨骼包",
