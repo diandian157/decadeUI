@@ -16,7 +16,11 @@ export function isRecastableCard(card, player) {
 	if (player?.canRecast) {
 		return player.canRecast(card, null, true);
 	}
-	const info = get.info(card);
+
+	const cardName = card.name;
+	if (!cardName) return false;
+
+	const info = lib.card[cardName];
 	if (!info) return false;
 	const recastable = info.recastable || info.chongzhu;
 	return typeof recastable === "function" ? !!recastable(_status.event, player) : !!recastable;
@@ -43,6 +47,10 @@ export function isRealHandCard(card, player) {
  * @returns {boolean} 是否可以重铸
  */
 export function canRecastCard(card, player) {
+	if (lib.config.extension_十周年UI_enableRecastInteraction === false) return false;
+
+	if (player?.hasSkill?.("sangu_viewas")) return false;
+
 	if (!isRecastableCard(card, player)) return false;
 	if (!isRealHandCard(card, player)) return false;
 	return true;
@@ -248,6 +256,7 @@ export function setupRecastableCards() {
  * @returns {void}
  */
 export function initRecast() {
+	if (lib.config.extension_十周年UI_enableRecastInteraction === false) return;
 	if (lib.config.extension_十周年UI_newDecadeStyle === "off") return;
 
 	// 注册动画技能

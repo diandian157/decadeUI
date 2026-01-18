@@ -52,6 +52,16 @@ export const shiliyouhua = {
 };
 
 /**
+ * 重铸交互配置
+ * @type {Object}
+ */
+export const enableRecastInteraction = {
+	name: "重铸交互（Beta）",
+	init: true,
+	intro: "开启后，可重铸卡牌可以通过不选目标直接重铸，无需额外操作，重启生效",
+};
+
+/**
  * 自由选将筛选框配置
  * @type {Object}
  */
@@ -83,5 +93,6 @@ export const miscConfigs = {
 	wujiangbeijing,
 	shiliyouhua,
 	mx_decade_characterDialog,
+	enableRecastInteraction,
 	stuff_title_end,
 };
