@@ -123,13 +123,20 @@ export const recastAnimateSkill = {
 		forced: true,
 		popup: false,
 		silent: true,
+		priority: Infinity + 1,
 		filter(event, player) {
 			if (lib.config.extension_十周年UI_newDecadeStyle === "off") return false;
 			if (event.targets && event.targets.length > 0) return false;
 			const cards = event.cards?.slice() || [];
 			if (cards.length === 0) return false;
+
+			const cardOwner = get.owner(cards[0]);
+			if (!cardOwner) return false;
+
+			if (player !== cardOwner) return false;
+
 			for (const card of cards) {
-				if (!canRecastCard(card, player)) return false;
+				if (!canRecastCard(card, cardOwner)) return false;
 			}
 			return true;
 		},
