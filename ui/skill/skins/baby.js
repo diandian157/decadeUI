@@ -4,7 +4,7 @@
  */
 import { lib, game, ui, get, ai, _status } from "noname";
 import { createBaseSkillPlugin } from "./base.js";
-import { getAvailableSkills, updateSkillUsability, isGSkillCacheSame, shouldSkipEquipSkill } from "./gskillMixin.js";
+import { getAvailableSkills, updateSkillUsability, isGSkillCacheSame, shouldSkipEquipSkill, cleanupInvalidGSkills } from "./gskillMixin.js";
 
 const ASSETS_PATH = "extension/十周年UI/ui/assets/skill/baby";
 
@@ -342,6 +342,9 @@ export function createBabySkillPlugin(lib, game, ui, get, ai, _status, app) {
 
 			update() {
 				const skills = getAvailableSkills(ui);
+
+				// 清理已失效的 gskill（同时更新缓存）
+				cleanupInvalidGSkills(this.node.combined, ui, this._cachedGSkills);
 
 				// 重新排序
 				const combinedNodes = Array.from(this.node.combined.childNodes);

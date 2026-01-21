@@ -4,7 +4,7 @@
  */
 import { lib, game, ui, get, ai, _status } from "noname";
 import { createBaseSkillPlugin } from "./base.js";
-import { getAvailableSkills, updateSkillUsability, isGSkillCacheSame, shouldSkipEquipSkill } from "./gskillMixin.js";
+import { getAvailableSkills, updateSkillUsability, isGSkillCacheSame, shouldSkipEquipSkill, cleanupInvalidGSkills } from "./gskillMixin.js";
 
 export function createXinshaSkillPlugin(lib, game, ui, get, ai, _status, app) {
 	const base = createBaseSkillPlugin(lib, game, ui, get, ai, _status, app);
@@ -265,6 +265,7 @@ export function createXinshaSkillPlugin(lib, game, ui, get, ai, _status, app) {
 					const cls = isLimited ? ".xiandingji" : ".skillitem";
 					const node = ui.create.div(cls, this.node.enable, skillName);
 					node.dataset.id = skillId;
+					node.dataset.gskill = "true";
 
 					if (info.zhuanhuanji) {
 						node.classList.add("zhuanhuanji");
@@ -292,6 +293,9 @@ export function createXinshaSkillPlugin(lib, game, ui, get, ai, _status, app) {
 
 			update() {
 				const availableSkills = getAvailableSkills(ui);
+
+				// 清理已失效的 gskill（同时更新缓存）
+				cleanupInvalidGSkills(this.node.enable, ui, this._cachedSkills);
 
 				Array.from(this.node.enable.childNodes).forEach(item => {
 					const skillId = item.dataset.id;
@@ -453,6 +457,9 @@ export function createXinshaSkillPlugin(lib, game, ui, get, ai, _status, app) {
 			update() {
 				const skills = getAvailableSkills(ui);
 				if (lib.config.phonelayout && ui.gskills?.skills) skills.addArray(ui.gskills.skills);
+
+				// 清理已失效的 gskill（同时更新缓存）
+				cleanupInvalidGSkills(this.node.enable, ui, this._cachedGSkills);
 
 				Array.from(this.node.enable.childNodes).forEach(item => {
 					const skillId = item.dataset.id;

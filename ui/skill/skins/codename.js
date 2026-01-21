@@ -4,7 +4,7 @@
  */
 import { lib, game, ui, get, ai, _status } from "noname";
 import { createBaseSkillPlugin } from "./base.js";
-import { getAvailableSkills, updateSkillUsability, isGSkillCacheSame, shouldSkipEquipSkill } from "./gskillMixin.js";
+import { getAvailableSkills, updateSkillUsability, isGSkillCacheSame, shouldSkipEquipSkill, cleanupInvalidGSkills } from "./gskillMixin.js";
 
 export function createCodenameSkillPlugin(lib, game, ui, get, ai, _status, app) {
 	const base = createBaseSkillPlugin(lib, game, ui, get, ai, _status, app);
@@ -281,6 +281,9 @@ export function createCodenameSkillPlugin(lib, game, ui, get, ai, _status, app) 
 
 			update() {
 				const skills = getAvailableSkills(ui);
+
+				// 清理已失效的 gskill（同时更新缓存）
+				cleanupInvalidGSkills(this.node.combined, ui, this._cachedGSkills);
 
 				// 重新排序：主动技优先（update时统一排序）
 				const combinedNodes = Array.from(this.node.combined.childNodes);

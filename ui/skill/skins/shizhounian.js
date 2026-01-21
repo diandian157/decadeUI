@@ -4,7 +4,7 @@
  */
 import { lib, game, ui, get, ai, _status } from "noname";
 import { createBaseSkillPlugin } from "./base.js";
-import { getAvailableSkills, updateSkillUsability, isGSkillCacheSame, shouldSkipEquipSkill } from "./gskillMixin.js";
+import { getAvailableSkills, updateSkillUsability, isGSkillCacheSame, shouldSkipEquipSkill, cleanupInvalidGSkills } from "./gskillMixin.js";
 
 export function createShizhounianSkillPlugin(lib, game, ui, get, ai, _status, app) {
 	const base = createBaseSkillPlugin(lib, game, ui, get, ai, _status, app);
@@ -160,6 +160,12 @@ export function createShizhounianSkillPlugin(lib, game, ui, get, ai, _status, ap
 
 				if (player === game.me) {
 					const skillControl = ui.create.skillControl(clear);
+
+					// 先清理失效的 gskill，再添加新的
+					if (lib.config.phonelayout && skillControl.node?.enable) {
+						cleanupInvalidGSkills(skillControl.node.enable, ui, skillControl._cachedGSkills);
+					}
+
 					skillControl.add(skills, eSkills);
 					if (lib.config.phonelayout) {
 						if (gSkills?.length) skillControl.setGSkills(gSkills, eSkills);
@@ -222,6 +228,7 @@ export function createShizhounianSkillPlugin(lib, game, ui, get, ai, _status, ap
 					const cls = info.limited ? ".xiandingji" : ".skillitem";
 					const node = ui.create.div(cls, this.node.enable, skillName);
 					node.dataset.id = skillId;
+					node.dataset.gskill = "true";
 
 					if (info.zhuanhuanji) node.classList.add("zhuanhuanji");
 					if (game.me && get.is.locked(skillId, game.me)) node.classList.add("locked");
@@ -238,6 +245,9 @@ export function createShizhounianSkillPlugin(lib, game, ui, get, ai, _status, ap
 			},
 
 			update() {
+				// 清理已失效的 gskill（同时更新缓存）
+				cleanupInvalidGSkills(this.node.enable, ui, this._cachedSkills);
+
 				const availableSkills = getAvailableSkills(ui);
 				updateSkillUsability(this.node.enable.childNodes, availableSkills, { lib, game, ui, get, ai, _status });
 			},
@@ -362,6 +372,9 @@ export function createShizhounianSkillPlugin(lib, game, ui, get, ai, _status, ap
 			update() {
 				const skills = getAvailableSkills(ui);
 				if (lib.config.phonelayout && ui.gskills?.skills) skills.addArray(ui.gskills.skills);
+
+				// 清理已失效的 gskill（同时更新缓存）
+				cleanupInvalidGSkills(this.node.enable, ui, this._cachedGSkills);
 
 				updateSkillUsability(this.node.enable.childNodes, skills, { lib, game, ui, get, ai, _status });
 
