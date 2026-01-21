@@ -4,7 +4,7 @@
  * @module config/definitions/appearance
  */
 import { createCollapseTitle, createCollapseEnd } from "../utils.js";
-import { onExtensionToggleClick, onExtensionToggleUpdate, onNewDecadeStyleClick, onNewDecadeStyleUpdate, onRightLayoutClick, onRightLayoutUpdate, onOutcropSkinClick, onOutcropSkinUpdate, onBorderLevelUpdate, onAloneEquipUpdate, onMeanPrettifyClick, onDynamicSkinClick, onDynamicSkinOutcropUpdate } from "../handlers/appearance-handlers.js";
+import { onExtensionToggleClick, onExtensionToggleUpdate, onNewDecadeStyleClick, onNewDecadeStyleUpdate, onOutcropSkinClick, onOutcropSkinUpdate, onBorderLevelUpdate, onAloneEquipUpdate, onMeanPrettifyClick, onDynamicSkinClick, onDynamicSkinOutcropUpdate } from "../handlers/appearance-handlers.js";
 
 /**
  * 扩展开关配置
@@ -49,19 +49,6 @@ export const newDecadeStyle = {
 	},
 	onclick: onNewDecadeStyleClick,
 	update: onNewDecadeStyleUpdate,
-};
-
-/**
- * 左右布局配置
- * @type {Object}
- */
-export const rightLayout = {
-	name: "左右布局",
-	init: "on",
-	intro: "切换完以后自动重启游戏",
-	item: { off: "左手", on: "右手" },
-	update: onRightLayoutUpdate,
-	onclick: onRightLayoutClick,
 };
 
 /**
@@ -155,7 +142,6 @@ export const appearanceConfigs = {
 	eruda,
 	outward_title,
 	newDecadeStyle,
-	rightLayout,
 	outcropSkin,
 	borderLevel,
 	aloneEquip,
