@@ -52,6 +52,7 @@ export function setupLuckyCard() {
 		/** 关闭卡牌对话框 */
 		closeCardDialog() {
 			if (ui.cardDialog) {
+				delete ui.cardDialog._isLuckyCardTip;
 				ui.cardDialog.close();
 				delete ui.cardDialog;
 			}
