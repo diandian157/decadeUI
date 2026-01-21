@@ -454,17 +454,55 @@ const isAskWuxie = event => {
 };
 
 /**
+ * 追溯到最初的锦囊牌
+ * @param {object} event - 事件对象
+ * @returns {{card: object|null, source: object|null, target: object|null}} 最初的牌信息
+ */
+const traceOriginalCard = event => {
+	let current = event;
+	let depth = 0;
+	const maxDepth = MAX_PARENT_DEPTH_DEEP;
+
+	while (depth < maxDepth && current) {
+		if (Array.isArray(current.respondTo)) {
+			const [source, card] = current.respondTo;
+			const cardName = card?.name || card;
+
+			if (cardName && cardName !== "wuxie") {
+				return {
+					card,
+					source,
+					target: card?.target || card?.targets || current.target,
+				};
+			}
+		}
+
+		current = current.getParent?.();
+		depth++;
+	}
+
+	return { card: null, source: null, target: null };
+};
+
+/**
  * 解析无懈可击的目标名称
  * @param {object} event - 事件对象
- * @param {object} respondCard - 响应卡牌
  * @param {object} parentMap - 父事件信息映射
  * @returns {string|undefined} 目标名称
  */
-const resolveWuxieTarget = (event, respondCard, parentMap) => {
-	const sourcePlayer = Array.isArray(event.respondTo) ? event.respondTo[0] : null;
+const resolveWuxieTarget = (event, parentMap) => {
+	// 优先处理延时锦囊判定
 	const judgeParent = traverseParent(event, MAX_PARENT_DEPTH_DEEP, p => p.name === "judge" || p.name === "phaseJudge");
-	const judgePlayer = judgeParent?.player;
-	const candidates = [respondCard?.target, respondCard?.targets, event.target, parentMap?.target, parentMap?.targets, judgePlayer, parentMap?.isJudge ? parentMap?.player : null, sourcePlayer];
+	if (judgeParent?.player) {
+		return resolveName(judgeParent.player);
+	}
+
+	// 追溯到最初的锦囊牌
+	const { card, target } = traceOriginalCard(event);
+
+	// 尝试从最初的牌获取目标
+	const candidates = [target, card?.target, card?.targets, event.target, parentMap?.target, parentMap?.targets, parentMap?.isJudge ? parentMap?.player : null];
+
 	for (const candidate of candidates) {
 		const name = resolveName(getSingleTarget(candidate));
 		if (name) return name;
@@ -491,7 +529,6 @@ const getWuxieStateWord = (event, parentMap) => {
  * @returns {Array} 提示文本数组
  */
 const buildWuxieTipText = event => {
-	const [sourcePlayer, respondCard] = Array.isArray(event.respondTo) ? event.respondTo : [];
 	const parentEvent = event.getParent?.();
 	const parentMap = parentEvent?._info_map;
 	const judgeParent = traverseParent(event, MAX_PARENT_DEPTH_DEEP, p => p.name === "judge" || p.name === "phaseJudge");
@@ -510,10 +547,12 @@ const buildWuxieTipText = event => {
 		return [{ text: playerName, style: "phase" }, { text: s("的") }, { text: s(cardName), style: "phase" }, { text: s("即将") }, { text: s(stateWord) }, { text: s("，是否使用【") }, { text: s("无懈可击"), style: "phase" }, { text: s("】？") }];
 	}
 
-	// 普通锦囊
-	const cardName = respondCard ? get.translation(respondCard.name || respondCard) : "该牌";
-	const targetName = resolveWuxieTarget(event, respondCard, parentMap);
-	const sourceName = resolveName(sourcePlayer) ?? "未知角色";
+	// 普通锦囊：追溯到最初的牌
+	const { card: originalCard, source: originalSource } = traceOriginalCard(event);
+	const cardName = originalCard ? get.translation(originalCard.name || originalCard) : "该牌";
+	const targetName = resolveWuxieTarget(event, parentMap);
+	const sourceName = resolveName(originalSource) ?? "未知角色";
+
 	return [{ text: s(sourceName), style: "phase" }, { text: s("对") }, { text: s(targetName), style: "phase" }, { text: s("使用的【") }, { text: s(cardName), style: "phase" }, { text: s("】即将") }, { text: s(stateWord) }, { text: s("，是否使用【") }, { text: s("无懈可击"), style: "phase" }, { text: s("】？") }];
 };
 
