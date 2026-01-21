@@ -57,7 +57,7 @@ export const shiliyouhua = {
  */
 export const enableRecastInteraction = {
 	name: "重铸交互（Beta）",
-	init: true,
+	init: false,
 	intro: "开启后，可重铸卡牌可以通过不选目标直接重铸，无需额外操作，重启生效",
 };
 

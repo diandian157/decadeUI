@@ -38,7 +38,9 @@ export function setupLuckyCard() {
 		showTimer() {
 			this.clearTimers();
 			this.removeProgressBar();
-			game.Jindutiaoplayer?.();
+			if (lib.config.extension_十周年UI_jindutiaoYangshi !== "0") {
+				game.Jindutiaoplayer?.();
+			}
 		},
 
 		/** 隐藏计时器 */
@@ -142,7 +144,7 @@ export function setupLuckyCard() {
 		event.freeChanges = lib._luckyCard.FREE_CHANGES; // 免费换牌次数
 		event.luckyCards = 10000 + Math.floor(Math.random() * 90000);
 
-		"step 1";
+		("step 1");
 		if (event.changeCard !== "disabled" && !_status.auto && game.me.countCards("h") && lib._luckyCard.canChange(event.freeChanges, event.luckyCards)) {
 			const lc = lib._luckyCard;
 			const str = lc.getPromptText(event.freeChanges, event.luckyCards);
@@ -152,6 +154,7 @@ export function setupLuckyCard() {
 			if (typeof decadeUI?.showHandTip === "function") {
 				lc.closeCardDialog();
 				const tip = (ui.cardDialog = decadeUI.showHandTip());
+				tip._isLuckyCardTip = true; // 标记为换牌提示，避免被 checkEnd 钩子清理
 				tip.appendText(lc.stripTags(str));
 				tip.strokeText();
 				tip.show();
@@ -170,7 +173,7 @@ export function setupLuckyCard() {
 			setTimeout(decadeUI.effect.gameStart, 51);
 		}
 
-		"step 2";
+		("step 2");
 		if (event.changeCard === "once") event.changeCard = "disabled";
 		else if (event.changeCard === "twice") event.changeCard = "once";
 		else if (event.changeCard === "disabled") {
@@ -185,7 +188,7 @@ export function setupLuckyCard() {
 		};
 		game.pause();
 
-		"step 3";
+		("step 3");
 		_status.imchoosing = false;
 		const lc = lib._luckyCard;
 

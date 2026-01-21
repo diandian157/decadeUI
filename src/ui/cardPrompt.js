@@ -932,6 +932,8 @@ export function initCardPrompt({ game, ui }) {
 
 		// 延迟执行，避免被其他钩子的关闭逻辑覆盖
 		setTimeout(() => {
+			if (ui.cardDialog?._isLuckyCardTip) return;
+
 			switch (event.name) {
 				case "chooseToDiscard":
 					handleDiscard(event);
