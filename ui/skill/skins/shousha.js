@@ -4,7 +4,7 @@
  */
 import { lib, game, ui, get, ai, _status } from "noname";
 import { createBaseSkillPlugin } from "./base.js";
-import { getAvailableSkills, isGSkillCacheSame, shouldSkipEquipSkill, cleanupInvalidGSkills } from "./gskillMixin.js";
+import { getAvailableSkills, isGSkillCacheSame, shouldSkipEquipSkill } from "./gskillMixin.js";
 
 const ASSETS_PATH = "extension/十周年UI/ui/assets/skill/shousha";
 
@@ -410,9 +410,6 @@ export function createShoushaSkillPlugin(lib, game, ui, get, ai, _status, app) {
 			update() {
 				const skills = getAvailableSkills(ui);
 				if (ui.gskills?.skills) skills.addArray(ui.gskills.skills);
-
-				// 清理已失效的 gskill（同时更新缓存）
-				cleanupInvalidGSkills(this.node.enable, ui, this._cachedGSkills);
 
 				Array.from(this.node.enable.childNodes).forEach(item => {
 					const skillId = item.dataset.id;

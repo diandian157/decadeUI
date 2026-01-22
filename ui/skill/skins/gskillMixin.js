@@ -62,37 +62,3 @@ export function shouldSkipEquipSkill(skillId, eSkills, context) {
 	}
 	return false;
 }
-
-/**
- * 清理已失效的 gskill 节点
- * @param {HTMLElement} container 技能容器节点
- * @param {Object} ui UI对象
- * @param {Array} cachedGSkills 缓存的 gskill 列表（可选）
- */
-export function cleanupInvalidGSkills(container, ui, cachedGSkills) {
-	if (!container) return;
-
-	// 获取当前有效的 gskill 列表
-	const validGSkills = ui.skills2?.skills || [];
-
-	// 查找所有标记为 gskill 的节点
-	const gskillNodes = container.querySelectorAll('[data-gskill="true"]');
-
-	gskillNodes.forEach(node => {
-		const skillId = node.dataset.id;
-		// 如果技能不在有效列表中，移除节点
-		if (!validGSkills.includes(skillId)) {
-			node.remove();
-		}
-	});
-
-	// 同步更新缓存
-	if (cachedGSkills && Array.isArray(cachedGSkills)) {
-		const validSet = new Set(validGSkills);
-		for (let i = cachedGSkills.length - 1; i >= 0; i--) {
-			if (!validSet.has(cachedGSkills[i])) {
-				cachedGSkills.splice(i, 1);
-			}
-		}
-	}
-}
