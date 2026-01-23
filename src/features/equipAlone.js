@@ -60,12 +60,16 @@ function getUsableEquipSkills(event, player) {
  * @returns {string[]}
  */
 function matchExtraEquipSkills(extraEquipInfo, usableSkills) {
-	if (!extraEquipInfo) return [];
+	if (!extraEquipInfo || !Array.isArray(extraEquipInfo) || extraEquipInfo.length === 0) return [];
 	const [sourceSkill, equipName] = extraEquipInfo;
 
-	const bySource = usableSkills.filter(s => getSourceSkill(s) === sourceSkill);
-	if (bySource.length) return bySource;
+	// 优先通过 sourceSkill 匹配
+	if (sourceSkill) {
+		const bySource = usableSkills.filter(s => getSourceSkill(s) === sourceSkill);
+		if (bySource.length) return bySource;
+	}
 
+	// 如果 sourceSkill 不存在或没匹配到，尝试通过 equipName 匹配
 	return equipName ? getCardSkills(equipName).filter(s => usableSkills.includes(s)) : [];
 }
 
