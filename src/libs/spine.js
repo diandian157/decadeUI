@@ -1,4 +1,3 @@
-"use strict";
 var __extends =
 	(this && this.__extends) ||
 	(function () {

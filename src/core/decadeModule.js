@@ -106,6 +106,9 @@ export function initDecadeModule() {
 			ui.css.decadeMenu = this.css(`${decadeUIPath}src/styles/menu.css`);
 		}
 
+		// 同步等待 spine.js 加载完成
+		await this.js(`${decadeUIPath}src/libs/spine.js`);
+
 		const currentMode = get.mode();
 		const isPhoneLayout = lib.config.phonelayout;
 

@@ -19,7 +19,8 @@ if (!Array.prototype.remove) {
 	};
 }
 
-importScripts("../libs/spine/spine-3.8.js");
+// 加载Spine库
+importScripts("../libs/spine.js");
 
 import { AnimationPlayer } from "./AnimationPlayer.js";
 
