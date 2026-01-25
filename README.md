@@ -43,6 +43,7 @@
 - [动态皮肤配置](docs/dynamic-skin-api.md) - Spine骨骼动画皮肤的配置方法
 - [露头头像配置](docs/outcrop-avatar-api.md) - 露头头像的目录结构和API
 - [骨骼动画定位](docs/spine-positioning-api.md) - Spine骨骼动画定位系统说明
+- [单元测试指南](docs/unit-testing.md) - 单元测试的使用和开发指南
 - [报错兜底处理](docs/secret.md) - 与无名杀版本不匹配下游玩方法
 
 ## 技术信息
@@ -55,17 +56,37 @@
 
 欢迎提交 Issue 和 Pull Request。
 
+### 贡献流程
+
 1. Fork 本仓库
 2. 创建功能分支：`git checkout -b feature/新功能`
 3. 提交更改：`git commit -m "添加新功能"`
 4. 推送分支：`git push origin feature/新功能`
 5. 发起 Pull Request
 
-开发建议：
+### 开发建议
 
 - 熟悉 HTML/CSS/JavaScript 和 ES6 Module 语法
 - 了解无名杀扩展开发规范
 - 测试时建议关闭其他美化扩展避免冲突
+
+### 代码质量
+
+提交代码前请确保：
+
+```bash
+# 运行测试
+pnpm test
+
+# 检查代码覆盖率
+pnpm test:coverage
+```
+
+- 为新功能添加单元测试（如果需要
+- 确保所有测试通过
+- 保持代码覆盖率不降低
+
+详见 [单元测试指南](docs/unit-testing.md)
 
 ## 相关链接
 

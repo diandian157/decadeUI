@@ -6,7 +6,10 @@
 	"scripts": {
 		"lint": "eslint .",
 		"lint:fix": "eslint . --fix",
-		"type-check": "tsc --noEmit"
+		"type-check": "tsc --noEmit",
+		"test": "vitest run",
+		"test:watch": "vitest",
+		"test:coverage": "vitest run --coverage"
 	},
 	"keywords": [
 		"noname",
@@ -17,8 +20,11 @@
 	"license": "GPL-3.0",
 	"devDependencies": {
 		"@eslint/js": "^9.39.2",
+		"@vitest/coverage-v8": "^2.1.8",
 		"eslint": "^9.39.2",
 		"globals": "^16.5.0",
-		"typescript": "^5.9.3"
+		"jsdom": "^25.0.1",
+		"typescript": "^5.9.3",
+		"vitest": "^2.1.8"
 	}
 }
