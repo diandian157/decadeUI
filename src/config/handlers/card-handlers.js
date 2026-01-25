@@ -97,6 +97,18 @@ export function onDiscardScaleBlur() {
 }
 
 /**
+ * 手牌折叠最小间距失焦处理
+ * @this {HTMLElement} 输入框元素
+ */
+export function onHandFoldMinBlur() {
+	const value = parseInputValue(this, 9, 1, 999, 0);
+	game.saveConfig("extension_十周年UI_handFoldMin", String(value));
+	if (window.decadeUI) {
+		decadeUI.layout.updateHand();
+	}
+}
+
+/**
  * 卡牌美化点击处理
  * @param {string} item - 卡牌皮肤选项
  */

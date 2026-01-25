@@ -66,7 +66,8 @@ export function createLayoutModule() {
 			if (totalW > limitW) {
 				xMargin = csw - Math.abs(limitW - csw * cards.length) / (cards.length - 1);
 				if (lib.config.fold_card) {
-					const min = cs * 9;
+					const foldMin = parseFloat(lib.config.extension_十周年UI_handFoldMin) || 9;
+					const min = cs * foldMin;
 					if (xMargin < min) {
 						expand = true;
 						xMargin = min;
@@ -86,7 +87,7 @@ export function createLayoutModule() {
 				baseShift = 0;
 			const folded = totalW > limitW && xMargin < csw - 0.5;
 
-			if (folded && typeof ui.getSpreadOffset === "function") {
+			if (folded && !expand && typeof ui.getSpreadOffset === "function") {
 				const spread = ui.getSpreadOffset(cards, { cardWidth: csw, currentMargin: xMargin });
 				({ spreadIndex: selectedIndex, spreadLeft: spreadOffsetLeft, spreadRight: spreadOffsetRight } = spread);
 				if (selectedIndex !== -1) {

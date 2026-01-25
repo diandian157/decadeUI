@@ -4,7 +4,7 @@
  * @module config/definitions/card
  */
 import { createCollapseTitle, createCollapseEnd, cardSkinPresets } from "../utils.js";
-import { onTranslateClick, onCardGhostEffectClick, onAutoSelectClick, onAutoSelectUpdate, onHandTipHeightBlur, onHandTipHeightUpdate, onCardScaleBlur, onDiscardScaleBlur, onCardPrettifyClick, onCardkmhClick, onCardkmhUpdate, onChupaizhishiUpdate } from "../handlers/card-handlers.js";
+import { onTranslateClick, onCardGhostEffectClick, onAutoSelectClick, onAutoSelectUpdate, onHandTipHeightBlur, onHandTipHeightUpdate, onCardScaleBlur, onDiscardScaleBlur, onCardPrettifyClick, onCardkmhClick, onCardkmhUpdate, onChupaizhishiUpdate, onHandFoldMinBlur } from "../handlers/card-handlers.js";
 
 /**
  * 卡牌相关折叠标题
@@ -93,6 +93,18 @@ export const discardScale = {
 };
 
 /**
+ * 手牌折叠最小间距配置
+ * @type {Object}
+ */
+export const handFoldMin = {
+	name: "手牌折叠",
+	intro: "输入数值，控制手牌折叠时的最小间距（默认值为9，建议不要超过80）",
+	init: "9",
+	input: true,
+	onblur: onHandFoldMinBlur,
+};
+
+/**
  * 卡牌美化配置
  * @type {Object}
  */
@@ -163,6 +175,7 @@ export const cardConfigs = {
 	handTipHeight,
 	cardScale,
 	discardScale,
+	handFoldMin,
 	cardPrettify,
 	cardkmh,
 	chupaizhishi,
