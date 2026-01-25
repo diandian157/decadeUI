@@ -1,0 +1,24 @@
+{
+	"name": "decade-ui",
+	"version": "1.0.0",
+	"description": "十周年UI",
+	"type": "module",
+	"scripts": {
+		"lint": "eslint .",
+		"lint:fix": "eslint . --fix",
+		"type-check": "tsc --noEmit"
+	},
+	"keywords": [
+		"noname",
+		"ui",
+		"extension"
+	],
+	"author": "点点",
+	"license": "GPL-3.0",
+	"devDependencies": {
+		"@eslint/js": "^9.39.2",
+		"eslint": "^9.39.2",
+		"globals": "^16.5.0",
+		"typescript": "^5.9.3"
+	}
+}
