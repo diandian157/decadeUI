@@ -53,7 +53,6 @@ export const cardEffectMap = {
 	kaihua: { key: "effect_shushangkaihua" },
 	wuzhong: { key: "effect_wuzhongshengyou" },
 	wuxie: { key: "effect_wuxiekeji", opts: { y: [10, 0.5], scale: 0.9 } },
-	juedou: { key: "SF_eff_jiangling_juedou", opts: { x: [10, 0.4], scale: 1 } },
 	nanman: { key: "effect_nanmanruqin", opts: { scale: 0.45 } },
 	wanjian: { key: "effect_wanjianqifa", opts: { scale: 0.78 } },
 	wugu: { key: "effect_wugufengdeng", opts: { y: [10, 0.5] } },
