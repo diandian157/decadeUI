@@ -1,4 +1,4 @@
-import { lib } from "noname";
+import { lib, _status } from "noname";
 import { config } from "./src/config.js";
 import { content } from "./src/content.js";
 import { precontent } from "./src/precontent.js";
