@@ -6,10 +6,11 @@ import { lib, game, ui, get, ai, _status } from "noname";
 
 /**
  * 判断当前是否为移动端环境
+ * 只有真实移动设备才算mobile，PC触屏布局不算
  * @returns {boolean} 是否为移动端
  */
 export function isMobile() {
-	return get.is.phoneLayout() || lib.device === "android" || lib.device === "ios";
+	return lib.device === "android" || lib.device === "ios";
 }
 
 /**
