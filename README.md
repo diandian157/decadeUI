@@ -2,29 +2,6 @@
 
 无名杀游戏的界面美化扩展
 
-## 扩展结构
-
-```
-十周年UI/
-├── extension.js              # 扩展入口
-├── src/                      # 源代码
-│   ├── core/                 # 核心模块
-│   ├── animation/            # 动画模块
-│   ├── audio/                # 音频模块
-│   ├── effects/              # 特效模块
-│   ├── features/             # 功能模块
-│   ├── overrides/            # 覆盖模块
-│   ├── skins/                # 皮肤模块
-│   └── ui/                   # UI组件
-├── ui/                       # UI插件
-│   ├── lbtn/                 # 左侧按钮
-│   ├── skill/                # 技能显示
-│   └── character/            # 角色显示
-├── assets/                   # 骨骼动画资源
-├── audio/                    # 音频文件
-└── image/                    # 图片资源
-```
-
 ## 使用方法
 
 ### 安装
