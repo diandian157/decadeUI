@@ -1,16 +1,15 @@
 {
-	"editor.formatOnSave": false,
+	"editor.formatOnSave": true,
 	"editor.codeActionsOnSave": {
 		"source.fixAll.eslint": "explicit"
 	},
-	"eslint.validate": ["javascript"],
 	"javascript.validate.enable": true,
 	"typescript.tsdk": "node_modules/typescript/lib",
 	"files.eol": "\n",
 	"files.insertFinalNewline": true,
 	"files.trimTrailingWhitespace": true,
 	"[javascript]": {
-		"editor.defaultFormatter": "dbaeumer.vscode-eslint",
+		"editor.defaultFormatter": "esbenp.prettier-vscode",
 		"editor.tabSize": 4,
 		"editor.insertSpaces": false
 	}
