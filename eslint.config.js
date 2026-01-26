@@ -3,7 +3,7 @@ import globals from "globals";
 
 export default [
 	{
-		ignores: ["**/node_modules/**", "**/dist/**", "**/assets/**", "**/audio/**", "**/image/**", "src/libs/eruda.js", "src/libs/spine.js"],
+		ignores: ["**/node_modules/**", "**/dist/**", "**/assets/**", "**/audio/**", "**/image/**", "src/libs/eruda.js", "src/libs/spine.js", "**/coverage/**"],
 	},
 	js.configs.recommended,
 	{
@@ -76,6 +76,18 @@ export default [
 			"comma-dangle": "off",
 			"no-trailing-spaces": "off",
 			"eol-last": "off",
+		},
+	},
+	// 测试文件特殊配置
+	{
+		files: ["tests/**/*.js", "**/*.test.js", "vitest.config.js"],
+		languageOptions: {
+			globals: {
+				...globals.node,
+				global: "writable",
+				__dirname: "readonly",
+				__filename: "readonly",
+			},
 		},
 	},
 ];

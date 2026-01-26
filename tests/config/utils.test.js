@@ -1,7 +1,7 @@
 /**
  * @fileoverview config/utils.js 单元测试
  */
-import { describe, it, expect } from "vitest";
+import { describe, it, expect, beforeEach } from "vitest";
 import { parseInputValue, cardSkinPresets, cardSkinMeta } from "../../src/config/utils.js";
 
 describe("config/utils.js", () => {
