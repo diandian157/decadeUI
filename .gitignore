@@ -11,39 +11,3 @@ assets/dynamic/*
 !image/character/ssloutou/.gitkeep
 !image/character/lihui/.gitkeep
 !assets/dynamic/.gitkeep
-
-# 依赖文件
-node_modules/
-package-lock.json
-pnpm-lock.yaml
-yarn.lock
-
-# 日志文件
-*.log
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-pnpm-debug.log*
-
-# 操作系统文件
-.DS_Store
-Thumbs.db
-
-# 编辑器文件
-*.swp
-*.swo
-*~
-.idea/
-
-# 构建（如果将来有
-dist/
-build/
-*.tsbuildinfo
-
-# 临时文件
-.tmp/
-.cache/
-
-# 测试覆盖率报告
-coverage/
-.nyc_output/

@@ -1,15 +1,15 @@
-import { lib, _status } from "noname";
+import { lib, game, ui, get, ai, _status } from "noname";
 import { config } from "./src/config.js";
 import { content } from "./src/content.js";
 import { precontent } from "./src/precontent.js";
 import { mainpackage } from "./src/package.js";
 
-/** @type {Noname.ExtensionType} */
+/** @type {import("noname").ExtensionType} */
 export const type = "extension";
 
 /**
  * 十周年UI扩展入口
- * @returns {Promise<Noname.ExtensionInfo>} 扩展配置对象
+ * @returns {Promise<import("noname").ExtensionInfo>} 扩展配置对象
  */
 export default async function () {
 	const infoUrl = `${lib.assetURL}extension/十周年UI/info.json`;
