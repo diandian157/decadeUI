@@ -9,18 +9,6 @@ import { chupaiAnimations } from "../../animation/configs/skillAnimations.js";
 import { parseInputValue } from "../utils.js";
 
 /**
- * 卡牌拖拽点击处理
- * @param {boolean} bool - 是否开启
- */
-export function onTranslateClick(bool) {
-	game.saveConfig("extension_十周年UI_translate", bool);
-	window.decadeUI?.destroyCardDragSwap?.();
-	if (bool) {
-		window.decadeUI?.initCardDragSwap?.();
-	}
-}
-
-/**
  * 幻影出牌点击处理
  * @param {boolean} bool - 是否开启
  */

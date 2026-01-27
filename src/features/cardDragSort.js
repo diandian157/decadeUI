@@ -136,6 +136,7 @@ const cleanup = async (skipLayout = false) => {
  * @param {Event} e - 事件对象
  */
 const onStart = async e => {
+	if (!lib.config.enable_drag) return;
 	if (game.me?.hasSkillTag("noSortCard")) return;
 	if (!hasPointer && e.button === 2) return;
 	if (isScrollable()) return;
@@ -304,13 +305,11 @@ const destroy = () => {
  * 设置手牌拖拽排序功能
  * @param {boolean} [enabled] - 是否启用
  */
-export function setupCardDragSort(enabled = lib.config.extension_十周年UI_translate) {
+export function setupCardDragSort(enabled = lib.config.enable_drag) {
 	const _decadeUI = window.decadeUI || {};
 	window.decadeUI = _decadeUI;
 
 	Object.assign(_decadeUI, { initCardDragSwap: init, destroyCardDragSwap: destroy });
-
-	if (!enabled) return destroy();
 
 	document.readyState === "complete" ? setTimeout(init, 1000) : window.addEventListener("load", () => setTimeout(init, 1000), { once: true });
 }

@@ -4,24 +4,13 @@
  * @module config/definitions/card
  */
 import { createCollapseTitle, createCollapseEnd, cardSkinPresets } from "../utils.js";
-import { onTranslateClick, onCardGhostEffectClick, onAutoSelectClick, onAutoSelectUpdate, onHandTipHeightBlur, onHandTipHeightUpdate, onCardScaleBlur, onDiscardScaleBlur, onCardPrettifyClick, onCardkmhClick, onCardkmhUpdate, onChupaizhishiUpdate, onHandFoldMinBlur } from "../handlers/card-handlers.js";
+import { onCardGhostEffectClick, onAutoSelectClick, onAutoSelectUpdate, onHandTipHeightBlur, onHandTipHeightUpdate, onCardScaleBlur, onDiscardScaleBlur, onCardPrettifyClick, onCardkmhClick, onCardkmhUpdate, onChupaizhishiUpdate, onHandFoldMinBlur } from "../handlers/card-handlers.js";
 
 /**
  * 卡牌相关折叠标题
  * @type {Object}
  */
 export const card_title = createCollapseTitle("card_title", "卡牌相关");
-
-/**
- * 卡牌拖拽配置
- * @type {Object}
- */
-export const translate = {
-	name: "卡牌拖拽",
-	init: false,
-	intro: "开启后手牌可以任意拖拽牌序并支持本体拖拽",
-	onclick: onTranslateClick,
-};
 
 /**
  * 幻影出牌配置
@@ -168,7 +157,6 @@ export const card_title_end = createCollapseEnd("card_title");
  */
 export const cardConfigs = {
 	card_title,
-	translate,
 	cardGhostEffect,
 	autoSelect,
 	cardPrompt,
