@@ -372,9 +372,7 @@ const appendTipText = (tipNode, content) => {
  */
 const appendSkillName = (tipNode, skillName, player) => {
 	const resolvedSkill = get.sourceSkillFor ? get.sourceSkillFor(cleanSkillName(skillName)) : cleanSkillName(skillName);
-	tipNode.appendText("【");
 	tipNode.appendText(get.skillTranslation(resolvedSkill, player), "phase");
-	tipNode.appendText("】");
 };
 
 /**
@@ -544,7 +542,7 @@ const buildWuxieTipText = event => {
 		const judgePlayer = judgeParent?.player;
 		const playerName = judgePlayer ? get.slimNameHorizontal(judgePlayer.name) : "未知角色";
 		const cardName = get.translation(delayCardName);
-		return [{ text: playerName, style: "phase" }, { text: s("的") }, { text: s(cardName), style: "phase" }, { text: s("即将") }, { text: s(stateWord) }, { text: s("，是否使用【") }, { text: s("无懈可击"), style: "phase" }, { text: s("】？") }];
+		return [{ text: playerName, style: "phase" }, { text: s("的") }, { text: s(cardName), style: "phase" }, { text: s("即将") }, { text: s(stateWord) }, { text: s("，是否使用") }, { text: s("无懈可击"), style: "phase" }, { text: s("？") }];
 	}
 
 	// 普通锦囊：追溯到最初的牌
@@ -553,7 +551,7 @@ const buildWuxieTipText = event => {
 	const targetName = resolveWuxieTarget(event, parentMap);
 	const sourceName = resolveName(originalSource) ?? "未知角色";
 
-	return [{ text: s(sourceName), style: "phase" }, { text: s("对") }, { text: s(targetName), style: "phase" }, { text: s("使用的【") }, { text: s(cardName), style: "phase" }, { text: s("】即将") }, { text: s(stateWord) }, { text: s("，是否使用【") }, { text: s("无懈可击"), style: "phase" }, { text: s("】？") }];
+	return [{ text: s(sourceName), style: "phase" }, { text: s("对") }, { text: s(targetName), style: "phase" }, { text: s("使用的") }, { text: s(cardName), style: "phase" }, { text: s("即将") }, { text: s(stateWord) }, { text: s("，是否使用") }, { text: s("无懈可击"), style: "phase" }, { text: s("？") }];
 };
 
 // ==================== 借刀杀人处理 ====================
@@ -580,7 +578,7 @@ const buildJiedaoTipText = event => {
 	const targetName = resolveName(event.sourcex) ?? "目标";
 	const s = text => decPrompt(sanitizePrompt(text));
 
-	return [{ text: s("请对") }, { text: s(targetName), style: "phase" }, { text: s("使用【") }, { text: s("杀"), style: "phase" }, { text: s("】，或令") }, { text: s(sourceName), style: "phase" }, { text: s("获得你的武器") }];
+	return [{ text: s("请对") }, { text: s(targetName), style: "phase" }, { text: s("使用") }, { text: s("杀"), style: "phase" }, { text: s("，或令") }, { text: s(sourceName), style: "phase" }, { text: s("获得你的武器") }];
 };
 
 // ==================== 响应牌处理 ====================
@@ -602,7 +600,7 @@ const parseRespondCardInfo = respondCard => {
 	if (!cardInfo || typeof cardInfo !== "string") return defaultResult;
 
 	const plainInfo = get.plainText ? get.plainText(cardInfo) : stripTags(cardInfo);
-	const match = plainInfo.match(/(?:需|须)(打出|使用)(?:.*?张|一张)【(.+?)】|打出(?:.*?张|一张)【(.+?)】/);
+	const match = plainInfo.match(/(?:需|须)(打出|使用)(?:.*?张|一张)【?(.+?)】?|打出(?:.*?张|一张)【?(.+?)】?/);
 
 	if (!match) return defaultResult;
 	return match[1] ? { actionWord: match[1], cardName: match[2] } : { actionWord: "打出", cardName: match[3] };
@@ -642,7 +640,7 @@ const buildRespondTipText = event => {
 
 	if (!cardName && !targetName) return null;
 
-	return [{ text: s(`请${actionWord}${needCount}张【`) }, { text: s(cardName || "牌"), style: "phase" }, { text: s("】响应【") }, { text: s(targetName), style: "phase" }, { text: s("】") }];
+	return [{ text: s(`请${actionWord}${needCount}张`) }, { text: s(cardName || "牌"), style: "phase" }, { text: s("响应") }, { text: s(targetName), style: "phase" }];
 };
 
 // ==================== 弃牌处理 ====================
@@ -772,23 +770,6 @@ const handleDyingUse = event => {
 };
 
 /**
- * 处理技能使用（出牌阶段无选中卡牌时跳过，走默认提示）
- * @param {object} event - 事件对象
- * @returns {boolean} 是否处理成功
- */
-const handleSkillUse = event => {
-	if (event.type === "phase" && !ui.selected?.cards?.length) return false;
-	if (!event.skill) return false;
-
-	const skillTip = ensureTip();
-	skillTip.appendText("是否发动");
-	appendSkillName(skillTip, event.skill, event.player);
-	skillTip.appendText(decPrompt(stripTags("？")));
-	showTip(skillTip);
-	return true;
-};
-
-/**
  * 显示出牌阶段默认提示
  * @param {object} tip - 提示框对象
  * @returns {void}
@@ -863,7 +844,6 @@ const handleUse = event => {
 	if (handleWuxieUse(event)) return;
 	if (handleRespondUse(event, compareSkill)) return;
 	if (handleDyingUse(event)) return;
-	if (handleSkillUse(event)) return;
 	handlePhaseUse(event);
 };
 
