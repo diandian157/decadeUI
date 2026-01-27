@@ -20,6 +20,7 @@
 - [动态皮肤配置](docs/dynamic-skin-api.md) - Spine骨骼动画皮肤的配置方法
 - [露头头像配置](docs/outcrop-avatar-api.md) - 露头头像的目录结构和API
 - [骨骼动画定位](docs/spine-positioning-api.md) - Spine骨骼动画定位系统说明
+- [版本更新日志](docs/update.md) - 十周年UI版本更新日志
 - [报错兜底处理](docs/secret.md) - 与无名杀版本不匹配下游玩方法
 
 ## 相关链接
