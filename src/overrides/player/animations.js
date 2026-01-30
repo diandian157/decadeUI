@@ -44,8 +44,17 @@ export function playerDamagepop(num, nature = "soil", font, nobroadcast) {
 			game.broadcast((p, n, na, f) => p.$damagepop(n, na, f), player, num, nature, font);
 		}
 
-		const container = ui.create.div(".damage.skill-popup", player);
+		const container = ui.create.div(".damage.skill-popup", ui.arena);
 		container.dataset.nature = nature || "soil";
+
+		const playerRect = player.getBoundingClientRect();
+		const arenaRect = ui.arena.getBoundingClientRect();
+
+		container.style.position = "absolute";
+		container.style.left = `${playerRect.left - arenaRect.left}px`;
+		container.style.top = `${playerRect.top - arenaRect.top + 80}px`;
+		container.style.width = `${playerRect.width}px`;
+		container.style.zIndex = "9999";
 
 		const chars = num.split("");
 		const midIndex = Math.ceil(chars.length / 2);

@@ -1246,6 +1246,18 @@
 	transition: all 0.3s ease-out;
 }
 
+#arena > .damage.skill-popup {
+	color: #f0d775;
+	background: none;
+	-webkit-background-clip: unset;
+	-webkit-text-fill-color: unset;
+	-webkit-text-stroke: 1px #000;
+	text-shadow: 0 0 4px #000;
+	opacity: 1;
+	transform: none;
+	transition: none;
+}
+
 #arena > .player > .damage.skill-popup {
 	color: #f0d775;
 	background: none;

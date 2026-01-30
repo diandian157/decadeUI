@@ -224,7 +224,7 @@
 
 /** 精灵图动画 */
 
-/* 
+/*
  * 发光精灵图动画
  * 默认尺寸: 2530px (player1/3/4/5/6)
  * player2 使用 --glow-sprite-width: 2400px 覆盖
@@ -276,6 +276,20 @@
 
 /** 技能名称弹出动画 - 文字从两边飞入 */
 
+#arena > .damage.skill-popup {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	font-family: yuanli;
+	font-size: 30px;
+	color: #ffffff;
+	text-shadow: 0 0 4px #000;
+	opacity: 1;
+	z-index: 9999;
+	pointer-events: none;
+	position: absolute;
+}
+
 .player > .damage.skill-popup {
 	display: flex;
 	justify-content: center;
@@ -291,18 +305,19 @@
 	pointer-events: none;
 }
 
-.player > .damage.skill-popup > span {
+/* 字符样式 - 通用 */
+.damage.skill-popup > span {
 	display: inline-block;
 	opacity: 0;
 }
 
 /* 左边字符：从左侧飞入 */
-.player > .damage.skill-popup > .char-left {
+.damage.skill-popup > .char-left {
 	animation: skill-char-from-left 0.4s ease-out forwards;
 }
 
 /* 右边字符：从右侧飞入 */
-.player > .damage.skill-popup > .char-right {
+.damage.skill-popup > .char-right {
 	animation: skill-char-from-right 0.4s ease-out forwards;
 }
 
@@ -311,6 +326,7 @@
 		opacity: 0;
 		transform: translateX(-50px);
 	}
+
 	100% {
 		opacity: 1;
 		transform: translateX(0);
@@ -322,6 +338,7 @@
 		opacity: 0;
 		transform: translateX(50px);
 	}
+
 	100% {
 		opacity: 1;
 		transform: translateX(0);
@@ -329,7 +346,7 @@
 }
 
 /* 整体淡出 */
-.player > .damage.skill-popup {
+.damage.skill-popup {
 	animation: skill-popup-fadeout 1.5s ease-in-out forwards;
 }
 
@@ -338,6 +355,7 @@
 	70% {
 		opacity: 1;
 	}
+
 	100% {
 		opacity: 0;
 	}
