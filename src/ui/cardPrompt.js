@@ -623,6 +623,35 @@ const resolveRespondTargetName = event => {
 };
 
 /**
+ * 从事件中提取实际需要的牌数量（通用方法）
+ * @param {object} event - 事件对象
+ * @param {number} defaultCount - 默认数量
+ * @returns {number} 实际需要的牌数量
+ */
+const extractRequiredCardCount = (event, defaultCount = 1) => {
+	if (event.prompt2 && typeof event.prompt2 === "string") {
+		const match = event.prompt2.match(/共需.*?(\d+)张/);
+		if (match?.[1]) {
+			const count = parseInt(match[1], 10);
+			if (!isNaN(count) && count > 0) return count;
+		}
+	}
+
+	const parent = event.getParent?.();
+	const sources = [parent, event].filter(Boolean);
+
+	for (const source of sources) {
+		for (const key in source) {
+			if (key.endsWith("Required") && typeof source[key] === "number" && source[key] > 1) {
+				return source[key];
+			}
+		}
+	}
+
+	return defaultCount;
+};
+
+/**
  * 构建响应提示文本
  * @param {object} event - 事件对象
  * @returns {Array|null} 提示文本数组
@@ -634,7 +663,10 @@ const buildRespondTipText = event => {
 
 	const s = text => decPrompt(sanitizePrompt(text));
 	const [min = 1, max = min] = get.select(event.selectCard) ?? [];
-	const needCount = max >= 0 ? max : min;
+	const defaultCount = max >= 0 ? max : min;
+
+	const needCount = extractRequiredCardCount(event, defaultCount);
+
 	const { actionWord, cardName } = parseRespondCardInfo(event.respondTo);
 	const targetName = resolveRespondTargetName(event);
 
@@ -893,10 +925,17 @@ export function initCardPrompt({ game, ui }) {
 		if (event.name === "chooseToUse") {
 			if ((event.type === "dying" && event.dying) || event.respondTo) {
 				event.prompt = false;
+				event.prompt2 = false; // 防止本体尝试访问不存在的dialog
 			}
 		}
-		if (event.name === "chooseToDiscard") event.prompt = false;
-		if (event.name === "chooseToRespond") event.prompt = false;
+		if (event.name === "chooseToDiscard") {
+			event.prompt = false;
+			event.prompt2 = false;
+		}
+		if (event.name === "chooseToRespond") {
+			event.prompt = false;
+			event.prompt2 = false;
+		}
 	});
 
 	// 按钮检查钩子：处理按钮选择状态
