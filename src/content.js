@@ -21,7 +21,6 @@ import { setupEquipHand } from "./features/equipHand.js";
 import { setupLuckyCard } from "./features/luckyCard.js";
 import { setupExtensionToggle } from "./features/extensionToggle.js";
 import { setupStyleHotkeys } from "./features/styleHotkeys.js";
-import { setupSkillAutoConfirm } from "./features/skillAutoConfirm.js";
 import { setupDisableBrowserShortcuts } from "./features/disableBrowserShortcuts.js";
 
 // 音频模块
@@ -82,7 +81,6 @@ export const finalizeDecadeUICore = (decadeUI, config) => {
 	setupLuckyCard();
 	setupExtensionToggle();
 	setupStyleHotkeys();
-	setupSkillAutoConfirm();
 	setupDisableBrowserShortcuts();
 	setupEnhancedAudio();
 	setupCharacterBackground();
