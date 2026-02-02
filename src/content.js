@@ -48,7 +48,7 @@ import { createSkillPlugin } from "../ui/skill/plugin.js";
 import { createCharacterPlugin } from "../ui/character/plugin.js";
 
 // 更新模块
-import { updateManager } from "./updater/index.js";
+import { createUpdater } from "./updater.js";
 
 /**
  * 完成核心初始化
@@ -149,17 +149,24 @@ export async function content(config) {
 	registerLegacyModules(decadeUI.config);
 	await loadUIPlugins();
 
-	// 检查更新（延迟3秒）
+	// 检查更新（延迟1秒）
 	setTimeout(async () => {
 		try {
-			// 使用新的更新管理器
-			const updateInfo = await updateManager.autoUpdate(true);
+			const infoUrl = `${lib.assetURL}extension/十周年UI/info.json`;
+			const info = await lib.init.promises.json(infoUrl);
 
-			// 将更新管理器挂载到decadeUI对象上，方便手动调用
-			decadeUI.updateManager = updateManager;
-			decadeUI.updateInfo = updateInfo;
+			if (info.updateURL) {
+				const updater = createUpdater(info.name, info.version, info.updateURL);
+
+				// 静默检查更新，有新版本时显示通知
+				const updateInfo = await updater.autoCheck(true);
+
+				// 将更新器挂载到decadeUI对象上，方便手动调用
+				decadeUI.updater = updater;
+				decadeUI.updateInfo = updateInfo;
+			}
 		} catch (error) {
 			console.error("[十周年UI] 更新检查失败:", error);
 		}
-	}, 3000);
+	}, 1000);
 }

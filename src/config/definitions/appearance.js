@@ -5,8 +5,6 @@
  */
 import { createCollapseTitle, createCollapseEnd } from "../utils.js";
 import { onExtensionToggleClick, onExtensionToggleUpdate, onNewDecadeStyleClick, onNewDecadeStyleUpdate, onOutcropSkinClick, onOutcropSkinUpdate, onBorderLevelUpdate, onAloneEquipUpdate, onMeanPrettifyClick, onDynamicSkinClick, onDynamicSkinOutcropUpdate } from "../handlers/appearance-handlers.js";
-import { updateManager } from "../../updater/index.js";
-import { game } from "noname";
 
 /**
  * 扩展开关配置
@@ -25,41 +23,6 @@ export const extensionToggle = {
 export const eruda = {
 	name: "调试助手",
 	init: false,
-};
-
-/**
- * 自动检查更新配置
- * @type {Object}
- */
-export const autoCheckUpdate = {
-	name: "自动检查更新",
-	intro: "启动游戏时自动检查更新（静默模式，不打扰游戏）",
-	init: false,
-	onclick(checked) {
-		game.saveExtensionConfig("十周年UI", "autoCheckUpdate", checked);
-		if (checked) {
-			updateManager.enableAutoCheck();
-		} else {
-			updateManager.disableAutoCheck();
-		}
-	},
-};
-
-/**
- * 手动检查更新按钮
- * @type {Object}
- */
-export const checkUpdate = {
-	clear: true,
-	name: '<button style="width:100%; padding:12px; background:linear-gradient(135deg, #667eea 0%, #764ba2 100%); color:white; border:none; border-radius:8px; cursor:pointer; font-size:14px; font-weight:bold; transition:all 0.3s;">🔄 检查更新</button>',
-	intro: "立即检查并安装更新",
-	onclick: async function () {
-		try {
-			await updateManager.autoUpdate(false);
-		} catch (error) {
-			alert(`更新失败：${error.message}`);
-		}
-	},
 };
 
 /**
@@ -177,8 +140,6 @@ export const outward_title_end = createCollapseEnd("outward_title");
 export const appearanceConfigs = {
 	extensionToggle,
 	eruda,
-	autoCheckUpdate,
-	checkUpdate,
 	outward_title,
 	newDecadeStyle,
 	outcropSkin,
