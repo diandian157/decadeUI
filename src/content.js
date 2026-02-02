@@ -47,9 +47,6 @@ import { createLbtnPlugin } from "../ui/lbtn/plugin.js";
 import { createSkillPlugin } from "../ui/skill/plugin.js";
 import { createCharacterPlugin } from "../ui/character/plugin.js";
 
-// 更新模块
-import { createUpdater } from "./updater.js";
-
 /**
  * 完成核心初始化
  * @param {Object} decadeUI - 核心对象
@@ -148,25 +145,4 @@ export async function content(config) {
 	finalizeDecadeUICore(decadeUI, decadeUI.config);
 	registerLegacyModules(decadeUI.config);
 	await loadUIPlugins();
-
-	// 检查更新（延迟3秒，避免影响启动速度）
-	setTimeout(async () => {
-		try {
-			const infoUrl = `${lib.assetURL}extension/十周年UI/info.json`;
-			const info = await lib.init.promises.json(infoUrl);
-
-			if (info.updateURL) {
-				const updater = createUpdater(info.name, info.version, info.updateURL);
-
-				// 静默检查更新，有新版本时显示通知
-				const updateInfo = await updater.autoCheck(true);
-
-				// 将更新器挂载到decadeUI对象上，方便手动调用
-				decadeUI.updater = updater;
-				decadeUI.updateInfo = updateInfo;
-			}
-		} catch (error) {
-			console.error("[十周年UI] 更新检查失败:", error);
-		}
-	}, 3000);
 }
