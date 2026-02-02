@@ -15,7 +15,7 @@ import { cardSkinPresets, cardSkinMeta } from "./utils.js";
  * @type {Object}
  */
 export const config = {
-	// 整体外观配置
+	// 整体外观配置（包含更新配置）
 	...appearanceConfigs,
 
 	// 卡牌相关配置
