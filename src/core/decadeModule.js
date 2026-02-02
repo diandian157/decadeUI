@@ -3,6 +3,7 @@
  */
 import { lib, game, ui, get, ai, _status } from "noname";
 import { createScriptElement, createLinkElement } from "./loader.js";
+import { checkVersionCompatibility } from "../utils/version.js";
 import { prefixMarkModule } from "../ui/prefixMark.js";
 
 /** @type {Array<string>} 排除的游戏模式 */
@@ -48,6 +49,8 @@ function getConfigValue(key, defaultValue) {
  * @returns {Object} 模块对象
  */
 export function initDecadeModule() {
+	checkVersionCompatibility();
+
 	if (!ui.css.layout) return {};
 	if (!ui.css.layout.href?.includes("long2")) {
 		ui.css.layout.href = `${lib.assetURL}layout/long2/layout.css`;

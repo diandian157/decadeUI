@@ -149,7 +149,7 @@ export async function content(config) {
 	registerLegacyModules(decadeUI.config);
 	await loadUIPlugins();
 
-	// 检查更新（延迟1秒）
+	// 检查更新（延迟3秒，避免影响启动速度）
 	setTimeout(async () => {
 		try {
 			const infoUrl = `${lib.assetURL}extension/十周年UI/info.json`;
@@ -168,5 +168,5 @@ export async function content(config) {
 		} catch (error) {
 			console.error("[十周年UI] 更新检查失败:", error);
 		}
-	}, 1000);
+	}, 3000);
 }
