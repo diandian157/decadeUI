@@ -44,7 +44,11 @@ const isMobile = /(iPhone|iPod|Android|ios|iPad|Mobile)/i.test(navigator.userAge
 const hasPointer = "PointerEvent" in window;
 
 /** @type {string[]} 事件名称数组 */
-const evts = hasPointer ? ["pointerdown", "pointermove", "pointerup"] : isMobile ? ["touchstart", "touchmove", "touchend"] : ["mousedown", "mousemove", "mouseup"];
+const evts = hasPointer
+	? ["pointerdown", "pointermove", "pointerup"]
+	: isMobile
+		? ["touchstart", "touchmove", "touchend"]
+		: ["mousedown", "mousemove", "mouseup"];
 
 /** @type {string|null} 取消事件名称 */
 const cancelEvt = hasPointer ? "pointercancel" : isMobile ? "touchcancel" : null;

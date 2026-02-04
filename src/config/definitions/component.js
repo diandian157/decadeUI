@@ -5,7 +5,16 @@
  */
 import { lib } from "noname";
 import { createCollapseTitle, createCollapseEnd } from "../utils.js";
-import { onJindutiaoYangshiUpdate, onJindutiaoSetBlur, onJindutiaoSetUpdate, onJDTSYangshiUpdate, onGTBBYangshiClick, onPlayerMarkStyleUpdate, onLoadingStyleUpdate, onGainSkillsVisibleUpdate } from "../handlers/component-handlers.js";
+import {
+	onJindutiaoYangshiUpdate,
+	onJindutiaoSetBlur,
+	onJindutiaoSetUpdate,
+	onJDTSYangshiUpdate,
+	onGTBBYangshiClick,
+	onPlayerMarkStyleUpdate,
+	onLoadingStyleUpdate,
+	onGainSkillsVisibleUpdate,
+} from "../handlers/component-handlers.js";
 
 /**
  * 部件管理折叠标题
@@ -141,7 +150,8 @@ export const playerMarkStyle = {
  */
 function generateLoadingStyleItems() {
 	const basePath = `${lib.assetURL}extension/十周年UI/image/ui/dialog`;
-	const createPreview = filename => `<div style="width:60px;height:40px;position:relative;background-image: url(${basePath}/${filename});background-size: 100% 100%;"></div>`;
+	const createPreview = filename =>
+		`<div style="width:60px;height:40px;position:relative;background-image: url(${basePath}/${filename});background-size: 100% 100%;"></div>`;
 
 	return {
 		off: "关闭",

@@ -137,7 +137,9 @@ export function updateCardStyles() {
 	borderStyleEl = updateStyle(borderStyleEl, getBorderCSS(borderConfig, selector, 20));
 
 	// 更新卡背样式（关闭时清空，使用本体卡背）
-	const bgCSS = cardBg ? `${selector}:empty, ${selector}.infohidden { background: url('${lib.assetURL}extension/十周年UI/image/ui/card/${cardBg}.png'); background-size: 100% 100% !important; }` : "";
+	const bgCSS = cardBg
+		? `${selector}:empty, ${selector}.infohidden { background: url('${lib.assetURL}extension/十周年UI/image/ui/card/${cardBg}.png'); background-size: 100% 100% !important; }`
+		: "";
 	bgStyleEl = updateStyle(bgStyleEl, bgCSS);
 }
 

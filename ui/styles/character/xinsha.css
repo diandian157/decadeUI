@@ -195,7 +195,9 @@
 	background-size: cover;
 	background-repeat: no-repeat;
 	background-position: top;
-	-webkit-mask: linear-gradient(to right, transparent 0%, #000 50px, #000 calc(100% - 50px), transparent 100%), linear-gradient(to bottom, transparent 0%, #000 30px, #000 calc(100% - 30px), transparent 100%);
+	-webkit-mask:
+		linear-gradient(to right, transparent 0%, #000 50px, #000 calc(100% - 50px), transparent 100%),
+		linear-gradient(to bottom, transparent 0%, #000 30px, #000 calc(100% - 30px), transparent 100%);
 	-webkit-mask-composite: source-in;
 }
 

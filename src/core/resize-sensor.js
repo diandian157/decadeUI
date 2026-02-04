@@ -25,7 +25,8 @@ export const createResizeSensorClass = () => {
 		 * 初始化滚动元素
 		 */
 		initScrollElements() {
-			const containerStyle = "position:absolute;top:0;bottom:0;left:0;right:0;z-index:-10000;overflow:hidden;visibility:hidden;transition:all 0s;";
+			const containerStyle =
+				"position:absolute;top:0;bottom:0;left:0;right:0;z-index:-10000;overflow:hidden;visibility:hidden;transition:all 0s;";
 			const childStyle = "transition:all 0s!important;animation:none!important;";
 
 			this.expand = this.createContainer(containerStyle);

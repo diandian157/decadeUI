@@ -98,7 +98,12 @@ export function uiUpdate() {
 	if (game.chess) return getBaseUiUpdate()?.();
 
 	// 处理对话框样式
-	if ((!ui.dialog.buttons || !ui.dialog.buttons.length) && !ui.dialog.forcebutton && ui.dialog.classList.contains("fullheight") === false && get.mode() !== "stone") {
+	if (
+		(!ui.dialog.buttons || !ui.dialog.buttons.length) &&
+		!ui.dialog.forcebutton &&
+		ui.dialog.classList.contains("fullheight") === false &&
+		get.mode() !== "stone"
+	) {
 		ui.dialog.classList.add("prompt");
 	} else {
 		ui.dialog.classList.remove("prompt");

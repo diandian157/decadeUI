@@ -117,7 +117,10 @@ export function createPlayerInit(base) {
 			showCards.style.top = "90px";
 
 			player.node.showCards.onclick = function () {
-				const cards = player.getCards("h", c => get.is.shownCard(c) || player.isUnderControl(true) || game.me?.hasSkillTag("viewHandcard", null, player, true));
+				const cards = player.getCards(
+					"h",
+					c => get.is.shownCard(c) || player.isUnderControl(true) || game.me?.hasSkillTag("viewHandcard", null, player, true)
+				);
 				if (cards.length > 0) {
 					const popup = ui.create.div(".popup-container", ui.window);
 					const handdisplay = ui.create.dialog(get.translation(player) + "的手牌", cards);

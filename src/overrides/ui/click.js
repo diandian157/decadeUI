@@ -95,7 +95,14 @@ export function uiClickCard(e) {
 	}
 
 	// 棋盘模式范围显示
-	if (game.chess && get.config("show_range") && !_status.event.skill && this.classList.contains("selected") && _status.event.isMine() && _status.event.name == "chooseToUse") {
+	if (
+		game.chess &&
+		get.config("show_range") &&
+		!_status.event.skill &&
+		this.classList.contains("selected") &&
+		_status.event.isMine() &&
+		_status.event.name == "chooseToUse"
+	) {
 		const player = _status.event.player;
 		const range = get.info(this).range;
 		if (range) {
@@ -114,7 +121,13 @@ export function uiClickCard(e) {
 	game.check();
 
 	// 装备弹出介绍
-	if (lib.config.popequip && arguments[0] != "popequip" && ui.arena && ui.arena.classList.contains("selecting") && this.parentNode.classList.contains("popequip")) {
+	if (
+		lib.config.popequip &&
+		arguments[0] != "popequip" &&
+		ui.arena &&
+		ui.arena.classList.contains("selecting") &&
+		this.parentNode.classList.contains("popequip")
+	) {
 		if (this.classList && this.classList.contains("emptyequip")) return;
 		const rect = this.getBoundingClientRect();
 		ui.click.touchpop();
@@ -186,14 +199,24 @@ function handleViewAsCard(card, skill) {
  */
 export function uiClickIntro() {
 	// 空装备槽不显示介绍
-	if ((this && !this.extraEquip && this.classList && this.classList.contains("emptyequip")) || (this && this.parentNode && this.parentNode.classList && this.parentNode.classList.contains("emptyequip")) || (this && this.dataset && typeof this.dataset.name === "string" && this.dataset.name.startsWith("empty_equip"))) {
+	if (
+		(this && !this.extraEquip && this.classList && this.classList.contains("emptyequip")) ||
+		(this && this.parentNode && this.parentNode.classList && this.parentNode.classList.contains("emptyequip")) ||
+		(this && this.dataset && typeof this.dataset.name === "string" && this.dataset.name.startsWith("empty_equip"))
+	) {
 		return;
 	}
 
 	if (this.classList.contains("infohidden")) return;
 
 	// 修复十周年UI触屏布局下装备介绍被压缩的问题
-	if (this.classList.contains("card") && this.parentNode && this.parentNode.classList.contains("equips") && get.is.phoneLayout() && !get.is.mobileMe(this.parentNode.parentNode)) {
+	if (
+		this.classList.contains("card") &&
+		this.parentNode &&
+		this.parentNode.classList.contains("equips") &&
+		get.is.phoneLayout() &&
+		!get.is.mobileMe(this.parentNode.parentNode)
+	) {
 		handleEquipIntro.call(this, arguments[0]);
 		return;
 	}

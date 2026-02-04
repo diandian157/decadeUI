@@ -96,8 +96,10 @@ export function createBabyCharacterPlugin(lib, game, ui, get, ai, _status, app) 
 					plugin.initPlayerProperties(player);
 
 					// 武将边框
-					const biankuang = lib.config.extension_十周年UI_ZLLT === true ? ui.create.div(".biankuang", blackBg1) : ui.create.div(".biankuang2", blackBg1);
-					const leftPane = lib.config.extension_十周年UI_ZLLT === true ? ui.create.div(".left", biankuang) : ui.create.div(".left2", biankuang);
+					const biankuang =
+						lib.config.extension_十周年UI_ZLLT === true ? ui.create.div(".biankuang", blackBg1) : ui.create.div(".biankuang2", blackBg1);
+					const leftPane =
+						lib.config.extension_十周年UI_ZLLT === true ? ui.create.div(".left", biankuang) : ui.create.div(".left2", biankuang);
 					leftPane.style.backgroundImage = player.node.avatar.style.backgroundImage;
 
 					// 装饰元素

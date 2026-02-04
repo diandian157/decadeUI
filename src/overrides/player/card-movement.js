@@ -475,7 +475,9 @@ export function playerAddVirtualJudge(VCard, cards) {
 	if (get.itemtype(card) == "card" && card.isViewAsCard) {
 		cardx = card;
 	} else {
-		cardx = isViewAsCard ? game.createCard(card.name, cards.length == 1 ? get.suit(cards[0]) : "none", cards.length == 1 ? get.number(cards[0]) : 0) : cards[0];
+		cardx = isViewAsCard
+			? game.createCard(card.name, cards.length == 1 ? get.suit(cards[0]) : "none", cards.length == 1 ? get.number(cards[0]) : 0)
+			: cards[0];
 	}
 
 	game.broadcastAll(
@@ -548,7 +550,24 @@ export function playerAddVirtualJudge(VCard, cards) {
 			player.node.judges.insertBefore(cardx, player.node.judges.firstChild);
 
 			// 判定标记美化
-			const judgeMarkMap = ["bingliang", "lebu", "shandian", "fulei", "hongshui", "huoshan", "caomu", "jlsgqs_shuiyanqijun", "jydiy_zouhuorumo", "jydiy_yungongliaoshang", "xwjh_biguanqingxiu", "xwjh_wushisanke", "xumou_jsrg", "dczixi_bingliang", "dczixi_lebu", "dczixi_shandian"];
+			const judgeMarkMap = [
+				"bingliang",
+				"lebu",
+				"shandian",
+				"fulei",
+				"hongshui",
+				"huoshan",
+				"caomu",
+				"jlsgqs_shuiyanqijun",
+				"jydiy_zouhuorumo",
+				"jydiy_yungongliaoshang",
+				"xwjh_biguanqingxiu",
+				"xwjh_wushisanke",
+				"xumou_jsrg",
+				"dczixi_bingliang",
+				"dczixi_lebu",
+				"dczixi_shandian",
+			];
 
 			if (judgeMarkMap.includes(cardx.name)) {
 				let imageName = cardx.name;
@@ -556,7 +575,8 @@ export function playerAddVirtualJudge(VCard, cards) {
 				cardx.node.judgeMark.node.judge.innerText = "";
 				cardx.node.judgeMark.node.judge.style.fontSize = "";
 
-				const isDecadeStyle = lib.config.extension_十周年UI_newDecadeStyle === "on" || lib.config.extension_十周年UI_newDecadeStyle === "othersOff";
+				const isDecadeStyle =
+					lib.config.extension_十周年UI_newDecadeStyle === "on" || lib.config.extension_十周年UI_newDecadeStyle === "othersOff";
 				const ext = isDecadeStyle && ["bingliang", "lebu", "shandian"].includes(imageName) ? "1.png" : ".png";
 				const basePath = `${lib.assetURL}extension/十周年UI/image/ui/judge-mark/`;
 

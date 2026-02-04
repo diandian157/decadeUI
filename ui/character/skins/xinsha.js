@@ -12,7 +12,30 @@ export function createXinshaCharacterPlugin(lib, game, ui, get, ai, _status, app
 	const AUDIO_PATH = "../extension/十周年UI/ui/assets/lbtn/shousha/";
 
 	// 随机昵称
-	const NICKNAMES = ["缘之空", "小小恐龙", "自然萌", "海边的ebao", "小云云", "无语", "点点", "猫猫虫", "小爱莉", "冰佬", "鹿鹿", "黎佬", "小曦", "墨渊", "浮牢师", "U佬", "蓝宝", "影宝", "柳下跖", "k9", "扶苏", "皇叔"];
+	const NICKNAMES = [
+		"缘之空",
+		"小小恐龙",
+		"自然萌",
+		"海边的ebao",
+		"小云云",
+		"无语",
+		"点点",
+		"猫猫虫",
+		"小爱莉",
+		"冰佬",
+		"鹿鹿",
+		"黎佬",
+		"小曦",
+		"墨渊",
+		"浮牢师",
+		"U佬",
+		"蓝宝",
+		"影宝",
+		"柳下跖",
+		"k9",
+		"扶苏",
+		"皇叔",
+	];
 
 	return {
 		...base,
@@ -142,7 +165,8 @@ export function createXinshaCharacterPlugin(lib, game, ui, get, ai, _status, app
 						// VIP图标
 						const vipimg = document.createElement("div");
 						vipimg.style.cssText = "width:60px;top:2px;height:20px;left:3px;position:relative;background-size:100% 100%;";
-						const vipPath = player._vipCache || (player._vipCache = ["vip0", "vip1", "vip2", "vip3", "vip4", "vip5", "vip6", "vip7"].randomGet());
+						const vipPath =
+							player._vipCache || (player._vipCache = ["vip0", "vip1", "vip2", "vip3", "vip4", "vip5", "vip6", "vip7"].randomGet());
 						vipimg.setBackgroundImage(`${IMAGE_PATH}${vipPath}.png`);
 						wanjiaming.appendChild(vipimg);
 
@@ -150,7 +174,20 @@ export function createXinshaCharacterPlugin(lib, game, ui, get, ai, _status, app
 						const guildInfo =
 							player._guildInfo ||
 							(player._guildInfo = {
-								name: ["武将美化群", "活动武将群", "😋精致小杀", "萌新花园", "😋精致小酒", "小爱莉の动物园", "Ciallo～(∠・ω< )⌒★", "美图交流群", "无名杀主题样式", "💎备用💎", "无名杀琉璃版", "圣杯战争"].randomGet(1),
+								name: [
+									"武将美化群",
+									"活动武将群",
+									"😋精致小杀",
+									"萌新花园",
+									"😋精致小酒",
+									"小爱莉の动物园",
+									"Ciallo～(∠・ω< )⌒★",
+									"美图交流群",
+									"无名杀主题样式",
+									"💎备用💎",
+									"无名杀琉璃版",
+									"圣杯战争",
+								].randomGet(1),
 								icon: ["c1", "c2", "c3"].randomGet(),
 							});
 						const gonghui = ui.create.div(".gonghui", bigdialog, `公会：${guildInfo.name}`);
@@ -212,7 +249,8 @@ export function createXinshaCharacterPlugin(lib, game, ui, get, ai, _status, app
 
 						// 迷你头像
 						const minixingxiang = ui.create.div(".minixingxiang", bigdialog);
-						const miniData = player.miniXingxiangData || (player.miniXingxiangData = { img: `xingxiang${Math.floor(Math.random() * 6)}` });
+						const miniData =
+							player.miniXingxiangData || (player.miniXingxiangData = { img: `xingxiang${Math.floor(Math.random() * 6)}` });
 						minixingxiang.setBackgroundImage(`${IMAGE_PATH}${miniData.img}.png`);
 					};
 				};
@@ -251,7 +289,9 @@ export function createXinshaCharacterPlugin(lib, game, ui, get, ai, _status, app
 				// 等阶
 				let rarity = game.getRarity(name) || "junk";
 				const pe = ui.create.div(".pe1", dialog);
-				const peUrl = lib.config["extension_千幻聆音_enable"] ? `${IMAGE_PATH}pe_${plugin.utils.getQhlyLevel(name)}.png` : `${IMAGE_PATH}pe_${rarity}.png`;
+				const peUrl = lib.config["extension_千幻聆音_enable"]
+					? `${IMAGE_PATH}pe_${plugin.utils.getQhlyLevel(name)}.png`
+					: `${IMAGE_PATH}pe_${rarity}.png`;
 				pe.style.backgroundImage = `url("${peUrl}")`;
 
 				// 关闭按钮
@@ -294,7 +334,9 @@ export function createXinshaCharacterPlugin(lib, game, ui, get, ai, _status, app
 					if (under) createProfilePage();
 
 					let oSkills = player.getSkills(null, false, false).slice(0);
-					oSkills = oSkills.filter(s => lib.skill[s] && s !== "jiu" && !lib.skill[s].nopop && !lib.skill[s].equipSkill && lib.translate[s + "_info"]);
+					oSkills = oSkills.filter(
+						s => lib.skill[s] && s !== "jiu" && !lib.skill[s].nopop && !lib.skill[s].equipSkill && lib.translate[s + "_info"]
+					);
 					if (player === game.me && player.hiddenSkills?.length) oSkills.addArray(player.hiddenSkills);
 
 					const allShown = player.isUnderControl() || (!game.observe && game.me?.hasSkillTag("viewHandcard", null, player, true));
@@ -326,7 +368,11 @@ export function createXinshaCharacterPlugin(lib, game, ui, get, ai, _status, app
 								if (isQiexie && lib.translate[card.name + "_append"]) {
 									str[1] += `<br><br><div style="font-size: 0.85em; font-family: xinwei; line-height: 1.2;">${lib.translate[card.name + "_append"]}</div>`;
 								}
-								ui.create.div(".xskillx", `<div data-color>${str[0]}</div><div>${str[1]}</div>`, rightPane.firstChild).style.marginBottom = "10px";
+								ui.create.div(
+									".xskillx",
+									`<div data-color>${str[0]}</div><div>${str[1]}</div>`,
+									rightPane.firstChild
+								).style.marginBottom = "10px";
 							});
 						}
 
@@ -344,7 +390,11 @@ export function createXinshaCharacterPlugin(lib, game, ui, get, ai, _status, app
 								const skillTrans = lib.translate[skillName] || skillName;
 								const equipTrans = lib.translate[equipName] || equipName;
 								const equipInfo = lib.translate[equipName + "_info"] || "";
-								ui.create.div(".xskillx", `<div data-color>【${skillTrans}】视为装备【${equipTrans}】</div><div>${equipInfo}</div>`, rightPane.firstChild).style.marginBottom = "10px";
+								ui.create.div(
+									".xskillx",
+									`<div data-color>【${skillTrans}】视为装备【${equipTrans}】</div><div>${equipInfo}</div>`,
+									rightPane.firstChild
+								).style.marginBottom = "10px";
 							});
 						}
 
@@ -356,7 +406,12 @@ export function createXinshaCharacterPlugin(lib, game, ui, get, ai, _status, app
 						if (judges.length) {
 							ui.create.div(".xcaption", "判定区域", rightPane.firstChild);
 							judges.forEach(card => {
-								const cardx = game.createCard(get.name(card, false), get.suit(card, false), get.number(card, false), get.nature(card, false));
+								const cardx = game.createCard(
+									get.name(card, false),
+									get.suit(card, false),
+									get.number(card, false),
+									get.nature(card, false)
+								);
 								cardx.style.zoom = "0.8";
 								rightPane.firstChild.appendChild(cardx);
 							});

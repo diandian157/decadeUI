@@ -24,7 +24,10 @@ export function initHooks() {
 			cardname = get.name(card);
 			cardnature = get.nature(card);
 		} else {
-			cardskb = typeof get.info(skill).viewAs === "function" ? get.info(skill).viewAs([card], _status.event.player || game.me) : get.info(skill).viewAs;
+			cardskb =
+				typeof get.info(skill).viewAs === "function"
+					? get.info(skill).viewAs([card], _status.event.player || game.me)
+					: get.info(skill).viewAs;
 			cardname = get.name(cardskb);
 			cardnature = get.nature(cardskb);
 		}

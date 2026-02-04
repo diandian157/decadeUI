@@ -37,7 +37,16 @@
 	top: 0;
 	left: -25px;
 	background-color: #00000052;
-	clip-path: polygon(10px 0%, calc(100% - 10px) 0%, 100% 10px, 100% calc(100% - 10px), calc(100% - 10px) 100%, 10px 100%, 0 calc(100% - 10px), 0 10px);
+	clip-path: polygon(
+		10px 0%,
+		calc(100% - 10px) 0%,
+		100% 10px,
+		100% calc(100% - 10px),
+		calc(100% - 10px) 100%,
+		10px 100%,
+		0 calc(100% - 10px),
+		0 10px
+	);
 }
 
 .blackBg.two {

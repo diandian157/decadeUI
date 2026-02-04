@@ -68,7 +68,13 @@ export function createCharacterButtonPreset() {
 				const hp = get.infoHp(infoitem[2]);
 				const maxHp = get.infoMaxHp(infoitem[2]);
 				const hujia = get.infoHujia(infoitem[2]);
-				const check = (get.mode() === "single" && _status.mode === "changban") || ((get.mode() === "guozhan" || (cfg => (typeof cfg === "string" ? cfg === "double" : Boolean(cfg)))(_status.connectMode ? lib.configOL.double_character : get.config("double_character"))) && (_status.connectMode || (_status.connectMode ? lib.configOL.double_hp : get.config("double_hp")) === "pingjun"));
+				const check =
+					(get.mode() === "single" && _status.mode === "changban") ||
+					((get.mode() === "guozhan" ||
+						(cfg => (typeof cfg === "string" ? cfg === "double" : Boolean(cfg)))(
+							_status.connectMode ? lib.configOL.double_character : get.config("double_character")
+						)) &&
+						(_status.connectMode || (_status.connectMode ? lib.configOL.double_hp : get.config("double_hp")) === "pingjun"));
 
 				let str = get.numStr(hp / (check ? 2 : 1));
 				if (hp !== maxHp) str += "/" + get.numStr(maxHp / (check ? 2 : 1));
@@ -113,7 +119,10 @@ export function createCharacterButtonPreset() {
 			if (infoitem[1]) {
 				const doubleCamp = get.is.double(item, true);
 				if (doubleCamp) {
-					node.node.group.innerHTML = doubleCamp.reduce((prev, cur) => `${prev}<div data-nature="${get.groupnature(cur)}">${get.translation(cur)}</div>`, "");
+					node.node.group.innerHTML = doubleCamp.reduce(
+						(prev, cur) => `${prev}<div data-nature="${get.groupnature(cur)}">${get.translation(cur)}</div>`,
+						""
+					);
 					if (doubleCamp.length > 4) {
 						node.node.group.style.height = new Set([5, 6, 9]).has(doubleCamp.length) ? "48px" : "64px";
 					}

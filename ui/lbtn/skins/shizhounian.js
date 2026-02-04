@@ -100,9 +100,13 @@ export function createShizhounianLbtnPlugin(lib, game, ui, get, ai, _status, app
 
 			let style;
 			if (isTouch) {
-				style = isRight ? `display:block;--w:88px;--h:calc(var(--w)*81/247);width:var(--w);height:var(--h);position:absolute;top:calc(100% - 35px);left:calc(100% - 380px);background-color:transparent;z-index:7;` : `display:block;--w:88px;--h:calc(var(--w)*81/247);width:var(--w);height:var(--h);position:absolute;top:calc(100% - 35px);left:calc(100% - 1260px);background-color:transparent;z-index:7;`;
+				style = isRight
+					? `display:block;--w:88px;--h:calc(var(--w)*81/247);width:var(--w);height:var(--h);position:absolute;top:calc(100% - 35px);left:calc(100% - 380px);background-color:transparent;z-index:7;`
+					: `display:block;--w:88px;--h:calc(var(--w)*81/247);width:var(--w);height:var(--h);position:absolute;top:calc(100% - 35px);left:calc(100% - 1260px);background-color:transparent;z-index:7;`;
 			} else {
-				style = isRight ? `display:block;--w:45px;--h:calc(var(--w)*110/170);width:var(--w);height:var(--h);position:absolute;top:calc(100% - 45px);left:calc(100% - 305px);background-color:transparent;z-index:7;` : `display:block;--w:88px;--h:calc(var(--w)*81/247);width:var(--w);height:var(--h);position:absolute;top:calc(100% - 33px);right:calc(100% - 367.2px);background-color:transparent;z-index:4;`;
+				style = isRight
+					? `display:block;--w:45px;--h:calc(var(--w)*110/170);width:var(--w);height:var(--h);position:absolute;top:calc(100% - 45px);left:calc(100% - 305px);background-color:transparent;z-index:7;`
+					: `display:block;--w:88px;--h:calc(var(--w)*81/247);width:var(--w);height:var(--h);position:absolute;top:calc(100% - 33px);right:calc(100% - 367.2px);background-color:transparent;z-index:4;`;
 			}
 
 			const btn = ui.create.node("img");

@@ -119,7 +119,13 @@ export function createOnlineLbtnPlugin(lib, game, ui, get, ai, _status, app) {
 			const originalCancel = ui.click.cancel;
 			ui.click.cancel = function (node) {
 				const event = _status.event;
-				if (event && event.type === "phase" && ui.confirm && !event.skill && (ui.selected.cards.length !== 0 || ui.selected.targets.length !== 0)) {
+				if (
+					event &&
+					event.type === "phase" &&
+					ui.confirm &&
+					!event.skill &&
+					(ui.selected.cards.length !== 0 || ui.selected.targets.length !== 0)
+				) {
 					ui.confirm.classList.add("removing");
 					event.restore();
 					const cards = event.player.getCards("hej");
@@ -330,7 +336,30 @@ export function createOnlineLbtnPlugin(lib, game, ui, get, ai, _status, app) {
 			// 更新玩家昵称
 			game.countPlayer(player => {
 				if (!player.nickname) {
-					const nicknames = ["缘之空", "小小恐龙", "自然萌", "海边的ebao", "小云云", "点点", "猫猫虫", "小爱莉", "冰佬", "鹿鹿", "黎佬", "浮牢师", "U佬", "蓝宝", "影宝", "柳下跖", "无语", "小曦", "墨渊", "k9", "扶苏", "皇叔"];
+					const nicknames = [
+						"缘之空",
+						"小小恐龙",
+						"自然萌",
+						"海边的ebao",
+						"小云云",
+						"点点",
+						"猫猫虫",
+						"小爱莉",
+						"冰佬",
+						"鹿鹿",
+						"黎佬",
+						"浮牢师",
+						"U佬",
+						"蓝宝",
+						"影宝",
+						"柳下跖",
+						"无语",
+						"小曦",
+						"墨渊",
+						"k9",
+						"扶苏",
+						"皇叔",
+					];
 					player.nickname = player === game.me ? lib.config.connect_nickname : nicknames.randomGet();
 				}
 			});
@@ -415,7 +444,21 @@ export function createOnlineLbtnPlugin(lib, game, ui, get, ai, _status, app) {
 
 		// 添加系统菜单项
 		addSystemMenuItems(container) {
-			const excludedItems = ["聊天", "联机大厅", "最近连接", "投降", "重来", "选项", "暂停", "不询问无懈", "托管", "♫", "整理手牌", "收藏", "牌堆"];
+			const excludedItems = [
+				"聊天",
+				"联机大厅",
+				"最近连接",
+				"投降",
+				"重来",
+				"选项",
+				"暂停",
+				"不询问无懈",
+				"托管",
+				"♫",
+				"整理手牌",
+				"收藏",
+				"牌堆",
+			];
 			for (let i in game.system) {
 				if (excludedItems.includes(game.system[i].name)) continue;
 				const node = ui.create.div(".controls", game.system[i].name, container);
@@ -662,7 +705,8 @@ export function createOnlineLbtnPlugin(lib, game, ui, get, ai, _status, app) {
 					shuru = document.createElement("input");
 					shuru.type = "text";
 					shuru.placeholder = "请输入要说的话";
-					shuru.style.cssText = "position:absolute;left:50%;transform:translateX(-50%);z-index:1000;top:5%;width:60%;height:10%;font-size:30px;background-color:rgba(255,255,255,0.9);border:2px solid #C1AD92;border-radius:5px;padding:5px;outline:none;pointer-events:auto;";
+					shuru.style.cssText =
+						"position:absolute;left:50%;transform:translateX(-50%);z-index:1000;top:5%;width:60%;height:10%;font-size:30px;background-color:rgba(255,255,255,0.9);border:2px solid #C1AD92;border-radius:5px;padding:5px;outline:none;pointer-events:auto;";
 					ui.window.appendChild(shuru);
 				}
 				shuru.style.display = "block";
@@ -744,24 +788,34 @@ export function createOnlineLbtnPlugin(lib, game, ui, get, ai, _status, app) {
 					folders
 						.filter(pack => pack !== "throw_emotion")
 						.forEach(pack => {
-							const packDiv = ui.create.div(".card.fullskin", `<img src="${srcBase}${pack}/1.gif" width="80" height="80">`, list1, () => {
-								list2.innerHTML = "";
-								game.getFileList(
-									`${srcBase}${pack}/`,
-									(_, files) => {
-										files.forEach(file => {
-											const btn = ui.create.div(".card.fullskin", `<img src="${srcBase}${pack}/${file}" width="80" height="80">`, list2, () => {
-												if (game.online) game.send("emotion", game.onlineID, pack, file);
-												else game.me.emotion(pack, file);
+							const packDiv = ui.create.div(
+								".card.fullskin",
+								`<img src="${srcBase}${pack}/1.gif" width="80" height="80">`,
+								list1,
+								() => {
+									list2.innerHTML = "";
+									game.getFileList(
+										`${srcBase}${pack}/`,
+										(_, files) => {
+											files.forEach(file => {
+												const btn = ui.create.div(
+													".card.fullskin",
+													`<img src="${srcBase}${pack}/${file}" width="80" height="80">`,
+													list2,
+													() => {
+														if (game.online) game.send("emotion", game.onlineID, pack, file);
+														else game.me.emotion(pack, file);
+													}
+												);
+												btn.style.cssText = "width:80px;height:80px;";
 											});
-											btn.style.cssText = "width:80px;height:80px;";
-										});
-									},
-									() => {}
-								);
-								list1.style.display = "none";
-								list2.style.display = "grid";
-							});
+										},
+										() => {}
+									);
+									list1.style.display = "none";
+									list2.style.display = "grid";
+								}
+							);
 							packDiv.style.cssText = "width:80px;height:80px;";
 						});
 				},

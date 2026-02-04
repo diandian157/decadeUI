@@ -272,7 +272,10 @@ var spine;
 				x = frames[frame + TranslateTimeline.PREV_X];
 				y = frames[frame + TranslateTimeline.PREV_Y];
 				var frameTime = frames[frame];
-				var percent = this.getCurvePercent(frame / TranslateTimeline.ENTRIES - 1, 1 - (time - frameTime) / (frames[frame + TranslateTimeline.PREV_TIME] - frameTime));
+				var percent = this.getCurvePercent(
+					frame / TranslateTimeline.ENTRIES - 1,
+					1 - (time - frameTime) / (frames[frame + TranslateTimeline.PREV_TIME] - frameTime)
+				);
 				x += (frames[frame + TranslateTimeline.X] - x) * percent;
 				y += (frames[frame + TranslateTimeline.Y] - y) * percent;
 			}
@@ -326,7 +329,10 @@ var spine;
 				x = frames[frame + ScaleTimeline.PREV_X];
 				y = frames[frame + ScaleTimeline.PREV_Y];
 				var frameTime = frames[frame];
-				var percent = this.getCurvePercent(frame / ScaleTimeline.ENTRIES - 1, 1 - (time - frameTime) / (frames[frame + ScaleTimeline.PREV_TIME] - frameTime));
+				var percent = this.getCurvePercent(
+					frame / ScaleTimeline.ENTRIES - 1,
+					1 - (time - frameTime) / (frames[frame + ScaleTimeline.PREV_TIME] - frameTime)
+				);
 				x = (x + (frames[frame + ScaleTimeline.X] - x) * percent) * bone.data.scaleX;
 				y = (y + (frames[frame + ScaleTimeline.Y] - y) * percent) * bone.data.scaleY;
 			}
@@ -390,7 +396,10 @@ var spine;
 				x = frames[frame + ShearTimeline.PREV_X];
 				y = frames[frame + ShearTimeline.PREV_Y];
 				var frameTime = frames[frame];
-				var percent = this.getCurvePercent(frame / ShearTimeline.ENTRIES - 1, 1 - (time - frameTime) / (frames[frame + ShearTimeline.PREV_TIME] - frameTime));
+				var percent = this.getCurvePercent(
+					frame / ShearTimeline.ENTRIES - 1,
+					1 - (time - frameTime) / (frames[frame + ShearTimeline.PREV_TIME] - frameTime)
+				);
 				x = x + (frames[frame + ShearTimeline.X] - x) * percent;
 				y = y + (frames[frame + ShearTimeline.Y] - y) * percent;
 			}
@@ -455,7 +464,10 @@ var spine;
 				b = frames[frame + ColorTimeline.PREV_B];
 				a = frames[frame + ColorTimeline.PREV_A];
 				var frameTime = frames[frame];
-				var percent = this.getCurvePercent(frame / ColorTimeline.ENTRIES - 1, 1 - (time - frameTime) / (frames[frame + ColorTimeline.PREV_TIME] - frameTime));
+				var percent = this.getCurvePercent(
+					frame / ColorTimeline.ENTRIES - 1,
+					1 - (time - frameTime) / (frames[frame + ColorTimeline.PREV_TIME] - frameTime)
+				);
 				r += (frames[frame + ColorTimeline.R] - r) * percent;
 				g += (frames[frame + ColorTimeline.G] - g) * percent;
 				b += (frames[frame + ColorTimeline.B] - b) * percent;
@@ -516,7 +528,12 @@ var spine;
 							dark = slot.darkColor,
 							setupLight = slot.data.color,
 							setupDark = slot.data.darkColor;
-						light.add((setupLight.r - light.r) * alpha, (setupLight.g - light.g) * alpha, (setupLight.b - light.b) * alpha, (setupLight.a - light.a) * alpha);
+						light.add(
+							(setupLight.r - light.r) * alpha,
+							(setupLight.g - light.g) * alpha,
+							(setupLight.b - light.b) * alpha,
+							(setupLight.a - light.a) * alpha
+						);
 						dark.add((setupDark.r - dark.r) * alpha, (setupDark.g - dark.g) * alpha, (setupDark.b - dark.b) * alpha, 0);
 				}
 				return;
@@ -547,7 +564,10 @@ var spine;
 				g2 = frames[frame + TwoColorTimeline.PREV_G2];
 				b2 = frames[frame + TwoColorTimeline.PREV_B2];
 				var frameTime = frames[frame];
-				var percent = this.getCurvePercent(frame / TwoColorTimeline.ENTRIES - 1, 1 - (time - frameTime) / (frames[frame + TwoColorTimeline.PREV_TIME] - frameTime));
+				var percent = this.getCurvePercent(
+					frame / TwoColorTimeline.ENTRIES - 1,
+					1 - (time - frameTime) / (frames[frame + TwoColorTimeline.PREV_TIME] - frameTime)
+				);
 				r += (frames[frame + TwoColorTimeline.R] - r) * percent;
 				g += (frames[frame + TwoColorTimeline.G] - g) * percent;
 				b += (frames[frame + TwoColorTimeline.B] - b) * percent;
@@ -844,7 +864,10 @@ var spine;
 			if (time >= frames[frames.length - IkConstraintTimeline.ENTRIES]) {
 				if (pose == MixPose.setup) {
 					constraint.mix = constraint.data.mix + (frames[frames.length + IkConstraintTimeline.PREV_MIX] - constraint.data.mix) * alpha;
-					constraint.bendDirection = direction == MixDirection.out ? constraint.data.bendDirection : frames[frames.length + IkConstraintTimeline.PREV_BEND_DIRECTION];
+					constraint.bendDirection =
+						direction == MixDirection.out
+							? constraint.data.bendDirection
+							: frames[frames.length + IkConstraintTimeline.PREV_BEND_DIRECTION];
 				} else {
 					constraint.mix += (frames[frames.length + IkConstraintTimeline.PREV_MIX] - constraint.mix) * alpha;
 					if (direction == MixDirection["in"]) constraint.bendDirection = frames[frames.length + IkConstraintTimeline.PREV_BEND_DIRECTION];
@@ -854,10 +877,15 @@ var spine;
 			var frame = Animation.binarySearch(frames, time, IkConstraintTimeline.ENTRIES);
 			var mix = frames[frame + IkConstraintTimeline.PREV_MIX];
 			var frameTime = frames[frame];
-			var percent = this.getCurvePercent(frame / IkConstraintTimeline.ENTRIES - 1, 1 - (time - frameTime) / (frames[frame + IkConstraintTimeline.PREV_TIME] - frameTime));
+			var percent = this.getCurvePercent(
+				frame / IkConstraintTimeline.ENTRIES - 1,
+				1 - (time - frameTime) / (frames[frame + IkConstraintTimeline.PREV_TIME] - frameTime)
+			);
 			if (pose == MixPose.setup) {
-				constraint.mix = constraint.data.mix + (mix + (frames[frame + IkConstraintTimeline.MIX] - mix) * percent - constraint.data.mix) * alpha;
-				constraint.bendDirection = direction == MixDirection.out ? constraint.data.bendDirection : frames[frame + IkConstraintTimeline.PREV_BEND_DIRECTION];
+				constraint.mix =
+					constraint.data.mix + (mix + (frames[frame + IkConstraintTimeline.MIX] - mix) * percent - constraint.data.mix) * alpha;
+				constraint.bendDirection =
+					direction == MixDirection.out ? constraint.data.bendDirection : frames[frame + IkConstraintTimeline.PREV_BEND_DIRECTION];
 			} else {
 				constraint.mix += (mix + (frames[frame + IkConstraintTimeline.MIX] - mix) * percent - constraint.mix) * alpha;
 				if (direction == MixDirection["in"]) constraint.bendDirection = frames[frame + IkConstraintTimeline.PREV_BEND_DIRECTION];
@@ -927,7 +955,10 @@ var spine;
 				scale = frames[frame + TransformConstraintTimeline.PREV_SCALE];
 				shear = frames[frame + TransformConstraintTimeline.PREV_SHEAR];
 				var frameTime = frames[frame];
-				var percent = this.getCurvePercent(frame / TransformConstraintTimeline.ENTRIES - 1, 1 - (time - frameTime) / (frames[frame + TransformConstraintTimeline.PREV_TIME] - frameTime));
+				var percent = this.getCurvePercent(
+					frame / TransformConstraintTimeline.ENTRIES - 1,
+					1 - (time - frameTime) / (frames[frame + TransformConstraintTimeline.PREV_TIME] - frameTime)
+				);
 				rotate += (frames[frame + TransformConstraintTimeline.ROTATE] - rotate) * percent;
 				translate += (frames[frame + TransformConstraintTimeline.TRANSLATE] - translate) * percent;
 				scale += (frames[frame + TransformConstraintTimeline.SCALE] - scale) * percent;
@@ -988,12 +1019,16 @@ var spine;
 				return;
 			}
 			var position = 0;
-			if (time >= frames[frames.length - PathConstraintPositionTimeline.ENTRIES]) position = frames[frames.length + PathConstraintPositionTimeline.PREV_VALUE];
+			if (time >= frames[frames.length - PathConstraintPositionTimeline.ENTRIES])
+				position = frames[frames.length + PathConstraintPositionTimeline.PREV_VALUE];
 			else {
 				var frame = Animation.binarySearch(frames, time, PathConstraintPositionTimeline.ENTRIES);
 				position = frames[frame + PathConstraintPositionTimeline.PREV_VALUE];
 				var frameTime = frames[frame];
-				var percent = this.getCurvePercent(frame / PathConstraintPositionTimeline.ENTRIES - 1, 1 - (time - frameTime) / (frames[frame + PathConstraintPositionTimeline.PREV_TIME] - frameTime));
+				var percent = this.getCurvePercent(
+					frame / PathConstraintPositionTimeline.ENTRIES - 1,
+					1 - (time - frameTime) / (frames[frame + PathConstraintPositionTimeline.PREV_TIME] - frameTime)
+				);
 				position += (frames[frame + PathConstraintPositionTimeline.VALUE] - position) * percent;
 			}
 			if (pose == MixPose.setup) constraint.position = constraint.data.position + (position - constraint.data.position) * alpha;
@@ -1028,12 +1063,16 @@ var spine;
 				return;
 			}
 			var spacing = 0;
-			if (time >= frames[frames.length - PathConstraintSpacingTimeline.ENTRIES]) spacing = frames[frames.length + PathConstraintSpacingTimeline.PREV_VALUE];
+			if (time >= frames[frames.length - PathConstraintSpacingTimeline.ENTRIES])
+				spacing = frames[frames.length + PathConstraintSpacingTimeline.PREV_VALUE];
 			else {
 				var frame = Animation.binarySearch(frames, time, PathConstraintSpacingTimeline.ENTRIES);
 				spacing = frames[frame + PathConstraintSpacingTimeline.PREV_VALUE];
 				var frameTime = frames[frame];
-				var percent = this.getCurvePercent(frame / PathConstraintSpacingTimeline.ENTRIES - 1, 1 - (time - frameTime) / (frames[frame + PathConstraintSpacingTimeline.PREV_TIME] - frameTime));
+				var percent = this.getCurvePercent(
+					frame / PathConstraintSpacingTimeline.ENTRIES - 1,
+					1 - (time - frameTime) / (frames[frame + PathConstraintSpacingTimeline.PREV_TIME] - frameTime)
+				);
 				spacing += (frames[frame + PathConstraintSpacingTimeline.VALUE] - spacing) * percent;
 			}
 			if (pose == MixPose.setup) constraint.spacing = constraint.data.spacing + (spacing - constraint.data.spacing) * alpha;
@@ -1083,7 +1122,10 @@ var spine;
 				rotate = frames[frame + PathConstraintMixTimeline.PREV_ROTATE];
 				translate = frames[frame + PathConstraintMixTimeline.PREV_TRANSLATE];
 				var frameTime = frames[frame];
-				var percent = this.getCurvePercent(frame / PathConstraintMixTimeline.ENTRIES - 1, 1 - (time - frameTime) / (frames[frame + PathConstraintMixTimeline.PREV_TIME] - frameTime));
+				var percent = this.getCurvePercent(
+					frame / PathConstraintMixTimeline.ENTRIES - 1,
+					1 - (time - frameTime) / (frames[frame + PathConstraintMixTimeline.PREV_TIME] - frameTime)
+				);
 				rotate += (frames[frame + PathConstraintMixTimeline.ROTATE] - rotate) * percent;
 				translate += (frames[frame + PathConstraintMixTimeline.TRANSLATE] - translate) * percent;
 			}
@@ -1287,7 +1329,8 @@ var spine;
 						break;
 				}
 				from.totalAlpha += alpha;
-				if (timeline instanceof spine.RotateTimeline) this.applyRotateTimeline(timeline, skeleton, animationTime, alpha, pose, timelinesRotation, i << 1, firstFrame);
+				if (timeline instanceof spine.RotateTimeline)
+					this.applyRotateTimeline(timeline, skeleton, animationTime, alpha, pose, timelinesRotation, i << 1, firstFrame);
 				else {
 					spine.Utils.webkit602BugfixHelper(alpha, pose);
 					timeline.apply(skeleton, animationLast, animationTime, events, alpha, pose, spine.MixDirection.out);
@@ -1313,12 +1356,16 @@ var spine;
 				return;
 			}
 			var r2 = 0;
-			if (time >= frames[frames.length - spine.RotateTimeline.ENTRIES]) r2 = bone.data.rotation + frames[frames.length + spine.RotateTimeline.PREV_ROTATION];
+			if (time >= frames[frames.length - spine.RotateTimeline.ENTRIES])
+				r2 = bone.data.rotation + frames[frames.length + spine.RotateTimeline.PREV_ROTATION];
 			else {
 				var frame = spine.Animation.binarySearch(frames, time, spine.RotateTimeline.ENTRIES);
 				var prevRotation = frames[frame + spine.RotateTimeline.PREV_ROTATION];
 				var frameTime = frames[frame];
-				var percent = rotateTimeline.getCurvePercent((frame >> 1) - 1, 1 - (time - frameTime) / (frames[frame + spine.RotateTimeline.PREV_TIME] - frameTime));
+				var percent = rotateTimeline.getCurvePercent(
+					(frame >> 1) - 1,
+					1 - (time - frameTime) / (frames[frame + spine.RotateTimeline.PREV_TIME] - frameTime)
+				);
 				r2 = frames[frame + spine.RotateTimeline.ROTATION] - prevRotation;
 				r2 -= (16384 - ((16384.499999999996 - r2 / 360) | 0)) * 360;
 				r2 = prevRotation + r2 * percent + bone.data.rotation;
@@ -2294,7 +2341,11 @@ var spine;
 					var lb = spine.MathUtils.cosDeg(90 + shearY) * scaleY;
 					var lc = spine.MathUtils.sinDeg(shearX) * scaleX;
 					var ld = spine.MathUtils.sinDeg(90 + shearY) * scaleY;
-					if (this.data.transformMode != spine.TransformMode.NoScaleOrReflection ? pa * pd - pb * pc < 0 : this.skeleton.flipX != this.skeleton.flipY) {
+					if (
+						this.data.transformMode != spine.TransformMode.NoScaleOrReflection
+							? pa * pd - pb * pc < 0
+							: this.skeleton.flipX != this.skeleton.flipY
+					) {
 						zb = -zb;
 						zd = -zd;
 					}
@@ -2537,7 +2588,15 @@ var spine;
 			if (bone.ascaleX < 0) rotationIK += 180;
 			if (rotationIK > 180) rotationIK -= 360;
 			else if (rotationIK < -180) rotationIK += 360;
-			bone.updateWorldTransformWith(bone.ax, bone.ay, bone.arotation + rotationIK * alpha, bone.ascaleX, bone.ascaleY, bone.ashearX, bone.ashearY);
+			bone.updateWorldTransformWith(
+				bone.ax,
+				bone.ay,
+				bone.arotation + rotationIK * alpha,
+				bone.ascaleX,
+				bone.ascaleY,
+				bone.ashearX,
+				bone.ashearY
+			);
 		};
 		IkConstraint.prototype.apply2 = function (parent, child, targetX, targetY, bendDir, alpha) {
 			if (alpha == 0) {
@@ -2772,7 +2831,13 @@ var spine;
 			} else {
 				for (var i = 1; i < spacesCount; i++) spaces[i] = spacing;
 			}
-			var positions = this.computeWorldPositions(attachment, spacesCount, tangents, data.positionMode == spine.PositionMode.Percent, spacingMode == spine.SpacingMode.Percent);
+			var positions = this.computeWorldPositions(
+				attachment,
+				spacesCount,
+				tangents,
+				data.positionMode == spine.PositionMode.Percent,
+				spacingMode == spine.SpacingMode.Percent
+			);
 			var boneX = positions[0],
 				boneY = positions[1],
 				offsetRotation = data.offsetRotation;
@@ -2894,7 +2959,20 @@ var spine;
 							path.computeWorldVertices(target, 0, 4, world, 4, 2);
 						} else path.computeWorldVertices(target, curve * 6 + 2, 8, world, 0, 2);
 					}
-					this.addCurvePosition(p, world[0], world[1], world[2], world[3], world[4], world[5], world[6], world[7], out, o, tangents || (i > 0 && space == 0));
+					this.addCurvePosition(
+						p,
+						world[0],
+						world[1],
+						world[2],
+						world[3],
+						world[4],
+						world[5],
+						world[6],
+						world[7],
+						out,
+						o,
+						tangents || (i > 0 && space == 0)
+					);
 				}
 				return out;
 			}
@@ -3358,7 +3436,8 @@ var spine;
 			var slotIndex = slot.data.index;
 			var slotBone = slot.bone;
 			if (this.skin != null) this.sortPathConstraintAttachment(this.skin, slotIndex, slotBone);
-			if (this.data.defaultSkin != null && this.data.defaultSkin != this.skin) this.sortPathConstraintAttachment(this.data.defaultSkin, slotIndex, slotBone);
+			if (this.data.defaultSkin != null && this.data.defaultSkin != this.skin)
+				this.sortPathConstraintAttachment(this.data.defaultSkin, slotIndex, slotBone);
 			for (var i = 0, n = this.data.skins.length; i < n; i++) this.sortPathConstraintAttachment(this.data.skins[i], slotIndex, slotBone);
 			var attachment = slot.getAttachment();
 			if (attachment instanceof spine.PathAttachment) this.sortPathConstraintAttachmentWith(attachment, slotBone);
@@ -3750,7 +3829,8 @@ var spine;
 		};
 		SkeletonBounds.prototype.intersectsSegment = function (x1, y1, x2, y2) {
 			var polygons = this.polygons;
-			for (var i = 0, n = polygons.length; i < n; i++) if (this.intersectsSegmentPolygon(polygons[i], x1, y1, x2, y2)) return this.boundingBoxes[i];
+			for (var i = 0, n = polygons.length; i < n; i++)
+				if (this.intersectsSegmentPolygon(polygons[i], x1, y1, x2, y2)) return this.boundingBoxes[i];
 			return null;
 		};
 		SkeletonBounds.prototype.intersectsSegmentPolygon = function (polygon, x1, y1, x2, y2) {
@@ -3817,7 +3897,10 @@ var spine;
 			}
 			var clippingPolygon = this.clippingPolygon;
 			SkeletonClipping.makeClockwise(clippingPolygon);
-			var clippingPolygons = (this.clippingPolygons = this.triangulator.decompose(clippingPolygon, this.triangulator.triangulate(clippingPolygon)));
+			var clippingPolygons = (this.clippingPolygons = this.triangulator.decompose(
+				clippingPolygon,
+				this.triangulator.triangulate(clippingPolygon)
+			));
 			for (var i = 0, n_1 = clippingPolygons.length; i < n_1; i++) {
 				var polygon = clippingPolygons[i];
 				SkeletonClipping.makeClockwise(polygon);
@@ -4561,7 +4644,8 @@ var spine;
 						case SkeletonBinary.SLOT_ATTACHMENT: {
 							var timeline = new spine.AttachmentTimeline(frameCount);
 							timeline.slotIndex = slotIndex;
-							for (var frameIndex = 0; frameIndex < frameCount; frameIndex++) timeline.setFrame(frameIndex, input.readFloat(), input.readString());
+							for (var frameIndex = 0; frameIndex < frameCount; frameIndex++)
+								timeline.setFrame(frameIndex, input.readFloat(), input.readString());
 							timelines.push(timeline);
 							duration = Math.max(duration, timeline.frames[frameCount - 1]);
 							break;
@@ -4586,7 +4670,17 @@ var spine;
 								var time = input.readFloat();
 								spine.Color.rgba8888ToColor(tempColor1, input.readInt32());
 								spine.Color.rgb888ToColor(tempColor2, input.readInt32());
-								timeline.setFrame(frameIndex, time, tempColor1.r, tempColor1.g, tempColor1.b, tempColor1.a, tempColor2.r, tempColor2.g, tempColor2.b);
+								timeline.setFrame(
+									frameIndex,
+									time,
+									tempColor1.r,
+									tempColor1.g,
+									tempColor1.b,
+									tempColor1.a,
+									tempColor2.r,
+									tempColor2.g,
+									tempColor2.b
+								);
 								if (frameIndex < frameCount - 1) this.readCurve(input, frameIndex, timeline);
 							}
 							timelines.push(timeline);
@@ -4626,7 +4720,12 @@ var spine;
 							}
 							timeline.boneIndex = boneIndex;
 							for (var frameIndex = 0; frameIndex < frameCount; frameIndex++) {
-								timeline.setFrame(frameIndex, input.readFloat(), input.readFloat() * timelineScale, input.readFloat() * timelineScale);
+								timeline.setFrame(
+									frameIndex,
+									input.readFloat(),
+									input.readFloat() * timelineScale,
+									input.readFloat() * timelineScale
+								);
 								if (frameIndex < frameCount - 1) this.readCurve(input, frameIndex, timeline);
 							}
 							timelines.push(timeline);
@@ -4673,7 +4772,8 @@ var spine;
 							var timelineScale = 1;
 							if (timelineType == SkeletonBinary.PATH_SPACING) {
 								timeline = new spine.PathConstraintSpacingTimeline(frameCount);
-								if (data.spacingMode == spine.SpacingMode.Length || data.spacingMode == spine.SpacingMode.Fixed) timelineScale = scale;
+								if (data.spacingMode == spine.SpacingMode.Length || data.spacingMode == spine.SpacingMode.Fixed)
+									timelineScale = scale;
 							} else {
 								timeline = new spine.PathConstraintPositionTimeline(frameCount);
 								if (data.positionMode == spine.PositionMode.Fixed) timelineScale = scale;
@@ -4799,7 +4899,13 @@ var spine;
 			timeline.setCurve(frameIndex, cx1, cy1, cx2, cy2);
 		};
 		SkeletonBinary.AttachmentTypeValues = [0, 1, 2, 3, 4, 5, 6];
-		SkeletonBinary.TransformModeValues = [spine.TransformMode.Normal, spine.TransformMode.OnlyTranslation, spine.TransformMode.NoRotationOrReflection, spine.TransformMode.NoScale, spine.TransformMode.NoScaleOrReflection];
+		SkeletonBinary.TransformModeValues = [
+			spine.TransformMode.Normal,
+			spine.TransformMode.OnlyTranslation,
+			spine.TransformMode.NoRotationOrReflection,
+			spine.TransformMode.NoScale,
+			spine.TransformMode.NoScaleOrReflection,
+		];
 		SkeletonBinary.PositionModeValues = [spine.PositionMode.Fixed, spine.PositionMode.Percent];
 		SkeletonBinary.SpacingModeValues = [spine.SpacingMode.Length, spine.SpacingMode.Fixed, spine.SpacingMode.Percent];
 		SkeletonBinary.RotateModeValues = [spine.RotateMode.Tangent, spine.RotateMode.Chain, spine.RotateMode.ChainScale];
@@ -5323,7 +5429,12 @@ var spine;
 					var frameIndex = 0;
 					for (var i = 0; i < constraintMap.length; i++) {
 						var valueMap = constraintMap[i];
-						timeline.setFrame(frameIndex, valueMap.time, this.getValue(valueMap, "mix", 1), this.getValue(valueMap, "bendPositive", true) ? 1 : -1);
+						timeline.setFrame(
+							frameIndex,
+							valueMap.time,
+							this.getValue(valueMap, "mix", 1),
+							this.getValue(valueMap, "bendPositive", true) ? 1 : -1
+						);
 						this.readCurve(valueMap, timeline, frameIndex);
 						frameIndex++;
 					}
@@ -5340,7 +5451,14 @@ var spine;
 					var frameIndex = 0;
 					for (var i = 0; i < constraintMap.length; i++) {
 						var valueMap = constraintMap[i];
-						timeline.setFrame(frameIndex, valueMap.time, this.getValue(valueMap, "rotateMix", 1), this.getValue(valueMap, "translateMix", 1), this.getValue(valueMap, "scaleMix", 1), this.getValue(valueMap, "shearMix", 1));
+						timeline.setFrame(
+							frameIndex,
+							valueMap.time,
+							this.getValue(valueMap, "rotateMix", 1),
+							this.getValue(valueMap, "translateMix", 1),
+							this.getValue(valueMap, "scaleMix", 1),
+							this.getValue(valueMap, "shearMix", 1)
+						);
 						this.readCurve(valueMap, timeline, frameIndex);
 						frameIndex++;
 					}
@@ -5361,7 +5479,8 @@ var spine;
 							var timelineScale = 1;
 							if (timelineName === "spacing") {
 								timeline = new spine.PathConstraintSpacingTimeline(timelineMap.length);
-								if (data.spacingMode == spine.SpacingMode.Length || data.spacingMode == spine.SpacingMode.Fixed) timelineScale = scale;
+								if (data.spacingMode == spine.SpacingMode.Length || data.spacingMode == spine.SpacingMode.Fixed)
+									timelineScale = scale;
 							} else {
 								timeline = new spine.PathConstraintPositionTimeline(timelineMap.length);
 								if (data.positionMode == spine.PositionMode.Fixed) timelineScale = scale;
@@ -5375,14 +5494,22 @@ var spine;
 								frameIndex++;
 							}
 							timelines.push(timeline);
-							duration = Math.max(duration, timeline.frames[(timeline.getFrameCount() - 1) * spine.PathConstraintPositionTimeline.ENTRIES]);
+							duration = Math.max(
+								duration,
+								timeline.frames[(timeline.getFrameCount() - 1) * spine.PathConstraintPositionTimeline.ENTRIES]
+							);
 						} else if (timelineName === "mix") {
 							var timeline = new spine.PathConstraintMixTimeline(timelineMap.length);
 							timeline.pathConstraintIndex = index;
 							var frameIndex = 0;
 							for (var i = 0; i < timelineMap.length; i++) {
 								var valueMap = timelineMap[i];
-								timeline.setFrame(frameIndex, valueMap.time, this.getValue(valueMap, "rotateMix", 1), this.getValue(valueMap, "translateMix", 1));
+								timeline.setFrame(
+									frameIndex,
+									valueMap.time,
+									this.getValue(valueMap, "rotateMix", 1),
+									this.getValue(valueMap, "translateMix", 1)
+								);
 								this.readCurve(valueMap, timeline, frameIndex);
 								frameIndex++;
 							}
@@ -6490,7 +6617,14 @@ var spine;
 			var previous = indices[(vertexCount + index - 1) % vertexCount] << 1;
 			var current = indices[index] << 1;
 			var next = indices[(index + 1) % vertexCount] << 1;
-			return !this.positiveArea(vertices[previous], vertices[previous + 1], vertices[current], vertices[current + 1], vertices[next], vertices[next + 1]);
+			return !this.positiveArea(
+				vertices[previous],
+				vertices[previous + 1],
+				vertices[current],
+				vertices[current + 1],
+				vertices[next],
+				vertices[next + 1]
+			);
 		};
 		Triangulator.positiveArea = function (p1x, p1y, p2x, p2y, p3x, p3y) {
 			return p1x * (p3y - p2y) + p2x * (p1y - p3y) + p3x * (p2y - p1y) >= 0;
@@ -7393,7 +7527,14 @@ var spine;
 				var zoom = this.zoom,
 					viewportWidth = this.viewportWidth,
 					viewportHeight = this.viewportHeight;
-				projection.ortho(zoom * (-viewportWidth / 2), zoom * (viewportWidth / 2), zoom * (-viewportHeight / 2), zoom * (viewportHeight / 2), this.near, this.far);
+				projection.ortho(
+					zoom * (-viewportWidth / 2),
+					zoom * (viewportWidth / 2),
+					zoom * (-viewportHeight / 2),
+					zoom * (viewportHeight / 2),
+					this.near,
+					this.far
+				);
 				view.lookAt(this.position, this.direction, this.up);
 				projectionView.set(projection.values);
 				projectionView.multiply(view);
@@ -7767,7 +7908,21 @@ var spine;
 					this.tempColor.setFromColor(this.backgroundColor);
 					this.tempColor.a = 1 - (a - 1) * (a - 1);
 					renderer.begin();
-					renderer.quad(true, 0, 0, canvas.width, 0, canvas.width, canvas.height, 0, canvas.height, this.tempColor, this.tempColor, this.tempColor, this.tempColor);
+					renderer.quad(
+						true,
+						0,
+						0,
+						canvas.width,
+						0,
+						canvas.width,
+						canvas.height,
+						0,
+						canvas.height,
+						this.tempColor,
+						this.tempColor,
+						this.tempColor,
+						this.tempColor
+					);
 					renderer.end();
 				}
 				this.tempColor.set(1, 1, 1, this.tempColor.a);
@@ -7784,8 +7939,25 @@ var spine;
 				var spinnerHeight = this.spinner.getImage().height;
 				renderer.batcher.setBlendMode(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
 				renderer.begin();
-				renderer.drawTexture(this.logo, (canvas.width - logoWidth) / 2, (canvas.height - logoHeight) / 2, logoWidth, logoHeight, this.tempColor);
-				renderer.drawTextureRotated(this.spinner, (canvas.width - spinnerWidth) / 2, (canvas.height - spinnerHeight) / 2, spinnerWidth, spinnerHeight, spinnerWidth / 2, spinnerHeight / 2, this.angle, this.tempColor);
+				renderer.drawTexture(
+					this.logo,
+					(canvas.width - logoWidth) / 2,
+					(canvas.height - logoHeight) / 2,
+					logoWidth,
+					logoHeight,
+					this.tempColor
+				);
+				renderer.drawTextureRotated(
+					this.spinner,
+					(canvas.width - spinnerWidth) / 2,
+					(canvas.height - spinnerHeight) / 2,
+					spinnerWidth,
+					spinnerHeight,
+					spinnerWidth / 2,
+					spinnerHeight / 2,
+					this.angle,
+					this.tempColor
+				);
 				renderer.end();
 				renderer.camera.position.set(oldX, oldY, 0);
 			};
@@ -7932,22 +8104,118 @@ var spine;
 					v[webgl.M00] * v[webgl.M11] * v[webgl.M22] * v[webgl.M33];
 				if (l_det == 0) throw new Error("non-invertible matrix");
 				var inv_det = 1.0 / l_det;
-				t[webgl.M00] = v[webgl.M12] * v[webgl.M23] * v[webgl.M31] - v[webgl.M13] * v[webgl.M22] * v[webgl.M31] + v[webgl.M13] * v[webgl.M21] * v[webgl.M32] - v[webgl.M11] * v[webgl.M23] * v[webgl.M32] - v[webgl.M12] * v[webgl.M21] * v[webgl.M33] + v[webgl.M11] * v[webgl.M22] * v[webgl.M33];
-				t[webgl.M01] = v[webgl.M03] * v[webgl.M22] * v[webgl.M31] - v[webgl.M02] * v[webgl.M23] * v[webgl.M31] - v[webgl.M03] * v[webgl.M21] * v[webgl.M32] + v[webgl.M01] * v[webgl.M23] * v[webgl.M32] + v[webgl.M02] * v[webgl.M21] * v[webgl.M33] - v[webgl.M01] * v[webgl.M22] * v[webgl.M33];
-				t[webgl.M02] = v[webgl.M02] * v[webgl.M13] * v[webgl.M31] - v[webgl.M03] * v[webgl.M12] * v[webgl.M31] + v[webgl.M03] * v[webgl.M11] * v[webgl.M32] - v[webgl.M01] * v[webgl.M13] * v[webgl.M32] - v[webgl.M02] * v[webgl.M11] * v[webgl.M33] + v[webgl.M01] * v[webgl.M12] * v[webgl.M33];
-				t[webgl.M03] = v[webgl.M03] * v[webgl.M12] * v[webgl.M21] - v[webgl.M02] * v[webgl.M13] * v[webgl.M21] - v[webgl.M03] * v[webgl.M11] * v[webgl.M22] + v[webgl.M01] * v[webgl.M13] * v[webgl.M22] + v[webgl.M02] * v[webgl.M11] * v[webgl.M23] - v[webgl.M01] * v[webgl.M12] * v[webgl.M23];
-				t[webgl.M10] = v[webgl.M13] * v[webgl.M22] * v[webgl.M30] - v[webgl.M12] * v[webgl.M23] * v[webgl.M30] - v[webgl.M13] * v[webgl.M20] * v[webgl.M32] + v[webgl.M10] * v[webgl.M23] * v[webgl.M32] + v[webgl.M12] * v[webgl.M20] * v[webgl.M33] - v[webgl.M10] * v[webgl.M22] * v[webgl.M33];
-				t[webgl.M11] = v[webgl.M02] * v[webgl.M23] * v[webgl.M30] - v[webgl.M03] * v[webgl.M22] * v[webgl.M30] + v[webgl.M03] * v[webgl.M20] * v[webgl.M32] - v[webgl.M00] * v[webgl.M23] * v[webgl.M32] - v[webgl.M02] * v[webgl.M20] * v[webgl.M33] + v[webgl.M00] * v[webgl.M22] * v[webgl.M33];
-				t[webgl.M12] = v[webgl.M03] * v[webgl.M12] * v[webgl.M30] - v[webgl.M02] * v[webgl.M13] * v[webgl.M30] - v[webgl.M03] * v[webgl.M10] * v[webgl.M32] + v[webgl.M00] * v[webgl.M13] * v[webgl.M32] + v[webgl.M02] * v[webgl.M10] * v[webgl.M33] - v[webgl.M00] * v[webgl.M12] * v[webgl.M33];
-				t[webgl.M13] = v[webgl.M02] * v[webgl.M13] * v[webgl.M20] - v[webgl.M03] * v[webgl.M12] * v[webgl.M20] + v[webgl.M03] * v[webgl.M10] * v[webgl.M22] - v[webgl.M00] * v[webgl.M13] * v[webgl.M22] - v[webgl.M02] * v[webgl.M10] * v[webgl.M23] + v[webgl.M00] * v[webgl.M12] * v[webgl.M23];
-				t[webgl.M20] = v[webgl.M11] * v[webgl.M23] * v[webgl.M30] - v[webgl.M13] * v[webgl.M21] * v[webgl.M30] + v[webgl.M13] * v[webgl.M20] * v[webgl.M31] - v[webgl.M10] * v[webgl.M23] * v[webgl.M31] - v[webgl.M11] * v[webgl.M20] * v[webgl.M33] + v[webgl.M10] * v[webgl.M21] * v[webgl.M33];
-				t[webgl.M21] = v[webgl.M03] * v[webgl.M21] * v[webgl.M30] - v[webgl.M01] * v[webgl.M23] * v[webgl.M30] - v[webgl.M03] * v[webgl.M20] * v[webgl.M31] + v[webgl.M00] * v[webgl.M23] * v[webgl.M31] + v[webgl.M01] * v[webgl.M20] * v[webgl.M33] - v[webgl.M00] * v[webgl.M21] * v[webgl.M33];
-				t[webgl.M22] = v[webgl.M01] * v[webgl.M13] * v[webgl.M30] - v[webgl.M03] * v[webgl.M11] * v[webgl.M30] + v[webgl.M03] * v[webgl.M10] * v[webgl.M31] - v[webgl.M00] * v[webgl.M13] * v[webgl.M31] - v[webgl.M01] * v[webgl.M10] * v[webgl.M33] + v[webgl.M00] * v[webgl.M11] * v[webgl.M33];
-				t[webgl.M23] = v[webgl.M03] * v[webgl.M11] * v[webgl.M20] - v[webgl.M01] * v[webgl.M13] * v[webgl.M20] - v[webgl.M03] * v[webgl.M10] * v[webgl.M21] + v[webgl.M00] * v[webgl.M13] * v[webgl.M21] + v[webgl.M01] * v[webgl.M10] * v[webgl.M23] - v[webgl.M00] * v[webgl.M11] * v[webgl.M23];
-				t[webgl.M30] = v[webgl.M12] * v[webgl.M21] * v[webgl.M30] - v[webgl.M11] * v[webgl.M22] * v[webgl.M30] - v[webgl.M12] * v[webgl.M20] * v[webgl.M31] + v[webgl.M10] * v[webgl.M22] * v[webgl.M31] + v[webgl.M11] * v[webgl.M20] * v[webgl.M32] - v[webgl.M10] * v[webgl.M21] * v[webgl.M32];
-				t[webgl.M31] = v[webgl.M01] * v[webgl.M22] * v[webgl.M30] - v[webgl.M02] * v[webgl.M21] * v[webgl.M30] + v[webgl.M02] * v[webgl.M20] * v[webgl.M31] - v[webgl.M00] * v[webgl.M22] * v[webgl.M31] - v[webgl.M01] * v[webgl.M20] * v[webgl.M32] + v[webgl.M00] * v[webgl.M21] * v[webgl.M32];
-				t[webgl.M32] = v[webgl.M02] * v[webgl.M11] * v[webgl.M30] - v[webgl.M01] * v[webgl.M12] * v[webgl.M30] - v[webgl.M02] * v[webgl.M10] * v[webgl.M31] + v[webgl.M00] * v[webgl.M12] * v[webgl.M31] + v[webgl.M01] * v[webgl.M10] * v[webgl.M32] - v[webgl.M00] * v[webgl.M11] * v[webgl.M32];
-				t[webgl.M33] = v[webgl.M01] * v[webgl.M12] * v[webgl.M20] - v[webgl.M02] * v[webgl.M11] * v[webgl.M20] + v[webgl.M02] * v[webgl.M10] * v[webgl.M21] - v[webgl.M00] * v[webgl.M12] * v[webgl.M21] - v[webgl.M01] * v[webgl.M10] * v[webgl.M22] + v[webgl.M00] * v[webgl.M11] * v[webgl.M22];
+				t[webgl.M00] =
+					v[webgl.M12] * v[webgl.M23] * v[webgl.M31] -
+					v[webgl.M13] * v[webgl.M22] * v[webgl.M31] +
+					v[webgl.M13] * v[webgl.M21] * v[webgl.M32] -
+					v[webgl.M11] * v[webgl.M23] * v[webgl.M32] -
+					v[webgl.M12] * v[webgl.M21] * v[webgl.M33] +
+					v[webgl.M11] * v[webgl.M22] * v[webgl.M33];
+				t[webgl.M01] =
+					v[webgl.M03] * v[webgl.M22] * v[webgl.M31] -
+					v[webgl.M02] * v[webgl.M23] * v[webgl.M31] -
+					v[webgl.M03] * v[webgl.M21] * v[webgl.M32] +
+					v[webgl.M01] * v[webgl.M23] * v[webgl.M32] +
+					v[webgl.M02] * v[webgl.M21] * v[webgl.M33] -
+					v[webgl.M01] * v[webgl.M22] * v[webgl.M33];
+				t[webgl.M02] =
+					v[webgl.M02] * v[webgl.M13] * v[webgl.M31] -
+					v[webgl.M03] * v[webgl.M12] * v[webgl.M31] +
+					v[webgl.M03] * v[webgl.M11] * v[webgl.M32] -
+					v[webgl.M01] * v[webgl.M13] * v[webgl.M32] -
+					v[webgl.M02] * v[webgl.M11] * v[webgl.M33] +
+					v[webgl.M01] * v[webgl.M12] * v[webgl.M33];
+				t[webgl.M03] =
+					v[webgl.M03] * v[webgl.M12] * v[webgl.M21] -
+					v[webgl.M02] * v[webgl.M13] * v[webgl.M21] -
+					v[webgl.M03] * v[webgl.M11] * v[webgl.M22] +
+					v[webgl.M01] * v[webgl.M13] * v[webgl.M22] +
+					v[webgl.M02] * v[webgl.M11] * v[webgl.M23] -
+					v[webgl.M01] * v[webgl.M12] * v[webgl.M23];
+				t[webgl.M10] =
+					v[webgl.M13] * v[webgl.M22] * v[webgl.M30] -
+					v[webgl.M12] * v[webgl.M23] * v[webgl.M30] -
+					v[webgl.M13] * v[webgl.M20] * v[webgl.M32] +
+					v[webgl.M10] * v[webgl.M23] * v[webgl.M32] +
+					v[webgl.M12] * v[webgl.M20] * v[webgl.M33] -
+					v[webgl.M10] * v[webgl.M22] * v[webgl.M33];
+				t[webgl.M11] =
+					v[webgl.M02] * v[webgl.M23] * v[webgl.M30] -
+					v[webgl.M03] * v[webgl.M22] * v[webgl.M30] +
+					v[webgl.M03] * v[webgl.M20] * v[webgl.M32] -
+					v[webgl.M00] * v[webgl.M23] * v[webgl.M32] -
+					v[webgl.M02] * v[webgl.M20] * v[webgl.M33] +
+					v[webgl.M00] * v[webgl.M22] * v[webgl.M33];
+				t[webgl.M12] =
+					v[webgl.M03] * v[webgl.M12] * v[webgl.M30] -
+					v[webgl.M02] * v[webgl.M13] * v[webgl.M30] -
+					v[webgl.M03] * v[webgl.M10] * v[webgl.M32] +
+					v[webgl.M00] * v[webgl.M13] * v[webgl.M32] +
+					v[webgl.M02] * v[webgl.M10] * v[webgl.M33] -
+					v[webgl.M00] * v[webgl.M12] * v[webgl.M33];
+				t[webgl.M13] =
+					v[webgl.M02] * v[webgl.M13] * v[webgl.M20] -
+					v[webgl.M03] * v[webgl.M12] * v[webgl.M20] +
+					v[webgl.M03] * v[webgl.M10] * v[webgl.M22] -
+					v[webgl.M00] * v[webgl.M13] * v[webgl.M22] -
+					v[webgl.M02] * v[webgl.M10] * v[webgl.M23] +
+					v[webgl.M00] * v[webgl.M12] * v[webgl.M23];
+				t[webgl.M20] =
+					v[webgl.M11] * v[webgl.M23] * v[webgl.M30] -
+					v[webgl.M13] * v[webgl.M21] * v[webgl.M30] +
+					v[webgl.M13] * v[webgl.M20] * v[webgl.M31] -
+					v[webgl.M10] * v[webgl.M23] * v[webgl.M31] -
+					v[webgl.M11] * v[webgl.M20] * v[webgl.M33] +
+					v[webgl.M10] * v[webgl.M21] * v[webgl.M33];
+				t[webgl.M21] =
+					v[webgl.M03] * v[webgl.M21] * v[webgl.M30] -
+					v[webgl.M01] * v[webgl.M23] * v[webgl.M30] -
+					v[webgl.M03] * v[webgl.M20] * v[webgl.M31] +
+					v[webgl.M00] * v[webgl.M23] * v[webgl.M31] +
+					v[webgl.M01] * v[webgl.M20] * v[webgl.M33] -
+					v[webgl.M00] * v[webgl.M21] * v[webgl.M33];
+				t[webgl.M22] =
+					v[webgl.M01] * v[webgl.M13] * v[webgl.M30] -
+					v[webgl.M03] * v[webgl.M11] * v[webgl.M30] +
+					v[webgl.M03] * v[webgl.M10] * v[webgl.M31] -
+					v[webgl.M00] * v[webgl.M13] * v[webgl.M31] -
+					v[webgl.M01] * v[webgl.M10] * v[webgl.M33] +
+					v[webgl.M00] * v[webgl.M11] * v[webgl.M33];
+				t[webgl.M23] =
+					v[webgl.M03] * v[webgl.M11] * v[webgl.M20] -
+					v[webgl.M01] * v[webgl.M13] * v[webgl.M20] -
+					v[webgl.M03] * v[webgl.M10] * v[webgl.M21] +
+					v[webgl.M00] * v[webgl.M13] * v[webgl.M21] +
+					v[webgl.M01] * v[webgl.M10] * v[webgl.M23] -
+					v[webgl.M00] * v[webgl.M11] * v[webgl.M23];
+				t[webgl.M30] =
+					v[webgl.M12] * v[webgl.M21] * v[webgl.M30] -
+					v[webgl.M11] * v[webgl.M22] * v[webgl.M30] -
+					v[webgl.M12] * v[webgl.M20] * v[webgl.M31] +
+					v[webgl.M10] * v[webgl.M22] * v[webgl.M31] +
+					v[webgl.M11] * v[webgl.M20] * v[webgl.M32] -
+					v[webgl.M10] * v[webgl.M21] * v[webgl.M32];
+				t[webgl.M31] =
+					v[webgl.M01] * v[webgl.M22] * v[webgl.M30] -
+					v[webgl.M02] * v[webgl.M21] * v[webgl.M30] +
+					v[webgl.M02] * v[webgl.M20] * v[webgl.M31] -
+					v[webgl.M00] * v[webgl.M22] * v[webgl.M31] -
+					v[webgl.M01] * v[webgl.M20] * v[webgl.M32] +
+					v[webgl.M00] * v[webgl.M21] * v[webgl.M32];
+				t[webgl.M32] =
+					v[webgl.M02] * v[webgl.M11] * v[webgl.M30] -
+					v[webgl.M01] * v[webgl.M12] * v[webgl.M30] -
+					v[webgl.M02] * v[webgl.M10] * v[webgl.M31] +
+					v[webgl.M00] * v[webgl.M12] * v[webgl.M31] +
+					v[webgl.M01] * v[webgl.M10] * v[webgl.M32] -
+					v[webgl.M00] * v[webgl.M11] * v[webgl.M32];
+				t[webgl.M33] =
+					v[webgl.M01] * v[webgl.M12] * v[webgl.M20] -
+					v[webgl.M02] * v[webgl.M11] * v[webgl.M20] +
+					v[webgl.M02] * v[webgl.M10] * v[webgl.M21] -
+					v[webgl.M00] * v[webgl.M12] * v[webgl.M21] -
+					v[webgl.M01] * v[webgl.M10] * v[webgl.M22] +
+					v[webgl.M00] * v[webgl.M11] * v[webgl.M22];
 				v[webgl.M00] = t[webgl.M00] * inv_det;
 				v[webgl.M01] = t[webgl.M01] * inv_det;
 				v[webgl.M02] = t[webgl.M02] * inv_det;
@@ -8345,7 +8613,12 @@ var spine;
 				this.indicesLength = indices.length;
 			};
 			Mesh.prototype.draw = function (shader, primitiveType) {
-				this.drawWithOffset(shader, primitiveType, 0, this.indicesLength > 0 ? this.indicesLength : this.verticesLength / this.elementsPerVertex);
+				this.drawWithOffset(
+					shader,
+					primitiveType,
+					0,
+					this.indicesLength > 0 ? this.indicesLength : this.verticesLength / this.elementsPerVertex
+				);
 			};
 			Mesh.prototype.drawWithOffset = function (shader, primitiveType, offset, count) {
 				var gl = this.context.gl;
@@ -8491,7 +8764,9 @@ var spine;
 				this.indicesLength = 0;
 				if (maxVertices > 10920) throw new Error("Can't have more than 10920 triangles per batch: " + maxVertices);
 				this.context = context instanceof webgl.ManagedWebGLRenderingContext ? context : new webgl.ManagedWebGLRenderingContext(context);
-				var attributes = twoColorTint ? [new webgl.Position2Attribute(), new webgl.ColorAttribute(), new webgl.TexCoordAttribute(), new webgl.Color2Attribute()] : [new webgl.Position2Attribute(), new webgl.ColorAttribute(), new webgl.TexCoordAttribute()];
+				var attributes = twoColorTint
+					? [new webgl.Position2Attribute(), new webgl.ColorAttribute(), new webgl.TexCoordAttribute(), new webgl.Color2Attribute()]
+					: [new webgl.Position2Attribute(), new webgl.ColorAttribute(), new webgl.TexCoordAttribute()];
 				this.mesh = new webgl.Mesh(context, attributes, maxVertices, maxVertices * 3);
 				this.srcBlend = this.context.gl.SRC_ALPHA;
 				this.dstBlend = this.context.gl.ONE_MINUS_SRC_ALPHA;
@@ -8521,7 +8796,10 @@ var spine;
 				if (texture != this.lastTexture) {
 					this.flush();
 					this.lastTexture = texture;
-				} else if (this.verticesLength + vertices.length > this.mesh.getVertices().length || this.indicesLength + indices.length > this.mesh.getIndices().length) {
+				} else if (
+					this.verticesLength + vertices.length > this.mesh.getVertices().length ||
+					this.indicesLength + indices.length > this.mesh.getIndices().length
+				) {
 					this.flush();
 				}
 				var indexStart = this.mesh.numVertices();
@@ -9221,18 +9499,72 @@ var spine;
 				}
 			};
 			Shader.newColoredTextured = function (context) {
-				var vs = "\n\t\t\t\tattribute vec4 " + Shader.POSITION + ";\n\t\t\t\tattribute vec4 " + Shader.COLOR + ";\n\t\t\t\tattribute vec2 " + Shader.TEXCOORDS + ";\n\t\t\t\tuniform mat4 " + Shader.MVP_MATRIX + ";\n\t\t\t\tvarying vec4 v_color;\n\t\t\t\tvarying vec2 v_texCoords;\n\n\t\t\t\tvoid main () {\n\t\t\t\t\tv_color = " + Shader.COLOR + ";\n\t\t\t\t\tv_texCoords = " + Shader.TEXCOORDS + ";\n\t\t\t\t\tgl_Position = " + Shader.MVP_MATRIX + " * " + Shader.POSITION + ";\n\t\t\t\t}\n\t\t\t";
-				var fs = "\n\t\t\t\t#ifdef GL_ES\n\t\t\t\t\t#define LOWP lowp\n\t\t\t\t\tprecision mediump float;\n\t\t\t\t#else\n\t\t\t\t\t#define LOWP\n\t\t\t\t#endif\n\t\t\t\tvarying LOWP vec4 v_color;\n\t\t\t\tvarying vec2 v_texCoords;\n\t\t\t\tuniform sampler2D u_texture;\n\n\t\t\t\tvoid main () {\n\t\t\t\t\tgl_FragColor = v_color * texture2D(u_texture, v_texCoords);\n\t\t\t\t}\n\t\t\t";
+				var vs =
+					"\n\t\t\t\tattribute vec4 " +
+					Shader.POSITION +
+					";\n\t\t\t\tattribute vec4 " +
+					Shader.COLOR +
+					";\n\t\t\t\tattribute vec2 " +
+					Shader.TEXCOORDS +
+					";\n\t\t\t\tuniform mat4 " +
+					Shader.MVP_MATRIX +
+					";\n\t\t\t\tvarying vec4 v_color;\n\t\t\t\tvarying vec2 v_texCoords;\n\n\t\t\t\tvoid main () {\n\t\t\t\t\tv_color = " +
+					Shader.COLOR +
+					";\n\t\t\t\t\tv_texCoords = " +
+					Shader.TEXCOORDS +
+					";\n\t\t\t\t\tgl_Position = " +
+					Shader.MVP_MATRIX +
+					" * " +
+					Shader.POSITION +
+					";\n\t\t\t\t}\n\t\t\t";
+				var fs =
+					"\n\t\t\t\t#ifdef GL_ES\n\t\t\t\t\t#define LOWP lowp\n\t\t\t\t\tprecision mediump float;\n\t\t\t\t#else\n\t\t\t\t\t#define LOWP\n\t\t\t\t#endif\n\t\t\t\tvarying LOWP vec4 v_color;\n\t\t\t\tvarying vec2 v_texCoords;\n\t\t\t\tuniform sampler2D u_texture;\n\n\t\t\t\tvoid main () {\n\t\t\t\t\tgl_FragColor = v_color * texture2D(u_texture, v_texCoords);\n\t\t\t\t}\n\t\t\t";
 				return new Shader(context, vs, fs);
 			};
 			Shader.newTwoColoredTextured = function (context) {
-				var vs = "\n\t\t\t\tattribute vec4 " + Shader.POSITION + ";\n\t\t\t\tattribute vec4 " + Shader.COLOR + ";\n\t\t\t\tattribute vec4 " + Shader.COLOR2 + ";\n\t\t\t\tattribute vec2 " + Shader.TEXCOORDS + ";\n\t\t\t\tuniform mat4 " + Shader.MVP_MATRIX + ";\n\t\t\t\tvarying vec4 v_light;\n\t\t\t\tvarying vec4 v_dark;\n\t\t\t\tvarying vec2 v_texCoords;\n\n\t\t\t\tvoid main () {\n\t\t\t\t\tv_light = " + Shader.COLOR + ";\n\t\t\t\t\tv_dark = " + Shader.COLOR2 + ";\n\t\t\t\t\tv_texCoords = " + Shader.TEXCOORDS + ";\n\t\t\t\t\tgl_Position = " + Shader.MVP_MATRIX + " * " + Shader.POSITION + ";\n\t\t\t\t}\n\t\t\t";
-				var fs = "\n\t\t\t\t#ifdef GL_ES\n\t\t\t\t\t#define LOWP lowp\n\t\t\t\t\tprecision mediump float;\n\t\t\t\t#else\n\t\t\t\t\t#define LOWP\n\t\t\t\t#endif\n\t\t\t\tvarying LOWP vec4 v_light;\n\t\t\t\tvarying LOWP vec4 v_dark;\n\t\t\t\tvarying vec2 v_texCoords;\n\t\t\t\tuniform sampler2D u_texture;\n\n\t\t\t\tvoid main () {\n\t\t\t\t\tvec4 texColor = texture2D(u_texture, v_texCoords);\n\t\t\t\t\tgl_FragColor.a = texColor.a * v_light.a;\n\t\t\t\t\tgl_FragColor.rgb = ((texColor.a - 1.0) * v_dark.a + 1.0 - texColor.rgb) * v_dark.rgb + texColor.rgb * v_light.rgb;\n\t\t\t\t}\n\t\t\t";
+				var vs =
+					"\n\t\t\t\tattribute vec4 " +
+					Shader.POSITION +
+					";\n\t\t\t\tattribute vec4 " +
+					Shader.COLOR +
+					";\n\t\t\t\tattribute vec4 " +
+					Shader.COLOR2 +
+					";\n\t\t\t\tattribute vec2 " +
+					Shader.TEXCOORDS +
+					";\n\t\t\t\tuniform mat4 " +
+					Shader.MVP_MATRIX +
+					";\n\t\t\t\tvarying vec4 v_light;\n\t\t\t\tvarying vec4 v_dark;\n\t\t\t\tvarying vec2 v_texCoords;\n\n\t\t\t\tvoid main () {\n\t\t\t\t\tv_light = " +
+					Shader.COLOR +
+					";\n\t\t\t\t\tv_dark = " +
+					Shader.COLOR2 +
+					";\n\t\t\t\t\tv_texCoords = " +
+					Shader.TEXCOORDS +
+					";\n\t\t\t\t\tgl_Position = " +
+					Shader.MVP_MATRIX +
+					" * " +
+					Shader.POSITION +
+					";\n\t\t\t\t}\n\t\t\t";
+				var fs =
+					"\n\t\t\t\t#ifdef GL_ES\n\t\t\t\t\t#define LOWP lowp\n\t\t\t\t\tprecision mediump float;\n\t\t\t\t#else\n\t\t\t\t\t#define LOWP\n\t\t\t\t#endif\n\t\t\t\tvarying LOWP vec4 v_light;\n\t\t\t\tvarying LOWP vec4 v_dark;\n\t\t\t\tvarying vec2 v_texCoords;\n\t\t\t\tuniform sampler2D u_texture;\n\n\t\t\t\tvoid main () {\n\t\t\t\t\tvec4 texColor = texture2D(u_texture, v_texCoords);\n\t\t\t\t\tgl_FragColor.a = texColor.a * v_light.a;\n\t\t\t\t\tgl_FragColor.rgb = ((texColor.a - 1.0) * v_dark.a + 1.0 - texColor.rgb) * v_dark.rgb + texColor.rgb * v_light.rgb;\n\t\t\t\t}\n\t\t\t";
 				return new Shader(context, vs, fs);
 			};
 			Shader.newColored = function (context) {
-				var vs = "\n\t\t\t\tattribute vec4 " + Shader.POSITION + ";\n\t\t\t\tattribute vec4 " + Shader.COLOR + ";\n\t\t\t\tuniform mat4 " + Shader.MVP_MATRIX + ";\n\t\t\t\tvarying vec4 v_color;\n\n\t\t\t\tvoid main () {\n\t\t\t\t\tv_color = " + Shader.COLOR + ";\n\t\t\t\t\tgl_Position = " + Shader.MVP_MATRIX + " * " + Shader.POSITION + ";\n\t\t\t\t}\n\t\t\t";
-				var fs = "\n\t\t\t\t#ifdef GL_ES\n\t\t\t\t\t#define LOWP lowp\n\t\t\t\t\tprecision mediump float;\n\t\t\t\t#else\n\t\t\t\t\t#define LOWP\n\t\t\t\t#endif\n\t\t\t\tvarying LOWP vec4 v_color;\n\n\t\t\t\tvoid main () {\n\t\t\t\t\tgl_FragColor = v_color;\n\t\t\t\t}\n\t\t\t";
+				var vs =
+					"\n\t\t\t\tattribute vec4 " +
+					Shader.POSITION +
+					";\n\t\t\t\tattribute vec4 " +
+					Shader.COLOR +
+					";\n\t\t\t\tuniform mat4 " +
+					Shader.MVP_MATRIX +
+					";\n\t\t\t\tvarying vec4 v_color;\n\n\t\t\t\tvoid main () {\n\t\t\t\t\tv_color = " +
+					Shader.COLOR +
+					";\n\t\t\t\t\tgl_Position = " +
+					Shader.MVP_MATRIX +
+					" * " +
+					Shader.POSITION +
+					";\n\t\t\t\t}\n\t\t\t";
+				var fs =
+					"\n\t\t\t\t#ifdef GL_ES\n\t\t\t\t\t#define LOWP lowp\n\t\t\t\t\tprecision mediump float;\n\t\t\t\t#else\n\t\t\t\t\t#define LOWP\n\t\t\t\t#endif\n\t\t\t\tvarying LOWP vec4 v_color;\n\n\t\t\t\tvoid main () {\n\t\t\t\t\tgl_FragColor = v_color;\n\t\t\t\t}\n\t\t\t";
 				return new Shader(context, vs, fs);
 			};
 			Shader.MVP_MATRIX = "u_projTrans";
@@ -9659,7 +9991,15 @@ var spine;
 								var v1 = triangles[ii] * 2,
 									v2 = triangles[ii + 1] * 2,
 									v3 = triangles[ii + 2] * 2;
-								shapes.triangle(false, vertices[v1], vertices[v1 + 1], vertices[v2], vertices[v2 + 1], vertices[v3], vertices[v3 + 1]);
+								shapes.triangle(
+									false,
+									vertices[v1],
+									vertices[v1 + 1],
+									vertices[v2],
+									vertices[v2 + 1],
+									vertices[v3],
+									vertices[v3 + 1]
+								);
 							}
 						}
 						if (this.drawMeshHull && hullLength > 0) {
@@ -9985,10 +10325,22 @@ var spine;
 						var slotBlendMode = slot.data.blendMode;
 						if (slotBlendMode != blendMode) {
 							blendMode = slotBlendMode;
-							batcher.setBlendMode(webgl.WebGLBlendModeConverter.getSourceGLBlendMode(blendMode, premultipliedAlpha), webgl.WebGLBlendModeConverter.getDestGLBlendMode(blendMode));
+							batcher.setBlendMode(
+								webgl.WebGLBlendModeConverter.getSourceGLBlendMode(blendMode, premultipliedAlpha),
+								webgl.WebGLBlendModeConverter.getDestGLBlendMode(blendMode)
+							);
 						}
 						if (clipper.isClipping()) {
-							clipper.clipTriangles(renderable.vertices, renderable.numFloats, triangles, triangles.length, uvs, finalColor, darkColor, twoColorTint);
+							clipper.clipTriangles(
+								renderable.vertices,
+								renderable.numFloats,
+								triangles,
+								triangles.length,
+								uvs,
+								finalColor,
+								darkColor,
+								twoColorTint
+							);
 							var clippedVertices = new Float32Array(clipper.clippedVertices);
 							var clippedTriangles = clipper.clippedTriangles;
 							batcher.draw(texture, clippedVertices, clippedTriangles);
@@ -10097,12 +10449,20 @@ var spine;
 			};
 			Vector3.prototype.multiply = function (matrix) {
 				var l_mat = matrix.values;
-				return this.set(this.x * l_mat[webgl.M00] + this.y * l_mat[webgl.M01] + this.z * l_mat[webgl.M02] + l_mat[webgl.M03], this.x * l_mat[webgl.M10] + this.y * l_mat[webgl.M11] + this.z * l_mat[webgl.M12] + l_mat[webgl.M13], this.x * l_mat[webgl.M20] + this.y * l_mat[webgl.M21] + this.z * l_mat[webgl.M22] + l_mat[webgl.M23]);
+				return this.set(
+					this.x * l_mat[webgl.M00] + this.y * l_mat[webgl.M01] + this.z * l_mat[webgl.M02] + l_mat[webgl.M03],
+					this.x * l_mat[webgl.M10] + this.y * l_mat[webgl.M11] + this.z * l_mat[webgl.M12] + l_mat[webgl.M13],
+					this.x * l_mat[webgl.M20] + this.y * l_mat[webgl.M21] + this.z * l_mat[webgl.M22] + l_mat[webgl.M23]
+				);
 			};
 			Vector3.prototype.project = function (matrix) {
 				var l_mat = matrix.values;
 				var l_w = 1 / (this.x * l_mat[webgl.M30] + this.y * l_mat[webgl.M31] + this.z * l_mat[webgl.M32] + l_mat[webgl.M33]);
-				return this.set((this.x * l_mat[webgl.M00] + this.y * l_mat[webgl.M01] + this.z * l_mat[webgl.M02] + l_mat[webgl.M03]) * l_w, (this.x * l_mat[webgl.M10] + this.y * l_mat[webgl.M11] + this.z * l_mat[webgl.M12] + l_mat[webgl.M13]) * l_w, (this.x * l_mat[webgl.M20] + this.y * l_mat[webgl.M21] + this.z * l_mat[webgl.M22] + l_mat[webgl.M23]) * l_w);
+				return this.set(
+					(this.x * l_mat[webgl.M00] + this.y * l_mat[webgl.M01] + this.z * l_mat[webgl.M02] + l_mat[webgl.M03]) * l_w,
+					(this.x * l_mat[webgl.M10] + this.y * l_mat[webgl.M11] + this.z * l_mat[webgl.M12] + l_mat[webgl.M13]) * l_w,
+					(this.x * l_mat[webgl.M20] + this.y * l_mat[webgl.M21] + this.z * l_mat[webgl.M22] + l_mat[webgl.M23]) * l_w
+				);
 			};
 			Vector3.prototype.dot = function (v) {
 				return this.x * v.x + this.y * v.y + this.z * v.z;

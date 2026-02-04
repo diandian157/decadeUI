@@ -114,7 +114,8 @@ export function createCodenameCharacterPlugin(lib, game, ui, get, ai, _status, a
 				// 等阶图标
 				const head = ui.create.node("img");
 				head.src = plugin.getRarityIcon(rarity);
-				head.style.cssText = "display:inline-block;width:61.6px;height:53.2px;top:-13px;position:absolute;background-color:transparent;z-index:1;margin-left:5px;";
+				head.style.cssText =
+					"display:inline-block;width:61.6px;height:53.2px;top:-13px;position:absolute;background-color:transparent;z-index:1;margin-left:5px;";
 				namestyle.appendChild(head);
 
 				// 分包

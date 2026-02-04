@@ -5,7 +5,40 @@
 import { lib, game, ui, get, ai, _status } from "noname";
 
 /** @type {string[]} 故事/活动名称列表 */
-const STORIES = ["周年", "五一", "踏青", "牛年", "开黑", "冬至", "春分", "鼠年", "盛典", "魏魂", "群魂", "蜀魂", "吴魂", "猪年", "圣诞", "国庆", "狗年", "金秋", "奇珍", "元旦", "小雪", "冬日", "招募", "梦之回廊", "虎年", "新春", "七夕", "大雪", "端午", "武将", "中秋", "庆典"];
+const STORIES = [
+	"周年",
+	"五一",
+	"踏青",
+	"牛年",
+	"开黑",
+	"冬至",
+	"春分",
+	"鼠年",
+	"盛典",
+	"魏魂",
+	"群魂",
+	"蜀魂",
+	"吴魂",
+	"猪年",
+	"圣诞",
+	"国庆",
+	"狗年",
+	"金秋",
+	"奇珍",
+	"元旦",
+	"小雪",
+	"冬日",
+	"招募",
+	"梦之回廊",
+	"虎年",
+	"新春",
+	"七夕",
+	"大雪",
+	"端午",
+	"武将",
+	"中秋",
+	"庆典",
+];
 
 /** @type {string[]} 盒子类型列表 */
 const BOX_TYPES = ["盒子", "宝盒", "礼包", "福袋", "礼盒", "庆典", "盛典"];
@@ -127,7 +160,8 @@ function applyStyles(div, div2, isStyleOn) {
 		div.style.cssText = "pointer-events:none;width:100%;height:25px;font-size:23px;z-index:6;";
 		div2.style.cssText = "pointer-events:none;background:rgba(0,0,0,0.5);width:100%;height:27px;";
 	} else {
-		div.style.cssText = "pointer-events:none;width:56%;height:35px;font-size:18px;z-index:20;background-size:100% 100%;background-repeat:no-repeat;left:50%;top:15%;transform:translateX(-50%);";
+		div.style.cssText =
+			"pointer-events:none;width:56%;height:35px;font-size:18px;z-index:20;background-size:100% 100%;background-repeat:no-repeat;left:50%;top:15%;transform:translateX(-50%);";
 		div.style.backgroundImage = `url(${lib.assetURL}extension/十周年UI/ui/assets/lbtn/uibutton/goutuo.png)`;
 		div2.style.cssText = "pointer-events:none;width:85.5%;height:35px;left:8%;line-height:35px;";
 	}

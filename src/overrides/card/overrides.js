@@ -148,7 +148,8 @@ function updateCardDisplay(cardElement, card) {
 	if (parseInt(cardnum) == cardnum) cardnum = parseInt(cardnum);
 	cardnum = get.strNumber(cardnum, true) || cardnum;
 
-	cardElement.$suitnum.$num.innerHTML = typeof cardnum == "string" ? cardnum : (cardElement.number !== 0 ? get.strNumber(cardElement.number) : false) || cardElement.number || "";
+	cardElement.$suitnum.$num.innerHTML =
+		typeof cardnum == "string" ? cardnum : (cardElement.number !== 0 ? get.strNumber(cardElement.number) : false) || cardElement.number || "";
 	cardElement.$suitnum.$suit.innerHTML = get.translation((cardElement.dataset.suit = cardElement.suit));
 
 	// 处理装备显示

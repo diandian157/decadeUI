@@ -112,7 +112,17 @@ function setupIdentityDisplay(realIdentity, player) {
 				}
 
 				let filename = handler();
-				const checked = ["cai_blue", "nongmin", "dizhu", "zhong_blue", "xizuo", "xizuo_blue", "zhushuai_blue", "qianfeng_blue", "qianfeng"].includes(filename);
+				const checked = [
+					"cai_blue",
+					"nongmin",
+					"dizhu",
+					"zhong_blue",
+					"xizuo",
+					"xizuo_blue",
+					"zhushuai_blue",
+					"qianfeng_blue",
+					"qianfeng",
+				].includes(filename);
 				if (!checked && this.parentNode.dataset.color?.[0] === "b") {
 					filename += "_blue";
 					player.classList.add("opposite-camp");
@@ -277,7 +287,9 @@ export function createPlayerElement(position, noclick) {
 	const observer = new MutationObserver(mutations => {
 		for (const m of mutations) {
 			if (m.type === "childList") {
-				const hasChange = Array.from(m.addedNodes).some(n => !n.classList?.contains("emptyequip")) || Array.from(m.removedNodes).some(n => !n.classList?.contains("emptyequip"));
+				const hasChange =
+					Array.from(m.addedNodes).some(n => !n.classList?.contains("emptyequip")) ||
+					Array.from(m.removedNodes).some(n => !n.classList?.contains("emptyequip"));
 				if (hasChange) player.$handleEquipChange();
 			}
 		}
@@ -335,7 +347,8 @@ export function createPlayerElement(position, noclick) {
 		if (!this.skills.includes(skill) && lib.translate[skill]) {
 			if (lib.config.extension_十周年UI_newDecadeStyle === "off" && lib.config.extension_十周年UI_gainSkillsVisible !== "off") {
 				const info = lib.skill[skill];
-				if (!info || info.charlotte || info.sub || (info.mark && !info.limited) || info.nopop || info.popup === false || info.equipSkill) return;
+				if (!info || info.charlotte || info.sub || (info.mark && !info.limited) || info.nopop || info.popup === false || info.equipSkill)
+					return;
 				if (info.onremove && game.me !== this.player.storage[skill]) return;
 				if (lib.config.extension_十周年UI_gainSkillsVisible === "othersOn" && this.player === game.me) return;
 				if (!info.intro) info.intro = { content: () => get.skillInfoTranslation(skill, this.player, false) };

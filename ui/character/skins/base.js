@@ -135,9 +135,21 @@ export function createBaseCharacterPlugin(lib, game, ui, get, ai, _status, app) 
 
 			// 获取千幻样式等阶
 			getQhlyLevel(name) {
-				if (lib.config["extension_千幻聆音_enable"] && typeof game.qhly_getSkinLevel === "function" && typeof game.qhly_getSkin === "function") {
+				if (
+					lib.config["extension_千幻聆音_enable"] &&
+					typeof game.qhly_getSkinLevel === "function" &&
+					typeof game.qhly_getSkin === "function"
+				) {
 					const level = game.qhly_getSkinLevel(name, game.qhly_getSkin(name), true, false);
-					const map = { xiyou: "rare", shishi: "epic", chuanshuo: "legend", putong: "common", dongtai: "legend", jueban: "unique", xianding: "restrictive" };
+					const map = {
+						xiyou: "rare",
+						shishi: "epic",
+						chuanshuo: "legend",
+						putong: "common",
+						dongtai: "legend",
+						jueban: "unique",
+						xianding: "restrictive",
+					};
 					return map[level] || "junk";
 				}
 				return "junk";
@@ -145,7 +157,11 @@ export function createBaseCharacterPlugin(lib, game, ui, get, ai, _status, app) 
 
 			// 获取千幻样式名
 			getQhlySkinTranslation(name) {
-				if (lib.config["extension_千幻聆音_enable"] && typeof game.qhly_getSkinInfo === "function" && typeof game.qhly_getSkin === "function") {
+				if (
+					lib.config["extension_千幻聆音_enable"] &&
+					typeof game.qhly_getSkinInfo === "function" &&
+					typeof game.qhly_getSkin === "function"
+				) {
 					return game.qhly_getSkinInfo(name, game.qhly_getSkin(name), null).translation || "经典形象";
 				}
 				return "经典形象";
@@ -286,7 +302,12 @@ export function createBaseCharacterPlugin(lib, game, ui, get, ai, _status, app) 
 					if (hs.length) {
 						ui.create.div(".xcaption", "其他手牌", container);
 						hs.forEach(item => {
-							const card = game.createCard(get.name(item, false), get.suit(item, false), get.number(item, false), get.nature(item, false));
+							const card = game.createCard(
+								get.name(item, false),
+								get.suit(item, false),
+								get.number(item, false),
+								get.nature(item, false)
+							);
 							card.style.zoom = "0.6";
 							container.appendChild(card);
 						});
@@ -343,7 +364,11 @@ export function createBaseCharacterPlugin(lib, game, ui, get, ai, _status, app) 
 					const skillTrans = lib.translate[skillName] || skillName;
 					const equipTrans = lib.translate[equipName] || equipName;
 					const equipInfo = lib.translate[equipName + "_info"] || "";
-					ui.create.div(".xskill.equip-skill", `<div data-color>【${skillTrans}】视为装备【${equipTrans}】</div><div>${equipInfo}</div>`, container);
+					ui.create.div(
+						".xskill.equip-skill",
+						`<div data-color>【${skillTrans}】视为装备【${equipTrans}】</div><div>${equipInfo}</div>`,
+						container
+					);
 				});
 			}
 		},
@@ -373,36 +398,58 @@ export function createBaseCharacterPlugin(lib, game, ui, get, ai, _status, app) 
 			// 禁用技能
 			if (player.forbiddenSkills[name]) {
 				const conflict = player.forbiddenSkills[name].length ? `（与${get.translation(player.forbiddenSkills[name])}冲突）` : "（双将禁用）";
-				ui.create.div(".xskill", `<div data-color><span style="opacity:0.5">${skillName}</span></div><div><span style="opacity:0.5">${conflict}${skillInfo}</span></div>`, container);
+				ui.create.div(
+					".xskill",
+					`<div data-color><span style="opacity:0.5">${skillName}</span></div><div><span style="opacity:0.5">${conflict}${skillInfo}</span></div>`,
+					container
+				);
 				return;
 			}
 
 			// 隐藏技能
 			if (player.hiddenSkills.includes(name)) {
 				if (lib.skill[name].preHidden && get.mode() === "guozhan") {
-					const el = ui.create.div(".xskill", `<div data-color><span style="opacity:0.5">${skillName}</span></div><div><span style="opacity:0.5">${skillInfo}</span><br><div class="underlinenode on gray" style="position:relative;padding-left:0;padding-top:7px">预亮技能</div></div>`, container);
+					const el = ui.create.div(
+						".xskill",
+						`<div data-color><span style="opacity:0.5">${skillName}</span></div><div><span style="opacity:0.5">${skillInfo}</span><br><div class="underlinenode on gray" style="position:relative;padding-left:0;padding-top:7px">预亮技能</div></div>`,
+						container
+					);
 					const node = el.querySelector(".underlinenode");
 					if (_status.prehidden_skills.includes(name)) node.classList.remove("on");
 					node.link = name;
 					node.listen(ui.click.hiddenskill);
 				} else {
-					ui.create.div(".xskill", `<div data-color><span style="opacity:0.5">${skillName}</span></div><div><span style="opacity:0.5">${skillInfo}</span></div>`, container);
+					ui.create.div(
+						".xskill",
+						`<div data-color><span style="opacity:0.5">${skillName}</span></div><div><span style="opacity:0.5">${skillInfo}</span></div>`,
+						container
+					);
 				}
 				return;
 			}
 
 			// 觉醒/失效技能
 			if (!player.getSkills().includes(name) || player.awakenedSkills.includes(name)) {
-				ui.create.div(".xskill", `<div data-color><span style="opacity:0.5">${skillName}</span></div><div><span style="opacity:0.5">${skillInfo}</span></div>`, container);
+				ui.create.div(
+					".xskill",
+					`<div data-color><span style="opacity:0.5">${skillName}</span></div><div><span style="opacity:0.5">${skillInfo}</span></div>`,
+					container
+				);
 				return;
 			}
 
 			// 自动发动技能
 			if (lib.skill[name].frequent || lib.skill[name].subfrequent) {
-				const el = ui.create.div(".xskill", `<div data-color>${skillName}</div><div>${skillInfo}<br><div class="underlinenode on gray" style="position:relative;padding-left:0;padding-top:7px">自动发动</div></div>`, container);
+				const el = ui.create.div(
+					".xskill",
+					`<div data-color>${skillName}</div><div>${skillInfo}<br><div class="underlinenode on gray" style="position:relative;padding-left:0;padding-top:7px">自动发动</div></div>`,
+					container
+				);
 				const node = el.querySelector(".underlinenode");
 
-				const shouldDisable = (lib.skill[name].frequent && lib.config.autoskilllist.includes(name)) || lib.skill[name].subfrequent?.some(sub => lib.config.autoskilllist.includes(name + "_" + sub));
+				const shouldDisable =
+					(lib.skill[name].frequent && lib.config.autoskilllist.includes(name)) ||
+					lib.skill[name].subfrequent?.some(sub => lib.config.autoskilllist.includes(name + "_" + sub));
 				if (shouldDisable) node.classList.remove("on");
 
 				node.link = name;
@@ -412,7 +459,11 @@ export function createBaseCharacterPlugin(lib, game, ui, get, ai, _status, app) 
 
 			// 可点击技能
 			if (lib.skill[name].clickable && player.isIn() && player.isUnderControl(true) && player === game.me) {
-				const el = ui.create.div(".xskill", `<div data-color>${skillName}</div><div>${skillInfo}<br><div class="menubutton skillbutton" style="position:relative;margin-top:5px;color:rgba(255,203,0,1);">点击发动</div></div>`, container);
+				const el = ui.create.div(
+					".xskill",
+					`<div data-color>${skillName}</div><div>${skillInfo}<br><div class="menubutton skillbutton" style="position:relative;margin-top:5px;color:rgba(255,203,0,1);">点击发动</div></div>`,
+					container
+				);
 				const btn = el.querySelector(".skillbutton");
 
 				if (!_status.gameStarted || (lib.skill[name].clickableFilter && !lib.skill[name].clickableFilter(player))) {

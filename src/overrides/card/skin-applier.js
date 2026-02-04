@@ -5,7 +5,19 @@
  */
 import { lib, get } from "noname";
 import { cardSkinMeta } from "../../config/utils.js";
-import { getCardResources, getSkinCache, isSkinPreloaded, getFallbackKey, getFallbackSkinUrl, buildSkinUrl, generateSkinFilename, getCachedSkin, createSkinAsset, loadSkinImage, loadFallbackSkin } from "./skin-loader.js";
+import {
+	getCardResources,
+	getSkinCache,
+	isSkinPreloaded,
+	getFallbackKey,
+	getFallbackSkinUrl,
+	buildSkinUrl,
+	generateSkinFilename,
+	getCachedSkin,
+	createSkinAsset,
+	loadSkinImage,
+	loadFallbackSkin,
+} from "./skin-loader.js";
 
 /**
  * 获取当前皮肤配置

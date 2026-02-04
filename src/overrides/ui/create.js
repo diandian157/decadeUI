@@ -325,7 +325,8 @@ function createOLSearcher(dialog) {
 	const buttons = content.childNodes[1];
 
 	const div = ui.create.div("extension-OL-system");
-	div.style.cssText = "display: flex; justify-content: center; align-items: center; gap: 6px; height: 35px; width: 100%; padding: 0 5px; top: -2px; left: 0; font-size: 18px; font-family: xinwei, sans-serif; box-sizing: border-box;";
+	div.style.cssText =
+		"display: flex; justify-content: center; align-items: center; gap: 6px; height: 35px; width: 100%; padding: 0 5px; top: -2px; left: 0; font-size: 18px; font-family: xinwei, sans-serif; box-sizing: border-box;";
 	div.innerHTML = `
 		<label style="font-size:20px;">搜索：</label>
 		<select style="height:26px; min-width:150px; font-size:15px; padding:1px 4px; border:1px solid #aaa; border-radius:4px; outline:none; flex-shrink:0;">

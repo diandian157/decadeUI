@@ -91,7 +91,65 @@ export function createShoushaCharacterPlugin(lib, game, ui, get, ai, _status, ap
 			"敢于劈瓜的关羽",
 			"暮暮子",
 		],
-		TITLES: ["幸运爆棚", "可可爱爱", "蒸蒸日上", "司马小渔", "当街弑父", "霹雳弦惊", "玄铁赛季", "大败而归", "好谋无断", "当机立断", "侠肝义胆", "无敌之人", "颇有家资", "韩旭的马", "司马长衫", "野猪突击", "杀杀杀杀", "俺也一样", "一拳兀突骨", "开局送一波", "丈八二桃把营连", "没事儿我掉什么血", "痛饮庆功酒", "男上加男", "马到成功", "这么说你很勇哦", "高风亮节", "白银赛季", "攻城拔寨", "建功立业", "很有智慧", "古之恶来", "猛虎啸林", "龙泉鱼渊", "兵起玄黄", "勇气参与奖", "敢不敢比划比划？", "是俺杀哒，都是俺杀哒！", "阿弥陀佛", "拦住他就要歪嘴了", "吃颗桃桃好遗计", "花姑娘的干活", "如履薄冰", "龙虎英雄傲苍穹", "无法也无天", "西风不识相", "你过江我也过江", "中门对狙", "好色之徒", "建安风骨", "高门雅士", "以一敌千", "恣意狂纵", "零陵上将军", "泥菩萨过江", "变化万千", "杰哥带你登dua郎"],
+		TITLES: [
+			"幸运爆棚",
+			"可可爱爱",
+			"蒸蒸日上",
+			"司马小渔",
+			"当街弑父",
+			"霹雳弦惊",
+			"玄铁赛季",
+			"大败而归",
+			"好谋无断",
+			"当机立断",
+			"侠肝义胆",
+			"无敌之人",
+			"颇有家资",
+			"韩旭的马",
+			"司马长衫",
+			"野猪突击",
+			"杀杀杀杀",
+			"俺也一样",
+			"一拳兀突骨",
+			"开局送一波",
+			"丈八二桃把营连",
+			"没事儿我掉什么血",
+			"痛饮庆功酒",
+			"男上加男",
+			"马到成功",
+			"这么说你很勇哦",
+			"高风亮节",
+			"白银赛季",
+			"攻城拔寨",
+			"建功立业",
+			"很有智慧",
+			"古之恶来",
+			"猛虎啸林",
+			"龙泉鱼渊",
+			"兵起玄黄",
+			"勇气参与奖",
+			"敢不敢比划比划？",
+			"是俺杀哒，都是俺杀哒！",
+			"阿弥陀佛",
+			"拦住他就要歪嘴了",
+			"吃颗桃桃好遗计",
+			"花姑娘的干活",
+			"如履薄冰",
+			"龙虎英雄傲苍穹",
+			"无法也无天",
+			"西风不识相",
+			"你过江我也过江",
+			"中门对狙",
+			"好色之徒",
+			"建安风骨",
+			"高门雅士",
+			"以一敌千",
+			"恣意狂纵",
+			"零陵上将军",
+			"泥菩萨过江",
+			"变化万千",
+			"杰哥带你登dua郎",
+		],
 	};
 
 	return {
@@ -336,7 +394,11 @@ export function createShoushaCharacterPlugin(lib, game, ui, get, ai, _status, ap
 			const xingbietu = ["pubui_icon_male", "pubui_icon_female"];
 			xingbie.setBackgroundImage(`${CONSTANTS.IMAGE_PATH}${xingbietu.randomGet()}.png`);
 
-			ui.create.div(".nameX", minixingxiang, player === game.me ? lib.config.connect_nickname : get.translation(CONSTANTS.NICKNAMES.randomGet(1)));
+			ui.create.div(
+				".nameX",
+				minixingxiang,
+				player === game.me ? lib.config.connect_nickname : get.translation(CONSTANTS.NICKNAMES.randomGet(1))
+			);
 			ui.create.div(".wanjiachenghao", bigdialog, get.translation(CONSTANTS.TITLES.randomGet(1)));
 
 			minixingxiang.setBackgroundImage(`${CONSTANTS.IMAGE_PATH}xingxiang${Math.floor(Math.random() * 6)}.png`);
@@ -392,7 +454,15 @@ export function createShoushaCharacterPlugin(lib, game, ui, get, ai, _status, ap
 			lib.setScroll(rightPane.firstChild);
 
 			let oSkills = player.getSkills(null, false, false).slice(0);
-			oSkills = oSkills.filter(skill => lib.skill[skill] && skill !== "jiu" && !lib.skill[skill].nopop && !lib.skill[skill].equipSkill && lib.translate[skill + "_info"] && lib.translate[skill + "_info"] !== "");
+			oSkills = oSkills.filter(
+				skill =>
+					lib.skill[skill] &&
+					skill !== "jiu" &&
+					!lib.skill[skill].nopop &&
+					!lib.skill[skill].equipSkill &&
+					lib.translate[skill + "_info"] &&
+					lib.translate[skill + "_info"] !== ""
+			);
 			if (player === game.me && player.hiddenSkills.length) oSkills.addArray(player.hiddenSkills);
 
 			const allShown = player.isUnderControl() || (!game.observe && game.me && game.me.hasSkillTag("viewHandcard", null, player, true));
@@ -412,7 +482,12 @@ export function createShoushaCharacterPlugin(lib, game, ui, get, ai, _status, ap
 					if (hs.length) {
 						ui.create.div(".xcaption", "其他手牌", rightPane.firstChild);
 						hs.forEach(item => {
-							const card = game.createCard(get.name(item, false), get.suit(item, false), get.number(item, false), get.nature(item, false));
+							const card = game.createCard(
+								get.name(item, false),
+								get.suit(item, false),
+								get.number(item, false),
+								get.nature(item, false)
+							);
 							card.style.zoom = "0.6";
 							rightPane.firstChild.appendChild(card);
 						});
@@ -451,29 +526,63 @@ export function createShoushaCharacterPlugin(lib, game, ui, get, ai, _status, ap
 					const skillInfo = get.skillInfoTranslation(name, player, false);
 
 					if (player.forbiddenSkills[name]) {
-						const conflict = player.forbiddenSkills[name].length ? `（与${get.translation(player.forbiddenSkills[name])}冲突）` : "（双将禁用）";
-						ui.create.div(".xskill", `<div data-color><span style="opacity:0.5">${skillName}</span></div><div><span style="opacity:0.5">${conflict}${skillInfo}</span></div>`, rightPane.firstChild);
+						const conflict = player.forbiddenSkills[name].length
+							? `（与${get.translation(player.forbiddenSkills[name])}冲突）`
+							: "（双将禁用）";
+						ui.create.div(
+							".xskill",
+							`<div data-color><span style="opacity:0.5">${skillName}</span></div><div><span style="opacity:0.5">${conflict}${skillInfo}</span></div>`,
+							rightPane.firstChild
+						);
 					} else if (player.hiddenSkills.includes(name)) {
 						if (lib.skill[name].preHidden && get.mode() === "guozhan") {
-							const id = ui.create.div(".xskill", transparentIcon + `<div data-color><span style="opacity:0.5">${skillName}</span></div><div><span style="opacity:0.5">${skillInfo}</span><br><div class="underlinenode on gray" style="position:relative;padding-left:0;padding-top:7px">预亮技能</div></div>`, rightPane.firstChild);
+							const id = ui.create.div(
+								".xskill",
+								transparentIcon +
+									`<div data-color><span style="opacity:0.5">${skillName}</span></div><div><span style="opacity:0.5">${skillInfo}</span><br><div class="underlinenode on gray" style="position:relative;padding-left:0;padding-top:7px">预亮技能</div></div>`,
+								rightPane.firstChild
+							);
 							const underlinenode = id.querySelector(".underlinenode");
 							if (_status.prehidden_skills.includes(name)) underlinenode.classList.remove("on");
 							underlinenode.link = name;
 							underlinenode.listen(ui.click.hiddenskill);
 						} else {
-							ui.create.div(".xskill", transparentIcon + `<div data-color><span style="opacity:0.5">${skillName}</span></div><div><span style="opacity:0.5">${skillInfo}</span></div>`, rightPane.firstChild);
+							ui.create.div(
+								".xskill",
+								transparentIcon +
+									`<div data-color><span style="opacity:0.5">${skillName}</span></div><div><span style="opacity:0.5">${skillInfo}</span></div>`,
+								rightPane.firstChild
+							);
 						}
 					} else if (!player.getSkills().includes(name) || player.awakenedSkills.includes(name)) {
-						ui.create.div(".xskill", transparentIcon + `<div data-color><span style="opacity:0.5">${skillName}</span></div><div><span style="opacity:0.5">${skillInfo}</span></div>`, rightPane.firstChild);
+						ui.create.div(
+							".xskill",
+							transparentIcon +
+								`<div data-color><span style="opacity:0.5">${skillName}</span></div><div><span style="opacity:0.5">${skillInfo}</span></div>`,
+							rightPane.firstChild
+						);
 					} else if (lib.skill[name].frequent || lib.skill[name].subfrequent) {
-						const id = ui.create.div(".xskill", baseIcon + `<div data-color>${skillName}</div><div>${skillInfo}<br><div class="underlinenode on gray" style="position:relative;padding-left:0;padding-top:7px">自动发动</div></div>`, rightPane.firstChild);
+						const id = ui.create.div(
+							".xskill",
+							baseIcon +
+								`<div data-color>${skillName}</div><div>${skillInfo}<br><div class="underlinenode on gray" style="position:relative;padding-left:0;padding-top:7px">自动发动</div></div>`,
+							rightPane.firstChild
+						);
 						const underlinenode = id.querySelector(".underlinenode");
-						const shouldDisable = (lib.skill[name].frequent && lib.config.autoskilllist.includes(name)) || (lib.skill[name].subfrequent && lib.skill[name].subfrequent.some(sub => lib.config.autoskilllist.includes(name + "_" + sub)));
+						const shouldDisable =
+							(lib.skill[name].frequent && lib.config.autoskilllist.includes(name)) ||
+							(lib.skill[name].subfrequent &&
+								lib.skill[name].subfrequent.some(sub => lib.config.autoskilllist.includes(name + "_" + sub)));
 						if (shouldDisable) underlinenode.classList.remove("on");
 						underlinenode.link = name;
 						underlinenode.listen(ui.click.autoskill2);
 					} else if (lib.skill[name].clickable && player.isIn() && player.isUnderControl(true) && player === game.me) {
-						const id = ui.create.div(".xskill", baseIcon + `<div data-color>${skillName}</div><div>${skillInfo}<br><div class="menubutton skillbutton" style="position:relative;margin-top:5px;color: rgba(255, 203, 0, 1);">点击发动</div></div>`, rightPane.firstChild);
+						const id = ui.create.div(
+							".xskill",
+							baseIcon +
+								`<div data-color>${skillName}</div><div>${skillInfo}<br><div class="menubutton skillbutton" style="position:relative;margin-top:5px;color: rgba(255, 203, 0, 1);">点击发动</div></div>`,
+							rightPane.firstChild
+						);
 						const intronode = id.querySelector(".skillbutton");
 						if (!_status.gameStarted || (lib.skill[name].clickableFilter && !lib.skill[name].clickableFilter(player))) {
 							intronode.classList.add("disabled");
@@ -531,7 +640,11 @@ export function createShoushaCharacterPlugin(lib, game, ui, get, ai, _status, ap
 					const skillTrans = lib.translate[skillName] || skillName;
 					const equipTrans = lib.translate[equipName] || equipName;
 					const equipInfo = lib.translate[equipName + "_info"] || "";
-					ui.create.div(".xskill", `<div data-color>【${skillTrans}】视为装备【${equipTrans}】</div><div>${equipInfo}</div>`, rightPane.firstChild);
+					ui.create.div(
+						".xskill",
+						`<div data-color>【${skillTrans}】视为装备【${equipTrans}】</div><div>${equipInfo}</div>`,
+						rightPane.firstChild
+					);
 				});
 			}
 
@@ -542,7 +655,8 @@ export function createShoushaCharacterPlugin(lib, game, ui, get, ai, _status, ap
 				judges.forEach(card => {
 					const cards = card.cards;
 					let str = [get.translation(card), get.translation(card.name + "_info")];
-					if ((Array.isArray(cards) && cards.length && !lib.card[card]?.blankCard) || player.isUnderControl(true)) str[0] += `（${get.translation(cards)}）`;
+					if ((Array.isArray(cards) && cards.length && !lib.card[card]?.blankCard) || player.isUnderControl(true))
+						str[0] += `（${get.translation(cards)}）`;
 					ui.create.div(".xskill", `<div data-color>${str[0]}</div><div>${str[1]}</div>`, rightPane.firstChild);
 				});
 			}

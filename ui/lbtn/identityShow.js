@@ -121,7 +121,8 @@ export function updateIdentityShow() {
 	str += `<br>${game.me?.identity ? (lib.translate[game.me.identity + "_win_option"] ?? "") : ""}`;
 
 	const style1 = "font-family:shousha;font-size:17px;font-weight:500;text-align:right;line-height:20px;color:#C1AD92;text-shadow:none;";
-	const style2 = "font-family:shousha;font-size:17px;font-weight:500;text-align:right;line-height:20px;color:#2D241B;-webkit-text-stroke:2.7px #322B20;text-shadow:none;";
+	const style2 =
+		"font-family:shousha;font-size:17px;font-weight:500;text-align:right;line-height:20px;color:#2D241B;-webkit-text-stroke:2.7px #322B20;text-shadow:none;";
 
 	show.innerHTML = `<span style="${style1}">${str}</span>`;
 	showx.innerHTML = `<span style="${style2}">${str}</span>`;

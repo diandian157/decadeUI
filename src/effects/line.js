@@ -31,7 +31,14 @@ export function drawLine(dots) {
 			const tail = Math.max(0, this.tail);
 			const lerp = decadeUI.get.lerp;
 
-			e.drawLine(lerp(source.x, target.x, tail), lerp(source.y, target.y, tail), lerp(source.x, target.x, this.head), lerp(source.y, target.y, this.head), CONFIG.LINE_COLOR, CONFIG.LINE_WIDTH);
+			e.drawLine(
+				lerp(source.x, target.x, tail),
+				lerp(source.y, target.y, tail),
+				lerp(source.x, target.x, this.head),
+				lerp(source.y, target.y, this.head),
+				CONFIG.LINE_COLOR,
+				CONFIG.LINE_WIDTH
+			);
 			return false;
 		},
 		true,

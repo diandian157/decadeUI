@@ -4,7 +4,20 @@
  * @module config/definitions/card
  */
 import { createCollapseTitle, createCollapseEnd, cardSkinPresets } from "../utils.js";
-import { onCardGhostEffectClick, onAutoSelectClick, onAutoSelectUpdate, onHandTipHeightBlur, onHandTipHeightUpdate, onCardScaleBlur, onDiscardScaleBlur, onCardPrettifyClick, onCardkmhClick, onCardkmhUpdate, onChupaizhishiUpdate, onHandFoldMinBlur } from "../handlers/card-handlers.js";
+import {
+	onCardGhostEffectClick,
+	onAutoSelectClick,
+	onAutoSelectUpdate,
+	onHandTipHeightBlur,
+	onHandTipHeightUpdate,
+	onCardScaleBlur,
+	onDiscardScaleBlur,
+	onCardPrettifyClick,
+	onCardkmhClick,
+	onCardkmhUpdate,
+	onChupaizhishiUpdate,
+	onHandFoldMinBlur,
+} from "../handlers/card-handlers.js";
 
 /**
  * 卡牌相关折叠标题

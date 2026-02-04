@@ -261,7 +261,13 @@ export function playerUpdateShowCards() {
 		return;
 	}
 
-	const cards = player.getCards("h", c => get.is.shownCard(c) || (typeof game.me !== "undefined" && player.isUnderControl(true)) || (game.me && game.me.hasSkillTag("viewHandcard", null, player, true)));
+	const cards = player.getCards(
+		"h",
+		c =>
+			get.is.shownCard(c) ||
+			(typeof game.me !== "undefined" && player.isUnderControl(true)) ||
+			(game.me && game.me.hasSkillTag("viewHandcard", null, player, true))
+	);
 
 	if (!cards.length) {
 		player.node.showCards.hide();

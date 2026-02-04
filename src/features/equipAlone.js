@@ -104,7 +104,9 @@ function showSelector(skills) {
 
 	const eventType = lib.config.touchscreen ? "touchend" : "click";
 	for (const skill of skills) {
-		const item = dialog.add(`<div class="popup text pointerdiv" style="width:calc(100% - 10px);display:inline-block">${get.skillTranslation(skill, game.me, true)}</div>`);
+		const item = dialog.add(
+			`<div class="popup text pointerdiv" style="width:calc(100% - 10px);display:inline-block">${get.skillTranslation(skill, game.me, true)}</div>`
+		);
 		item.firstChild.link = skill;
 		item.firstChild.addEventListener(eventType, function (ev) {
 			ev.stopPropagation();

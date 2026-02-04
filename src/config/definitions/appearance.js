@@ -4,7 +4,19 @@
  * @module config/definitions/appearance
  */
 import { createCollapseTitle, createCollapseEnd } from "../utils.js";
-import { onExtensionToggleClick, onExtensionToggleUpdate, onNewDecadeStyleClick, onNewDecadeStyleUpdate, onOutcropSkinClick, onOutcropSkinUpdate, onBorderLevelUpdate, onAloneEquipUpdate, onMeanPrettifyClick, onDynamicSkinClick, onDynamicSkinOutcropUpdate } from "../handlers/appearance-handlers.js";
+import {
+	onExtensionToggleClick,
+	onExtensionToggleUpdate,
+	onNewDecadeStyleClick,
+	onNewDecadeStyleUpdate,
+	onOutcropSkinClick,
+	onOutcropSkinUpdate,
+	onBorderLevelUpdate,
+	onAloneEquipUpdate,
+	onMeanPrettifyClick,
+	onDynamicSkinClick,
+	onDynamicSkinOutcropUpdate,
+} from "../handlers/appearance-handlers.js";
 
 /**
  * 扩展开关配置

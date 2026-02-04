@@ -213,7 +213,10 @@ export function setupEquipCopy() {
 	lib.hooks.uncheckBegin.add(async (event, args) => {
 		if (lib.config["extension_十周年UI_aloneEquip"]) return;
 
-		const shouldCleanup = args.includes("card") && event.copyCards && (event.result || (["chooseToUse", "chooseToRespond"].includes(event.name) && !event.skill && !event.result));
+		const shouldCleanup =
+			args.includes("card") &&
+			event.copyCards &&
+			(event.result || (["chooseToUse", "chooseToRespond"].includes(event.name) && !event.skill && !event.result));
 		if (shouldCleanup) cleanup(event, event.player);
 	});
 }

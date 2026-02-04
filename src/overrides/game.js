@@ -139,7 +139,15 @@ export function gameLogv(player, card, targets, event, forced, logvid) {
 	const node = ui.create.div(".hidden");
 	node.node = {};
 	logvid = logvid || get.id();
-	game.broadcast((player, card, targets, event, forced, logvid) => game.logv(player, card, targets, event, forced, logvid), player, card, targets, event, forced, logvid);
+	game.broadcast(
+		(player, card, targets, event, forced, logvid) => game.logv(player, card, targets, event, forced, logvid),
+		player,
+		card,
+		targets,
+		event,
+		forced,
+		logvid
+	);
 	if (typeof player == "string") {
 		const childNode = Array.from(ui.historybar.childNodes).find(value => value.logvid == player);
 		if (childNode) childNode.added.push(card);

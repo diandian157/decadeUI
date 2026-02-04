@@ -338,13 +338,15 @@ export function initChatSystem(lib, game, ui, get) {
 		window.chatBg = ui.create.div("hidden");
 		window.chatBg.classList.add("popped", "static");
 		window.chatBg.show = true;
-		window.chatBg.style.cssText = "display:block;--w:450px;--h:calc(var(--w)*300/900);width:var(--w);height:var(--h);position:fixed;left:30%;bottom:10%;opacity:1;background-size:100% 100%;background-color:transparent;z-index:99;transition:all 0.5s;";
+		window.chatBg.style.cssText =
+			"display:block;--w:450px;--h:calc(var(--w)*300/900);width:var(--w);height:var(--h);position:fixed;left:30%;bottom:10%;opacity:1;background-size:100% 100%;background-color:transparent;z-index:99;transition:all 0.5s;";
 		window.chatBg.setBackgroundImage(`${chatAssetPath}chat.png`);
 		ui.window.appendChild(window.chatBg);
 
 		// 互动框
 		window.hudongkuang = ui.create.div("hidden");
-		window.hudongkuang.style.cssText = "display:block;--w:315px;--h:calc(var(--w)*135/142);width:var(--w);height:var(--h);left:-280px;bottom:-55px;transition:none;background-size:100% 100%;pointer-events:none;";
+		window.hudongkuang.style.cssText =
+			"display:block;--w:315px;--h:calc(var(--w)*135/142);width:var(--w);height:var(--h);left:-280px;bottom:-55px;transition:none;background-size:100% 100%;pointer-events:none;";
 		window.hudongkuang.setBackgroundImage(`${chatAssetPath}hudong.png`);
 		window.chatBg.appendChild(window.hudongkuang);
 
@@ -363,7 +365,16 @@ export function initChatSystem(lib, game, ui, get) {
 			}
 
 			window.dialog_lifesay = createDialogBase({
-				styles: { height: "300px", width: "600px", left: "-600px", top: "calc(35% - 100px)", transition: "all 1s", opacity: "1", borderRadius: "8px", backgroundSize: "100% 100%" },
+				styles: {
+					height: "300px",
+					width: "600px",
+					left: "-600px",
+					top: "calc(35% - 100px)",
+					transition: "all 1s",
+					opacity: "1",
+					borderRadius: "8px",
+					backgroundSize: "100% 100%",
+				},
 				backgroundImage: `${chatAssetPath}saydiv.png`,
 				zIndex: 999999999,
 				boxShadow: "none",
@@ -430,7 +441,8 @@ export function initChatSystem(lib, game, ui, get) {
 		};
 
 		window.chatButton1 = ui.create.div("hidden", "", game.open_lifesay);
-		window.chatButton1.style.cssText = "display:block;--w:75px;--h:calc(var(--w)*82/98);width:var(--w);height:var(--h);left:30px;bottom:15px;transition:none;background-size:100% 100%";
+		window.chatButton1.style.cssText =
+			"display:block;--w:75px;--h:calc(var(--w)*82/98);width:var(--w);height:var(--h);left:30px;bottom:15px;transition:none;background-size:100% 100%";
 		window.chatButton1.setBackgroundImage(`${chatAssetPath}lifesay.png`);
 		lib.setScroll(window.chatButton1);
 		window.chatBg.appendChild(window.chatButton1);
@@ -450,7 +462,8 @@ export function initChatSystem(lib, game, ui, get) {
 
 		// 记录按钮
 		window.chatButton3 = ui.create.div("hidden", "", game.showChatWord);
-		window.chatButton3.style.cssText = "display:block;--w:75px;--h:calc(var(--w)*82/98);width:var(--w);height:var(--h);left:210px;bottom:15px;transition:none;background-size:100% 100%";
+		window.chatButton3.style.cssText =
+			"display:block;--w:75px;--h:calc(var(--w)*82/98);width:var(--w);height:var(--h);left:210px;bottom:15px;transition:none;background-size:100% 100%";
 		window.chatButton3.setBackgroundImage(`${chatAssetPath}jilu.png`);
 		lib.setScroll(window.chatButton3);
 		window.chatBg.appendChild(window.chatButton3);
@@ -572,12 +585,14 @@ function createThrowItemElement(config, chatAssetPath, game, ui, lib) {
 	};
 
 	window[name] = ui.create.div("hidden", "", game[`open_${name}`]);
-	window[name].style.cssText = `display:block;--w:63px;--h:calc(var(--w)*50/50);width:var(--w);height:var(--h);left:${left};bottom:${bottom};transition:none;background-size:100% 100%`;
+	window[name].style.cssText =
+		`display:block;--w:63px;--h:calc(var(--w)*50/50);width:var(--w);height:var(--h);left:${left};bottom:${bottom};transition:none;background-size:100% 100%`;
 	window[name].setBackgroundImage(`${chatAssetPath}${image}.png`);
 
 	const labelDiv = document.createElement("div");
 	labelDiv.textContent = label;
-	labelDiv.style.cssText = "position:absolute;bottom:1px;left:0;right:0;text-align:center;color:rgba(255,220,0,0.7);font-size:12px;font-family:shousha;";
+	labelDiv.style.cssText =
+		"position:absolute;bottom:1px;left:0;right:0;text-align:center;color:rgba(255,220,0,0.7);font-size:12px;font-family:shousha;";
 	window[name].appendChild(labelDiv);
 	window[name].onclick = () => {
 		window[name].thrownn = true;
@@ -602,11 +617,13 @@ function createXuwuElement(chatAssetPath, game, ui, lib) {
 	};
 
 	window.xuwu = ui.create.div("hidden", "", game.open_xuwu);
-	window.xuwu.style.cssText = "display:block;--w:63px;--h:calc(var(--w)*50/50);width:var(--w);height:var(--h);left:-80px;bottom:13px;transition:none;background-size:100% 100%";
+	window.xuwu.style.cssText =
+		"display:block;--w:63px;--h:calc(var(--w)*50/50);width:var(--w);height:var(--h);left:-80px;bottom:13px;transition:none;background-size:100% 100%";
 	window.xuwu.setBackgroundImage(`${chatAssetPath}xuwu.png`);
 	const xuwuLabel = document.createElement("div");
 	xuwuLabel.textContent = "鸡蛋风暴";
-	xuwuLabel.style.cssText = "position:absolute;bottom:1px;left:0;right:0;text-align:center;color:rgba(255,220,0,0.7);font-size:12px;font-family:shousha;";
+	xuwuLabel.style.cssText =
+		"position:absolute;bottom:1px;left:0;right:0;text-align:center;color:rgba(255,220,0,0.7);font-size:12px;font-family:shousha;";
 	window.xuwu.appendChild(xuwuLabel);
 	window.xuwu.onclick = () => {
 		window.xuwu.thrownn = true;
@@ -619,13 +636,15 @@ function createXuwuElement(chatAssetPath, game, ui, lib) {
 // 创建菜篮子元素
 function createCailanziElement(chatAssetPath, ui) {
 	window.cailanzi = ui.create.div("hidden");
-	window.cailanzi.style.cssText = "display:block;--w:100px;--h:calc(var(--w)*59/150);width:var(--w);height:var(--h);left:-230px;bottom:225px;transition:none;background-size:100% 100%";
+	window.cailanzi.style.cssText =
+		"display:block;--w:100px;--h:calc(var(--w)*59/150);width:var(--w);height:var(--h);left:-230px;bottom:225px;transition:none;background-size:100% 100%";
 	window.cailanzi.setBackgroundImage(`${chatAssetPath}cailanzi.png`);
 	window.chatBg.appendChild(window.cailanzi);
 
 	window.shuliang = ui.create.node("div");
 	window.shuliang.innerText = Math.floor(Math.random() * (999 - 100 + 1) + 100);
-	window.shuliang.style.cssText = "display:block;left:-180px;bottom:235px;font-family:shousha;color:#97856a;font-weight:900;text-shadow:none;transition:none;background-size:100% 100%";
+	window.shuliang.style.cssText =
+		"display:block;left:-180px;bottom:235px;font-family:shousha;color:#97856a;font-weight:900;text-shadow:none;transition:none;background-size:100% 100%";
 	window.chatBg.appendChild(window.shuliang);
 }
 
@@ -645,7 +664,16 @@ function createEmojiButton(chatAssetPath, EMOTION_SIZE, game, ui, lib) {
 		}
 
 		window.dialog_emoji = createDialogBase({
-			styles: { height: "330px", width: "600px", left: "calc(50% - 300px)", top: "100%", transition: "all 1s", opacity: "1", borderRadius: "8px", backgroundSize: "100% 100%" },
+			styles: {
+				height: "330px",
+				width: "600px",
+				left: "calc(50% - 300px)",
+				top: "100%",
+				transition: "all 1s",
+				opacity: "1",
+				borderRadius: "8px",
+				backgroundSize: "100% 100%",
+			},
 			backgroundImage: `${chatAssetPath}saydiv.png`,
 			zIndex: 999999999,
 			boxShadow: "none",
@@ -680,7 +708,8 @@ function createEmojiButton(chatAssetPath, EMOTION_SIZE, game, ui, lib) {
 								el.style.display = el.dataset.pack === this.packName ? "" : "none";
 							});
 						});
-						packDiv.style.cssText = "height:70px;width:70px;margin:0 5px 5px 0;display:inline-block;left:15px;top:0px;position:relative;background-size:100% 100%;";
+						packDiv.style.cssText =
+							"height:70px;width:70px;margin:0 5px 5px 0;display:inline-block;left:15px;top:0px;position:relative;background-size:100% 100%;";
 						packDiv.packName = pack;
 						packDiv.setBackgroundImage(`image/emotion/${pack}/1.gif`);
 						window[`dialog_emojiPack_${pack}`] = packDiv;
@@ -703,7 +732,8 @@ function createEmojiButton(chatAssetPath, EMOTION_SIZE, game, ui, lib) {
 										closeEmojiDialog();
 									});
 									emotionDiv.className = "dialog_emojiContent";
-									emotionDiv.style.cssText = "height:70px;width:70px;margin:0 5px 5px 0;display:inline-block;left:15px;top:0px;position:relative;background-size:100% 100%;display:none;";
+									emotionDiv.style.cssText =
+										"height:70px;width:70px;margin:0 5px 5px 0;display:inline-block;left:15px;top:0px;position:relative;background-size:100% 100%;display:none;";
 									emotionDiv.dataset.pack = pack;
 									emotionDiv.dataset.file = file;
 									emotionDiv.setBackgroundImage(`image/emotion/${pack}/${file}`);
@@ -720,7 +750,8 @@ function createEmojiButton(chatAssetPath, EMOTION_SIZE, game, ui, lib) {
 	};
 
 	window.chatButton2 = ui.create.div("hidden", "", game.open_emoji);
-	window.chatButton2.style.cssText = "display:block;--w:75px;--h:calc(var(--w)*82/98);width:var(--w);height:var(--h);left:120px;bottom:15px;transition:none;background-size:100% 100%";
+	window.chatButton2.style.cssText =
+		"display:block;--w:75px;--h:calc(var(--w)*82/98);width:var(--w);height:var(--h);left:120px;bottom:15px;transition:none;background-size:100% 100%";
 	window.chatButton2.setBackgroundImage(`${chatAssetPath}emoji.png`);
 	lib.setScroll(window.chatButton2);
 	window.chatBg.appendChild(window.chatButton2);
@@ -738,7 +769,8 @@ function createSendButton(chatAssetPath) {
 		if (!window.input?.value) return;
 		window.sendInfo(window.input.value);
 	});
-	window.chatSendBottom.style.cssText = "display:block;--w:100px;--h:calc(var(--w)*62/160);width:var(--w);height:var(--h);left:72%;top:16%;transition:none;background-size:100% 100%;text-align:center;border-radius:8px;";
+	window.chatSendBottom.style.cssText =
+		"display:block;--w:100px;--h:calc(var(--w)*62/160);width:var(--w);height:var(--h);left:72%;top:16%;transition:none;background-size:100% 100%;text-align:center;border-radius:8px;";
 	window.chatSendBottom.setBackgroundImage(`${chatAssetPath}buttonsend.png`);
 	window.chatSendBottom.innerHTML = '<span style="color:#e6e6e6;font-size:23px;line-height:38px;font-weight:400;font-family:shousha">发送</span>';
 	window.chatBg.appendChild(window.chatSendBottom);
@@ -750,7 +782,8 @@ function createInputArea(chatAssetPath) {
 	const assetURL = typeof lib !== "undefined" ? lib.assetURL : "";
 
 	window.chatInputOut = ui.create.div("hidden");
-	window.chatInputOut.style.cssText = "display:block;--w:275px;--h:calc(var(--w)*50/320);width:var(--w);height:var(--h);left:8%;top:14%;transition:none;background-size:100% 100%;pointer-events:none;z-index:6;";
+	window.chatInputOut.style.cssText =
+		"display:block;--w:275px;--h:calc(var(--w)*50/320);width:var(--w);height:var(--h);left:8%;top:14%;transition:none;background-size:100% 100%;pointer-events:none;z-index:6;";
 	window.chatInputOut.style.backgroundImage = `url('${assetURL}${chatAssetPath}sayX.png')`;
 	window.chatBg.appendChild(window.chatInputOut);
 
@@ -759,7 +792,8 @@ function createInputArea(chatAssetPath) {
 	window.chatBg.appendChild(window.chatInput);
 
 	window.ipt = ui.create.div();
-	window.ipt.style.cssText = "height:24px;width:100%;top:0px;left:0px;margin:0px;border-radius:0px;background-image:linear-gradient(rgba(0,0,0,0.2),rgba(0,0,0,0.4));";
+	window.ipt.style.cssText =
+		"height:24px;width:100%;top:0px;left:0px;margin:0px;border-radius:0px;background-image:linear-gradient(rgba(0,0,0,0.2),rgba(0,0,0,0.4));";
 	if (window.input?.value) window.input_value = window.input.value;
 	window.ipt.innerHTML = `<input type="text" value="${window.input_value || "请输入文字"}" style="color:white;font-family:shousha;width:calc(100% - 10px);text-align:left;"></input>`;
 	window.input = window.ipt.querySelector("input");

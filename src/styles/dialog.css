@@ -650,7 +650,14 @@
 	position: relative;
 	width: 100%;
 	height: 80%;
-	background: linear-gradient(rgb(145, 125, 106), rgb(145, 125, 106) 149px, rgb(224, 197, 161) 150px, rgb(224, 197, 161) 159px, rgb(145, 125, 106) 160px, rgb(145, 125, 106));
+	background: linear-gradient(
+		rgb(145, 125, 106),
+		rgb(145, 125, 106) 149px,
+		rgb(224, 197, 161) 150px,
+		rgb(224, 197, 161) 159px,
+		rgb(145, 125, 106) 160px,
+		rgb(145, 125, 106)
+	);
 	transition: none;
 }
 

@@ -51,7 +51,30 @@ export function createBabyLbtnPlugin(lib, game, ui, get, ai, _status, app) {
 
 		// 初始化玩家昵称
 		initPlayerNicknames() {
-			const nicknames = ["缘之空", "小小恐龙", "自然萌", "海边的ebao", "小云云", "点点", "猫猫虫", "小爱莉", "冰佬", "鹿鹿", "黎佬", "浮牢师", "U佬", "蓝宝", "影宝", "柳下跖", "无语", "小曦", "墨渊", "k9", "扶苏", "皇叔"];
+			const nicknames = [
+				"缘之空",
+				"小小恐龙",
+				"自然萌",
+				"海边的ebao",
+				"小云云",
+				"点点",
+				"猫猫虫",
+				"小爱莉",
+				"冰佬",
+				"鹿鹿",
+				"黎佬",
+				"浮牢师",
+				"U佬",
+				"蓝宝",
+				"影宝",
+				"柳下跖",
+				"无语",
+				"小曦",
+				"墨渊",
+				"k9",
+				"扶苏",
+				"皇叔",
+			];
 
 			setInterval(() => {
 				game.countPlayer(player => {
@@ -91,7 +114,8 @@ export function createBabyLbtnPlugin(lib, game, ui, get, ai, _status, app) {
 		// 创建配置按钮
 		createConfigButton() {
 			const btn = ui.create.node("div");
-			btn.style.cssText = "display:block;--w:56px;--h:calc(var(--w)*74/71);width:var(--w);height:var(--h);position:absolute;bottom:13%;left:53px;right:auto;background-color:transparent;z-index:1;";
+			btn.style.cssText =
+				"display:block;--w:56px;--h:calc(var(--w)*74/71);width:var(--w);height:var(--h);position:absolute;bottom:13%;left:53px;right:auto;background-color:transparent;z-index:1;";
 
 			btn.onclick = () => {
 				game.playAudio(`../${assetPath}CD/button.mp3`);
@@ -125,7 +149,10 @@ export function createBabyLbtnPlugin(lib, game, ui, get, ai, _status, app) {
 			const btn = ui.create.node("img");
 
 			const updateImage = () => {
-				btn.src = ui.selected.cards.length > 0 ? `${lib.assetURL}${assetPath}uibutton/fanxuanhs.png` : `${lib.assetURL}${assetPath}uibutton/quanxuanhs.png`;
+				btn.src =
+					ui.selected.cards.length > 0
+						? `${lib.assetURL}${assetPath}uibutton/fanxuanhs.png`
+						: `${lib.assetURL}${assetPath}uibutton/quanxuanhs.png`;
 			};
 			updateImage();
 
@@ -162,7 +189,8 @@ export function createBabyLbtnPlugin(lib, game, ui, get, ai, _status, app) {
 
 			const menuBtn = ui.create.node("img");
 			menuBtn.src = `${lib.assetURL}${assetPath}CD/hs_caidan.png`;
-			menuBtn.style.cssText = "display:block;--w:56px;--h:calc(var(--w)*74/71);width:var(--w);height:var(--h);position:absolute;top:10px;left:40px;background-color:transparent;z-index:3;";
+			menuBtn.style.cssText =
+				"display:block;--w:56px;--h:calc(var(--w)*74/71);width:var(--w);height:var(--h);position:absolute;top:10px;left:40px;background-color:transparent;z-index:3;";
 			document.body.appendChild(menuBtn);
 
 			let menuPopup = null;

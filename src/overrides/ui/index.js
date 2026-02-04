@@ -11,7 +11,20 @@ export { setBaseUiMethods, setBaseUiCreateMethods } from "./base.js";
 export { uiUpdatec, uiUpdatehl, uiUpdatej, uiUpdatem, uiUpdatez, uiUpdate, uiUpdatejm, uiUpdatexr } from "./update.js";
 
 // ui.create
-export { uiCreatePrebutton, uiCreateRarity, uiCreateControl, uiCreateDialog, uiCreateSelectlist, uiCreateIdentityCard, uiCreateSpinningIdentityCard, uiCreateArena, uiCreatePause, uiCreateCharacterDialog, uiCreateButton, uiCreateMe } from "./create.js";
+export {
+	uiCreatePrebutton,
+	uiCreateRarity,
+	uiCreateControl,
+	uiCreateDialog,
+	uiCreateSelectlist,
+	uiCreateIdentityCard,
+	uiCreateSpinningIdentityCard,
+	uiCreateArena,
+	uiCreatePause,
+	uiCreateCharacterDialog,
+	uiCreateButton,
+	uiCreateMe,
+} from "./create.js";
 
 // ui.click
 export { uiClickCard, uiClickIntro, uiClickIdentity, uiClickVolumn } from "./click.js";

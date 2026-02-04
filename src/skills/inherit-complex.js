@@ -31,7 +31,9 @@ export const inheritComplexSkill = {
 						num = target.hp + target.countCards("hs", { name: ["tao", "jiu"] }) <= 1 ? 2 : 1.2;
 					}
 
-					return get.effect(target, { name: "guohe" }, player, player) * num * (player.hp <= 1 && get.attitude(player, target) <= 0 ? 0 : 1);
+					return (
+						get.effect(target, { name: "guohe" }, player, player) * num * (player.hp <= 1 && get.attitude(player, target) <= 0 ? 0 : 1)
+					);
 				})
 				.setHiddenSkill("twtanfeng")
 				.forResult();
@@ -45,7 +47,10 @@ export const inheritComplexSkill = {
 			await player.discardPlayerCard(target, "hej", true);
 
 			const next = target.chooseToUse();
-			next.set("openskilldialog", `###探锋：选择一张牌当作【杀】对${get.translation(player)}使用###或点击"取消"，受到其造成的1点火焰伤害，并令其跳过本回合的一个阶段（准备阶段和结束阶段除外）`);
+			next.set(
+				"openskilldialog",
+				`###探锋：选择一张牌当作【杀】对${get.translation(player)}使用###或点击"取消"，受到其造成的1点火焰伤害，并令其跳过本回合的一个阶段（准备阶段和结束阶段除外）`
+			);
 			next.set("norestore", true);
 			next.set("_backupevent", "twtanfeng_backup");
 			next.set("custom", { add: {}, replace: { window() {} } });

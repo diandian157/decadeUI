@@ -83,7 +83,16 @@
 	top: calc(50% - 30px);
 	width: 100px;
 	height: 60px;
-	background: linear-gradient(to bottom, white, rgba(100, 100, 255, 1) 15%, white 30%, rgba(100, 100, 255, 1) 50%, white 70%, rgba(100, 100, 255, 1) 85%, white);
+	background: linear-gradient(
+		to bottom,
+		white,
+		rgba(100, 100, 255, 1) 15%,
+		white 30%,
+		rgba(100, 100, 255, 1) 50%,
+		white 70%,
+		rgba(100, 100, 255, 1) 85%,
+		white
+	);
 	clip-path: polygon(100% 0, 20% 50%, 37% 60%, 0 100%, 80% 50%, 63% 40%);
 	-webkit-clip-path: polygon(100% 0, 20% 50%, 37% 60%, 0 100%, 80% 50%, 63% 40%);
 	transform: scale(1.5);
@@ -119,7 +128,14 @@
 	font-size: 17px;
 	font-family: "STHeiti", "SimHei", "Microsoft JhengHei", "Microsoft YaHei", "WenQuanYi Micro Hei", Helvetica, Arial, sans-serif !important;
 	color: rgb(255, 255, 200);
-	background: linear-gradient(to right, rgba(0, 0, 0, 0.1) 0%, rgba(0, 0, 0, 0.3) 20%, rgba(0, 0, 0, 0.6) 50%, rgba(0, 0, 0, 0.3) 80%, rgba(0, 0, 0, 0.1) 100%);
+	background: linear-gradient(
+		to right,
+		rgba(0, 0, 0, 0.1) 0%,
+		rgba(0, 0, 0, 0.3) 20%,
+		rgba(0, 0, 0, 0.6) 50%,
+		rgba(0, 0, 0, 0.3) 80%,
+		rgba(0, 0, 0, 0.1) 100%
+	);
 	opacity: 0;
 	z-index: 4;
 	/* 确保内部文字居中对齐 */

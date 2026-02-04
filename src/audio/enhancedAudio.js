@@ -40,7 +40,10 @@ export function setupEnhancedAudio() {
 		 * UI音效规则配置
 		 */
 		const AUDIO_RULES = [
-			{ test: t => t.closest("#dui-controls") && (t.classList?.contains("control") || t.parentElement?.classList?.contains("control")), sound: "BtnSure" },
+			{
+				test: t => t.closest("#dui-controls") && (t.classList?.contains("control") || t.parentElement?.classList?.contains("control")),
+				sound: "BtnSure",
+			},
 			{ test: t => t.closest(".menubutton, .button, .card"), sound: "card_click" },
 		];
 

@@ -54,7 +54,12 @@ function handleGroupStyleV2(group) {
 			}
 
 			try {
-				const prefix = decadeUI.config.newDecadeStyle === "off" ? "image/styles/shousha/name2_" : decadeUI.config.newDecadeStyle === "babysha" ? "image/styles/baby/hs_" : "image/styles/decade/name_";
+				const prefix =
+					decadeUI.config.newDecadeStyle === "off"
+						? "image/styles/shousha/name2_"
+						: decadeUI.config.newDecadeStyle === "babysha"
+							? "image/styles/baby/hs_"
+							: "image/styles/decade/name_";
 				const url = decadeUIPath + prefix + group + ".png";
 				await loadImage(url);
 				this.node.campWrap.node.campName.style.backgroundImage = `url("${url}")`;

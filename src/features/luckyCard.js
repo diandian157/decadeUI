@@ -139,14 +139,24 @@ export function setupLuckyCard() {
 		} while (player !== end);
 
 		event.changeCard = get.config("change_card");
-		if (_status.connectMode || (lib.config.mode === "single" && _status.mode !== "wuxianhuoli") || (lib.config.mode === "doudizhu" && _status.mode === "online") || !["identity", "guozhan", "doudizhu", "single"].includes(lib.config.mode)) {
+		if (
+			_status.connectMode ||
+			(lib.config.mode === "single" && _status.mode !== "wuxianhuoli") ||
+			(lib.config.mode === "doudizhu" && _status.mode === "online") ||
+			!["identity", "guozhan", "doudizhu", "single"].includes(lib.config.mode)
+		) {
 			event.changeCard = "disabled";
 		}
 		event.freeChanges = lib._luckyCard.FREE_CHANGES; // 免费换牌次数
 		event.luckyCards = 10000 + Math.floor(Math.random() * 90000);
 
 		("step 1");
-		if (event.changeCard !== "disabled" && !_status.auto && game.me.countCards("h") && lib._luckyCard.canChange(event.freeChanges, event.luckyCards)) {
+		if (
+			event.changeCard !== "disabled" &&
+			!_status.auto &&
+			game.me.countCards("h") &&
+			lib._luckyCard.canChange(event.freeChanges, event.luckyCards)
+		) {
 			const lc = lib._luckyCard;
 			const str = lc.getPromptText(event.freeChanges, event.luckyCards);
 

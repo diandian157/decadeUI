@@ -95,5 +95,4 @@ export function getBaseUiCreateButton() {
 /**
  * 应用UI覆写（占位函数）
  */
-export function applyUiOverrides() {
-}
+export function applyUiOverrides() {}

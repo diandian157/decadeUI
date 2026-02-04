@@ -499,7 +499,15 @@ const resolveWuxieTarget = (event, parentMap) => {
 	const { card, target } = traceOriginalCard(event);
 
 	// 尝试从最初的牌获取目标
-	const candidates = [target, card?.target, card?.targets, event.target, parentMap?.target, parentMap?.targets, parentMap?.isJudge ? parentMap?.player : null];
+	const candidates = [
+		target,
+		card?.target,
+		card?.targets,
+		event.target,
+		parentMap?.target,
+		parentMap?.targets,
+		parentMap?.isJudge ? parentMap?.player : null,
+	];
 
 	for (const candidate of candidates) {
 		const name = resolveName(getSingleTarget(candidate));
@@ -542,7 +550,16 @@ const buildWuxieTipText = event => {
 		const judgePlayer = judgeParent?.player;
 		const playerName = judgePlayer ? get.slimNameHorizontal(judgePlayer.name) : "未知角色";
 		const cardName = get.translation(delayCardName);
-		return [{ text: playerName, style: "phase" }, { text: s("的") }, { text: s(cardName), style: "phase" }, { text: s("即将") }, { text: s(stateWord) }, { text: s("，是否使用") }, { text: s("无懈可击"), style: "phase" }, { text: s("？") }];
+		return [
+			{ text: playerName, style: "phase" },
+			{ text: s("的") },
+			{ text: s(cardName), style: "phase" },
+			{ text: s("即将") },
+			{ text: s(stateWord) },
+			{ text: s("，是否使用") },
+			{ text: s("无懈可击"), style: "phase" },
+			{ text: s("？") },
+		];
 	}
 
 	// 普通锦囊：追溯到最初的牌
@@ -551,7 +568,18 @@ const buildWuxieTipText = event => {
 	const targetName = resolveWuxieTarget(event, parentMap);
 	const sourceName = resolveName(originalSource) ?? "未知角色";
 
-	return [{ text: s(sourceName), style: "phase" }, { text: s("对") }, { text: s(targetName), style: "phase" }, { text: s("使用的") }, { text: s(cardName), style: "phase" }, { text: s("即将") }, { text: s(stateWord) }, { text: s("，是否使用") }, { text: s("无懈可击"), style: "phase" }, { text: s("？") }];
+	return [
+		{ text: s(sourceName), style: "phase" },
+		{ text: s("对") },
+		{ text: s(targetName), style: "phase" },
+		{ text: s("使用的") },
+		{ text: s(cardName), style: "phase" },
+		{ text: s("即将") },
+		{ text: s(stateWord) },
+		{ text: s("，是否使用") },
+		{ text: s("无懈可击"), style: "phase" },
+		{ text: s("？") },
+	];
 };
 
 // ==================== 借刀杀人处理 ====================
@@ -578,7 +606,15 @@ const buildJiedaoTipText = event => {
 	const targetName = resolveName(event.sourcex) ?? "目标";
 	const s = text => decPrompt(sanitizePrompt(text));
 
-	return [{ text: s("请对") }, { text: s(targetName), style: "phase" }, { text: s("使用") }, { text: s("杀"), style: "phase" }, { text: s("，或令") }, { text: s(sourceName), style: "phase" }, { text: s("获得你的武器") }];
+	return [
+		{ text: s("请对") },
+		{ text: s(targetName), style: "phase" },
+		{ text: s("使用") },
+		{ text: s("杀"), style: "phase" },
+		{ text: s("，或令") },
+		{ text: s(sourceName), style: "phase" },
+		{ text: s("获得你的武器") },
+	];
 };
 
 // ==================== 响应牌处理 ====================
@@ -672,7 +708,12 @@ const buildRespondTipText = event => {
 
 	if (!cardName && !targetName) return null;
 
-	return [{ text: s(`请${actionWord}${needCount}张`) }, { text: s(cardName || "牌"), style: "phase" }, { text: s("响应") }, { text: s(targetName), style: "phase" }];
+	return [
+		{ text: s(`请${actionWord}${needCount}张`) },
+		{ text: s(cardName || "牌"), style: "phase" },
+		{ text: s("响应") },
+		{ text: s(targetName), style: "phase" },
+	];
 };
 
 // ==================== 弃牌处理 ====================

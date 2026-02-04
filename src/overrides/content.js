@@ -171,7 +171,7 @@ export function contentJudge() {
 	game.log(player, "进行" + event.judgestr + "判定，亮出的判定牌为", player.judging[0]);
 	game.delay(2);
 	if (!event.noJudgeTrigger) event.trigger("judge");
-	"step 1";
+	("step 1");
 	event.result = {
 		card: player.judging[0],
 		name: player.judging[0].name,

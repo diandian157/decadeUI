@@ -26,7 +26,10 @@ export function initSkillAnimations(animation) {
 
 	animation.playVirtualDamageNumber = (player, num) => {
 		if (!player || num < 0 || num > 9) return;
-		animation.playSpine({ name: "globaltexiao/xunishuzi/SS_PaiJu_xunishanghai", action: "play" + num }, { speed: 0.6, scale: 0.5, parent: player, y: 20 });
+		animation.playSpine(
+			{ name: "globaltexiao/xunishuzi/SS_PaiJu_xunishanghai", action: "play" + num },
+			{ speed: 0.6, scale: 0.5, parent: player, y: 20 }
+		);
 	};
 
 	animation.playDamageNumber = (player, num) => {
@@ -52,7 +55,10 @@ export function initSkillAnimations(animation) {
 				const config = decadeUI.config.chupaizhishi;
 				const animConfig = chupaiAnimations[config];
 				if (config !== "off" && animConfig) {
-					element.ChupaizhishiXid = animation.playSpine({ name: animConfig.name, loop: true }, { parent: element, scale: animConfig.scale });
+					element.ChupaizhishiXid = animation.playSpine(
+						{ name: animConfig.name, loop: true },
+						{ parent: element, scale: animConfig.scale }
+					);
 				}
 				timer = null;
 			}, DELAY);

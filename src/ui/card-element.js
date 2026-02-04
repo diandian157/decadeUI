@@ -59,10 +59,12 @@ export function createCardElement(position, info, noclick) {
 	}
 
 	card.$suitnum.$num = element.create(null, card.$suitnum, "span");
-	card.$suitnum.$num.style.fontFamily = '"STHeiti","SimHei","Microsoft JhengHei","Microsoft YaHei","WenQuanYi Micro Hei",Helvetica,Arial,sans-serif';
+	card.$suitnum.$num.style.fontFamily =
+		'"STHeiti","SimHei","Microsoft JhengHei","Microsoft YaHei","WenQuanYi Micro Hei",Helvetica,Arial,sans-serif';
 	card.$suitnum.$br = element.create(null, card.$suitnum, "br");
 	card.$suitnum.$suit = element.create("suit", card.$suitnum, "span");
-	card.$suitnum.$suit.style.fontFamily = '"STHeiti","SimHei","Microsoft JhengHei","Microsoft YaHei","WenQuanYi Micro Hei",Helvetica,Arial,sans-serif';
+	card.$suitnum.$suit.style.fontFamily =
+		'"STHeiti","SimHei","Microsoft JhengHei","Microsoft YaHei","WenQuanYi Micro Hei",Helvetica,Arial,sans-serif';
 	card.$equip.$suitnum = element.create(null, card.$equip, "span");
 	card.$equip.$name = element.create(null, card.$equip, "span");
 

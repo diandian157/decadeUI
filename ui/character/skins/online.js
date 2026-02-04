@@ -327,7 +327,11 @@ export function createOnlineCharacterPlugin(lib, game, ui, get, ai, _status, app
 						has = player.hasSkill(skill) ? "已生效" : "未生效";
 					}
 					const color = has === "未生效" ? 'style="color:#978a81;"' : "";
-					ui.create.div(".xskill", `<span class="yanshengji" ${color}>${ysName}(${has})</span><span class="yanshengjiinfo">${ysDesc}</span>`, container);
+					ui.create.div(
+						".xskill",
+						`<span class="yanshengji" ${color}>${ysName}(${has})</span><span class="yanshengjiinfo">${ysDesc}</span>`,
+						container
+					);
 				});
 			}
 		},
@@ -342,7 +346,16 @@ export function createOnlineCharacterPlugin(lib, game, ui, get, ai, _status, app
 					const typeIcon = CONSTANTS.EQUIP_TYPE_ICONS[get.subtype(card)] || "default.png";
 					const dianshu = get.strNumber(card.number);
 
-					const firstLine = `<div style="display:flex;align-items:center;gap:8px;position:relative;">` + `<span style="color:#f7d229;font-weight:bold;">${get.translation(card.name).replace(/[【】]/g, "")}</span>` + `<img src="${IMAGE_PATH}${typeIcon}" style="width:14px;height:20px;vertical-align:middle">` + `<div style="margin-left:0;display:flex;align-items:center;gap:2px;">` + (suitConfig.image ? `<img src="${IMAGE_PATH}${suitConfig.image}" style="width:16px;height:16px;margin-left:-2px;margin-top:3px;filter:drop-shadow(0 0 1px white);">` : `<span style="color:${suitConfig.color};margin-left:-2px;margin-top:3px;text-shadow:0 0 1px white;position:relative;">${suitConfig.symbol}</span>`) + `<span style="margin-left:3px;margin-top:3px;font-size:18px;color:${suitConfig.color === "#e03c3c" ? suitConfig.color : "#efdbb6"};font-family:shousha;">${dianshu || ""}</span>` + `</div></div>`;
+					const firstLine =
+						`<div style="display:flex;align-items:center;gap:8px;position:relative;">` +
+						`<span style="color:#f7d229;font-weight:bold;">${get.translation(card.name).replace(/[【】]/g, "")}</span>` +
+						`<img src="${IMAGE_PATH}${typeIcon}" style="width:14px;height:20px;vertical-align:middle">` +
+						`<div style="margin-left:0;display:flex;align-items:center;gap:2px;">` +
+						(suitConfig.image
+							? `<img src="${IMAGE_PATH}${suitConfig.image}" style="width:16px;height:16px;margin-left:-2px;margin-top:3px;filter:drop-shadow(0 0 1px white);">`
+							: `<span style="color:${suitConfig.color};margin-left:-2px;margin-top:3px;text-shadow:0 0 1px white;position:relative;">${suitConfig.symbol}</span>`) +
+						`<span style="margin-left:3px;margin-top:3px;font-size:18px;color:${suitConfig.color === "#e03c3c" ? suitConfig.color : "#efdbb6"};font-family:shousha;">${dianshu || ""}</span>` +
+						`</div></div>`;
 
 					let desc = "";
 					if (get.subtypes(card).includes("equip1")) {
@@ -379,7 +392,11 @@ export function createOnlineCharacterPlugin(lib, game, ui, get, ai, _status, app
 					const skillTrans = lib.translate[skillName] || skillName;
 					const equipTrans = lib.translate[equipName] || equipName;
 					const equipInfo = lib.translate[equipName + "_info"] || "";
-					ui.create.div(".xskillx", `<div style="color:#f7d229;font-weight:bold;">【${skillTrans}】视为装备【${equipTrans}】</div><div style="margin-top:4px;white-space:pre-wrap;">${equipInfo}</div>`, container);
+					ui.create.div(
+						".xskillx",
+						`<div style="color:#f7d229;font-weight:bold;">【${skillTrans}】视为装备【${equipTrans}】</div><div style="margin-top:4px;white-space:pre-wrap;">${equipInfo}</div>`,
+						container
+					);
 				});
 			}
 		},
@@ -414,7 +431,9 @@ export function createOnlineCharacterPlugin(lib, game, ui, get, ai, _status, app
 
 			// 将灯信息
 			const jddialog = ui.create.div(".jddialog", bigdialog);
-			const jiangdengsuiji = CONSTANTS.JIANGDENG_CLASSES.randomGets(randomData.guanjieLevel > 8 ? randomData.guanjieLevel + 1 : [randomData.guanjieLevel - 1, randomData.guanjieLevel].randomGet());
+			const jiangdengsuiji = CONSTANTS.JIANGDENG_CLASSES.randomGets(
+				randomData.guanjieLevel > 8 ? randomData.guanjieLevel + 1 : [randomData.guanjieLevel - 1, randomData.guanjieLevel].randomGet()
+			);
 			let jiangdengLiang = [];
 			let jiangdengLiangguanjie = randomData.guanjieLevel > 4 ? ["biao", "sp", "guo", "jiang", "jie"] : ["biao", "guo", "jiang"];
 			if (randomData.guanjieLevel > 6) jiangdengLiangguanjie.push("jiangjie");
@@ -457,7 +476,9 @@ export function createOnlineCharacterPlugin(lib, game, ui, get, ai, _status, app
 
 				const huanfu = ui.create.div(".huanfu", charPic);
 				huanfu.onclick = () => {
-					window.zyile_charactercard ? window.zyile_charactercard(charName, charPic, false) : ui.click.charactercard(charName, charPic, lib.config.mode === "guozhan" ? "guozhan" : true);
+					window.zyile_charactercard
+						? window.zyile_charactercard(charName, charPic, false)
+						: ui.click.charactercard(charName, charPic, lib.config.mode === "guozhan" ? "guozhan" : true);
 				};
 
 				const kuang = ui.create.div(".kuang", charPic);

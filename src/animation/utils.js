@@ -100,7 +100,9 @@ export function getBrowserInfo() {
 	}
 	// Safari特殊处理
 	const ua = navigator.userAgent.toLowerCase();
-	const result = /macintosh/.test(ua) ? ua.match(/version\/(\d+(?:\.\d+)+).*safari/) : ua.match(/(?:iphone|ipad); cpu (?:iphone )?os (\d+(?:_\d+)+)/);
+	const result = /macintosh/.test(ua)
+		? ua.match(/version\/(\d+(?:\.\d+)+).*safari/)
+		: ua.match(/(?:iphone|ipad); cpu (?:iphone )?os (\d+(?:_\d+)+)/);
 	if (!result) return ["other", NaN, NaN, NaN];
 	const [major, minor, patch] = result[1].split(/[._]/);
 	return ["safari", parseInt(major, 10), parseInt(minor, 10), parseInt(patch, 10)];

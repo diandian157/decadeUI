@@ -249,7 +249,9 @@ export function createXinshaLbtnPlugin(lib, game, ui, get, ai, _status, app) {
 			const btn = ui.create.node("img");
 			btn.src = `${lib.assetURL}${assetPath}uibutton/new_zhengli.png`;
 
-			const style = isRight ? "display:block;--w:88px;--h:calc(var(--w)*81/247);width:var(--w);height:var(--h);position:absolute;top:calc(100% - 46px);left:calc(100% - 335px);background-color:transparent;z-index:3;" : "display:block;--w:88px;--h:calc(var(--w)*81/247);width:var(--w);height:var(--h);position:absolute;top:calc(100% - 33px);right:calc(100% - 335px);background-color:transparent;z-index:3;";
+			const style = isRight
+				? "display:block;--w:88px;--h:calc(var(--w)*81/247);width:var(--w);height:var(--h);position:absolute;top:calc(100% - 46px);left:calc(100% - 335px);background-color:transparent;z-index:3;"
+				: "display:block;--w:88px;--h:calc(var(--w)*81/247);width:var(--w);height:var(--h);position:absolute;top:calc(100% - 33px);right:calc(100% - 335px);background-color:transparent;z-index:3;";
 
 			btn.style.cssText = style;
 			btn.onclick = () => {
@@ -273,11 +275,16 @@ export function createXinshaLbtnPlugin(lib, game, ui, get, ai, _status, app) {
 			const btn = ui.create.node("img");
 
 			const updateImage = () => {
-				btn.src = ui.selected.cards.length > 0 ? `${lib.assetURL}${assetPath}uibutton/fanxuan.png` : `${lib.assetURL}${assetPath}uibutton/quanxuan.png`;
+				btn.src =
+					ui.selected.cards.length > 0
+						? `${lib.assetURL}${assetPath}uibutton/fanxuan.png`
+						: `${lib.assetURL}${assetPath}uibutton/quanxuan.png`;
 			};
 			updateImage();
 
-			const style = isRight ? "display:none;--w:88px;--h:calc(var(--w)*81/247);width:var(--w);height:var(--h);position:absolute;top:calc(100% - 46px);left:calc(100% - 430px);background-color:transparent;z-index:3;" : "display:none;--w:88px;--h:calc(var(--w)*81/247);width:var(--w);height:var(--h);position:absolute;top:calc(100% - 33px);right:calc(100% - 430px);background-color:transparent;z-index:3;";
+			const style = isRight
+				? "display:none;--w:88px;--h:calc(var(--w)*81/247);width:var(--w);height:var(--h);position:absolute;top:calc(100% - 46px);left:calc(100% - 430px);background-color:transparent;z-index:3;"
+				: "display:none;--w:88px;--h:calc(var(--w)*81/247);width:var(--w);height:var(--h);position:absolute;top:calc(100% - 33px);right:calc(100% - 430px);background-color:transparent;z-index:3;";
 
 			btn.style.cssText = style;
 

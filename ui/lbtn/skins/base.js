@@ -421,7 +421,15 @@ export function createBaseLbtnPlugin(lib, game, ui, get, ai, _status, app) {
 				update: [
 					null,
 					(res, config, map) => {
-						["control_style", "custom_button", "custom_button_system_top", "custom_button_system_bottom", "custom_button_control_top", "custom_button_control_bottom", "radius_size"].forEach(k => map[k]?.hide());
+						[
+							"control_style",
+							"custom_button",
+							"custom_button_system_top",
+							"custom_button_system_bottom",
+							"custom_button_control_top",
+							"custom_button_control_bottom",
+							"radius_size",
+						].forEach(k => map[k]?.hide());
 					},
 				],
 			});
@@ -429,7 +437,10 @@ export function createBaseLbtnPlugin(lib, game, ui, get, ai, _status, app) {
 			// 重写确认对话框
 			game.Check.confirm = function (event, confirm) {
 				ui.arena.classList.add("selecting");
-				if (event.filterTarget && (!event.filterCard || !event.position || (typeof event.position == "string" && !event.position.includes("e")))) {
+				if (
+					event.filterTarget &&
+					(!event.filterCard || !event.position || (typeof event.position == "string" && !event.position.includes("e")))
+				) {
 					ui.arena.classList.add("tempnoe");
 				}
 				game.countChoose();

@@ -14,7 +14,19 @@ import { createDecadeUICreateModule } from "./create.js";
 import { createStaticsModule } from "./statics.js";
 import { createHandlerModule } from "./handler.js";
 import { initHooks } from "./hooks.js";
-import { CubicBezierEase, throttle, observeSize, lerp, TimeStep, APNode, AnimationPlayer, AnimationPlayerPool, DynamicPlayer, BUILT_ID, DynamicWorkers } from "../animation/index.js";
+import {
+	CubicBezierEase,
+	throttle,
+	observeSize,
+	lerp,
+	TimeStep,
+	APNode,
+	AnimationPlayer,
+	AnimationPlayerPool,
+	DynamicPlayer,
+	BUILT_ID,
+	DynamicWorkers,
+} from "../animation/index.js";
 import { createPlayerElement } from "../ui/player-element.js";
 import { createCardElement, createCardsWrapper } from "../ui/card-element.js";
 import { createCharacterButtonPreset } from "../ui/character-button.js";
@@ -23,7 +35,18 @@ import { definePlayerGroupProperty } from "../ui/player-group.js";
 import { createLayoutInit } from "../ui/layout-init.js";
 import { uiClickIdentity, uiClickVolumn, uiClear, uiCreateMe } from "../overrides/ui.js";
 
-import { setBaseCardMethods, setBaseContentMethods, setBasePlayerMethods, setBasePlayerDraw, setBaseGameMethods, setBaseGetMethods, setBaseUiMethods, setBaseUiCreateMethods, setBaseDialogMethods, setBaseLibMethods } from "../overrides/index.js";
+import {
+	setBaseCardMethods,
+	setBaseContentMethods,
+	setBasePlayerMethods,
+	setBasePlayerDraw,
+	setBaseGameMethods,
+	setBaseGetMethods,
+	setBaseUiMethods,
+	setBaseUiCreateMethods,
+	setBaseDialogMethods,
+	setBaseLibMethods,
+} from "../overrides/index.js";
 
 import { controlAdd, controlOpen, controlClose, controlReplace, controlUpdateLayout } from "../overrides/control.js";
 import { dialogOpen, dialogClose } from "../overrides/dialog.js";
@@ -88,7 +111,29 @@ import {
 	playerAddVirtualJudge,
 } from "../overrides/player.js";
 
-import { uiUpdatec, uiUpdatehl, uiUpdatej, uiUpdatem, uiUpdatez, uiUpdate, uiUpdatejm, uiUpdatexr, uiCreatePrebutton, uiCreateRarity, uiCreateButton, uiCreateControl, uiCreateDialog, uiCreateSelectlist, uiCreateIdentityCard, uiCreateSpinningIdentityCard, uiCreateArena, uiCreatePause, uiCreateCharacterDialog, uiClickCard, uiClickIntro } from "../overrides/ui.js";
+import {
+	uiUpdatec,
+	uiUpdatehl,
+	uiUpdatej,
+	uiUpdatem,
+	uiUpdatez,
+	uiUpdate,
+	uiUpdatejm,
+	uiUpdatexr,
+	uiCreatePrebutton,
+	uiCreateRarity,
+	uiCreateButton,
+	uiCreateControl,
+	uiCreateDialog,
+	uiCreateSelectlist,
+	uiCreateIdentityCard,
+	uiCreateSpinningIdentityCard,
+	uiCreateArena,
+	uiCreatePause,
+	uiCreateCharacterDialog,
+	uiClickCard,
+	uiClickIntro,
+} from "../overrides/ui.js";
 
 /**
  * 创建decadeUI核心对象

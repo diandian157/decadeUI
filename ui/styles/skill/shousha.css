@@ -181,7 +181,9 @@
 	background-image: url("../../assets/skill/shousha/longfeng_no.png");
 }
 
-.skill-control > .enable > *.select:not(.skillitem_smh_yeyan):not(.skillitem_smh_huoji):not(.skillitem_smh_lianhuan):not([data-gskill="true"])::before {
+.skill-control
+	> .enable
+	> *.select:not(.skillitem_smh_yeyan):not(.skillitem_smh_huoji):not(.skillitem_smh_lianhuan):not([data-gskill="true"])::before {
 	background-image: url("../../assets/skill/shousha/btn1.png");
 }
 
@@ -611,7 +613,9 @@
 	background-size: 100% 100%;
 }
 
-.skill-controlzuoshou > .enable > *.select:not(.skillitem_smh_yeyan):not(.skillitem_smh_huoji):not(.skillitem_smh_lianhuan):not([data-gskill="true"])::before {
+.skill-controlzuoshou
+	> .enable
+	> *.select:not(.skillitem_smh_yeyan):not(.skillitem_smh_huoji):not(.skillitem_smh_lianhuan):not([data-gskill="true"])::before {
 	background-image: url("../../assets/skill/shousha/btn1.png");
 }
 
