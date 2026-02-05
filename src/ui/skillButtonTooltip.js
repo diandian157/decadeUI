@@ -241,7 +241,8 @@ export class SkillButtonTooltip {
 			return text;
 		}
 
-		return text;
+		// 如果没有分效果，在第一个句号或分号后换行
+		return text.replace(/([阳阴]：)(?![\s\S]*[阳阴]：)([^。；]*?[。；])/, "$1$2<br>");
 	}
 
 	/**
