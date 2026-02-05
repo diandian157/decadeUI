@@ -1,10 +1,11 @@
-/**
+﻿/**
  * @fileoverview 新杀风格技能插件
  * @description 转换技翻转动画、gskillControl支持
  */
 import { lib, game, ui, get, ai, _status } from "noname";
 import { createBaseSkillPlugin } from "./base.js";
 import { getAvailableSkills, updateSkillUsability, isGSkillCacheSame, shouldSkipEquipSkill } from "./gskillMixin.js";
+import { skillButtonTooltip } from "../../../src/ui/skillButtonTooltip.js";
 
 export function createXinshaSkillPlugin(lib, game, ui, get, ai, _status, app) {
 	const base = createBaseSkillPlugin(lib, game, ui, get, ai, _status, app);
@@ -285,6 +286,9 @@ export function createXinshaSkillPlugin(lib, game, ui, get, ai, _status, app) {
 						}
 					});
 					app.listen(node, plugin.clickSkill);
+
+					// 添加悬浮提示
+					skillButtonTooltip.attach(node, skillId, game.me);
 				});
 
 				return this;
@@ -354,6 +358,9 @@ export function createXinshaSkillPlugin(lib, game, ui, get, ai, _status, app) {
 						}
 					});
 					app.listen(node, plugin.clickSkill);
+
+					// 添加悬浮提示
+					skillButtonTooltip.attach(node, skillId, game.me);
 				});
 				return this;
 			},
@@ -428,6 +435,10 @@ export function createXinshaSkillPlugin(lib, game, ui, get, ai, _status, app) {
 							}
 						});
 						app.listen(node, plugin.clickSkill);
+
+						// 添加悬浮提示
+						skillButtonTooltip.attach(node, item.id, game.me);
+
 						return;
 					}
 
@@ -437,6 +448,9 @@ export function createXinshaSkillPlugin(lib, game, ui, get, ai, _status, app) {
 					const targetNode = lib.config.phonelayout ? "trigger" : "enable";
 					node = ui.create.div(".skillitem", this.node[targetNode], get.translation(item.name).slice(0, 2));
 					node.dataset.id = item.id;
+
+					// 添加悬浮提示
+					skillButtonTooltip.attach(node, item.id, game.me);
 
 					if (lib.skill[item.id]?.zhuanhuanji) {
 						node.classList.add("zhuanhuanji");

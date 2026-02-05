@@ -5,6 +5,7 @@
 import { lib, game, ui, get, ai, _status } from "noname";
 import { createBaseSkillPlugin } from "./base.js";
 import { getAvailableSkills, updateSkillUsability, isGSkillCacheSame, shouldSkipEquipSkill } from "./gskillMixin.js";
+import { skillButtonTooltip } from "../../../src/ui/skillButtonTooltip.js";
 
 const ASSETS_PATH = "extension/十周年UI/ui/assets/skill/online";
 
@@ -275,6 +276,9 @@ export function createOnlineSkillPlugin(lib, game, ui, get, ai, _status, app) {
 						}
 					});
 					app.listen(node, plugin.clickSkill);
+
+					// 添加悬浮提示
+					skillButtonTooltip.attach(node, skillId, game.me);
 				});
 				return this;
 			},
@@ -373,6 +377,10 @@ export function createOnlineSkillPlugin(lib, game, ui, get, ai, _status, app) {
 							}
 						});
 						app.listen(node, plugin.clickSkill);
+
+						// 添加悬浮提示
+						skillButtonTooltip.attach(node, item.id, game.me);
+
 						return;
 					}
 
@@ -381,6 +389,9 @@ export function createOnlineSkillPlugin(lib, game, ui, get, ai, _status, app) {
 
 					node = ui.create.div(".skillitem.trigger-skill", this.node.combined, finalName);
 					node.dataset.id = item.id;
+
+					// 添加悬浮提示
+					skillButtonTooltip.attach(node, item.id, game.me);
 
 					// 限定技pass图标
 					if (lib.skill[item.id].limited) {
@@ -399,6 +410,9 @@ export function createOnlineSkillPlugin(lib, game, ui, get, ai, _status, app) {
 						node.style.position = "relative";
 						node.appendChild(dot);
 					}
+
+					// 添加悬浮提示
+					skillButtonTooltip.attach(node, item.id, game.me);
 				});
 				return this;
 			},

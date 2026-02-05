@@ -1,10 +1,11 @@
-/**
+﻿/**
  * @fileoverview 十周年风格技能插件
  * @description 支持gskills、xinfu_falu和starcanxi标记、playerMarkStyle配置
  */
 import { lib, game, ui, get, ai, _status } from "noname";
 import { createBaseSkillPlugin } from "./base.js";
 import { getAvailableSkills, updateSkillUsability, isGSkillCacheSame, shouldSkipEquipSkill } from "./gskillMixin.js";
+import { skillButtonTooltip } from "../../../src/ui/skillButtonTooltip.js";
 
 export function createShizhounianSkillPlugin(lib, game, ui, get, ai, _status, app) {
 	const base = createBaseSkillPlugin(lib, game, ui, get, ai, _status, app);
@@ -232,6 +233,9 @@ export function createShizhounianSkillPlugin(lib, game, ui, get, ai, _status, ap
 						}
 					});
 					app.listen(node, plugin.clickSkill);
+
+					// 添加悬浮提示
+					skillButtonTooltip.attach(node, skillId, game.me);
 				});
 
 				return this;
@@ -279,6 +283,9 @@ export function createShizhounianSkillPlugin(lib, game, ui, get, ai, _status, ap
 						}
 					});
 					app.listen(node, plugin.clickSkill);
+
+					// 添加悬浮提示
+					skillButtonTooltip.attach(node, skillId, game.me);
 				});
 				return this;
 			},
@@ -342,6 +349,10 @@ export function createShizhounianSkillPlugin(lib, game, ui, get, ai, _status, ap
 							}
 						});
 						app.listen(node, plugin.clickSkill);
+
+						// 添加悬浮提示
+						skillButtonTooltip.attach(node, item.id, game.me);
+
 						return;
 					}
 
@@ -351,6 +362,9 @@ export function createShizhounianSkillPlugin(lib, game, ui, get, ai, _status, ap
 					const targetNode = lib.config.phonelayout ? "trigger" : "enable";
 					node = ui.create.div(".skillitem", this.node[targetNode], get.translation(item.name).slice(0, 2));
 					node.dataset.id = item.id;
+
+					// 添加悬浮提示
+					skillButtonTooltip.attach(node, item.id, game.me);
 
 					if (lib.skill[item.id]?.zhuanhuanji) node.classList.add("zhuanhuanji");
 					if (get.is.locked(item.id, game.me)) node.classList.add("locked");

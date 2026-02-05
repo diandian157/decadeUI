@@ -5,6 +5,7 @@
 import { lib, game, ui, get, ai, _status } from "noname";
 import { createBaseSkillPlugin } from "./base.js";
 import { getAvailableSkills, updateSkillUsability, isGSkillCacheSame, shouldSkipEquipSkill } from "./gskillMixin.js";
+import { skillButtonTooltip } from "../../../src/ui/skillButtonTooltip.js";
 
 export function createCodenameSkillPlugin(lib, game, ui, get, ai, _status, app) {
 	const base = createBaseSkillPlugin(lib, game, ui, get, ai, _status, app);
@@ -184,6 +185,9 @@ export function createCodenameSkillPlugin(lib, game, ui, get, ai, _status, app) 
 						}
 					});
 					app.listen(node, plugin.clickSkill);
+
+					// 添加悬浮提示
+					skillButtonTooltip.attach(node, skillId, game.me);
 				});
 				return this;
 			},
@@ -267,6 +271,9 @@ export function createCodenameSkillPlugin(lib, game, ui, get, ai, _status, app) 
 					}
 				});
 				app.listen(node, plugin.clickSkill);
+
+				// 添加悬浮提示
+				skillButtonTooltip.attach(node, item.id, game.me);
 			},
 
 			createTriggerSkillNode(item, eSkills) {
@@ -277,6 +284,9 @@ export function createCodenameSkillPlugin(lib, game, ui, get, ai, _status, app) 
 				const skillName = get.translation(item.name).slice(0, 4);
 				const node = ui.create.div(".skillitem.trigger-skill", this.node.combined, skillName);
 				node.dataset.id = item.id;
+
+				// 添加悬浮提示
+				skillButtonTooltip.attach(node, item.id, game.me);
 			},
 
 			update() {

@@ -5,6 +5,7 @@
 import { lib, game, ui, get, ai, _status } from "noname";
 import { createBaseSkillPlugin } from "./base.js";
 import { getAvailableSkills, isGSkillCacheSame, shouldSkipEquipSkill } from "./gskillMixin.js";
+import { skillButtonTooltip } from "../../../src/ui/skillButtonTooltip.js";
 
 const ASSETS_PATH = "extension/十周年UI/ui/assets/skill/shousha";
 
@@ -209,6 +210,9 @@ export function createShoushaSkillPlugin(lib, game, ui, get, ai, _status, app) {
 						}
 					});
 					app.listen(node, plugin.clickSkill);
+
+					// 添加悬浮提示
+					skillButtonTooltip.attach(node, skillId, game.me);
 				});
 				return this;
 			},
@@ -386,6 +390,10 @@ export function createShoushaSkillPlugin(lib, game, ui, get, ai, _status, app) {
 							}
 						});
 						app.listen(node, plugin.clickSkill);
+
+						// 添加悬浮提示
+						skillButtonTooltip.attach(node, item.id, game.me);
+
 						return;
 					}
 
@@ -401,6 +409,9 @@ export function createShoushaSkillPlugin(lib, game, ui, get, ai, _status, app) {
 
 					ui.create.div(".skillitem-child", node, skillName);
 					node.dataset.id = item.id;
+
+					// 添加悬浮提示
+					skillButtonTooltip.attach(node, item.id, game.me);
 				});
 
 				return this;

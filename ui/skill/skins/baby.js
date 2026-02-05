@@ -1,10 +1,11 @@
-/**
+﻿/**
  * @fileoverview 宝宝杀风格技能插件
  * @description 合并区域布局、技能图标（限定技/觉醒技/转换技）
  */
 import { lib, game, ui, get, ai, _status } from "noname";
 import { createBaseSkillPlugin } from "./base.js";
 import { getAvailableSkills, updateSkillUsability, isGSkillCacheSame, shouldSkipEquipSkill } from "./gskillMixin.js";
+import { skillButtonTooltip } from "../../../src/ui/skillButtonTooltip.js";
 
 const ASSETS_PATH = "extension/十周年UI/ui/assets/skill/baby";
 
@@ -187,6 +188,9 @@ export function createBabySkillPlugin(lib, game, ui, get, ai, _status, app) {
 						}
 					});
 					app.listen(node, plugin.clickSkill);
+
+					// 添加悬浮提示
+					skillButtonTooltip.attach(node, skillId, game.me);
 				});
 				return this;
 			},
@@ -271,6 +275,9 @@ export function createBabySkillPlugin(lib, game, ui, get, ai, _status, app) {
 					}
 				});
 				app.listen(node, plugin.clickSkill);
+
+				// 添加悬浮提示
+				skillButtonTooltip.attach(node, item.id, game.me);
 			},
 
 			createTriggerSkillNode(item, eSkills) {
@@ -280,6 +287,9 @@ export function createBabySkillPlugin(lib, game, ui, get, ai, _status, app) {
 				const skillName = get.translation(item.name).slice(0, 2);
 				const node = ui.create.div(".skillitem.trigger-skill", this.node.combined, skillName);
 				node.dataset.id = item.id;
+
+				// 添加悬浮提示
+				skillButtonTooltip.attach(node, item.id, game.me);
 
 				this.addSkillIcon(node, item.id);
 			},
