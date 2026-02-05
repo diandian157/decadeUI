@@ -4,6 +4,7 @@
  */
 import { lib, game, ui, get, ai, _status } from "noname";
 import { createBaseCharacterPlugin } from "./base.js";
+import { skillButtonTooltip } from "../../../src/ui/skillButtonTooltip.js";
 
 export function createOnlineCharacterPlugin(lib, game, ui, get, ai, _status, app) {
 	const base = createBaseCharacterPlugin(lib, game, ui, get, ai, _status, app);
@@ -307,7 +308,10 @@ export function createOnlineCharacterPlugin(lib, game, ui, get, ai, _status, app
 			const typeTag = `<span class="skill-type-tag">(${typeText})</span>`;
 
 			const skillName = lib.translate[name];
-			const skillInfo = get.skillInfoTranslation(name, player, false);
+
+			// 获取技能描述并格式化
+			const rawSkillInfo = skillButtonTooltip.getSkillDescription(name, player);
+			const skillInfo = skillButtonTooltip.formatSkillDescription(rawSkillInfo);
 
 			// 普通技能
 			ui.create.div(".xskill", `<div data-color>${skillName}</div>${typeTag}<div>${skillInfo}</div>`, container);

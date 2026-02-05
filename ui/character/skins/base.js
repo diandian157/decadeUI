@@ -3,6 +3,7 @@
  * 提供所有样式共用的基础功能
  */
 import { lib, game, ui, get, ai, _status } from "noname";
+import { skillButtonTooltip } from "../../../src/ui/skillButtonTooltip.js";
 
 /**
  * 创建基础character插件
@@ -393,7 +394,10 @@ export function createBaseCharacterPlugin(lib, game, ui, get, ai, _status, app) 
 		createSkillItem(container, name, player, dialogContainer) {
 			const info = get.info(name);
 			const skillName = lib.translate[name];
-			const skillInfo = get.skillInfoTranslation(name, player, false);
+
+			// 获取技能描述并格式化
+			const rawSkillInfo = skillButtonTooltip.getSkillDescription(name, player);
+			const skillInfo = skillButtonTooltip.formatSkillDescription(rawSkillInfo);
 
 			// 禁用技能
 			if (player.forbiddenSkills[name]) {

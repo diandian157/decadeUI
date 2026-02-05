@@ -105,7 +105,7 @@ export class SkillButtonTooltip {
 		// 高亮技能标签（锁定技、限定技等）
 		text = this.highlightSkillTags(text);
 
-		// 保护〖〗括号内的内容（避免被换行处理影响）
+		// 保护〖〗和（）括号内的内容（避免被换行处理影响）
 		const { text: protectedText, brackets } = this.protectBrackets(text);
 		text = protectedText;
 
@@ -127,7 +127,7 @@ export class SkillButtonTooltip {
 		// 在最后一个阴阳标记后的第一个句号后换行
 		text = this.addLineBreakAfterLastYinYang(text);
 
-		// 还原〖〗括号内容
+		// 还原〖〗和（）括号内容
 		text = this.restoreBrackets(text, brackets);
 
 		return text;
@@ -146,12 +146,19 @@ export class SkillButtonTooltip {
 	}
 
 	/**
-	 * 保护〖〗括号内容
+	 * 保护〖〗和（）括号内容
 	 * @private
 	 */
 	protectBrackets(text) {
 		const brackets = [];
-		const protectedText = text.replace(/〖[^〗]*〗/g, match => {
+		// 先保护〖〗
+		let protectedText = text.replace(/〖[^〗]*〗/g, match => {
+			const index = brackets.length;
+			brackets.push(match);
+			return `__BRACKET_${index}__`;
+		});
+		// 再保护（）
+		protectedText = protectedText.replace(/（[^）]*）/g, match => {
 			const index = brackets.length;
 			brackets.push(match);
 			return `__BRACKET_${index}__`;
@@ -160,7 +167,7 @@ export class SkillButtonTooltip {
 	}
 
 	/**
-	 * 还原〖〗括号内容
+	 * 还原〖〗和（）括号内容
 	 * @private
 	 */
 	restoreBrackets(text, brackets) {
@@ -204,11 +211,12 @@ export class SkillButtonTooltip {
 	}
 
 	/**
-	 * 在阴阳标记前添加换行
+	 * 在阴阳标记前添加换行（只匹配"阴："或"阳："格式）
 	 * @private
 	 */
 	addLineBreaksBeforeYinYang(text) {
-		return text.replace(/([^①②③④⑤⑥⑦⑧⑨⑩\s])([阳阴])/g, "$1<br>$2");
+		// 只匹配后面跟着冒号的阴阳标记，排除紧跟在效果编号后的情况
+		return text.replace(/([^①②③④⑤⑥⑦⑧⑨⑩\s])([阳阴]：)/g, "$1<br>$2");
 	}
 
 	/**
@@ -216,8 +224,24 @@ export class SkillButtonTooltip {
 	 * @private
 	 */
 	addLineBreakAfterLastYinYang(text) {
-		// 匹配最后一个阴阳标记，然后找其后的第一个句号或分号（支持中英文分号）
-		return text.replace(/([阳阴])(?![\s\S]*[阳阴])([^。;；]*?[。;；])/g, "$1$2<br>");
+		// 匹配最后一个"阴："或"阳："标记
+		const yinYangMatch = text.match(/([阳阴]：)(?![\s\S]*[阳阴]：)/);
+		if (!yinYangMatch) return text;
+
+		const yinYangIndex = yinYangMatch.index + yinYangMatch[0].length;
+		const afterYinYang = text.substring(yinYangIndex);
+
+		// 检查阴阳标记后是否有分效果编号（①②③或⒈⒉⒊或1、2、3、或1.2.3.）
+		const hasCircleNumbers = /[①②③④⑤⑥⑦⑧⑨⑩]/.test(afterYinYang);
+		const hasSpecialNumbers = /[⒈⒉⒊⒋⒌⒍⒎⒏⒐⒑]/.test(afterYinYang);
+		const hasRegularNumbers = /\d+[、.]/.test(afterYinYang);
+
+		// 如果有分效果，不在阴阳标记后换行（由分效果的换行规则处理）
+		if (hasCircleNumbers || hasSpecialNumbers || hasRegularNumbers) {
+			return text;
+		}
+
+		return text;
 	}
 
 	/**

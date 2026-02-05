@@ -5,6 +5,7 @@
 import { lib, game, ui, get, ai, _status } from "noname";
 import { createBaseCharacterPlugin } from "./base.js";
 import { applyOutcropAvatar } from "../../../src/ui/outcropAvatar.js";
+import { skillButtonTooltip } from "../../../src/ui/skillButtonTooltip.js";
 
 export function createShoushaCharacterPlugin(lib, game, ui, get, ai, _status, app) {
 	const base = createBaseCharacterPlugin(lib, game, ui, get, ai, _status, app);
@@ -523,7 +524,10 @@ export function createShoushaCharacterPlugin(lib, game, ui, get, ai, _status, ap
 					const baseIcon = `<img src="${CONSTANTS.IMAGE_PATH}${skillIcon}.png" style="width:25px;height:25px;margin-bottom:-7px;">`;
 					const transparentIcon = `<img src="${CONSTANTS.IMAGE_PATH}${skillIcon}.png" style="width:25px;height:25px;margin-bottom:-7px;opacity:0.5;">`;
 					const skillName = `【${lib.translate[name]}】`;
-					const skillInfo = get.skillInfoTranslation(name, player, false);
+
+					// 获取技能描述并格式化
+					const rawSkillInfo = skillButtonTooltip.getSkillDescription(name, player);
+					const skillInfo = skillButtonTooltip.formatSkillDescription(rawSkillInfo);
 
 					if (player.forbiddenSkills[name]) {
 						const conflict = player.forbiddenSkills[name].length

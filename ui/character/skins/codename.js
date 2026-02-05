@@ -4,6 +4,7 @@
  */
 import { lib, game, ui, get, ai, _status } from "noname";
 import { createBaseCharacterPlugin } from "./base.js";
+import { skillButtonTooltip } from "../../../src/ui/skillButtonTooltip.js";
 
 export function createCodenameCharacterPlugin(lib, game, ui, get, ai, _status, app) {
 	const base = createBaseCharacterPlugin(lib, game, ui, get, ai, _status, app);
@@ -135,7 +136,12 @@ export function createCodenameCharacterPlugin(lib, game, ui, get, ai, _status, a
 						if (!translation || !lib.translate[skillName + "_info"]) return;
 
 						const isAwakened = !player.getSkills().includes(skillName) || player.awakenedSkills.includes(skillName);
-						let skillContent = `<div data-color>${isAwakened ? '<span style="opacity:0.5">' + translation + "： </span>" : translation + "： "}</div><div>${isAwakened ? '<span style="opacity:0.5;text-indent:10px">' + get.skillInfoTranslation(skillName, player, false) + "</span>" : '<span style="text-indent:10px">' + get.skillInfoTranslation(skillName, player, false) + "</span>"}`;
+
+						// 获取技能描述并格式化
+						const rawSkillInfo = skillButtonTooltip.getSkillDescription(skillName, player);
+						const formattedSkillInfo = skillButtonTooltip.formatSkillDescription(rawSkillInfo);
+
+						let skillContent = `<div data-color>${isAwakened ? '<span style="opacity:0.5">' + translation + "： </span>" : translation + "： "}</div><div>${isAwakened ? '<span style="opacity:0.5;text-indent:10px">' + formattedSkillInfo + "</span>" : '<span style="text-indent:10px">' + formattedSkillInfo + "</span>"}`;
 
 						if (lib.skill[skillName].clickable && player === game.me) {
 							skillContent += '<br><div class="menubutton skillbutton" style="position:relative;margin-top:5px">点击发动</div>';
