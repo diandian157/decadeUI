@@ -102,10 +102,7 @@ export class SkillButtonTooltip {
 	formatSkillDescription(text) {
 		if (!text) return "";
 
-		// 高亮技能标签（锁定技、限定技等）
-		text = this.highlightSkillTags(text);
-
-		// 保护〖〗和（）括号内的内容（避免被换行处理影响）
+		// 先保护〖〗和（）括号内的内容（避免被换行处理影响）
 		const { text: protectedText, brackets } = this.protectBrackets(text);
 		text = protectedText;
 
@@ -129,6 +126,9 @@ export class SkillButtonTooltip {
 
 		// 还原〖〗和（）括号内容
 		text = this.restoreBrackets(text, brackets);
+
+		// 最后高亮技能标签（锁定技、限定技等）- 放在还原之后避免影响占位符
+		text = this.highlightSkillTags(text);
 
 		return text;
 	}
@@ -167,13 +167,21 @@ export class SkillButtonTooltip {
 	}
 
 	/**
-	 * 还原〖〗和（）括号内容
+	 * 还原〖〗和（）括号内容（支持嵌套）
 	 * @private
 	 */
 	restoreBrackets(text, brackets) {
-		return text.replace(/__BRACKET_(\d+)__/g, (match, index) => {
-			return brackets[parseInt(index)] || match;
-		});
+		let maxIterations = 10;
+		let iteration = 0;
+
+		while (/__BRACKET_\d+__/.test(text) && iteration < maxIterations) {
+			text = text.replace(/__BRACKET_(\d+)__/g, (match, index) => {
+				return brackets[parseInt(index)] || match;
+			});
+			iteration++;
+		}
+
+		return text;
 	}
 
 	/**
