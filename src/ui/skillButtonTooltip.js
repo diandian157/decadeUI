@@ -344,6 +344,9 @@ export class SkillButtonTooltip {
 	attach(button, skillName, player) {
 		if (!button || !skillName) return;
 
+		// 手机端不启用此功能
+		if (lib.device === "ios" || lib.device === "android") return;
+
 		// 避免重复绑定
 		if (button.dataset.tooltipAttached === "true") return;
 
