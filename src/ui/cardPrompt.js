@@ -452,134 +452,121 @@ const isAskWuxie = event => {
 };
 
 /**
- * 追溯到最初的锦囊牌
- * @param {object} event - 事件对象
- * @returns {{card: object|null, source: object|null, target: object|null}} 最初的牌信息
+ * 获取无懈可击状态词（生效/失效）
+ * @param {number} state - 状态值（1为生效，-1为失效）
+ * @returns {string} 状态词
  */
-const traceOriginalCard = event => {
-	let current = event;
-	let depth = 0;
-	const maxDepth = MAX_PARENT_DEPTH_DEEP;
-
-	while (depth < maxDepth && current) {
-		if (Array.isArray(current.respondTo)) {
-			const [source, card] = current.respondTo;
-			const cardName = card?.name || card;
-
-			if (cardName && cardName !== "wuxie") {
-				return {
-					card,
-					source,
-					target: card?.target || card?.targets || current.target,
-				};
-			}
-		}
-
-		current = current.getParent?.();
-		depth++;
-	}
-
-	return { card: null, source: null, target: null };
+const getWuxieStateWord = state => {
+	return state > 0 ? "生效" : "失效";
 };
 
 /**
- * 解析无懈可击的目标名称
- * @param {object} event - 事件对象
- * @param {object} parentMap - 父事件信息映射
- * @returns {string|undefined} 目标名称
- */
-const resolveWuxieTarget = (event, parentMap) => {
-	// 优先处理延时锦囊判定
-	const judgeParent = traverseParent(event, MAX_PARENT_DEPTH_DEEP, p => p.name === "judge" || p.name === "phaseJudge");
-	if (judgeParent?.player) {
-		return resolveName(judgeParent.player);
-	}
-
-	// 追溯到最初的锦囊牌
-	const { card, target } = traceOriginalCard(event);
-
-	// 尝试从最初的牌获取目标
-	const candidates = [
-		target,
-		card?.target,
-		card?.targets,
-		event.target,
-		parentMap?.target,
-		parentMap?.targets,
-		parentMap?.isJudge ? parentMap?.player : null,
-	];
-
-	for (const candidate of candidates) {
-		const name = resolveName(getSingleTarget(candidate));
-		if (name) return name;
-	}
-};
-
-/**
- * 获取无懈可击状态词
- * @param {object} event - 事件对象
- * @param {object} parentMap - 父事件信息映射
- * @returns {string} 状态词（生效/失效）
- */
-const getWuxieStateWord = (event, parentMap) => {
-	if (typeof parentMap?.state === "number") {
-		return parentMap.state > 0 ? "生效" : "失效";
-	}
-	const match = sanitizePrompt(event.prompt).match(/即将(生|失)效/);
-	return match ? (match[1] === "生" ? "生效" : "失效") : "生效或失效";
-};
-
-/**
- * 构建无懈可击提示文本
- * @param {object} event - 事件对象
+ * 延时锦囊的无懈可击提示
+ * @param {object} targetPlayer - 判定角色
+ * @param {string} cardName - 牌名
+ * @param {string} stateWord - 状态词
  * @returns {Array} 提示文本数组
  */
-const buildWuxieTipText = event => {
-	const parentEvent = event.getParent?.();
-	const parentMap = parentEvent?._info_map;
-	const judgeParent = traverseParent(event, MAX_PARENT_DEPTH_DEEP, p => p.name === "judge" || p.name === "phaseJudge");
-	const judgeCard = judgeParent?.card;
-	const delayCardName = judgeCard?.viewAs || judgeCard?.name;
-	const isDelayTrick = judgeParent && delayCardName && lib.card[delayCardName]?.type === "delay";
-
-	const stateWord = getWuxieStateWord(event, parentMap);
+const buildDelayTrickWuxieTip = (targetPlayer, cardName, stateWord) => {
 	const s = text => decPrompt(sanitizePrompt(text));
+	const isMe = targetPlayer === game.me;
 
-	// 延时锦囊判定
-	if (isDelayTrick) {
-		const judgePlayer = judgeParent?.player;
-		const playerName = judgePlayer ? get.slimNameHorizontal(judgePlayer.name) : "未知角色";
-		const cardName = get.translation(delayCardName);
+	if (isMe) {
 		return [
-			{ text: playerName, style: "phase" },
-			{ text: s("的") },
+			{ text: s("你的") },
 			{ text: s(cardName), style: "phase" },
 			{ text: s("即将") },
-			{ text: s(stateWord) },
+			{ text: s(stateWord), style: stateWord === "生效" ? "fire" : "thunder" },
 			{ text: s("，是否使用") },
 			{ text: s("无懈可击"), style: "phase" },
 			{ text: s("？") },
 		];
 	}
 
-	// 普通锦囊：追溯到最初的牌
-	const { card: originalCard, source: originalSource } = traceOriginalCard(event);
-	const cardName = originalCard ? get.translation(originalCard.name || originalCard) : "该牌";
-	const targetName = resolveWuxieTarget(event, parentMap);
-	const sourceName = resolveName(originalSource) ?? "未知角色";
+	const targetName = resolveName(targetPlayer);
+	return [
+		{ text: s(targetName), style: "phase" },
+		{ text: s("的") },
+		{ text: s(cardName), style: "phase" },
+		{ text: s("即将") },
+		{ text: s(stateWord), style: stateWord === "生效" ? "fire" : "thunder" },
+		{ text: s("，是否使用") },
+		{ text: s("无懈可击"), style: "phase" },
+		{ text: s("？") },
+	];
+};
+
+/**
+ * 普通锦囊的无懈可击提示
+ * @param {string} sourceName - 使用者名称
+ * @param {string} targetName - 目标名称
+ * @param {string} cardName - 牌名
+ * @param {string} stateWord - 状态词
+ * @returns {Array} 提示文本数组
+ */
+const buildNormalTrickWuxieTip = (sourceName, targetName, cardName, stateWord) => {
+	const s = text => decPrompt(sanitizePrompt(text));
 
 	return [
 		{ text: s(sourceName), style: "phase" },
 		{ text: s("对") },
 		{ text: s(targetName), style: "phase" },
 		{ text: s("使用的") },
-		{ text: s(cardName), style: "phase" },
+		{ text: s(cardName), style: "thunder" },
 		{ text: s("即将") },
-		{ text: s(stateWord) },
+		{ text: s(stateWord), style: stateWord === "生效" ? "fire" : "wood" },
 		{ text: s("，是否使用") },
 		{ text: s("无懈可击"), style: "phase" },
 		{ text: s("？") },
 	];
+};
+
+/**
+ * 无懈可击提示文本
+ * @param {object} event - 事件对象
+ * @returns {Array} 提示文本数组
+ */
+const buildWuxieTipText = event => {
+	const parentEvent = event.getParent?.();
+	const parentMap = parentEvent?._info_map;
+
+	const currentState = parentMap.state || 1;
+	const stateWord = getWuxieStateWord(currentState);
+
+	const sourceMap = parentMap._source || parentMap;
+
+	// 处理延时锦囊判定
+	if (sourceMap.isJudge) {
+		const targetPlayer = sourceMap.target;
+		const card = sourceMap.card;
+		const cardName = get.translation(card?.viewAs || card?.name || card);
+		return buildDelayTrickWuxieTip(targetPlayer, cardName, stateWord);
+	}
+
+	// 处理普通锦囊
+	const sourcePlayer = sourceMap.player;
+	const targetPlayer = sourceMap.target;
+	const card = sourceMap.card;
+
+	// 获取牌名
+	const cardName = get.translation(card?.name || card);
+
+	// 获取使用者名称
+	const sourceName = resolveName(sourcePlayer);
+
+	// 获取目标名称
+	let targetName;
+	if (sourceMap.multitargets && sourceMap.targets?.length) {
+		targetName = get.translation(sourceMap.targets);
+	} else if (targetPlayer) {
+		if (targetPlayer === sourcePlayer) {
+			targetName = "自己";
+		} else {
+			targetName = resolveName(targetPlayer);
+		}
+	}
+
+	return buildNormalTrickWuxieTip(sourceName, targetName, cardName, stateWord);
 };
 
 // ==================== 借刀杀人处理 ====================
