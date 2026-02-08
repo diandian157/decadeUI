@@ -51,6 +51,19 @@ export function canRecastCard(card, player) {
 
 	if (player?.hasSkill?.("sangu_viewas")) return false;
 
+	// 排除"视为使用"的情况
+	const event = _status.event;
+
+	if (event?._backup) {
+		const backupSkill = event._backup.skill || event.skill;
+		if (backupSkill) {
+			const skillInfo = lib.skill[backupSkill];
+			if (skillInfo?.viewAs || skillInfo?.viewAsFilter) {
+				return false;
+			}
+		}
+	}
+
 	if (!isRecastableCard(card, player)) return false;
 	if (!isRealHandCard(card, player)) return false;
 	return true;
@@ -135,6 +148,14 @@ export const recastAnimateSkill = {
 		filter(event, player) {
 			if (lib.config.extension_十周年UI_newDecadeStyle === "off") return false;
 			if (event.targets && event.targets.length > 0) return false;
+
+			if (event.skill) {
+				const skillInfo = lib.skill[event.skill];
+				if (skillInfo?.viewAs || skillInfo?.viewAsFilter) {
+					return false;
+				}
+			}
+
 			const cards = event.cards?.slice() || [];
 			if (cards.length === 0) return false;
 
