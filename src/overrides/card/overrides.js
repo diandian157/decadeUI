@@ -86,6 +86,14 @@ export function cardInit(card) {
 
 	this.node.range.innerHTML = "";
 
+	const info = lib.card[card[2]];
+	if (info) {
+		this.dataset.cardName = card[2];
+		this.dataset.cardType = info.type || "";
+		this.dataset.cardSubtype = info.subtype || "";
+		this.dataset.cardMultitarget = info.multitarget ? "1" : "0";
+	}
+
 	// 处理卡牌标签
 	processCardTags(this, card);
 

@@ -439,22 +439,48 @@ export function playerThrowordered2(card, nosource) {
 
 /**
  * 阶段判定覆写
- * @description 处理判定阶段的卡牌展示效果
+ * @description 处理判定阶段的卡牌展示效果，支持低性能模式优化
  * @param {Object} card - 判定卡牌
  * @returns {void}
  */
 export function playerPhaseJudge(card) {
 	game.addVideo("phaseJudge", this, get.cardInfo(card));
 
+	const player = this;
+
 	if (card[card.cardSymbol]?.cards?.length) {
 		const cards = card[card.cardSymbol].cards;
-		this.$throw(cards);
+		const clone = player.$throw(cards);
+
+		if (lib.config.low_performance && cards[0] && cards[0].clone) {
+			const waitingForTransition = get.time();
+			_status.waitingForTransition = waitingForTransition;
+			cards[0].clone.listenTransition(function () {
+				if (_status.waitingForTransition == waitingForTransition && _status.paused) {
+					game.resume();
+				}
+			});
+			game.pause();
+		} else {
+			getDui().delay(451);
+		}
 	} else {
 		const VCard = game.createCard(card.name, "虚拟", "");
-		this.$throw(VCard);
-	}
+		const clone = player.$throw(VCard);
 
-	getDui().delay(451);
+		if (lib.config.low_performance && VCard && VCard.clone) {
+			const waitingForTransition = get.time();
+			_status.waitingForTransition = waitingForTransition;
+			VCard.clone.listenTransition(function () {
+				if (_status.waitingForTransition == waitingForTransition && _status.paused) {
+					game.resume();
+				}
+			});
+			game.pause();
+		} else {
+			getDui().delay(451);
+		}
+	}
 }
 
 /**
@@ -534,11 +560,22 @@ export function playerAddVirtualJudge(VCard, cards) {
 				cardx.cards = cards || [];
 				cardx.viewAs = VCard.name;
 				const bgMark = lib.translate[cardx.viewAs + "_bg"] || get.translation(cardx.viewAs)[0];
-				if (cardx.classList.contains("fullskin") || cardx.classList.contains("fullborder")) {
-					if (window.decadeUI) cardx.node.judgeMark.node.judge.innerHTML = bgMark;
-					else cardx.node.background.innerHTML = bgMark;
+
+				if (cardx.classList.contains("fullskin") || cardx.classList.contains("fullborder") || cardx.classList.contains("fullimage")) {
+					cardx.classList.add("fakejudge");
+
+					if (cardx.classList.contains("fullimage")) {
+						cardx.classList.remove("fullimage");
+						cardx.classList.add("fullskin");
+						cardx.style.backgroundImage = "";
+					}
+
+					if (window.decadeUI) {
+						cardx.node.judgeMark.node.judge.innerHTML = bgMark;
+					} else {
+						cardx.node.background.innerHTML = bgMark;
+					}
 				}
-				cardx.classList.add("fakejudge");
 			} else {
 				delete cardx.viewAs;
 				cardx.classList.remove("fakejudge");

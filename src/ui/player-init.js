@@ -23,6 +23,19 @@ export function createPlayerInit(base) {
 		base.lib.element.player.$init.apply(this, arguments);
 		this.doubleAvatar = (character2 && lib.character[character2]) !== undefined;
 
+		const info = lib.character[character];
+		if (info && get.is.newLayout) {
+			if (!game.minskin && get.is.newLayout() && !info.isMinskin) {
+				this.classList.remove("minskin");
+			} else if (info.isMinskin || game.minskin) {
+				this.classList.add("minskin");
+			}
+		}
+
+		if (this.node.name && this.group) {
+			this.node.name.dataset.nature = get.groupnature(this.group);
+		}
+
 		// othersOff样式下检查武将原画
 		if (lib.config.extension_十周年UI_newDecadeStyle === "othersOff") {
 			this.checkAndAddExperienceSuffix(character);
