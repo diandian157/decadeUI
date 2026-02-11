@@ -51,13 +51,13 @@ function createCopy(original) {
  * @returns {Function} 包装后的过滤器
  */
 function wrapFilter(filter, includeS) {
-	return (card, player, target) => {
+	return function (card, player) {
 		const real = card.relatedCard || card;
 		if (get.position(card) === "e") return false;
 		if (includeS && get.position(card) === "s" && get.itemtype(card) === "card" && !card.hasGaintag(GAINTAG)) {
 			return false;
 		}
-		return filter(real, player, target);
+		return filter.call(this, real, player);
 	};
 }
 
@@ -78,7 +78,7 @@ function processMultiSelect(event, player, copies, filtered, result) {
 	result.addArray(filtered);
 	const valid = player.getCards("he", j => {
 		const real = j.relatedCard || j;
-		return event.position.includes(get.position(real)) && event.filterCard(real, player, event.target);
+		return event.position.includes(get.position(real)) && event.filterCard.call(event, real, player);
 	});
 
 	for (const c of valid) {
@@ -88,7 +88,7 @@ function processMultiSelect(event, player, copies, filtered, result) {
 			copies.filter(j => {
 				if (result.includes(j)) return false;
 				const real = j.relatedCard || j;
-				return event.position.includes(get.position(real)) && event.filterCard(real, player, event.target);
+				return event.position.includes(get.position(real)) && event.filterCard.call(event, real, player);
 			})
 		);
 		ui.selected.cards.remove(c);
@@ -170,7 +170,7 @@ export function setupEquipCopy() {
 		let result = [];
 
 		if (event.filterCard) {
-			filtered = copies.filter(c => event.filterCard(c.relatedCard || c, player, event.target));
+			filtered = copies.filter(c => event.filterCard.call(event, c.relatedCard || c, player));
 			event.filterCard = wrapFilter(event.filterCard, includeS);
 		}
 
