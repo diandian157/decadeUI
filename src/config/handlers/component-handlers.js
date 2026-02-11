@@ -84,12 +84,51 @@ export function onGTBBYangshiClick(item) {
 }
 
 /**
- * 标记样式更新处理
+ * 标记样式热更新
+ * @description 更新标记样式并重新渲染所有玩家的标记
  */
 export function onPlayerMarkStyleUpdate() {
-	if (window.decadeUI) {
-		ui.arena.dataset.playerMarkStyle = lib.config.extension_十周年UI_playerMarkStyle;
+	if (!window.decadeUI) return;
+
+	ui.arena.dataset.playerMarkStyle = lib.config.extension_十周年UI_playerMarkStyle;
+
+	if (window.decadeUI.config) {
+		window.decadeUI.config.playerMarkStyle = lib.config.extension_十周年UI_playerMarkStyle;
 	}
+
+	game.players.concat(game.dead).forEach(player => {
+		if (!player || !player.marks) return;
+
+		const markData = [];
+		for (const [markName, markElement] of Object.entries(player.marks)) {
+			if (!markElement) continue;
+			markData.push({
+				name: markName,
+				skill: markElement.skill || markName,
+				info: markElement.info,
+				markidentifer: markElement.markidentifer,
+			});
+		}
+
+		for (const markName in player.marks) {
+			if (player.marks[markName]) {
+				player.marks[markName].remove();
+				delete player.marks[markName];
+			}
+		}
+
+		markData.forEach(data => {
+			const skillInfo = lib.skill[data.name];
+			if (skillInfo?.intro) {
+				player.markSkill(data.name);
+			} else {
+				player.mark(data.name, data.info, data.skill);
+			}
+		});
+
+		player.updateMarks?.();
+		ui.updatem?.(player);
+	});
 }
 
 /**

@@ -29,13 +29,15 @@ function shouldSkipMark(item) {
 	if (!item) return false;
 
 	const style = window.decadeUI?.config?.newDecadeStyle ?? lib.config.extension_十周年UI_newDecadeStyle;
+	const markStyle = window.decadeUI?.config?.playerMarkStyle ?? lib.config.extension_十周年UI_playerMarkStyle;
 
 	if (style === "Off") return false;
 
-	// 检查转换技和限定技
-	const info = get.info(item);
-	if (info?.zhuanhuanji || info?.zhuanhuanji2 || info?.limited) {
-		return true;
+	if (markStyle === "decade") {
+		const info = get.info(item);
+		if (info?.zhuanhuanji || info?.zhuanhuanji2 || info?.limited) {
+			return true;
+		}
 	}
 
 	if (typeof item !== "string") return false;
@@ -88,8 +90,9 @@ export function playerUnmarkSkill(name, info, card, nobroadcast) {
  */
 export function playerMark(item, info, skill) {
 	const style = lib.config.extension_十周年UI_newDecadeStyle;
+	const markStyle = window.decadeUI?.config?.playerMarkStyle ?? lib.config.extension_十周年UI_playerMarkStyle;
 
-	if (item && style !== "Off") {
+	if (item && style !== "Off" && markStyle === "decade") {
 		const itemInfo = get.info(item);
 		if (itemInfo && (itemInfo.zhuanhuanji || itemInfo.zhuanhuanji2 || itemInfo.limited)) {
 			return;
@@ -154,7 +157,7 @@ function createMarkElement(item, skill) {
 		itemName = item.name;
 	} else {
 		mark = ui.create.div(".card.mark");
-		const markStyle = window.decadeUI?.config?.playerMarkStyle;
+		const markStyle = window.decadeUI?.config?.playerMarkStyle ?? lib.config.extension_十周年UI_playerMarkStyle;
 
 		let markText = lib.translate[item + "_bg"];
 		if (!markText || markText[0] === "+" || markText[0] === "-") {
@@ -186,8 +189,7 @@ function createMarkElement(item, skill) {
 			mark.text.classList.add("before-hidden");
 		}
 
-		// 隐藏包含☯的标记
-		if (markText?.includes("☯")) {
+		if (markStyle === "decade" && markText?.includes("☯")) {
 			mark.style.setProperty("display", "none", "important");
 		}
 
@@ -272,7 +274,8 @@ export function playerMarkCharacter(name, info, learn, learn2) {
 
 	if (name.startsWith("unknown")) {
 		const unknownText = get.translation(name)[0];
-		if (unknownText?.includes("☯")) {
+		const markStyle = window.decadeUI?.config?.playerMarkStyle ?? lib.config.extension_十周年UI_playerMarkStyle;
+		if (markStyle === "decade" && unknownText?.includes("☯")) {
 			nodeMark.style.setProperty("display", "none", "important");
 		}
 		nodeMarkText.innerHTML = unknownText;
@@ -284,7 +287,8 @@ export function playerMarkCharacter(name, info, learn, learn2) {
 		if (text.length === 2) {
 			nodeMarkText.classList.add("small-text");
 		}
-		if (text?.includes("☯")) {
+		const markStyle = window.decadeUI?.config?.playerMarkStyle ?? lib.config.extension_十周年UI_playerMarkStyle;
+		if (markStyle === "decade" && text?.includes("☯")) {
 			nodeMark.style.setProperty("display", "none", "important");
 		}
 		nodeMarkText.innerHTML = text;
@@ -470,7 +474,8 @@ function createNewSkillMark(player, id, name, content, target) {
 	if (text.length === 2) {
 		nodeMarkText.classList.add("small-text");
 	}
-	if (text?.includes("☯")) {
+	const markStyle = window.decadeUI?.config?.playerMarkStyle ?? lib.config.extension_十周年UI_playerMarkStyle;
+	if (markStyle === "decade" && text?.includes("☯")) {
 		nodeMark.style.setProperty("display", "none", "important");
 	}
 
