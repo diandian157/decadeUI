@@ -167,9 +167,6 @@ export function createPlayerInit(base) {
 			}
 		}
 
-		this._addPrefixSeparator(this.node.name, character);
-		if (this.doubleAvatar && this.node.name2) this._addPrefixSeparator(this.node.name2, character2);
-
 		// 座位号节点
 		if (!this.node.seat) {
 			this.node.seat = element.create("seat", this);

@@ -74,11 +74,4 @@ export {
 } from "./card-movement.js";
 
 // UI相关覆写
-export {
-	playerSay,
-	playerSyncExpand,
-	playerAddPrefixSeparator,
-	playerCheckAndAddExperienceSuffix,
-	playerUpdateShowCards,
-	playerCheckBoundsCache,
-} from "./ui.js";
+export { playerSay, playerSyncExpand, playerCheckAndAddExperienceSuffix, playerUpdateShowCards, playerCheckBoundsCache } from "./ui.js";

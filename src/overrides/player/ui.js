@@ -157,46 +157,6 @@ export function playerSyncExpand(map) {
 }
 
 /**
- * 添加前缀分隔符覆写
- * @description 在武将名称前缀后添加分隔符（•）
- * @param {HTMLElement} nameNode - 名称节点
- * @param {string} character - 武将名
- * @returns {void}
- */
-export function playerAddPrefixSeparator(nameNode, character) {
-	if (lib.config.extension_十周年UI_newDecadeStyle !== "off" || !nameNode || !character) return;
-
-	const slimName = get.slimName(character);
-	if (!slimName.includes("<span>")) return;
-
-	setTimeout(() => {
-		if (!nameNode) return;
-
-		const children = Array.from(nameNode.childNodes);
-		let lastPrefixIndex = -1;
-
-		for (let i = children.length - 2; i >= 0; i--) {
-			if (children[i].nodeType === Node.ELEMENT_NODE) {
-				lastPrefixIndex = i;
-				break;
-			}
-		}
-
-		if (lastPrefixIndex === -1) return;
-
-		const next = children[lastPrefixIndex + 1];
-		if (!next) return;
-
-		if (next.nodeType === Node.TEXT_NODE && next.textContent.trim() && !next.textContent.startsWith("•")) {
-			next.textContent = "•" + next.textContent;
-		} else if (next.nodeType === Node.ELEMENT_NODE) {
-			const separator = document.createTextNode("•");
-			nameNode.insertBefore(separator, next);
-		}
-	}, 0);
-}
-
-/**
  * 检查并添加体验后缀
  * @description 检测武将头像是否加载成功，失败时添加"•体验"后缀
  * @param {string} characterName - 武将名
