@@ -383,7 +383,15 @@ export function createShoushaLbtnPlugin(lib, game, ui, get, ai, _status, app) {
 					ui.confirm.str = str;
 				}
 
-				if (func) ui.confirm.custom = func;
+				if (func) {
+					ui.confirm.custom = func;
+				} else {
+					ui.confirm.custom = (link, target) => {
+						if (link === "ok") ui.click.ok(target);
+						else if (link === "cancel") ui.click.cancel(target);
+						else target.custom?.(link);
+					};
+				}
 
 				ui.updatec();
 				ui.confirm.update?.();

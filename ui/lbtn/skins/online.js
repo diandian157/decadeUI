@@ -201,7 +201,15 @@ export function createOnlineLbtnPlugin(lib, game, ui, get, ai, _status, app) {
 					confirm.str = str;
 				}
 
-				if (func) confirm.custom = func;
+				if (func) {
+					confirm.custom = func;
+				} else {
+					confirm.custom = (link, target) => {
+						if (link === "ok") ui.click.ok(target);
+						else if (link === "cancel") ui.click.cancel(target);
+						else target.custom?.(link);
+					};
+				}
 
 				ui.updatec();
 				confirm.update?.();
