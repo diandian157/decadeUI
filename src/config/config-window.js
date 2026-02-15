@@ -2,7 +2,7 @@
  * @fileoverview 独立配置窗口UI
  */
 import { lib, game, ui } from "noname";
-import { config } from "../config/index.js";
+import { config } from "./index.js";
 
 let currentOverlay = null;
 
@@ -13,7 +13,7 @@ function loadStyles() {
 	const link = document.createElement("link");
 	link.id = "decade-config-window-styles";
 	link.rel = "stylesheet";
-	link.href = `${lib.assetURL}extension/十周年UI/src/styles/config-window.css`;
+	link.href = `${lib.assetURL}extension/十周年UI/src/config/config-window.css`;
 	document.head.appendChild(link);
 }
 

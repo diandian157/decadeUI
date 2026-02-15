@@ -3,7 +3,7 @@
  * @description 初始化独立配置窗口功能
  * @module features/configWindow
  */
-import { showDecadeConfigWindow, hideDecadeConfigWindow } from "../ui/config-window.js";
+import { showDecadeConfigWindow, hideDecadeConfigWindow } from "../config/config-window.js";
 
 /**
  * 设置配置窗口功能
