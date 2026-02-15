@@ -173,9 +173,11 @@ export function playerReinit(from, to, maxHp, online) {
 		}
 	}
 
-	this._addPrefixSeparator(this.node.name, character1);
-	if (this.doubleAvatar && this.node.name2) {
-		this._addPrefixSeparator(this.node.name2, this.name2);
+	if (this.node.name && character1) {
+		this.node.name.innerHTML = get.slimNameHorizontal?.(character1) || get.slimName(character1);
+	}
+	if (this.doubleAvatar && this.node.name2 && this.name2) {
+		this.node.name2.innerHTML = get.slimNameHorizontal?.(this.name2) || get.slimName(this.name2);
 	}
 
 	return this;
