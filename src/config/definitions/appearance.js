@@ -29,6 +29,21 @@ export const extensionToggle = {
 };
 
 /**
+ * 新版配置菜单配置
+ * @type {Object}
+ */
+export const newConfigWindow = {
+	name: "打开新版菜单",
+	intro: "在独立窗口中打开现代化的配置界面",
+	clear: true,
+	onclick() {
+		if (window.decadeUI?.showConfigWindow) {
+			window.decadeUI.showConfigWindow();
+		}
+	},
+};
+
+/**
  * 调试助手配置
  * @type {Object}
  */
@@ -151,6 +166,7 @@ export const outward_title_end = createCollapseEnd("outward_title");
  */
 export const appearanceConfigs = {
 	extensionToggle,
+	newConfigWindow,
 	eruda,
 	outward_title,
 	newDecadeStyle,

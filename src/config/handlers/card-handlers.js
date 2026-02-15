@@ -42,7 +42,11 @@ export function onAutoSelectUpdate() {
  * @this {HTMLElement} 输入框元素
  */
 export function onHandTipHeightBlur() {
-	const value = parseInputValue(this, 20, 0, 100);
+	let value = parseFloat(this.value);
+	if (isNaN(value)) value = 20;
+	value = Math.max(0, Math.min(100, value));
+	this.value = String(value);
+
 	game.saveConfig("extension_十周年UI_handTipHeight", value);
 	if (window.decadeUI) {
 		document.documentElement.style.setProperty("--hand-tip-bottom", `calc(${value}% + 10px)`);
@@ -64,7 +68,11 @@ export function onHandTipHeightUpdate() {
  * @this {HTMLElement} 输入框元素
  */
 export function onCardScaleBlur() {
-	const value = parseInputValue(this, 0.18, 0.1, 1, 2);
+	let value = parseFloat(this.value);
+	if (isNaN(value)) value = 0.18;
+	value = Math.max(0.1, Math.min(1, value));
+	this.value = value.toFixed(2);
+
 	game.saveConfig("extension_十周年UI_cardScale", value);
 	if (window.decadeUI) {
 		decadeUI.zooms.card = decadeUI.getCardBestScale();
@@ -77,7 +85,11 @@ export function onCardScaleBlur() {
  * @this {HTMLElement} 输入框元素
  */
 export function onDiscardScaleBlur() {
-	const value = parseInputValue(this, 0.18, 0.1, 1, 2);
+	let value = parseFloat(this.value);
+	if (isNaN(value)) value = 0.18;
+	value = Math.max(0.1, Math.min(1, value));
+	this.value = value.toFixed(2);
+
 	game.saveConfig("extension_十周年UI_discardScale", value);
 	if (window.decadeUI) {
 		decadeUI.layout.updateDiscard();
@@ -89,7 +101,11 @@ export function onDiscardScaleBlur() {
  * @this {HTMLElement} 输入框元素
  */
 export function onHandFoldMinBlur() {
-	const value = parseInputValue(this, 9, 1, 999, 0);
+	let value = parseFloat(this.value);
+	if (isNaN(value)) value = 9;
+	value = Math.max(1, Math.min(999, value));
+	this.value = String(value);
+
 	game.saveConfig("extension_十周年UI_handFoldMin", String(value));
 	if (window.decadeUI) {
 		decadeUI.layout.updateHand();

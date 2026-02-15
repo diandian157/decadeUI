@@ -110,7 +110,6 @@ function createWelcomeDialog() {
 	let defaultContent = ""; // 保存默认内容
 
 	avatar.addEventListener("click", async () => {
-
 		if (isShowingUpdate) {
 			// 返回前言
 			text.innerHTML = defaultContent;

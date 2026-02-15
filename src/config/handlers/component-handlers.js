@@ -28,8 +28,15 @@ export function onJindutiaoYangshiUpdate() {
  * @this {HTMLElement} 输入框元素
  */
 export function onJindutiaoSetBlur() {
-	const value = parseInputValue(this, 22, 0, 100);
+	let value = parseFloat(this.value);
+
+	if (isNaN(value)) value = 22;
+	value = Math.max(0, Math.min(100, value));
+
+	this.value = String(value);
+
 	game.saveConfig("extension_十周年UI_jindutiaoSet", value);
+
 	const progressBar = document.getElementById("jindutiaopl");
 	if (progressBar) {
 		progressBar.style.bottom = `${value}%`;
