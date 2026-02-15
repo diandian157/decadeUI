@@ -1498,7 +1498,8 @@
 .player > .yu-mark,
 .player > .sheji-mark,
 .player > .jm-mark,
-.player > .yan-mark {
+.player > .yan-mark,
+.player > .yuan-mark {
 	position: absolute;
 	top: 100px;
 	left: -11px;
@@ -1836,4 +1837,8 @@
 
 .player > .yan-mark {
 	background-image: url("../../image/ui/mark/mark_yan.png");
+}
+
+.player > .yuan-mark {
+	background-image: url("../../image/ui/mark/mark_yuan.png");
 }
