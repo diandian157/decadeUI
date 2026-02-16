@@ -92,7 +92,7 @@ export const finalizeDecadeUICore = (decadeUI, config) => {
 	setupSkillDieAudio();
 	setupAudioHooks();
 	setupDynamicSkin();
-	setupWelcomeDialog();
+	setupWelcomeDialog(lib.extensionPack.十周年UI);
 
 	console.timeEnd(decadeUIName);
 	return decadeUI;

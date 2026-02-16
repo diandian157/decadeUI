@@ -3,11 +3,6 @@
  */
 import { lib, game, ui } from "noname";
 
-/**
- * 当前欢迎窗口版本号
- */
-const WELCOME_VERSION = "1.0.0";
-
 // 加载CSS样式
 function loadStyles() {
 	if (document.getElementById("decade-welcome-styles")) return;
@@ -21,16 +16,18 @@ function loadStyles() {
 
 /**
  * 检查是否需要显示欢迎窗口
+ * @param {object} extensionInfo - 扩展信息对象
  * @returns {boolean}
  */
-function shouldShowWelcome() {
+function shouldShowWelcome(extensionInfo) {
 	const storageKey = "extension_十周年UI_welcomeVersion";
 	const lastVersion = lib.config[storageKey];
+	const currentVersion = extensionInfo.version;
 
 	// 如果从未显示过，或者版本号不同，则显示
-	if (!lastVersion || lastVersion !== WELCOME_VERSION) {
+	if (!lastVersion || lastVersion !== currentVersion) {
 		// 保存当前版本号
-		game.saveConfig(storageKey, WELCOME_VERSION);
+		game.saveConfig(storageKey, currentVersion);
 		return true;
 	}
 
@@ -126,14 +123,11 @@ function createWelcomeDialog() {
 
 	defaultContent = text.innerHTML;
 
-	// 关闭按钮
-	const closeButton = ui.create.div(".decade-welcome-close-button", dialog);
-	closeButton.innerHTML = "开始游玩";
-	closeButton.addEventListener("click", () => {
-		overlay.style.animation = "fadeOut 0.3s ease-in-out";
-		setTimeout(() => {
+	// 点击遮罩层关闭对话框
+	overlay.addEventListener("click", e => {
+		if (e.target === overlay) {
 			overlay.remove();
-		}, 300);
+		}
 	});
 
 	document.body.appendChild(overlay);
@@ -141,9 +135,10 @@ function createWelcomeDialog() {
 
 /**
  * 设置启动欢迎功能
+ * @param {object} extensionInfo - 扩展信息对象
  */
-export function setupWelcomeDialog() {
-	if (!shouldShowWelcome()) {
+export function setupWelcomeDialog(extensionInfo) {
+	if (!shouldShowWelcome(extensionInfo)) {
 		return;
 	}
 

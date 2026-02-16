@@ -20,11 +20,13 @@
 /* 对话框容器 */
 .decade-welcome-dialog {
 	position: relative;
-	width: 100%;
-	height: 100%;
+	width: 70%;
+	height: 80%;
+	max-width: 900px;
+	max-height: none;
 	background: linear-gradient(135deg, #ff9a9e 0%, #fcb69f 50%, #ffecd2 100%);
 	border-radius: 20px;
-	padding: 60px 80px;
+	padding: 0 40px;
 	box-shadow: 0 20px 60px rgba(255, 154, 158, 0.5);
 	animation: slideIn 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
 	overflow: hidden;
@@ -48,12 +50,12 @@
 /* 作者头像 */
 .decade-welcome-dialog .author-avatar {
 	position: absolute;
-	top: 80px;
+	top: 30px;
 	right: 30px;
 	cursor: pointer;
 	border-radius: 50%;
-	width: 80px;
-	height: 80px;
+	width: 70px;
+	height: 70px;
 	box-shadow: 0 5px 15px rgba(255, 154, 158, 0.5);
 	transition: all 0.3s ease;
 	z-index: 10;
@@ -67,13 +69,13 @@
 /* 说话气泡 */
 .decade-welcome-bubble {
 	position: absolute;
-	top: 100px;
-	right: 125px;
+	top: 40px;
+	right: 115px;
 	background: #fff;
 	color: #ff6b9d;
-	padding: 14px 22px;
+	padding: 12px 20px;
 	border-radius: 20px;
-	font-size: 18px;
+	font-size: 16px;
 	font-weight: bold;
 	box-shadow: 0 5px 15px rgba(255, 154, 158, 0.4);
 	white-space: nowrap;
@@ -92,19 +94,20 @@
 .decade-welcome-text {
 	position: relative;
 	color: #fff;
-	line-height: 2;
-	font-size: 18px;
+	line-height: 1.8;
+	font-size: 16px;
 	word-wrap: break-word;
 	text-shadow: 0 2px 6px rgba(255, 105, 135, 0.4);
 	overflow-y: auto;
 	flex: 1;
-	padding-right: 10px;
+	padding: 80px 10px 20px 0;
 	display: flex;
 	flex-direction: column;
-	justify-content: center;
-	max-width: 1200px;
+	justify-content: flex-start;
+	max-width: 100%;
 	margin-left: auto;
 	margin-right: auto;
+	-webkit-overflow-scrolling: touch;
 }
 
 /* 动画定义 */
@@ -159,34 +162,4 @@
 	50% {
 		transform: translateY(-5px);
 	}
-}
-
-/* 关闭按钮 */
-.decade-welcome-close-button {
-	position: relative;
-	margin: 0 auto 20px;
-	padding: 15px 50px;
-	background: linear-gradient(135deg, #ff6b9d 0%, #ff8fab 100%);
-	color: #fff;
-	font-size: 18px;
-	font-weight: bold;
-	border-radius: 30px;
-	cursor: pointer;
-	text-align: center;
-	box-shadow: 0 5px 20px rgba(255, 107, 157, 0.4);
-	transition: all 0.3s ease;
-	user-select: none;
-	width: fit-content;
-	flex-shrink: 0;
-}
-
-.decade-welcome-close-button:hover {
-	transform: translateY(-2px);
-	box-shadow: 0 8px 25px rgba(255, 107, 157, 0.6);
-	background: linear-gradient(135deg, #ff8fab 0%, #ffa5bd 100%);
-}
-
-.decade-welcome-close-button:active {
-	transform: translateY(0);
-	box-shadow: 0 3px 15px rgba(255, 107, 157, 0.4);
 }

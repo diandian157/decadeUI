@@ -20,11 +20,11 @@
 
 /* 对话框容器 */
 .decade-config-dialog {
-	width: 100%;
-	height: 100%;
+	width: 80%;
+	height: 85%;
 	background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
-	border-radius: 0;
-	box-shadow: none;
+	border-radius: 20px;
+	box-shadow: 0 20px 60px rgba(102, 126, 234, 0.5);
 	position: relative;
 	writing-mode: horizontal-tb !important;
 }

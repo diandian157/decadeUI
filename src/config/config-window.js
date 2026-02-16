@@ -89,6 +89,14 @@ function createConfigWindow() {
 	// 加载初始配置
 	loadConfigs(content, currentTab);
 
+	// 点击遮罩层关闭对话框
+	overlay.addEventListener("click", e => {
+		if (e.target === overlay) {
+			overlay.remove();
+			currentOverlay = null;
+		}
+	});
+
 	document.body.appendChild(overlay);
 	currentOverlay = overlay;
 }
