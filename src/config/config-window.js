@@ -174,44 +174,62 @@ function loadConfigs(container, tabId) {
 
 			tdControl.appendChild(toggle);
 		} else if (configItem.type === "select") {
-			// 将对象转换为数组格式 [[key, value], ...]
-			const listArray = Object.keys(configDef.item).map(key => [key, configDef.item[key]]);
 			const currentValue = lib.config[configKey] ?? configDef.init;
-			const select = ui.create.selectlist(listArray, currentValue);
+			const optionsContainer = document.createElement("div");
+			optionsContainer.className = "decade-config-options";
 
-			select.className = "decade-config-select";
-
-			// 处理 HTML 内容
-			Array.from(select.options).forEach(option => {
-				const optionValue = option.value;
-				const originalText = configDef.item[optionValue];
-				if (typeof originalText === "string" && originalText.includes("<")) {
-					const temp = document.createElement("div");
-					temp.innerHTML = originalText;
-					const textContent = temp.textContent || temp.innerText;
-
-					if (!textContent.trim()) {
-						option.textContent = optionValue;
-					} else {
-						option.textContent = textContent;
-					}
+			Object.keys(configDef.item).forEach(key => {
+				const option = document.createElement("div");
+				option.className = "decade-config-option";
+				if (key === currentValue) {
+					option.classList.add("selected");
+					option.style.cssText = "margin-right: 8px; margin-bottom: 8px; box-shadow: 0 2px 8px rgba(168, 237, 234, 0.4) !important;";
+				} else {
+					option.style.cssText = "margin-right: 8px; margin-bottom: 8px; box-shadow: none !important;";
 				}
+
+				// 处理 HTML 内容
+				let displayText = configDef.item[key];
+				if (typeof displayText === "string" && displayText.includes("<")) {
+					const temp = document.createElement("div");
+					temp.innerHTML = displayText;
+					const textContent = temp.textContent || temp.innerText;
+					displayText = textContent.trim() || key;
+				}
+
+				option.textContent = displayText;
+				option.dataset.value = key;
+
+				option.onclick = function () {
+					if (this.dataset.value === lib.config[configKey]) return;
+
+					// 移除其他选项的选中状态
+					Array.from(optionsContainer.children).forEach(child => {
+						child.classList.remove("selected");
+						child.style.cssText = "margin-right: 8px; margin-bottom: 8px; box-shadow: none !important;";
+					});
+
+					// 选中当前选项
+					this.classList.add("selected");
+					this.style.cssText = "margin-right: 8px; margin-bottom: 8px; box-shadow: 0 2px 8px rgba(168, 237, 234, 0.4) !important;";
+
+					const newValue = this.dataset.value;
+
+					if (configDef.onclick) {
+						configDef.onclick(newValue);
+					} else {
+						game.saveConfig(configKey, newValue);
+
+						if (configDef.update) {
+							configDef.update();
+						}
+					}
+				};
+
+				optionsContainer.appendChild(option);
 			});
 
-			select.onchange = function () {
-				const newValue = this.value;
-
-				if (configDef.onclick) {
-					configDef.onclick(newValue);
-				} else {
-					game.saveConfig(configKey, newValue);
-
-					if (configDef.update) {
-						configDef.update();
-					}
-				}
-			};
-			tdControl.appendChild(select);
+			tdControl.appendChild(optionsContainer);
 		} else if (configItem.type === "input") {
 			const input = document.createElement("input");
 			input.type = "text";

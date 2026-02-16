@@ -47,7 +47,7 @@
 	position: absolute;
 	top: 30px;
 	left: 30px;
-	font-size: 26px;
+	font-size: 32px;
 	font-weight: bold;
 	color: #fff;
 	text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
@@ -165,6 +165,13 @@
 .decade-config-table {
 	width: 100%;
 	writing-mode: horizontal-tb !important;
+	table-layout: fixed;
+}
+
+.decade-config-table tr {
+	display: flex;
+	align-items: flex-start;
+	justify-content: space-between;
 }
 
 /* 配置项名称 */
@@ -174,6 +181,7 @@
 	font-weight: 500;
 	writing-mode: horizontal-tb !important;
 	cursor: pointer;
+	flex: 0 0 auto;
 }
 
 /* 配置项介绍 */
@@ -196,6 +204,10 @@
 .decade-config-control {
 	text-align: right;
 	writing-mode: horizontal-tb !important;
+	flex: 1;
+	display: flex;
+	justify-content: flex-end;
+	min-width: 0;
 }
 
 /* 开关控件 */
@@ -235,30 +247,47 @@
 	left: 27px;
 }
 
-/* 下拉选择框 */
-.decade-config-select {
-	padding: 8px 14px;
-	background: rgba(255, 255, 255, 0.9);
-	border: none;
-	border-radius: 8px;
-	color: #333;
-	font-size: 14px;
-	min-width: 120px;
+/* 选项容器 */
+.decade-config-options {
+	display: flex !important;
+	flex-wrap: wrap !important;
+	flex-direction: row-reverse !important;
+	justify-content: flex-start !important;
+	writing-mode: horizontal-tb !important;
+	align-items: center !important;
+}
+
+/* 单个选项 */
+.decade-config-option {
+	padding: 5px 10px;
+	background: rgba(255, 255, 255, 0.2);
+	border: 1px solid rgba(255, 255, 255, 0.3);
+	border-radius: 5px;
+	color: rgba(255, 255, 255, 0.8);
+	font-size: 12px;
 	cursor: pointer;
-	outline: none;
 	transition: all 0.3s ease;
 	writing-mode: horizontal-tb !important;
+	white-space: nowrap;
+	display: inline-flex !important;
+	position: relative !important;
 }
 
-.decade-config-select:hover {
-	background: rgba(255, 255, 255, 1);
-	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+.decade-config-option:first-child {
+	margin-right: 0 !important;
 }
 
-.decade-config-select option {
-	background: #fff;
+.decade-config-option:hover {
+	background: rgba(255, 255, 255, 0.3);
+	color: #fff;
+	transform: translateY(-1px);
+}
+
+.decade-config-option.selected {
+	background: linear-gradient(90deg, #a8edea 0%, #fed6e3 100%);
+	border-color: rgba(255, 255, 255, 0.5);
 	color: #333;
-	padding: 8px;
+	font-weight: 500;
 }
 
 /* 输入框 */
