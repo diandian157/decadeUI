@@ -1,8 +1,8 @@
 import { lib, game, ui, get, ai, _status } from "noname";
-import { config } from "./src/config.js";
-import { content } from "./src/content.js";
-import { precontent } from "./src/precontent.js";
-import { mainpackage } from "./src/package.js";
+import { config } from "./config.js";
+import { content } from "./content.js";
+import { precontent } from "./precontent.js";
+import { mainpackage } from "./package.js";
 
 /** @type {import("noname").ExtensionType} */
 export const type = "extension";

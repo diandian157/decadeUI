@@ -37,7 +37,7 @@ function shouldShowWelcome(extensionInfo) {
 /**
  * 创建二次元风格的欢迎窗口
  */
-function createWelcomeDialog() {
+export function createWelcomeDialog() {
 	// 确保样式已加载
 	loadStyles();
 

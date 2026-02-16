@@ -23,9 +23,23 @@ export const mainpackage = otherInfo => {
 
 	pack.intro = `<a href="javascript:void(0)" onclick="${copyHandler}" style="color: #FFFACD;">点击复制仓库地址</a>`;
 
+	// 点击头像播放音效并打开欢迎welcomeDialog窗口
+	if (!window.decadeUIWelcome) {
+		window.decadeUIWelcome = {
+			show: () => {
+				// 播放音效
+				new Audio("extension/十周年UI/audio/Ciallo.mp3").play();
+				// 打开欢迎窗口
+				import("./features/welcomeDialog.js").then(module => {
+					module.createWelcomeDialog();
+				});
+			},
+		};
+	}
+
 	Object.defineProperty(pack, "author", {
 		get() {
-			return `<img src="https://q1.qlogo.cn/g?b=qq&nk=2173890060&s=100&t=${Date.now()}" class="author-avatar" onclick="new Audio('extension/十周年UI/audio/Ciallo.mp3').play()" style="cursor:pointer;border-radius:50%;width:50px;height:50px;vertical-align:bottom">点点<br>${window.decadeUIDidYouKnow.getHTML()}`;
+			return `<img src="https://q1.qlogo.cn/g?b=qq&nk=2173890060&s=100&t=${Date.now()}" class="author-avatar" onclick="window.decadeUIWelcome.show()" style="cursor:pointer;border-radius:50%;width:50px;height:50px;vertical-align:bottom">点点<br>${window.decadeUIDidYouKnow.getHTML()}`;
 		},
 	});
 

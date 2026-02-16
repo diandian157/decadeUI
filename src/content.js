@@ -29,7 +29,7 @@ import { setupConfigWindow } from "./features/configWindow.js";
 import { setupSkillDieAudio, setupAudioHooks, setupEnhancedAudio } from "./audio/index.js";
 
 // 皮肤模块
-import { setupDynamicSkin } from "./skins/index.js";
+import { setupDynamicSkin } from "./skins/dynamicSkin.js";
 
 // UI模块
 import { registerLegacyModules } from "./ui/progress-bar.js";
