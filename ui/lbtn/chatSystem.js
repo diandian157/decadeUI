@@ -537,34 +537,59 @@ export function initChatSystem(lib, game, ui, get) {
 	};
 
 	// 聊天记录技能
+	if (!lib._originalPlayerSay) {
+		lib._originalPlayerSay = lib.element.player.say;
+	}
+
 	lib.skill._wmkzSayChange = {
 		trigger: { global: ["gameStart", "phaseBegin", "phaseAfter", "useCardAfter"] },
 		forced: true,
 		silent: true,
 		filter: (event, player) => player.change_sayFunction !== true,
 		content() {
-			player.change_sayFunction = true;
-			player.sayTextWord = player.say;
-			player.say = str => {
+			const currentPlayer = player;
+			currentPlayer.change_sayFunction = true;
+			currentPlayer.say = function (str) {
+				const thisPlayer = this;
+				const playerName = get.slimNameHorizontal(String(thisPlayer.name));
+				const playerNickname = thisPlayer.nickname || null;
+				const assetURL = lib.assetURL;
 				game.broadcastAll(
-					(player, str) => {
-						if (typeof game.addChatWord !== "function") {
+					function (playerNameArg, playerNicknameArg, messageStrArg, assetURLArg) {
+						var globalGame = (function () {
+							try {
+								return eval("game");
+							} catch (e) {
+								return window.game;
+							}
+						})();
+						if (!globalGame) return;
+						if (typeof globalGame.addChatWord !== "function") {
 							if (!window.chatRecord) window.chatRecord = [];
-							game.addChatWord = strx => {
-								if (window.chatRecord.length > MAX_CHAT_RECORDS) window.chatRecord.shift();
+							globalGame.addChatWord = function (strx) {
+								if (window.chatRecord.length > 50) window.chatRecord.shift();
 								if (strx) window.chatRecord.push(strx);
-								if (window.chatBackground2) window.chatBackground2.innerHTML = window.chatRecord.map(r => `<br>${r}<br>`).join("");
+								if (window.chatBackground2) {
+									window.chatBackground2.innerHTML = window.chatRecord
+										.map(function (r) {
+											return "<br>" + r + "<br>";
+										})
+										.join("");
+								}
 							};
 						}
-						const processedStr = str.replace(/##assetURL##/g, lib.assetURL);
-						const playerName = get.slimNameHorizontal(String(player.name));
-						const displayName = player.nickname ? `${playerName}[${player.nickname}]` : playerName;
-						game.addChatWord(`<font color=green>${displayName}</font><font color=white>：${processedStr}</font>`);
+						var processedStr = messageStrArg.replace(/##assetURL##/g, assetURLArg);
+						var displayName = playerNicknameArg ? playerNameArg + "[" + playerNicknameArg + "]" : playerNameArg;
+						globalGame.addChatWord("<font color=green>" + displayName + "</font><font color=white>：" + processedStr + "</font>");
 					},
-					player,
-					str
+					playerName,
+					playerNickname,
+					str,
+					assetURL
 				);
-				player.sayTextWord(str);
+				if (lib._originalPlayerSay) {
+					lib._originalPlayerSay.call(thisPlayer, str);
+				}
 			};
 		},
 	};
