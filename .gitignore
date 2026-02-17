@@ -1,6 +1,5 @@
 # 依赖
 node_modules/
-pnpm-lock.yaml
 
 # 忽略武将图片目录内容
 image/character/dcloutou/*
