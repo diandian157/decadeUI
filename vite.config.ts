@@ -78,6 +78,7 @@ export default defineConfig(({ mode }) => ({
 				"ui/constants": "ui/constants.js",
 				"ui/utils": "ui/utils.js",
 				"ui/lbtn/plugin": "ui/lbtn/plugin.js",
+				"ui/lbtn/chatSystem": "ui/lbtn/chatSystem.js",
 				"ui/skill/plugin": "ui/skill/plugin.js",
 				"ui/character/plugin": "ui/character/plugin.js",
 			},
