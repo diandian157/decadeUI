@@ -1,6 +1,38 @@
 import { defineConfig, type PluginOption } from "vite";
 import { viteStaticCopy } from "vite-plugin-static-copy";
-import info from "./info.json";
+import fs from "node:fs";
+import path from "node:path";
+import { fileURLToPath } from "node:url";
+import { exec } from "node:child_process";
+import { promisify } from "node:util";
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const execAsync = promisify(exec);
+
+// 构建后复制到主项目扩展目录
+function copyToMainProject(): PluginOption {
+	return {
+		name: "copy-to-main-project",
+		async closeBundle() {
+			try {
+				const mainProjectDir = path.resolve(__dirname, "../../../apps/core/extension");
+				if (!fs.existsSync(path.resolve(__dirname, "../../../apps/core"))) return;
+
+				const distPath = path.resolve(__dirname, "dist");
+				const targetPath = path.join(mainProjectDir, "十周年UI");
+
+				if (process.platform === "win32") {
+					await execAsync(`robocopy "${distPath}" "${targetPath}" /E /IS /IT /PURGE`).catch(() => {});
+				} else {
+					if (fs.existsSync(targetPath)) {
+						await fs.promises.rm(targetPath, { recursive: true, force: true });
+					}
+					await fs.promises.cp(distPath, targetPath, { recursive: true });
+				}
+			} catch (error) {}
+		},
+	};
+}
 
 export default defineConfig(({ mode }) => ({
 	define: {
@@ -29,6 +61,7 @@ export default defineConfig(({ mode }) => ({
 				{ src: "README.md", dest: "" },
 			],
 		}) as PluginOption,
+		copyToMainProject(),
 	],
 	build: {
 		sourcemap: false,
