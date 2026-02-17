@@ -1,6 +1,9 @@
 # 依赖
 node_modules/
 
+# 打包输出
+dist/
+
 # 忽略武将图片目录内容
 image/character/dcloutou/*
 image/character/ssloutou/*

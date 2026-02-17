@@ -50,7 +50,7 @@ export default defineConfig(({ mode }) => ({
 			},
 			formats: ["es"],
 		},
-		outDir: `../../../apps/core/extension/${info.name}`,
+		outDir: `dist`,
 		emptyOutDir: true,
 		rollupOptions: {
 			preserveEntrySignatures: "strict",

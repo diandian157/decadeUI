@@ -40,18 +40,15 @@ jobs:
                   git config --global user.name "github-actions[bot]"
                   git config --global user.email "github-actions[bot]@users.noreply.github.com"
 
-                  # 由于打包输出在 ../../../apps/core/extension/十周年UI
-                  # 需要找到实际的输出目录
-                  BUILD_OUTPUT="../../../apps/core/extension/十周年UI"
-
-                  if [ ! -d "$BUILD_OUTPUT" ]; then
-                    echo "错误: 打包输出目录不存在: $BUILD_OUTPUT"
+                  # 打包输出在 dist 目录
+                  if [ ! -d "dist" ]; then
+                    echo "错误: 打包输出目录不存在"
                     exit 1
                   fi
 
                   # 临时保存打包结果
                   mkdir -p /tmp/dist
-                  cp -r "$BUILD_OUTPUT"/* /tmp/dist/
+                  cp -r dist/* /tmp/dist/
 
                   # 切换到打包分支
                   git fetch origin
