@@ -132,90 +132,131 @@ export function createContentGain(baseGain) {
 
 /**
  * 判定覆写
+ * @returns {Array} 判定流程数组
  */
 export function contentJudge() {
-	"step 0";
-	const judgestr = get.translation(player) + "的" + event.judgestr + "判定";
-	event.videoId = lib.status.videoId++;
-	let cardj = event.directresult;
-	if (!cardj) {
-		if (player.getTopCards) cardj = player.getTopCards()[0];
-		else cardj = get.cards()[0];
-	}
-	const owner = get.owner(cardj);
-	if (owner) {
-		owner.lose(cardj, "visible", ui.ordering);
-	} else {
-		const nextj = game.cardsGotoOrdering(cardj);
-		if (event.position != ui.discardPile) nextj.noOrdering = true;
-	}
-	player.judging.unshift(cardj);
-	game.addVideo("judge1", player, [get.cardInfo(player.judging[0]), judgestr, event.videoId]);
-	game.broadcastAll(
-		function (player, card, id, cardid) {
-			const event = game.online ? {} : _status.event;
-			if (game.chess) event.node = card.copy("thrown", "center", ui.arena).addTempClass("start");
-			else event.node = player.$throwordered2(card.copy(), true);
-			if (lib.cardOL) lib.cardOL[cardid] = event.node;
-			event.node.cardid = cardid;
-			if (!window.decadeUI) {
-				ui.arena.classList.add("thrownhighlight");
-				event.node.classList.add("thrownhighlight");
+	return [
+		async (event, trigger, player) => {
+			const judgestr = `${get.translation(player)}的${event.judgestr}判定`;
+			event.videoId = lib.status.videoId++;
+			let cardj = event.directresult;
+			if (!cardj) {
+				if (player.getTopCards) {
+					cardj = player.getTopCards()[0];
+				} else {
+					cardj = get.cards()[0];
+				}
+			}
+			if (!cardj) {
+				event.finish();
+				return;
+			}
+			let waiting;
+			const owner = get.owner(cardj);
+			if (owner) {
+				waiting = owner.lose(cardj, "visible", ui.ordering);
+			} else {
+				const nextj = game.cardsGotoOrdering(cardj);
+				if (event.position != ui.discardPile) {
+					nextj.noOrdering = true;
+				}
+				waiting = nextj;
+			}
+			player.judging.unshift(cardj);
+			game.addVideo("judge1", player, [get.cardInfo(player.judging[0]), judgestr, event.videoId]);
+			game.broadcastAll(
+				function (player, card, id, cardid) {
+					const event = game.online ? {} : _status.event;
+					if (game.chess) {
+						event.node = card.copy("thrown", "center", ui.arena).addTempClass("start");
+					} else {
+						event.node = player.$throwordered2(card.copy(), true);
+					}
+					if (lib.cardOL) {
+						lib.cardOL[cardid] = event.node;
+					}
+					event.node.cardid = cardid;
+					if (!window.decadeUI) {
+						ui.arena.classList.add("thrownhighlight");
+						event.node.classList.add("thrownhighlight");
+					}
+				},
+				player,
+				player.judging[0],
+				event.videoId,
+				get.id()
+			);
+
+			game.log(player, "进行" + event.judgestr + "判定，亮出的判定牌为", player.judging[0]);
+			await game.delay(2);
+			if (!event.noJudgeTrigger) {
+				await event.trigger("judge");
+			}
+			return waiting.forResult();
+		},
+		async (event, trigger, player) => {
+			event.result = {
+				card: player.judging[0],
+				name: player.judging[0].name,
+				number: get.number(player.judging[0]),
+				suit: get.suit(player.judging[0]),
+				color: get.color(player.judging[0]),
+				node: event.node,
+			};
+			if (event.fixedResult) {
+				for (const i in event.fixedResult) {
+					event.result[i] = event.fixedResult[i];
+				}
+			}
+			event.result.judge = event.judge(event.result);
+			if (event.result.judge > 0) {
+				event.result.bool = true;
+			} else if (event.result.judge < 0) {
+				event.result.bool = false;
+			} else {
+				event.result.bool = null;
+			}
+			player.judging.shift();
+			game.checkMod(player, event.result, "judge", player);
+			if (event.judge2) {
+				const judge2 = event.judge2(event.result);
+				if (typeof judge2 == "boolean") {
+					player.tryJudgeAnimate(judge2);
+				}
+			}
+			if (event.clearArena != false) {
+				game.broadcastAll(ui.clear);
+			}
+			game.broadcast(function () {
+				if (!window.decadeUI) {
+					ui.arena.classList.remove("thrownhighlight");
+				}
+			});
+			game.addVideo("judge2", null, event.videoId);
+			game.log(player, "的判定结果为", event.result.card);
+			const triggerFixing = event.trigger("judgeFixing");
+			event.triggerMessage("judgeresult");
+			let callback = null;
+			if (event.callback) {
+				const next = game.createEvent("judgeCallback", false);
+				next.player = player;
+				next.card = event.result.card;
+				next.judgeResult = get.copy(event.result);
+				next.setContent(event.callback);
+				callback = next;
+			} else {
+				if (!get.owner(event.result.card)) {
+					if (event.position != ui.discardPile) {
+						event.position.appendChild(event.result.card);
+					}
+				}
+			}
+			await triggerFixing;
+			if (event.next.includes(callback)) {
+				await callback;
 			}
 		},
-		player,
-		player.judging[0],
-		event.videoId,
-		get.id()
-	);
-	game.log(player, "进行" + event.judgestr + "判定，亮出的判定牌为", player.judging[0]);
-	game.delay(2);
-	if (!event.noJudgeTrigger) event.trigger("judge");
-	("step 1");
-	event.result = {
-		card: player.judging[0],
-		name: player.judging[0].name,
-		number: get.number(player.judging[0]),
-		suit: get.suit(player.judging[0]),
-		color: get.color(player.judging[0]),
-		node: event.node,
-	};
-	if (event.fixedResult) {
-		for (const i in event.fixedResult) {
-			event.result[i] = event.fixedResult[i];
-		}
-	}
-	event.result.judge = event.judge(event.result);
-	if (event.result.judge > 0) event.result.bool = true;
-	else if (event.result.judge < 0) event.result.bool = false;
-	else event.result.bool = null;
-	player.judging.shift();
-	game.checkMod(player, event.result, "judge", player);
-	if (event.judge2) {
-		const judge2 = event.judge2(event.result);
-		if (typeof judge2 == "boolean") player.tryJudgeAnimate(judge2);
-	}
-	if (event.clearArena != false) {
-		game.broadcastAll(ui.clear);
-	}
-	game.broadcast(function () {
-		if (!window.decadeUI) ui.arena.classList.remove("thrownhighlight");
-	});
-	game.addVideo("judge2", null, event.videoId);
-	game.log(player, "的判定结果为", event.result.card);
-	event.trigger("judgeFixing");
-	event.triggerMessage("judgeresult");
-	if (event.callback) {
-		const next = game.createEvent("judgeCallback", false);
-		next.player = player;
-		next.card = event.result.card;
-		next.judgeResult = get.copy(event.result);
-		next.setContent(event.callback);
-	} else {
-		if (!get.owner(event.result.card)) {
-			if (event.position != ui.discardPile) event.position.appendChild(event.result.card);
-		}
-	}
+	];
 }
 
 /**

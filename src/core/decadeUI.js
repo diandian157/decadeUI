@@ -305,7 +305,7 @@ export const createDecadeUIObject = () => ({
 					},
 					content: {
 						gain: createContentGain(base.lib.element.content.gain),
-						judge: contentJudge,
+						judge: contentJudge(),
 						lose: createContentLose(base.lib.element.content.lose),
 					},
 				},
