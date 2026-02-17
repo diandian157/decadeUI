@@ -15,13 +15,14 @@
 
 1. 克隆本项目到本地
 2. 放入无名杀根目录的 `packages/extension` 文件夹，命名为"十周年UI"
-3. 返回无名杀根目录依次执行 `pnpm i`、`pnpm dev`
+3. 返回无名杀根目录依次执行：
+
+```bash
+pnpm i
+pnpm dev
+```
 
 详情见：[如何运行无名杀（程序员版）](https://github.com/libnoname/noname/wiki/%E5%A6%82%E4%BD%95%E8%BF%90%E8%A1%8C%E6%97%A0%E5%90%8D%E6%9D%80%EF%BC%88%E7%A8%8B%E5%BA%8F%E5%91%98%E7%89%88%EF%BC%89)
-
-### 打包发布
-
-在无名杀根目录执行 `pnpm build`
 
 ## 使用帮助
 
