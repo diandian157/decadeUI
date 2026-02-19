@@ -123,6 +123,8 @@ export function createWelcomeDialog() {
 
 	defaultContent = text.innerHTML;
 
+	lib.setScroll(text);
+
 	// 点击遮罩层关闭对话框
 	overlay.addEventListener("click", e => {
 		if (e.target === overlay) {
