@@ -159,11 +159,7 @@ class DialogManager {
 	 */
 	hideOtherDialogs() {
 		ui.dialogs.forEach(d => {
-			if (
-				d !== this.dialog &&
-				d.style.display !== "none" &&
-				!this.hiddenDialogs.includes(d)
-			) {
+			if (d !== this.dialog && d.style.display !== "none" && !this.hiddenDialogs.includes(d)) {
 				this.hiddenDialogs.push(d);
 				d.style.display = "none";
 			}

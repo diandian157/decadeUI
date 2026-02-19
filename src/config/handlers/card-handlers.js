@@ -42,10 +42,20 @@ export function onAutoSelectUpdate() {
  * @this {HTMLElement} 输入框元素
  */
 export function onHandTipHeightBlur() {
-	let value = parseFloat(this.value);
+	const isInput = this.tagName === "INPUT";
+	if (!isInput) {
+		this.innerHTML = this.innerHTML.replace(/<br>/g, "");
+	}
+
+	let value = parseFloat(isInput ? this.value : this.innerHTML);
 	if (isNaN(value)) value = 20;
 	value = Math.max(0, Math.min(100, value));
-	this.value = String(value);
+
+	if (isInput) {
+		this.value = String(value);
+	} else {
+		this.innerHTML = String(value);
+	}
 
 	game.saveConfig("extension_十周年UI_handTipHeight", value);
 	if (window.decadeUI) {
@@ -61,6 +71,17 @@ export function onHandTipHeightUpdate() {
 		const height = lib.config.extension_十周年UI_handTipHeight ?? "20";
 		document.documentElement.style.setProperty("--hand-tip-bottom", `calc(${height}% + 10px)`);
 	}
+
+	// 更新菜单显示值
+	const menu = lib.extensionMenu?.extension_十周年UI?.handTipHeight;
+	if (menu) {
+		const isInput = menu.tagName === "INPUT";
+		if (isInput) {
+			menu.value = String(lib.config.extension_十周年UI_handTipHeight ?? "20");
+		} else {
+			menu.innerHTML = String(lib.config.extension_十周年UI_handTipHeight ?? "20");
+		}
+	}
 }
 
 /**
@@ -68,10 +89,21 @@ export function onHandTipHeightUpdate() {
  * @this {HTMLElement} 输入框元素
  */
 export function onCardScaleBlur() {
-	let value = parseFloat(this.value);
+	const isInput = this.tagName === "INPUT";
+	if (!isInput) {
+		this.innerHTML = this.innerHTML.replace(/<br>/g, "");
+	}
+
+	let value = parseFloat(isInput ? this.value : this.innerHTML);
 	if (isNaN(value)) value = 0.18;
 	value = Math.max(0.1, Math.min(1, value));
-	this.value = value.toFixed(2);
+
+	const formattedValue = value.toFixed(2);
+	if (isInput) {
+		this.value = formattedValue;
+	} else {
+		this.innerHTML = formattedValue;
+	}
 
 	game.saveConfig("extension_十周年UI_cardScale", value);
 	if (window.decadeUI) {
@@ -81,14 +113,42 @@ export function onCardScaleBlur() {
 }
 
 /**
+ * 手牌大小更新处理
+ * @description 从配置中读取值并更新显示
+ */
+export function onCardScaleUpdate() {
+	const value = lib.config.extension_十周年UI_cardScale ?? "0.18";
+	const menu = lib.extensionMenu?.extension_十周年UI?.cardScale;
+	if (menu) {
+		const isInput = menu.tagName === "INPUT";
+		if (isInput) {
+			menu.value = String(value);
+		} else {
+			menu.innerHTML = String(value);
+		}
+	}
+}
+
+/**
  * 弃牌堆卡牌大小失焦处理
  * @this {HTMLElement} 输入框元素
  */
 export function onDiscardScaleBlur() {
-	let value = parseFloat(this.value);
+	const isInput = this.tagName === "INPUT";
+	if (!isInput) {
+		this.innerHTML = this.innerHTML.replace(/<br>/g, "");
+	}
+
+	let value = parseFloat(isInput ? this.value : this.innerHTML);
 	if (isNaN(value)) value = 0.18;
 	value = Math.max(0.1, Math.min(1, value));
-	this.value = value.toFixed(2);
+
+	const formattedValue = value.toFixed(2);
+	if (isInput) {
+		this.value = formattedValue;
+	} else {
+		this.innerHTML = formattedValue;
+	}
 
 	game.saveConfig("extension_十周年UI_discardScale", value);
 	if (window.decadeUI) {
@@ -97,18 +157,62 @@ export function onDiscardScaleBlur() {
 }
 
 /**
+ * 弃牌堆卡牌大小更新处理
+ * @description 从配置中读取值并更新显示
+ */
+export function onDiscardScaleUpdate() {
+	const value = lib.config.extension_十周年UI_discardScale ?? "0.14";
+	const menu = lib.extensionMenu?.extension_十周年UI?.discardScale;
+	if (menu) {
+		const isInput = menu.tagName === "INPUT";
+		if (isInput) {
+			menu.value = String(value);
+		} else {
+			menu.innerHTML = String(value);
+		}
+	}
+}
+
+/**
  * 手牌折叠最小间距失焦处理
  * @this {HTMLElement} 输入框元素
  */
 export function onHandFoldMinBlur() {
-	let value = parseFloat(this.value);
+	const isInput = this.tagName === "INPUT";
+	if (!isInput) {
+		this.innerHTML = this.innerHTML.replace(/<br>/g, "");
+	}
+
+	let value = parseFloat(isInput ? this.value : this.innerHTML);
 	if (isNaN(value)) value = 9;
 	value = Math.max(1, Math.min(999, value));
-	this.value = String(value);
+
+	if (isInput) {
+		this.value = String(value);
+	} else {
+		this.innerHTML = String(value);
+	}
 
 	game.saveConfig("extension_十周年UI_handFoldMin", String(value));
 	if (window.decadeUI) {
 		decadeUI.layout.updateHand();
+	}
+}
+
+/**
+ * 手牌折叠最小间距更新处理
+ * @description 从配置中读取值并更新显示
+ */
+export function onHandFoldMinUpdate() {
+	const value = lib.config.extension_十周年UI_handFoldMin ?? "9";
+	const menu = lib.extensionMenu?.extension_十周年UI?.handFoldMin;
+	if (menu) {
+		const isInput = menu.tagName === "INPUT";
+		if (isInput) {
+			menu.value = String(value);
+		} else {
+			menu.innerHTML = String(value);
+		}
 	}
 }
 

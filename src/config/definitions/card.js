@@ -11,12 +11,15 @@ import {
 	onHandTipHeightBlur,
 	onHandTipHeightUpdate,
 	onCardScaleBlur,
+	onCardScaleUpdate,
 	onDiscardScaleBlur,
+	onDiscardScaleUpdate,
+	onHandFoldMinBlur,
+	onHandFoldMinUpdate,
 	onCardPrettifyClick,
 	onCardkmhClick,
 	onCardkmhUpdate,
 	onChupaizhishiUpdate,
-	onHandFoldMinBlur,
 } from "../handlers/card-handlers.js";
 
 /**
@@ -80,6 +83,7 @@ export const cardScale = {
 	init: "0.18",
 	input: true,
 	onblur: onCardScaleBlur,
+	update: onCardScaleUpdate,
 };
 
 /**
@@ -92,6 +96,7 @@ export const discardScale = {
 	init: "0.14",
 	input: true,
 	onblur: onDiscardScaleBlur,
+	update: onDiscardScaleUpdate,
 };
 
 /**
@@ -104,6 +109,7 @@ export const handFoldMin = {
 	init: "9",
 	input: true,
 	onblur: onHandFoldMinBlur,
+	update: onHandFoldMinUpdate,
 };
 
 /**

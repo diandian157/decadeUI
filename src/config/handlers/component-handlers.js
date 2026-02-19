@@ -28,12 +28,20 @@ export function onJindutiaoYangshiUpdate() {
  * @this {HTMLElement} 输入框元素
  */
 export function onJindutiaoSetBlur() {
-	let value = parseFloat(this.value);
+	const isInput = this.tagName === "INPUT";
+	if (!isInput) {
+		this.innerHTML = this.innerHTML.replace(/<br>/g, "");
+	}
 
+	let value = parseFloat(isInput ? this.value : this.innerHTML);
 	if (isNaN(value)) value = 22;
 	value = Math.max(0, Math.min(100, value));
 
-	this.value = String(value);
+	if (isInput) {
+		this.value = String(value);
+	} else {
+		this.innerHTML = String(value);
+	}
 
 	game.saveConfig("extension_十周年UI_jindutiaoSet", value);
 
@@ -51,6 +59,17 @@ export function onJindutiaoSetUpdate() {
 	const progressBar = document.getElementById("jindutiaopl");
 	if (progressBar) {
 		progressBar.style.bottom = `${height}%`;
+	}
+
+	// 更新菜单显示值
+	const menu = lib.extensionMenu?.extension_十周年UI?.jindutiaoSet;
+	if (menu) {
+		const isInput = menu.tagName === "INPUT";
+		if (isInput) {
+			menu.value = String(height);
+		} else {
+			menu.innerHTML = String(height);
+		}
 	}
 }
 
