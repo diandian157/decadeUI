@@ -1,0 +1,1 @@
+import{lib,ui}from"noname";let n=null;function a(a){n=a?.init?.cssstyles}function e(){const a=lib.config.glow_phase;lib.config.glow_phase="",n?.call(this),lib.config.glow_phase=a,ui.css.styles.sheet.insertRule('.avatar-name, .avatar-name-default { font-family: "'+(lib.config.name_font||"xinkai")+'", "xinwei" }',0)}export{e as libInitCssstyles,a as setBaseLibMethods};
