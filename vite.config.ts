@@ -70,6 +70,9 @@ export default defineConfig(({ mode }) => ({
 			format: {
 				comments: false,
 			},
+			mangle: {
+				reserved: ["game", "player", "card", "event", "trigger", "result", "lib", "get", "ui", "ai", "_status"],
+			},
 		},
 		lib: {
 			entry: {

@@ -4,7 +4,7 @@
  * @fileoverview 卡牌触发器配置，定义装备和延时锦囊的特效触发逻辑
  */
 
-import { game as gameImport, _status } from "noname";
+import { game, _status } from "noname";
 
 /**
  * 卡牌触发器配置对象
@@ -13,19 +13,19 @@ import { game as gameImport, _status } from "noname";
 export const cardTriggers = {
 	taipingyaoshu: {
 		onEquip() {
-			gameImport.broadcastAll(player => {
+			game.broadcastAll(targetPlayer => {
 				const lib = (typeof window !== "undefined" && window["lib"]) || (typeof globalThis !== "undefined" && globalThis["lib"]);
 				if (lib && lib.animate && lib.animate.skill && lib.animate.skill.taipingyaoshu) {
-					lib.animate.skill.taipingyaoshu.call(player, "taipingyaoshu");
+					lib.animate.skill.taipingyaoshu.call(targetPlayer, "taipingyaoshu");
 				}
 			}, player);
 		},
 		onLose() {
 			player.addTempSkill("taipingyaoshu_lose");
-			gameImport.broadcastAll(player => {
+			game.broadcastAll(targetPlayer => {
 				const lib = (typeof window !== "undefined" && window["lib"]) || (typeof globalThis !== "undefined" && globalThis["lib"]);
 				if (lib && lib.animate && lib.animate.skill && lib.animate.skill.taipingyaoshu_lose) {
-					lib.animate.skill.taipingyaoshu_lose.call(player, "taipingyaoshu_lose");
+					lib.animate.skill.taipingyaoshu_lose.call(targetPlayer, "taipingyaoshu_lose");
 				}
 			}, player);
 		},
@@ -43,7 +43,7 @@ export const cardTriggers = {
 		},
 		onLose() {
 			if (player.sex !== "male") return;
-			const next = gameImport.createEvent("nvzhuang_lose");
+			const next = game.createEvent("nvzhuang_lose");
 			event.next.remove(next);
 			let evt = event.getParent();
 			if (evt.getlx === false) evt = evt.getParent();
@@ -51,10 +51,10 @@ export const cardTriggers = {
 			next.player = player;
 			next.setContent(() => {
 				if (player.countCards("he")) {
-					gameImport.broadcastAll(player => {
+					game.broadcastAll(targetPlayer => {
 						const lib = (typeof window !== "undefined" && window["lib"]) || (typeof globalThis !== "undefined" && globalThis["lib"]);
 						if (lib && lib.animate && lib.animate.skill && lib.animate.skill.nvzhuang) {
-							lib.animate.skill.nvzhuang.call(player, "nvzhuang");
+							lib.animate.skill.nvzhuang.call(targetPlayer, "nvzhuang");
 						}
 					}, player);
 					player.chooseToDiscard(true, "he");
@@ -65,10 +65,10 @@ export const cardTriggers = {
 
 	zheji: {
 		onEquip() {
-			gameImport.broadcastAll(player => {
+			game.broadcastAll(targetPlayer => {
 				const lib = (typeof window !== "undefined" && window["lib"]) || (typeof globalThis !== "undefined" && globalThis["lib"]);
 				if (lib && lib.animate && lib.animate.skill && lib.animate.skill.zheji) {
-					lib.animate.skill.zheji.call(player, "zheji");
+					lib.animate.skill.zheji.call(targetPlayer, "zheji");
 				}
 			}, player);
 		},
@@ -76,10 +76,10 @@ export const cardTriggers = {
 
 	numa: {
 		onEquip() {
-			gameImport.broadcastAll(player => {
+			game.broadcastAll(targetPlayer => {
 				const lib = (typeof window !== "undefined" && window["lib"]) || (typeof globalThis !== "undefined" && globalThis["lib"]);
 				if (lib && lib.animate && lib.animate.skill && lib.animate.skill.numa) {
-					lib.animate.skill.numa.call(player, "numa");
+					lib.animate.skill.numa.call(targetPlayer, "numa");
 				}
 			}, player);
 		},
@@ -87,10 +87,10 @@ export const cardTriggers = {
 
 	wuliu: {
 		onEquip() {
-			gameImport.broadcastAll(player => {
+			game.broadcastAll(targetPlayer => {
 				const lib = (typeof window !== "undefined" && window["lib"]) || (typeof globalThis !== "undefined" && globalThis["lib"]);
 				if (lib && lib.animate && lib.animate.skill && lib.animate.skill.wuliu) {
-					lib.animate.skill.wuliu.call(player, "wuliu");
+					lib.animate.skill.wuliu.call(targetPlayer, "wuliu");
 				}
 			}, player);
 		},
@@ -98,10 +98,10 @@ export const cardTriggers = {
 
 	duanjian: {
 		onEquip() {
-			gameImport.broadcastAll(player => {
+			game.broadcastAll(targetPlayer => {
 				const lib = (typeof window !== "undefined" && window["lib"]) || (typeof globalThis !== "undefined" && globalThis["lib"]);
 				if (lib && lib.animate && lib.animate.skill && lib.animate.skill.duanjian) {
-					lib.animate.skill.duanjian.call(player, "duanjian");
+					lib.animate.skill.duanjian.call(targetPlayer, "duanjian");
 				}
 			}, player);
 		},
@@ -109,10 +109,10 @@ export const cardTriggers = {
 
 	yonglv: {
 		onEquip() {
-			gameImport.broadcastAll(player => {
+			game.broadcastAll(targetPlayer => {
 				const lib = (typeof window !== "undefined" && window["lib"]) || (typeof globalThis !== "undefined" && globalThis["lib"]);
 				if (lib && lib.animate && lib.animate.skill && lib.animate.skill.yonglv) {
-					lib.animate.skill.yonglv.call(player, "yonglv");
+					lib.animate.skill.yonglv.call(targetPlayer, "yonglv");
 				}
 			}, player);
 		},
@@ -120,10 +120,10 @@ export const cardTriggers = {
 
 	qixingbaodao: {
 		onEquip() {
-			gameImport.broadcastAll(player => {
+			game.broadcastAll(targetPlayer => {
 				const lib = (typeof window !== "undefined" && window["lib"]) || (typeof globalThis !== "undefined" && globalThis["lib"]);
 				if (lib && lib.animate && lib.animate.skill && lib.animate.skill.qixingbaodao) {
-					lib.animate.skill.qixingbaodao.call(player, "qixingbaodao");
+					lib.animate.skill.qixingbaodao.call(targetPlayer, "qixingbaodao");
 				}
 			}, player);
 		},
