@@ -65,62 +65,14 @@
 	line-height: 30px;
 	text-align: center;
 	font-size: 15px;
-	color: #f7f5e7;
+	color: #000000;
+	text-shadow:
+		0 0 2px #fff,
+		0 0 2px #fff;
 	font-family: "yuanli";
 	font-weight: 500;
 	background-image: url("../../../assets/skill/codename/btnn1.png");
 	background-size: 100% 100%;
-	text-shadow:
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18;
 }
 
 .skill-control > .combined > .skillitem.enable-skill.select {
@@ -140,66 +92,15 @@
 	height: 30px;
 	line-height: 30px;
 	text-align: center;
-	color: #f7f5e7;
+	color: #000000;
+	text-shadow:
+		0 0 2px #fff,
+		0 0 2px #fff;
 	font-family: "yuanli";
 	font-weight: 500;
 	font-size: 15px;
 	background-image: url("../../../assets/skill/codename/btnn2.png");
 	background-size: 100% 100%;
-	text-shadow:
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18;
 }
 
 .skill-control > .combined > .xiandingji.enable-skill.select {
@@ -224,62 +125,7 @@
 	font-weight: 500;
 	background-image: url("../../../assets/skill/codename/btnn.png");
 	background-size: 100% 100%;
-	text-shadow:
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18,
-		0.3px 0px 1.8px #332c18;
+	text-shadow: 0.3px 0px 1.8px #332c18;
 }
 
 /* 技能标记区 */
