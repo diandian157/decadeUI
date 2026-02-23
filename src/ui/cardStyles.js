@@ -1,7 +1,7 @@
 /**
  * @fileoverview 卡牌样式模块，包含卡牌边框和卡牌背景样式管理
  */
-import { lib, game, ui, get, ai, _status } from "noname";
+import { lib, game, _status } from "noname";
 
 // ==================== 动态样式元素引用 ====================
 
@@ -121,6 +121,9 @@ export function applyCardBorder(card, player, isMe = false) {
 		const bgUrl = `${lib.assetURL}extension/十周年UI/image/ui/card/${bg}.png`;
 		card.style.setProperty("background", `url('${bgUrl}')`, "important");
 		card.style.setProperty("background-size", "100% 100%", "important");
+		if (card.classList.contains("infohidden") || card.classList.contains("infoflip")) {
+			card.innerHTML = "";
+		}
 	}
 }
 
@@ -161,4 +164,60 @@ export function setupCardStyles() {
 
 	// 初始化动态样式
 	updateCardStyles();
+	setupDialogCardObserver();
+}
+
+/**
+ * 监听并处理 dialog 中的 infohidden 卡牌
+ * @returns {void}
+ */
+function setupDialogCardObserver() {
+	const observer = new MutationObserver(mutations => {
+		mutations.forEach(mutation => {
+			mutation.addedNodes.forEach(node => {
+				if (node.nodeType === 1) {
+					if (node.classList?.contains("dialog")) {
+						setTimeout(() => processDialogCards(node), 50);
+					}
+					const dialogs = node.querySelectorAll?.(".dialog");
+					dialogs?.forEach(dialog => setTimeout(() => processDialogCards(dialog), 50));
+				}
+			});
+		});
+	});
+
+	observer.observe(document.body, {
+		childList: true,
+		subtree: true,
+	});
+
+	document.querySelectorAll(".dialog").forEach(dialog => setTimeout(() => processDialogCards(dialog), 50));
+}
+
+/**
+ * 处理 dialog 中的卡牌
+ * @param {HTMLElement} dialog - dialog 元素
+ */
+function processDialogCards(dialog) {
+	if (!isFeatureEnabled()) return;
+
+	const cards = dialog.querySelectorAll(".card.infohidden, .card.infoflip");
+	if (!cards.length) return;
+
+	const sourcePlayer = _status.event?.target;
+	const isMe = !sourcePlayer || sourcePlayer === game.me;
+	const bgName = getBgByPlayer(sourcePlayer || game.me, isMe);
+
+	cards.forEach(card => {
+		if (card.innerHTML) card.innerHTML = "";
+
+		if (bgName) {
+			const bgUrl = `${lib.assetURL}extension/十周年UI/image/ui/card/${bgName}.png`;
+			card.style.setProperty("background-image", `url('${bgUrl}')`, "important");
+			card.style.setProperty("background-size", "100% 100%", "important");
+		} else {
+			card.style.removeProperty("background-image");
+			card.style.removeProperty("background-size");
+		}
+	});
 }
