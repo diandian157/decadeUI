@@ -316,3 +316,22 @@ export function onChupaizhishiUpdate() {
 		}
 	});
 }
+
+/**
+ * 牌名辅助点击处理
+ * @param {boolean} bool - 是否开启
+ */
+export function onCardAlternateNameClick(bool) {
+	game.saveConfig("extension_十周年UI_cardAlternateName", bool);
+
+	if (window.decadeUI?.cardAlternateName) {
+		if (bool) {
+			window.decadeUI.cardAlternateName.updateVisibility?.();
+		} else {
+			const zones = ["handcards1", "handcards2"].map(name => game.me?.node?.[name]).filter(Boolean);
+			zones.forEach(zone => {
+				zone.dataset.cardAlternateNameVisible = "off";
+			});
+		}
+	}
+}

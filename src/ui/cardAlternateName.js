@@ -1,12 +1,9 @@
 /**
- * @fileoverview 卡牌别名显示模块，当手牌数量超过阈值时自动切换显示模式
+ * @fileoverview 卡牌别名显示模块，根据配置开关显示卡牌名称标签
  */
-import { lib, game, ui, get, ai, _status } from "noname";
+import { lib, game, ui, _status } from "noname";
 
 // ==================== 常量 ====================
-
-/** @type {number} 手牌数量阈值 */
-const CARD_COUNT_THRESHOLD = 15;
 
 /** @type {number} 轮询间隔（毫秒） */
 const POLL_INTERVAL = 500;
@@ -27,8 +24,8 @@ const getHandcardZones = () => HANDCARD_ZONES.map(name => game.me?.node?.[name])
  * @returns {void}
  */
 const updateVisibility = () => {
-	const count = game.me?.countCards("h") ?? 0;
-	const visible = count > CARD_COUNT_THRESHOLD ? "on" : "off";
+	// 根据配置开关决定显示状态
+	const visible = lib.config.extension_十周年UI_cardAlternateName !== false ? "on" : "off";
 	getHandcardZones().forEach(zone => {
 		zone.dataset.cardAlternateNameVisible = visible;
 	});
@@ -79,4 +76,11 @@ export function initCardAlternateNameVisible() {
 
 	window._cardAlternateNameVisibleTimer = setInterval(tryBind, POLL_INTERVAL);
 	tryBind();
+
+	if (window.decadeUI) {
+		if (!window.decadeUI.cardAlternateName) {
+			window.decadeUI.cardAlternateName = {};
+		}
+		window.decadeUI.cardAlternateName.updateVisibility = updateVisibility;
+	}
 }

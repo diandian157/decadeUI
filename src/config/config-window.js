@@ -298,6 +298,7 @@ function getConfigsByTab(tabId) {
 			{ key: "cardGhostEffect", name: "幻影出牌", type: "toggle" },
 			{ key: "autoSelect", name: "自动选择", type: "toggle" },
 			{ key: "cardPrompt", name: "出牌信息提示", type: "toggle" },
+			{ key: "cardAlternateName", name: "牌名辅助", type: "toggle" },
 			{ isTitle: true, name: "卡牌样式" },
 			{ key: "cardPrettify", name: "卡牌美化", type: "select" },
 			{ key: "cardkmh", name: "卡牌边框", type: "select" },

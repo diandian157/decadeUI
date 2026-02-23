@@ -20,6 +20,7 @@ import {
 	onCardkmhClick,
 	onCardkmhUpdate,
 	onChupaizhishiUpdate,
+	onCardAlternateNameClick,
 } from "../handlers/card-handlers.js";
 
 /**
@@ -165,6 +166,17 @@ export const chupaizhishi = {
 };
 
 /**
+ * 牌名辅助配置
+ * @type {Object}
+ */
+export const cardAlternateName = {
+	name: "牌名辅助",
+	intro: "在卡牌底部显示醒目的牌名标签，帮助快速识别手牌",
+	init: false,
+	onclick: onCardAlternateNameClick,
+};
+
+/**
  * 卡牌相关折叠结束标记
  * @type {Object}
  */
@@ -186,5 +198,6 @@ export const cardConfigs = {
 	cardPrettify,
 	cardkmh,
 	chupaizhishi,
+	cardAlternateName,
 	card_title_end,
 };
