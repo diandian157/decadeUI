@@ -174,7 +174,7 @@ export function createShoushaLbtnPlugin(lib, game, ui, get, ai, _status, app) {
 		game.pause2();
 
 		const cardsInfo = game.players
-			.map(p => p.get("h"))
+			.map(p => p.getCards("h"))
 			.flat(Infinity)
 			.concat(...ui.cardPile.childNodes)
 			.concat(...ui.discardPile.childNodes)
