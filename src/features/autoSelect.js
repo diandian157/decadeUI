@@ -1,24 +1,19 @@
-"use strict";
-
 /**
- * @fileoverview 自动选择模块 - 在特定条件下自动选择卡牌和目标
+ * 自动选择模块 - 在特定条件下自动选择卡牌和目标
  */
 
 import { lib, game, ui, _status } from "noname";
+import { wrapAround } from "../utils/safeOverride.js";
 
-// ==================== 工具函数 ====================
+const autoStates = new WeakMap();
 
-/**
- * 检查功能是否启用
- * @returns {boolean}
- */
 const isEnabled = () => lib.config.extension_十周年UI_autoSelect !== false;
 
 /**
  * 获取选择数量范围
- * @param {Object} event - 当前事件
- * @param {string} type - 选择类型 ('Card' 或 'Target')
- * @returns {number[]} [min, max] 格式的范围
+ * @param {GameEvent} event
+ * @param {string} type - 'Card' 或 'Target'
+ * @returns {[number, number]}
  */
 const getRange = (event, type) => {
 	const select = event[`select${type}`];
@@ -32,7 +27,23 @@ const getRange = (event, type) => {
 };
 
 /**
- * 生成目标选择状态标识（用于防止重复触发）
+ * 获取事件状态
+ * @param {GameEvent} event
+ * @returns {{cardDone: boolean, targetState: string, manualCancel: Set<string>}}
+ */
+const getState = event => {
+	if (!autoStates.has(event)) {
+		autoStates.set(event, {
+			cardDone: false,
+			targetState: "",
+			manualCancel: new Set(),
+		});
+	}
+	return autoStates.get(event);
+};
+
+/**
+ * 生成目标选择状态标识
  * @returns {string}
  */
 const getTargetState = () => {
@@ -41,41 +52,28 @@ const getTargetState = () => {
 	return `${skill}|${cards}`;
 };
 
-// ==================== 条件判断 ====================
-
 /**
- * 判断是否为响应类事件（需要快速响应的场景）
- * @param {Object} event - 当前事件
+ * 判断是否为响应类事件
+ * @param {GameEvent} event
  * @returns {boolean}
  */
 const isRespondEvent = event => {
-	// 直接响应事件
 	if (event.name === "chooseToRespond" || event.respondTo || event.type === "wuxie") return true;
-
-	// 排除弃牌阶段
-	if (event.name === "phaseDiscard") return false;
-	const parent = event.getParent?.();
-	if (parent?.name === "phaseDiscard") return false;
-
-	// 父事件为响应类
-	if (parent?.name === "chooseToRespond" || parent?.respondTo) return true;
-
-	// 濒死求桃
-	if (parent?.name === "dying" || event.dying) return true;
-
-	// 强制直接事件（forceDirect 通常是系统级的，forced 让玩家自己选）
 	if (event.forceDirect) return true;
 
-	// 无按钮的选牌事件（仅限单张选择）
+	const parent = event.getParent?.();
+	if (parent?.name === "chooseToRespond" || parent?.respondTo || parent?.name === "dying" || event.dying) return true;
+
+	if (event.name === "phaseDiscard" || parent?.name === "phaseDiscard") return false;
+
 	if (event.name === "chooseCard" && !event.dialog?.querySelector(".buttons")) {
-		const range = getRange(event, "Card");
-		if (range[0] === 1 && range[1] === 1) return true;
+		const [min, max] = getRange(event, "Card");
+		if (min === 1 && max === 1) return true;
 	}
 
-	// 单张弃牌
 	if (event.name === "chooseToDiscard") {
-		const range = getRange(event, "Card");
-		if (range[0] === 1 && range[1] === 1) {
+		const [min, max] = getRange(event, "Card");
+		if (min === 1 && max === 1) {
 			const pos = event.position;
 			if (!event.ai || (pos !== "he" && pos !== "hes")) return true;
 		}
@@ -86,48 +84,50 @@ const isRespondEvent = event => {
 
 /**
  * 检查是否应自动选择目标
- * @param {Object} event - 当前事件
+ * @param {GameEvent} event
  * @returns {boolean}
  */
 const shouldAutoSelectTarget = event => {
 	if (!isEnabled() || !event.filterTarget || _status.auto) return false;
 	if (event.noAutoSelect || event.complexSelect || event.complexTarget) return false;
-	if (event._manualTargetCancel) return false;
 
-	const range = getRange(event, "Target");
-	if (range[0] !== range[1]) return false;
+	const state = getState(event);
+	if (state.manualCancel.has("target")) return false;
 
-	const state = getTargetState();
-	return event._autoTargetState !== state;
+	const [min, max] = getRange(event, "Target");
+	if (min !== max) return false;
+
+	const targetState = getTargetState();
+	return state.targetState !== targetState;
 };
 
 /**
  * 检查是否应自动选择卡牌
- * @param {Object} event - 当前事件
+ * @param {GameEvent} event
  * @returns {boolean}
  */
 const shouldAutoSelectCard = event => {
 	if (!isEnabled() || !event.filterCard || _status.auto) return false;
 	if (event.noAutoSelect || event.complexSelect || event.complexCard) return false;
 	if (!isRespondEvent(event)) return false;
-	if (event._manualCardCancel) return false;
 
-	const range = getRange(event, "Card");
-	if (range[0] !== range[1]) return false;
+	const state = getState(event);
+	if (state.manualCancel.has("card") || state.cardDone) return false;
 
-	if (event.name === "chooseToDiscard" && range[0] > 1 && event.ai) {
+	const [min, max] = getRange(event, "Card");
+	if (min !== max) return false;
+
+	if (event.name === "chooseToDiscard" && min > 1 && event.ai) {
 		const pos = event.position;
 		if (pos === "he" || pos === "hes") return false;
 	}
 
-	return !event._autoCardDone;
+	return true;
 };
-
-// ==================== 自动选择执行 ====================
 
 /**
  * 执行自动选择目标
- * @returns {boolean} 是否执行了选择
+ * @returns {boolean}
  */
 const performAutoSelectTarget = () => {
 	const event = _status.event;
@@ -142,7 +142,7 @@ const performAutoSelectTarget = () => {
 			target.classList.add("selected");
 			ui.selected.targets.add(target);
 		});
-		event._autoTargetState = getTargetState();
+		getState(event).targetState = getTargetState();
 		return true;
 	}
 	return false;
@@ -150,7 +150,7 @@ const performAutoSelectTarget = () => {
 
 /**
  * 执行自动选择卡牌
- * @returns {boolean} 是否执行了选择
+ * @returns {boolean}
  */
 const performAutoSelectCard = () => {
 	const event = _status.event;
@@ -170,92 +170,62 @@ const performAutoSelectCard = () => {
 			ui.selected.cards.add(card);
 			card.updateTransform?.(true);
 		});
-		event._autoCardDone = true;
+		getState(event).cardDone = true;
 		return true;
 	}
 	return false;
-};
-
-// ==================== 事件钩子 ====================
-
-/**
- * 重置自动选择状态
- * @param {Object} event - 当前事件
- */
-const resetAutoState = event => {
-	if (event) {
-		delete event._autoCardDone;
-		delete event._autoTargetState;
-		delete event._manualTargetCancel;
-		delete event._manualCardCancel;
-	}
 };
 
 /**
  * 初始化自动选择模块
  */
 export function setupAutoSelect() {
-	// 取消时重置状态
-	const originalCancel = ui.click.cancel;
-	ui.click.cancel = function () {
-		resetAutoState(_status.event);
-		return originalCancel.apply(this, arguments);
-	};
+	wrapAround(ui.click, "cancel", function (original, ...args) {
+		autoStates.delete(_status.event);
+		return original.apply(this, args);
+	});
 
-	// 手动选卡时更新状态
-	const originalCard = ui.click.card;
-	ui.click.card = function () {
+	wrapAround(ui.click, "card", function (original, ...args) {
 		const event = _status.event;
 		if (event) {
+			const state = getState(event);
 			if (this.classList?.contains("selected")) {
-				delete event._autoCardDone;
-				delete event._autoTargetState;
-				delete event._manualTargetCancel;
-				event._manualCardCancel = true;
+				state.cardDone = false;
+				state.targetState = "";
+				state.manualCancel.add("card");
+				state.manualCancel.delete("target");
 			} else {
-				delete event._manualCardCancel;
-				delete event._manualTargetCancel;
-				event._autoCardDone = true;
+				state.manualCancel.clear();
+				state.cardDone = true;
 			}
 		}
-		return originalCard.apply(this, arguments);
-	};
+		return original.apply(this, args);
+	});
 
-	// 切换技能时重置状态
-	const originalSkill = ui.click.skill;
-	ui.click.skill = function () {
-		resetAutoState(_status.event);
-		return originalSkill.apply(this, arguments);
-	};
+	wrapAround(ui.click, "skill", function (original, ...args) {
+		autoStates.delete(_status.event);
+		return original.apply(this, args);
+	});
 
-	// 取消选择目标时重置目标状态
-	const originalTarget = ui.click.target;
-	ui.click.target = function () {
+	wrapAround(ui.click, "target", function (original, ...args) {
 		const event = _status.event;
 		if (event && this.classList?.contains("selected")) {
-			delete event._autoTargetState;
-			event._manualTargetCancel = true;
+			const state = getState(event);
+			state.targetState = "";
+			state.manualCancel.add("target");
 		}
-		return originalTarget.apply(this, arguments);
-	};
+		return original.apply(this, args);
+	});
 
-	// 注册 checkEnd 钩子
 	lib.hooks?.checkEnd?.add("_decadeUI_autoSelect", (event, { ok }) => {
-		if (ok) return;
+		if (ok || _status.event !== event || (_status.paused && !_status.imchoosing)) return;
 
-		setTimeout(() => {
-			if (_status.event !== event) return;
-			if (_status.paused && !_status.imchoosing) return;
-
-			const changed = performAutoSelectCard() || performAutoSelectTarget();
-			if (changed) {
-				game.check();
-				// 自动选卡后，如果不是强制事件，需要确保取消按钮可用
-				// 因为 game.check 中 get.noSelected() 会返回 false（已有选中项），导致取消按钮不显示
-				if (!event.forced && !event.fakeforce && ui.confirm?.str === "o") {
-					ui.create.confirm("oc");
-				}
+		const changed = performAutoSelectCard() || performAutoSelectTarget();
+		if (changed) {
+			game.check();
+			if (!event.forced && !event.fakeforce && ui.confirm?.str === "o") {
+				ui.create.confirm("oc");
 			}
-		}, 0);
+		}
 	});
 }

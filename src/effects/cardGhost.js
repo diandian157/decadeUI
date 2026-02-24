@@ -1,77 +1,57 @@
 /**
- * @fileoverview 卡牌幻影拖尾模块
- * 使用对象池 + 节流RAF追踪 + CSS动画实现幻影效果
- * 性能杀手，必要可以手动减低幻影生成间隔 + 幻影持续时间 + 对象池最大容量
+ * 卡牌幻影拖尾模块 - 使用对象池 + 节流RAF + CSS动画实现幻影效果
  */
 
-import { lib, game, ui, get, ai, _status } from "noname";
+import { lib, ui, _status } from "noname";
+import { wrapAround } from "../utils/safeOverride.js";
 
-/** @type {boolean} 是否已初始化 */
+const SPAWN_INTERVAL = 10;
+const GHOST_DURATION = 300;
+const GLOW_COLOR = "rgba(255, 0, 0, 0.53)";
+const POOL_MAX_SIZE = 30;
+const MAX_TRACKING_CARDS = 10;
+
 let initialized = false;
-
-/** @type {boolean} 是否启用幻影效果 */
 let enabled = true;
-
-/** @type {Set<HTMLElement>} 正在追踪的卡牌 */
-const trackingCards = new Set();
-
-/** @type {number|null} 全局RAF ID */
 let globalRafId = null;
-
-/** @type {number} 上次生成幻影的时间 */
 let lastSpawnTime = 0;
 
-/** @type {number} 幻影生成间隔(ms) */
-const SPAWN_INTERVAL = 10;
-
-/** @type {number} 幻影持续时间(ms) */
-const GHOST_DURATION = 300;
-
-/** @type {string} 发光颜色 */
-const GLOW_COLOR = "rgba(255, 0, 0, 0.53)";
-
-/** @type {number} 对象池最大容量 */
-const POOL_MAX_SIZE = 30;
-
-/** @type {HTMLElement[]} 幻影对象池 */
+const trackingCards = new Map();
 const ghostPool = [];
 
 /**
  * 从对象池获取幻影元素
  * @returns {HTMLElement}
  */
-function acquireGhost() {
+const acquireGhost = () => {
 	if (ghostPool.length > 0) {
 		return ghostPool.pop();
 	}
 	const ghost = document.createElement("div");
 	ghost.className = "card-ghost-trail";
 	return ghost;
-}
+};
 
 /**
  * 归还幻影元素到对象池
  * @param {HTMLElement} ghost
  */
-function releaseGhost(ghost) {
+const releaseGhost = ghost => {
 	if (ghost.parentNode) {
 		ghost.parentNode.removeChild(ghost);
 	}
 	ghost.style.cssText = "";
-	ghost.style.transition = "";
-	ghost.style.opacity = "";
-	ghost.style.transform = "";
 
 	if (ghostPool.length < POOL_MAX_SIZE) {
 		ghostPool.push(ghost);
 	}
-}
+};
 
 /**
  * 创建幻影元素
  * @param {HTMLElement} card
  */
-function spawnGhost(card) {
+const spawnGhost = card => {
 	const rect = card.getBoundingClientRect();
 	if (rect.width === 0 || rect.height === 0) return;
 
@@ -104,21 +84,19 @@ function spawnGhost(card) {
 
 	ui.arena.appendChild(ghost);
 
-	// 下一帧开始动画
 	requestAnimationFrame(() => {
 		ghost.style.transition = `opacity ${GHOST_DURATION}ms ease-out, transform ${GHOST_DURATION}ms ease-out`;
 		ghost.style.opacity = "0";
 		ghost.style.transform = "scale(0.85)";
 	});
 
-	// 归还到对象池
 	setTimeout(() => releaseGhost(ghost), GHOST_DURATION + 50);
-}
+};
 
 /**
- * 全局追踪循环 - 单个RAF处理所有卡牌
+ * 全局追踪循环
  */
-function trackLoop() {
+const trackLoop = () => {
 	if (trackingCards.size === 0) {
 		globalRafId = null;
 		return;
@@ -126,21 +104,18 @@ function trackLoop() {
 
 	const now = Date.now();
 
-	// 节流：控制幻影生成频率
 	if (now - lastSpawnTime >= SPAWN_INTERVAL) {
 		lastSpawnTime = now;
 
-		trackingCards.forEach(card => {
-			// 检查卡牌是否还在DOM中
-			if (!card.parentNode) {
+		for (const [card, data] of trackingCards) {
+			if (!card.parentNode || now > data.endTime) {
 				trackingCards.delete(card);
-				return;
+				continue;
 			}
 
 			const rect = card.getBoundingClientRect();
-			const lastPos = card._ghostLastPos;
+			const lastPos = data.lastPos;
 
-			// 检测移动
 			if (lastPos) {
 				const dx = Math.abs(rect.left - lastPos.x);
 				const dy = Math.abs(rect.top - lastPos.y);
@@ -149,57 +124,51 @@ function trackLoop() {
 				}
 			}
 
-			card._ghostLastPos = { x: rect.left, y: rect.top };
-		});
+			data.lastPos = { x: rect.left, y: rect.top };
+		}
 	}
 
 	globalRafId = requestAnimationFrame(trackLoop);
-}
+};
 
 /**
  * 开始追踪卡牌
  * @param {HTMLElement} card
+ * @param {number} duration
  */
-function startTracking(card) {
+const startTracking = (card, duration) => {
 	if (!enabled || !card || trackingCards.has(card)) return;
 
-	card._ghostLastPos = null;
-	trackingCards.add(card);
+	if (trackingCards.size >= MAX_TRACKING_CARDS) {
+		const oldest = trackingCards.keys().next().value;
+		trackingCards.delete(oldest);
+	}
 
-	// 启动全局循环
+	trackingCards.set(card, {
+		lastPos: null,
+		endTime: Date.now() + duration,
+	});
+
 	if (globalRafId === null) {
 		lastSpawnTime = 0;
 		globalRafId = requestAnimationFrame(trackLoop);
 	}
-}
-
-/**
- * 停止追踪卡牌
- * @param {HTMLElement} card
- */
-function stopTracking(card) {
-	trackingCards.delete(card);
-	delete card._ghostLastPos;
-}
+};
 
 /**
  * 为卡牌添加幻影效果
  * @param {HTMLElement} card
- * @param {number} [duration=800] 追踪持续时间
+ * @param {number} duration
  */
-export function addGhostTrail(card, duration = 800) {
+export const addGhostTrail = (card, duration = 800) => {
 	if (!enabled || !card) return;
-
-	startTracking(card);
-
-	// 备用清理 （应该用不到，万一呢
-	setTimeout(() => stopTracking(card), duration);
-}
+	startTracking(card, duration);
+};
 
 /**
  * 注入CSS样式
  */
-function injectStyles() {
+const injectStyles = () => {
 	const styleId = "decade-card-ghost-styles";
 	if (document.getElementById(styleId)) return;
 
@@ -211,40 +180,18 @@ function injectStyles() {
 		}
 	`;
 	document.head.appendChild(style);
-}
+};
 
 /**
- * 包装$throwordered2
+ * 清理所有追踪
  */
-function wrapThrowordered2(original) {
-	return function (card) {
-		const result = original.apply(this, arguments);
-		if (enabled && card && !card.classList?.contains("card-ghost-trail")) {
-			requestAnimationFrame(() => addGhostTrail(card, 1000));
-		}
-		return result;
-	};
-}
-
-/**
- * 包装layoutDrawCards
- */
-function wrapLayoutDrawCards(original) {
-	return function (cards) {
-		const result = original.apply(this, arguments);
-		if (enabled && cards) {
-			const arr = Array.isArray(cards) ? cards : [cards];
-			requestAnimationFrame(() => {
-				arr.forEach(card => {
-					if (card && !card.classList?.contains("card-ghost-trail")) {
-						addGhostTrail(card, 600);
-					}
-				});
-			});
-		}
-		return result;
-	};
-}
+const cleanup = () => {
+	trackingCards.clear();
+	if (globalRafId !== null) {
+		cancelAnimationFrame(globalRafId);
+		globalRafId = null;
+	}
+};
 
 /**
  * 初始化
@@ -256,32 +203,51 @@ export function setupCardGhost() {
 	enabled = lib.config["extension_十周年UI_cardGhostEffect"] !== false;
 	injectStyles();
 
-	// 出牌
 	if (lib.element?.player?.$throwordered2) {
-		lib.element.player.$throwordered2 = wrapThrowordered2(lib.element.player.$throwordered2);
+		wrapAround(lib.element.player, "$throwordered2", function (original, ...args) {
+			const result = original.apply(this, args);
+			if (enabled && args[0] && !args[0].classList?.contains("card-ghost-trail")) {
+				requestAnimationFrame(() => addGhostTrail(args[0], 1000));
+			}
+			return result;
+		});
 	}
 
-	// 摸牌
 	setTimeout(() => {
 		if (window.decadeUI?.layoutDrawCards && !window.decadeUI._ghostHooked) {
 			window.decadeUI._ghostHooked = true;
-			window.decadeUI.layoutDrawCards = wrapLayoutDrawCards(window.decadeUI.layoutDrawCards);
+			wrapAround(window.decadeUI, "layoutDrawCards", function (original, ...args) {
+				const result = original.apply(this, args);
+				if (enabled && args[0]) {
+					const arr = Array.isArray(args[0]) ? args[0] : [args[0]];
+					requestAnimationFrame(() => {
+						arr.forEach(card => {
+							if (card && !card.classList?.contains("card-ghost-trail")) {
+								addGhostTrail(card, 600);
+							}
+						});
+					});
+				}
+				return result;
+			});
 		}
 	}, 100);
+
+	lib.hooks?.gameStart?.add?.(() => cleanup());
+	lib.hooks?.gameOver?.add?.(() => cleanup());
 }
 
 /**
  * 设置启用状态
+ * @param {boolean} value
  */
 export function setGhostEffectEnabled(value) {
 	enabled = !!value;
-	if (!enabled) {
-		trackingCards.clear();
-	}
+	if (!enabled) cleanup();
 }
 
 /**
- * 清空对象池 （用于内存清理
+ * 清空对象池
  */
 export function clearGhostPool() {
 	ghostPool.length = 0;

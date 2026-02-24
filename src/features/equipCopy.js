@@ -1,19 +1,17 @@
-"use strict";
-
 /**
- * @fileoverview 装备牌手牌化模式
- * 将装备区的牌复制到手牌区显示，参与选择
+ * 装备牌手牌化模式 - 将装备区的牌复制到手牌区显示
  */
 
-import { lib, game, ui, get, ai, _status } from "noname";
+import { lib, game, ui, get, _status } from "noname";
 
-/** @type {string} 副本卡牌标记 */
 const GAINTAG = "equipHand";
+const VALID_EVENTS = ["chooseCard", "chooseToUse", "chooseToRespond", "chooseToDiscard", "chooseCardTarget", "chooseToGive"];
+const originalFilters = new WeakMap();
 
 /**
  * 创建装备牌副本
- * @param {Object} original - 原始卡牌
- * @returns {Object} 副本卡牌
+ * @param {Card} original
+ * @returns {Card}
  */
 function createCopy(original) {
 	const card = ui.create.card(ui.special);
@@ -24,33 +22,39 @@ function createCopy(original) {
 	card.relatedCard = original;
 	card.owner = get.owner(original);
 
-	// 同步选中状态到原卡
-	new MutationObserver(mutations => {
+	const syncSelection = () => {
 		if (get.position(card) !== "s" || !card.hasGaintag(GAINTAG)) return;
-		for (const m of mutations) {
-			if (m.attributeName !== "class") continue;
-			ui.selected.cards.remove(card);
-			const selected = card.classList.contains("selected");
-			card.updateTransform(selected, 0);
-			card.relatedCard.classList.toggle("selected", selected);
-			if (selected) {
-				ui.selected.cards.add(card.relatedCard);
-			} else {
-				ui.selected.cards.remove(card.relatedCard);
-			}
+
+		ui.selected.cards.remove(card);
+		const selected = card.classList.contains("selected");
+		card.updateTransform(selected, 0);
+		card.relatedCard.classList.toggle("selected", selected);
+
+		if (selected) {
+			ui.selected.cards.add(card.relatedCard);
+		} else {
+			ui.selected.cards.remove(card.relatedCard);
 		}
-	}).observe(card, { attributes: true, attributeFilter: ["class"] });
+	};
+
+	card.addEventListener("click", syncSelection);
+	card._syncSelection = syncSelection;
 
 	return card;
 }
 
 /**
- * 创建过滤器，排除装备区和无效特殊区卡牌
- * @param {Function} filter - 原始过滤器
- * @param {boolean} includeS - 是否包含特殊区
- * @returns {Function} 包装后的过滤器
+ * 创建过滤器包装
+ * @param {GameEvent} event
+ * @param {Function} filter
+ * @param {boolean} includeS
+ * @returns {Function}
  */
-function wrapFilter(filter, includeS) {
+function wrapFilter(event, filter, includeS) {
+	if (!originalFilters.has(event)) {
+		originalFilters.set(event, filter);
+	}
+
 	return function (card, player) {
 		const real = card.relatedCard || card;
 		if (get.position(card) === "e") return false;
@@ -62,43 +66,57 @@ function wrapFilter(filter, includeS) {
 }
 
 /**
- * 处理多选时的卡牌筛选
- * @param {Object} event - 当前事件
- * @param {Object} player - 玩家对象
- * @param {Object[]} copies - 副本卡牌数组
- * @param {Object[]} filtered - 已过滤卡牌数组
- * @param {Object[]} result - 结果数组
- * @returns {Object[]} 处理后的卡牌数组
+ * 恢复原始过滤器
+ * @param {GameEvent} event
  */
-function processMultiSelect(event, player, copies, filtered, result) {
-	if (!event.filterCard || !(typeof event.selectCard === "object" || event.selectCard > 1)) {
+function restoreFilter(event) {
+	if (originalFilters.has(event)) {
+		event.filterCard = originalFilters.get(event);
+		originalFilters.delete(event);
+	}
+}
+
+/**
+ * 处理多选时的卡牌筛选
+ * @param {GameEvent} event
+ * @param {Player} player
+ * @param {Card[]} copies
+ * @param {Card[]} filtered
+ * @returns {Card[]}
+ */
+function processMultiSelect(event, player, copies, filtered) {
+	const isMultiSelect = event.filterCard && (typeof event.selectCard === "object" || event.selectCard > 1);
+	if (!isMultiSelect) {
 		return event.filterCard ? filtered : copies;
 	}
 
-	result.addArray(filtered);
-	const valid = player.getCards("he", j => {
-		const real = j.relatedCard || j;
+	const result = [...filtered];
+	const validCards = player.getCards("he", card => {
+		const real = card.relatedCard || card;
 		return event.position.includes(get.position(real)) && event.filterCard.call(event, real, player);
 	});
 
-	for (const c of valid) {
+	for (const card of validCards) {
 		ui.selected.cards = ui.selected.cards || [];
-		ui.selected.cards.add(c);
-		result.addArray(
-			copies.filter(j => {
-				if (result.includes(j)) return false;
-				const real = j.relatedCard || j;
-				return event.position.includes(get.position(real)) && event.filterCard.call(event, real, player);
-			})
-		);
-		ui.selected.cards.remove(c);
+		ui.selected.cards.add(card);
+
+		for (const copy of copies) {
+			if (result.includes(copy)) continue;
+			const real = copy.relatedCard || copy;
+			if (event.position.includes(get.position(real)) && event.filterCard.call(event, real, player)) {
+				result.push(copy);
+			}
+		}
+
+		ui.selected.cards.remove(card);
 	}
+
 	return result;
 }
 
 /**
  * 设置卡牌样式
- * @param {Object[]} cards - 卡牌数组
+ * @param {Card[]} cards
  */
 function styleCards(cards) {
 	for (const card of cards) {
@@ -109,7 +127,7 @@ function styleCards(cards) {
 
 /**
  * 卡牌排序
- * @param {Object[]} cards - 卡牌数组
+ * @param {Card[]} cards
  */
 function sortCards(cards) {
 	cards.sort((b, a) => {
@@ -121,10 +139,12 @@ function sortCards(cards) {
 
 /**
  * 清理副本卡牌
- * @param {Object} event - 当前事件
- * @param {Object} player - 玩家对象
+ * @param {GameEvent} event
+ * @param {Player} player
  */
 function cleanup(event, player) {
+	if (!player) return;
+
 	const cards = event.result?.cards;
 	if (cards) {
 		cards.forEach((card, i) => {
@@ -135,12 +155,17 @@ function cleanup(event, player) {
 		});
 	}
 
-	player
-		?.getCards("s", c => c.hasGaintag(GAINTAG))
-		.forEach(c => {
-			c.discard();
-			c.delete();
-		});
+	const copies = player.getCards("s", c => c.hasGaintag(GAINTAG));
+	for (const copy of copies) {
+		if (copy._syncSelection) {
+			copy.removeEventListener("click", copy._syncSelection);
+			delete copy._syncSelection;
+		}
+		copy.discard();
+		copy.delete();
+	}
+
+	restoreFilter(event);
 
 	event.copyCards = false;
 	if (player === game.me) ui.updatehl();
@@ -150,10 +175,6 @@ function cleanup(event, player) {
  * 初始化手牌化模式
  */
 export function setupEquipCopy() {
-	/** @type {string[]} 有效事件名称列表 */
-	const VALID_EVENTS = ["chooseCard", "chooseToUse", "chooseToRespond", "chooseToDiscard", "chooseCardTarget", "chooseToGive"];
-
-	// 选择开始：创建副本
 	lib.hooks.checkBegin.add(async event => {
 		if (lib.config["extension_十周年UI_aloneEquip"]) return;
 
@@ -166,22 +187,19 @@ export function setupEquipCopy() {
 		if (includeS) event.position += "s";
 
 		const copies = player.getCards("e").map(createCopy);
-		let filtered = [];
-		let result = [];
+		const filtered = event.filterCard ? copies.filter(c => event.filterCard.call(event, c.relatedCard || c, player)) : [];
 
 		if (event.filterCard) {
-			filtered = copies.filter(c => event.filterCard.call(event, c.relatedCard || c, player));
-			event.filterCard = wrapFilter(event.filterCard, includeS);
+			event.filterCard = wrapFilter(event, event.filterCard, includeS);
 		}
 
-		const toGive = processMultiSelect(event, player, copies, filtered, result);
+		const toGive = processMultiSelect(event, player, copies, filtered);
 		if (toGive.length) player.directgains(toGive, null, GAINTAG);
 
-		styleCards([...copies, ...filtered, ...result]);
+		styleCards([...copies, ...filtered]);
 		sortCards(copies);
 	});
 
-	// 检查卡牌：同步选中状态
 	lib.hooks.checkCard.add((card, event) => {
 		if (lib.config["extension_十周年UI_aloneEquip"] || !event.copyCards) return;
 
@@ -194,7 +212,6 @@ export function setupEquipCopy() {
 		}
 	});
 
-	// 检查结束：同步装备区状态
 	lib.hooks.checkEnd.add(event => {
 		if (lib.config["extension_十周年UI_aloneEquip"] || !event.copyCards) return;
 
@@ -209,7 +226,6 @@ export function setupEquipCopy() {
 		}
 	});
 
-	// 取消选择：清理资源
 	lib.hooks.uncheckBegin.add(async (event, args) => {
 		if (lib.config["extension_十周年UI_aloneEquip"]) return;
 
