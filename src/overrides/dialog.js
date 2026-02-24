@@ -1,22 +1,28 @@
 /**
- * @fileoverview Dialog覆写模块 - lib.element.dialog的覆写方法
+ * Dialog覆写模块
  */
-import { lib, game, ui, get, ai, _status } from "noname";
+import { lib, ui } from "noname";
+import { wrapBefore } from "../utils/safeOverride.js";
 
-/** @type {Function|null} 基础方法引用 */
-let baseDialogClose = null;
+export function applyDialogOverrides() {
+	const restoreFns = [];
 
-/**
- * 设置基础dialog方法引用
- * @param {Object} base - 基础方法对象
- */
-export function setBaseDialogMethods(base) {
-	baseDialogClose = base?.close;
+	if (lib.element?.dialog) {
+		restoreFns.push(
+			wrapBefore(lib.element.dialog, "close", function () {
+				if (this.intersection) {
+					this.intersection.disconnect();
+					this.intersection = undefined;
+				}
+			})
+		);
+	}
+
+	return restoreFns;
 }
 
 /**
- * dialog.open覆写
- * @returns {HTMLElement|undefined} 对话框元素
+ * dialog.open 完全替换
  */
 export function dialogOpen() {
 	if (this.noopen) return;
@@ -49,23 +55,4 @@ export function dialogOpen() {
 	}
 
 	return this;
-}
-
-/**
- * dialog.close覆写
- * @returns {*} 关闭结果
- */
-export function dialogClose() {
-	if (this.intersection) {
-		this.intersection.disconnect();
-		this.intersection = undefined;
-	}
-	return baseDialogClose?.apply(this, arguments);
-}
-
-/**
- * 应用dialog覆写
- */
-export function applyDialogOverrides() {
-	// 此函数用于在需要时应用覆写
 }

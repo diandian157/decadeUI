@@ -1,34 +1,28 @@
 /**
- * @fileoverview Lib覆写模块 - lib对象的覆写方法
+ * Lib覆写模块
  */
+import { lib, ui } from "noname";
+import { wrapAround } from "../utils/safeOverride.js";
 
-import { lib, game, ui, get, ai, _status } from "noname";
-
-/** @type {Function|null} 基础方法引用 */
-let baseLibInitCssstyles = null;
-
-/**
- * 设置基础lib方法引用
- * @param {Object} base - 基础方法对象
- */
-export function setBaseLibMethods(base) {
-	baseLibInitCssstyles = base?.init?.cssstyles;
-}
-
-/**
- * lib.init.cssstyles覆写
- */
-export function libInitCssstyles() {
-	const temp = lib.config.glow_phase;
-	lib.config.glow_phase = "";
-	baseLibInitCssstyles?.call(this);
-	lib.config.glow_phase = temp;
-	ui.css.styles.sheet.insertRule('.avatar-name, .avatar-name-default { font-family: "' + (lib.config.name_font || "xinkai") + '", "xinwei" }', 0);
-}
-
-/**
- * 应用lib覆写
- */
 export function applyLibOverrides() {
-	// 基础方法在外部设置
+	const restoreFns = [];
+
+	if (lib.init && typeof lib.init.cssstyles === "function") {
+		restoreFns.push(
+			wrapAround(lib.init, "cssstyles", function (original) {
+				const temp = lib.config.glow_phase;
+				lib.config.glow_phase = "";
+				original.call(this);
+				lib.config.glow_phase = temp;
+
+				if (ui.css?.styles?.sheet) {
+					const fontFamily = lib.config.name_font || "xinkai";
+					const rule = `.avatar-name, .avatar-name-default { font-family: "${fontFamily}", "xinwei" }`;
+					ui.css.styles.sheet.insertRule(rule, 0);
+				}
+			})
+		);
+	}
+
+	return restoreFns;
 }

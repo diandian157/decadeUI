@@ -1,128 +1,134 @@
 /**
- * @fileoverview Game覆写模块 - 游戏相关的覆写方法
+ * Game覆写模块
  */
+import { lib, game, ui, get } from "noname";
+import { wrapAfter } from "../utils/safeOverride.js";
 
-import { lib, game, ui, get, ai, _status } from "noname";
+export function applyGameOverrides() {
+	const restoreFns = [];
 
-/** @type {Object|null} 基础方法引用 */
-let baseGameMethods = null;
+	// 交换座位后更新座位号显示
+	restoreFns.push(
+		wrapAfter(game, "swapSeat", function (result, player1, player2) {
+			if (player1) {
+				player1.seat = player1.getSeatNum();
+				if (player1.node.seat) {
+					player1.node.seat.innerHTML = get.cnNumber(player1.seat, true);
+				}
+			}
+			if (player2) {
+				player2.seat = player2.getSeatNum();
+				if (player2.node.seat) {
+					player2.node.seat.innerHTML = get.cnNumber(player2.seat, true);
+				}
+			}
+		})
+	);
 
-/**
- * 设置基础方法引用
- * @param {Object} methods - 基础方法对象
- */
-export function setBaseGameMethods(methods) {
-	baseGameMethods = methods;
+	// 交换玩家后同步装备栏和手牌显示
+	restoreFns.push(
+		wrapAfter(game, "swapPlayer", function (result, player) {
+			const list = [game.me, player].filter(Boolean);
+
+			if (lib.config.extension_十周年UI_aloneEquip && game.me && ui.equipSolts && game.me !== ui.equipSolts.me) {
+				ui.equipSolts.me.appendChild(ui.equipSolts.equips);
+				ui.equipSolts.me = game.me;
+				ui.equipSolts.equips = game.me.node.equips;
+				ui.equipSolts.appendChild(game.me.node.equips);
+				if (typeof game.me.$syncExpand === "function") {
+					game.me.$syncExpand();
+				}
+			}
+
+			list.forEach(p => {
+				if (typeof p.decadeUI_updateShowCards === "function") {
+					p.decadeUI_updateShowCards();
+				}
+			});
+
+			if (lib.refreshPlayerSkills) {
+				list.forEach(p => lib.refreshPlayerSkills(p));
+			}
+			if (lib.clearAllSkillDisplay) {
+				lib.clearAllSkillDisplay();
+			}
+			if (lib.refreshPlayerSkills) {
+				const allPlayers = game.players.concat(game.dead || []);
+				allPlayers.forEach(p => lib.refreshPlayerSkills(p));
+			}
+		})
+	);
+
+	// 交换控制后同步装备栏和手牌显示
+	restoreFns.push(
+		wrapAfter(game, "swapControl", function (result, player) {
+			if (lib.config.extension_十周年UI_aloneEquip && game.me && ui.equipSolts && game.me !== ui.equipSolts.me) {
+				ui.equipSolts.me.appendChild(ui.equipSolts.equips);
+				ui.equipSolts.me = game.me;
+				ui.equipSolts.equips = game.me.node.equips;
+				ui.equipSolts.appendChild(game.me.node.equips);
+				if (typeof game.me.$syncExpand === "function") {
+					game.me.$syncExpand();
+				}
+			}
+
+			if (ui.equipSolts) {
+				if (game.me && typeof game.me.$handleEquipChange === "function") {
+					game.me.$handleEquipChange();
+				}
+				if (player && typeof player.$handleEquipChange === "function") {
+					player.$handleEquipChange();
+				}
+			}
+
+			if (player && typeof player.decadeUI_updateShowCards === "function") {
+				player.decadeUI_updateShowCards();
+			}
+
+			if (lib.refreshPlayerSkills) {
+				if (player) lib.refreshPlayerSkills(player);
+				if (game.me) lib.refreshPlayerSkills(game.me);
+			}
+			if (lib.clearAllSkillDisplay) {
+				lib.clearAllSkillDisplay();
+			}
+			if (lib.refreshPlayerSkills) {
+				const allPlayers = game.players.concat(game.dead || []);
+				allPlayers.forEach(p => lib.refreshPlayerSkills(p));
+			}
+		})
+	);
+
+	// 添加全局技能后更新手牌显示
+	restoreFns.push(
+		wrapAfter(game, "addGlobalSkill", function () {
+			const allPlayers = [...game.players, ...(game.dead || [])];
+			allPlayers.forEach(p => {
+				if (typeof p.decadeUI_updateShowCards === "function") {
+					p.decadeUI_updateShowCards();
+				}
+			});
+		})
+	);
+
+	// 移除全局技能后更新手牌显示
+	restoreFns.push(
+		wrapAfter(game, "removeGlobalSkill", function () {
+			const allPlayers = [...game.players, ...(game.dead || [])];
+			allPlayers.forEach(p => {
+				if (typeof p.decadeUI_updateShowCards === "function") {
+					p.decadeUI_updateShowCards();
+				}
+			});
+		})
+	);
+
+	return restoreFns;
 }
 
 /**
- * 交换座位覆写
- * @param {Object} player1 - 玩家1
- * @param {Object} player2 - 玩家2
- * @param {string} [prompt] - 提示信息
- * @param {boolean} [behind] - 是否在后面
- * @param {boolean} [noanimate] - 是否无动画
- */
-export function gameSwapSeat(player1, player2, prompt, behind, noanimate) {
-	baseGameMethods.swapSeat.apply(this, arguments);
-	player1.seat = player1.getSeatNum();
-	if (player1.node.seat) player1.node.seat.innerHTML = get.cnNumber(player1.seat, true);
-	player2.seat = player2.getSeatNum();
-	if (player2.node.seat) player2.node.seat.innerHTML = get.cnNumber(player2.seat, true);
-}
-
-/**
- * 交换玩家覆写
- * @param {Object} player - 玩家
- * @param {Object} [player2] - 玩家2
- * @returns {*} 交换结果
- */
-export function gameSwapPlayer(player, player2) {
-	const list = [game.me, player];
-	const result = baseGameMethods.swapPlayer.call(this, player, player2);
-
-	// 单独装备栏
-	if (lib.config.extension_十周年UI_aloneEquip && game.me && game.me !== ui.equipSolts?.me) {
-		ui.equipSolts.me.appendChild(ui.equipSolts.equips);
-		ui.equipSolts.me = game.me;
-		ui.equipSolts.equips = game.me.node.equips;
-		ui.equipSolts.appendChild(game.me.node.equips);
-		game.me.$syncExpand();
-	}
-
-	// 可见手牌显示
-	list.forEach(i => i.decadeUI_updateShowCards());
-	if (lib.refreshPlayerSkills) {
-		list.forEach(i => lib.refreshPlayerSkills(i));
-	}
-	if (lib.clearAllSkillDisplay) lib.clearAllSkillDisplay();
-	if (lib.refreshPlayerSkills) {
-		game.players.concat(game.dead || []).forEach(i => lib.refreshPlayerSkills(i));
-	}
-	return result;
-}
-
-/**
- * 交换控制覆写
- * @param {Object} player - 玩家
- * @returns {*} 交换结果
- */
-export function gameSwapControl(player) {
-	const result = baseGameMethods.swapControl.call(this, player);
-
-	// 单独装备栏
-	if (lib.config.extension_十周年UI_aloneEquip && game.me && game.me !== ui.equipSolts?.me) {
-		ui.equipSolts.me.appendChild(ui.equipSolts.equips);
-		ui.equipSolts.me = game.me;
-		ui.equipSolts.equips = game.me.node.equips;
-		ui.equipSolts.appendChild(game.me.node.equips);
-		game.me.$syncExpand();
-	}
-
-	if (ui.equipSolts) {
-		if (game.me && typeof game.me.$handleEquipChange === "function") {
-			game.me.$handleEquipChange();
-		}
-		if (player && typeof player.$handleEquipChange === "function") {
-			player.$handleEquipChange();
-		}
-	}
-
-	// 可见手牌显示
-	player.decadeUI_updateShowCards();
-	if (lib.refreshPlayerSkills) {
-		lib.refreshPlayerSkills(player);
-		if (game.me) lib.refreshPlayerSkills(game.me);
-	}
-	if (lib.clearAllSkillDisplay) lib.clearAllSkillDisplay();
-	if (lib.refreshPlayerSkills) {
-		game.players.concat(game.dead || []).forEach(i => lib.refreshPlayerSkills(i));
-	}
-	return result;
-}
-
-/**
- * 添加全局技能覆写
- * @returns {*} 添加结果
- */
-export function gameAddGlobalSkill() {
-	const result = baseGameMethods.addGlobalSkill.apply(this, arguments);
-	[...game.players, ...game.dead].forEach(i => i.decadeUI_updateShowCards());
-	return result;
-}
-
-/**
- * 移除全局技能覆写
- * @returns {*} 移除结果
- */
-export function gameRemoveGlobalSkill() {
-	const result = baseGameMethods.removeGlobalSkill.apply(this, arguments);
-	[...game.players, ...game.dead].forEach(i => i.decadeUI_updateShowCards());
-	return result;
-}
-
-/**
- * 日志记录覆写
+ * 日志记录完全替换（类型A覆写，保持不变）
+ * 此函数需要在外部手动应用到 game.logv
  * @param {Object} player - 玩家
  * @param {*} card - 卡牌
  * @param {Array} targets - 目标
@@ -132,6 +138,8 @@ export function gameRemoveGlobalSkill() {
  * @returns {HTMLElement|undefined} 日志节点
  */
 export function gameLogv(player, card, targets, event, forced, logvid) {
+	const { _status, ui } = window;
+
 	if (!player) {
 		player = _status.event.getParent().logvid;
 		if (!player) return;
@@ -252,7 +260,7 @@ export function gameLogv(player, card, targets, event, forced, logvid) {
 			node.targets = targets;
 		}
 	}
-	const bounds = decadeUI.boundsCaches.window;
+	const bounds = window.decadeUI.boundsCaches.window;
 	bounds.check();
 	const fullheight = bounds.height,
 		num = Math.round((fullheight - 8) / 50),
@@ -289,11 +297,4 @@ export function gameLogv(player, card, targets, event, forced, logvid) {
 		event.logvid = node.logvid;
 	}
 	return node;
-}
-
-/**
- * 应用game覆写
- */
-export function applyGameOverrides() {
-	// 基础方法在外部设置
 }

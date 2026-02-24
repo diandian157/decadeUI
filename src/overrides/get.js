@@ -1,41 +1,28 @@
 /**
- * @fileoverview Get覆写模块 - get对象相关的覆写方法
+ * Get覆写模块
  */
+import { game, get } from "noname";
+import { wrapAfter } from "../utils/safeOverride.js";
 
-import { lib, game, ui, get, ai, _status } from "noname";
+export function applyGetOverrides() {
+	const restoreFns = [];
 
-/** @type {Object|null} 基础方法引用 */
-let baseGetMethods = null;
+	restoreFns.push(
+		wrapAfter(get, "skillState", function (skills, player) {
+			if (game.me !== player && skills?.global) {
+				skills.global = skills.global.concat();
+				for (let i = skills.global.length - 1; i >= 0; i--) {
+					if (skills.global[i].includes("decadeUI")) {
+						skills.global.splice(i, 1);
+					}
+				}
+			}
+		})
+	);
 
-/**
- * 设置基础方法引用
- * @param {Object} methods - 基础方法对象
- */
-export function setBaseGetMethods(methods) {
-	baseGetMethods = methods;
+	return restoreFns;
 }
 
-/**
- * 技能状态覆写 - 排除十周年UI技能
- * @param {Object} player - 玩家
- * @returns {Object} 技能状态
- */
-export function getSkillState(player) {
-	const skills = baseGetMethods.skillState.apply(this, arguments);
-	if (game.me !== player) {
-		const global = (skills.global = skills.global.concat());
-		for (let i = global.length - 1; i >= 0; i--) {
-			if (global[i].includes("decadeUI")) global.splice(i, 1);
-		}
-	}
-	return skills;
-}
-
-/**
- * 对象类型判断
- * @param {*} obj - 要判断的对象
- * @returns {string|undefined} 对象类型
- */
 export function getObjtype(obj) {
 	obj = Object.prototype.toString.call(obj);
 	const map = {
@@ -48,11 +35,4 @@ export function getObjtype(obj) {
 		"[object HTMLBodyElement]": "td",
 	};
 	return map[obj];
-}
-
-/**
- * 应用get覆写
- */
-export function applyGetOverrides() {
-	// 基础方法在外部设置
 }

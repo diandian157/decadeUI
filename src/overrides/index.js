@@ -1,8 +1,6 @@
 /**
- * @fileoverview 覆写模块入口 - 统一管理所有覆写
+ * 覆写模块入口
  */
-import { lib, game, ui, get, ai, _status } from "noname";
-
 export * from "./control.js";
 export * from "./dialog.js";
 export * from "./event.js";
@@ -13,38 +11,9 @@ export * from "./get.js";
 export * from "./ui.js";
 export * from "./lib.js";
 export * from "./content.js";
+export * from "./moveAnimFix.js";
 
-// 导出设置基础方法的函数
 export { setBaseCardMethods } from "./card.js";
 export { setBaseContentMethods } from "./content.js";
 export { setBasePlayerMethods, setBasePlayerDraw } from "./player.js";
-export { setBaseGameMethods } from "./game.js";
-export { setBaseGetMethods } from "./get.js";
 export { setBaseUiMethods, setBaseUiCreateMethods } from "./ui.js";
-export { setBaseDialogMethods } from "./dialog.js";
-export { setBaseLibMethods } from "./lib.js";
-
-import { applyControlOverrides } from "./control.js";
-import { applyDialogOverrides } from "./dialog.js";
-import { applyEventExtensions } from "./event.js";
-import { applyCardOverrides } from "./card.js";
-import { applyPlayerOverrides } from "./player.js";
-import { applyGameOverrides } from "./game.js";
-import { applyGetOverrides } from "./get.js";
-import { applyUiOverrides } from "./ui.js";
-import { applyLibOverrides } from "./lib.js";
-
-/**
- * 应用所有基础覆写
- */
-export function applyBaseOverrides() {
-	applyControlOverrides();
-	applyDialogOverrides();
-	applyEventExtensions();
-	applyCardOverrides();
-	applyPlayerOverrides();
-	applyGameOverrides();
-	applyGetOverrides();
-	applyUiOverrides();
-	applyLibOverrides();
-}

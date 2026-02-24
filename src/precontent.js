@@ -6,7 +6,7 @@ import { initEruda, initNodeFS } from "./core/debug.js";
 import { initDecadeModule, EXCLUDED_MODES } from "./core/decadeModule.js";
 import { setupConnectMode, setupLayoutVisualMenu } from "./core/connectMode.js";
 import { initApp } from "./core/app.js";
-import { fixMoveAnimZoom } from "./overrides/moveAnimFix.js";
+import { applyMoveAnimFix } from "./overrides/moveAnimFix.js";
 import { initPrecontentUI } from "./ui/progress-bar.js";
 import { initCardAlternateNameVisible } from "./ui/cardAlternateName.js";
 
@@ -30,7 +30,7 @@ export async function precontent() {
 		game.saveConfig("asset_version", "无");
 	}
 
-	fixMoveAnimZoom();
+	applyMoveAnimFix();
 	initPrecontentUI();
 	initCardAlternateNameVisible();
 }

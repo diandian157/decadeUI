@@ -40,22 +40,19 @@ import {
 	setBaseContentMethods,
 	setBasePlayerMethods,
 	setBasePlayerDraw,
-	setBaseGameMethods,
-	setBaseGetMethods,
 	setBaseUiMethods,
 	setBaseUiCreateMethods,
-	setBaseDialogMethods,
-	setBaseLibMethods,
 } from "../overrides/index.js";
 
 import { controlAdd, controlOpen, controlClose, controlReplace, controlUpdateLayout } from "../overrides/control.js";
-import { dialogOpen, dialogClose } from "../overrides/dialog.js";
+import { dialogOpen, applyDialogOverrides } from "../overrides/dialog.js";
 import { eventAddMessageHook, eventTriggerMessage } from "../overrides/event.js";
 import { cardCopy, cardInit, cardUpdateTransform, cardMoveTo, cardMoveDelete } from "../overrides/card.js";
 import { createContentGain, contentJudge, createContentLose } from "../overrides/content.js";
-import { libInitCssstyles } from "../overrides/lib.js";
-import { getSkillState, getObjtype } from "../overrides/get.js";
-import { gameSwapSeat, gameSwapPlayer, gameSwapControl, gameAddGlobalSkill, gameRemoveGlobalSkill, gameLogv } from "../overrides/game.js";
+import { applyLibOverrides } from "../overrides/lib.js";
+import { getObjtype, applyGetOverrides } from "../overrides/get.js";
+import { gameLogv, applyGameOverrides } from "../overrides/game.js";
+import { applyMoveAnimFix } from "../overrides/moveAnimFix.js";
 
 import {
 	registerDecadeUIHooks,
@@ -174,7 +171,6 @@ export const createDecadeUIObject = () => ({
 			return ok;
 		};
 
-		// 保存原始方法引用
 		const base = {
 			ui: {
 				create: {
@@ -186,14 +182,6 @@ export const createDecadeUIObject = () => ({
 				},
 				click: { intro: ui.click.intro },
 				update: ui.update,
-			},
-			get: { skillState: get.skillState },
-			game: {
-				swapSeat: game.swapSeat,
-				swapControl: game.swapControl,
-				swapPlayer: game.swapPlayer,
-				addGlobalSkill: game.addGlobalSkill,
-				removeGlobalSkill: game.removeGlobalSkill,
 			},
 			lib: {
 				element: {
@@ -225,17 +213,14 @@ export const createDecadeUIObject = () => ({
 						trySkillAnimate: lib.element.player.trySkillAnimate,
 					},
 					content: { lose: lib.element.content.lose, gain: lib.element.content.gain },
-					dialog: { close: lib.element.dialog.close },
 				},
-				init: { cssstyles: lib.init.cssstyles },
 			},
 		};
 
-		// 覆写配置
 		const ride = {
 			lib: {
 				element: {
-					dialog: { open: dialogOpen, close: dialogClose },
+					dialog: { open: dialogOpen },
 					event: { addMessageHook: eventAddMessageHook, triggerMessage: eventTriggerMessage },
 					card: {
 						copy: cardCopy,
@@ -309,7 +294,6 @@ export const createDecadeUIObject = () => ({
 						lose: createContentLose(base.lib.element.content.lose),
 					},
 				},
-				init: { cssstyles: libInitCssstyles },
 			},
 
 			ui: {
@@ -339,31 +323,29 @@ export const createDecadeUIObject = () => ({
 			},
 			game: {
 				logv: gameLogv,
-				swapSeat: gameSwapSeat,
-				swapPlayer: gameSwapPlayer,
-				swapControl: gameSwapControl,
-				addGlobalSkill: gameAddGlobalSkill,
-				removeGlobalSkill: gameRemoveGlobalSkill,
 			},
-			get: { skillState: getSkillState, objtype: getObjtype },
+			get: { objtype: getObjtype },
 		};
 
-		// 设置基础方法引用
 		setBaseCardMethods(base.lib.element.card.$init, base.lib.element.card.copy);
 		setBaseContentMethods(base.lib.element.content);
 		setBasePlayerMethods(base.lib.element.player);
 		setBasePlayerDraw(base.lib.element.player.$draw);
-		setBaseGameMethods(base.game);
-		setBaseGetMethods(base.get);
 		setBaseUiMethods(base.ui);
 		setBaseUiCreateMethods(base.ui.create);
-		setBaseDialogMethods(base.lib.element.dialog);
-		setBaseLibMethods(base.lib);
 
 		// 注册hooks
 		registerDecadeUIHooks();
 
-		// 应用覆写
+		const restoreFns = [];
+		restoreFns.push(...applyGameOverrides());
+		restoreFns.push(...applyLibOverrides());
+		restoreFns.push(...applyDialogOverrides());
+		restoreFns.push(...applyGetOverrides());
+		restoreFns.push(...applyMoveAnimFix());
+
+		this._overrideRestoreFns = restoreFns;
+
 		override(lib, ride.lib);
 		override(ui, ride.ui);
 		override(game, ride.game);

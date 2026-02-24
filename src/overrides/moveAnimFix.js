@@ -1,14 +1,14 @@
 /**
- * @fileoverview 移动动画修复模块
+ * 移动动画修复模块
  */
-import { lib, game, ui, get, ai, _status } from "noname";
+import { game } from "noname";
+import { wrapBefore, wrapAround } from "../utils/safeOverride.js";
 
-/**
- * 修复移动动画缩放问题
- */
-export function fixMoveAnimZoom() {
-	if (game._decadeUI_fixMoveAnimZoom) return;
+export function applyMoveAnimFix() {
+	if (game._decadeUI_fixMoveAnimZoom) return [];
 	game._decadeUI_fixMoveAnimZoom = true;
+
+	const restoreFns = [];
 
 	const normalizeZoom = () => {
 		const z = game.documentZoom;
@@ -17,19 +17,10 @@ export function fixMoveAnimZoom() {
 		}
 	};
 
-	// 修复 $swapElement
-	if (typeof game.$swapElement === "function") {
-		const _swap = game.$swapElement;
-		game.$swapElement = function () {
-			normalizeZoom();
-			return _swap.apply(this, arguments);
-		};
-	}
+	restoreFns.push(wrapBefore(game, "$swapElement", normalizeZoom));
 
-	// 修复 $elementGoto
-	if (typeof game.$elementGoto === "function") {
-		const _goto = game.$elementGoto;
-		game.$elementGoto = function (element, parent, position, duration, timefun) {
+	restoreFns.push(
+		wrapAround(game, "$elementGoto", function (original, element, parent, position, duration, timefun) {
 			normalizeZoom();
 
 			const fromParent = element?.parentElement;
@@ -52,14 +43,18 @@ export function fixMoveAnimZoom() {
 			};
 
 			try {
-				const ret = _goto.call(this, element, parent, position, duration, timefun);
-				if (ret?.then) return ret.finally(restoreOverflow);
+				const ret = original.call(this, element, parent, position, duration, timefun);
+				if (ret?.then) {
+					return ret.finally(restoreOverflow);
+				}
 				restoreOverflow();
 				return ret;
 			} catch (e) {
 				restoreOverflow();
 				throw e;
 			}
-		};
-	}
+		})
+	);
+
+	return restoreFns;
 }
