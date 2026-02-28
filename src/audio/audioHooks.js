@@ -55,9 +55,12 @@ const findPlayer = name => game.players?.find(p => hasName(p, name));
 
 /**
  * 播放彩蛋音频
- * @param {string} file - 音频文件名
+ * @param {string} file - 音频文件名（支持相对路径，如 "hajimi/tangmu.mp3"）
  */
-const playAudio = file => game.playAudio("..", "extension", "十周年UI", `audio/caidan/${file}`);
+const playAudio = file => {
+	const audioPath = file.includes("/") ? `audio/${file}` : `audio/caidan/${file}`;
+	game.playAudio("..", "extension", "十周年UI", audioPath);
+};
 
 /**
  * @type {Map<string, number>}
@@ -92,7 +95,8 @@ const triggerEasterEgg = (rules, matcher, getSpeaker) => {
 		const speaker = getSpeaker(rule);
 		if (!speaker) continue;
 		const seq = rule.sequence ? nextSequence(rule, {}) : null;
-		speaker.say?.(seq?.text || rule.text);
+		const text = seq?.text || rule.text;
+		if (text) speaker.say?.(text);
 		if (seq?.audio || rule.audio) playAudio(seq?.audio || rule.audio);
 		return true;
 	}
@@ -241,7 +245,12 @@ export function setupAudioHooks() {
 			if (!damaged) return;
 			triggerEasterEgg(
 				damageEasterEggs,
-				rule => hasName(damaged, rule.player),
+				rule => {
+					const players = Array.isArray(rule.player) ? rule.player : [rule.player];
+					if (!players.some(p => hasName(damaged, p))) return false;
+					if (rule.nature && event.nature !== rule.nature) return false;
+					return true;
+				},
 				() => damaged
 			);
 		});

@@ -12,6 +12,23 @@
 export const damageEasterEggs = [
 	{ player: "diaochan", text: "嗯啊~", audio: "diaochan1.mp3" },
 	{ player: "simayi", text: "记住，耐不住性子是成不了事的", audio: "simayi3.mp3" },
+	{
+		player: [
+			"bozai",
+			"xiangjiaoduanwu",
+			"tizhongzhishen",
+			"keaizhishen",
+			"weiquzhishen",
+			"juezezhishen",
+			"bianhuanzhishen",
+			"shuimianzhishen",
+			"nizhuanzhishen",
+			"meituizhishen",
+		],
+		text: "请输入文本",
+		audio: "hajimi/tangmu.mp3",
+		nature: "fire",
+	},
 ];
 
 /**
