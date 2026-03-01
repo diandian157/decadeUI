@@ -5,7 +5,7 @@
 
 "use strict";
 
-import { lib, game, ui, get, ai, _status } from "noname";
+import { lib, game, get } from "noname";
 
 /**
  * 初始化技能/阵亡语音功能

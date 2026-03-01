@@ -5,14 +5,14 @@
 
 "use strict";
 
-import { lib, game, ui, get, ai, _status } from "noname";
+import { lib, game, get, _status } from "noname";
 import { cardEasterEggs } from "./easterEggs/cardEasterEggs.js";
 import { damageEasterEggs, deathEasterEggs, phaseStartEasterEggs } from "./easterEggs/eventEggs.js";
 import { gameStartDialogues } from "./easterEggs/dialogueEggs.js";
 
 /**
  * @type {Array<Object>}
- * 所有卡牌彩蛋配置（已在 cardEasterEggs.js 中合并）
+ * 所有卡牌彩蛋配置
  */
 const allCardEasterEggs = cardEasterEggs;
 
@@ -23,11 +23,12 @@ const allCardEasterEggs = cardEasterEggs;
  * @returns {boolean} 该武将是否已亮将
  */
 const isCharacterRevealed = (player, charName) => {
-	if (!player?.isUnseen) return true; // 非国战模式，视为已亮
-	// 检查主将
-	if (player.name1?.includes(charName) && !player.isUnseen(0)) return true;
-	// 检查副将
-	if (player.name2?.includes(charName) && !player.isUnseen(1)) return true;
+	if (!player?.isUnseen) return true;
+
+	const replaceList = lib.characterReplace?.[charName] || [charName];
+
+	if (player.name1 && replaceList.includes(player.name1) && !player.isUnseen(0)) return true;
+	if (player.name2 && replaceList.includes(player.name2) && !player.isUnseen(1)) return true;
 	return false;
 };
 
@@ -40,9 +41,11 @@ const isCharacterRevealed = (player, charName) => {
 const hasName = (player, name) => {
 	if (get.itemtype(player) !== "player") return false;
 	const nameList = get.nameList(player);
-	const hasChar = nameList.some(n => n?.includes(name));
+
+	const replaceList = lib.characterReplace?.[name] || [name];
+	const hasChar = nameList.some(n => replaceList.includes(n));
+
 	if (!hasChar) return false;
-	// 检查该武将是否已亮将
 	return isCharacterRevealed(player, name);
 };
 
@@ -148,14 +151,11 @@ const checkAndTriggerDialogue = () => {
 	for (const dialogue of gameStartDialogues) {
 		if (triggeredDialogues.has(dialogue)) continue;
 
-		// 检查所有相关武将是否都已亮将
 		const allRevealed = dialogue.players.every(name => findPlayer(name));
 		if (!allRevealed) continue;
 
-		// 标记为已触发
 		triggeredDialogues.add(dialogue);
 
-		// 触发对话
 		dialogue.dialogues.forEach(({ player, text, audio, delay }) => {
 			setTimeout(() => {
 				const speaker = findPlayer(player);
@@ -176,27 +176,21 @@ const checkAndTriggerDialogue = () => {
  * @returns {boolean} 是否匹配
  */
 const matchCardEasterEgg = (rule, ctx) => {
-	// 卡牌匹配
 	if (!rule.cards.includes(ctx.cardName)) return false;
 
-	// 使用者匹配（空字符串表示任意玩家，用于排除特定玩家的场景）
 	if (rule.player && !hasName(ctx.player, rule.player)) return false;
 	if (rule.player === "" && rule.speaker && hasName(ctx.player, rule.speaker)) return false;
 
-	// 使用者势力匹配
 	if (rule.group && ctx.player?.group !== rule.group) return false;
 
-	// 场上需存在某武将
 	if (rule.needPlayer && !findPlayer(rule.needPlayer)) return false;
 
-	// 目标中需包含某武将
 	if (rule.targetHas) {
 		const names = Array.isArray(rule.targetHas) ? rule.targetHas : [rule.targetHas];
 		const hasTarget = ctx.targets?.some(t => names.some(n => hasName(t, n)));
 		if (!hasTarget) return false;
 	}
 
-	// 目标阵营匹配
 	if (rule.targetGroup) {
 		const hasTargetGroup = ctx.targets?.some(t => t.group === rule.targetGroup);
 		if (!hasTargetGroup) return false;
@@ -212,7 +206,6 @@ const matchCardEasterEgg = (rule, ctx) => {
  * 初始化所有彩蛋触发机制
  */
 export function setupAudioHooks() {
-	// Hook: 使用卡牌
 	const originalUseCard = lib.element.Player.prototype.useCard;
 	lib.element.Player.prototype.useCard = function (...args) {
 		const event = originalUseCard.apply(this, args);
@@ -236,7 +229,6 @@ export function setupAudioHooks() {
 		return event;
 	};
 
-	// Hook: 受伤
 	const originalDamage = lib.element.Player.prototype.damage;
 	lib.element.Player.prototype.damage = function (...args) {
 		const event = originalDamage.apply(this, args);
@@ -257,7 +249,6 @@ export function setupAudioHooks() {
 		return event;
 	};
 
-	// Hook: 死亡
 	const originalDie = lib.element.Player.prototype.$die;
 	lib.element.Player.prototype.$die = function (...args) {
 		const result = originalDie.apply(this, args);
@@ -272,12 +263,10 @@ export function setupAudioHooks() {
 		return result;
 	};
 
-	// Hook: 回合开始 & 拼点 & 亮将
 	const originalTrigger = lib.element.GameEvent.prototype.trigger;
 	lib.element.GameEvent.prototype.trigger = function (name) {
 		const result = originalTrigger.apply(this, arguments);
 
-		// 回合开始
 		if (name === "phaseBeginStart" && _status.currentPhase) {
 			triggerEasterEgg(
 				phaseStartEasterEggs,
@@ -286,12 +275,10 @@ export function setupAudioHooks() {
 			);
 		}
 
-		// 拼点相同
 		if (name === "chooseToCompareAfter" || (name === "compare" && ["chooseToCompare", "chooseToCompareMultiple"].includes(this.name))) {
 			handleZhangfeiTie(this);
 		}
 
-		// 亮将后检查游戏开始对话
 		if (name === "showCharacterEnd") {
 			checkAndTriggerDialogue();
 		}
@@ -299,18 +286,12 @@ export function setupAudioHooks() {
 		return result;
 	};
 
-	// Hook: 游戏开始（非国战模式直接触发）
 	lib.announce.subscribe("gameStart", () => {
 		if (!game.players?.length) return;
 
-		// 检查是否为国战模式（有玩家处于暗置状态）
 		const isGuozhanMode = game.players.some(p => p.isUnseen?.());
-		if (isGuozhanMode) {
-			// 国战模式：等待亮将事件触发
-			return;
-		}
+		if (isGuozhanMode) return;
 
-		// 非国战模式：直接触发
 		checkAndTriggerDialogue();
 	});
 }

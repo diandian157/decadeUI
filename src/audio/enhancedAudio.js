@@ -3,7 +3,9 @@
  * 提供UI点击音效、准备阶段音效、掉血音效等增强音效功能
  */
 
-import { lib, game, ui, get, ai, _status } from "noname";
+"use strict";
+
+import { lib, game, _status } from "noname";
 
 /**
  * 播放扩展音效
@@ -20,10 +22,8 @@ const playExtAudio = name => {
 export function setupEnhancedAudio() {
 	if (!lib.config["extension_十周年UI_bettersound"]) return;
 
-	// 屏蔽原生掉血音效
 	game._decadeUI_blockedEquipAudios = game._decadeUI_blockedEquipAudios || new Set(["loseHp"]);
 
-	// 包装 playAudio 以过滤音效
 	if (!game._decadeUI_playAudioWrapped) {
 		const originalPlayAudio = game.playAudio;
 		game.playAudio = function (...args) {
@@ -33,7 +33,6 @@ export function setupEnhancedAudio() {
 		game._decadeUI_playAudioWrapped = true;
 	}
 
-	// UI点击音效
 	if (!game._decadeUI_uiClickAudioHandler) {
 		/**
 		 * @type {Array<{test: Function, sound: string}>}
@@ -56,7 +55,6 @@ export function setupEnhancedAudio() {
 			const audioToPlay = AUDIO_RULES.find(r => r.test(e.target))?.sound;
 			if (!audioToPlay) return;
 
-			// 防抖：60ms内不重复播放
 			const now = Date.now();
 			if (now - (game._decadeUI_lastUIAudioAt || 0) < 60) return;
 			game._decadeUI_lastUIAudioAt = now;
@@ -67,7 +65,6 @@ export function setupEnhancedAudio() {
 		game._decadeUI_uiClickAudioHandler = uiClickAudioHandler;
 	}
 
-	// 准备阶段音效技能
 	lib.skill._preparePhaseAudio = {
 		charlotte: true,
 		forced: true,
@@ -79,7 +76,6 @@ export function setupEnhancedAudio() {
 		},
 	};
 
-	// 掉血音效技能
 	lib.skill._hpLossAudio = {
 		charlotte: true,
 		forced: true,
