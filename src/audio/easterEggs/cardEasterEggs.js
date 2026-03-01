@@ -135,8 +135,6 @@ export const cardEasterEggs = [
 	{ cards: ["sha"], player: "caopi", targetHas: "sunquan", text: "吴王颇知学乎？", audio: "caopi2.mp3" },
 	{ cards: ["sha"], player: "lvbu", targetHas: "dingyuan", text: "义父再送儿一场富贵如何！", audio: "lvbu1.mp3" },
 	{ cards: ["sha"], player: "zhangchangpu", targetHas: "zhonghui", text: "从小到大，最不乖的就是你！", audio: "zhangchangpu1.mp3" },
-	{ cards: ["sha"], player: "bozai", text: "哈！" },
-	{ cards: ["sha"], player: "xiangjiaoduanwu", text: "哈！" },
 	{ cards: ["sha"], player: "sunce", targetHas: "yuji", text: "此乃妖人，能以妖术惑众，不可不除！", audio: "sunce1.mp3" },
 	{ cards: ["sha"], player: "sunshangxiang", targetHas: "dingfeng", text: "你只怕周瑜，独不怕我？", audio: "sunshangxiang1.mp3" },
 	{ cards: ["sha"], player: "sunshangxiang", targetHas: "xusheng", text: "周瑜杀得尔等，我岂杀不得周瑜？", audio: "sunshangxiang2.mp3" },

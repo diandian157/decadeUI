@@ -50,6 +50,38 @@ export function setupCharacterAudio() {
 			lib.skill.dchuibian.audioname2 = {};
 		}
 		lib.skill.dchuibian.audioname2.juezezhishen = ["ext:十周年UI/audio/hajimi/dchuibian.mp3"];
-		lib.translate["#ext:十周年UI/audio/hajimi/dchuibian"] = "请输入文本";
+		lib.translate["#ext:十周年UI/audio/hajimi/dchuibian"] = "巴巴博弈";
+	}
+
+	if (lib.skill.dcweiqu) {
+		if (!lib.skill.dcweiqu.audioname2) {
+			lib.skill.dcweiqu.audioname2 = {};
+		}
+		lib.skill.dcweiqu.audioname2.weiquzhishen = ["ext:十周年UI/audio/hajimi/dcweiqu.mp3"];
+		lib.translate["#ext:十周年UI/audio/hajimi/dcweiqu"] = "请输入文本";
+	}
+
+	if (lib.skill.dcfanzhuan) {
+		if (!lib.skill.dcfanzhuan.audioname2) {
+			lib.skill.dcfanzhuan.audioname2 = {};
+		}
+		lib.skill.dcfanzhuan.audioname2.nizhuanzhishen = ["ext:十周年UI/audio/hajimi/dcfanzhuan.mp3"];
+		lib.translate["#ext:十周年UI/audio/hajimi/dcfanzhuan"] = "开！将大局逆转吧！";
+	}
+
+	if (lib.skill.xuyuan) {
+		if (!lib.skill.xuyuan.audioname2) {
+			lib.skill.xuyuan.audioname2 = {};
+		}
+		lib.skill.xuyuan.audioname2.xiangjiaoduanwu = ["ext:十周年UI/audio/hajimi/xuyuan.mp3"];
+		lib.translate["#ext:十周年UI/audio/hajimi/xuyuan"] = "happy！happy！happy！";
+	}
+
+	if (lib.skill.xiaomian) {
+		if (!lib.skill.xiaomian.audioname2) {
+			lib.skill.xiaomian.audioname2 = {};
+		}
+		lib.skill.xiaomian.audioname2.xiangjiaoduanwu = ["ext:十周年UI/audio/hajimi/xiaomian.mp3"];
+		lib.translate["#ext:十周年UI/audio/hajimi/xiaomian"] = "嘿嘿";
 	}
 }
