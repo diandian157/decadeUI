@@ -1,6 +1,5 @@
 /**
- * @fileoverview Character模块入口
- * 负责加载ES模块
+ * Character模块入口
  */
 (function () {
 	const script = document.createElement("script");

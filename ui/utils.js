@@ -1,7 +1,7 @@
 /**
- * @fileoverview UI模块工具函数
+ * UI模块工具函数
  */
-import { lib, game, ui, get, ai, _status } from "noname";
+import { lib, game, ui, get, _status } from "noname";
 
 /**
  * 生成随机百分比

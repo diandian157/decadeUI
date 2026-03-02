@@ -1,5 +1,5 @@
 ﻿/**
- * @fileoverview 武将详情插件入口
+ * 武将详情插件入口
  */
 import { lib, game, ui, get, ai, _status } from "noname";
 import { getCurrentSkin, createCharacterPluginForSkin } from "./skins/index.js";

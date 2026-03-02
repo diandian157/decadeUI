@@ -1,13 +1,10 @@
 /**
- * @fileoverview character插件基础类
+ * Character插件基础类
  * 提供所有样式共用的基础功能
  */
-import { lib, game, ui, get, ai, _status } from "noname";
+import { _status } from "noname";
 import { skillButtonTooltip } from "../../../src/ui/skillButtonTooltip.js";
 
-/**
- * 创建基础character插件
- */
 export function createBaseCharacterPlugin(lib, game, ui, get, ai, _status, app) {
 	return {
 		name: "character",

@@ -1,7 +1,7 @@
 /**
- * @fileoverview Character模块加载器
+ * Character模块加载器
  */
-import { lib, game, ui, get, ai, _status } from "noname";
+import { _status } from "noname";
 import { createCharacterPlugin } from "./plugin.js";
 import { registerPlugin } from "../utils.js";
 
