@@ -3,33 +3,23 @@ import { viteStaticCopy } from "vite-plugin-static-copy";
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { exec } from "node:child_process";
-import { promisify } from "node:util";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const execAsync = promisify(exec);
 
-// 构建后复制到主项目扩展目录
-function copyToMainProject(): PluginOption {
+function symlinkToMainProject(): PluginOption {
 	return {
-		name: "copy-to-main-project",
-		async closeBundle() {
-			try {
-				const mainProjectDir = path.resolve(__dirname, "../../../apps/core/extension");
-				if (!fs.existsSync(path.resolve(__dirname, "../../../apps/core"))) return;
+		name: "symlink-to-main-project",
+		buildStart() {
+			const coreDir = path.resolve(__dirname, "../../../apps/core");
+			if (!fs.existsSync(coreDir)) return;
 
-				const distPath = path.resolve(__dirname, "dist");
-				const targetPath = path.join(mainProjectDir, "十周年UI");
+			const targetPath = path.resolve(coreDir, "extension/十周年UI");
+			const distPath = path.resolve(__dirname, "dist");
 
-				if (process.platform === "win32") {
-					await execAsync(`robocopy "${distPath}" "${targetPath}" /E /IS /IT /PURGE`).catch(() => {});
-				} else {
-					if (fs.existsSync(targetPath)) {
-						await fs.promises.rm(targetPath, { recursive: true, force: true });
-					}
-					await fs.promises.cp(distPath, targetPath, { recursive: true });
-				}
-			} catch (error) {}
+			if (fs.existsSync(targetPath)) return;
+
+			fs.mkdirSync(path.dirname(targetPath), { recursive: true });
+			fs.symlinkSync(distPath, targetPath, "junction");
 		},
 	};
 }
@@ -61,7 +51,7 @@ export default defineConfig(({ mode }) => ({
 				{ src: "README.md", dest: "" },
 			],
 		}) as PluginOption,
-		copyToMainProject(),
+		symlinkToMainProject(),
 	],
 	build: {
 		sourcemap: false,
