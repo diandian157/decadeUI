@@ -327,6 +327,7 @@ function getConfigsByTab(tabId) {
 			{ isTitle: true, name: "音效与视觉" },
 			{ key: "bettersound", name: "更多音效", type: "toggle" },
 			{ key: "skillDieAudio", name: "中二模式", type: "toggle" },
+			{ key: "audioEasterEggs", name: "武将彩蛋", type: "toggle" },
 			{ key: "wujiangbeijing", name: "武将背景", type: "toggle" },
 			{ key: "shiliyouhua", name: "官方势力", type: "toggle" },
 			{ isTitle: true, name: "游戏功能" },

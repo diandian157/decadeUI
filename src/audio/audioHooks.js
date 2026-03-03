@@ -210,6 +210,7 @@ export function setupAudioHooks() {
 	lib.element.Player.prototype.useCard = function (...args) {
 		const event = originalUseCard.apply(this, args);
 		if (!event?.card || !event?.player) return event;
+		if (!lib.config.extension_十周年UI_audioEasterEggs) return event;
 
 		const cardName = get.name(event.card, event.player);
 		const ctx = createContext(event, cardName);
@@ -232,6 +233,8 @@ export function setupAudioHooks() {
 	const originalDamage = lib.element.Player.prototype.damage;
 	lib.element.Player.prototype.damage = function (...args) {
 		const event = originalDamage.apply(this, args);
+		if (!lib.config.extension_十周年UI_audioEasterEggs) return event;
+
 		event?.then(() => {
 			const damaged = event?.player || this;
 			if (!damaged) return;
@@ -252,6 +255,8 @@ export function setupAudioHooks() {
 	const originalDie = lib.element.Player.prototype.$die;
 	lib.element.Player.prototype.$die = function (...args) {
 		const result = originalDie.apply(this, args);
+		if (!lib.config.extension_十周年UI_audioEasterEggs) return result;
+
 		for (const rule of deathEasterEggs) {
 			if (!hasName(this, rule.deceased)) continue;
 			const speaker = findPlayer(rule.speaker);
@@ -267,20 +272,22 @@ export function setupAudioHooks() {
 	lib.element.GameEvent.prototype.trigger = function (name) {
 		const result = originalTrigger.apply(this, arguments);
 
-		if (name === "phaseBeginStart" && _status.currentPhase) {
-			triggerEasterEgg(
-				phaseStartEasterEggs,
-				rule => hasName(_status.currentPhase, rule.player),
-				() => _status.currentPhase
-			);
-		}
+		if (lib.config.extension_十周年UI_audioEasterEggs) {
+			if (name === "phaseBeginStart" && _status.currentPhase) {
+				triggerEasterEgg(
+					phaseStartEasterEggs,
+					rule => hasName(_status.currentPhase, rule.player),
+					() => _status.currentPhase
+				);
+			}
 
-		if (name === "chooseToCompareAfter" || (name === "compare" && ["chooseToCompare", "chooseToCompareMultiple"].includes(this.name))) {
-			handleZhangfeiTie(this);
-		}
+			if (name === "chooseToCompareAfter" || (name === "compare" && ["chooseToCompare", "chooseToCompareMultiple"].includes(this.name))) {
+				handleZhangfeiTie(this);
+			}
 
-		if (name === "showCharacterEnd") {
-			checkAndTriggerDialogue();
+			if (name === "showCharacterEnd") {
+				checkAndTriggerDialogue();
+			}
 		}
 
 		return result;
@@ -288,6 +295,7 @@ export function setupAudioHooks() {
 
 	lib.announce.subscribe("gameStart", () => {
 		if (!game.players?.length) return;
+		if (!lib.config.extension_十周年UI_audioEasterEggs) return;
 
 		const isGuozhanMode = game.players.some(p => p.isUnseen?.());
 		if (isGuozhanMode) return;
