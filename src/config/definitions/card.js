@@ -3,7 +3,7 @@
  * @description 纯配置数据，不包含业务逻辑
  * @module config/definitions/card
  */
-import { createCollapseTitle, createCollapseEnd, cardSkinPresets } from "../utils.js";
+import { createCollapseTitle, createCollapseEnd, getAllCardSkinPresets } from "../utils.js";
 import {
 	onCardGhostEffectClick,
 	onAutoSelectClick,
@@ -120,13 +120,15 @@ export const handFoldMin = {
 export const cardPrettify = {
 	name: "卡牌美化",
 	init: "decade",
-	item: cardSkinPresets.reduce(
-		(options, skin) => {
-			options[skin.key] = skin.label;
-			return options;
-		},
-		{ off: "关闭" }
-	),
+	get item() {
+		return getAllCardSkinPresets().reduce(
+			(options, skin) => {
+				options[skin.key] = skin.label;
+				return options;
+			},
+			{ off: "关闭" }
+		);
+	},
 	onclick: onCardPrettifyClick,
 };
 

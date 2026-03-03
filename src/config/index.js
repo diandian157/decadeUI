@@ -7,7 +7,7 @@ import { appearanceConfigs } from "./definitions/appearance.js";
 import { cardConfigs } from "./definitions/card.js";
 import { componentConfigs } from "./definitions/component.js";
 import { miscConfigs } from "./definitions/misc.js";
-import { cardSkinPresets, cardSkinMeta } from "./utils.js";
+import { cardSkinPresets, cardSkinMeta, registerDynamicSkin, getAllCardSkinPresets } from "./utils.js";
 
 /**
  * 扩展配置项
@@ -15,21 +15,11 @@ import { cardSkinPresets, cardSkinMeta } from "./utils.js";
  * @type {Object}
  */
 export const config = {
-	// 整体外观配置
 	...appearanceConfigs,
-
-	// 卡牌相关配置
 	...cardConfigs,
-
-	// 部件管理配置
 	...componentConfigs,
-
-	// 小小玩楞配置
 	...miscConfigs,
 };
 
-// 导出卡牌皮肤相关数据（保持向后兼容）
-export { cardSkinPresets, cardSkinMeta };
-
-// 导出各分组配置（便于按需引用）
+export { cardSkinPresets, cardSkinMeta, registerDynamicSkin, getAllCardSkinPresets };
 export { appearanceConfigs, cardConfigs, componentConfigs, miscConfigs };

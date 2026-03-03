@@ -2,7 +2,7 @@
  * @fileoverview 静态资源模块，管理卡牌皮肤等静态资源的加载和缓存
  */
 import { lib, game, ui, get, ai, _status } from "noname";
-import { cardSkinPresets } from "../config.js";
+import { cardSkinPresets, registerDynamicSkin, getAllCardSkinPresets } from "../config.js";
 
 /**
  * 全局卡牌皮肤注册队列
@@ -35,6 +35,50 @@ const scanDirectory = dir => {
 			);
 		} else {
 			resolve([]);
+		}
+	});
+};
+
+/**
+ * 扫描目录获取子文件夹列表
+ * @param {string} dir - 相对路径
+ * @returns {Promise<string[]>} 文件夹名列表
+ */
+const scanDirectoryFolders = dir => {
+	return new Promise(resolve => {
+		if (typeof game.getFileList === "function") {
+			game.getFileList(
+				dir,
+				folders => resolve(folders || []),
+				() => resolve([])
+			);
+		} else {
+			resolve([]);
+		}
+	});
+};
+
+/**
+ * 读取JSON文件
+ * @param {string} path - 相对路径
+ * @returns {Promise<Object|null>} 解析后的JSON对象，失败返回null
+ */
+const readJsonFile = path => {
+	return new Promise(resolve => {
+		if (typeof game.readFileAsText === "function") {
+			game.readFileAsText(
+				path,
+				text => {
+					try {
+						resolve(JSON.parse(text));
+					} catch {
+						resolve(null);
+					}
+				},
+				() => resolve(null)
+			);
+		} else {
+			resolve(null);
 		}
 	});
 };
@@ -95,14 +139,12 @@ export function createStaticsModule() {
 	 * @param {string} [options.extension="png"] - 图片扩展名
 	 * @param {string[]} [options.cardNames] - 卡牌名称列表，不提供则自动扫描目录
 	 * @example
-	 * // 方式1：指定卡牌列表（推荐）
 	 * registerDecadeCardSkin({
 	 *   extensionName: '我的扩展',
 	 *   skinKey: 'decade',
 	 *   cardNames: ['mycard1', 'mycard2']
 	 * });
 	 * @example
-	 * // 方式2：自动扫描目录（可能会占用资源
 	 * registerDecadeCardSkin({
 	 *   extensionName: '我的扩展',
 	 *   skinKey: 'decade'
@@ -119,13 +161,11 @@ export function createStaticsModule() {
 		const skinFolder = folder || skinKey;
 		const baseUrl = `${lib.assetURL}extension/${extensionName}/image/card-skins/${skinFolder}/`;
 
-		// 方式1：直接注册指定的卡牌列表
 		if (Array.isArray(cardNames) && cardNames.length > 0) {
 			registerSkins(skinKey, baseUrl, cardNames, extension);
 			return;
 		}
 
-		// 方式2：扫描目录自动注册
 		const dir = `extension/${extensionName}/image/card-skins/${skinFolder}`;
 		scanDirectory(dir).then(files => {
 			const names = extractCardNames(files, `.${extension.toLowerCase()}`);
@@ -143,9 +183,39 @@ export function createStaticsModule() {
 		window.registerDecadeCardSkin = registerCardSkin;
 	};
 
-	// 加载十周年UI自带的卡牌皮肤资源
+	/**
+	 * 扫描 image/card-skins/ 目录，发现用户新增的皮肤文件夹并注册
+	 */
+	const discoverDynamicSkins = async () => {
+		const baseDir = `extension/${decadeUIName}/image/card-skins`;
+		const folders = await scanDirectoryFolders(baseDir);
+
+		const builtinKeys = new Set(cardSkinPresets.map(s => s.key));
+
+		const tasks = folders
+			.filter(folder => !builtinKeys.has(folder))
+			.map(async folder => {
+				const metaPath = `${baseDir}/${folder}/meta.json`;
+				const meta = await readJsonFile(metaPath);
+				registerDynamicSkin({
+					key: folder,
+					dir: folder,
+					label: meta?.label || folder,
+					extension: meta?.extension || "png",
+				});
+			});
+
+		await Promise.all(tasks);
+	};
+
+	/**
+	 * 加载所有卡牌皮肤资源（内置 + 动态发现）
+	 */
 	const loadBuiltinSkins = async () => {
-		const tasks = cardSkinPresets.map(async skin => {
+		await discoverDynamicSkins();
+
+		const allPresets = getAllCardSkinPresets();
+		const tasks = allPresets.map(async skin => {
 			const folder = skin.dir || skin.key;
 			const dir = `extension/${decadeUIName}/image/card-skins/${folder}`;
 			const ext = skin.extension ? `.${skin.extension.toLowerCase()}` : ".png";

@@ -3,4 +3,4 @@
  * @description 从模块化配置目录重新导出，保持向后兼容
  * @deprecated 请直接从 './config/index.js' 导入
  */
-export { config, cardSkinPresets, cardSkinMeta } from "./config/index.js";
+export { config, cardSkinPresets, cardSkinMeta, registerDynamicSkin, getAllCardSkinPresets } from "./config/index.js";

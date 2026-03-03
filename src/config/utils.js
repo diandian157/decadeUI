@@ -5,8 +5,6 @@
  */
 import { lib, _status } from "noname";
 
-// ==================== 折叠菜单相关 ====================
-
 /**
  * 获取从当前元素到结束标记之间的所有兄弟元素
  * @description 用于实现折叠菜单功能，收集需要隐藏/显示的菜单项
@@ -78,8 +76,6 @@ export function createCollapseEnd(key) {
 	};
 }
 
-// ==================== 输入处理相关 ====================
-
 /**
  * 解析输入框数值并限制范围
  * @param {HTMLElement} element - 输入框元素
@@ -98,10 +94,8 @@ export function parseInputValue(element, defaultVal, min, max, decimals = 0) {
 	return value;
 }
 
-// ==================== 卡牌皮肤数据 ====================
-
 /**
- * 卡牌皮肤预设列表
+ * 内置卡牌皮肤预设列表
  * @type {Array<{key: string, dir: string, label: string, extension: string}>}
  */
 export const cardSkinPresets = [
@@ -113,10 +107,34 @@ export const cardSkinPresets = [
 ];
 
 /**
- * 卡牌皮肤元数据映射
+ * 运行时动态发现的卡牌皮肤列表
+ * @type {Array<{key: string, dir: string, label: string, extension: string}>}
+ */
+const dynamicCardSkinPresets = [];
+
+/**
+ * 卡牌皮肤元数据映射（内置 + 动态）
  * @type {Record<string, {key: string, dir: string, label: string, extension: string}>}
  */
 export const cardSkinMeta = cardSkinPresets.reduce((map, skin) => {
 	map[skin.key] = skin;
 	return map;
 }, {});
+
+/**
+ * 注册动态发现的皮肤
+ * @param {{key: string, dir: string, label: string, extension: string}} skin - 皮肤信息
+ */
+export function registerDynamicSkin(skin) {
+	if (cardSkinMeta[skin.key]) return;
+	dynamicCardSkinPresets.push(skin);
+	cardSkinMeta[skin.key] = skin;
+}
+
+/**
+ * 获取所有皮肤预设（内置 + 动态发现）
+ * @returns {Array<{key: string, dir: string, label: string, extension: string}>}
+ */
+export function getAllCardSkinPresets() {
+	return [...cardSkinPresets, ...dynamicCardSkinPresets];
+}
