@@ -1,4 +1,4 @@
-import { lib, game, ui, get, ai, _status } from "noname";
+import { lib, _status } from "noname";
 import { config } from "./config.js";
 import { content } from "./content.js";
 import { precontent } from "./precontent.js";

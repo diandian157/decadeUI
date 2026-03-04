@@ -218,7 +218,7 @@ export function setupAutoSelect() {
 	});
 
 	lib.hooks?.checkEnd?.add("_decadeUI_autoSelect", (event, { ok }) => {
-		if (ok || _status.event !== event || (_status.paused && !_status.imchoosing)) return;
+		if (ok || _status.event !== event || !event.isMine() || (_status.paused && !_status.imchoosing)) return;
 
 		const changed = performAutoSelectCard() || performAutoSelectTarget();
 		if (changed) {
