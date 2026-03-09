@@ -59,7 +59,10 @@ function matchEquipSkills(card, usableSkills) {
 		const [sourceSkill, equipName] = card.extraEquip;
 
 		if (sourceSkill) {
-			const bySource = usableSkills.filter(s => getSourceSkill(s) === sourceSkill);
+			const bySource = usableSkills.filter(s => {
+				const skillSourceSkill = getSourceSkill(s);
+				return skillSourceSkill && skillSourceSkill === sourceSkill;
+			});
 			if (bySource.length) return bySource;
 		}
 

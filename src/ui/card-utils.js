@@ -36,7 +36,7 @@ export function cardTempSuitNum(card, suit, number, elementUtil) {
 	}
 
 	snnode.$num.innerHTML = number ? get.strNumber(number) : "▣";
-	snnode.$suit.innerHTML = suit ? get.translation(suit) : "◈";
+	snnode.$suit.innerHTML = suit ? get.translation(suit) || "◈" : "◈";
 	card.dataset.tempsn = suit;
 }
 
@@ -173,7 +173,7 @@ function handleJudgeTag(card, event, decadeUI) {
 		}
 
 		evt.apcard = undefined;
-		tagNode.innerHTML = get.translation(evt.judgestr) + tagText;
+		tagNode.innerHTML = (get.translation(evt.judgestr) || "") + tagText;
 	});
 
 	decadeUI.animation?.cap?.playSpineTo?.(card, { name: "effect_panding", action: "play", loop: true });
@@ -203,9 +203,9 @@ function handleDefaultTag(card, player, event, decadeUI) {
 		// 临时卡牌名称显示
 		if (lib.config.cardtempname !== "off" && (card.name !== cardname || !get.is.sameNature(cardnature, card.nature, true))) {
 			if (!card._tempName) card._tempName = ui.create.div(".temp-name", card);
-			let tempname = get.translation(cardname);
+			let tempname = get.translation(cardname) || "";
 			if (cardnature && cardname === "sha") {
-				tempname = get.translation(cardnature) + tempname;
+				tempname = (get.translation(cardnature) || "") + tempname;
 			}
 			if (cardnature) card._tempName.dataset.nature = cardnature;
 			card._tempName.innerHTML = tempname;

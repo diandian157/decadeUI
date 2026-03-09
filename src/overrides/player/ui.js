@@ -278,7 +278,7 @@ export function playerUpdateShowCards() {
 	for (let i = 0; i < 5; i++) {
 		createElement("div", {
 			class: ["handcard"],
-			innerHTML: i < cards.length ? lib.translate[cards[i].name].slice(0, 2) : "",
+			innerHTML: i < cards.length ? (lib.translate[cards[i].name] || "").slice(0, 2) : "",
 			parentNode: player.node.showCards,
 		});
 	}

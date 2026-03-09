@@ -355,7 +355,10 @@ export function createPlayerElement(position, noclick) {
 				this.player.markSkill(skill);
 			}
 			this.skills.push(skill);
-			this.innerHTML = this.skills.map(s => lib.translate[s]).join(" ");
+			this.innerHTML = this.skills
+				.map(s => lib.translate[s] || "")
+				.filter(Boolean)
+				.join(" ");
 		}
 	};
 
@@ -367,7 +370,10 @@ export function createPlayerElement(position, noclick) {
 		const index = this.skills.indexOf(skill);
 		if (index >= 0) {
 			this.skills.splice(index, 1);
-			this.innerHTML = this.skills.map(s => lib.translate[s]).join(" ");
+			this.innerHTML = this.skills
+				.map(s => lib.translate[s] || "")
+				.filter(Boolean)
+				.join(" ");
 		}
 	};
 
