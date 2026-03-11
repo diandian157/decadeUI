@@ -548,7 +548,7 @@ const buildJiedaoTipText = event => {
  * @returns {{actionWord: string, cardName: string}}
  */
 const parseRespondCardInfo = respondCard => {
-	const defaultResult = { actionWord: "打出", cardName: "" };
+	const defaultResult = { actionWord: "使用", cardName: "" };
 	if (!Array.isArray(respondCard) || !respondCard[1]) return defaultResult;
 
 	const card = respondCard[1];
@@ -561,6 +561,7 @@ const parseRespondCardInfo = respondCard => {
 	const plainInfo = get.plainText?.(cardInfo) ?? cardInfo.replace(/<\/?.+?\/?>/g, "");
 	const match = plainInfo.match(/(?:需|须)(打出|使用)(?:.*?张|一张)【?(.+?)】?|打出(?:.*?张|一张)【?(.+?)】?/);
 
+	if (!match) return defaultResult;
 	return match[1] ? { actionWord: match[1], cardName: match[2] } : { actionWord: "打出", cardName: match[3] };
 };
 
