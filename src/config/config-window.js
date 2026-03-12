@@ -1,12 +1,17 @@
 /**
- * @fileoverview 独立配置窗口UI
+ * @fileoverview 十周年UI配置窗口
+ * @description 提供独立的配置界面，包含外观、卡牌、部件、其他四大类设置
  */
 import { lib, game, ui } from "noname";
 import { config } from "./index.js";
 
 let currentOverlay = null;
+let lastActiveTab = "appearance";
 
-// 加载CSS样式
+/**
+ * 加载配置窗口的CSS样式文件
+ * @description 避免重复加载，只在首次调用时创建link标签
+ */
 function loadStyles() {
 	if (document.getElementById("decade-config-window-styles")) return;
 
@@ -17,44 +22,34 @@ function loadStyles() {
 	document.head.appendChild(link);
 }
 
+/**
+ * 创建配置窗口
+ * @description 构建包含遮罩层、对话框、标签栏和内容区的完整配置界面
+ */
 function createConfigWindow() {
 	if (currentOverlay) return;
 
-	// 确保样式已加载
 	loadStyles();
 
-	// 遮罩层
 	const overlay = ui.create.div(".decade-config-overlay");
-
-	// 渐变背景对话框
 	const dialog = ui.create.div(".decade-config-dialog", overlay);
-
-	// 装饰图案
 	const pattern = ui.create.div(".decade-config-pattern", dialog);
 
-	// 标题
 	const title = ui.create.div(".decade-config-title", dialog);
 	title.innerHTML = "十周年UI配置中心";
 
-	// 右上角QQ头像
 	const avatar = document.createElement("img");
 	avatar.src = `https://q1.qlogo.cn/g?b=qq&nk=2173890060&s=100&t=${Date.now()}`;
 	avatar.className = "decade-config-avatar";
-
 	avatar.onclick = () => {
 		overlay.remove();
 		currentOverlay = null;
 	};
-
 	dialog.appendChild(avatar);
 
-	// 左侧标签栏
 	const sidebar = ui.create.div(".decade-config-sidebar", dialog);
-
-	// 右侧内容区
 	const content = ui.create.div(".decade-config-content", dialog);
 
-	// 标签数据
 	const tabs = [
 		{ id: "appearance", name: "整体外观" },
 		{ id: "card", name: "卡牌相关" },
@@ -62,9 +57,8 @@ function createConfigWindow() {
 		{ id: "misc", name: "其他设置" },
 	];
 
-	let currentTab = "appearance";
+	let currentTab = lastActiveTab;
 
-	// 创建标签按钮
 	tabs.forEach(tab => {
 		const btn = ui.create.div(".decade-config-tab", sidebar);
 		btn.innerHTML = tab.name;
@@ -75,8 +69,8 @@ function createConfigWindow() {
 		btn.onclick = () => {
 			if (currentTab === tab.id) return;
 			currentTab = tab.id;
+			lastActiveTab = tab.id;
 
-			// 更新标签状态
 			Array.from(sidebar.children).forEach(child => {
 				child.classList.remove("active");
 			});
@@ -86,10 +80,8 @@ function createConfigWindow() {
 		};
 	});
 
-	// 加载初始配置
 	loadConfigs(content, currentTab);
 
-	// 点击遮罩层关闭对话框
 	overlay.addEventListener("click", e => {
 		if (e.target === overlay) {
 			overlay.remove();
@@ -101,6 +93,12 @@ function createConfigWindow() {
 	currentOverlay = overlay;
 }
 
+/**
+ * 加载指定标签页的配置项
+ * @param {HTMLElement} container - 内容容器元素
+ * @param {string} tabId - 标签页ID
+ * @description 根据标签页ID渲染对应的配置项列表，支持开关、选择、输入框三种类型
+ */
 function loadConfigs(container, tabId) {
 	container.innerHTML = "";
 	container.scrollTop = 0;
@@ -113,7 +111,6 @@ function loadConfigs(container, tabId) {
 			return;
 		}
 
-		// 配置项创建
 		const configKey = `extension_十周年UI_${configItem.key}`;
 		const configDef = config[configItem.key];
 		if (!configDef) return;
@@ -128,14 +125,12 @@ function loadConfigs(container, tabId) {
 		tdName.className = "decade-config-name";
 		tdName.innerHTML = configItem.name;
 
-		// 介绍文字
 		let introDiv = null;
 		if (configDef.intro) {
 			introDiv = document.createElement("div");
 			introDiv.className = "decade-config-intro";
 			introDiv.innerHTML = configDef.intro;
 
-			// 点击名称切换介绍显示
 			tdName.onclick = function (e) {
 				e.stopPropagation();
 				introDiv.classList.toggle("show");
@@ -145,7 +140,6 @@ function loadConfigs(container, tabId) {
 		const tdControl = document.createElement("td");
 		tdControl.className = "decade-config-control";
 
-		// 根据类型创建控件
 		if (configItem.type === "toggle") {
 			const currentValue = lib.config[configKey];
 			const initValue = currentValue !== undefined ? currentValue : configDef.init;
@@ -161,10 +155,8 @@ function loadConfigs(container, tabId) {
 				const newValue = !lib.config[configKey];
 				game.saveConfig(configKey, newValue);
 
-				// 更新样式
 				toggle.className = `decade-config-toggle ${newValue ? "on" : "off"}`;
 
-				// 调用回调
 				if (configDef.onclick) {
 					configDef.onclick(newValue);
 				} else if (configDef.update) {
@@ -188,7 +180,6 @@ function loadConfigs(container, tabId) {
 					option.style.cssText = "margin-right: 8px; margin-bottom: 8px; box-shadow: none !important;";
 				}
 
-				// 处理 HTML 内容
 				let displayText = configDef.item[key];
 				if (typeof displayText === "string" && displayText.includes("<")) {
 					const temp = document.createElement("div");
@@ -203,13 +194,11 @@ function loadConfigs(container, tabId) {
 				option.onclick = function () {
 					if (this.dataset.value === lib.config[configKey]) return;
 
-					// 移除其他选项的选中状态
 					Array.from(optionsContainer.children).forEach(child => {
 						child.classList.remove("selected");
 						child.style.cssText = "margin-right: 8px; margin-bottom: 8px; box-shadow: none !important;";
 					});
 
-					// 选中当前选项
 					this.classList.add("selected");
 					this.style.cssText = "margin-right: 8px; margin-bottom: 8px; box-shadow: 0 2px 8px rgba(168, 237, 234, 0.4) !important;";
 
@@ -265,7 +254,6 @@ function loadConfigs(container, tabId) {
 		tr.appendChild(tdControl);
 		table.appendChild(tr);
 
-		// 如果有介绍，添加到 table 下方
 		if (introDiv) {
 			const trIntro = document.createElement("tr");
 			const tdIntro = document.createElement("td");
@@ -279,6 +267,12 @@ function loadConfigs(container, tabId) {
 	});
 }
 
+/**
+ * 获取指定标签页的配置项列表
+ * @param {string} tabId - 标签页ID (appearance/card/component/misc)
+ * @returns {Array} 配置项数组
+ * @description 返回包含配置项定义的数组，每项包含key、name、type等属性
+ */
 function getConfigsByTab(tabId) {
 	const configMap = {
 		appearance: [
@@ -341,10 +335,18 @@ function getConfigsByTab(tabId) {
 	return configMap[tabId] || [];
 }
 
+/**
+ * 显示配置窗口
+ * @description 对外暴露的接口，用于打开十周年UI配置中心
+ */
 export function showDecadeConfigWindow() {
 	createConfigWindow();
 }
 
+/**
+ * 隐藏配置窗口
+ * @description 对外暴露的接口，用于关闭配置窗口并清理遮罩层
+ */
 export function hideDecadeConfigWindow() {
 	if (currentOverlay) {
 		currentOverlay.remove();
