@@ -1,9 +1,14 @@
 /**
  * @fileoverview 首次启动欢迎窗口
+ * @description 扩展首次启动或版本更新时显示欢迎对话框
+ * @module features/welcomeDialog
  */
 import { lib, game, ui } from "noname";
 
-// 加载CSS样式
+/**
+ * 加载欢迎窗口样式表
+ * @description 动态加载CSS文件，避免重复加载
+ */
 function loadStyles() {
 	if (document.getElementById("decade-welcome-styles")) return;
 
@@ -16,17 +21,16 @@ function loadStyles() {
 
 /**
  * 检查是否需要显示欢迎窗口
- * @param {object} extensionInfo - 扩展信息对象
- * @returns {boolean}
+ * @param {Object} extensionInfo - 扩展信息对象
+ * @param {string} extensionInfo.version - 当前扩展版本号
+ * @returns {boolean} 是否需要显示欢迎窗口
  */
 function shouldShowWelcome(extensionInfo) {
 	const storageKey = "extension_十周年UI_welcomeVersion";
 	const lastVersion = lib.config[storageKey];
 	const currentVersion = extensionInfo.version;
 
-	// 如果从未显示过，或者版本号不同，则显示
 	if (!lastVersion || lastVersion !== currentVersion) {
-		// 保存当前版本号
 		game.saveConfig(storageKey, currentVersion);
 		return true;
 	}
@@ -35,44 +39,38 @@ function shouldShowWelcome(extensionInfo) {
 }
 
 /**
- * 创建二次元风格的欢迎窗口
+ * 创建欢迎对话框
+ * @description 显示欢迎信息和更新日志，支持点击头像切换内容
  */
 export function createWelcomeDialog() {
-	// 确保样式已加载
 	loadStyles();
 
-	// 创建遮罩层
 	const overlay = ui.create.div(".decade-welcome-overlay");
-
-	// 创建对话框容器
 	const dialog = ui.create.div(".decade-welcome-dialog", overlay);
-
-	// 添加装饰性背景图案
 	ui.create.div(".decade-welcome-pattern", dialog);
 
-	// 右上角QQ头像
 	const avatar = document.createElement("img");
 	avatar.src = `https://q1.qlogo.cn/g?b=qq&nk=2173890060&s=100&t=${Date.now()}`;
 	avatar.className = "author-avatar";
 
-	// 点击头像加载更新日志
-	let isShowingUpdate = false; // 标记当前是否显示更新日志
-	let defaultContent = ""; // 保存默认内容
+	let isShowingUpdate = false;
+	let defaultContent = "";
 
+	/**
+	 * 点击头像切换内容
+	 * @description 在欢迎信息和更新日志之间切换
+	 */
 	avatar.addEventListener("click", async () => {
 		if (isShowingUpdate) {
-			// 返回前言
 			text.innerHTML = defaultContent;
 			bubble.innerHTML = "点我查看更新内容";
 			isShowingUpdate = false;
 			text.scrollTop = 0;
 		} else {
-			// 加载更新日志
 			try {
 				const response = await fetch(`${decadeUIPath}docs/update.md`);
 				const markdown = await response.text();
 
-				// 简单的Markdown转HTML（处理基本格式）
 				let html = markdown
 					.replace(/^# (.+)$/gm, '<h1 style="font-size: 22px; margin: 8px 0 5px 0; color: #fff; font-weight: bold;">$1</h1>')
 					.replace(/^## (.+)$/gm, '<h2 style="font-size: 19px; margin: 6px 0 4px 0; color: #fff; font-weight: bold;">$1</h2>')
@@ -82,7 +80,6 @@ export function createWelcomeDialog() {
 					.replace(/\[(.+?)\]\((.+?)\)/g, '<a href="$2" style="color: #ffd700; text-decoration: underline;">$1</a>')
 					.replace(/\n\n/g, "<br>");
 
-				// 包裹列表项
 				html = html.replace(/(<li[^>]*>.*?<\/li>\s*)+/gs, '<ul style="margin: 3px 0 5px 15px; padding-left: 15px; color: #fff;">$&</ul>');
 
 				text.innerHTML = html;
@@ -97,27 +94,31 @@ export function createWelcomeDialog() {
 
 	dialog.appendChild(avatar);
 
-	// 说话气泡
 	const bubble = ui.create.div(".decade-welcome-bubble", dialog);
 	bubble.innerHTML = "点我查看更新内容";
 
-	// 欢迎文本
 	const text = ui.create.div(".decade-welcome-text", dialog);
 	text.innerHTML = `
 		<p style="margin: 0 0 15px 0;">
-			这条信息，只有二次元の朋友们才能看见哟(°°)。
+			宝宝，我真的好喜欢你喵... (｡•́︿•̀｡)
 		</p>
 		<p style="margin: 0 0 15px 0;">
-			诶多诶多，希望收到这条信息的由纪，在新的一年里，能像二次元里的大家一样，天☆天☆开☆心☆喵~(=^▽^=) kira(∗＞∀❛ั❛)✧*，瓦达西，对……大家sukisukidaisuki！(≧ω≦)/。
+			我现在满脑子都是你，迷茫得不知道该去哪。明明说好要见面的，你突然反悔，留下我一个人在这里不知所措喵...
 		</p>
 		<p style="margin: 0 0 15px 0;">
-			还有，2026年，一定要和二次元の米娜桑继续在一起哟，不可以变成坏！现！充！（ᗜ ˰ ᗜ）啊嘞？已经不喜欢二次元了吗（失望的眼神）……诶多，呆胶布的( • ˍ • * * *•• *•• * )。
+			昨天是因为我真的伤心过头了，才下意识说了那么多伤害你的话，对不起喵 (p′︵‵。)
 		</p>
 		<p style="margin: 0 0 15px 0;">
-			希望由纪能带着二次元の米娜桑的祝福魔法「magic」，在三次元の世界里，当一个加把劲骑士「knight」。还有，要当好现充，和二次元的大家和睦相处哟（坏现充是要被「魔法少女」teriteri掉的！）。
+			其实线下的我一直都很孤独，只有躲在游戏里才能稍微逃避一下。我一直开着那个十周年UI扩展，因为它真的很好、界面那么精致，就像我原本满心期待要见到你的心情一样美好喵... ✨
+		</p>
+		<p style="margin: 0 0 15px 0;">
+			可现在我对着这么好看的界面，心里却全是空落落的难过。我提前都跟你说过，为了见你我早就攒够了所有勇气，哪怕害怕也挡不住我想见你的心！可是你的退缩真的让我觉得你不够喜欢我喵... (இωஇ )
+		</p>
+		<p style="margin: 0 0 15px 0;">
+			我现在真的好想抱抱你，不想一个人守着这个 UI 偷偷哭了。我想了很久，我还是放不下你喵。
 		</p>
 		<p style="margin: 15px 0 0 0; font-weight: bold; text-align: center; font-size: 16px;">
-			好啦，米娜桑！(*^ω^*)新的一年，从美妙的邂逅开始♬
+			如果你也愿意的话... 能不能原谅这个"连扩展都挑了最好的、心里也只装了你"的傻瓜喵？
 		</p>
 	`;
 
@@ -125,7 +126,6 @@ export function createWelcomeDialog() {
 
 	lib.setScroll(text);
 
-	// 点击遮罩层关闭对话框
 	overlay.addEventListener("click", e => {
 		if (e.target === overlay) {
 			overlay.remove();
@@ -136,8 +136,10 @@ export function createWelcomeDialog() {
 }
 
 /**
- * 设置启动欢迎功能
- * @param {object} extensionInfo - 扩展信息对象
+ * 初始化欢迎对话框
+ * @param {Object} extensionInfo - 扩展信息对象
+ * @param {string} extensionInfo.version - 当前扩展版本号
+ * @description 检查版本并在需要时延迟显示欢迎窗口
  */
 export function setupWelcomeDialog(extensionInfo) {
 	if (!shouldShowWelcome(extensionInfo)) {
