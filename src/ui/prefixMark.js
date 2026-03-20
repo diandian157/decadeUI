@@ -1,17 +1,17 @@
 /**
- * @fileoverview 前缀角标模块
- * 根据武将前缀显示对应的角标样式
- * 提供三个接口支持外部扩展：
- * - registerPrefix(prefix, styleName) - 注册单个前缀
- * - registerPrefixes(configs) - 批量注册
- * - hasPrefix(prefix) - 检查前缀是否存在
+ * @fileoverview 武将前缀角标模块
+ *
+ * 根据武将前缀（如"界"、"神"、"SP"等）显示对应的角标样式。
+ * 提供扩展接口支持自定义前缀注册。
  */
 
-import { lib, game, ui, get, ai, _status } from "noname";
+import { lib, get, _status } from "noname";
 
-// ==================== 前缀配置映射 ====================
-
-/** @type {Record<string, string>} 前缀到样式名的映射 */
+/**
+ * 前缀到样式名的映射表
+ * @type {Record<string, string>}
+ * @example { "界": "jie", "神": "shen" }
+ */
 const PREFIX_CONFIGS = {
 	界: "jie",
 	神: "shen",
@@ -181,22 +181,19 @@ const PREFIX_CONFIGS = {
 	"26|界": "jie",
 };
 
-// ==================== 工具函数 ====================
-
-/** @type {string} 配置键名 */
 const CONFIG_KEY = "extension_十周年UI_newDecadeStyle";
 
 /**
- * 获取标记类名
+ * 获取标记元素的CSS类名
  * @param {string} name - 样式名称
- * @returns {string} CSS类名
+ * @returns {string} CSS类名，如 "jie-mark"
  */
 const getMarkClassName = name => `${name}-mark`;
 
 /**
- * 获取属性名
+ * 获取标记元素在玩家对象上的属性名
  * @param {string} name - 样式名称
- * @returns {string} 属性名
+ * @returns {string} 属性名，如 "jieMark"
  */
 const getPropertyName = name => `${name}Mark`;
 
@@ -207,7 +204,6 @@ const getPropertyName = name => `${name}Mark`;
  * @returns {boolean} 是否已亮将
  */
 const isCharacterRevealed = (playerElement, character) => {
-	// 国战模式特殊处理：初始化时unseen class还没添加，需要检查游戏状态
 	if (get.mode() === "guozhan") {
 		if (!_status.gameStarted) return false;
 
@@ -218,15 +214,13 @@ const isCharacterRevealed = (playerElement, character) => {
 		}
 		return false;
 	}
-	return true; // 非国战模式，视为已亮
+	return true;
 };
-
-// ==================== 导出模块 ====================
 
 export const prefixMarkModule = {
 	/**
-	 * 获取前缀配置副本
-	 * @returns {Record<string, string>}
+	 * 获取前缀配置的副本
+	 * @returns {Record<string, string>} 前缀配置对象
 	 */
 	get prefixConfigs() {
 		return { ...PREFIX_CONFIGS };
@@ -235,7 +229,7 @@ export const prefixMarkModule = {
 	/**
 	 * 注册单个前缀样式
 	 * @param {string} prefix - 前缀名称，如 "自定义"
-	 * @param {string} styleName - 样式名称，如 "custom"（对应 CSS 类名 .custom-mark）
+	 * @param {string} styleName - 样式名称，如 "custom"（对应CSS类名 .custom-mark）
 	 * @returns {boolean} 是否注册成功
 	 */
 	registerPrefix(prefix, styleName) {
@@ -247,12 +241,11 @@ export const prefixMarkModule = {
 
 	/**
 	 * 批量注册前缀样式
-	 * @param {Record<string, string>} configs - { 前缀: 样式名 } 映射对象
+	 * @param {Record<string, string>} configs - 前缀到样式名的映射对象
 	 * @returns {string[]} 注册成功的前缀列表
 	 */
 	registerPrefixes(configs) {
 		if (!configs || typeof configs !== "object") return [];
-		/** @type {string[]} */
 		const registered = [];
 		for (const [prefix, styleName] of Object.entries(configs)) {
 			if (this.registerPrefix(prefix, styleName)) {
@@ -265,7 +258,7 @@ export const prefixMarkModule = {
 	/**
 	 * 检查前缀是否已注册
 	 * @param {string} prefix - 前缀名称
-	 * @returns {boolean}
+	 * @returns {boolean} 是否已注册
 	 */
 	hasPrefix(prefix) {
 		return prefix in PREFIX_CONFIGS;
@@ -273,14 +266,14 @@ export const prefixMarkModule = {
 
 	/**
 	 * 检查是否启用前缀标记功能
-	 * @returns {boolean}
+	 * @returns {boolean} 是否启用
 	 */
 	shouldShowPrefixMark: () => lib.config?.[CONFIG_KEY] === "on",
 
 	/**
 	 * 获取武将对应的前缀配置
 	 * @param {string} character - 武将名称
-	 * @returns {{className: string, property: string}|null} 配置对象或null
+	 * @returns {{className: string, property: string}|null} 配置对象，包含CSS类名和属性名
 	 */
 	getPrefixConfig(character) {
 		const prefix = lib.translate?.[`${character}_prefix`];
@@ -306,18 +299,15 @@ export const prefixMarkModule = {
 	 * 显示武将前缀标记
 	 * @param {string} character - 武将名称
 	 * @param {HTMLElement} playerElement - 玩家元素
-	 * @param {boolean} [forceShow] - 强制显示（跳过亮将检测）
+	 * @param {boolean} [forceShow=false] - 是否强制显示（跳过亮将检测）
 	 */
 	showPrefixMark(character, playerElement, forceShow = false) {
 		if (!this.shouldShowPrefixMark()) return;
-
-		// 检查武将是否已亮将
 		if (!forceShow && !isCharacterRevealed(playerElement, character)) return;
 
 		const config = this.getPrefixConfig(character);
 		if (!config) return;
 
-		// 只有主将才显示前缀角标，副将的前缀不显示在主将位置
 		const mainCharacter = playerElement.name1 || playerElement.name;
 		if (character !== mainCharacter) return;
 
@@ -326,7 +316,6 @@ export const prefixMarkModule = {
 			playerElement.appendChild(markElement);
 		}
 
-		// 更新主将名称显示（去除前缀）
 		const nameElement = playerElement.node?.name;
 		if (nameElement) {
 			nameElement.innerText = get.rawName(character);
@@ -334,15 +323,13 @@ export const prefixMarkModule = {
 	},
 
 	/**
-	 * 清除所有前缀标记
+	 * 清除玩家元素上的所有前缀标记
 	 * @param {HTMLElement} playerElement - 玩家元素
 	 */
 	clearPrefixMarks(playerElement) {
 		if (!playerElement) return;
 
-		// 去重：多个前缀可能映射到同一标记
 		const uniqueNames = [...new Set(Object.values(PREFIX_CONFIGS))];
-
 		uniqueNames.forEach(name => {
 			const property = getPropertyName(name);
 			const markElement = playerElement[property];
@@ -354,8 +341,7 @@ export const prefixMarkModule = {
 	},
 
 	/**
-	 * 初始化亮将钩子
-	 * 监听亮将事件，在武将亮出后显示前缀角标
+	 * 初始化亮将钩子，监听亮将事件并显示前缀角标
 	 */
 	setupShowCharacterHook() {
 		const self = this;
@@ -369,7 +355,7 @@ export const prefixMarkModule = {
 				player: ["showCharacterEnd"],
 			},
 			filter: () => self.shouldShowPrefixMark(),
-			async content(event, trigger, player) {
+			async content(_event, _trigger, player) {
 				const name1 = player.name1 || player.name;
 				if (name1 && !player.isUnseen?.(0)) {
 					self.showPrefixMark(name1, player, true);
@@ -380,7 +366,6 @@ export const prefixMarkModule = {
 			},
 		};
 
-		// 添加到全局技能
 		if (!lib.skill.global) lib.skill.global = [];
 		if (!lib.skill.global.includes("_decadePrefixMark")) {
 			lib.skill.global.push("_decadePrefixMark");

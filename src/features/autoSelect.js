@@ -96,6 +96,7 @@ const shouldAutoSelectTarget = event => {
 
 	const [min, max] = getRange(event, "Target");
 	if (min !== max) return false;
+	if (min !== 1) return false;
 
 	const targetState = getTargetState();
 	return state.targetState !== targetState;
