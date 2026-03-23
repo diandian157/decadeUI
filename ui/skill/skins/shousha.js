@@ -115,9 +115,9 @@ export function createShoushaSkillPlugin(lib, game, ui, get, ai, _status, app) {
 				let gSkills = ui.skills2?.skills?.length ? ui.skills2.skills : null;
 
 				// 过滤nopop技能
-				skills = skills.filter(s => {
-					const info = get.info(s);
-					return !info?.nopop || s.startsWith("olhedao_tianshu_");
+				skills = skills.filter(skill => {
+					const info = get.info(skill);
+					return !info?.nopop || info.enable || skill.startsWith("olhedao_tianshu_");
 				});
 
 				// 添加隐藏技能中的enable技能

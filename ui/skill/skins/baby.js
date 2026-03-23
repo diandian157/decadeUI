@@ -98,9 +98,9 @@ export function createBabySkillPlugin(lib, game, ui, get, ai, _status, app) {
 				let skills = player.getSkills("invisible", null, false);
 				let gSkills = ui.skills2?.skills.length ? ui.skills2.skills : null;
 
-				skills = skills.filter(s => {
-					const info = get.info(s);
-					return !info?.nopop || s.startsWith("olhedao_tianshu_");
+				skills = skills.filter(skill => {
+					const info = get.info(skill);
+					return !info?.nopop || info.enable || skill.startsWith("olhedao_tianshu_");
 				});
 
 				const iSkills = player.invisibleSkills.slice(0);
