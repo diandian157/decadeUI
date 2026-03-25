@@ -1,6 +1,6 @@
 /**
- * @fileoverview Player标记系统覆写模块
- * @description 处理玩家标记（mark）相关的覆写，包括技能标记、武将标记等
+ * @fileoverview 玩家标记系统覆写模块
+ * @description 处理玩家标记的显示逻辑，包括技能标记、武将标记等的创建、更新和过滤
  * @module overrides/player/marks
  */
 
@@ -8,22 +8,30 @@ import { lib, game, ui, get, ai, _status } from "noname";
 import { getBasePlayerMethods } from "./base.js";
 
 /**
- * 跳过标记的技能前缀列表
+ * 需要过滤的技能标记前缀列表
+ * 这些标记会在专门的区域显示，不在传统标记区域显示
  * @constant {string[]}
  */
-const SKIP_PREFIXES = ["xinfu_falu_", "starcanxi_"];
+const SKIP_PREFIXES = ["xinfu_falu_"];
 
 /**
- * 跳过标记的例外技能集合
+ * 标记过滤的例外技能
+ * 即使匹配前缀规则，这些技能也不会被过滤
  * @constant {Set<string>}
  */
 const SKIP_EXCEPTIONS = new Set(["starcanxi_wangsheng", "starcanxi_xiangsi", "starcanxi_cancel"]);
 
 /**
- * 检查是否应该跳过标记
- * @param {*} item - 要检查的项目
- * @returns {boolean} 是否跳过
- * @private
+ * 残玺技能的六大主要势力标记
+ * 这些标记使用新样式在专门区域显示，其他势力使用传统标记
+ * @constant {Set<string>}
+ */
+const STARCANXI_MAIN_FACTIONS = new Set(["starcanxi_qun", "starcanxi_shu", "starcanxi_wei", "starcanxi_wu", "starcanxi_jin", "starcanxi_shen"]);
+
+/**
+ * 判断标记是否应该被过滤（不在传统标记区域显示）
+ * @param {string|Object} item - 标记项（技能名或其他标记对象）
+ * @returns {boolean} true表示应该过滤，false表示正常显示
  */
 function shouldSkipMark(item) {
 	if (!item) return false;
@@ -43,18 +51,25 @@ function shouldSkipMark(item) {
 	if (typeof item !== "string") return false;
 	if (style !== "on" && style !== "othersOff") return false;
 
-	// 检查前缀
-	return SKIP_PREFIXES.some(p => item.startsWith(p)) && !SKIP_EXCEPTIONS.has(item);
+	if (SKIP_PREFIXES.some(p => item.startsWith(p)) && !SKIP_EXCEPTIONS.has(item)) {
+		return true;
+	}
+
+	if (STARCANXI_MAIN_FACTIONS.has(item)) {
+		return true;
+	}
+
+	return false;
 }
 
 /**
- * 标记技能覆写
- * @description 根据UI样式过滤部分标记的显示
- * @param {string} name - 技能名
- * @param {*} [info] - 信息
- * @param {*} [card] - 卡牌
- * @param {boolean} [nobroadcast] - 是否不广播
- * @returns {*} 原方法返回值
+ * 覆写玩家的标记技能方法
+ * 根据UI样式配置过滤特定标记的显示
+ * @param {string} name - 技能名称
+ * @param {Object} [info] - 标记信息
+ * @param {Object} [card] - 关联卡牌
+ * @param {boolean} [nobroadcast] - 是否不广播到其他客户端
+ * @returns {Object} 玩家对象（链式调用）
  * @this {Object} 玩家对象
  */
 export function playerMarkSkill(name, info, card, nobroadcast) {
@@ -64,13 +79,13 @@ export function playerMarkSkill(name, info, card, nobroadcast) {
 }
 
 /**
- * 取消标记技能覆写
- * @description 根据UI样式过滤部分标记的取消
- * @param {string} name - 技能名
- * @param {*} [info] - 信息
- * @param {*} [card] - 卡牌
- * @param {boolean} [nobroadcast] - 是否不广播
- * @returns {*} 原方法返回值
+ * 覆写玩家的取消标记技能方法
+ * 根据UI样式配置过滤特定标记的取消
+ * @param {string} name - 技能名称
+ * @param {Object} [info] - 标记信息
+ * @param {Object} [card] - 关联卡牌
+ * @param {boolean} [nobroadcast] - 是否不广播到其他客户端
+ * @returns {Object} 玩家对象（链式调用）
  * @this {Object} 玩家对象
  */
 export function playerUnmarkSkill(name, info, card, nobroadcast) {
@@ -80,12 +95,12 @@ export function playerUnmarkSkill(name, info, card, nobroadcast) {
 }
 
 /**
- * 标记覆写
- * @description 创建并显示玩家标记，支持卡牌和技能标记
- * @param {*} item - 标记项（技能名、卡牌或卡牌数组）
- * @param {Object|string} [info] - 标记信息或标识符
- * @param {string} [skill] - 关联技能名
- * @returns {HTMLElement|HTMLElement[]} 标记元素或元素数组
+ * 覆写玩家的标记方法
+ * 创建并显示玩家标记，支持卡牌标记和技能标记
+ * @param {string|Object|Object[]} item - 标记项（技能名、卡牌对象或卡牌数组）
+ * @param {Object|string} [info] - 标记信息对象或标识符字符串
+ * @param {string} [skill] - 关联的技能名称
+ * @returns {HTMLElement|HTMLElement[]} 创建的标记元素或元素数组
  * @this {Object} 玩家对象
  */
 export function playerMark(item, info, skill) {
@@ -103,10 +118,8 @@ export function playerMark(item, info, skill) {
 		if (item.startsWith("xinfu_falu_") && (style === "on" || style === "othersOff")) {
 			return;
 		}
-		if (item.startsWith("starcanxi_") && !SKIP_EXCEPTIONS.has(item)) {
-			if (style === "on" || style === "othersOff") {
-				return;
-			}
+		if (STARCANXI_MAIN_FACTIONS.has(item) && (style === "on" || style === "othersOff")) {
+			return;
 		}
 	}
 
@@ -132,11 +145,10 @@ export function playerMark(item, info, skill) {
 }
 
 /**
- * 创建标记元素
- * @param {*} item - 标记项
- * @param {string} [skill] - 关联技能名
- * @returns {HTMLElement} 标记元素
- * @private
+ * 创建标记DOM元素
+ * @param {string|Object} item - 标记项（技能名或卡牌对象）
+ * @param {string} [skill] - 关联的技能名称
+ * @returns {HTMLElement} 创建的标记元素
  */
 function createMarkElement(item, skill) {
 	let mark;
@@ -195,7 +207,6 @@ function createMarkElement(item, skill) {
 
 		mark.text.innerHTML = markText;
 
-		// 阻止标记通过setBackground设置角色头像，改为显示技能名称
 		const originalSetBackground = mark.setBackground;
 		mark.setBackground = function (name, type) {
 			if (type === "character") {
@@ -223,7 +234,6 @@ function createMarkElement(item, skill) {
 	mark.name = itemName;
 	mark.skill = skill || itemName;
 
-	// 设置标记类型
 	if (!mark.classList.contains("own-skill") && !mark.classList.contains("other-skill")) {
 		const skillIntro = lib.skill[mark.skill]?.intro;
 		const hasCardDisplay = typeof skillIntro?.mark === "function" || ["expansion", "card", "cards"].includes(skillIntro?.content);
@@ -234,10 +244,9 @@ function createMarkElement(item, skill) {
 }
 
 /**
- * 绑定标记事件
+ * 为标记元素绑定交互事件
  * @param {HTMLElement} mark - 标记元素
  * @returns {void}
- * @private
  */
 function bindMarkEvents(mark) {
 	mark.addEventListener(lib.config.touchscreen ? "touchend" : "click", ui.click.card);
@@ -253,13 +262,13 @@ function bindMarkEvents(mark) {
 }
 
 /**
- * 标记武将覆写
- * @description 创建武将标记元素
- * @param {string|Object} name - 武将名或武将对象
- * @param {Object} [info] - 标记信息
+ * 覆写玩家的标记武将方法
+ * 创建武将标记元素并添加到玩家标记区域
+ * @param {string|Object} name - 武将名称或武将对象
+ * @param {Object} [info] - 标记信息对象
  * @param {*} [learn] - 学习参数
  * @param {*} [learn2] - 学习参数2
- * @returns {HTMLElement} 标记元素
+ * @returns {HTMLElement} 创建的武将标记元素
  * @this {Object} 玩家对象
  */
 export function playerMarkCharacter(name, info, learn, learn2) {
@@ -298,7 +307,6 @@ export function playerMarkCharacter(name, info, learn, learn2) {
 	nodeMark.info = info;
 	nodeMark.text = nodeMarkText;
 
-	// 设置标记类型
 	const hasCardDisplay = typeof lib.skill[name]?.intro?.mark === "function";
 	nodeMark.classList.add(hasCardDisplay ? "other-skill" : "own-skill");
 
@@ -311,10 +319,10 @@ export function playerMarkCharacter(name, info, learn, learn2) {
 }
 
 /**
- * 更新标记覆写
- * @description 更新标记的计数显示
- * @param {string} name - 标记名
- * @param {boolean} [storage] - 是否同步存储
+ * 覆写玩家的更新标记方法
+ * 更新标记的计数显示
+ * @param {string} name - 标记名称
+ * @param {boolean} [storage] - 是否同步存储数据
  * @returns {Object} 玩家对象（链式调用）
  * @this {Object} 玩家对象
  */
@@ -362,12 +370,11 @@ export function playerUpdateMark(name, storage) {
 }
 
 /**
- * 计算标记计数
+ * 计算标记的数量
  * @param {Object} player - 玩家对象
- * @param {string} name - 标记名
- * @param {Object} skillInfo - 技能信息
- * @returns {number} 计数值
- * @private
+ * @param {string} name - 标记名称
+ * @param {Object} skillInfo - 技能信息对象
+ * @returns {number} 标记数量
  */
 function calculateMarkCount(player, name, skillInfo) {
 	const intro = skillInfo.intro;
@@ -400,12 +407,12 @@ function calculateMarkCount(player, name, skillInfo) {
 }
 
 /**
- * 标记技能武将覆写
- * @description 创建或更新技能关联的武将标记
- * @param {string} id - 标记ID
- * @param {Object|string} target - 目标武将
- * @param {string} name - 名称
- * @param {string} content - 内容
+ * 覆写玩家的标记技能武将方法
+ * 创建或更新技能关联的武将标记
+ * @param {string} id - 标记唯一标识符
+ * @param {string|Object} target - 目标武将名称或对象
+ * @param {string} name - 显示名称
+ * @param {string} content - 标记内容描述
  * @returns {Object} 玩家对象（链式调用）
  * @this {Object} 玩家对象
  */
@@ -435,13 +442,13 @@ export function playerMarkSkillCharacter(id, target, name, content) {
 }
 
 /**
- * 更新已有技能标记
+ * 更新已存在的技能标记
  * @param {Object} player - 玩家对象
- * @param {string} id - 标记ID
- * @param {string} name - 名称
- * @param {string} content - 内容
- * @param {string} target - 目标
- * @private
+ * @param {string} id - 标记唯一标识符
+ * @param {string} name - 显示名称
+ * @param {string} content - 标记内容描述
+ * @param {string} target - 目标武将名称
+ * @returns {void}
  */
 function updateExistingSkillMark(player, id, name, content, target) {
 	const mark = player.marks[id];
@@ -456,13 +463,13 @@ function updateExistingSkillMark(player, id, name, content, target) {
 }
 
 /**
- * 创建新技能标记
+ * 创建新的技能标记
  * @param {Object} player - 玩家对象
- * @param {string} id - 标记ID
- * @param {string} name - 名称
- * @param {string} content - 内容
- * @param {string} target - 目标
- * @private
+ * @param {string} id - 标记唯一标识符
+ * @param {string} name - 显示名称
+ * @param {string} content - 标记内容描述
+ * @param {string} target - 目标武将名称
+ * @returns {void}
  */
 function createNewSkillMark(player, id, name, content, target) {
 	const nodeMark = ui.create.div(".card.mark");

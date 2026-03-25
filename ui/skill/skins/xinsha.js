@@ -628,7 +628,10 @@ export function createXinshaSkillPlugin(lib, game, ui, get, ai, _status, app) {
 				if (player.hasSkill(skillName)) canxiSkills[skillName] = true;
 			});
 
-			node.querySelectorAll('[data-id^="starcanxi_"]').forEach(mark => mark.remove());
+			factions.forEach(faction => {
+				const mark = node.querySelector(`[data-id="starcanxi_${faction}"]`);
+				if (mark) mark.remove();
+			});
 
 			Object.keys(canxiSkills).forEach(skillName => {
 				const faction = skillName.slice("starcanxi_".length);
