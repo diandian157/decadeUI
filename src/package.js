@@ -39,7 +39,7 @@ export const mainpackage = otherInfo => {
 
 	Object.defineProperty(pack, "author", {
 		get() {
-			return `<img src="https://q1.qlogo.cn/g?b=qq&nk=2173890060&s=100&t=${Date.now()}" class="author-avatar" onclick="window.decadeUIWelcome.show()" style="cursor:pointer;border-radius:50%;width:50px;height:50px;vertical-align:bottom">点点<br>${window.decadeUIDidYouKnow.getHTML()}`;
+			return `<img src="https://q1.qlogo.cn/g?b=qq&nk=2173890060&s=100&t=${Date.now()}" class="author-avatar" onclick="window.decadeUIWelcome.show()" style="cursor:pointer;border-radius:50%;width:50px;height:50px;vertical-align:bottom">小依<br>${window.decadeUIDidYouKnow.getHTML()}`;
 		},
 	});
 
