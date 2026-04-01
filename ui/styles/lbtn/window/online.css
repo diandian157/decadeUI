@@ -1,0 +1,294 @@
+/**
+ * OL风格按钮样式 - 非触屏布局
+ * Online style lbtn CSS for non-touch layout
+ */
+
+/* 出牌记录 */
+#arenalog {
+	width: calc(50% - 230px);
+	height: calc(100% - 452px);
+	left: calc(50% + 60px);
+	top: 234px;
+	overflow: hidden;
+	font-family: "FZLBJW" !important;
+	z-index: 10;
+	pointer-events: none;
+	text-align: center;
+}
+
+#arenalog > div {
+	position: relative;
+	display: block;
+	width: calc(100% - 23px);
+	left: 20px;
+	font-size: 22px;
+	line-height: 22px;
+	font-family: "FZLBJW" !important;
+	font-weight: 800;
+	color: #b9b7bc;
+	text-shadow:
+		-1px -1px 0px black,
+		1px -1px 0px black,
+		-1px 1px 0px black,
+		1px 1px 0px black;
+	background: linear-gradient(to right, transparent 0%, rgba(0, 0, 0, 0.5) 10%, rgba(0, 0, 0, 0.5) 90%, transparent 100%);
+	background-size: 100% 100%;
+}
+
+/* 左侧按钮 */
+.leftbuttons,
+.rightbuttons {
+	width: 85px;
+	bottom: 5px;
+	max-height: 205px;
+	overflow: auto;
+}
+
+.leftbuttons {
+	left: 40px;
+}
+
+.rightbuttons {
+	right: 80px;
+}
+
+.anniubutton {
+	width: 80%;
+	height: 40px;
+	background-size: 100% 100%;
+	margin-top: 9%;
+	position: relative;
+	background-image: url("../../../assets/lbtn/OL_line/uibutton/gameanniubuttonsbg.png");
+	background-size: 100% 100%;
+	font-size: 20px;
+	font-weight: 550;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	color: rgb(197, 167, 139);
+	font-family: "shousha";
+	text-shadow: none;
+}
+
+.caidanbutton {
+	background-image: url("../../../assets/lbtn/OL_line/uibutton/caidan.png");
+	background-size: 100% 100%;
+	display: block;
+	width: 55px;
+	height: 58px;
+	position: absolute;
+	top: 40px;
+	right: 50px;
+	background-color: transparent;
+	z-index: 1;
+}
+
+.lbtn-confirm:not(.closing).removing {
+	opacity: 1 !important;
+}
+
+/* 控制按钮 */
+.control {
+	--height: 32px;
+	width: auto !important;
+	background: transparent;
+	box-shadow: none;
+	line-height: normal;
+	padding: 0;
+}
+
+.control > div {
+	background-image: url("../../../assets/lbtn/OL_line/uibutton/seatui_btns_ingnore.png");
+	background-size: 100% 100%;
+	line-height: var(--h);
+	padding: 4px 23px !important;
+	min-width: 90px !important;
+	max-height: 50px !important;
+	text-align: center;
+	margin-top: 0px !important;
+	margin-bottom: -15px !important;
+	color: #ceb193;
+	font-family: "FZLBJW";
+	font-size: 26px;
+	text-shadow:
+		2px 2px 0px #5d4022,
+		-2px -2px 0px #5d4022,
+		2px -2px 0px #5d4022,
+		-2px 1px 0px #5d4022;
+	letter-spacing: 2px;
+}
+
+/* 无懈按钮位置 */
+#arena > #dui-controls > .control.stayleft {
+	left: calc(70% - 20px) !important;
+	margin-bottom: 5px !important;
+	order: 3;
+}
+
+.control > div.primary2 {
+	bottom: 1.8px;
+	color: #ceb193;
+	font-family: "FZLBJW";
+	font-size: 28px !important;
+	line-height: 35px;
+	padding: 4px 24.5px !important;
+	margin-left: 55px !important;
+	margin-right: 0px !important;
+	margin-top: 0px !important;
+	margin-bottom: -15px !important;
+	background-size: 100% 100%;
+	background-image: url("../../../assets/lbtn/OL_line/uibutton/seatui_btns_confirm_2.png");
+	overflow: visible;
+	transition: none;
+	text-shadow:
+		2px 2px 0px #5d4022,
+		-2px -2px 0px #5d4022,
+		2px -2px 0px #5d4022,
+		-2px 1px 0px #5d4022;
+	letter-spacing: 2px;
+}
+
+.control > div.primary {
+	color: #ceb193;
+	font-family: "FZLBJW";
+	font-size: 28px !important;
+	line-height: 35px;
+	padding: 4px 24.5px !important;
+	margin-left: 10px !important;
+	margin-right: 10px !important;
+	margin-top: 0px !important;
+	margin-bottom: -15px !important;
+	background-size: 100% 100%;
+	background-image: url("../../../assets/lbtn/OL_line/uibutton/seatui_btns_confirm_1.png");
+	text-shadow:
+		2px 2px 0px #5d4022,
+		-2px -2px 0px #5d4022,
+		2px -2px 0px #5d4022,
+		-2px 1px 0px #5d4022;
+	letter-spacing: 2px;
+}
+
+.control > div.disabled:not([data-type="endButton"]) {
+	background-size: 100% 100%;
+	filter: grayscale(100%);
+}
+
+.lbtn-confirm[data-skill] > [data-type="skill2"] {
+	display: none;
+}
+
+/* 手牌数显示 */
+.handcardNumber {
+	bottom: 0px;
+	right: 230px;
+	font-family: "yuanli";
+	text-shadow:
+		#f5d78e 0 0 1px,
+		black 0 0 2px,
+		black 0 0 2px,
+		black 0 0 2px,
+		black 0 0 2px,
+		black 0 0 2px,
+		black 0 0 2px;
+	color: #f5d78e;
+	z-index: 1;
+}
+
+.handcardNumber > .cardNumber {
+	display: none !important;
+}
+
+/* 牌堆数显示 */
+.cardRoundNumber {
+	top: 59px;
+	right: 138.5px;
+	font-weight: 400;
+	font-family: "yuanli";
+	text-shadow:
+		#b4a993 0.2px 0.2px 0.2px,
+		#b4a993 0.2px -0.2px 0.2px,
+		#b4a993 -0.2px 0.2px 0.2px,
+		#b4a993 -0.2px -0.2px 0.2px;
+	z-index: 3;
+}
+
+.cardRoundNumber > .cardPileNumber {
+	left: 30px;
+	top: -15px;
+	--w: 105px;
+	--h: 55px;
+	width: var(--w);
+	height: var(--h);
+	background-image: url("../../../assets/lbtn/OL_line/uibutton/round_info_time_bg.png");
+	background-size: 100% 100%;
+	background-color: transparent;
+	position: relative;
+	z-index: 1;
+}
+
+.cardRoundNumber > .cardPileNumber > span {
+	left: -30px;
+	top: 25px;
+	width: 100%;
+	display: block;
+	position: absolute;
+	font-family: "yuanli";
+	line-height: 25px;
+	text-align: center;
+	color: #b08463;
+	font-size: 16px;
+	-webkit-text-stroke: 0.1px #000;
+	text-shadow:
+		-1px 0 0 #000,
+		1px 0 0 #000,
+		0 -1px 0 #000,
+		0 1px 0 #000,
+		-1px -1px 0 #000,
+		1px -1px 0 #000,
+		-1px 1px 0 #000,
+		1px 1px 0 #000;
+}
+
+.cardRoundNumber > .roundNumber,
+.cardRoundNumber > .time {
+	left: 70px;
+	top: 0px;
+	height: 20px;
+	line-height: 5px;
+	white-space: nowrap;
+	font-size: 16px;
+	font-family: "shousha";
+	color: #b08463;
+	z-index: 3;
+}
+
+.cardRoundNumber > .roundNumber {
+	left: 80px;
+}
+
+.cardRoundNumber > .time {
+	top: 25px;
+	display: flex;
+	justify-content: center;
+	font-size: 16px;
+	font-family: "shousha";
+	color: #b08463;
+	min-width: 70px;
+}
+
+/* 托管中图标 */
+#autonode > div:last-child {
+	z-index: 10;
+	margin-bottom: -75px !important;
+	left: calc(50% - 440px);
+	font-size: 0px;
+	text-shadow: none;
+	--w: 400px;
+	--h: calc(var(--w) * 149 / 598);
+	width: var(--w);
+	height: var(--h);
+	background-image: url("../../../assets/lbtn/CD/tuoguan2.png");
+	background-size: 100% 100%;
+	-webkit-text-fill-color: transparent;
+	text-shadow: none !important;
+}
