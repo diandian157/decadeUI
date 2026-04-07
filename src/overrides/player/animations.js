@@ -31,14 +31,6 @@ export function playerDamagepop(num, nature = "soil", font, nobroadcast) {
 	const player = this;
 
 	if (typeof num === "string") {
-		const skills = player.getSkills?.(null, false, false) || [];
-		const isCharacterSkill = skills.some(skill => {
-			const skillName = lib.translate[skill];
-			return skillName && num.includes(skillName);
-		});
-
-		if (!isCharacterSkill) return;
-
 		game.addVideo("damagepop", player, [num, nature, font]);
 		if (nobroadcast !== false) {
 			game.broadcast((p, n, na, f) => p.$damagepop(n, na, f), player, num, nature, font);
