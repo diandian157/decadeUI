@@ -176,7 +176,7 @@ function cleanup(event, player) {
  */
 export function setupEquipCopy() {
 	lib.hooks.checkBegin.add(async event => {
-		if (lib.config["extension_十周年UI_aloneEquip"]) return;
+		if (!lib.config["extension_十周年UI_enableEquipCopy"] || lib.config["extension_十周年UI_aloneEquip"]) return;
 
 		const player = event.player;
 		const valid = event.position?.includes("e") && player.countCards("e") && !event.copyCards && VALID_EVENTS.includes(event.name);
@@ -201,7 +201,7 @@ export function setupEquipCopy() {
 	});
 
 	lib.hooks.checkCard.add((card, event) => {
-		if (lib.config["extension_十周年UI_aloneEquip"] || !event.copyCards) return;
+		if (!lib.config["extension_十周年UI_enableEquipCopy"] || lib.config["extension_十周年UI_aloneEquip"] || !event.copyCards) return;
 
 		if (get.position(card) === "e" && card.classList.contains("selected")) {
 			const copy = event.player.getCards("s", c => c.hasGaintag(GAINTAG) && c.relatedCard === card)[0];
@@ -213,7 +213,7 @@ export function setupEquipCopy() {
 	});
 
 	lib.hooks.checkEnd.add(event => {
-		if (lib.config["extension_十周年UI_aloneEquip"] || !event.copyCards) return;
+		if (!lib.config["extension_十周年UI_enableEquipCopy"] || lib.config["extension_十周年UI_aloneEquip"] || !event.copyCards) return;
 
 		for (const equip of event.player.getCards("e")) {
 			if (equip.classList.contains("selected")) {
@@ -227,12 +227,9 @@ export function setupEquipCopy() {
 	});
 
 	lib.hooks.uncheckBegin.add(async (event, args) => {
-		if (lib.config["extension_十周年UI_aloneEquip"]) return;
+		if (!lib.config["extension_十周年UI_enableEquipCopy"] || lib.config["extension_十周年UI_aloneEquip"]) return;
 
-		const shouldCleanup =
-			args.includes("card") &&
-			event.copyCards &&
-			(event.result || (["chooseToUse", "chooseToRespond"].includes(event.name) && !event.skill && !event.result));
+		const shouldCleanup = args.includes("card") && event.copyCards && (event.result || (["chooseToUse", "chooseToRespond"].includes(event.name) && !event.skill && !event.result));
 		if (shouldCleanup) cleanup(event, event.player);
 	});
 }

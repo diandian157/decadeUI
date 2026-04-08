@@ -326,6 +326,7 @@ function getConfigsByTab(tabId) {
 			{ key: "shiliyouhua", name: "官方势力", type: "toggle" },
 			{ isTitle: true, name: "游戏功能" },
 			{ key: "enableRecastInteraction", name: "重铸交互", type: "toggle" },
+			{ key: "enableEquipCopy", name: "装备入手", type: "toggle" },
 			{ key: "mx_decade_characterDialog", name: "自由选将筛选框", type: "select" },
 			{ key: "rightLayout", name: "左右布局", type: "select" },
 			{ key: "eruda", name: "调试助手", type: "toggle" },

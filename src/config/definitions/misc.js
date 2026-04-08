@@ -73,6 +73,16 @@ export const enableRecastInteraction = {
 };
 
 /**
+ * 装备手牌化配置
+ * @type {Object}
+ */
+export const enableEquipCopy = {
+	name: "装备入手",
+	init: true,
+	intro: "开启后，选择卡牌时装备区的牌会复制到手牌区显示，方便选择，即时生效",
+};
+
+/**
  * 自由选将筛选框配置
  * @type {Object}
  */
@@ -119,6 +129,7 @@ export const miscConfigs = {
 	shiliyouhua,
 	mx_decade_characterDialog,
 	enableRecastInteraction,
+	enableEquipCopy,
 	rightLayout,
 	stuff_title_end,
 };
