@@ -23,6 +23,8 @@ import { DynamicPlayer } from "../../animation/index.js";
  * @param {number|number[]} [animation.y] - Y偏移
  * @param {number} [animation.scale] - 缩放
  * @param {number} [animation.angle] - 角度
+ * @param {boolean} [animation.alpha] - 是否使用预乘 Alpha
+ * @param {boolean} [animation.unpackPremultipliedAlpha] - 是否解包预乘 Alpha 通道
  * @param {string[]} [animation.hideSlots] - 隐藏的插槽
  * @param {string[]} [animation.clipSlots] - 裁剪的插槽
  * @param {boolean} [deputy=false] - 是否为副将动皮
@@ -241,6 +243,13 @@ function buildAnimationConfig(skin) {
 		hideSlots: skin.hideSlots,
 		clipSlots: skin.clipSlots,
 	};
+
+	if (skin.alpha !== undefined) {
+		animation.alpha = skin.alpha;
+	}
+	if (skin.unpackPremultipliedAlpha !== undefined) {
+		animation.unpackPremultipliedAlpha = skin.unpackPremultipliedAlpha;
+	}
 
 	if (skin.player || skin._transform !== undefined) {
 		animation.player = {

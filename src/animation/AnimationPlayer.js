@@ -1,19 +1,23 @@
 "use strict";
 
 /**
- * @fileoverview Spine动画播放器核心渲染引擎，负责WebGL渲染和骨骼动画管理
+ * @fileoverview Spine 动画播放器核心渲染引擎 - 负责 WebGL 渲染和骨骼动画管理
+ * @description 提供完整的 Spine 骨骼动画加载、播放、渲染功能，支持多个动画同时播放
  */
-import { lib, game, ui, get, ai, _status } from "noname";
+import { _status } from "noname";
 import { APNode } from "./APNode.js";
 
 /**
- * Spine动画播放器类
+ * Spine 动画播放器类 - 基于 WebGL 的高性能骨骼动画渲染器
+ * @class
+ * @description 封装了 Spine 运行时的完整功能，包括资源加载、动画播放、渲染循环等
  */
 export class AnimationPlayer {
 	/**
-	 * @param {string} pathPrefix - 资源路径前缀
-	 * @param {HTMLElement|string} parentNode - 父节点或"offscreen"
-	 * @param {string} [elementId] - Canvas元素ID
+	 * 创建动画播放器实例
+	 * @param {string} pathPrefix - 动画资源文件的路径前缀
+	 * @param {HTMLElement|string} parentNode - 父 DOM 节点或 "offscreen" 表示离屏渲染
+	 * @param {string|HTMLCanvasElement} [elementId] - Canvas 元素 ID 或离屏 Canvas 对象
 	 */
 	constructor(pathPrefix, parentNode, elementId) {
 		if (!window.spine) {
@@ -24,7 +28,6 @@ export class AnimationPlayer {
 			return;
 		}
 
-		// 创建Canvas
 		let canvas;
 		if (parentNode === "offscreen") {
 			canvas = elementId;
@@ -36,7 +39,6 @@ export class AnimationPlayer {
 			if (parentNode) parentNode.appendChild(canvas);
 		}
 
-		// 初始化WebGL
 		const config = { alpha: true };
 		let gl = canvas.getContext("webgl2", config);
 		if (!gl) {
@@ -45,7 +47,6 @@ export class AnimationPlayer {
 			gl.isWebgl2 = true;
 		}
 
-		// 初始化Spine组件
 		if (gl) {
 			this.spine = {
 				shader: spine.webgl.Shader.newTwoColoredTextured(gl),
@@ -69,6 +70,7 @@ export class AnimationPlayer {
 		this.nodes = [];
 		this.BUILT_ID = 0;
 		this._dprAdaptive = false;
+		this.unpackPremultipliedAlpha = false;
 
 		Object.defineProperties(this, {
 			dprAdaptive: {
@@ -101,7 +103,8 @@ export class AnimationPlayer {
 	}
 
 	/**
-	 * 检查WebGL可用性，不可用时禁用所有方法
+	 * 检查 WebGL 可用性，不可用时禁用所有方法
+	 * @description 当 WebGL 不可用时，将所有方法替换为空函数，避免运行时错误
 	 */
 	check() {
 		if (!this.gl) {
@@ -116,10 +119,11 @@ export class AnimationPlayer {
 	}
 
 	/**
-	 * 创建纹理区域
+	 * 创建纹理区域对象
 	 * @param {HTMLImageElement} image - 图像元素
 	 * @param {string} name - 纹理名称
 	 * @returns {spine.TextureAtlasRegion} 纹理区域对象
+	 * @description 将图像包装为 Spine 可用的纹理区域
 	 */
 	createTextureRegion(image, name) {
 		const page = new spine.TextureAtlasPage();
@@ -145,20 +149,21 @@ export class AnimationPlayer {
 	}
 
 	/**
-	 * 检查骨骼是否已加载
-	 * @param {string} filename - 骨骼文件名
-	 * @returns {boolean} 是否已加载
+	 * 检查指定骨骼动画是否已加载
+	 * @param {string} filename - 骨骼文件名（不含扩展名）
+	 * @returns {boolean} 如果已加载返回 true，否则返回 false
 	 */
 	hasSpine(filename) {
 		return this.spine.assets[filename] !== undefined;
 	}
 
 	/**
-	 * 加载骨骼资源
-	 * @param {string} filename - 骨骼文件名
-	 * @param {string} [skelType="skel"] - 骨骼类型(skel/json)
-	 * @param {Function} [onload] - 加载成功回调
-	 * @param {Function} [onerror] - 加载失败回调
+	 * 加载骨骼动画资源
+	 * @param {string} filename - 骨骼文件名（不含扩展名）
+	 * @param {string} [skelType="skel"] - 骨骼文件类型，可选 "skel"（二进制）或 "json"（文本）
+	 * @param {Function} [onload] - 加载成功时的回调函数
+	 * @param {Function} [onerror] - 加载失败时的回调函数
+	 * @description 异步加载骨骼数据文件（.skel 或 .json）和纹理图集文件（.atlas）
 	 */
 	loadSpine(filename, skelType, onload, onerror) {
 		if (!this.spine.assetManager) {
@@ -177,7 +182,7 @@ export class AnimationPlayer {
 			errors: 0,
 			toLoad: 2,
 
-			onerror: (path, msg) => {
+			onerror: () => {
 				reader.toLoad--;
 				reader.errors++;
 				if (reader.toLoad === 0) {
@@ -186,7 +191,7 @@ export class AnimationPlayer {
 				}
 			},
 
-			onload: (path, data) => {
+			onload: () => {
 				reader.toLoad--;
 				reader.loaded++;
 				if (reader.toLoad === 0) {
@@ -217,7 +222,7 @@ export class AnimationPlayer {
 						manager.loadTexture(prefix + imageName, reader.onload, reader.onerror);
 					}
 				}
-				reader.onload(path, data);
+				reader.onload();
 			},
 		};
 
@@ -230,10 +235,10 @@ export class AnimationPlayer {
 	}
 
 	/**
-	 * 获取路径前缀
-	 * @param {string} filename - 文件名
-	 * @returns {string} 路径前缀
+	 * 从文件名中提取路径前缀
 	 * @private
+	 * @param {string} filename - 完整文件名或路径
+	 * @returns {string} 路径前缀（包含末尾的斜杠），如果没有路径则返回空字符串
 	 */
 	_getPathPrefix(filename) {
 		const a = filename.lastIndexOf("/");
@@ -243,10 +248,11 @@ export class AnimationPlayer {
 	}
 
 	/**
-	 * 准备骨骼数据
-	 * @param {string} filename - 骨骼文件名
-	 * @param {boolean} [autoLoad] - 是否自动加载
-	 * @returns {spine.Skeleton|string|undefined} 骨骼对象或加载状态
+	 * 准备骨骼数据以供播放
+	 * @param {string} filename - 骨骼文件名（不含扩展名）
+	 * @param {boolean} [autoLoad] - 如果骨骼未加载，是否自动加载
+	 * @returns {spine.Skeleton|string|undefined} 返回骨骼对象，或 "loading" 表示正在加载，或 undefined 表示失败
+	 * @description 从已加载的资源创建骨骼实例，如果骨骼已存在则复用
 	 */
 	prepSpine(filename, autoLoad) {
 		const assets = this.spine.assets;
@@ -259,13 +265,11 @@ export class AnimationPlayer {
 			return;
 		}
 
-		// 查找已完成的骨骼
 		const skeletons = this.spine.skeletons;
 		for (const sk of skeletons) {
 			if (sk.name === filename && sk.completed) return sk;
 		}
 
-		// 创建新骨骼
 		const asset = assets[filename];
 		const manager = this.spine.assetManager;
 
@@ -285,7 +289,6 @@ export class AnimationPlayer {
 		skeleton.setToSetupPose();
 		skeleton.updateWorldTransform();
 
-		// 设置动画状态
 		skeleton.state = new spine.AnimationState(new spine.AnimationStateData(skeleton.data));
 		skeleton.state.addListener({
 			complete(track) {
@@ -315,9 +318,21 @@ export class AnimationPlayer {
 
 	/**
 	 * 播放骨骼动画
-	 * @param {string|Object|APNode} sprite - 骨骼名称或配置对象
-	 * @param {Object} [position] - 位置配置
-	 * @returns {APNode|undefined} 动画节点
+	 * @param {string|Object|APNode} sprite - 骨骼文件名、动画配置对象或动画节点实例
+	 * @param {string} sprite.name - 骨骼文件名
+	 * @param {string} [sprite.action] - 要播放的动画动作名称
+	 * @param {boolean} [sprite.loop] - 是否循环播放
+	 * @param {Object} [position] - 位置和变换配置
+	 * @param {number|number[]} [position.x] - X 坐标
+	 * @param {number|number[]} [position.y] - Y 坐标
+	 * @param {number|number[]} [position.width] - 宽度
+	 * @param {number|number[]} [position.height] - 高度
+	 * @param {number} [position.scale] - 缩放比例
+	 * @param {number} [position.angle] - 旋转角度
+	 * @param {HTMLElement} [position.parent] - 参考父节点
+	 * @param {boolean} [position.follow] - 是否跟随父节点
+	 * @returns {APNode|undefined} 返回动画节点实例，失败时返回 undefined
+	 * @description 开始播放指定的骨骼动画，如果渲染循环未运行则自动启动
 	 */
 	playSpine(sprite, position) {
 		if (sprite === undefined) {
@@ -379,9 +394,10 @@ export class AnimationPlayer {
 
 	/**
 	 * 循环播放骨骼动画
-	 * @param {string|Object} sprite - 骨骼名称或配置对象
-	 * @param {Object} [position] - 位置配置
-	 * @returns {APNode|undefined} 动画节点
+	 * @param {string|Object} sprite - 骨骼文件名或动画配置对象
+	 * @param {Object} [position] - 位置和变换配置
+	 * @returns {APNode|undefined} 返回动画节点实例
+	 * @description playSpine 的便捷方法，自动设置 loop 为 true
 	 */
 	loopSpine(sprite, position) {
 		if (typeof sprite === "string") sprite = { name: sprite, loop: true };
@@ -390,9 +406,9 @@ export class AnimationPlayer {
 	}
 
 	/**
-	 * 停止指定动画
-	 * @param {APNode|number} sprite - 动画节点或ID
-	 * @returns {APNode|null} 被停止的节点
+	 * 停止播放指定的动画
+	 * @param {APNode|number} sprite - 动画节点实例或节点 ID
+	 * @returns {APNode|null} 返回被停止的节点，如果未找到则返回 null
 	 */
 	stopSpine(sprite) {
 		const id = sprite.id ?? sprite;
@@ -407,7 +423,8 @@ export class AnimationPlayer {
 	}
 
 	/**
-	 * 停止所有动画
+	 * 停止播放所有正在运行的动画
+	 * @description 将所有动画节点标记为已完成，并清空它们的动画状态
 	 */
 	stopSpineAll() {
 		for (const sprite of this.nodes) {
@@ -419,9 +436,9 @@ export class AnimationPlayer {
 	}
 
 	/**
-	 * 获取骨骼动作列表
-	 * @param {string} filename - 骨骼文件名
-	 * @returns {Array<{name: string, duration: number}>|undefined} 动作列表
+	 * 获取骨骼的所有可用动画动作列表
+	 * @param {string} filename - 骨骼文件名（不含扩展名）
+	 * @returns {Array<{name: string, duration: number}>|undefined} 动作列表，每项包含动作名称和持续时间（秒）
 	 */
 	getSpineActions(filename) {
 		if (!this.hasSpine(filename)) {
@@ -434,9 +451,10 @@ export class AnimationPlayer {
 	}
 
 	/**
-	 * 获取骨骼边界
-	 * @param {string} filename - 骨骼文件名
-	 * @returns {Object|undefined} 边界信息
+	 * 获取骨骼的边界信息
+	 * @param {string} filename - 骨骼文件名（不含扩展名）
+	 * @returns {Object|undefined} 边界信息对象，包含 offset 和 size 属性
+	 * @description 返回骨骼在默认姿态下的包围盒信息
 	 */
 	getSpineBounds(filename) {
 		if (!this.hasSpine(filename)) {
@@ -456,8 +474,9 @@ export class AnimationPlayer {
 	}
 
 	/**
-	 * 渲染循环
-	 * @param {number} timestamp - 时间戳
+	 * 渲染循环主函数（每帧调用）
+	 * @param {number} timestamp - 当前帧的时间戳（毫秒）
+	 * @description 更新所有动画节点状态并渲染到画布，当没有活动节点时自动停止渲染循环
 	 */
 	render(timestamp) {
 		const canvas = this.canvas;
@@ -488,7 +507,6 @@ export class AnimationPlayer {
 
 		const eventArgs = { dpr, delta, canvas, frameTime: timestamp };
 
-		// 更新节点
 		for (let i = this.nodes.length - 1; i >= 0; i--) {
 			const node = this.nodes[i];
 			if (!node.completed) {
@@ -505,7 +523,6 @@ export class AnimationPlayer {
 			gl.clear(gl.COLOR_BUFFER_BIT);
 		}
 
-		// 无节点时停止渲染
 		if (this.nodes.length === 0) {
 			this.frameTime = this.requestId = undefined;
 			this.running = false;
@@ -523,7 +540,6 @@ export class AnimationPlayer {
 			shader.setUniformi(spine.webgl.Shader.SAMPLER, 0);
 		}
 
-		// 渲染所有节点
 		for (const sprite of this.nodes) {
 			if (sprite.renderClip) {
 				gl.clipping = sprite.renderClip;
@@ -547,6 +563,7 @@ export class AnimationPlayer {
 
 			renderer.premultipliedAlpha = sprite.premultipliedAlpha;
 			renderer.outcropMask = this.outcropMask;
+			renderer.unpackPremultipliedAlpha = this.unpackPremultipliedAlpha;
 			if (renderer.outcropMask) {
 				renderer.outcropX = sprite.renderX;
 				renderer.outcropY = sprite.renderY;

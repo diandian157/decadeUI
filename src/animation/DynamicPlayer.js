@@ -1,36 +1,60 @@
 "use strict";
 
 /**
- * @fileoverview 动态播放器模块，支持OffscreenCanvas的高性能Spine动画播放器
+ * @fileoverview 动态播放器模块 - 支持离屏渲染的高性能 Spine 动画播放器
+ * @description 提供基于 OffscreenCanvas 和 Web Worker 的动画播放能力，可在主线程或离屏线程中渲染动画
  */
-import { lib, game, ui, get, ai, _status } from "noname";
+import { _status } from "noname";
 import { AnimationPlayer } from "./AnimationPlayer.js";
 import { throttle, observeSize } from "./utils.js";
 
-/** @type {number} 播放器实例ID计数器 */
+/**
+ * 播放器实例的唯一标识计数器
+ * @type {number}
+ */
 let BUILT_ID = 0;
 
-/** @type {Worker[]} Web Worker实例数组 */
+/**
+ * Web Worker 实例池，用于离屏渲染
+ * @type {Worker[]}
+ */
 const DynamicWorkers = new Array(2);
 
 /**
- * 动态播放器类
+ * 动态播放器类 - 用于播放 Spine 骨骼动画
+ * @class
+ * @description 支持两种渲染模式：离屏渲染（使用 Web Worker）和主线程渲染
  */
 export class DynamicPlayer {
 	/**
-	 * @param {string} pathPrefix - 资源路径前缀
+	 * 创建动态播放器实例
+	 * @param {string} pathPrefix - 动画资源文件的路径前缀
 	 */
 	constructor(pathPrefix) {
+		/** @type {number} 播放器的唯一标识 */
 		this.id = BUILT_ID++;
+
+		/** @type {number} 设备像素比，用于高清屏适配 */
 		this.dpr = 1;
+
+		/** @type {number} 画布宽度（像素） */
 		this.width = 120;
+
+		/** @type {number} 画布高度（像素） */
 		this.height = 180;
+
+		/** @type {boolean} 是否自动适配设备像素比 */
 		this.dprAdaptive = false;
+
+		/** @type {number} 动画实例的内部计数器 */
 		this.BUILT_ID = 0;
 
-		// 暂时禁用 OffscreenCanvas，因为 Worker 需要非模块化的脚本
-		// TODO: 创建打包后的 Worker 脚本以支持 OffscreenCanvas
-		const supportsOffscreen = false; // self.OffscreenCanvas !== undefined;
+		/** @type {boolean} 是否解包预乘 Alpha 通道 */
+		this.unpackPremultipliedAlpha = false;
+
+		const supportsOffscreen = false;
+
+		/** @type {boolean} 是否使用离屏渲染模式 */
 		this.offscreen = false;
 
 		if (supportsOffscreen) {
@@ -43,14 +67,14 @@ export class DynamicPlayer {
 	}
 
 	/**
-	 * 初始化离屏渲染器
-	 * @param {string} pathPrefix - 资源路径前缀
+	 * 初始化离屏渲染器（使用 Web Worker）
 	 * @private
+	 * @param {string} pathPrefix - 动画资源文件的路径前缀
+	 * @description 在 Worker 线程中渲染动画，避免阻塞主线程，提升性能
 	 */
 	_initOffscreenRenderer(pathPrefix) {
 		for (let i = 0; i < DynamicWorkers.length; i++) {
 			if (!DynamicWorkers[i]) {
-				// 使用传统 Worker（非 ES Module）
 				DynamicWorkers[i] = new Worker(decadeUIPath + "src/animation/dynamicWorker.js");
 				DynamicWorkers[i].capacity = 0;
 			} else if (DynamicWorkers[i].capacity >= 4) {
@@ -85,8 +109,9 @@ export class DynamicPlayer {
 
 	/**
 	 * 初始化主线程渲染器
-	 * @param {string} pathPrefix - 资源路径前缀
 	 * @private
+	 * @param {string} pathPrefix - 动画资源文件的路径前缀
+	 * @description 在主线程中渲染动画，兼容不支持离屏渲染的环境
 	 */
 	_initMainThreadRenderer(pathPrefix) {
 		const renderer = new AnimationPlayer(pathPrefix);
@@ -105,12 +130,17 @@ export class DynamicPlayer {
 	}
 
 	/**
-	 * 播放动画
-	 * @param {string|Object} sprite - 动画名称或配置对象
-	 * @returns {Object} 动画配置对象
+	 * 播放指定的动画
+	 * @param {string|Object} sprite - 动画名称（字符串）或动画配置对象
+	 * @param {string} sprite.name - 动画名称
+	 * @param {boolean} [sprite.loop=true] - 是否循环播放
+	 * @param {Function} [sprite.oncomplete] - 动画播放完成时的回调函数
+	 * @returns {Object} 返回包含动画信息的配置对象
+	 * @description 支持传入动画名称或完整配置对象，动画会以淡入效果开始播放
 	 */
 	play(sprite) {
 		const item = typeof sprite === "string" ? { name: sprite } : sprite;
+		this.unpackPremultipliedAlpha = !!item.unpackPremultipliedAlpha;
 		item.id = this.BUILT_ID++;
 		item.loop = true;
 
@@ -134,12 +164,17 @@ export class DynamicPlayer {
 				width: this.width,
 				height: this.height,
 				sprite: item,
+				unpackPremultipliedAlpha: !!item.unpackPremultipliedAlpha,
 			});
 		} else {
 			const dynamic = this.renderer;
 			dynamic.useMipMaps = this.useMipMaps;
 			dynamic.dprAdaptive = this.dprAdaptive;
 			dynamic.outcropMask = this.outcropMask;
+			dynamic.unpackPremultipliedAlpha = !!item.unpackPremultipliedAlpha;
+			if (item.unpackPremultipliedAlpha && item.alpha !== true) {
+				item.alpha = true;
+			}
 
 			const run = () => {
 				const t = dynamic.playSpine(item);
@@ -154,8 +189,8 @@ export class DynamicPlayer {
 	}
 
 	/**
-	 * 停止指定动画
-	 * @param {Object} sprite - 动画配置对象
+	 * 停止播放指定的动画
+	 * @param {Object} sprite - 要停止的动画配置对象（通常是 play 方法返回的对象）
 	 */
 	stop(sprite) {
 		if (this.offscreen) {
@@ -166,7 +201,7 @@ export class DynamicPlayer {
 	}
 
 	/**
-	 * 停止所有动画
+	 * 停止播放所有正在运行的动画
 	 */
 	stopAll() {
 		if (this.offscreen) {
@@ -177,8 +212,9 @@ export class DynamicPlayer {
 	}
 
 	/**
-	 * 更新播放器参数
-	 * @param {boolean} [force] - 是否强制更新
+	 * 更新播放器的渲染参数
+	 * @param {boolean} [force] - 是否强制更新（传入 false 时仅更新 dpr，不发送消息）
+	 * @description 当画布尺寸、设备像素比或其他渲染参数变化时调用此方法
 	 */
 	update(force) {
 		if (!this.offscreen) {
@@ -186,6 +222,7 @@ export class DynamicPlayer {
 			this.renderer.useMipMaps = this.useMipMaps;
 			this.renderer.dprAdaptive = this.dprAdaptive;
 			this.renderer.outcropMask = this.outcropMask;
+			this.renderer.unpackPremultipliedAlpha = this.unpackPremultipliedAlpha;
 			return;
 		}
 		this.dpr = Math.max(window.devicePixelRatio * (window.documentZoom || 1), 1);
@@ -199,9 +236,9 @@ export class DynamicPlayer {
 			useMipMaps: this.useMipMaps,
 			width: this.width,
 			height: this.height,
+			unpackPremultipliedAlpha: this.unpackPremultipliedAlpha,
 		});
 	}
 }
 
-// 导出静态变量供外部访问
 export { BUILT_ID, DynamicWorkers };
