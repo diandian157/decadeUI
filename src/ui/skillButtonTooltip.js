@@ -81,9 +81,15 @@ export class SkillButtonTooltip {
 
 	/**
 	 * 获取技能描述
-	 * @param {string} skillName
-	 * @param {Player} player
-	 * @returns {string}
+	 * @description 按优先级从多个来源获取技能描述文本：
+	 * 1. 动态翻译（根据玩家状态变化的描述）
+	 * 2. 翻译库中的标准描述
+	 * 3. 技能对象的description属性
+	 * 4. 子技能的description或父技能描述
+	 * 5. get.skillInfoTranslation方法
+	 * @param {string} skillName - 技能名称
+	 * @param {Player} player - 玩家对象
+	 * @returns {string} 技能描述文本
 	 * @private
 	 */
 	getSkillDescription(skillName, player) {
@@ -99,6 +105,30 @@ export class SkillButtonTooltip {
 
 			if (!str) {
 				str = lib.translate[skillName + "_info"] || "";
+			}
+
+			if (!str && lib.skill[skillName]) {
+				const skillInfo = lib.skill[skillName];
+
+				if (skillInfo.description) {
+					str = skillInfo.description;
+				} else if (skillInfo.sourceSkill) {
+					const parentSkill = skillInfo.sourceSkill;
+					const subSkillName = skillName.replace(parentSkill + "_", "");
+
+					if (lib.skill[parentSkill] && lib.skill[parentSkill].subSkill && lib.skill[parentSkill].subSkill[subSkillName]) {
+						const subSkillInfo = lib.skill[parentSkill].subSkill[subSkillName];
+						str = subSkillInfo.description || "";
+
+						if (!str) {
+							str = lib.translate[parentSkill + "_info"] || "";
+						}
+					}
+				}
+			}
+
+			if (!str && typeof get !== "undefined" && get.skillInfoTranslation) {
+				str = get.skillInfoTranslation(skillName, player) || "";
 			}
 		} catch (e) {
 			console.error(`获取技能 ${skillName} 的描述时出错:`, e);
