@@ -184,6 +184,8 @@ export function setupEquipCopy() {
 
 		event.copyCards = true;
 		const includeS = !event.position.includes("s");
+
+		event.position = event.position.replace("e", "");
 		if (includeS) event.position += "s";
 
 		const copies = player.getCards("e").map(createCopy);
