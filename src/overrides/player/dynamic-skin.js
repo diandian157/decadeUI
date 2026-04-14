@@ -139,9 +139,30 @@ export function playerStopDynamic(primary, deputy) {
 		dynamic.deputy = null;
 	}
 
+	if (!dynamic.offscreen && dynamic.renderer) {
+		cleanupSkeletonReferences(dynamic.renderer, this);
+	}
+
 	if (!dynamic.primary && !dynamic.deputy) {
 		this.classList.remove("d-skin", "d-skin2");
 		this.$dynamicWrap.remove();
+	}
+}
+
+/**
+ * 清理AnimationPlayer中skeleton对当前玩家的引用
+ * @param {AnimationPlayer} renderer - 动画播放器实例
+ * @param {Object} player - 玩家对象
+ * @private
+ */
+function cleanupSkeletonReferences(renderer, player) {
+	if (!renderer.spine || !renderer.spine.skeletons) return;
+
+	for (const skeleton of renderer.spine.skeletons) {
+		if (skeleton.node && skeleton.node.referNode === player) {
+			skeleton.completed = true;
+			skeleton.node = undefined;
+		}
 	}
 }
 

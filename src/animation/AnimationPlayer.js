@@ -416,6 +416,10 @@ export class AnimationPlayer {
 			if (item.id === id && !item.completed) {
 				item.completed = true;
 				item.skeleton.state.setEmptyAnimation(0);
+				if (item.skeleton) {
+					item.skeleton.completed = true;
+					item.skeleton.node = undefined;
+				}
 				return item;
 			}
 		}
@@ -431,6 +435,10 @@ export class AnimationPlayer {
 			if (!sprite.completed) {
 				sprite.completed = true;
 				sprite.skeleton.state.setEmptyAnimation(0);
+				if (sprite.skeleton) {
+					sprite.skeleton.completed = true;
+					sprite.skeleton.node = undefined;
+				}
 			}
 		}
 	}
