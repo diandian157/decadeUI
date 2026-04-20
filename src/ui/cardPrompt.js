@@ -415,28 +415,11 @@ const buildDelayTrickWuxieTip = (targetPlayer, cardName, stateWord) => {
 	const isMe = targetPlayer === game.me;
 
 	if (isMe) {
-		return [
-			{ text: s("你的") },
-			{ text: s(cardName), style: "phase" },
-			{ text: s("即将") },
-			{ text: s(stateWord), style: stateWord === "生效" ? "fire" : "thunder" },
-			{ text: s("，是否使用") },
-			{ text: s("无懈可击"), style: "phase" },
-			{ text: s("？") },
-		];
+		return [{ text: s("你的") }, { text: s(cardName), style: "phase" }, { text: s("即将") }, { text: s(stateWord), style: stateWord === "生效" ? "fire" : "thunder" }, { text: s("，是否使用") }, { text: s("无懈可击"), style: "phase" }, { text: s("？") }];
 	}
 
 	const targetName = resolveName(targetPlayer);
-	return [
-		{ text: s(targetName), style: "phase" },
-		{ text: s("的") },
-		{ text: s(cardName), style: "phase" },
-		{ text: s("即将") },
-		{ text: s(stateWord), style: stateWord === "生效" ? "fire" : "thunder" },
-		{ text: s("，是否使用") },
-		{ text: s("无懈可击"), style: "phase" },
-		{ text: s("？") },
-	];
+	return [{ text: s(targetName), style: "phase" }, { text: s("的") }, { text: s(cardName), style: "phase" }, { text: s("即将") }, { text: s(stateWord), style: stateWord === "生效" ? "fire" : "thunder" }, { text: s("，是否使用") }, { text: s("无懈可击"), style: "phase" }, { text: s("？") }];
 };
 
 /**
@@ -450,18 +433,7 @@ const buildDelayTrickWuxieTip = (targetPlayer, cardName, stateWord) => {
 const buildNormalTrickWuxieTip = (sourceName, targetName, cardName, stateWord) => {
 	const s = sanitizePrompt;
 
-	return [
-		{ text: s(sourceName), style: "phase" },
-		{ text: s("对") },
-		{ text: s(targetName), style: "phase" },
-		{ text: s("使用的") },
-		{ text: s(cardName), style: "thunder" },
-		{ text: s("即将") },
-		{ text: s(stateWord), style: stateWord === "生效" ? "fire" : "wood" },
-		{ text: s("，是否使用") },
-		{ text: s("无懈可击"), style: "phase" },
-		{ text: s("？") },
-	];
+	return [{ text: s(sourceName), style: "phase" }, { text: s("对") }, { text: s(targetName), style: "phase" }, { text: s("使用的") }, { text: s(cardName), style: "thunder" }, { text: s("即将") }, { text: s(stateWord), style: stateWord === "生效" ? "fire" : "wood" }, { text: s("，是否使用") }, { text: s("无懈可击"), style: "phase" }, { text: s("？") }];
 };
 
 /**
@@ -531,15 +503,7 @@ const buildJiedaoTipText = event => {
 	const targetName = resolveName(event.sourcex) ?? "目标";
 	const s = sanitizePrompt;
 
-	return [
-		{ text: s("请对") },
-		{ text: s(targetName), style: "phase" },
-		{ text: s("使用") },
-		{ text: s("杀"), style: "phase" },
-		{ text: s("，或令") },
-		{ text: s(sourceName), style: "phase" },
-		{ text: s("获得你的武器") },
-	];
+	return [{ text: s("请对") }, { text: s(targetName), style: "phase" }, { text: s("使用") }, { text: s("杀"), style: "phase" }, { text: s("，或令") }, { text: s(sourceName), style: "phase" }, { text: s("获得你的武器") }];
 };
 
 /**
@@ -631,12 +595,7 @@ const buildRespondTipText = event => {
 
 	if (!cardName && !targetName) return null;
 
-	return [
-		{ text: s(`请${actionWord}${needCount}张`) },
-		{ text: s(cardName || "牌"), style: "phase" },
-		{ text: s("响应") },
-		{ text: s(targetName), style: "phase" },
-	];
+	return [{ text: s(`请${actionWord}${needCount}张`) }, { text: s(cardName || "牌"), style: "phase" }, { text: s("响应") }, { text: s(targetName), style: "phase" }];
 };
 
 /**
@@ -684,8 +643,6 @@ const appendDiscardSkillPrefix = (tip, event, compareSkill) => {
  * @param {GameEvent} event
  */
 const handleDiscard = event => {
-	hidePrompt(event);
-
 	const discardTip = ensureTip();
 	const compareSkill = getCompareSkill(event);
 	const showPhase = markPhaseDiscard(event);
@@ -708,7 +665,6 @@ const handleDiscard = event => {
 	const originalFilterStop = event.filterStop;
 	event.filterStop = function () {
 		if (this.step > 1 && ui.cardDialog) closeCardDialog();
-		restorePrompt(this);
 		if (originalFilterStop) return originalFilterStop.apply(this, arguments);
 	};
 };
@@ -722,7 +678,6 @@ const handleDiscard = event => {
 const handleRespondUse = (event, compareSkill) => {
 	if (!event.respondTo) return false;
 
-	hidePrompt(event);
 	const respondTip = ensureTip();
 
 	if (compareSkill) {
@@ -744,8 +699,6 @@ const handleRespondUse = (event, compareSkill) => {
  */
 const handleDyingUse = event => {
 	if (event.type !== "dying" || !event.dying) return false;
-
-	hidePrompt(event);
 
 	const dyingTip = ensureTip();
 	const dyingName = resolveName(event.dying) ?? get.translation(event.dying);
@@ -798,8 +751,6 @@ const handlePhaseUse = event => {
 const handleWuxieUse = event => {
 	if (event.type !== "wuxie") return false;
 
-	hidePrompt(event);
-
 	const wuxieTip = ensureTip();
 	showTip(wuxieTip, buildWuxieTipText(event));
 	return true;
@@ -823,8 +774,6 @@ const handleUse = event => {
  * @param {GameEvent} event
  */
 const handleRespond = event => {
-	hidePrompt(event);
-
 	const tip = ensureTip();
 	const compareSkill = getCompareSkill(event);
 
@@ -898,18 +847,6 @@ export function initCardPrompt({ game, ui }) {
 
 	lib.hooks.checkBegin.add(event => {
 		if (event.player !== game.me) return;
-
-		if (event.name === "chooseToUse") {
-			if ((event.type === "dying" && event.dying) || event.respondTo) {
-				hidePrompt(event);
-			}
-		}
-		if (event.name === "chooseToDiscard") {
-			hidePrompt(event);
-		}
-		if (event.name === "chooseToRespond") {
-			hidePrompt(event);
-		}
 	});
 
 	lib.hooks.checkButton.add(event => {
@@ -957,7 +894,6 @@ export function initCardPrompt({ game, ui }) {
 	lib.hooks.checkEnd.add(event => {
 		if (event.player !== game.me) {
 			closeCardDialog();
-			restorePrompt(event);
 			return;
 		}
 
@@ -976,7 +912,6 @@ export function initCardPrompt({ game, ui }) {
 					break;
 				default:
 					closeCardDialog();
-					restorePrompt(event);
 			}
 		}, 0);
 	});
