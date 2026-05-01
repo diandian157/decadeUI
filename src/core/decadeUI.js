@@ -14,19 +14,7 @@ import { createDecadeUICreateModule } from "./create.js";
 import { createStaticsModule } from "./statics.js";
 import { createHandlerModule } from "./handler.js";
 import { initHooks } from "./hooks.js";
-import {
-	CubicBezierEase,
-	throttle,
-	observeSize,
-	lerp,
-	TimeStep,
-	APNode,
-	AnimationPlayer,
-	AnimationPlayerPool,
-	DynamicPlayer,
-	BUILT_ID,
-	DynamicWorkers,
-} from "../animation/index.js";
+import { CubicBezierEase, throttle, observeSize, lerp, TimeStep, APNode, AnimationPlayer, AnimationPlayerPool, DynamicPlayer, BUILT_ID, DynamicWorkers } from "../animation/index.js";
 import { createPlayerElement } from "../ui/player-element.js";
 import { createCardElement, createCardsWrapper } from "../ui/card-element.js";
 import { createCharacterButtonPreset } from "../ui/character-button.js";
@@ -35,14 +23,7 @@ import { definePlayerGroupProperty } from "../ui/player-group.js";
 import { createLayoutInit } from "../ui/layout-init.js";
 import { uiClickIdentity, uiClickVolumn, uiClear, uiCreateMe } from "../overrides/ui.js";
 
-import {
-	setBaseCardMethods,
-	setBaseContentMethods,
-	setBasePlayerMethods,
-	setBasePlayerDraw,
-	setBaseUiMethods,
-	setBaseUiCreateMethods,
-} from "../overrides/index.js";
+import { setBaseCardMethods, setBaseContentMethods, setBasePlayerMethods, setBasePlayerDraw, setBaseUiMethods, setBaseUiCreateMethods } from "../overrides/index.js";
 
 import { controlAdd, controlOpen, controlClose, controlReplace, controlUpdateLayout } from "../overrides/control.js";
 import { dialogOpen, applyDialogOverrides } from "../overrides/dialog.js";
@@ -54,82 +35,9 @@ import { getObjtype, applyGetOverrides } from "../overrides/get.js";
 import { gameLogv, applyGameOverrides } from "../overrides/game.js";
 import { applyMoveAnimFix } from "../overrides/moveAnimFix.js";
 
-import {
-	registerDecadeUIHooks,
-	playerAwakenSkill,
-	playerSetIdentity,
-	playerGetState,
-	playerMarkSkill,
-	playerUnmarkSkill,
-	playerReinitCharacter,
-	playerSetSeatNum,
-	playerUninit,
-	playerReinit,
-	playerUpdate,
-	playerUseCard,
-	playerRespond,
-	playerLose,
-	playerUseCardAnimateBefore,
-	playerRespondAnimateBefore,
-	playerChangeZhuanhuanji,
-	playerSetModeState,
-	playerHandleEquipChange,
-	playerMark,
-	playerMarkCharacter,
-	playerUpdateMark,
-	playerMarkSkillCharacter,
-	playerPlayDynamic,
-	playerStopDynamic,
-	playerApplyDynamicSkin,
-	playerSay,
-	playerDieAfter,
-	playerSkill,
-	playerSyncExpand,
-	playerSetSkillYinYang,
-	player$SetSkillYinYang,
-	playerSetSkillState,
-	player$SetSkillState,
-	playerDamagepop,
-	playerCompare,
-	playerCompareMultiple,
-	playerCheckAndAddExperienceSuffix,
-	playerQueueCssAnimation,
-	playerDamage,
-	playerUpdateShowCards,
-	playerCheckBoundsCache,
-	playerLine,
-	playerPhaseJudge,
-	playerGain2,
-	playerDraw,
-	playerGive,
-	playerThrow,
-	playerThrowordered2,
-	playerAddVirtualJudge,
-} from "../overrides/player.js";
+import { registerDecadeUIHooks, playerAwakenSkill, playerSetIdentity, playerGetState, playerMarkSkill, playerUnmarkSkill, playerReinitCharacter, playerSetSeatNum, playerUninit, playerReinit, playerUpdate, playerUseCard, playerRespond, playerLose, playerUseCardAnimateBefore, playerRespondAnimateBefore, playerChangeZhuanhuanji, playerSetModeState, playerHandleEquipChange, playerMark, playerMarkCharacter, playerUpdateMark, playerMarkSkillCharacter, playerPlayDynamic, playerStopDynamic, playerApplyDynamicSkin, playerSay, playerDieAfter, playerSkill, playerSyncExpand, playerSetSkillYinYang, player$SetSkillYinYang, playerSetSkillState, player$SetSkillState, playerDamagepop, playerCompare, playerCompareMultiple, playerCheckAndAddExperienceSuffix, playerQueueCssAnimation, playerDamage, playerUpdateShowCards, playerCheckBoundsCache, playerLine, playerPhaseJudge, playerGain2, playerDraw, playerGive, playerThrow, playerThrowordered2, playerAddVirtualJudge, playerDirectgain, playerDirectgains } from "../overrides/player.js";
 
-import {
-	uiUpdatec,
-	uiUpdatehl,
-	uiUpdatej,
-	uiUpdatem,
-	uiUpdatez,
-	uiUpdate,
-	uiUpdatejm,
-	uiUpdatexr,
-	uiCreatePrebutton,
-	uiCreateRarity,
-	uiCreateButton,
-	uiCreateControl,
-	uiCreateDialog,
-	uiCreateSelectlist,
-	uiCreateIdentityCard,
-	uiCreateSpinningIdentityCard,
-	uiCreateArena,
-	uiCreatePause,
-	uiCreateCharacterDialog,
-	uiClickCard,
-	uiClickIntro,
-} from "../overrides/ui.js";
+import { uiUpdatec, uiUpdatehl, uiUpdatej, uiUpdatem, uiUpdatez, uiUpdate, uiUpdatejm, uiUpdatexr, uiCreatePrebutton, uiCreateRarity, uiCreateButton, uiCreateControl, uiCreateDialog, uiCreateSelectlist, uiCreateIdentityCard, uiCreateSpinningIdentityCard, uiCreateArena, uiCreatePause, uiCreateCharacterDialog, uiClickCard, uiClickIntro } from "../overrides/ui.js";
 
 /**
  * 创建decadeUI核心对象
@@ -287,6 +195,8 @@ export const createDecadeUIObject = () => ({
 						$damagepop: playerDamagepop,
 						$compare: playerCompare,
 						$compareMultiple: playerCompareMultiple,
+						directgain: playerDirectgain,
+						directgains: playerDirectgains,
 					},
 					content: {
 						gain: createContentGain(base.lib.element.content.gain),

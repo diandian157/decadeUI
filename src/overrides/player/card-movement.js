@@ -31,6 +31,143 @@ export function setBasePlayerDraw(fn) {
 }
 
 /**
+ * 直接获得牌覆写
+ * @description 覆写 directgain 方法，新牌统一插入到手牌区末尾（右边）
+ * @param {Array} cards - 卡牌数组
+ * @param {boolean} [broadcast] - 是否广播
+ * @param {string|Array} [gaintag] - 牌标签
+ * @returns {Object} 玩家对象
+ */
+export function playerDirectgain(cards, broadcast, gaintag) {
+	const hs = this.getCards("hs");
+	for (let i = 0; i < cards.length; i++) {
+		if (hs.includes(cards[i])) {
+			cards.splice(i--, 1);
+		}
+	}
+	const cards1 = [];
+	const cards2 = [];
+
+	for (let i = 0; i < cards.length; i++) {
+		cards[i].fix();
+		if (gaintag) {
+			if (typeof gaintag == "string") {
+				gaintag = [gaintag];
+			}
+			gaintag.forEach(tag => cards[i].addGaintag(tag));
+		}
+		const sort = lib.config.sort_card(cards[i]);
+		if (this == game.me) {
+			cards[i].classList.add("drawinghidden");
+		}
+		if (get.is.singleHandcard() || sort > 0) {
+			cards1.push(cards[i]);
+		} else {
+			cards2.push(cards[i]);
+		}
+	}
+
+	this.node.handcards1.append(...cards1);
+	if (cards2.length) {
+		this.node.handcards2.append(...cards2);
+	}
+
+	if (this == game.me || _status.video) {
+		ui.updatehl();
+	}
+	if (!_status.video) {
+		game.addVideo("directgain", this, get.cardsInfo(cards));
+		this.update();
+	}
+	if (broadcast !== false) {
+		game.broadcast(
+			function (player, cards) {
+				player.directgain(cards);
+			},
+			this,
+			cards
+		);
+	}
+	return this;
+}
+
+/**
+ * 直接获得牌
+ * @description 覆写 directgains 方法，新牌统一插入到手牌区末尾（右边）
+ * @param {Array} cards - 卡牌数组
+ * @param {boolean} [broadcast] - 是否广播
+ * @param {string|Array} [gaintag] - 牌标签
+ * @returns {Object} 玩家对象
+ */
+export function playerDirectgains(cards, broadcast, gaintag) {
+	var hs = this.getCards("hs");
+	for (var i = 0; i < cards.length; i++) {
+		if (hs.includes(cards[i])) {
+			cards.splice(i--, 1);
+		}
+	}
+
+	// 统一从右边插入（append）
+	var addLast = function (card, node) {
+		if (gaintag) {
+			for (var i = 0; i < node.childNodes.length; i++) {
+				var add = node.childNodes[node.childNodes.length - i - 1];
+				if (!add.classList.contains("glows")) {
+					break;
+				}
+				if (add.hasGaintag(gaintag)) {
+					node.insertBefore(card, add.nextSibling);
+					return;
+				}
+			}
+		}
+		node.appendChild(card);
+	};
+
+	for (var i = 0; i < cards.length; i++) {
+		cards[i].fix();
+		cards[i].remove();
+		if (gaintag) {
+			if (typeof gaintag == "string") {
+				gaintag = [gaintag];
+			}
+			gaintag.forEach(tag => cards[i].addGaintag(tag));
+		}
+		cards[i].classList.add("glows");
+		if (this == game.me) {
+			cards[i].classList.add("drawinghidden");
+		}
+		if (get.is.singleHandcard()) {
+			addLast(cards[i], this.node.handcards1);
+		} else {
+			addLast(cards[i], this.node.handcards2);
+		}
+	}
+
+	if (this == game.me || _status.video) {
+		ui.updatehl();
+	}
+	if (!_status.video) {
+		game.addVideo("directgains", this, {
+			cards: get.cardsInfo(cards),
+			gaintag,
+		});
+		this.update();
+	}
+	if (broadcast !== false) {
+		game.broadcast(
+			function (player, cards, gaintag) {
+				player.directgains(cards, null, gaintag);
+			},
+			this,
+			cards,
+			gaintag
+		);
+	}
+	return this;
+}
+
+/**
  * 摸牌动画覆写
  * @description 覆写玩家摸牌的视觉效果，支持卡牌数组或数量参数
  * @param {number|Array} num - 摸牌数量或卡牌数组
@@ -501,9 +638,7 @@ export function playerAddVirtualJudge(VCard, cards) {
 	if (get.itemtype(card) == "card" && card.isViewAsCard) {
 		cardx = card;
 	} else {
-		cardx = isViewAsCard
-			? game.createCard(card.name, cards.length == 1 ? get.suit(cards[0]) : "none", cards.length == 1 ? get.number(cards[0]) : 0)
-			: cards[0];
+		cardx = isViewAsCard ? game.createCard(card.name, cards.length == 1 ? get.suit(cards[0]) : "none", cards.length == 1 ? get.number(cards[0]) : 0) : cards[0];
 	}
 
 	game.broadcastAll(
@@ -587,24 +722,7 @@ export function playerAddVirtualJudge(VCard, cards) {
 			player.node.judges.insertBefore(cardx, player.node.judges.firstChild);
 
 			// 判定标记美化
-			const judgeMarkMap = [
-				"bingliang",
-				"lebu",
-				"shandian",
-				"fulei",
-				"hongshui",
-				"huoshan",
-				"caomu",
-				"jlsgqs_shuiyanqijun",
-				"jydiy_zouhuorumo",
-				"jydiy_yungongliaoshang",
-				"xwjh_biguanqingxiu",
-				"xwjh_wushisanke",
-				"xumou_jsrg",
-				"dczixi_bingliang",
-				"dczixi_lebu",
-				"dczixi_shandian",
-			];
+			const judgeMarkMap = ["bingliang", "lebu", "shandian", "fulei", "hongshui", "huoshan", "caomu", "jlsgqs_shuiyanqijun", "jydiy_zouhuorumo", "jydiy_yungongliaoshang", "xwjh_biguanqingxiu", "xwjh_wushisanke", "xumou_jsrg", "dczixi_bingliang", "dczixi_lebu", "dczixi_shandian"];
 
 			if (judgeMarkMap.includes(cardx.name)) {
 				let imageName = cardx.name;
@@ -612,8 +730,7 @@ export function playerAddVirtualJudge(VCard, cards) {
 				cardx.node.judgeMark.node.judge.innerText = "";
 				cardx.node.judgeMark.node.judge.style.fontSize = "";
 
-				const isDecadeStyle =
-					lib.config.extension_十周年UI_newDecadeStyle === "on" || lib.config.extension_十周年UI_newDecadeStyle === "othersOff";
+				const isDecadeStyle = lib.config.extension_十周年UI_newDecadeStyle === "on" || lib.config.extension_十周年UI_newDecadeStyle === "othersOff";
 				const ext = isDecadeStyle && ["bingliang", "lebu", "shandian"].includes(imageName) ? "1.png" : ".png";
 				const basePath = `${lib.assetURL}extension/十周年UI/image/ui/judge-mark/`;
 
