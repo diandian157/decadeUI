@@ -9,19 +9,32 @@ import { skillButtonTooltip } from "../../../src/ui/skillButtonTooltip.js";
 
 const ASSETS_PATH = "extension/十周年UI/ui/assets/skill/shousha";
 
+/**
+ * 创建手杀风格技能插件
+ * @param {Object} lib - 无名杀库对象
+ * @param {Object} game - 游戏对象
+ * @param {Object} ui - UI对象
+ * @param {Object} get - 获取器对象
+ * @param {Object} ai - AI对象
+ * @param {Object} _status - 状态对象
+ * @param {Object} app - 应用对象
+ * @returns {Object} 插件对象
+ */
 export function createShoushaSkillPlugin(lib, game, ui, get, ai, _status, app) {
 	const base = createBaseSkillPlugin(lib, game, ui, get, ai, _status, app);
 
 	const plugin = {
 		...base,
 
+		/**
+		 * 预加载内容，初始化技能控制相关功能
+		 */
 		precontent() {
 			this.initTimer();
 			this._extendUICreate();
 			this._extendUI();
 			base.initBaseRewrites.call(this);
 
-			// gskillControl 更新
 			app.reWriteFunction(game, {
 				loop: [
 					() => {
@@ -38,11 +51,16 @@ export function createShoushaSkillPlugin(lib, game, ui, get, ai, _status, app) {
 			ui.skillControlArea = ui.create.div();
 		},
 
+		/**
+		 * 重新加载内容
+		 */
 		recontent() {
 			base.initRecontentRewrites.call(this);
 		},
 
-		// 扩展ui.create
+		/**
+		 * 扩展 ui.create 对象，添加技能相关的创建方法
+		 */
 		_extendUICreate() {
 			Object.assign(ui.create, {
 				skills: skills => {
@@ -87,7 +105,11 @@ export function createShoushaSkillPlugin(lib, game, ui, get, ai, _status, app) {
 			});
 		},
 
-		// 获取虚拟装备的技能
+		/**
+		 * 获取虚拟装备提供的技能列表
+		 * @param {Object} player - 玩家对象
+		 * @returns {Array<string>} 技能ID数组
+		 */
 		_getExtraEquipSkills(player) {
 			const skills = [];
 			if (!player?.extraEquip?.length) return skills;
@@ -106,7 +128,9 @@ export function createShoushaSkillPlugin(lib, game, ui, get, ai, _status, app) {
 			return skills;
 		},
 
-		// 扩展ui
+		/**
+		 * 扩展 ui 对象，添加技能控制更新方法
+		 */
 		_extendUI() {
 			ui.updateSkillControl = (player, clear) => {
 				const eSkills = player.getSkills("e", true, false).slice(0);
@@ -114,18 +138,15 @@ export function createShoushaSkillPlugin(lib, game, ui, get, ai, _status, app) {
 				let skills = player.getSkills("invisible", null, false);
 				let gSkills = ui.skills2?.skills?.length ? ui.skills2.skills : null;
 
-				// 过滤nopop技能
 				skills = skills.filter(skill => {
 					const info = get.info(skill);
 					return !info?.nopop || info.enable || skill.startsWith("olhedao_tianshu_");
 				});
 
-				// 添加隐藏技能中的enable技能
 				const iSkills = player.invisibleSkills.slice(0);
 				game.expandSkills(iSkills);
 				skills.addArray(iSkills.filter(s => get.info(s)?.enable));
 
-				// 过滤global关联技能避免重复
 				if (gSkills) {
 					const globalSkills = new Set();
 					skills.forEach(s => {
@@ -148,7 +169,6 @@ export function createShoushaSkillPlugin(lib, game, ui, get, ai, _status, app) {
 					game.addVideo("updateSkillControl", player, clear);
 				}
 
-				// 更新技能标记
 				const xiandingji = {};
 				const juexingji = {};
 
@@ -160,7 +180,6 @@ export function createShoushaSkillPlugin(lib, game, ui, get, ai, _status, app) {
 						xiandingji[skill] = player.awakenedSkills.includes(skill);
 					}
 
-					// 觉醒技（只在觉醒后显示）
 					if ((info.juexingji || info.dutySkill) && player.awakenedSkills.includes(skill)) {
 						juexingji[skill] = true;
 					}
@@ -171,7 +190,11 @@ export function createShoushaSkillPlugin(lib, game, ui, get, ai, _status, app) {
 		},
 
 		controlElement: {
-			// 设置gskill缓存
+			/**
+			 * 设置全局技能缓存
+			 * @param {Array<string>} skills - 技能ID数组
+			 * @returns {Object} 当前对象（支持链式调用）
+			 */
 			setGSkills(skills) {
 				if (!skills?.length) return this;
 				if (isGSkillCacheSame(this._cachedGSkills, skills)) return this;
@@ -179,6 +202,11 @@ export function createShoushaSkillPlugin(lib, game, ui, get, ai, _status, app) {
 				return this;
 			},
 
+			/**
+			 * 添加缓存的全局技能到界面
+			 * @param {Array<string>} eSkills - 装备技能数组
+			 * @returns {Object} 当前对象（支持链式调用）
+			 */
 			addCachedGSkills(eSkills) {
 				if (!this._cachedGSkills?.length) return this;
 				this._cachedGSkills.forEach(skillId => {
@@ -211,13 +239,16 @@ export function createShoushaSkillPlugin(lib, game, ui, get, ai, _status, app) {
 					});
 					app.listen(node, plugin.clickSkill);
 
-					// 添加悬浮提示
 					skillButtonTooltip.attach(node, skillId, game.me);
 				});
 				return this;
 			},
 
-			// 技能次数显示
+			/**
+			 * 为技能节点添加次数显示
+			 * @param {HTMLElement} node - 技能节点
+			 * @param {number} num - 剩余次数
+			 */
 			addSkillNumber(node, num) {
 				const nums = ["", "①", "②", "③", "④", "⑤", "⑥", "⑦", "⑧", "⑨", "⑩", "⑪", "⑫", "⑬", "⑭", "⑮", "⑯", "⑰", "⑱", "⑲", "⑳"];
 				const text = document.createElement("span");
@@ -230,7 +261,12 @@ export function createShoushaSkillPlugin(lib, game, ui, get, ai, _status, app) {
 				text.innerText = nums[num] || `(${num})`;
 			},
 
-			// 获取技能剩余次数
+			/**
+			 * 获取技能的剩余使用次数
+			 * @param {string} skillId - 技能ID
+			 * @param {Object} player - 玩家对象
+			 * @returns {number|null} 剩余次数，如果技能无次数限制则返回null
+			 */
 			getSkillRemainingCount(skillId, player) {
 				if (!player.hasSkill(skillId)) return null;
 
@@ -253,9 +289,13 @@ export function createShoushaSkillPlugin(lib, game, ui, get, ai, _status, app) {
 				return null;
 			},
 
-			// 检查势力过滤
+			/**
+			 * 检查技能是否通过势力过滤
+			 * @param {Object} skillInfo - 技能信息对象
+			 * @returns {boolean} 是否通过过滤
+			 */
 			checkGroupFilter(skillInfo) {
-				if (!skillInfo.filter) return true;
+				if (!skillInfo || !skillInfo.filter) return true;
 				const str = skillInfo.filter.toString();
 				if (!str.includes("player.group")) return true;
 
@@ -272,11 +312,14 @@ export function createShoushaSkillPlugin(lib, game, ui, get, ai, _status, app) {
 				return true;
 			},
 
-			// 添加技能锁和按钮
+			/**
+			 * 为技能节点添加锁定标记和转换技图标
+			 * @param {HTMLElement} node - 技能节点
+			 * @param {string} skillId - 技能ID
+			 */
 			addSkillLocksAndButtons(node, skillId) {
 				const player = game.me;
 
-				// 失效锁
 				if (this.skshixiaoSkillBlocker?.includes(skillId)) {
 					node.classList.add("shixiao");
 					ui.create.div(".suo1.fengyinsuo", node, "");
@@ -284,7 +327,6 @@ export function createShoushaSkillPlugin(lib, game, ui, get, ai, _status, app) {
 					node.style["-webkit-text-stroke"] = "0.8px rgba(0,0,0,0.55)";
 				}
 
-				// 转换技
 				const info = get.info(skillId);
 				if (info?.zhuanhuanji) {
 					const isYang = !player.yangedSkills?.includes(skillId);
@@ -292,9 +334,13 @@ export function createShoushaSkillPlugin(lib, game, ui, get, ai, _status, app) {
 				}
 			},
 
-			// 添加技能
+			/**
+			 * 添加技能到技能控制面板
+			 * @param {string|Array<string>} skill - 技能ID或技能ID数组
+			 * @param {Array<string>} eSkills - 装备技能数组
+			 * @returns {Object} 当前对象（支持链式调用）
+			 */
 			add(skill, eSkills) {
-				// 获取失效技能
 				this.skshixiaoSkillBlocker = game.me.getSkills(null, false, false).filter(s => {
 					if (game.me.getStorage("skill_blocker")?.some(i => lib.skill[i]?.skillBlocker?.(s, game.me))) return true;
 					if (game.me.disabledSkills?.[s]?.length > 0 && game.me.disabledSkills[s].some(x => x !== `${s}_awake`)) return true;
@@ -303,14 +349,12 @@ export function createShoushaSkillPlugin(lib, game, ui, get, ai, _status, app) {
 					return false;
 				});
 
-				// 添加子技能
 				this.skshixiaoSkillBlocker.forEach(s => {
 					const group = lib.skill[s]?.group;
 					if (Array.isArray(group)) this.skshixiaoSkillBlocker.add(...group);
 					else if (typeof group === "string") this.skshixiaoSkillBlocker.add(group);
 				});
 
-				// 添加失效技能到显示列表
 				if (Array.isArray(skill)) {
 					this.skshixiaoSkillBlocker.forEach(s => {
 						if (!skill.includes(s)) skill.add(s);
@@ -324,14 +368,12 @@ export function createShoushaSkillPlugin(lib, game, ui, get, ai, _status, app) {
 					return this;
 				}
 
-				// 过滤装备技能
 				if (lib.config["extension_十周年UI_aloneEquip"] && eSkills?.length) {
 					const expandedE = game.expandSkills(eSkills.slice());
 					const expandedS = game.expandSkills([skill]);
 					if (expandedS.some(s => expandedE.includes(s))) return this;
 				}
 
-				// 展开技能(含group/global)
 				const expandWithGlobal = skillId => {
 					const result = [skillId];
 					const info = get.info(skillId);
@@ -352,10 +394,10 @@ export function createShoushaSkillPlugin(lib, game, ui, get, ai, _status, app) {
 
 				const skills = expandWithGlobal(skill).map(s => app.get.skillInfo(s));
 				const enableSkills = skills.filter(s => s.type === "enable");
-				// 优先显示主动技能
 				const showSkills = enableSkills.length ? enableSkills : skills;
 
 				showSkills.forEach(item => {
+					if (!lib.skill[item.id]) return;
 					if (!this.checkGroupFilter(lib.skill[item.id])) return;
 					if (lib.skill[item.id].viewAsFilter && !this.checkGroupFilter({ filter: lib.skill[item.id].viewAsFilter })) return;
 
@@ -391,7 +433,6 @@ export function createShoushaSkillPlugin(lib, game, ui, get, ai, _status, app) {
 						});
 						app.listen(node, plugin.clickSkill);
 
-						// 添加悬浮提示
 						skillButtonTooltip.attach(node, item.id, game.me);
 
 						return;
@@ -410,14 +451,15 @@ export function createShoushaSkillPlugin(lib, game, ui, get, ai, _status, app) {
 					ui.create.div(".skillitem-child", node, skillName);
 					node.dataset.id = item.id;
 
-					// 添加悬浮提示
 					skillButtonTooltip.attach(node, item.id, game.me);
 				});
 
 				return this;
 			},
 
-			// 更新显示
+			/**
+			 * 更新技能控制面板的显示状态
+			 */
 			update() {
 				const skills = getAvailableSkills(ui);
 				if (ui.gskills?.skills) skills.addArray(ui.gskills.skills);
@@ -436,7 +478,6 @@ export function createShoushaSkillPlugin(lib, game, ui, get, ai, _status, app) {
 				this.node.enable.style.width = width;
 				this.node.enable.style.setProperty("transform", `translateX(-${count > 2 ? 20 : 0}px)`, "important");
 
-				// 调整判定图标位置
 				const num = this.node.enable.childNodes.length;
 				const num2 = this.node.trigger.childNodes.length;
 
@@ -459,6 +500,11 @@ export function createShoushaSkillPlugin(lib, game, ui, get, ai, _status, app) {
 			},
 		},
 
+		/**
+		 * 创建全局技能显示
+		 * @param {Array<string>} skills - 技能ID数组
+		 * @returns {null}
+		 */
 		createGSkills(skills) {
 			if (ui.skillControl && skills?.length) {
 				ui.skillControl.setGSkills(skills, []);
@@ -467,7 +513,11 @@ export function createShoushaSkillPlugin(lib, game, ui, get, ai, _status, app) {
 			return null;
 		},
 
-		// 检查图片是否存在
+		/**
+		 * 检查图片资源是否存在
+		 * @param {string} url - 图片URL
+		 * @returns {boolean} 图片是否存在
+		 */
 		checkImageExists(url) {
 			const xhr = new XMLHttpRequest();
 			xhr.open("Get", url, false);
@@ -475,7 +525,12 @@ export function createShoushaSkillPlugin(lib, game, ui, get, ai, _status, app) {
 			return xhr.status !== 404;
 		},
 
-		// 更新技能标记
+		/**
+		 * 更新玩家的技能标记显示（限定技、转换技、觉醒技等）
+		 * @param {Object} player - 玩家对象
+		 * @param {Object} xiandingji - 限定技/转换技对象，键为技能ID，值为是否已使用
+		 * @param {Object} juexingji - 觉醒技对象，键为技能ID
+		 */
 		updateSkillMarks(player, xiandingji, juexingji) {
 			let node = player.node.xSkillMarks;
 			if (!node) {
@@ -536,7 +591,9 @@ export function createShoushaSkillPlugin(lib, game, ui, get, ai, _status, app) {
 			});
 		},
 
-		// 初始化定时器
+		/**
+		 * 初始化定时器，定期更新技能控制面板
+		 */
 		initTimer() {
 			if (plugin.refreshTimer) clearInterval(plugin.refreshTimer);
 			plugin.refreshTimer = setInterval(() => {
