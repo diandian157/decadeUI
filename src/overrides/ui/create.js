@@ -1,7 +1,6 @@
 /**
  * @fileoverview UI创建方法模块
- * @description 包含ui.create相关的覆写方法
- * @module overrides/ui/create
+ * @description 覆写无名杀本体的 ui.create 相关方法
  */
 
 import { lib, game, ui, get, _status } from "noname";
@@ -11,7 +10,7 @@ import { uiUpdatez } from "./update.js";
 /**
  * 创建预按钮
  * @description 创建延迟激活的按钮，用于性能优化
- * @param {*} item - 项目数据
+ * @param {*} item - 按钮数据
  * @param {string} type - 按钮类型
  * @param {HTMLElement} [position] - 父容器
  * @param {boolean} [noclick] - 是否禁用点击
@@ -33,7 +32,8 @@ export function uiCreatePrebutton(item, type, position, noclick) {
 /**
  * 创建稀有度标记
  * @description 在武将按钮上显示稀有度图标
- * @param {HTMLElement} button - 按钮元素
+ * @param {HTMLElement} button - 武将按钮元素
+ * @returns {void}
  */
 export function uiCreateRarity(button) {
 	if (!lib.config.show_rarity) return;
@@ -49,11 +49,11 @@ export function uiCreateRarity(button) {
 /**
  * 创建控制按钮
  * @description 创建底部控制栏按钮
+ * @param {...*} args - 按钮配置参数
  * @returns {HTMLElement} 控制元素
  */
 export function uiCreateControl() {
 	let controls;
-	let nozoom = false;
 
 	if (Array.isArray(arguments[0])) {
 		controls = arguments[0];
@@ -70,7 +70,7 @@ export function uiCreateControl() {
 		if (typeof controls[i] == "function") {
 			control.custom = controls[i];
 		} else if (controls[i] == "nozoom") {
-			nozoom = true;
+			continue;
 		} else if (controls[i] == "stayleft") {
 			control.stayleft = true;
 			control.classList.add("stayleft");
@@ -88,8 +88,8 @@ export function uiCreateControl() {
 
 /**
  * 创建对话框
- * @description 创建十周年UI风格的对话框
- * @param {...*} args - 参数列表
+ * @description 创建十周年UI风格的对话框，支持分页和滚动
+ * @param {...*} args - 对话框内容和配置参数
  * @returns {HTMLElement} 对话框元素
  */
 export function uiCreateDialog(...args) {
@@ -108,7 +108,6 @@ export function uiCreateDialog(...args) {
 	dialog.buttons = [];
 	Object.setPrototypeOf(dialog, lib.element.Dialog.prototype);
 
-	// 解析参数
 	for (let i = 0; i < args.length; i++) {
 		if (typeof args[i] == "boolean") dialog.static = args[i];
 		else if (args[i] == "hidden") hidden = true;
@@ -147,10 +146,10 @@ export function uiCreateDialog(...args) {
 /**
  * 创建选择列表
  * @description 创建下拉选择框
- * @param {Array} list - 选项列表
- * @param {*} init - 初始值
+ * @param {Array} list - 选项列表，可以是字符串数组或 [value, text] 数组
+ * @param {*} init - 初始选中值
  * @param {HTMLElement} [position] - 父容器
- * @param {Function} [onchange] - 变更回调
+ * @param {Function} [onchange] - 值变更回调函数
  * @returns {HTMLSelectElement} 选择元素
  */
 export function uiCreateSelectlist(list, init, position, onchange) {
@@ -177,8 +176,8 @@ export function uiCreateSelectlist(list, init, position, onchange) {
 
 /**
  * 创建身份卡
- * @description 创建带身份图片的卡牌
- * @param {string} identity - 身份标识
+ * @description 创建带身份图片的卡牌，用于明察、炼魄等技能
+ * @param {string} identity - 身份标识（zhu/zhong/fan/nei等）
  * @param {HTMLElement} [position] - 父容器
  * @param {*} [info] - 附加信息
  * @param {boolean} [noclick] - 是否禁用点击
@@ -188,6 +187,7 @@ export function uiCreateIdentityCard(identity, position, info, noclick) {
 	const card = ui.create.card(position, info, noclick);
 	card.removeEventListener(lib.config.touchscreen ? "touchend" : "click", ui.click.card);
 	card.classList.add("button");
+	card.dataset.identityCard = "true";
 
 	card._customintro = function (uiintro) {
 		uiintro.add(`${get.translation(identity + 2)}的身份牌`);
@@ -215,9 +215,10 @@ export function uiCreateIdentityCard(identity, position, info, noclick) {
 
 /**
  * 创建旋转身份卡
- * @description 创建带旋转动画的身份卡
+ * @description 创建带3D翻转动画的身份卡，用于展示身份
  * @param {string} identity - 身份标识
- * @param {HTMLElement} dialog - 对话框
+ * @param {HTMLElement} dialog - 对话框元素
+ * @returns {void}
  */
 export function uiCreateSpinningIdentityCard(identity, dialog) {
 	const card = ui.create.identityCard(identity);
@@ -232,8 +233,8 @@ export function uiCreateSpinningIdentityCard(identity, dialog) {
 
 /**
  * 创建按钮
- * @description 创建通用按钮
- * @param {*} item - 项目数据
+ * @description 创建通用按钮元素
+ * @param {*} item - 按钮数据
  * @param {string} type - 按钮类型
  * @param {HTMLElement} [position] - 父容器
  * @param {boolean} [noclick] - 是否禁用点击
@@ -256,7 +257,6 @@ export function uiCreateArena() {
 
 	const result = getBaseUiCreateArena()?.apply(this, arguments);
 
-	// 移除原有布局类
 	ui.arena.classList.remove("slim_player");
 	ui.arena.classList.remove("uslim_player");
 	ui.arena.classList.remove("mslim_player");
@@ -264,11 +264,9 @@ export function uiCreateArena() {
 	ui.arena.classList.remove("oldlayout");
 	ui.arena.classList.remove("mobile");
 
-	// 添加十周年UI类
 	ui.arena.classList.add("decadeUI");
 	ui.control.id = "dui-controls";
 
-	// 设置手机布局属性
 	if (lib.config.phonelayout) {
 		ui.arena.setAttribute("data-phonelayout", "on");
 	} else {
@@ -294,6 +292,7 @@ export function uiCreatePause() {
 /**
  * 创建武将选择对话框
  * @description 创建武将选择对话框，支持多种搜索模式
+ * @param {...*} args - 对话框参数
  * @returns {HTMLElement} 对话框元素
  */
 export function uiCreateCharacterDialog() {
@@ -301,7 +300,6 @@ export function uiCreateCharacterDialog() {
 	const control = lib.config.extension_十周年UI_mx_decade_characterDialog || "default";
 
 	if (control != "default") {
-		// 移除原有搜索器
 		const Searcher = dialog.querySelector(".searcher.caption");
 		if (Searcher) Searcher.parentNode.removeChild(Searcher);
 
@@ -315,7 +313,9 @@ export function uiCreateCharacterDialog() {
 
 /**
  * 创建OL风格搜索器
- * @param {HTMLElement} dialog - 对话框
+ * @description 为武将选择对话框添加OL风格的搜索功能
+ * @param {HTMLElement} dialog - 对话框元素
+ * @returns {void}
  * @private
  */
 function createOLSearcher(dialog) {
@@ -325,8 +325,7 @@ function createOLSearcher(dialog) {
 	const buttons = content.childNodes[1];
 
 	const div = ui.create.div("extension-OL-system");
-	div.style.cssText =
-		"display: flex; justify-content: center; align-items: center; gap: 6px; height: 35px; width: 100%; padding: 0 5px; top: -2px; left: 0; font-size: 18px; font-family: xinwei, sans-serif; box-sizing: border-box;";
+	div.style.cssText = "display: flex; justify-content: center; align-items: center; gap: 6px; height: 35px; width: 100%; padding: 0 5px; top: -2px; left: 0; font-size: 18px; font-family: xinwei, sans-serif; box-sizing: border-box;";
 	div.innerHTML = `
 		<label style="font-size:20px;">搜索：</label>
 		<select style="height:26px; min-width:150px; font-size:15px; padding:1px 4px; border:1px solid #aaa; border-radius:4px; outline:none; flex-shrink:0;">
@@ -346,7 +345,6 @@ function createOLSearcher(dialog) {
 	const select = div.querySelector("select");
 	const button = div.querySelector("button");
 
-	// 搜索函数
 	function doSearch() {
 		const value = input.value.trim();
 		if (!value) {
@@ -367,7 +365,6 @@ function createOLSearcher(dialog) {
 			if (matched) node.classList.remove("nodisplay");
 		}
 
-		// 更新分页
 		if (dialog.paginationMaxCount.get("character")) {
 			const buttonsNode = dialog.content.querySelector(".buttons");
 			const p = dialog.paginationMap.get(buttonsNode);
@@ -379,7 +376,6 @@ function createOLSearcher(dialog) {
 		}
 	}
 
-	// 绑定事件
 	input.addEventListener("keydown", e => {
 		e.stopPropagation();
 		if (e.key === "Enter" || e.keyCode === 13) {
@@ -403,20 +399,19 @@ function createOLSearcher(dialog) {
 
 /**
  * 匹配武将搜索条件
- * @param {string} choice - 搜索类型
+ * @description 根据搜索类型和值判断武将是否匹配
+ * @param {string} choice - 搜索类型（name/name1/name2/skill/skill1/skill2/skill3）
  * @param {string} value - 搜索值
- * @param {string} name - 武将名
- * @param {Array} skills - 技能列表
+ * @param {string} name - 武将名称ID
+ * @param {Array<string>} skills - 技能列表
  * @returns {boolean} 是否匹配
  * @private
  */
 function matchCharacter(choice, value, name, skills) {
-	// 精确匹配
 	if (choice.endsWith("2")) {
 		return choice === "name2" ? value === name : skills.includes(value);
 	}
 
-	// 正则匹配
 	let regex;
 	try {
 		regex = new RegExp(value, "i");
@@ -432,7 +427,6 @@ function matchCharacter(choice, value, name, skills) {
 	if (choice === "skill1") return skills.some(skill => test(skill));
 	if (choice === "skill") return skills.some(skill => test(get.translation(skill)));
 
-	// skill3: 技能描述
 	return skills.some(skill => test(get.translation(skill + "_info")));
 }
 
@@ -440,19 +434,18 @@ function matchCharacter(choice, value, name, skills) {
  * 创建玩家手牌区
  * @description 创建主玩家的手牌区域和装备栏
  * @param {boolean} hasme - 是否有主玩家
+ * @returns {void}
  */
 export function uiCreateMe(hasme) {
 	ui.arena.dataset.layout = game.layout;
 	ui.mebg = ui.create.div("#mebg", ui.arena);
 	ui.me = ui.create.div(".hand-wrap", ui.arena);
 
-	// 创建手牌容器
 	ui.handcards1Container = window.decadeUI.element.create("hand-cards", ui.me);
 	ui.handcards1Container.onmousewheel = window.decadeUI.handler.handMousewheel;
 	ui.handcards2Container = ui.create.div("#handcards2");
 	ui.arena.classList.remove("nome");
 
-	// 创建装备栏
 	const equipSolts = (ui.equipSolts = window.decadeUI.element.create("equips-wrap"));
 	equipSolts.back = window.decadeUI.element.create("equips-back", equipSolts);
 
@@ -467,11 +460,9 @@ export function uiCreateMe(hasme) {
 		equipSolts.style.display = "none";
 	}
 
-	// 监听尺寸变化
 	window.decadeUI.bodySensor.addListener(() => window.decadeUI.layout.resize());
 	window.decadeUI.layout.resize();
 
-	// 绑定触摸事件
 	ui.handcards1Container.ontouchstart = ui.click.touchStart;
 	ui.handcards2Container.ontouchstart = ui.click.touchStart;
 	ui.handcards1Container.ontouchmove = ui.click.touchScroll;
@@ -479,7 +470,6 @@ export function uiCreateMe(hasme) {
 	ui.handcards1Container.style.WebkitOverflowScrolling = "touch";
 	ui.handcards2Container.style.WebkitOverflowScrolling = "touch";
 
-	// 设置手牌
 	if (hasme && game.me) {
 		ui.handcards1 = game.me.node.handcards1;
 		ui.handcards2 = game.me.node.handcards2;
@@ -493,7 +483,6 @@ export function uiCreateMe(hasme) {
 		ui.handcards2Container.appendChild(ui.handcards2);
 	}
 
-	// 设置装备
 	if (lib.config.extension_十周年UI_aloneEquip) {
 		if (game.me) {
 			equipSolts.me = game.me;

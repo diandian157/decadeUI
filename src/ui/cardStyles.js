@@ -1,18 +1,23 @@
 /**
- * @fileoverview 卡牌样式模块，包含卡牌边框和卡牌背景样式管理
+ * @fileoverview 卡牌样式模块
+ * @description 管理卡牌边框和卡背样式，支持根据玩家等阶动态切换
  */
 import { lib, game, _status } from "noname";
 
-// ==================== 动态样式元素引用 ====================
-
-/** @type {HTMLStyleElement|null} 边框样式元素 */
+/**
+ * 边框样式元素
+ * @type {HTMLStyleElement|null}
+ */
 let borderStyleEl = null;
 
-/** @type {HTMLStyleElement|null} 背景样式元素 */
+/**
+ * 卡背样式元素
+ * @type {HTMLStyleElement|null}
+ */
 let bgStyleEl = null;
 
 /**
- * 添加或更新样式
+ * 添加或更新样式元素
  * @param {HTMLStyleElement|null} styleEl - 样式元素
  * @param {string} css - CSS内容
  * @returns {HTMLStyleElement} 样式元素
@@ -27,10 +32,10 @@ const updateStyle = (styleEl, css) => {
 };
 
 /**
- * 生成边框CSS
- * @param {string} borderName - 边框名称
+ * 生成卡牌边框CSS
+ * @param {string} borderName - 边框名称（kuang1/kuang2/kuang3/off）
  * @param {string} selector - CSS选择器
- * @param {number} imageWidth - 边框图片宽度
+ * @param {number} imageWidth - 边框图片宽度（像素）
  * @returns {string} CSS字符串
  */
 const getBorderCSS = (borderName, selector, imageWidth) => {
@@ -40,19 +45,21 @@ const getBorderCSS = (borderName, selector, imageWidth) => {
 };
 
 /**
- * 等阶→边框映射：five→大司马，four→大将军，three/two→国都护，one→无
+ * 等阶到边框的映射表
+ * @description five=大司马, four=大将军, three/two=国都护, one=无边框
  * @type {Object.<string, string|null>}
  */
 const levelToBorder = { five: "kuang1", four: "kuang2", three: "kuang3", two: "kuang3", one: null };
 
 /**
- * 等阶→卡背映射
+ * 等阶到卡背的映射表
  * @type {Object.<string, string|null>}
  */
 const levelToBg = { five: "kb4", four: "kb3", three: "kb2", two: "kb2", one: null };
 
 /**
- * 检查功能是否启用（主玩家选了cardkmh才生效）
+ * 检查卡牌样式功能是否启用
+ * @description 只有主玩家选择了边框样式才会启用
  * @returns {boolean} 是否启用
  */
 function isFeatureEnabled() {
@@ -61,7 +68,8 @@ function isFeatureEnabled() {
 }
 
 /**
- * 根据玩家获取边框名（主玩家用配置，其他玩家用等阶）
+ * 根据玩家获取边框名称
+ * @description 主玩家使用配置的边框，其他玩家根据等阶自动匹配
  * @param {HTMLElement} player - 玩家元素
  * @param {boolean} isMe - 是否为主玩家
  * @returns {string|null} 边框名称
@@ -78,7 +86,8 @@ function getBorderByPlayer(player, isMe) {
 }
 
 /**
- * 根据玩家获取卡背名
+ * 根据玩家获取卡背名称
+ * @description 主玩家使用配置的卡背，其他玩家根据等阶自动匹配
  * @param {HTMLElement} player - 玩家元素
  * @param {boolean} isMe - 是否为主玩家
  * @returns {string|null} 卡背名称
@@ -95,6 +104,7 @@ function getBgByPlayer(player, isMe) {
 
 /**
  * 为卡牌应用边框和卡背样式
+ * @description 根据玩家等阶或配置动态设置卡牌外观
  * @param {HTMLElement} card - 卡牌元素
  * @param {HTMLElement} player - 玩家元素
  * @param {boolean} [isMe=false] - 是否为主玩家
@@ -117,7 +127,7 @@ export function applyCardBorder(card, player, isMe = false) {
 	}
 
 	const bg = getBgByPlayer(player, isMe);
-	if (bg && (card.classList.contains("infohidden") || card.classList.contains("infoflip") || !card.childElementCount)) {
+	if (bg && !card.dataset.identityCard && (card.classList.contains("infohidden") || card.classList.contains("infoflip") || !card.childElementCount)) {
 		const bgUrl = `${lib.assetURL}extension/十周年UI/image/ui/card/${bg}.png`;
 		card.style.setProperty("background", `url('${bgUrl}')`, "important");
 		card.style.setProperty("background-size", "100% 100%", "important");
@@ -128,7 +138,8 @@ export function applyCardBorder(card, player, isMe = false) {
 }
 
 /**
- * 更新主玩家手牌区样式（支持热更新）
+ * 更新主玩家手牌区样式
+ * @description 根据配置动态更新手牌边框和卡背，支持热更新
  * @returns {void}
  */
 export function updateCardStyles() {
@@ -136,22 +147,18 @@ export function updateCardStyles() {
 	const cardBg = lib.config.extension_十周年UI_cardbj;
 	const selector = ".hand-cards > .handcards > .card";
 
-	// 更新边框样式（关闭时清空）
 	borderStyleEl = updateStyle(borderStyleEl, getBorderCSS(borderConfig, selector, 20));
 
-	// 更新卡背样式（关闭时清空，使用本体卡背）
-	const bgCSS = cardBg
-		? `${selector}:empty, ${selector}.infohidden { background: url('${lib.assetURL}extension/十周年UI/image/ui/card/${cardBg}.png'); background-size: 100% 100% !important; }`
-		: "";
+	const bgCSS = cardBg ? `${selector}:empty, ${selector}.infohidden { background: url('${lib.assetURL}extension/十周年UI/image/ui/card/${cardBg}.png'); background-size: 100% 100% !important; }` : "";
 	bgStyleEl = updateStyle(bgStyleEl, bgCSS);
 }
 
 /**
- * 初始化卡牌样式
+ * 初始化卡牌样式系统
+ * @description 设置手牌基础布局并启动样式监听
  * @returns {void}
  */
 export function setupCardStyles() {
-	// 主玩家手牌基础布局（只需添加一次）
 	const baseStyle = document.createElement("style");
 	baseStyle.innerHTML = `
 		.hand-cards > .handcards > .card {
@@ -162,13 +169,13 @@ export function setupCardStyles() {
 	`;
 	document.head.appendChild(baseStyle);
 
-	// 初始化动态样式
 	updateCardStyles();
 	setupDialogCardObserver();
 }
 
 /**
- * 监听并处理 dialog 中的 infohidden 卡牌
+ * 监听对话框中的卡牌变化
+ * @description 自动为对话框中的隐藏卡牌应用卡背样式
  * @returns {void}
  */
 function setupDialogCardObserver() {
@@ -195,8 +202,10 @@ function setupDialogCardObserver() {
 }
 
 /**
- * 处理 dialog 中的卡牌
- * @param {HTMLElement} dialog - dialog 元素
+ * 处理对话框中的卡牌样式
+ * @description 为对话框中的隐藏卡牌应用卡背，排除身份牌
+ * @param {HTMLElement} dialog - 对话框元素
+ * @returns {void}
  */
 function processDialogCards(dialog) {
 	if (!isFeatureEnabled()) return;
@@ -209,6 +218,8 @@ function processDialogCards(dialog) {
 	const bgName = getBgByPlayer(sourcePlayer || game.me, isMe);
 
 	cards.forEach(card => {
+		if (card.dataset.identityCard) return;
+
 		if (card.innerHTML) card.innerHTML = "";
 
 		if (bgName) {
