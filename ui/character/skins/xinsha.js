@@ -8,29 +8,7 @@ import { createBaseCharacterPlugin } from "./base.js";
 const IMAGE_PATH = "extension/十周年UI/ui/assets/character/xinsha/";
 const AUDIO_PATH = "../extension/十周年UI/ui/assets/lbtn/shousha/";
 
-const NICKNAMES = [
-	"缘之空",
-	"小小恐龙",
-	"自然萌",
-	"海边的ebao",
-	"小云云",
-	"无语",
-	"点点",
-	"猫猫虫",
-	"小爱莉",
-	"冰佬",
-	"鹿鹿",
-	"黎佬",
-	"小曦",
-	"浮牢师",
-	"U佬",
-	"蓝宝",
-	"影宝",
-	"柳下跖",
-	"k9",
-	"扶苏",
-	"皇叔",
-];
+const NICKNAMES = ["缘之空", "小小恐龙", "自然萌", "海边的ebao", "小云云", "无语", "点点", "猫猫虫", "小爱莉", "冰佬", "鹿鹿", "黎佬", "小曦", "浮牢师", "U佬", "蓝宝", "影宝", "柳下跖", "k9", "扶苏", "皇叔"];
 
 /**
  * 创建新杀风格角色插件
@@ -386,9 +364,7 @@ export function createXinshaCharacterPlugin(lib, game, ui, get, ai, _status, app
 			const name = player.name1 || player.name;
 			const rarity = game.getRarity(name) || "junk";
 			const pe = ui.create.div(".pe1", dialog);
-			const peUrl = lib.config["extension_千幻聆音_enable"]
-				? `${IMAGE_PATH}pe_${this.utils.getQhlyLevel(name)}.png`
-				: `${IMAGE_PATH}pe_${rarity}.png`;
+			const peUrl = lib.config["extension_千幻聆音_enable"] ? `${IMAGE_PATH}pe_${this.utils.getQhlyLevel(name)}.png` : `${IMAGE_PATH}pe_${rarity}.png`;
 			pe.style.backgroundImage = `url("${peUrl}")`;
 		},
 
@@ -441,9 +417,7 @@ export function createXinshaCharacterPlugin(lib, game, ui, get, ai, _status, app
 		 */
 		_showContent(player, rightPane, bool, dialog) {
 			let oSkills = player.getSkills(null, false, false).slice(0);
-			oSkills = oSkills.filter(
-				s => lib.skill[s] && s !== "jiu" && !lib.skill[s].nopop && !lib.skill[s].equipSkill && lib.translate[s + "_info"]
-			);
+			oSkills = oSkills.filter(s => lib.skill[s] && s !== "jiu" && !lib.skill[s].nopop && !lib.skill[s].equipSkill && lib.translate[s + "_info"]);
 			if (player === game.me && player.hiddenSkills?.length) oSkills.addArray(player.hiddenSkills);
 
 			if (bool) {
@@ -479,8 +453,7 @@ export function createXinshaCharacterPlugin(lib, game, ui, get, ai, _status, app
 					if (isQiexie && lib.translate[card.name + "_append"]) {
 						str[1] += `<br><br><div style="font-size: 0.85em; font-family: xinwei; line-height: 1.2;">${lib.translate[card.name + "_append"]}</div>`;
 					}
-					ui.create.div(".xskillx", `<div data-color>${str[0]}</div><div>${str[1]}</div>`, rightPane.firstChild).style.marginBottom =
-						"10px";
+					ui.create.div(".xskillx", `<div data-color>${str[0]}</div><div>${str[1]}</div>`, rightPane.firstChild).style.marginBottom = "10px";
 				});
 			}
 
@@ -495,11 +468,7 @@ export function createXinshaCharacterPlugin(lib, game, ui, get, ai, _status, app
 					const skillTrans = lib.translate[skillName] || skillName;
 					const equipTrans = lib.translate[equipName] || equipName;
 					const equipInfo = lib.translate[equipName + "_info"] || "";
-					ui.create.div(
-						".xskillx",
-						`<div data-color>【${skillTrans}】视为装备【${equipTrans}】</div><div>${equipInfo}</div>`,
-						rightPane.firstChild
-					).style.marginBottom = "10px";
+					ui.create.div(".xskillx", `<div data-color>【${skillTrans}】视为装备【${equipTrans}】</div><div>${equipInfo}</div>`, rightPane.firstChild).style.marginBottom = "10px";
 				});
 			}
 
