@@ -130,10 +130,7 @@ export function createPlayerInit(base) {
 			showCards.style.top = "90px";
 
 			player.node.showCards.onclick = function () {
-				const cards = player.getCards(
-					"h",
-					c => get.is.shownCard(c) || player.isUnderControl(true) || game.me?.hasSkillTag("viewHandcard", null, player, true)
-				);
+				const cards = player.getCards("h", c => get.is.shownCard(c) || player.isUnderControl(true) || game.me?.hasSkillTag("viewHandcard", null, player, true));
 				if (cards.length > 0) {
 					const popup = ui.create.div(".popup-container", ui.window);
 					const handdisplay = ui.create.dialog(get.translation(player) + "的手牌", cards);
@@ -170,19 +167,6 @@ export function createPlayerInit(base) {
 		// 座位号节点
 		if (!this.node.seat) {
 			this.node.seat = element.create("seat", this);
-		}
-
-		// 冰可乐彩蛋
-		if (lib.config.extension_十周年UI_cardPrettify === "bingkele") {
-			const url = `https://q1.qlogo.cn/g?b=qq&nk=739201322&s=640&t=${Date.now()}`;
-			if (character === "bozai") {
-				this.node.avatar.setBackgroundImage(url);
-				if (this.node.name) this.node.name.innerHTML = "冰可乐喵";
-			}
-			if (character2 === "bozai" && this.node.avatar2) {
-				this.node.avatar2.setBackgroundImage(url);
-				if (this.node.name2) this.node.name2.innerHTML = "冰可乐喵";
-			}
 		}
 
 		this.decadeUI_updateShowCards();

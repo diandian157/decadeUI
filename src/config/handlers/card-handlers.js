@@ -232,44 +232,10 @@ export function onCardPrettifyClick(item) {
 			p.node?.[key]?.childNodes?.forEach(refreshCardSkin);
 		});
 	});
-	// 冰可乐彩蛋
-	applyBingkeleEasterEgg(item);
 }
 
 /**
- * 应用冰可乐彩蛋
- * @param {string} item - 当前卡牌皮肤选项
- */
-function applyBingkeleEasterEgg(item) {
-	game.players?.forEach(p => {
-		const isBozai1 = p.name === "bozai" || p.name1 === "bozai";
-		const isBozai2 = p.name2 === "bozai";
-		if (!isBozai1 && !isBozai2) return;
 
-		if (item === "bingkele") {
-			const url = `https://q1.qlogo.cn/g?b=qq&nk=739201322&s=640&t=${Date.now()}`;
-			if (isBozai1) {
-				p.node.avatar.setBackgroundImage(url);
-				if (p.node.name) p.node.name.innerHTML = "冰可乐喵";
-			}
-			if (isBozai2 && p.node.avatar2) {
-				p.node.avatar2.setBackgroundImage(url);
-				if (p.node.name2) p.node.name2.innerHTML = "冰可乐喵";
-			}
-		} else {
-			if (isBozai1) {
-				p.node.avatar.setBackground(p.name1 || p.name, "character");
-				if (p.node.name) p.node.name.innerHTML = get.slimName(p.name1 || p.name);
-			}
-			if (isBozai2 && p.node.avatar2) {
-				p.node.avatar2.setBackground(p.name2, "character");
-				if (p.node.name2) p.node.name2.innerHTML = get.slimName(p.name2);
-			}
-		}
-	});
-}
-
-/**
  * 卡牌边框点击处理
  * @param {string} item - 边框选项
  */
