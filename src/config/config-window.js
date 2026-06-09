@@ -316,6 +316,8 @@ function getConfigsByTab(tabId) {
 			{ key: "playerMarkStyle", name: "标记样式", type: "select" },
 			{ key: "loadingStyle", name: "光标+loading框", type: "select" },
 			{ key: "gainSkillsVisible", name: "获得技能显示", type: "select" },
+			{ isTitle: true, name: "插件功能" },
+			{ key: "characterPlugin", name: "武将详情插件", type: "toggle" },
 		],
 		misc: [
 			{ isTitle: true, name: "音效与视觉" },

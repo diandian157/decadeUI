@@ -109,10 +109,19 @@ async function loadUIPlugins() {
 	const plugins = [
 		{ name: "lbtn", creator: createLbtnPlugin },
 		{ name: "skill", creator: createSkillPlugin },
-		{ name: "character", creator: createCharacterPlugin },
+		{
+			name: "character",
+			creator: createCharacterPlugin,
+			enabled: () => lib.config.extension_十周年UI_characterPlugin !== false,
+		},
 	];
 
-	for (const { name, creator } of plugins) {
+	for (const { name, creator, enabled } of plugins) {
+		if (enabled && !enabled()) {
+			console.log(`[十周年UI] ${name}模块已被配置关闭`);
+			continue;
+		}
+
 		try {
 			const plugin = await creator(lib, game, ui, get, ai, _status, window.app);
 			if (plugin) {

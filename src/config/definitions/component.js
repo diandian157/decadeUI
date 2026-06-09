@@ -5,16 +5,7 @@
  */
 import { lib } from "noname";
 import { createCollapseTitle, createCollapseEnd } from "../utils.js";
-import {
-	onJindutiaoYangshiUpdate,
-	onJindutiaoSetBlur,
-	onJindutiaoSetUpdate,
-	onJDTSYangshiUpdate,
-	onGTBBYangshiClick,
-	onPlayerMarkStyleUpdate,
-	onLoadingStyleUpdate,
-	onGainSkillsVisibleUpdate,
-} from "../handlers/component-handlers.js";
+import { onJindutiaoYangshiUpdate, onJindutiaoSetBlur, onJindutiaoSetUpdate, onJDTSYangshiUpdate, onGTBBYangshiClick, onPlayerMarkStyleUpdate, onLoadingStyleUpdate, onGainSkillsVisibleUpdate } from "../handlers/component-handlers.js";
 
 /**
  * 部件管理折叠标题
@@ -150,8 +141,7 @@ export const playerMarkStyle = {
  */
 function generateLoadingStyleItems() {
 	const basePath = `${lib.assetURL}extension/十周年UI/image/ui/dialog`;
-	const createPreview = filename =>
-		`<div style="width:60px;height:40px;position:relative;background-image: url(${basePath}/${filename});background-size: 100% 100%;"></div>`;
+	const createPreview = filename => `<div style="width:60px;height:40px;position:relative;background-image: url(${basePath}/${filename});background-size: 100% 100%;"></div>`;
 
 	return {
 		off: "关闭",
@@ -187,6 +177,16 @@ export const gainSkillsVisible = {
 };
 
 /**
+ * 武将详情插件配置
+ * @type {Object}
+ */
+export const characterPlugin = {
+	name: "武将详情插件",
+	init: true,
+	intro: "开启后，点击武将可查看详细信息",
+};
+
+/**
  * 部件管理折叠结束标记
  * @type {Object}
  */
@@ -208,5 +208,6 @@ export const componentConfigs = {
 	playerMarkStyle,
 	loadingStyle,
 	gainSkillsVisible,
+	characterPlugin,
 	component_title_end,
 };
