@@ -97,7 +97,7 @@
 	line-height: 1.8;
 	font-size: 16px;
 	word-wrap: break-word;
-	text-shadow: 0 2px 6px rgba(255, 105, 135, 0.4);
+	text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
 	overflow-y: auto;
 	flex: 1;
 	padding: 80px 10px 20px 0;
