@@ -50,7 +50,7 @@ export function createWelcomeDialog() {
 	ui.create.div(".decade-welcome-pattern", dialog);
 
 	const avatar = document.createElement("img");
-	avatar.src = `https://q1.qlogo.cn/g?b=qq&nk=2173890060&s=100&t=${Date.now()}`;
+	avatar.src = `${lib.assetURL}extension/十周年UI/image/ui/avatar/avatar.jpg`;
 	avatar.className = "author-avatar";
 
 	let isShowingUpdate = false;

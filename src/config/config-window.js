@@ -39,7 +39,7 @@ function createConfigWindow() {
 	title.innerHTML = "十周年UI配置中心";
 
 	const avatar = document.createElement("img");
-	avatar.src = `https://q1.qlogo.cn/g?b=qq&nk=2173890060&s=100&t=${Date.now()}`;
+	avatar.src = `${lib.assetURL}extension/十周年UI/image/ui/avatar/avatar.jpg`;
 	avatar.className = "decade-config-avatar";
 	avatar.onclick = () => {
 		overlay.remove();
