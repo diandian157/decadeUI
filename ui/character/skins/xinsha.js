@@ -230,8 +230,7 @@ export function createXinshaCharacterPlugin(lib, game, ui, get, ai, _status, app
 			const skinname = this.utils.getQhlySkinTranslation(player.name);
 			ui.create.div(".pifuming", bigdialog, skinname);
 
-			const wujiangming = ui.create.div(".wujiangming", bigdialog);
-			wujiangming.innerHTML = get.slimNameHorizontal(player.name);
+			const wujiangming = ui.create.div(".wujiangming", bigdialog, get.translation(player["name"]));
 
 			const wanjiaming = ui.create.div(".wanjiaming", bigdialog, playname);
 
