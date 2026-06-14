@@ -184,6 +184,25 @@ export function createStaticsModule() {
 	};
 
 	/**
+	 * 自动检测文件夹中的图片格式
+	 * @param {string} dir - 文件夹路径
+	 * @returns {Promise<string>} 检测到的格式，默认 "png"
+	 */
+	const detectImageFormat = async dir => {
+		const files = await scanDirectory(dir);
+		const imageFormats = ["png", "jpg", "jpeg", "webp", "gif", "bmp", "svg"];
+
+		for (const file of files) {
+			const ext = file.split(".").pop()?.toLowerCase();
+			if (ext && imageFormats.includes(ext)) {
+				return ext === "jpeg" ? "jpg" : ext;
+			}
+		}
+
+		return "png"; // 默认格式
+	};
+
+	/**
 	 * 扫描 image/card-skins/ 目录，发现用户新增的皮肤文件夹并注册
 	 */
 	const discoverDynamicSkins = async () => {
@@ -195,13 +214,21 @@ export function createStaticsModule() {
 		const tasks = folders
 			.filter(folder => !builtinKeys.has(folder))
 			.map(async folder => {
-				const metaPath = `${baseDir}/${folder}/meta.json`;
+				const folderPath = `${baseDir}/${folder}`;
+				const metaPath = `${folderPath}/meta.json`;
 				const meta = await readJsonFile(metaPath);
+
+				let extension = meta?.extension;
+				if (!extension) {
+					extension = await detectImageFormat(folderPath);
+					console.log(`[十周年UI] 自动检测到皮肤 "${folder}" 使用格式: ${extension}`);
+				}
+
 				registerDynamicSkin({
 					key: folder,
 					dir: folder,
 					label: meta?.label || folder,
-					extension: meta?.extension || "png",
+					extension: extension,
 				});
 			});
 

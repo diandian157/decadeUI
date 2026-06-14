@@ -4,24 +4,7 @@
  * @module config/definitions/card
  */
 import { createCollapseTitle, createCollapseEnd, getAllCardSkinPresets } from "../utils.js";
-import {
-	onCardGhostEffectClick,
-	onAutoSelectClick,
-	onAutoSelectUpdate,
-	onHandTipHeightBlur,
-	onHandTipHeightUpdate,
-	onCardScaleBlur,
-	onCardScaleUpdate,
-	onDiscardScaleBlur,
-	onDiscardScaleUpdate,
-	onHandFoldMinBlur,
-	onHandFoldMinUpdate,
-	onCardPrettifyClick,
-	onCardkmhClick,
-	onCardkmhUpdate,
-	onChupaizhishiUpdate,
-	onCardAlternateNameClick,
-} from "../handlers/card-handlers.js";
+import { onCardGhostEffectClick, onAutoSelectClick, onAutoSelectUpdate, onHandTipHeightBlur, onHandTipHeightUpdate, onCardScaleBlur, onCardScaleUpdate, onDiscardScaleBlur, onDiscardScaleUpdate, onHandFoldMinBlur, onHandFoldMinUpdate, onCardPrettifyClick, onCardkmhClick, onCardkmhUpdate, onChupaizhishiUpdate, onCardAlternateNameClick } from "../handlers/card-handlers.js";
 
 /**
  * 卡牌相关折叠标题
