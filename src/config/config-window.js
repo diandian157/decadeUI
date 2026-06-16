@@ -279,6 +279,7 @@ function getConfigsByTab(tabId) {
 			{ isTitle: true, name: "样式设置" },
 			{ key: "newDecadeStyle", name: "切换样式", type: "select" },
 			{ key: "outcropSkin", name: "露头样式", type: "select" },
+			{ key: "borderStyle", name: "边框风格•仅一将", type: "select" },
 			{ key: "borderLevel", name: "等阶边框", type: "select" },
 			{ isTitle: true, name: "功能开关" },
 			{ key: "aloneEquip", name: "单独装备栏", type: "toggle" },
