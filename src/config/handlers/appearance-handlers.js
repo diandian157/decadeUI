@@ -110,8 +110,11 @@ export function onOutcropSkinUpdate() {
 export function onBorderLevelUpdate() {
 	if (!window.decadeUI) return;
 	const value = lib.config.extension_十周年UI_borderLevel;
+	const style = lib.config.extension_十周年UI_borderStyle || "xinsha";
+
 	ui.arena.dataset.borderLevel = value;
 	ui.arena.dataset.longLevel = value;
+	ui.arena.dataset.borderStyle = style;
 
 	if (!_status.gameStarted) return;
 	const players = ui.arena?.querySelectorAll?.(".player") || [];

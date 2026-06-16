@@ -1,4 +1,4 @@
-﻿@import "animation.css";
+@import "animation.css";
 
 /** 基础样式 */
 .player {
@@ -231,6 +231,72 @@
 	background: linear-gradient(to top, rgb(100, 100, 100), rgb(0, 0, 0));
 }
 
+#arena.decadeUI[data-border-style="dragon4"] .player > .camp-wrap > .camp-back {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	position: absolute;
+	left: 25%;
+	top: 24%;
+	right: 26%;
+	bottom: 1%;
+	width: 21px;
+	height: 102px;
+	margin-top: -20px;
+	margin-left: -1px;
+	border-radius: 0;
+	font-size: 18px;
+	text-align: center;
+	white-space: nowrap;
+	writing-mode: vertical-rl;
+	background: linear-gradient(to bottom, rgb(155, 129, 108), rgb(73, 71, 58));
+	clip-path: polygon(0 0, 100% 0, 100% 90%, 50% 100%, 0% 90%);
+	-webkit-clip-path: polygon(0 0, 100% 0, 100% 90%, 50% 100%, 0% 90%);
+}
+
+#arena.decadeUI[data-border-style="dragon4"] .player.unseen > .camp-wrap > .camp-back {
+	background: linear-gradient(to bottom, rgb(92, 35, 22), rgb(50, 27, 26));
+}
+
+#arena.decadeUI[data-border-style="dragon4"] .player > .camp-wrap[data-camp="wei"] > .camp-back {
+	background: linear-gradient(to bottom, rgb(45, 103, 153), rgb(19, 45, 78));
+}
+
+#arena.decadeUI[data-border-style="dragon4"] .player > .camp-wrap[data-camp="shu"] > .camp-back {
+	background: linear-gradient(to bottom, rgb(153, 28, 34), rgb(57, 12, 17));
+}
+
+#arena.decadeUI[data-border-style="dragon4"] .player > .camp-wrap[data-camp="wu"] > .camp-back {
+	background: linear-gradient(to bottom, rgb(29, 114, 29), rgb(34, 42, 27));
+}
+
+#arena.decadeUI[data-border-style="dragon4"] .player > .camp-wrap[data-camp="qun"] > .camp-back {
+	background: linear-gradient(to bottom, rgb(154, 148, 122), rgb(74, 72, 57));
+}
+
+#arena.decadeUI[data-border-style="dragon4"] .player > .camp-wrap[data-camp="shen"] > .camp-back {
+	background: linear-gradient(to bottom, rgb(97, 87, 15), rgb(65, 50, 9), rgb(67, 52, 9));
+}
+
+#arena.decadeUI[data-border-style="dragon4"] .player > .camp-wrap[data-camp="shen2"] > .camp-back,
+#arena.decadeUI[data-border-style="dragon4"] .player > .camp-wrap[data-camp="ye"] > .camp-back,
+#arena.decadeUI[data-border-style="dragon4"] .player > .camp-wrap[data-camp="jin"] > .camp-back,
+#arena.decadeUI[data-border-style="dragon4"] .player > .camp-wrap[data-camp="devil"] > .camp-back {
+	background: linear-gradient(to bottom, rgb(112, 52, 126), rgb(52, 18, 55));
+}
+
+#arena.decadeUI[data-border-style="dragon4"] .player > .camp-wrap[data-camp="key"] > .camp-back {
+	background: linear-gradient(to bottom, rgb(147, 132, 183), rgb(130, 120, 160), rgb(120, 115, 154));
+}
+
+#arena.decadeUI[data-border-style="dragon4"] .player > .camp-wrap[data-camp="western"] > .camp-back {
+	background: linear-gradient(to bottom, rgb(93, 44, 105), rgb(54, 18, 58));
+}
+
+#arena.decadeUI[data-border-style="dragon4"] .player > .camp-wrap[data-camp="daqin"] > .camp-back {
+	background: linear-gradient(to bottom, rgb(100, 100, 100), rgb(0, 0, 0));
+}
+
 /* 阵营边框 */
 .player > .camp-wrap > .camp-border {
 	display: block;
@@ -278,6 +344,119 @@
 	background-image: url("../../image/styles/xinsha/new_border_camp.png");
 }
 
+#arena.decadeUI[data-border-style="dragon2"] .player > .camp-wrap > .camp-border {
+	background-image: url("../../image/styles/xinsha/dragon2_big_gradation_5.png");
+	left: -33px;
+	top: -35px;
+	width: 103px;
+	height: 226px;
+}
+
+#arena.decadeUI[data-border-style="dragon2"][data-border-level="one"] .player > .camp-wrap > .camp-border,
+#arena.decadeUI[data-border-style="dragon2"] .player[data-border-level="one"] > .camp-wrap > .camp-border {
+	background-image: url("../../image/styles/xinsha/new_border_camp1.png");
+}
+
+#arena.decadeUI[data-border-style="dragon2"][data-border-level="two"] .player > .camp-wrap > .camp-border,
+#arena.decadeUI[data-border-style="dragon2"] .player[data-border-level="two"] > .camp-wrap > .camp-border {
+	background-image: url("../../image/styles/xinsha/new_border_camp2.png");
+	left: -5px;
+	top: -16%;
+	width: 52px;
+	height: 190px;
+}
+
+#arena.decadeUI[data-border-style="dragon2"][data-border-level="three"] .player > .camp-wrap > .camp-border,
+#arena.decadeUI[data-border-style="dragon2"] .player[data-border-level="three"] > .camp-wrap > .camp-border {
+	background-image: url("../../image/styles/xinsha/new_border_camp3.png");
+	left: -5px;
+	top: -16%;
+	width: 50px;
+	height: 190px;
+}
+
+#arena.decadeUI[data-border-style="dragon2"][data-border-level="four"] .player > .camp-wrap > .camp-border,
+#arena.decadeUI[data-border-style="dragon2"] .player[data-border-level="four"] > .camp-wrap > .camp-border {
+	background-image: url("../../image/styles/xinsha/new_border_camp4.png");
+	left: -4px;
+	top: -16%;
+	width: 52px;
+	height: 190px;
+}
+
+#arena.decadeUI[data-border-style="dragon3"] .player > .camp-wrap > .camp-border {
+	background-image: url("../../image/styles/xinsha/dragon3_big_gradation_5.png");
+	left: -33px;
+	top: -35px;
+	width: 103px;
+	height: 226px;
+}
+
+#arena.decadeUI[data-border-style="dragon3"][data-border-level="one"] .player > .camp-wrap > .camp-border,
+#arena.decadeUI[data-border-style="dragon3"] .player[data-border-level="one"] > .camp-wrap > .camp-border {
+	background-image: url("../../image/styles/xinsha/new_border_camp1.png");
+}
+
+#arena.decadeUI[data-border-style="dragon3"][data-border-level="two"] .player > .camp-wrap > .camp-border,
+#arena.decadeUI[data-border-style="dragon3"] .player[data-border-level="two"] > .camp-wrap > .camp-border {
+	background-image: url("../../image/styles/xinsha/new_border_camp2.png");
+	left: -5px;
+	top: -16%;
+	width: 52px;
+	height: 190px;
+}
+
+#arena.decadeUI[data-border-style="dragon3"][data-border-level="three"] .player > .camp-wrap > .camp-border,
+#arena.decadeUI[data-border-style="dragon3"] .player[data-border-level="three"] > .camp-wrap > .camp-border {
+	background-image: url("../../image/styles/xinsha/new_border_camp3.png");
+	left: -5px;
+	top: -16%;
+	width: 50px;
+	height: 190px;
+}
+
+#arena.decadeUI[data-border-style="dragon3"][data-border-level="four"] .player > .camp-wrap > .camp-border,
+#arena.decadeUI[data-border-style="dragon3"] .player[data-border-level="four"] > .camp-wrap > .camp-border {
+	background-image: url("../../image/styles/xinsha/new_border_camp4.png");
+	left: -4px;
+	top: -16%;
+	width: 52px;
+	height: 190px;
+}
+
+#arena.decadeUI[data-border-style="dragon4"] .player > .camp-wrap > .camp-border {
+	background-image: url("../../image/styles/decade/border_camp.png");
+	left: 0;
+	top: -9%;
+	width: 100%;
+	height: 100%;
+}
+
+#arena.decadeUI[data-border-style="dragon4"][data-border-level="one"] .player > .camp-wrap > .camp-border,
+#arena.decadeUI[data-border-style="dragon4"] .player[data-border-level="one"] > .camp-wrap > .camp-border {
+	background-image: url("../../image/styles/decade/border_camp1.png");
+}
+
+#arena.decadeUI[data-border-style="dragon4"][data-border-level="two"] .player > .camp-wrap > .camp-border,
+#arena.decadeUI[data-border-style="dragon4"] .player[data-border-level="two"] > .camp-wrap > .camp-border {
+	background-image: url("../../image/styles/decade/border_camp2.png");
+}
+
+#arena.decadeUI[data-border-style="dragon4"][data-border-level="three"] .player > .camp-wrap > .camp-border,
+#arena.decadeUI[data-border-style="dragon4"] .player[data-border-level="three"] > .camp-wrap > .camp-border {
+	background-image: url("../../image/styles/decade/border_camp3.png");
+}
+
+#arena.decadeUI[data-border-style="dragon4"][data-border-level="four"] .player > .camp-wrap > .camp-border,
+#arena.decadeUI[data-border-style="dragon4"] .player[data-border-level="four"] > .camp-wrap > .camp-border {
+	background-image: url("../../image/styles/decade/border_camp4.png");
+}
+
+#arena.decadeUI[data-border-style="dragon4"][data-border-level="five"] .player > .camp-wrap > .camp-border,
+#arena.decadeUI[data-border-style="dragon4"] .player[data-border-level="five"] > .camp-wrap > .camp-border {
+	background-image: url("../../image/styles/decade/border_camp5.png");
+}
+
 /** 武将名称 */
 .player > .camp-wrap > .avatar-name,
 .player > .camp-wrap > .avatar-name-default,
@@ -301,6 +480,15 @@
 	text-align: left !important;
 	white-space: nowrap;
 	writing-mode: vertical-rl;
+}
+
+#arena.decadeUI[data-border-style="dragon2"] .player > .camp-wrap > .avatar-name,
+#arena.decadeUI[data-border-style="dragon2"] .player > .camp-wrap > .avatar-name-default,
+#arena.decadeUI[data-border-style="dragon3"] .player > .camp-wrap > .avatar-name,
+#arena.decadeUI[data-border-style="dragon3"] .player > .camp-wrap > .avatar-name-default,
+#arena.decadeUI[data-border-style="dragon4"] .player > .camp-wrap > .avatar-name,
+#arena.decadeUI[data-border-style="dragon4"] .player > .camp-wrap > .avatar-name-default {
+	top: 29% !important;
 }
 
 /* 主将名 */
@@ -417,6 +605,10 @@
 		-1px 1px 0 #685f40;
 }
 
+#arena.decadeUI[data-border-style="dragon4"] .player > .camp-wrap > .camp-name {
+	top: -10px;
+}
+
 /* 联机名称 */
 .player > .nameol {
 	top: 5px;
@@ -449,6 +641,42 @@
 	z-index: 88;
 }
 
+#arena.decadeUI[data-border-style="dragon4"] .player > .hp-wrap {
+	right: -2px;
+	bottom: -5px;
+	width: 12px;
+	height: 50px;
+	border-width: 24px 5px 21px 82px;
+	border-style: solid;
+	border-color: transparent;
+	border-image-source: url("../../image/styles/decade/border_hp.png");
+	border-image-slice: 32 6 25 113 fill;
+}
+
+#arena.decadeUI[data-border-style="dragon3"] .player > .hp-wrap {
+	right: -8px;
+	bottom: -11px;
+	width: 65px;
+	height: 110px;
+	border-width: 24px 5px 21px 82px;
+	border-style: solid;
+	border-color: transparent;
+	border-image-source: url("../../image/styles/xinsha/dragon2_big_hp_grade_5.png");
+	border-image-slice: 32 6 25 113 fill;
+}
+
+#arena.decadeUI[data-border-style="dragon2"] .player > .hp-wrap {
+	right: -8px;
+	bottom: -11px;
+	width: 65px;
+	height: 110px;
+	border-width: 24px 5px 21px 82px;
+	border-style: solid;
+	border-color: transparent;
+	border-image-source: url("../../image/styles/xinsha/dragon2_big_hp_grade_5.png");
+	border-image-slice: 32 6 25 113 fill;
+}
+
 /* 血量高度 */
 .player[data-max-hp="1"] > .hp-wrap {
 	height: 5px;
@@ -472,6 +700,103 @@
 
 .player[data-max-hp="hujia"] > .hp-wrap {
 	height: 78px;
+}
+
+#arena.decadeUI[data-border-style="dragon4"] .player[data-max-hp="1"] > .hp-wrap {
+	height: 5px;
+}
+
+#arena.decadeUI[data-border-style="dragon4"] .player[data-max-hp="2"] > .hp-wrap {
+	height: 20px;
+}
+
+#arena.decadeUI[data-border-style="dragon4"] .player[data-max-hp="3"] > .hp-wrap {
+	height: 35px;
+}
+
+#arena.decadeUI[data-border-style="dragon4"] .player[data-max-hp="4"] > .hp-wrap {
+	height: 50px;
+}
+
+#arena.decadeUI[data-border-style="dragon4"] .player[data-max-hp="5"] > .hp-wrap {
+	height: 65px;
+}
+
+#arena.decadeUI[data-border-style="dragon4"] .player[data-max-hp="hujia"] > .hp-wrap {
+	height: 78px;
+}
+
+#arena.decadeUI[data-border-style="dragon3"] .player[data-max-hp="1"] > .hp-wrap {
+	height: 35px;
+}
+
+#arena.decadeUI[data-border-style="dragon3"] .player[data-max-hp="2"] > .hp-wrap {
+	height: 50px;
+}
+
+#arena.decadeUI[data-border-style="dragon3"] .player[data-max-hp="3"] > .hp-wrap {
+	height: 105px;
+}
+
+#arena.decadeUI[data-border-style="dragon3"] .player[data-max-hp="4"] > .hp-wrap {
+	height: 140px;
+}
+
+#arena.decadeUI[data-border-style="dragon3"] .player[data-max-hp="5"] > .hp-wrap {
+	height: 175px;
+}
+
+#arena.decadeUI[data-border-style="dragon3"] .player[data-max-hp="hujia"] > .hp-wrap {
+	height: 78px;
+}
+
+#arena.decadeUI[data-border-style="dragon2"] .player[data-max-hp="1"] > .hp-wrap {
+	height: 35px;
+}
+
+#arena.decadeUI[data-border-style="dragon2"] .player[data-max-hp="2"] > .hp-wrap {
+	height: 50px;
+}
+
+#arena.decadeUI[data-border-style="dragon2"] .player[data-max-hp="3"] > .hp-wrap {
+	height: 105px;
+}
+
+#arena.decadeUI[data-border-style="dragon2"] .player[data-max-hp="4"] > .hp-wrap {
+	height: 140px;
+}
+
+#arena.decadeUI[data-border-style="dragon2"] .player[data-max-hp="5"] > .hp-wrap {
+	height: 175px;
+}
+
+#arena.decadeUI[data-border-style="dragon2"] .player[data-max-hp="hujia"] > .hp-wrap {
+	height: 78px;
+}
+
+#arena.decadeUI[data-border-style="dragon4"][data-border-level="one"] .player > .hp-wrap,
+#arena.decadeUI[data-border-style="dragon4"] .player[data-border-level="one"] > .hp-wrap {
+	border-image-source: url("../../image/styles/decade/border_hp1.png");
+}
+
+#arena.decadeUI[data-border-style="dragon4"][data-border-level="two"] .player > .hp-wrap,
+#arena.decadeUI[data-border-style="dragon4"] .player[data-border-level="two"] > .hp-wrap {
+	border-image-source: url("../../image/styles/decade/border_hp2.png");
+}
+
+#arena.decadeUI[data-border-style="dragon4"][data-border-level="three"] .player > .hp-wrap,
+#arena.decadeUI[data-border-style="dragon4"] .player[data-border-level="three"] > .hp-wrap {
+	border-image-source: url("../../image/styles/decade/border_hp3.png");
+}
+
+#arena.decadeUI[data-border-style="dragon4"][data-border-level="four"] .player > .hp-wrap,
+#arena.decadeUI[data-border-style="dragon4"] .player[data-border-level="four"] > .hp-wrap {
+	border-image-source: url("../../image/styles/decade/border_hp4.png");
+}
+
+#arena.decadeUI[data-border-style="dragon4"][data-border-level="five"] .player > .hp-wrap,
+#arena.decadeUI[data-border-style="dragon4"] .player[data-border-level="five"] > .hp-wrap {
+	border-image-source: url("../../image/styles/decade/border_hp.png");
 }
 
 /* 护甲 */
@@ -509,6 +834,45 @@
 	left: 0;
 	right: 2;
 	bottom: -8px;
+	width: 19.5px;
+	font-size: 13px;
+	line-height: 14px;
+}
+
+#arena.decadeUI[data-border-style="dragon4"] .player > .hp-wrap > .hp,
+#arena.slim_player.player.hp,
+#window > .player:not(.minskin).hp {
+	display: flex;
+	flex-direction: column;
+	left: -2px;
+	right: 2;
+	bottom: -8px;
+	width: 19.5px;
+	font-size: 13px;
+	line-height: 14px;
+}
+
+#arena.decadeUI[data-border-style="dragon3"] .player > .hp-wrap > .hp,
+#arena.slim_player.player.hp,
+#window > .player:not(.minskin).hp {
+	display: flex;
+	flex-direction: column;
+	left: 45px;
+	right: 2;
+	bottom: -5px;
+	width: 19.5px;
+	font-size: 13px;
+	line-height: 14px;
+}
+
+#arena.decadeUI[data-border-style="dragon2"] .player > .hp-wrap > .hp,
+#arena.slim_player.player.hp,
+#window > .player:not(.minskin).hp {
+	display: flex;
+	flex-direction: column;
+	left: 45px;
+	right: 2;
+	bottom: -5px;
 	width: 19.5px;
 	font-size: 13px;
 	line-height: 14px;
@@ -606,6 +970,11 @@
 	background-position: top;
 	transition: opacity, transform;
 	z-index: 61;
+}
+
+#arena.decadeUI[data-border-style="dragon4"] .player > .primary-avatar {
+	left: 0px;
+	width: 100%;
 }
 
 .player.fullskin2 > .primary-avatar {
