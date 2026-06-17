@@ -854,11 +854,13 @@
 #arena.decadeUI[data-border-style="dragon2"][data-border-level="five"] .player > .hp-wrap > .hp,
 #arena.decadeUI[data-border-style="dragon2"] .player[data-border-level="five"] > .hp-wrap > .hp {
 	margin-left: 45px;
+	bottom: -5px;
 }
 
 #arena.decadeUI[data-border-style="dragon3"][data-border-level="five"] .player > .hp-wrap > .hp,
 #arena.decadeUI[data-border-style="dragon3"] .player[data-border-level="five"] > .hp-wrap > .hp {
 	margin-left: 45px;
+	bottom: -5px;
 }
 
 .player > .hp-wrap > .hp.hidden {
