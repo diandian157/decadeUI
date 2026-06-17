@@ -346,9 +346,9 @@
 
 #arena.decadeUI[data-border-style="dragon2"] .player > .camp-wrap > .camp-border {
 	background-image: url("../../image/styles/xinsha/dragon2_big_gradation_5.png");
-	left: -33px;
+	left: -36px;
 	top: -35px;
-	width: 103px;
+	width: 108px;
 	height: 226px;
 }
 
@@ -386,9 +386,9 @@
 
 #arena.decadeUI[data-border-style="dragon3"] .player > .camp-wrap > .camp-border {
 	background-image: url("../../image/styles/xinsha/dragon3_big_gradation_5.png");
-	left: -33px;
+	left: -36px;
 	top: -35px;
-	width: 103px;
+	width: 108px;
 	height: 226px;
 }
 
@@ -482,10 +482,6 @@
 	writing-mode: vertical-rl;
 }
 
-#arena.decadeUI[data-border-style="dragon2"] .player > .camp-wrap > .avatar-name,
-#arena.decadeUI[data-border-style="dragon2"] .player > .camp-wrap > .avatar-name-default,
-#arena.decadeUI[data-border-style="dragon3"] .player > .camp-wrap > .avatar-name,
-#arena.decadeUI[data-border-style="dragon3"] .player > .camp-wrap > .avatar-name-default,
 #arena.decadeUI[data-border-style="dragon4"] .player > .camp-wrap > .avatar-name,
 #arena.decadeUI[data-border-style="dragon4"] .player > .camp-wrap > .avatar-name-default {
 	top: 29% !important;
@@ -653,7 +649,8 @@
 	border-image-slice: 32 6 25 113 fill;
 }
 
-#arena.decadeUI[data-border-style="dragon3"] .player > .hp-wrap {
+#arena.decadeUI[data-border-style="dragon2"][data-border-level="five"] .player > .hp-wrap,
+#arena.decadeUI[data-border-style="dragon2"] .player[data-border-level="five"] > .hp-wrap {
 	right: -8px;
 	bottom: -11px;
 	width: 65px;
@@ -665,7 +662,8 @@
 	border-image-slice: 32 6 25 113 fill;
 }
 
-#arena.decadeUI[data-border-style="dragon2"] .player > .hp-wrap {
+#arena.decadeUI[data-border-style="dragon3"][data-border-level="five"] .player > .hp-wrap,
+#arena.decadeUI[data-border-style="dragon3"] .player[data-border-level="five"] > .hp-wrap {
 	right: -8px;
 	bottom: -11px;
 	width: 65px;
@@ -726,55 +724,56 @@
 	height: 78px;
 }
 
-#arena.decadeUI[data-border-style="dragon3"] .player[data-max-hp="1"] > .hp-wrap {
+#arena.decadeUI[data-border-style="dragon3"][data-border-level="five"] .player[data-max-hp="1"] > .hp-wrap,
+#arena.decadeUI[data-border-style="dragon3"] .player[data-border-level="five"][data-max-hp="1"] > .hp-wrap {
 	height: 35px;
 }
 
-#arena.decadeUI[data-border-style="dragon3"] .player[data-max-hp="2"] > .hp-wrap {
+#arena.decadeUI[data-border-style="dragon3"][data-border-level="five"] .player[data-max-hp="2"] > .hp-wrap,
+#arena.decadeUI[data-border-style="dragon3"] .player[data-border-level="five"][data-max-hp="2"] > .hp-wrap {
 	height: 50px;
 }
 
-#arena.decadeUI[data-border-style="dragon3"] .player[data-max-hp="3"] > .hp-wrap {
+#arena.decadeUI[data-border-style="dragon3"][data-border-level="five"] .player[data-max-hp="3"] > .hp-wrap,
+#arena.decadeUI[data-border-style="dragon3"] .player[data-border-level="five"][data-max-hp="3"] > .hp-wrap {
 	height: 105px;
 }
 
-#arena.decadeUI[data-border-style="dragon3"] .player[data-max-hp="4"] > .hp-wrap {
+#arena.decadeUI[data-border-style="dragon3"][data-border-level="five"] .player[data-max-hp="4"] > .hp-wrap,
+#arena.decadeUI[data-border-style="dragon3"] .player[data-border-level="five"][data-max-hp="4"] > .hp-wrap {
 	height: 140px;
 }
 
-#arena.decadeUI[data-border-style="dragon3"] .player[data-max-hp="5"] > .hp-wrap {
+#arena.decadeUI[data-border-style="dragon3"][data-border-level="five"] .player[data-max-hp="5"] > .hp-wrap,
+#arena.decadeUI[data-border-style="dragon3"] .player[data-border-level="five"][data-max-hp="5"] > .hp-wrap {
 	height: 175px;
 }
 
-#arena.decadeUI[data-border-style="dragon3"] .player[data-max-hp="hujia"] > .hp-wrap {
-	height: 78px;
-}
-
-#arena.decadeUI[data-border-style="dragon2"] .player[data-max-hp="1"] > .hp-wrap {
+#arena.decadeUI[data-border-style="dragon2"][data-border-level="five"] .player[data-max-hp="1"] > .hp-wrap,
+#arena.decadeUI[data-border-style="dragon2"] .player[data-border-level="five"][data-max-hp="1"] > .hp-wrap {
 	height: 35px;
 }
 
-#arena.decadeUI[data-border-style="dragon2"] .player[data-max-hp="2"] > .hp-wrap {
+#arena.decadeUI[data-border-style="dragon2"][data-border-level="five"] .player[data-max-hp="2"] > .hp-wrap,
+#arena.decadeUI[data-border-style="dragon2"] .player[data-border-level="five"][data-max-hp="2"] > .hp-wrap {
 	height: 50px;
 }
 
-#arena.decadeUI[data-border-style="dragon2"] .player[data-max-hp="3"] > .hp-wrap {
+#arena.decadeUI[data-border-style="dragon2"][data-border-level="five"] .player[data-max-hp="3"] > .hp-wrap,
+#arena.decadeUI[data-border-style="dragon2"] .player[data-border-level="five"][data-max-hp="3"] > .hp-wrap {
 	height: 105px;
 }
 
-#arena.decadeUI[data-border-style="dragon2"] .player[data-max-hp="4"] > .hp-wrap {
+#arena.decadeUI[data-border-style="dragon2"][data-border-level="five"] .player[data-max-hp="4"] > .hp-wrap,
+#arena.decadeUI[data-border-style="dragon2"] .player[data-border-level="five"][data-max-hp="4"] > .hp-wrap {
 	height: 140px;
 }
 
-#arena.decadeUI[data-border-style="dragon2"] .player[data-max-hp="5"] > .hp-wrap {
+#arena.decadeUI[data-border-style="dragon2"][data-border-level="five"] .player[data-max-hp="5"] > .hp-wrap,
+#arena.decadeUI[data-border-style="dragon2"] .player[data-border-level="five"][data-max-hp="5"] > .hp-wrap {
 	height: 175px;
 }
 
-#arena.decadeUI[data-border-style="dragon2"] .player[data-max-hp="hujia"] > .hp-wrap {
-	height: 78px;
-}
-
-#arena.decadeUI[data-border-style="dragon4"][data-border-level="one"] .player > .hp-wrap,
 #arena.decadeUI[data-border-style="dragon4"] .player[data-border-level="one"] > .hp-wrap {
 	border-image-source: url("../../image/styles/decade/border_hp1.png");
 }
@@ -852,7 +851,7 @@
 	line-height: 14px;
 }
 
-#arena.decadeUI[data-border-style="dragon3"] .player > .hp-wrap > .hp,
+#arena.decadeUI[data-border-style="dragon2"] .player[data-border-level="five"] > .hp-wrap > .hp,
 #arena.slim_player.player.hp,
 #window > .player:not(.minskin).hp {
 	display: flex;
@@ -865,7 +864,7 @@
 	line-height: 14px;
 }
 
-#arena.decadeUI[data-border-style="dragon2"] .player > .hp-wrap > .hp,
+#arena.decadeUI[data-border-style="dragon3"] .player[data-border-level="five"] > .hp-wrap > .hp,
 #arena.slim_player.player.hp,
 #window > .player:not(.minskin).hp {
 	display: flex;
