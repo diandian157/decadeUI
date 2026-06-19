@@ -84,9 +84,11 @@ export class SkillButtonTooltip {
 	 * @description 按优先级从多个来源获取技能描述文本：
 	 * 1. 动态翻译（根据玩家状态变化的描述）
 	 * 2. 翻译库中的标准描述
-	 * 3. 技能对象的description属性
-	 * 4. 子技能的description或父技能描述
-	 * 5. get.skillInfoTranslation方法
+	 * 3. 技能对象的prompt属性（支持函数）
+	 * 4. 技能对象的description属性
+	 * 5. 子技能的description或父技能描述
+	 * 6. 父技能的prompt属性
+	 * 7. get.skillInfoTranslation方法
 	 * @param {string} skillName - 技能名称
 	 * @param {Player} player - 玩家对象
 	 * @returns {string} 技能描述文本
@@ -110,9 +112,24 @@ export class SkillButtonTooltip {
 			if (!str && lib.skill[skillName]) {
 				const skillInfo = lib.skill[skillName];
 
-				if (skillInfo.description) {
+				if (skillInfo.prompt) {
+					if (typeof skillInfo.prompt === "function") {
+						try {
+							const promptResult = skillInfo.prompt(player, skillName);
+							if (typeof promptResult === "string" && promptResult) {
+								str = promptResult;
+							}
+						} catch (e) {
+							console.warn(`执行技能 ${skillName} 的 prompt 函数时出错:`, e);
+						}
+					} else if (typeof skillInfo.prompt === "string") {
+						str = skillInfo.prompt;
+					}
+				}
+
+				if (!str && skillInfo.description) {
 					str = skillInfo.description;
-				} else if (skillInfo.sourceSkill) {
+				} else if (!str && skillInfo.sourceSkill) {
 					const parentSkill = skillInfo.sourceSkill;
 					const subSkillName = skillName.replace(parentSkill + "_", "");
 
@@ -122,6 +139,20 @@ export class SkillButtonTooltip {
 
 						if (!str) {
 							str = lib.translate[parentSkill + "_info"] || "";
+						}
+					}
+					if (!str && lib.skill[parentSkill] && lib.skill[parentSkill].prompt) {
+						if (typeof lib.skill[parentSkill].prompt === "function") {
+							try {
+								const promptResult = lib.skill[parentSkill].prompt(player, parentSkill);
+								if (typeof promptResult === "string" && promptResult) {
+									str = promptResult;
+								}
+							} catch (e) {
+								console.warn(`执行父技能 ${parentSkill} 的 prompt 函数时出错:`, e);
+							}
+						} else if (typeof lib.skill[parentSkill].prompt === "string") {
+							str = lib.skill[parentSkill].prompt;
 						}
 					}
 				}
