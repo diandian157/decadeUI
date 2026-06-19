@@ -1,17 +1,15 @@
 /**
- * OL风格技能样式 - 非触屏布局
- * Online style skill CSS for non-touch layout
+ * OL风格 - 技能按钮样式
+ * 对应原 shoushaUI/skill/main4.css
  */
 
-/* 右手布局 */
 #arena[data-right-layout="on"] > .skill-control {
-	max-width: 220px;
-	bottom: 0px;
+	max-width: 235px;
+	bottom: 0%;
 	right: 155px;
-	z-index: 0;
+	z-index: 8;
 }
 
-/* 左手布局 */
 #arena[data-right-layout="off"] > .skill-control {
 	max-width: 220px;
 	bottom: 0px;
@@ -42,14 +40,14 @@
 	clear: both;
 }
 
-/* 右手布局 - 合并区域 */
+/* 右手布局 */
 #arena[data-right-layout="on"] > .skill-control .combined {
 	height: auto;
 	width: auto;
 	display: flex;
 	flex-direction: column;
 	align-items: flex-end;
-	margin-right: 5px;
+	margin-right: 6px;
 	flex-wrap: wrap-reverse;
 	max-height: 150px;
 }
@@ -60,12 +58,12 @@
 	justify-content: flex-end;
 	align-items: flex-start;
 	align-content: flex-start;
-	max-height: 135px;
+	max-height: 144px;
 	overflow-y: auto;
 	overflow-x: hidden;
 }
 
-/* 左手布局 - 合并区域 */
+/* 左手布局 */
 #arena[data-right-layout="off"] > .skill-control .combined {
 	height: auto;
 	width: auto;
@@ -88,16 +86,18 @@
 	overflow-x: hidden;
 }
 
-/* 主动技按钮 */
+/* 主动技样式 */
 .skill-control > .combined > .skillitem.enable-skill {
-	margin: 2px 4px;
-	width: 85px;
-	height: 40px;
+	/*	margin: 2px -2px;*/
+	width: 112px;
+	height: 48px;
+	right: 0% !important;
 	line-height: 40px;
 	text-align: center;
-	color: #ceb193;
-	font-family: "FZLBJW";
-	font-size: 25px;
+	color: #ffe286;
+	font-family: "HYXLSJ";
+	font-size: 27px;
+	font-weight: 700;
 	background-image: url("../../../assets/skill/online/btnnOL1.png");
 	background-size: 100% 100%;
 	letter-spacing: 2px;
@@ -111,24 +111,25 @@
 
 .skill-control > .combined > .skillitem.enable-skill.select {
 	background-image: url("../../../assets/skill/online/btnnOL4.png");
-	filter: brightness(1.2);
+	filter: brightness(1);
 }
 
 .skill-control > .combined > .skillitem.enable-skill:not(.usable):not(.select) {
 	filter: grayscale(100%);
-	-webkit-filter: grayscale(100%);
 }
 
-/* 限定技按钮 */
+/* 限定技样式 */
 .skill-control > .combined > .xiandingji.enable-skill {
-	margin: 2px 4px;
-	width: 85px;
-	height: 40px;
+	/*	margin: 3px 0;*/
+	width: 112px;
+	height: 48px;
+	right: 0% !important;
 	line-height: 40px;
+	font-weight: 700;
 	text-align: center;
-	color: #ceb193;
-	font-family: "FZLBJW";
-	font-size: 25px;
+	color: #ffe286;
+	font-family: "HYXLSJ";
+	font-size: 27px;
 	background-image: url("../../../assets/skill/online/btnnOL1.png");
 	background-size: 100% 100%;
 	letter-spacing: 2px;
@@ -141,24 +142,26 @@
 }
 
 .skill-control > .combined > .xiandingji.enable-skill.select {
-	background-image: url("../../../assets/skill/online/btnnOL2.png");
+	background-image: url("../../../assets/skill/online/btnnOL4.png");
 }
-
 .skill-control > .combined > .xiandingji.enable-skill:not(.usable):not(.select) {
+	background-image: url("../../../assets/skill/online/btnnOL5.png");
 	filter: grayscale(100%);
-	-webkit-filter: grayscale(100%);
 }
-
-/* 被动技按钮 */
+/* 被动技样式 */
 .skill-control > .combined > .skillitem.trigger-skill {
-	margin: 2px 4px;
-	width: 85px;
-	height: 40px;
+	/*	margin: 3px 0;*/
+	right: 0% !important;
+	width: 112px;
+	height: 48px;
+	font-weight: 500;
+	transform: scale(0.875);
 	line-height: 40px;
 	text-align: center;
-	font-size: 25px;
-	color: #ceb193;
-	font-family: "FZLBJW";
+	font-size: 30px;
+	color: #b18955;
+	font-family: "HYXLSJ";
+	font-weight: 700;
 	background-image: url("../../../assets/skill/online/btnnOL3.png");
 	background-size: 100% 100%;
 	letter-spacing: 2px;
@@ -169,12 +172,11 @@
 	align-items: center;
 	justify-content: center;
 }
-
 /* 技能标记区 - 从底部向上排列 */
 .skillMarks {
-	overflow: visible;
-	left: 110px !important;
-	bottom: 0px !important;
+	/*	overflow: visible;*/
+	left: 116px !important;
+	bottom: 6px !important;
 	top: auto !important;
 	z-index: 90 !important;
 	display: flex;
@@ -184,35 +186,33 @@
 
 .skillMarks > .skillMarkItem {
 	--h: 19px;
-	width: 28.5px !important;
-	height: 28.5px !important;
-	right: 0px;
-	line-height: -10px;
+	width: 20px !important;
+	height: 20px !important;
+	/*	right: 0px;*/
+	line-height: 16px;
 	text-align: center;
 	display: block;
 	position: relative;
-	border-radius: 50%;
 }
 
-/* 限定技标记 */
 .skillMarkItem.xiandingji {
 	background-image: url("../../../assets/skill/online/xiandingjiOL.png");
 	background-size: 100% 100%;
 	text-shadow: none;
-	--w: 40px;
-	--h: 20px;
+	--w: 31px;
+	--h: 18px;
 	width: var(--w) !important;
 	height: var(--h) !important;
 	display: flex;
 	justify-content: center;
-	align-items: center;
+	align-items: flex-start;
 	color: #ddc78f;
-	font-size: 14px;
-	font-family: "FZLBJW";
+	font-size: 12.5px;
+	font-family: "HYXLSJ";
 	font-weight: bold;
-	text-shadow: 0 0 2px #000;
 	border-radius: 0;
-	letter-spacing: 1px;
+	text-indent: -2px;
+	letter-spacing: 0px;
 	white-space: nowrap;
 	overflow: hidden;
 	text-overflow: ellipsis;
@@ -220,7 +220,6 @@
 
 .skillMarkItem.xiandingji.used {
 	filter: grayscale(1);
-	-webkit-filter: grayscale(1);
 	color: #888;
 }
 
@@ -228,13 +227,13 @@
 	margin-bottom: 1px;
 }
 
-/* 觉醒技标记 */
 .skillMarkItem.juexingji {
 	background-image: url("../../../assets/skill/online/juexingjiOL.png");
 	background-size: 100% 100%;
 	text-shadow: none;
 	--w: 30px;
 	--h: calc(var(--w) * 1 / 1);
+	left: 5px !important;
 	width: var(--w);
 	height: var(--h);
 	display: flex;
@@ -242,25 +241,23 @@
 	align-items: center;
 	color: #f5d78e;
 	font-size: 16px;
-	font-family: "FZLBJW";
+	font-family: "HYXLSJ";
 	font-weight: bold;
 	text-shadow: 0 0 2px #000;
 }
 
 .skillMarkItem.juexingji.used {
 	filter: grayscale(1);
-	-webkit-filter: grayscale(1);
 	color: #888;
 }
 
-/* 转换技标记 */
 .skillMarkItem.zhuanhuanji {
-	--w: 30px;
+	--w: 18px;
 	--h: calc(var(--w) * 1 / 1);
 	width: var(--w);
 	height: var(--h);
-	margin-left: 2px;
-	background-size: 95% 95%;
+	left: 5px !important;
+	background-size: 100% 100%;
 	background-repeat: no-repeat;
 	transform-style: preserve-3d;
 	background-image: url("../../../assets/skill/online/skillitem_yinyang_bg.png");
@@ -268,29 +265,11 @@
 
 .skillMarkItem.zhuanhuanji.yang {
 	background-image: url("../../../assets/skill/online/skillitem_yinyang_bg.png");
-	animation: fanzhuan 1.5s;
 }
 
 .skillMarkItem.zhuanhuanji.yin {
 	background-image: url("../../../assets/skill/online/skillitem_yinyang_bg_1.png");
-	animation: fanzhuan 1.5s;
 }
-
-@keyframes fanzhuan {
-	0% {
-		transform: rotateY(0deg) scale(1.2);
-	}
-
-	50% {
-		transform: rotateY(180deg) scale(1.2);
-	}
-
-	100% {
-		transform: rotateY(0deg) scale(1);
-	}
-}
-
-/* 使命技标记 */
 .skillMarkItem.duty {
 	background-image: url("../../../assets/skill/online/mark_dutyOL.png");
 	background-size: 100% 100%;
@@ -300,22 +279,36 @@
 	align-items: center;
 	color: #f5d78e;
 	font-size: 16px;
-	font-family: "FZLBJW";
+	font-family: "HYXLSJ";
 	font-weight: bold;
 	text-shadow: 0 0 2px #000;
 }
 
 .skillMarkItem.duty.fail {
 	filter: grayscale(100%);
-	-webkit-filter: grayscale(100%);
 	color: #888;
 }
-
-/* 技能黄色圆点 */
+.skillMarkItem.xiandingji + .skillMarkItem.zhuanhuanji {
+	left: -5px;
+	margin-left: -10px;
+}
+.skillMarkItem.zhuanhuanji + .skillMarkItem.xiandingji {
+	left: 10px;
+	margin-left: -10px;
+}
+.skillMarkItem.xiandingji + .skillMarkItem.juexingji {
+	left: -5px;
+	margin-left: -10px;
+}
+.skillMarkItem.juexingji + .skillMarkItem.xiandingji {
+	left: 10px;
+	margin-left: -10px;
+}
+/* 技能黄色圆点样式 */
 .skill-yellow-dot {
 	position: absolute;
-	left: 75px;
-	top: 2px;
+	left: 95px;
+	top: 5px;
 	width: 12px;
 	height: 12px;
 	z-index: 2;
@@ -328,37 +321,37 @@
 	border-radius: 0;
 }
 
-/* 限定技pass图片 */
+/* 限定技pass图片样式 */
 .skill-xianding-pass {
 	position: absolute;
-	left: 1px;
-	top: 1px;
+	left: 3px;
+	top: 3px;
 	width: 15px;
 	height: 15px;
 	z-index: 3;
 	pointer-events: none;
 }
 
-/* 转换技图片 */
+/* 转换技图片样式 */
 .skill-zhuanhuanji-img {
 	position: absolute;
-	left: 1px;
-	top: 1px;
+	left: 3px;
+	top: 3px;
 	width: 15px;
 	height: 15px;
 	z-index: 3;
 	pointer-events: none;
 }
 
-/* 滚动指示器 */
+/* 滚动指示器样式 */
 .skill-control.scroll-enabled::after {
 	content: "";
 	position: absolute;
-	width: 30px;
-	height: 30px;
+	width: 25px;
+	height: 20px;
 	z-index: 10;
 	pointer-events: none;
-	opacity: 0.8;
+	opacity: 1;
 	background-image: url("../../../assets/skill/online/shop_move_down.png");
 	background-size: 100% 100%;
 	background-repeat: no-repeat;
@@ -367,8 +360,8 @@
 
 #arena[data-right-layout="on"] > .skill-control.scroll-enabled::after {
 	right: auto;
-	left: 105px;
-	bottom: 0px;
+	left: 104px;
+	bottom: -3px;
 }
 
 @keyframes scroll-bounce {

@@ -440,7 +440,7 @@ export function createOnlineSkillPlugin(lib, game, ui, get, ai, _status, app) {
 				ui.arena.dataset.sclevel = level;
 
 				// 超过6个启用滚动
-				this.node.combined.classList.toggle("scroll-enabled", count > 6);
+				this.node.combined.classList.toggle("scroll-enabled", count > 3);
 				this.classList.toggle("scroll-enabled", count > 6);
 			},
 		},

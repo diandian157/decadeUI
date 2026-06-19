@@ -35,7 +35,15 @@
 	font-family: "FZLSFT";
 	src: url("../../ui/assets/fonts/FZLSFT.woff2");
 }
-
+/*自用*/
+@font-face {
+	font-family: "HYXLSJ";
+	src: url("../../ui/assets/fonts/HYXLSJ.ttf");
+}
+@font-face {
+	font-family: "ZY";
+	src: url("../../ui/assets/fonts/ZY.ttf");
+}
 /** 导入对话框 */
 
 .menu-container > .menu.main.cxy-import-dialog {

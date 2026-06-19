@@ -38,9 +38,10 @@ export function createOnlineLbtnPlugin(lib, game, ui, get, ai, _status, app) {
 
 	// 模式配置
 	const MODE_CONFIGS = {
-		single: { zhu: "击败对手", fan: "击败对手", undefined: "未选择阵营" },
+		single: { zhu: "击败对手", fan: "击败对手", undefined: "击败对手" },
 		boss: { zhu: "击败盟军", cai: "击败神祇", undefined: "未选择阵营" },
 		doudizhu: { zhu: "击败所有农民", fan: "击败地主", undefined: "未选择阵营" },
+		versus: { zhu: "击败敌方", fan: "击败敌方", undefined: "击败敌方" },
 		identity: {
 			zhu: "击败反贼和内奸",
 			zhong: "保护主公，击败反贼内奸",
@@ -119,13 +120,7 @@ export function createOnlineLbtnPlugin(lib, game, ui, get, ai, _status, app) {
 			const originalCancel = ui.click.cancel;
 			ui.click.cancel = function (node) {
 				const event = _status.event;
-				if (
-					event &&
-					event.type === "phase" &&
-					ui.confirm &&
-					!event.skill &&
-					(ui.selected.cards.length !== 0 || ui.selected.targets.length !== 0)
-				) {
+				if (event && event.type === "phase" && ui.confirm && !event.skill && (ui.selected.cards.length !== 0 || ui.selected.targets.length !== 0)) {
 					ui.confirm.classList.add("removing");
 					event.restore();
 					const cards = event.player.getCards("hej");
@@ -344,30 +339,7 @@ export function createOnlineLbtnPlugin(lib, game, ui, get, ai, _status, app) {
 			// 更新玩家昵称
 			game.countPlayer(player => {
 				if (!player.nickname) {
-					const nicknames = [
-						"缘之空",
-						"小小恐龙",
-						"自然萌",
-						"海边的ebao",
-						"小云云",
-						"点点",
-						"猫猫虫",
-						"小爱莉",
-						"冰佬",
-						"鹿鹿",
-						"黎佬",
-						"浮牢师",
-						"U佬",
-						"蓝宝",
-						"影宝",
-						"柳下跖",
-						"无语",
-						"小曦",
-						"墨渊",
-						"k9",
-						"扶苏",
-						"皇叔",
-					];
+					const nicknames = ["缘之空", "小小恐龙", "自然萌", "海边的ebao", "小云云", "点点", "猫猫虫", "小爱莉", "冰佬", "鹿鹿", "黎佬", "浮牢师", "U佬", "蓝宝", "影宝", "柳下跖", "无语", "小曦", "墨渊", "k9", "扶苏", "皇叔", "🦅🦅🦅"];
 					player.nickname = player === game.me ? lib.config.connect_nickname : nicknames.randomGet();
 				}
 			});
@@ -410,14 +382,36 @@ export function createOnlineLbtnPlugin(lib, game, ui, get, ai, _status, app) {
 					container.delete(200);
 				});
 				const home = ui.create.div(".caidanopen", container);
-
-				// 菜单按钮
-				const caidan2 = ui.create.div(".controls", home);
-				caidan2.setBackgroundImage(`${assetPath}OL_line/uibutton/caidan2.png`);
-
+				//设置右半屏菜单样式
+				home.style.position = "fixed";
+				home.style.right = "15px";
+				home.style.top = "0";
+				home.style.width = "50%";
+				home.style.height = "100%";
+				home.style.background = "linear-gradient(to right, rgba(0,0,0,0), rgba(0,0,0,0.8))";
+				home.style.zIndex = "100";
+				home.style.gap = "18px";
+				home.style.display = "flex";
+				home.style.flexDirection = "column";
+				home.style.alignItems = "flex-end";
+				home.style.paddingRight = "98px";
+				home.style.justifyContent = "flex-start";
+				home.style.paddingTop = "91px";
+				home.addEventListener("click", e => {
+					if (!e.target.closest(".controls")) {
+						game.playAudio(`../${assetPath}CD/back.mp3`);
+						container.delete(200);
+					}
+				});
 				// 设置
 				const szBtn = ui.create.div(".controls", home);
 				szBtn.setBackgroundImage(`${assetPath}OL_line/uibutton/shezhi.png`);
+				szBtn.style.width = "90px";
+				szBtn.style.height = "30.75px";
+				szBtn.style.backgroundRepeat = "no-repeat";
+				szBtn.style.backgroundSize = "contain";
+				szBtn.style.margin = "6px 0";
+				szBtn.style.backgroundColor = "transparent";
 				szBtn.addEventListener("click", () => {
 					game.playAudio(`../${assetPath}CD/button.mp3`);
 					game.closePopped?.();
@@ -430,6 +424,12 @@ export function createOnlineLbtnPlugin(lib, game, ui, get, ai, _status, app) {
 				// 背景
 				const bjBtn = ui.create.div(".controls", home);
 				bjBtn.setBackgroundImage(`${assetPath}OL_line/uibutton/beijing.png`);
+				bjBtn.style.width = "90px";
+				bjBtn.style.height = "30.75px";
+				bjBtn.style.backgroundRepeat = "no-repeat";
+				bjBtn.style.backgroundSize = "contain";
+				bjBtn.style.margin = "6px 0";
+				bjBtn.style.backgroundColor = "transparent";
 				bjBtn.addEventListener("click", () => {
 					game.playAudio(`../${assetPath}CD/button.mp3`);
 					self.openBackgroundSelector();
@@ -437,12 +437,24 @@ export function createOnlineLbtnPlugin(lib, game, ui, get, ai, _status, app) {
 
 				// 托管
 				const tgBtn = ui.create.div(".controls", home);
-				tgBtn.setBackgroundImage(`${assetPath}OL_line/uibutton/tuoguan.png`);
+				tgBtn.setBackgroundImage(`${assetPath}OL_line/uibutton/tuoguan_on.png`);
+				tgBtn.style.width = "90px";
+				tgBtn.style.height = "30.75px";
+				tgBtn.style.backgroundRepeat = "no-repeat";
+				tgBtn.style.backgroundSize = "contain";
+				tgBtn.style.margin = "6px 0";
+				tgBtn.style.backgroundColor = "transparent";
 				tgBtn.addEventListener("click", () => ui.click.auto());
 
 				// 离开
 				const tcBtn = ui.create.div(".controls", home);
 				tcBtn.setBackgroundImage(`${assetPath}OL_line/uibutton/likai.png`);
+				tcBtn.style.width = "90px";
+				tcBtn.style.height = "30.75px";
+				tcBtn.style.backgroundRepeat = "no-repeat";
+				tcBtn.style.backgroundSize = "contain";
+				tcBtn.style.margin = "6px 0";
+				tcBtn.style.backgroundColor = "transparent";
 				tcBtn.addEventListener("click", () => window.location.reload());
 
 				// 动态添加系统菜单项
@@ -452,80 +464,13 @@ export function createOnlineLbtnPlugin(lib, game, ui, get, ai, _status, app) {
 
 		// 添加系统菜单项
 		addSystemMenuItems(container) {
-			const excludedItems = [
-				"聊天",
-				"联机大厅",
-				"最近连接",
-				"投降",
-				"重来",
-				"选项",
-				"暂停",
-				"不询问无懈",
-				"托管",
-				"♫",
-				"整理手牌",
-				"收藏",
-				"牌堆",
-			];
+			const excludedItems = ["聊天", "联机大厅", "最近连接", "投降", "重来", "选项", "暂停", "不询问无懈", "托管", "♫", "整理手牌", "收藏", "牌堆"];
 			for (let i in game.system) {
 				if (excludedItems.includes(game.system[i].name)) continue;
 				const node = ui.create.div(".controls", game.system[i].name, container);
 				if (game.system[i].click) {
 					node.addEventListener("click", () => game.system[i].click());
 				}
-			}
-		},
-
-		// 打开背景选择器
-		openBackgroundSelector() {
-			const self = this;
-			const container = ui.create.div(".popup-container", { background: "rgba(0, 0, 0, 0.8)" }, ui.window);
-			ui.create.div(".bgback", container, () => {
-				game.playAudio(`../${assetPath}shousha/caidan.mp3`);
-				container.hide();
-				game.resume2();
-			});
-			const bigdialog = ui.create.div(".bgdialog", container);
-			const bgbg = ui.create.div(".backgroundsbg", bigdialog);
-			self.loadBackgroundImages(bgbg);
-		},
-
-		// 加载背景图片
-		loadBackgroundImages(container) {
-			const self = this;
-			const backgroundItems = lib.configMenu.appearence.config.image_background.item;
-			const hiddenBgs = lib.config.hiddenBackgroundPack || [];
-
-			for (let fileName in backgroundItems) {
-				if (fileName === "default" || hiddenBgs.includes(fileName)) continue;
-				const img = ui.create.div(".backgrounds", container);
-				img.dataset.name = fileName;
-
-				if (fileName.startsWith("custom_")) {
-					game.getDB("image", fileName, fileToLoad => {
-						if (fileToLoad) {
-							const reader = new FileReader();
-							reader.onload = e => {
-								img.style.backgroundImage = `url(${e.target.result})`;
-								img.style.backgroundSize = "cover";
-							};
-							reader.readAsDataURL(fileToLoad, "UTF-8");
-						}
-					});
-				} else {
-					img.setBackgroundImage(`image/background/${fileName}.jpg`);
-				}
-
-				if (fileName === lib.config.image_background) ui.create.div(".bgxuanzhong", img);
-
-				img.addEventListener("click", function () {
-					document.querySelectorAll(".bgxuanzhong").forEach(el => el.remove());
-					ui.create.div(".bgxuanzhong", img);
-					game.saveConfig("image_background", fileName);
-					lib.init.background();
-					game.updateBackground();
-				});
-				ui.create.div(".buttontext", backgroundItems[fileName], img);
 			}
 		},
 
@@ -549,6 +494,11 @@ export function createOnlineLbtnPlugin(lib, game, ui, get, ai, _status, app) {
 			const sortBtn = ui.create.div(".anniubutton", ui.anniubuttons);
 			sortBtn.setBackgroundImage(`${assetPath}OL_line/uibutton/gameview_tool_btn_sort.png`);
 			sortBtn.onclick = () => self.sortHandCards();
+			ui.anniubuttons.style.display = "flex";
+			ui.anniubuttons.style.flexDirection = "column";
+			ui.anniubuttons.style.justifyContent = "flex-end";
+			ui.anniubuttons.style.alignItems = "flex-start";
+			ui.anniubuttons.style.gap = "14px";
 		},
 
 		// 创建计时器节点
@@ -713,8 +663,7 @@ export function createOnlineLbtnPlugin(lib, game, ui, get, ai, _status, app) {
 					shuru = document.createElement("input");
 					shuru.type = "text";
 					shuru.placeholder = "请输入要说的话";
-					shuru.style.cssText =
-						"position:absolute;left:50%;transform:translateX(-50%);z-index:1000;top:5%;width:60%;height:10%;font-size:30px;background-color:rgba(255,255,255,0.9);border:2px solid #C1AD92;border-radius:5px;padding:5px;outline:none;pointer-events:auto;";
+					shuru.style.cssText = "position:absolute;left:50%;transform:translateX(-50%);z-index:1000;top:5%;width:60%;height:10%;font-size:30px;background-color:rgba(255,255,255,0.9);border:2px solid #C1AD92;border-radius:5px;padding:5px;outline:none;pointer-events:auto;";
 					ui.window.appendChild(shuru);
 				}
 				shuru.style.display = "block";
@@ -796,34 +745,24 @@ export function createOnlineLbtnPlugin(lib, game, ui, get, ai, _status, app) {
 					folders
 						.filter(pack => pack !== "throw_emotion")
 						.forEach(pack => {
-							const packDiv = ui.create.div(
-								".card.fullskin",
-								`<img src="${srcBase}${pack}/1.gif" width="80" height="80">`,
-								list1,
-								() => {
-									list2.innerHTML = "";
-									game.getFileList(
-										`${srcBase}${pack}/`,
-										(_, files) => {
-											files.forEach(file => {
-												const btn = ui.create.div(
-													".card.fullskin",
-													`<img src="${srcBase}${pack}/${file}" width="80" height="80">`,
-													list2,
-													() => {
-														if (game.online) game.send("emotion", game.onlineID, pack, file);
-														else game.me.emotion(pack, file);
-													}
-												);
-												btn.style.cssText = "width:80px;height:80px;";
+							const packDiv = ui.create.div(".card.fullskin", `<img src="${srcBase}${pack}/1.gif" width="80" height="80">`, list1, () => {
+								list2.innerHTML = "";
+								game.getFileList(
+									`${srcBase}${pack}/`,
+									(_, files) => {
+										files.forEach(file => {
+											const btn = ui.create.div(".card.fullskin", `<img src="${srcBase}${pack}/${file}" width="80" height="80">`, list2, () => {
+												if (game.online) game.send("emotion", game.onlineID, pack, file);
+												else game.me.emotion(pack, file);
 											});
-										},
-										() => {}
-									);
-									list1.style.display = "none";
-									list2.style.display = "grid";
-								}
-							);
+											btn.style.cssText = "width:80px;height:80px;";
+										});
+									},
+									() => {}
+								);
+								list1.style.display = "none";
+								list2.style.display = "grid";
+							});
 							packDiv.style.cssText = "width:80px;height:80px;";
 						});
 				},

@@ -159,7 +159,7 @@ body > .background {
 #arena[data-new-decade-style="onlineUI"][data-right-layout="on"] > .hand-wrap,
 #arena[data-new-decade-style="onlineUI"][data-right-layout="on"] > .hand-back {
 	left: 230px;
-	right: 350px;
+	right: 390px;
 	bottom: 0;
 }
 
@@ -188,7 +188,7 @@ body > .background {
 
 #arena[data-new-decade-style="onlineUI"][data-alone-equip="off"][data-right-layout="on"] > .hand-wrap,
 #arena[data-new-decade-style="onlineUI"][data-alone-equip="off"][data-right-layout="on"] > .hand-back {
-	right: 350px !important;
+	right: 390px !important;
 }
 
 .discard-zone {

@@ -14,13 +14,13 @@
 /* 出牌记录 */
 #arena.chess > #arenalog {
 	display: none !important;
-	font-family: "FZLBJW" !important;
+	font-family: "HYXLSJ" !important;
 	background: none;
 }
 
 #arena.observe .handcards > .card > div {
 	opacity: 0 !important;
-	font-family: "FZLBJW" !important;
+	font-family: "HYXLSJ" !important;
 	background: none;
 }
 
@@ -28,7 +28,7 @@
 #arena.hide_name .player > .name2,
 #arena.hide_name > .dialog .button.character > .name {
 	display: none !important;
-	font-family: "FZLBJW" !important;
+	font-family: "HYXLSJ" !important;
 	background: none;
 }
 
@@ -39,7 +39,7 @@
 	left: calc(50% + 60px);
 	top: 234px;
 	overflow: hidden;
-	font-family: "FZLBJW" !important;
+	font-family: "HYXLSJ" !important;
 	z-index: 10;
 	pointer-events: none;
 	text-align: center;
@@ -124,7 +124,7 @@
 	left: 20px;
 	font-size: 22px;
 	line-height: 22px;
-	font-family: "FZLBJW" !important;
+	font-family: "HYXLSJ" !important;
 	font-weight: 800;
 	color: #b9b7bc;
 	text-shadow:
@@ -290,24 +290,39 @@
 	top: 60px;
 	left: 50px;
 	z-index: 4;
-	background-color: rgba(0, 0, 0, 0.6);
+	background-color: rgba(0, 0, 0, 0.5);
 	border-radius: 3px;
-	width: 120px;
+	width: 130px;
 }
 
 /* 记录按钮 */
 .jiluButton {
 	display: block;
-	--w: 105px;
-	--h: 45px;
+	--w: 117px;
+	--h: 42px;
 	width: var(--w);
 	height: var(--h);
 	position: absolute;
-	top: -45px;
+	top: -48px;
 	background-image: url("../../assets/lbtn/OL_line/uibutton/jiluShow.png");
 	background-size: 100% 100%;
 	z-index: 5;
-	left: -5px;
+	left: 0px;
+}
+
+.jiluButton::after {
+	content: "牌局记录";
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	transform: translate(-50%, -50%);
+	color: #f5d78e;
+	font-size: 20px;
+	font-weight: bold;
+	font-family: "HYXLSJ";
+	text-shadow: 0 0 3px black;
+	white-space: nowrap;
+	pointer-events: none;
 }
 
 /* 背景选择器 */
@@ -353,7 +368,7 @@
 	width: 100%;
 	text-align: center;
 	font-weight: 500;
-	font-family: "shousha";
+	font-family: "HYXLSJ";
 	color: #efdbb6;
 	text-shadow: none;
 	font-size: 25px;
@@ -398,7 +413,7 @@
 	width: 100%;
 	text-align: center;
 	color: #efdbb6;
-	font-family: "shousha";
+	font-family: "HYXLSJ";
 }
 
 .giftes {
@@ -421,7 +436,7 @@
 	width: 100%;
 	text-align: center;
 	color: #efdbb6;
-	font-family: "shousha";
+	font-family: "HYXLSJ";
 }
 
 .giftcost {
@@ -430,7 +445,7 @@
 	width: 100%;
 	text-align: center;
 	color: #efdbb6;
-	font-family: "shousha";
+	font-family: "HYXLSJ";
 }
 
 .giftcost::before {
@@ -501,7 +516,7 @@
 	text-orientation: upright;
 	color: #ae8e7d;
 	font-size: 23px;
-	font-family: "shousha";
+	font-family: "HYXLSJ";
 }
 
 .typechangelight {
@@ -517,7 +532,7 @@
 	text-orientation: upright;
 	color: #efdbb6;
 	font-size: 23px;
-	font-family: "shousha";
+	font-family: "HYXLSJ";
 }
 
 .talkrightbg {
@@ -531,7 +546,7 @@
 .talkquick {
 	color: #efdbb6;
 	font-size: 22px;
-	font-family: "shousha";
+	font-family: "HYXLSJ";
 	position: relative;
 	margin-top: 20px;
 	font-weight: 600;
@@ -559,7 +574,7 @@
 
 .talkhistory {
 	color: #efdbb6;
-	font-family: "shousha";
+	font-family: "HYXLSJ";
 	position: relative;
 	margin-top: 20px;
 	font-size: 21px;
@@ -586,7 +601,7 @@
 	align-items: center;
 	color: #efdbb6;
 	font-size: 23px;
-	font-family: "shousha";
+	font-family: "HYXLSJ";
 	bottom: 1.5%;
 	right: 15%;
 	width: 35%;
@@ -625,7 +640,7 @@
 	align-items: center;
 	justify-content: center;
 	color: rgb(197, 167, 139);
-	font-family: "shousha";
+	font-family: "HYXLSJ";
 	text-shadow: none;
 }
 
@@ -634,11 +649,11 @@
 	background-image: url("../../assets/lbtn/OL_line/uibutton/caidan.png");
 	background-size: 100% 100%;
 	display: block;
-	width: 55px;
-	height: 58px;
+	width: 53px;
+	height: 46px;
 	position: absolute;
-	top: 13px;
-	right: 50px;
+	top: 14px;
+	right: 55px;
 	background-color: transparent;
 	z-index: 1;
 }
@@ -651,7 +666,7 @@
 	white-space: normal;
 	position: fixed;
 	top: 12px;
-	right: 51px;
+	right: 56px;
 	background-color: rgba(0, 0, 0, 0.7);
 	border-radius: 4px;
 	overflow: auto;
@@ -662,12 +677,12 @@
 	height: 40.1px;
 	background-size: 100% 100%;
 	z-index: 99;
-	left: 1px;
+	left: -4px;
 	position: relative;
 	margin-top: 6px;
 	font-size: 16px;
 	font-weight: bold;
-	font-family: shousha;
+	font-family: "HYXLSJ";
 	color: rgb(194, 145, 105);
 	display: flex;
 	align-items: flex-end;
@@ -687,8 +702,8 @@
 	--height: 32px;
 	width: auto !important;
 	background: transparent;
-	box-shadow: none;
 	line-height: normal;
+	box-shadow: none !important;
 	padding: 0;
 }
 
@@ -697,19 +712,17 @@
 	background-size: 100% 100%;
 	line-height: var(--h);
 	padding: 4px 23px !important;
-	min-width: 90px !important;
-	max-height: 50px !important;
 	text-align: center;
 	margin-top: 0px !important;
 	margin-bottom: -15px !important;
 	color: #ceb193;
-	font-family: "FZLBJW";
+	-webkit-text-stroke: 2px black;
+	paint-order: stroke fill;
+	font-family: "HYXLSJ";
 	font-size: 26px;
 	text-shadow:
-		2px 2px 0px #5d4022,
-		-2px -2px 0px #5d4022,
-		2px -2px 0px #5d4022,
-		-2px 1px 0px #5d4022;
+		1px 1px 0px #5d4022,
+		-1px -1px 0px #5d4022;
 	letter-spacing: 2px;
 }
 
@@ -722,43 +735,46 @@
 .control > div.primary2 {
 	bottom: 1.8px;
 	color: #ceb193;
-	font-family: "FZLBJW";
-	font-size: 28px !important;
+	font-family: "HYXLSJ";
+	font-size: 23px !important;
 	line-height: 35px;
+	min-width: 85px !important;
+	height: 39px !important;
 	padding: 4px 24.5px !important;
-	margin-left: 55px !important;
+	margin-right: 55px !important;
 	margin-right: 0px !important;
 	margin-top: 0px !important;
 	margin-bottom: -15px !important;
+	font-weight: 500;
 	background-size: 100% 100%;
+	background-repeat: no-repeat;
 	background-image: url("../../assets/lbtn/OL_line/uibutton/seatui_btns_confirm_2.png");
 	overflow: visible;
 	transition: none;
 	text-shadow:
-		2px 2px 0px #5d4022,
-		-2px -2px 0px #5d4022,
-		2px -2px 0px #5d4022,
-		-2px 1px 0px #5d4022;
+		1px 1px 0px #5d4022,
+		-1px -1px 0px #5d4022;
 	letter-spacing: 2px;
 }
 
 .control > div.primary {
 	color: #ceb193;
-	font-family: "FZLBJW";
+	font-family: "HYXLSJ";
 	font-size: 28px !important;
 	line-height: 35px;
+	font-weight: 500;
+	width: 109px !important;
+	height: 46px !important;
 	padding: 4px 24.5px !important;
-	margin-left: 10px !important;
+	margin-left: -10px !important;
 	margin-right: 10px !important;
 	margin-top: 0px !important;
 	margin-bottom: -15px !important;
 	background-size: 100% 100%;
-	background-image: url("../../assets/lbtn/OL_line/uibutton/seatui_btns_confirm_1.png");
+	background-image: url("../../assets/lbtn/OL_line/uibutton/seatui_btns_ingnore.png");
 	text-shadow:
-		2px 2px 0px #5d4022,
-		-2px -2px 0px #5d4022,
-		2px -2px 0px #5d4022,
-		-2px 1px 0px #5d4022;
+		1px 1px 0px #5d4022,
+		-1px -1px 0px #5d4022;
 	letter-spacing: 2px;
 }
 
@@ -772,15 +788,15 @@
 	top: 29px;
 	right: 138.5px;
 	font-weight: 400;
-	font-family: "yuanli";
+	font-family: "HYXLSJ";
 	z-index: 3;
 }
 
 .cardRoundNumber > .cardPileNumber {
 	left: 30px;
 	top: -15px;
-	--w: 105px;
-	--h: 55px;
+	--w: 86px;
+	--h: 46px;
 	width: var(--w);
 	height: var(--h);
 	background-image: url("../../assets/lbtn/OL_line/uibutton/round_info_time_bg.png");
@@ -791,12 +807,12 @@
 }
 
 .cardRoundNumber > .cardPileNumber > span {
-	left: -30px;
-	top: 25px;
+	left: -25px;
+	top: 23px;
 	width: 100%;
 	display: block;
 	position: absolute;
-	font-family: "yuanli";
+	font-family: "HYXLSJ";
 	line-height: 25px;
 	text-align: center;
 	color: #b08463;
@@ -811,27 +827,27 @@
 
 .cardRoundNumber > .roundNumber,
 .cardRoundNumber > .time {
-	left: 70px;
-	top: 0px;
+	left: 55px;
+	top: -5px;
 	height: 20px;
 	line-height: 5px;
 	white-space: nowrap;
 	font-size: 16px;
-	font-family: "shousha";
+	font-family: "HYXLSJ";
 	color: #b08463;
 	z-index: 3;
 }
 
 .cardRoundNumber > .roundNumber {
-	left: 80px;
+	left: 68px;
 }
 
 .cardRoundNumber > .time {
-	top: 25px;
+	top: 20px;
 	display: flex;
 	justify-content: center;
 	font-size: 16px;
-	font-family: "shousha";
+	font-family: "HYXLSJ";
 	color: #b08463;
 	min-width: 70px;
 }
@@ -857,7 +873,7 @@
 .handcardNumber {
 	bottom: 0px;
 	right: 230px;
-	font-family: "yuanli";
+	font-family: "HYXLSJ";
 	text-shadow:
 		#f5d78e 0 0 1px,
 		black 0 0 2px,

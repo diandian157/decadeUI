@@ -3,7 +3,105 @@
  */
 
 /** 基础动画 */
+/*css动画光效*/
+@keyframes green-glow {
+	0% {
+		border-radius: 4px;
+		box-shadow:
+			3px 2px 2px #00ff7f,
+			-3px 2px 2px #00ff00;
+	}
 
+	50% {
+		border-radius: 4px;
+		box-shadow:
+			3px 2px 2px #00ff7f,
+			-3px 2px 2px #00ff00;
+	}
+
+	100% {
+		border-radius: 4px;
+		box-shadow:
+			3px 2px 2px #00ff7f,
+			-3px 2px 2px #00ff00;
+	}
+}
+@keyframes pink-glow {
+	0% {
+		box-shadow:
+			3px 2px 2px #ff3399,
+			-3px 2px 2px #ff3399;
+	}
+
+	50% {
+		box-shadow:
+			3px 2px 2px #ff33ff,
+			-3px 2px 2px #ff33ff;
+	}
+
+	100% {
+		box-shadow:
+			3px 2px 2px #ff3399,
+			-3px 2px 2px #ff3399;
+	}
+}
+@keyframes orange-glow {
+	0% {
+		box-shadow:
+			3px 2px 2px #ffff33,
+			-3px 2px 2px #ffff33;
+	}
+
+	50% {
+		box-shadow:
+			3px 2px 2px #ff6633,
+			-3px 2px 2px #ff6633;
+	}
+
+	100% {
+		box-shadow:
+			3px 2px 2px #ffff33,
+			-3px 2px 2px #ffff33;
+	}
+}
+@keyframes blue-glow {
+	0% {
+		box-shadow:
+			3px 2px 2px #00ffff,
+			-3px 2px 2px #00ffff;
+	}
+
+	50% {
+		box-shadow:
+			3px 2px 2px #7fffd4,
+			-3px 2px 2px #7fffd4;
+	}
+
+	100% {
+		box-shadow:
+			3px 2px 2px #00ffff,
+			-3px 2px 2px #00ffff;
+	}
+}
+@keyframes red-glow {
+	0% {
+		box-shadow:
+			5px 2px 2px rgba(255, 46, 49, 0.8),
+			-5px 2px 2px rgba(255, 46, 49, 0.8);
+	}
+
+	50% {
+		box-shadow:
+			5px 2px 2px rgba(255, 46, 49, 0.8),
+			-5px 2px 2px rgba(255, 46, 49, 0.8);
+	}
+
+	100% {
+		box-shadow:
+			5px 2px 2px rgba(255, 46, 49, 0.8),
+			-5px 2px 2px rgba(255, 46, 49, 0.8);
+	}
+}
 /* 淡入 */
 @keyframes fade-in {
 	from {
@@ -282,6 +380,7 @@
 	align-items: center;
 	font-family: yuanli;
 	font-size: 30px;
+	font-weight: bold;
 	color: #ffffff;
 	text-shadow: 0 0 4px #000;
 	opacity: 1;
@@ -297,6 +396,7 @@
 	width: 100%;
 	font-family: yuanli;
 	font-size: 40px;
+	font-weight: bold;
 	top: 80px;
 	color: #ffffff;
 	text-shadow: 0 0 4px #000;
