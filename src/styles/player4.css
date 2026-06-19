@@ -360,7 +360,6 @@
 	position: absolute;
 	transform: translateX(-3px) translateY(1px);
 	width: 25px;
-	height: 62px !important;
 	font-size: 18px;
 	letter-spacing: -3px;
 	font-weight: 550;
@@ -582,8 +581,8 @@
 /* 血量图标样式 */
 .hp:not(.text):not(.actcount):not(.treasure)[data-condition="high"] > div:not(.lost):not(.shield) {
 	background: url("../../image/styles/online/blood_green.png") no-repeat;
-	width: 16.9px;
-	height: 18px;
+	width: 13px;
+	height: 16px;
 	background-size: 100% 100%;
 	transform: scale(1);
 	box-shadow: none;
@@ -594,8 +593,8 @@
 
 .hp:not(.text):not(.actcount):not(.treasure)[data-condition="mid"] > div:not(.lost):not(.shield) {
 	background: url("../../image/styles/online/blood_yellow.png") no-repeat;
-	width: 16.9px;
-	height: 18px;
+	width: 13px;
+	height: 16px;
 	background-size: 100% 100%;
 	transform: scale(1);
 	box-shadow: none;
@@ -606,8 +605,8 @@
 
 .hp:not(.text):not(.actcount):not(.treasure)[data-condition="low"] > div:not(.lost):not(.shield) {
 	background: url("../../image/styles/online/blood_red.png") no-repeat;
-	width: 16.9px;
-	height: 18px;
+	width: 13px;
+	height: 16px;
 	background-size: 100% 100%;
 	transform: scale(1);
 	box-shadow: none;
@@ -1031,53 +1030,6 @@
 	transform: translateX(-3px) translateY(0px);
 }
 
-/*玩家标记*/
-/*#arena[data-player-mark-style="decade"] > .player[data-position="0"] > .dui-marks {
-	left: auto;
-	right: -15px;
-	top: 28px;
-	height: 25px;
-	z-index: 66;
-}
-
-#arena[data-player-mark-style="decade"] > .player[data-position="0"] > .dui-marks > .mark {
-    justify-content: flex-end;
-    left: auto;
-    right: -70px;
-    min-width: 35px;
-	height: 23px;
-	margin-bottom: -6px;
-	top: -6px;
-	background-image: url("../../image/ui/mark/markOL1.png");
-	transform: translateX(-2.5px) translateY(0px);
-}*/
-/* 玩家文字 */
-/*#arena[data-player-mark-style="decade"] > .player[data-position="0"] > .dui-marks > .mark > .mark-text {
-  width:2em;
-  height: auto;
-  font-family: "HYXLSJ" !important;
-  line-height: 17px;
-  font-size: 14px;
-  font-weight: 500;
-  text-align: left;
-  margin: 0 2px;
-  transform: translateX(0px) translateY(-1px);
-  color: #ffd700;
-}*/
-
-/* 玩家数字 */
-/*#arena[data-player-mark-style="decade"] > .player[data-position="0"] > .dui-marks > .mark > .mark-count {
-  width: 17px;
-  height: auto;
-  margin:0 0;
-  text-align: left;
-  font-family: "HYXLSJ" !important;
-  line-height: 17px;
-  font-size: 14px;
-  font-weight: 550;
-  color: #ffd700;
-  transform: translateX(-4px) translateY(0px);
-}*/
 #arena[data-player-mark-style="decade"] > .player > .dui-marks > .mark > .mark-text::before {
 	display: none;
 }
