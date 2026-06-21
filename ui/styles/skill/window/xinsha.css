@@ -6,7 +6,7 @@
 /* 技能控制区 */
 .skill-control {
 	max-width: 120px;
-	bottom: 8px;
+	bottom: 15px;
 	right: 35px;
 	z-index: 6;
 }

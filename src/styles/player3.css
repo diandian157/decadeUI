@@ -136,7 +136,7 @@
 	left: 25px;
 	top: auto;
 	right: auto;
-	bottom: 1%;
+	bottom: 2%;
 }
 
 #arena[data-right-layout="on"] > .player[data-position="0"],
@@ -236,12 +236,12 @@
 	align-items: center;
 	justify-content: center;
 	position: absolute;
-	left: 25%;
+	left: 40%;
 	top: 24%;
 	right: 26%;
 	bottom: 1%;
-	width: 22px;
-	height: 120px;
+	width: 20px;
+	height: 130px;
 	margin-top: -20px;
 	margin-left: -1px;
 	border-radius: 0;
@@ -425,36 +425,36 @@
 }
 
 #arena.decadeUI[data-border-style="dragon4"] .player > .camp-wrap > .camp-border {
-	background-image: url("../../image/styles/decade/border_camp.png");
-	left: 0;
-	top: -12%;
-	width: 105%;
-	height: 114%;
+	background-image: url("../../image/styles/xinsha/border_camp.png");
+	left: -12px;
+	top: -23%;
+	width: 195%;
+	height: 140%;
 }
 
 #arena.decadeUI[data-border-style="dragon4"][data-border-level="one"] .player > .camp-wrap > .camp-border,
 #arena.decadeUI[data-border-style="dragon4"] .player[data-border-level="one"] > .camp-wrap > .camp-border {
-	background-image: url("../../image/styles/decade/border_camp1.png");
+	background-image: url("../../image/styles/xinsha/border_camp1.png");
 }
 
 #arena.decadeUI[data-border-style="dragon4"][data-border-level="two"] .player > .camp-wrap > .camp-border,
 #arena.decadeUI[data-border-style="dragon4"] .player[data-border-level="two"] > .camp-wrap > .camp-border {
-	background-image: url("../../image/styles/decade/border_camp2.png");
+	background-image: url("../../image/styles/xinsha/border_camp2.png");
 }
 
 #arena.decadeUI[data-border-style="dragon4"][data-border-level="three"] .player > .camp-wrap > .camp-border,
 #arena.decadeUI[data-border-style="dragon4"] .player[data-border-level="three"] > .camp-wrap > .camp-border {
-	background-image: url("../../image/styles/decade/border_camp3.png");
+	background-image: url("../../image/styles/xinsha/border_camp3.png");
 }
 
 #arena.decadeUI[data-border-style="dragon4"][data-border-level="four"] .player > .camp-wrap > .camp-border,
 #arena.decadeUI[data-border-style="dragon4"] .player[data-border-level="four"] > .camp-wrap > .camp-border {
-	background-image: url("../../image/styles/decade/border_camp4.png");
+	background-image: url("../../image/styles/xinsha/border_camp4.png");
 }
 
 #arena.decadeUI[data-border-style="dragon4"][data-border-level="five"] .player > .camp-wrap > .camp-border,
 #arena.decadeUI[data-border-style="dragon4"] .player[data-border-level="five"] > .camp-wrap > .camp-border {
-	background-image: url("../../image/styles/decade/border_camp5.png");
+	background-image: url("../../image/styles/xinsha/border_camp5.png");
 }
 
 /** 武将名称 */
@@ -466,7 +466,7 @@
 	display: flex !important;
 	align-items: flex-start !important;
 	justify-content: flex-start !important;
-	font-size: 17px;
+	font-size: 15px;
 	text-shadow: none;
 }
 
@@ -484,7 +484,8 @@
 
 #arena.decadeUI[data-border-style="dragon4"] .player > .camp-wrap > .avatar-name,
 #arena.decadeUI[data-border-style="dragon4"] .player > .camp-wrap > .avatar-name-default {
-	top: 29% !important;
+	top: 34% !important;
+	left: 87% !important;
 }
 
 /* 主将名 */
@@ -602,7 +603,8 @@
 }
 
 #arena.decadeUI[data-border-style="dragon4"] .player > .camp-wrap > .camp-name {
-	top: -10px;
+	top: -7px;
+	left: 7px;
 }
 
 /* 联机名称 */
@@ -1472,7 +1474,7 @@
 }
 
 .player[data-position="0"] > .seat {
-	bottom: -10px;
+	bottom: -15px;
 }
 
 .player > .name_seat {
@@ -1488,10 +1490,10 @@
 /** 手牌数 */
 .player > .card-count {
 	position: absolute;
-	left: -5.5px;
+	left: -4px;
 	bottom: -1px;
-	width: 24px;
-	height: 24px;
+	width: 23px;
+	height: 23px;
 	line-height: 28px;
 	font-size: 19px;
 	font-family: xinwei, xingkai;
@@ -1524,8 +1526,10 @@
 
 /* 主玩家手牌数隐藏 */
 .player[data-position="0"] > .card-count {
-	left: -5px;
-	bottom: 7px;
+	left: -4px;
+	bottom: 0px;
+	width: 23px;
+	height: 23px;
 	color: transparent;
 	font-size: 0;
 	visibility: visible !important;
