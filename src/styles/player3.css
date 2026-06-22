@@ -642,12 +642,12 @@
 #arena.decadeUI[data-border-style="dragon4"] .player > .hp-wrap {
 	right: -2px;
 	bottom: -5px;
-	width: 12px;
+	width: 4.5px;
 	height: 50px;
 	border-width: 24px 5px 21px 82px;
 	border-style: solid;
 	border-color: transparent;
-	border-image-source: url("../../image/styles/decade/border_hp.png");
+	border-image-source: url("../../image/styles/xinsha/border_hp.png");
 	border-image-slice: 32 6 25 113 fill;
 }
 
@@ -703,23 +703,23 @@
 }
 
 #arena.decadeUI[data-border-style="dragon4"] .player[data-max-hp="1"] > .hp-wrap {
-	height: 5px;
+	height: 0px;
 }
 
 #arena.decadeUI[data-border-style="dragon4"] .player[data-max-hp="2"] > .hp-wrap {
-	height: 20px;
+	height: 15px;
 }
 
 #arena.decadeUI[data-border-style="dragon4"] .player[data-max-hp="3"] > .hp-wrap {
-	height: 35px;
+	height: 30px;
 }
 
 #arena.decadeUI[data-border-style="dragon4"] .player[data-max-hp="4"] > .hp-wrap {
-	height: 50px;
+	height: 45px;
 }
 
 #arena.decadeUI[data-border-style="dragon4"] .player[data-max-hp="5"] > .hp-wrap {
-	height: 65px;
+	height: 60px;
 }
 
 #arena.decadeUI[data-border-style="dragon4"] .player[data-max-hp="hujia"] > .hp-wrap {
@@ -777,27 +777,27 @@
 }
 
 #arena.decadeUI[data-border-style="dragon4"] .player[data-border-level="one"] > .hp-wrap {
-	border-image-source: url("../../image/styles/decade/border_hp1.png");
+	border-image-source: url("../../image/styles/xinsha/border_hp1.png");
 }
 
 #arena.decadeUI[data-border-style="dragon4"][data-border-level="two"] .player > .hp-wrap,
 #arena.decadeUI[data-border-style="dragon4"] .player[data-border-level="two"] > .hp-wrap {
-	border-image-source: url("../../image/styles/decade/border_hp2.png");
+	border-image-source: url("../../image/styles/xinsha/border_hp2.png");
 }
 
 #arena.decadeUI[data-border-style="dragon4"][data-border-level="three"] .player > .hp-wrap,
 #arena.decadeUI[data-border-style="dragon4"] .player[data-border-level="three"] > .hp-wrap {
-	border-image-source: url("../../image/styles/decade/border_hp3.png");
+	border-image-source: url("../../image/styles/xinsha/border_hp3.png");
 }
 
 #arena.decadeUI[data-border-style="dragon4"][data-border-level="four"] .player > .hp-wrap,
 #arena.decadeUI[data-border-style="dragon4"] .player[data-border-level="four"] > .hp-wrap {
-	border-image-source: url("../../image/styles/decade/border_hp4.png");
+	border-image-source: url("../../image/styles/xinsha/border_hp4.png");
 }
 
 #arena.decadeUI[data-border-style="dragon4"][data-border-level="five"] .player > .hp-wrap,
 #arena.decadeUI[data-border-style="dragon4"] .player[data-border-level="five"] > .hp-wrap {
-	border-image-source: url("../../image/styles/decade/border_hp.png");
+	border-image-source: url("../../image/styles/xinsha/border_hp.png");
 }
 
 /* 护甲 */
@@ -845,9 +845,9 @@
 #window > .player:not(.minskin).hp {
 	display: flex;
 	flex-direction: column;
-	left: -2px;
+	left: -9px;
 	right: 2;
-	bottom: -8px;
+	bottom: -10px;
 	width: 19.5px;
 	font-size: 13px;
 	line-height: 14px;
