@@ -236,7 +236,7 @@
 	align-items: center;
 	justify-content: center;
 	position: absolute;
-	left: 40%;
+	left: 10%;
 	top: 24%;
 	right: 26%;
 	bottom: 1%;
@@ -426,7 +426,7 @@
 
 #arena.decadeUI[data-border-style="dragon4"] .player > .camp-wrap > .camp-border {
 	background-image: url("../../image/styles/xinsha/border_camp.png");
-	left: -12px;
+	left: -23px;
 	top: -23%;
 	width: 195%;
 	height: 140%;
@@ -485,7 +485,7 @@
 #arena.decadeUI[data-border-style="dragon4"] .player > .camp-wrap > .avatar-name,
 #arena.decadeUI[data-border-style="dragon4"] .player > .camp-wrap > .avatar-name-default {
 	top: 34% !important;
-	left: 87% !important;
+	right: 40% !important;
 }
 
 /* 主将名 */
@@ -604,7 +604,7 @@
 
 #arena.decadeUI[data-border-style="dragon4"] .player > .camp-wrap > .camp-name {
 	top: -7px;
-	left: 7px;
+	left: -3px;
 }
 
 /* 联机名称 */
@@ -820,6 +820,22 @@
 	background: url("../../image/styles/decade/shield.png") no-repeat;
 	background-size: 100% 100%;
 	z-index: 100;
+}
+
+#arena.decadeUI[data-border-style="dragon4"] .hujia {
+	left: -13px;
+}
+
+#arena.decadeUI[data-border-style="dragon2"] .hujia {
+	left: 40px;
+	top: auto;
+	bottom: -40px;
+}
+
+#arena.decadeUI[data-border-style="dragon3"] .hujia {
+	left: 40px;
+	top: auto;
+	bottom: -40px;
 }
 
 .player.connect > div:not(.avatar):not(.name):not(.nameol):not(.hp):not(.room):not(.gaming):not(.identity).hp-wrap {
@@ -1494,12 +1510,14 @@
 	bottom: -1px;
 	width: 23px;
 	height: 23px;
-	line-height: 28px;
+	line-height: 23px;
 	font-size: 19px;
 	font-family: xinwei, xingkai;
 	color: white;
 	text-align: center;
-	text-shadow: none;
+	text-shadow:
+		1px 1px 2px rgba(0, 0, 0, 0.8),
+		0 0 3px rgba(0, 0, 0, 0.6);
 	border: none;
 	border-radius: 0;
 	box-shadow: none;
@@ -1510,18 +1528,8 @@
 	z-index: 89;
 }
 
-.player > .card-count::before {
-	content: attr(data-text);
-	position: absolute;
-	left: 0;
-	top: 0;
-	width: 100%;
-	height: 100%;
-	line-height: 28px;
-	color: transparent;
-	white-space: pre;
-	-webkit-text-stroke: 2px black;
-	z-index: -1;
+#arena.decadeUI[data-border-style="dragon4"] .player > .card-count {
+	left: -10px;
 }
 
 /* 主玩家手牌数隐藏 */
