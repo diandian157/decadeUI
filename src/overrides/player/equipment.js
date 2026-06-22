@@ -8,6 +8,33 @@ import { lib, game, get, _status } from "noname";
 import { getBasePlayerMethods } from "./base.js";
 
 /**
+ * 动态加载装备栏样式文件
+ * 根据 aloneEquip 配置决定加载 equipment.css 或 equip.css
+ */
+function loadEquipmentStyles() {
+	if (typeof window.decadeUIPath === "undefined") {
+		console.warn("[十周年UI] decadeUIPath 尚未定义，延迟加载样式");
+		setTimeout(loadEquipmentStyles, 100);
+		return;
+	}
+
+	const isAloneEquip = lib.config["extension_十周年UI_aloneEquip"];
+	const version = lib.extensionPack?.十周年UI?.version || Date.now();
+
+	const cssPath = isAloneEquip ? `${window.decadeUIPath}src/overrides/player/equipment.css` : `${window.decadeUIPath}src/styles/equip.css`;
+
+	const basePath = cssPath.split("?")[0];
+	if (document.querySelector(`link[href*="${basePath}"]`)) return;
+
+	const link = document.createElement("link");
+	link.rel = "stylesheet";
+	link.href = `${cssPath}?v=${version}&t=${Date.now()}`;
+	document.head.appendChild(link);
+}
+
+loadEquipmentStyles();
+
+/**
  * @description 美化装备栏显示，支持多种UI风格。当开启单独装备栏时不生效
  * @param {Object} card - 卡牌对象
  * @param {Array} cards - 原始卡牌数组
@@ -138,12 +165,12 @@ export function playerAddVirtualEquip(card, cards) {
 			<img src="${backgroundURL}" style="${imgStyle}">
 			<span style="font-size:14px;margin-left:18px;margin-top:1px;-webkit-text-stroke: ${styleEquipSuitNumber}px ${styleEquipColor};paint-order: stroke fill;">${suitfont}</span>
 			<span style="font-size:15px;font-weight:700;-webkit-text-stroke: ${styleEquipNumber}px ${styleEquipColor};paint-order: stroke fill;margin-left:0px;">${number}</span>
-			<span style="color:white;-webkit-text-stroke: ${styleEquipName}px ${styleEquipColor};paint-order: stroke fill;margin-top:1px;overflow:hidden;text-overflow:ellipsis;">${cardShownName}</span>`;
+			<span style="color:white;-webkit-text-stroke: ${styleEquipName}px ${styleEquipColor};paint-order: stroke fill;margin-top:1px;">${cardShownName}</span>`;
 	} else {
 		cardx.node.name2.innerHTML = `
 			<div style="display:flex;align-items:center;justify-content:space-between;width:100%;">
 				<img src="${backgroundURL}" style="${imgStyle}">
-				<span style="flex:0.8;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0;color:#392418;text-align:center;transform:translateX(16px);">${cardShownName}</span>
+				<span style="flex:0.8;min-width:0;color:#392418;text-align:center;transform:translateX(16px);">${cardShownName}</span>
 				<span style="display:flex;align-items:center;white-space:nowrap;">
 					<span style="font-size:14px;font-weight:500;-webkit-text-stroke:0.5px white;paint-order: stroke fill;margin-bottom:-2px;margin-right:-2px;">${number}</span>
 					<span style="font-size:14px;-webkit-text-stroke:0.5px white;paint-order: stroke fill;margin-bottom:-2px;margin-right:2px;">${suitfont}</span>
