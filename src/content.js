@@ -153,7 +153,10 @@ export async function content(config) {
 		...config,
 		dynamicSkin: lib.config.extension_十周年UI_dynamicSkin ?? false,
 		newDecadeStyle: lib.config.extension_十周年UI_newDecadeStyle ?? "on",
-		dynamicSkinOutcrop: lib.config.extension_十周年UI_dynamicSkinOutcrop ?? false,
+		dynamicSkinOutcrop: (() => {
+			const style = lib.config.extension_十周年UI_outcropSkin;
+			return style && style !== "off" ? style : false;
+		})(),
 		rightLayout: lib.config.extension_十周年UI_rightLayout === "on",
 	};
 

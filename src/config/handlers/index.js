@@ -5,7 +5,7 @@
  */
 
 // 整体外观处理函数
-export { onExtensionToggleClick, onExtensionToggleUpdate, onNewDecadeStyleClick, onNewDecadeStyleUpdate, onRightLayoutClick, onRightLayoutUpdate, onOutcropSkinClick, onOutcropSkinUpdate, onBorderLevelUpdate, onAloneEquipUpdate, onMeanPrettifyClick, onDynamicSkinClick, onDynamicSkinOutcropUpdate } from "./appearance-handlers.js";
+export { onExtensionToggleClick, onExtensionToggleUpdate, onNewDecadeStyleClick, onNewDecadeStyleUpdate, onRightLayoutClick, onRightLayoutUpdate, onOutcropSkinClick, onOutcropSkinUpdate, onBorderLevelUpdate, onAloneEquipUpdate, onMeanPrettifyClick, onDynamicSkinClick } from "./appearance-handlers.js";
 
 // 卡牌相关处理函数
 export { onTranslateClick, onCardGhostEffectClick, onAutoSelectClick, onAutoSelectUpdate, onHandTipHeightBlur, onHandTipHeightUpdate, onCardScaleBlur, onDiscardScaleBlur, onCardPrettifyClick, onCardkmhClick, onCardkmhUpdate, onChupaizhishiUpdate } from "./card-handlers.js";

@@ -4,6 +4,7 @@
  */
 
 import { lib, game, ui, get, ai, _status } from "noname";
+import { applyGroupCapImage } from "../../ui/character/skins/shousha.js";
 
 /**
  * 处理势力样式V2（强制样式2）
@@ -101,9 +102,11 @@ export function definePlayerGroupProperty() {
 			set(group) {
 				if (!group) return;
 				this._group = group;
-				this.node.campWrap.dataset.camp = get.character(this.name)?.groupBorder || group;
+				const camp = get.character(this.name)?.groupBorder || group;
+				this.node.campWrap.dataset.camp = camp;
 
 				handleGroupStyleV2.call(this, group);
+				applyGroupCapImage(this.node.cap, camp);
 			},
 		},
 	});

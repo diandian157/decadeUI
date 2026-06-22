@@ -681,6 +681,22 @@
 	opacity: 1 !important;
 }
 
+/** 动皮帽子 */
+#arena > .player > .cap {
+	z-index: 6;
+	display: none;
+	pointer-events: none;
+	background-size: 100% 100%;
+}
+
+#arena:not([data-outcrop-skin="off"]) > .player.d-skin > .cap,
+#arena:not([data-outcrop-skin="off"]) > .player.d-skin2 > .cap {
+	width: 100%;
+	height: 20%;
+	top: -9%;
+	display: block;
+}
+
 /** 动态皮肤 */
 .player > .dynamic-wrap {
 	display: block;
@@ -694,6 +710,14 @@
 	background-repeat: no-repeat;
 	pointer-events: none;
 	z-index: 5;
+}
+
+/* 动皮露头开启 */
+#arena[data-dynamic-skin-outcrop="on"] .player > .dynamic-wrap {
+	border-top-left-radius: 100px 40px;
+	border-top-right-radius: 100px 40px;
+	border-bottom-right-radius: 8px;
+	border-bottom-left-radius: 8px;
 }
 
 .player > .dynamic-wrap > .animation-player {
@@ -738,6 +762,11 @@
 .player.d-skin > .dynamic-wrap > .primary-bg,
 .player.d-skin2 > .dynamic-wrap > .deputy-bg {
 	opacity: 1;
+}
+
+#arena:not([data-outcrop-skin="off"]) > .player > .dynamic-wrap {
+	clip-path: url(#mobile-dskin-bg-clip);
+	-webkit-clip-path: url(#mobile-dskin-bg-clip);
 }
 
 #arena:not(.observe) > .player[data-position="0"].unseen.d-skin > .dynamic-wrap > .primary-bg,

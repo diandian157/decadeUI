@@ -7,6 +7,7 @@
 @import "card.css";
 @import "icon.css";
 @import "effect.css";
+@import "decadeAnimationTools.css";
 
 /** 基础样式 */
 
@@ -53,6 +54,10 @@ body > .background {
 	top: 0;
 	pointer-events: none;
 	z-index: 24;
+}
+
+.linexy {
+	z-index: 10;
 }
 
 #decadeUI-body-sensor {
@@ -301,6 +306,7 @@ body > .background {
 #arena.oblongcard:not(.chess) .handcards > .card {
 	width: 108px;
 	height: 150px;
+	z-index: 10;
 }
 
 .button.card {
@@ -803,4 +809,101 @@ body[data-style="onlineUI"] #arena[data-long-level="five"] > .player > .wei,
 body[data-style="babysha"] #arena[data-long-level="five"] > .player > .wei {
 	background-image: url("../../image/ui/frame/long_yan2.png");
 }
-@import "decadeAnimationTools.css";
+
+/** 动态皮肤层级 */
+
+#arena > .player.d-skin,
+#arena > .player.d-skin2 {
+	z-index: auto !important;
+}
+
+.player > .dynamic-wrap > .primary-bg,
+.player > .dynamic-wrap > .deputy-bg {
+	position: absolute;
+	pointer-events: none;
+	z-index: 1;
+}
+
+.player > .dynamic-wrap > .primary-dynamic-mask,
+.player > .dynamic-wrap > .deputy-dynamic-mask {
+	position: absolute;
+	left: 0;
+	top: auto;
+	bottom: 0;
+	width: 50%;
+	height: 100%;
+	pointer-events: none;
+	opacity: 0;
+	z-index: 3;
+	background-image: url("../../../../image/character/hidden_image.jpg");
+	background-size: cover;
+	background-repeat: no-repeat;
+	background-position: top;
+	transition: opacity, transform;
+}
+
+.player > .dynamic-wrap > .primary-dynamic-mask {
+	border-radius: 8px 0 0 8px;
+}
+
+.player > .dynamic-wrap > .deputy-dynamic-mask {
+	left: 50%;
+	border-radius: 0 8px 8px 0;
+}
+
+.player.decade-dynamic-primary-hidden > .dynamic-wrap > .primary-bg,
+.player.decade-dynamic-deputy-hidden > .dynamic-wrap > .deputy-bg {
+	opacity: 0 !important;
+}
+
+.player.decade-dynamic-primary-hidden > .dynamic-wrap > .primary-dynamic-mask,
+.player.decade-dynamic-deputy-hidden > .dynamic-wrap > .deputy-dynamic-mask {
+	opacity: 1;
+}
+
+.player.d-skin:not(.fullskin2) > .dynamic-wrap > .primary-bg,
+.player.d-skin:not(.fullskin2) > .dynamic-wrap > .primary-dynamic-mask {
+	left: 0;
+	width: 100%;
+	border-radius: inherit;
+}
+
+#arena > .player.d-skin > .dynamic-wrap,
+#arena > .player.d-skin2 > .dynamic-wrap,
+#arena > .player.d-skin > .framebg,
+#arena > .player.d-skin2 > .framebg,
+#arena > .player.d-skin > .primary-avatar,
+#arena > .player.d-skin2 > .deputy-avatar,
+#arena > .player.d-skin > .dynamic-wrap > .primary-bg,
+#arena > .player.d-skin2 > .dynamic-wrap > .deputy-bg,
+#arena > .player.d-skin > .border,
+#arena > .player.d-skin2 > .border,
+#arena > .player.d-skin > .camp-wrap > .camp-border,
+#arena > .player.d-skin2 > .camp-wrap > .camp-border {
+	z-index: 3 !important;
+}
+
+#arena > .player.d-skin > .equips,
+#arena > .player.d-skin2 > .equips,
+#arena > .player.d-skin > .dui-marks,
+#arena > .player.d-skin2 > .dui-marks,
+#arena > .player.d-skin > .identity,
+#arena > .player.d-skin2 > .identity,
+#arena > .player.d-skin > .identity-mark-box,
+#arena > .player.d-skin2 > .identity-mark-box,
+#arena > .player.d-skin > .judges,
+#arena > .player.d-skin2 > .judges,
+#arena > .player.d-skin > .camp-wrap,
+#arena > .player.d-skin2 > .camp-wrap,
+#arena > .player.d-skin > .hp-wrap,
+#arena > .player.d-skin2 > .hp-wrap,
+#arena > .player.d-skin > .name,
+#arena > .player.d-skin2 > .name,
+#arena > .player.d-skin > .name2,
+#arena > .player.d-skin2 > .name2,
+#arena > .player.d-skin > .gain-skill,
+#arena > .player.d-skin2 > .gain-skill,
+#arena > .player.d-skin > .prefix-mark,
+#arena > .player.d-skin2 > .prefix-mark {
+	position: absolute;
+}

@@ -287,7 +287,6 @@ function getConfigsByTab(tabId) {
 			{ key: "dynamicBackground", name: "动态背景", type: "select" },
 			{ key: "dynamicSkin", name: "动态皮肤", type: "toggle" },
 			{ key: "dynamicSkinZoomCompat", name: "缩放兼容", type: "toggle" },
-			{ key: "dynamicSkinOutcrop", name: "动皮露头", type: "toggle" },
 			{ key: "killEffect", name: "击杀特效", type: "toggle" },
 		],
 		card: [

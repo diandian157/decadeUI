@@ -157,6 +157,7 @@ export function createPlayerElement(position, noclick) {
 		node: {
 			avatar: ui.create.div(".primary-avatar", player, ui.click.avatar).hide(),
 			avatar2: ui.create.div(".deputy-avatar", player, ui.click.avatar2).hide(),
+			cap: element.create("cap", player),
 			turnedover: element.create("turned-over", player),
 			framebg: ui.create.div(".framebg", player),
 			intro: ui.create.div(".intro", player),

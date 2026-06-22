@@ -17,4 +17,5 @@ export const CLIP_PATHS = [
 	{ id: "duol-clip", d: "M1 0 H0 Q0 0.06 0.15 0.06 Q0 0.06 0 0.11 V1 H1 Z" },
 	{ id: "duor-clip", d: "M0 0 H1 Q1 0.06 0.85 0.06 Q1 0.06 1 0.11 V1 H0 Z" },
 	{ id: "dskin-clip", d: "M0 0 H1 Q1 0.1 0.94 0.1 Q0.985 0.1 1 0.13 V1 H0 V0.14 Q0 0.11 0.06 0.1 Q0 0.1 0 0 Z" },
+	{ id: "mobile-dskin-bg-clip", d: "M0.07 1 H0.93 Q1 1 1 0.96 V0.09 C1 0.05 0.51 0 0.42 0 C0.33 0 0 0.05 0 0.09 V0.96 Q0 1 0.07 1 Z" },
 ];

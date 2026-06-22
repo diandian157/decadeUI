@@ -273,13 +273,37 @@ export class AnimationPlayer {
 		const asset = assets[filename];
 		const manager = this.spine.assetManager;
 
-		if (!asset.skelRawData) {
-			const prefix = this._getPathPrefix(filename);
-			const atlas = new spine.TextureAtlas(manager.get(filename + ".atlas"), path => manager.get(prefix + path));
-			const atlasLoader = new spine.AtlasAttachmentLoader(atlas);
-			asset.skelRawData = asset.skelType === "json" ? new spine.SkeletonJson(atlasLoader) : new spine.SkeletonBinary(atlasLoader);
-			asset.ready = true;
+	if (!asset.skelRawData) {
+		const prefix = this._getPathPrefix(filename);
+		const atlas = new spine.TextureAtlas(manager.get(filename + ".atlas"), path => manager.get(prefix + path));
+		const atlasLoader = new spine.AtlasAttachmentLoader(atlas);
+		if (this.ignoreMissingRegions) {
+			const createPlaceholder = (method, name, path) => {
+				const region = atlas.regions?.[0];
+				if (!region) return null;
+				const attachment = method === "newMeshAttachment" ? new spine.MeshAttachment(name) : new spine.RegionAttachment(name);
+				if (method === "newMeshAttachment") attachment.region = region;
+				else attachment.setRegion(region);
+				if (attachment.color) attachment.color.a = 0;
+				attachment._missingRegion = path;
+				return attachment;
+			};
+			for (const method of ["newRegionAttachment", "newMeshAttachment"]) {
+				const createAttachment = atlasLoader[method].bind(atlasLoader);
+				atlasLoader[method] = (skin, name, path) => {
+					try {
+						return createAttachment(skin, name, path);
+					} catch (error) {
+						if (!String(error?.message).startsWith("Region not found in atlas:")) throw error;
+						console.warn(`[十周年UI] 动态背景缺少 atlas region，已使用透明占位：${path}`);
+						return createPlaceholder(method, name, path);
+					}
+				};
+			}
 		}
+		asset.skelRawData = asset.skelType === "json" ? new spine.SkeletonJson(atlasLoader) : new spine.SkeletonBinary(atlasLoader);
+		asset.ready = true;
+	}
 
 		const data = asset.skelRawData.readSkeletonData(manager.get(`${filename}.${asset.skelType}`));
 		const skeleton = new spine.Skeleton(data);

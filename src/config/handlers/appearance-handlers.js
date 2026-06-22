@@ -216,7 +216,10 @@ export function onDynamicSkinOutcropUpdate() {
 	const configured = lib.config.extension_十周年UI_outcropSkin;
 	const enable = configured && configured !== "off" ? configured : false;
 	decadeUI.config.dynamicSkinOutcrop = enable;
-	ui.arena.dataset.dynamicSkinOutcrop = enable || "off";
+	if (ui.arena) {
+		ui.arena.dataset.outcropSkin = configured || "off";
+		ui.arena.dataset.dynamicSkinOutcrop = enable || "off";
+	}
 	[...(game.players || []), ...(game.dead || [])].forEach(player => {
 		if (player.dynamic) {
 			player.dynamic.outcropMask = enable;

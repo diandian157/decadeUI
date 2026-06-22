@@ -5,7 +5,7 @@
  */
 import { createCollapseTitle, createCollapseEnd } from "../utils.js";
 import { dynamicBackgroundItems } from "../../animation/backgroundAnimation.js";
-import { onExtensionToggleClick, onExtensionToggleUpdate, onNewDecadeStyleClick, onNewDecadeStyleUpdate, onOutcropSkinClick, onOutcropSkinUpdate, onBorderLevelUpdate, onAloneEquipUpdate, onMeanPrettifyClick, onDynamicBackgroundClick, onDynamicSkinClick, onDynamicSkinZoomCompatClick, onDynamicSkinOutcropUpdate } from "../handlers/appearance-handlers.js";
+import { onExtensionToggleClick, onExtensionToggleUpdate, onNewDecadeStyleClick, onNewDecadeStyleUpdate, onOutcropSkinClick, onOutcropSkinUpdate, onBorderLevelUpdate, onAloneEquipUpdate, onMeanPrettifyClick, onDynamicBackgroundClick, onDynamicSkinClick, onDynamicSkinZoomCompatClick } from "../handlers/appearance-handlers.js";
 import { game, ui } from "noname";
 
 /**
@@ -162,16 +162,6 @@ export const dynamicSkinZoomCompat = {
 };
 
 /**
- * 动皮露头配置
- * @type {Object}
- */
-export const dynamicSkinOutcrop = {
-	name: "动皮露头",
-	init: false,
-	update: onDynamicSkinOutcropUpdate,
-};
-
-/**
  * 击杀特效配置
  * @type {Object}
  */
@@ -205,7 +195,6 @@ export const appearanceConfigs = {
 	dynamicBackground,
 	dynamicSkin,
 	dynamicSkinZoomCompat,
-	dynamicSkinOutcrop,
 	killEffect,
 	outward_title_end,
 };
