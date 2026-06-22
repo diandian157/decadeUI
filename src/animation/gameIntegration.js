@@ -1,155 +1,212 @@
-"use strict";
-
-/**
- * @fileoverview 动画系统与游戏集成模块，实现懒加载和资源预加载
- */
-
 import { AnimationPlayer } from "./AnimationPlayer.js";
 import { AnimationPlayerPool } from "./AnimationPlayerPool.js";
+import { SharedAnimationPlayer } from "./SharedAnimationPlayer.js";
 import { assetList } from "./configs/assetList.js";
 import { initSkillAnimations } from "./initAnimations.js";
+import { APNode } from "./APNode.js";
+import { TimeStep } from "./TimeStep.js";
+import { CubicBezierEase } from "./easing.js";
+import { lerp, observeSize, throttle } from "./utils.js";
+import { BUILT_ID, DynamicPlayer, DynamicWorkers } from "./DynamicPlayer.js";
+import { applyDynamicBackgroundConfig, createDynamicBackgroundController } from "./backgroundAnimation.js";
 
-/**
- * 资源加载优先级枚举
- * @type {Object.<string, number>}
- */
-const Priority = { CRITICAL: 0, HIGH: 1, NORMAL: 2, LOW: 3 };
+const LOAD_NOW = 0;
+const LOAD_ARENA_READY = 1;
+const LOAD_IDLE = 2;
+const LOAD_IDLE_WITH_CAP = 3;
 
-/**
- * 资源优先级映射表
- * @type {Object.<string, number>}
- */
-const priorityMap = {
-	effect_youxikaishi: Priority.CRITICAL,
-	effect_youxikaishi_shousha: Priority.CRITICAL,
-	effect_loseHp: Priority.CRITICAL,
-	aar_chupaizhishiX: Priority.HIGH,
-	aar_chupaizhishi: Priority.HIGH,
-	SF_xuanzhong_eff_jiangjun: Priority.HIGH,
-	SF_xuanzhong_eff_weijiangjun: Priority.HIGH,
-	SF_xuanzhong_eff_cheqijiangjun: Priority.HIGH,
-	SF_xuanzhong_eff_biaoqijiangjun: Priority.HIGH,
-	SF_xuanzhong_eff_dajiangjun: Priority.HIGH,
-	SF_xuanzhong_eff_dasima: Priority.HIGH,
-	"globaltexiao/huifushuzi/shuzi2": Priority.HIGH,
-	"globaltexiao/shanghaishuzi/shuzi": Priority.HIGH,
-	"globaltexiao/shanghaishuzi/SZN_shuzi": Priority.HIGH,
+const assetLoadStage = {
+	effect_youxikaishi: LOAD_NOW,
+	effect_youxikaishi_shousha: LOAD_NOW,
+	effect_loseHp: LOAD_NOW,
+	aar_chupaizhishiX: LOAD_ARENA_READY,
+	aar_chupaizhishi: LOAD_ARENA_READY,
+	SF_xuanzhong_eff_jiangjun: LOAD_ARENA_READY,
+	SF_xuanzhong_eff_weijiangjun: LOAD_ARENA_READY,
+	SF_xuanzhong_eff_cheqijiangjun: LOAD_ARENA_READY,
+	SF_xuanzhong_eff_biaoqijiangjun: LOAD_ARENA_READY,
+	SF_xuanzhong_eff_dajiangjun: LOAD_ARENA_READY,
+	SF_xuanzhong_eff_dasima: LOAD_ARENA_READY,
+	"globaltexiao/huifushuzi/shuzi2": LOAD_ARENA_READY,
+	"globaltexiao/shanghaishuzi/shuzi": LOAD_ARENA_READY,
+	"globaltexiao/shanghaishuzi/SZN_shuzi": LOAD_ARENA_READY,
 };
 
-/** @type {Map<string, string|Function[]>} 资源加载状态映射 */
 const loadingState = new Map();
 
-/**
- * 设置游戏动画系统
- * @param {Object} lib - 游戏库对象
- * @param {Object} game - 游戏对象
- * @param {Object} ui - UI对象
- * @param {Object} get - 工具函数对象
- * @param {Object} ai - AI对象
- * @param {Object} _status - 状态对象
- */
-export function setupGameAnimation(lib, game, ui, get, ai, _status) {
-	decadeUI.animation = (() => {
-		const animation = new AnimationPlayer(decadeUIPath + "assets/animation/", document.body, "decadeUI-canvas");
-		decadeUI.bodySensor.addListener(() => (animation.resized = false), true);
-		animation.cap = new AnimationPlayerPool(4, decadeUIPath + "assets/animation/", "decadeUI.animation");
+function isAnimationDebugEnabled(...keys) {
+	const flag = globalThis.window?.decadeUIAnimationDebug ?? globalThis.window?.dcdAnimDebug;
+	if (flag === true) return true;
+	const list = Array.isArray(flag) ? flag : [flag];
+	return keys.flat().some(key => key && list.includes(key));
+}
 
-		// WebGL不可用时跳过懒加载包装
+function getDebugZoomSnapshot() {
+	const bodyZoom = typeof window != "undefined" ? parseFloat(window.getComputedStyle(document.body).zoom) : NaN;
+	return {
+		gameZoom: globalThis.game?.documentZoom,
+		windowZoom: globalThis.window?.documentZoom,
+		bodyZoom: Number.isFinite(bodyZoom) && bodyZoom > 0 ? bodyZoom : 1,
+		devicePixelRatio: globalThis.window?.devicePixelRatio,
+	};
+}
+
+function safeDebugString(payload) {
+	try {
+		return JSON.stringify(payload);
+	} catch (error) {
+		return String(error?.message || error);
+	}
+}
+
+function pushAnimationDebug(type, payload) {
+	const history = (globalThis.window.dcdAnimDebugHistory ||= []);
+	history.push({ type, time: Date.now(), payload });
+	if (history.length > 80) history.splice(0, history.length - 80);
+}
+
+function exposeNewDuilibCompat() {
+	if (typeof globalThis == "undefined") return;
+	const compat = globalThis.newDuilib || {};
+	Object.assign(compat, {
+		throttle,
+		observeSize,
+		lerp,
+		CubicBezierEase,
+		TimeStep,
+		APNode,
+		AnimationPlayer,
+		AnimationPlayerPool,
+		DynamicPlayer,
+		DynamicWorkers,
+	});
+	if (!Number.isFinite(compat.BUILT_ID)) compat.BUILT_ID = BUILT_ID;
+	globalThis.newDuilib = compat;
+	if (!globalThis.duilib) globalThis.duilib = compat;
+}
+
+function setupGameAnimation(lib, game, ui, get, ai, _status) {
+	exposeNewDuilibCompat();
+	decadeUI.animation = (() => {
+		const animation = new SharedAnimationPlayer(decadeUIPath + "assets/animation/");
+		decadeUI.bodySensor.addListener(() => animation.renderer.resized = false, true);
 		if (!animation.gl) {
 			initSkillAnimations(animation);
 			return animation;
 		}
 
-		const originalPlaySpine = animation.playSpine;
-		const originalCapPlaySpineTo = animation.cap.playSpineTo;
-
-		const getFileType = name => assetList.find(a => a.name === name)?.fileType || "skel";
+		const basePlaySpine = animation.playSpine;
+		const baseCapPlaySpineTo = animation.cap.playSpineTo;
+		const getFileType = name => assetList.find(asset => asset.name === name)?.fileType || "skel";
 		const capHasSpine = name => animation.cap.animations?.[0]?.hasSpine?.(name);
-
-		// 确保资源已加载
-		const ensureLoaded = (name, player, isCap, callback) => {
-			const hasIt = isCap ? capHasSpine(name) : player?.hasSpine?.(name);
-			if (hasIt) {
+		const ensureLoaded = (name, player, useCap, callback) => {
+			if (useCap ? capHasSpine(name) : player?.hasSpine?.(name)) {
 				callback();
 				return;
 			}
-
-			const key = (isCap ? "cap:" : "") + name;
+			const key = (useCap ? "cap:" : "") + name;
 			if (loadingState.get(key) === "loading") {
-				const cbKey = key + "_cb";
-				loadingState.set(cbKey, [...(loadingState.get(cbKey) || []), callback]);
+				const callbackKey = key + "_cb";
+				loadingState.set(callbackKey, [...loadingState.get(callbackKey) || [], callback]);
 				return;
 			}
-
 			loadingState.set(key, "loading");
-			const onLoad = () => {
+			const done = () => {
 				loadingState.set(key, "loaded");
 				callback();
-				const cbKey = key + "_cb";
-				(loadingState.get(cbKey) || []).forEach(cb => cb());
-				loadingState.delete(cbKey);
+				const callbackKey = key + "_cb";
+				(loadingState.get(callbackKey) || []).forEach(fn => fn());
+				loadingState.delete(callbackKey);
 			};
-			const onError = () => loadingState.set(key, "error");
-
-			if (isCap) {
-				animation.cap.loadSpine(name, getFileType(name), onLoad, onError);
+			const fail = () => loadingState.set(key, "error");
+			if (useCap) {
+				animation.cap.loadSpine(name, getFileType(name), done, fail);
 			} else {
-				player.loadSpine(
-					name,
-					getFileType(name),
-					() => {
-						player.prepSpine(name);
-						onLoad();
-					},
-					onError
-				);
+				player.loadSpine(name, getFileType(name), () => {
+					player.prepSpine(name);
+					done();
+				}, fail);
 			}
 		};
 
-		// 包装播放方法
 		animation.playSpine = function (sprite, position) {
 			if (!sprite) return;
-			const name = typeof sprite === "string" ? sprite : sprite.name;
-			if (!name) return originalPlaySpine.call(this, sprite, position);
-			if (this.hasSpine(name)) return originalPlaySpine.call(this, sprite, position);
-			ensureLoaded(name, this, false, () => originalPlaySpine.call(this, sprite, position));
+			const name = typeof sprite == "string" ? sprite : sprite.name;
+			if (!name) return basePlaySpine.call(this, sprite, position);
+			if (isAnimationDebugEnabled("play", name)) {
+				const payload = {
+					stage: "gameIntegration.playSpine",
+					name,
+					spriteScale: typeof sprite == "string" ? undefined : sprite.scale,
+					positionScale: position?.scale,
+					hasSpine: this.hasSpine(name),
+					canvas: this.canvas
+						? {
+								width: this.canvas.width,
+								height: this.canvas.height,
+								clientWidth: this.canvas.clientWidth,
+								clientHeight: this.canvas.clientHeight,
+								rect: this.canvas.getBoundingClientRect
+									? {
+											width: this.canvas.getBoundingClientRect().width,
+											height: this.canvas.getBoundingClientRect().height,
+									  }
+									: null,
+						  }
+						: null,
+					zoom: getDebugZoomSnapshot(),
+				};
+				pushAnimationDebug("play-entry", payload);
+				console.warn("[DCD-ANIM play-entry]", safeDebugString(payload));
+			}
+			if (this.hasSpine(name)) return basePlaySpine.call(this, sprite, position);
+			ensureLoaded(name, this, false, () => basePlaySpine.call(this, sprite, position));
 		};
-
 		animation.loopSpine = function (sprite, position) {
-			if (typeof sprite === "string") sprite = { name: sprite, loop: true };
+			if (typeof sprite == "string") sprite = { name: sprite, loop: true };
 			else if (sprite) sprite.loop = true;
 			return this.playSpine(sprite, position);
 		};
-
-		animation.cap.playSpineTo = function (element, anim, position) {
-			if (!anim) return;
-			const name = typeof anim === "string" ? anim : anim.name;
-			if (!name) return originalCapPlaySpineTo.call(this, element, anim, position);
-			if (capHasSpine(name)) return originalCapPlaySpineTo.call(this, element, anim, position);
-			ensureLoaded(name, null, true, () => originalCapPlaySpineTo.call(this, element, anim, position));
+		animation.cap.playSpineTo = function (node, sprite, position) {
+			if (!sprite) return;
+			const name = typeof sprite == "string" ? sprite : sprite.name;
+			if (!name) return baseCapPlaySpineTo.call(this, node, sprite, position);
+			if (isAnimationDebugEnabled("play", name, "cap")) {
+				const payload = {
+					stage: "gameIntegration.cap.playSpineTo",
+					name,
+					spriteScale: typeof sprite == "string" ? undefined : sprite.scale,
+					positionScale: position?.scale,
+					hasSpine: capHasSpine(name),
+					targetClass: String(node?.className || ""),
+					zoom: getDebugZoomSnapshot(),
+				};
+				pushAnimationDebug("cap-play-entry", payload);
+				console.warn("[DCD-ANIM cap-play-entry]", safeDebugString(payload));
+			}
+			if (capHasSpine(name)) return baseCapPlaySpineTo.call(this, node, sprite, position);
+			ensureLoaded(name, null, true, () => baseCapPlaySpineTo.call(this, node, sprite, position));
 		};
 
-		// 按优先级分组预加载
-		const groups = [[], [], [], []];
-		assetList.forEach(f => groups[priorityMap[f.name] ?? Priority.NORMAL].push(f));
-
-		const preload = (files, concurrency, onDone) => {
-			if (!files.length) return onDone?.();
-			const queue = [...files];
-			let active = 0,
-				done = 0;
+		const groupedAssets = [[], [], [], []];
+		assetList.forEach(asset => groupedAssets[assetLoadStage[asset.name] ?? LOAD_IDLE].push(asset));
+		const preload = (assets, limit, callback) => {
+			if (!assets.length) return callback?.();
+			const queue = [...assets];
+			let running = 0;
+			let doneCount = 0;
 			const next = () => {
-				while (active < concurrency && queue.length) {
-					const f = queue.shift();
-					const isCap = f.follow;
-					if (isCap ? capHasSpine(f.name) : animation.hasSpine(f.name)) {
-						if (++done === files.length) onDone?.();
+				while (running < limit && queue.length) {
+					const asset = queue.shift();
+					const useCap = asset.follow;
+					if (useCap ? capHasSpine(asset.name) : animation.hasSpine(asset.name)) {
+						doneCount++;
 						continue;
 					}
-					active++;
-					ensureLoaded(f.name, animation, isCap, () => {
-						active--;
-						if (++done === files.length) onDone?.();
+					running++;
+					ensureLoaded(asset.name, animation, useCap, () => {
+						running--;
+						if (++doneCount === assets.length) callback?.();
 						else next();
 					});
 				}
@@ -157,20 +214,24 @@ export function setupGameAnimation(lib, game, ui, get, ai, _status) {
 			next();
 		};
 
-		// 关键资源立即加载
-		preload(groups[Priority.CRITICAL], 2);
-
-		// 高优先级延迟加载，其余空闲加载
+		preload(groupedAssets[LOAD_NOW], 2);
 		lib.arenaReady.push(() => {
-			setTimeout(() => preload(groups[Priority.HIGH], 2), 500);
-			const loadRest = () => preload([...groups[Priority.NORMAL], ...groups[Priority.LOW]], 2);
-			window.requestIdleCallback ? requestIdleCallback(loadRest, { timeout: 8000 }) : setTimeout(loadRest, 3000);
+			setTimeout(() => preload(groupedAssets[LOAD_ARENA_READY], 2), 500);
+			const loadIdle = () => preload([...groupedAssets[LOAD_IDLE], ...groupedAssets[LOAD_IDLE_WITH_CAP]], 2);
+			window.requestIdleCallback ? requestIdleCallback(loadIdle, { timeout: 8000 }) : setTimeout(loadIdle, 3000);
 		});
-
 		initSkillAnimations(animation);
 		return animation;
 	})();
-
+	// 对外统一播放入口：普通 Spine 始终进入全屏特效层 decadeUI-canvas；
+	// 动态皮肤则由 decadeUI.playDynamic/player.playDynamic 进入独立动皮层。
+	decadeUI.playSpine = (sprite, position) => decadeUI.animation.playSpine(sprite, position);
+	decadeUI.loopSpine = (sprite, position) => decadeUI.animation.loopSpine(sprite, position);
+	decadeUI.stopSpine = handle => decadeUI.animation.stopSpine(handle);
+	decadeUI.stopSpineAll = () => decadeUI.animation.stopSpineAll();
+	decadeUI.backgroundAnimation = createDynamicBackgroundController();
+	applyDynamicBackgroundConfig(lib.config.extension_十周年UI_dynamicBackground);
+	exposeNewDuilibCompat();
 	window.dcdAnim = decadeUI.animation;
 	window.dcdBackAnim = decadeUI.backgroundAnimation;
 	window.game = game;
@@ -179,8 +240,10 @@ export function setupGameAnimation(lib, game, ui, get, ai, _status) {
 	window._status = _status;
 }
 
-if (typeof window !== "undefined" && window.decadeModule) {
+if (typeof window != "undefined" && window.decadeModule) {
 	window.decadeModule.import((lib, game, ui, get, ai, _status) => {
-		setupGameAnimation(lib, game, ui, get, ai, _status);
+		setupGameAnimation(lib, game, ui, get, 0, _status);
 	});
 }
+
+export { setupGameAnimation };

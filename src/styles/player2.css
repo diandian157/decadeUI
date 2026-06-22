@@ -89,7 +89,7 @@
 		0 0 1.5px #ffded4 !important;
 	background: url("../../image/styles/decade/shield.png") no-repeat;
 	background-size: 100% 100%;
-	z-index: 100;
+	z-index: 12;
 }
 
 /** 选中光效 */
@@ -130,7 +130,7 @@
 	animation-duration: 0.9s;
 	background-image: url("../../image/ui/effects/sprites_shadow_orange.png");
 	opacity: 1;
-	z-index: 79;
+	z-index: 2;
 }
 
 /* 绿色光效(回合中) */
@@ -138,7 +138,7 @@
 	animation-duration: 0.9s;
 	background-image: url("../../image/ui/effects/sprites_shadow_green1.png");
 	opacity: 1;
-	z-index: 75;
+	z-index: 2;
 }
 
 /* 绿色光效(可选中-主玩家) */
@@ -146,14 +146,14 @@
 	animation-duration: 0.9s;
 	background-image: url("../../image/ui/effects/sprites_shadow_lvse.png");
 	opacity: 1;
-	z-index: 79;
+	z-index: 2;
 	top: -38.4px;
 }
 
 /* 红色光效(可选中-其他玩家) */
 #arena > .player.selectable:not(.selected):not(.target):not([data-position="0"])::before {
 	background-image: url("../../image/ui/effects/sprites_shadow_red.png");
-	z-index: 89;
+	z-index: 2;
 	top: -38.4px;
 }
 
@@ -173,7 +173,7 @@
 	opacity: 0;
 	transition: opacity 0.3s ease-in-out;
 	pointer-events: none;
-	z-index: 66;
+	z-index: 8;
 }
 
 .player.un-selectable:not(.selectable) > .mask {
@@ -198,7 +198,7 @@
 	background-size: cover;
 	background-position-x: -120px;
 	transition-duration: 0.4s;
-	z-index: 86;
+	z-index: 8;
 }
 
 .player.linked2 > .chain {
@@ -241,7 +241,7 @@
 	height: 128px;
 	transition: none;
 	pointer-events: none;
-	z-index: 1;
+	z-index: 3;
 }
 
 .player.connect > div:not(.avatar):not(.name):not(.nameol):not(.hp):not(.room):not(.gaming):not(.identity).camp-wrap,
@@ -329,7 +329,7 @@
 	background-size: 100% 100%;
 	background-repeat: no-repeat;
 	pointer-events: none;
-	z-index: 80;
+	z-index: 8;
 }
 
 /* 银龙框 */
@@ -376,7 +376,7 @@
 	background-size: 100% 100%;
 	background-repeat: no-repeat;
 	pointer-events: none;
-	z-index: 99;
+	z-index: 6;
 }
 
 #arena[data-long-level="two"] > .player > .wei,
@@ -508,7 +508,7 @@
 	font-family: "shousha" !important;
 	text-shadow: none;
 	background: linear-gradient(to bottom, transparent 0%, rgba(0, 0, 0, 0.4) 20%, rgba(0, 0, 0, 0.5) 50%, rgba(0, 0, 0, 0.4) 80%, transparent 100%);
-	z-index: 89;
+	z-index: 6;
 }
 
 .player > .name.name2:empty,
@@ -527,7 +527,7 @@
 	font-family: "shousha";
 	text-shadow: 0 0 2px black;
 	background: linear-gradient(to right, transparent 0%, rgba(0, 0, 0, 0.4) 40%, rgba(0, 0, 0, 0.4) 60%, transparent 100%);
-	z-index: 89;
+	z-index: 7;
 	pointer-events: none;
 }
 
@@ -547,7 +547,7 @@
 		transform 0.1s linear,
 		opacity 0.1s linear,
 		height 0.1s linear;
-	z-index: 88;
+	z-index: 7;
 }
 
 .player[data-max-hp="hujia"] > .hp-wrap {
@@ -611,7 +611,8 @@
 	background-repeat: no-repeat;
 	background-position: top;
 	transition: opacity, transform;
-}
+
+	z-index: 6;}
 
 .player.fullskin2 > .primary-avatar {
 	width: 41%;
@@ -635,7 +636,8 @@
 	background-repeat: no-repeat;
 	background-position: top;
 	transition: opacity, transform;
-}
+
+	z-index: 6;}
 
 /* 暗将/动皮隐藏 */
 .player.unseen > .primary-avatar,
@@ -691,7 +693,7 @@
 	background-size: cover;
 	background-repeat: no-repeat;
 	pointer-events: none;
-	z-index: 60;
+	z-index: 5;
 }
 
 .player > .dynamic-wrap > .animation-player {
@@ -771,7 +773,7 @@
 	height: auto;
 	padding-bottom: 0;
 	transition: opacity, transform, background;
-	z-index: 90;
+	z-index: 7;
 }
 
 .player > .dui-marks > .mark {
@@ -885,7 +887,7 @@
 	box-shadow:
 		0 -1px 2px rgba(0, 0, 0, 0.5),
 		0 2px 4px rgba(0, 0, 0, 0.5);
-	z-index: 63 !important;
+	z-index: 6 !important;
 }
 
 #arena[data-player-mark-style="decade"] > .player.dead > .dui-marks {
@@ -986,7 +988,7 @@
 	width: auto;
 	height: 0;
 	padding-bottom: 0;
-	z-index: 99;
+	z-index: 7;
 }
 
 .player[data-position="0"] > .judges,
@@ -1119,7 +1121,7 @@
 		0 0 1px white;
 	white-space: nowrap;
 	pointer-events: none;
-	z-index: 89;
+	z-index: 7;
 }
 
 .player[data-position="0"] > .seat {
@@ -1150,7 +1152,7 @@
 	background-size: 100% 100%;
 	background-position: 0 -1px;
 	transition: transform, opacity;
-	z-index: 89;
+	z-index: 6;
 }
 
 .player > .card-count::before {
@@ -1181,7 +1183,7 @@
 	background-position: center;
 	transform: none;
 	transition: none;
-	z-index: 99;
+	z-index: 7;
 }
 
 .player > .identity[data-color="rYe"] {
@@ -1240,7 +1242,7 @@
 	background: linear-gradient(180deg, #f5df88 16%, #ab8d35 60%);
 	-webkit-background-clip: text;
 	-webkit-text-fill-color: transparent;
-	z-index: 91;
+	z-index: 15;
 	opacity: 0;
 	transform: scale(0.7);
 	transition: all 0.3s ease-out;
@@ -1313,7 +1315,7 @@
 	top: auto;
 	bottom: -10px;
 	width: 100%;
-	z-index: 88;
+	z-index: 14;
 }
 
 .player[data-position="0"] > .timerbar {
@@ -1346,7 +1348,7 @@
 	font-size: 32px;
 	font-family: "xinwei";
 	text-align: center;
-	z-index: 89;
+	z-index: 14;
 }
 
 /** 死亡状态 */
@@ -1383,7 +1385,7 @@
 	transform: none;
 	opacity: 0;
 	pointer-events: none;
-	z-index: 64;
+	z-index: 7;
 }
 
 .player.opposite-camp > .died-identity {
@@ -1418,7 +1420,8 @@
 /** 获得技能显示 */
 .player > .gain-skill {
 	display: none;
-}
+
+	z-index: 7;}
 
 /** 翻面状态 */
 .player > .turned-over {
@@ -1431,7 +1434,7 @@
 	background: url("../../image/ui/mask/turn_over_mask_shousha.png");
 	background-size: cover;
 	pointer-events: none;
-	z-index: 62;
+	z-index: 6;
 }
 
 .player.turnedover > .turned-over {
@@ -1444,7 +1447,7 @@
 
 /* 边框背景 */
 .player > .framebg {
-	z-index: 63;
+	z-index: 8;
 }
 
 /** 身份标记框 */
@@ -1457,7 +1460,7 @@
 	left: 16%;
 	width: 68%;
 	height: auto;
-	z-index: 99;
+	z-index: 9;
 }
 
 .player > .identity-mark-box > .identity-mark-item {
@@ -1502,7 +1505,7 @@
 	border-image-source: url("../../image/ui/dialog/chat_bubble_ShouSha.png");
 	box-sizing: border-box;
 	word-break: break-all;
-	z-index: 110;
+	z-index: 9;
 }
 
 /** Tip提示 */
@@ -1511,7 +1514,7 @@
 	width: 82% !important;
 	right: 2px;
 	bottom: 100px;
-	z-index: 110 !important;
+	z-index: 10 !important;
 }
 
 .player .tipContainer > .tip {
@@ -1531,4 +1534,24 @@
 /** 喝酒效果 */
 .player .playerjiu {
 	background: linear-gradient(to bottom, rgba(255, 0, 0, 0) 25%, rgba(255, 0, 0, 0.4) 50%, rgb(255, 0, 0.8) 150%);
+}
+#arena > .player.d-skin > .camp-wrap,
+#arena > .player.d-skin2 > .camp-wrap {
+	z-index: auto !important;
+}
+
+#arena > .player.d-skin > .camp-wrap > .camp-back,
+#arena > .player.d-skin2 > .camp-wrap > .camp-back,
+#arena > .player.d-skin > .camp-wrap > .camp-border,
+#arena > .player.d-skin2 > .camp-wrap > .camp-border {
+	z-index: 3 !important;
+}
+
+#arena > .player.d-skin > .camp-wrap > .avatar-name,
+#arena > .player.d-skin2 > .camp-wrap > .avatar-name,
+#arena > .player.d-skin > .camp-wrap > .avatar-name-default,
+#arena > .player.d-skin2 > .camp-wrap > .avatar-name-default,
+#arena > .player.d-skin > .camp-wrap > .camp-name,
+#arena > .player.d-skin2 > .camp-wrap > .camp-name {
+	z-index: 3;
 }

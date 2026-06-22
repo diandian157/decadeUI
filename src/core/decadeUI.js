@@ -14,7 +14,13 @@ import { createDecadeUICreateModule } from "./create.js";
 import { createStaticsModule } from "./statics.js";
 import { createHandlerModule } from "./handler.js";
 import { initHooks } from "./hooks.js";
-import { CubicBezierEase, throttle, observeSize, lerp, TimeStep, APNode, AnimationPlayer, AnimationPlayerPool, DynamicPlayer, BUILT_ID, DynamicWorkers } from "../animation/index.js";
+import {
+	CubicBezierEase, throttle, observeSize, lerp, TimeStep, APNode,
+	AnimationPlayer, AnimationPlayerPool, DynamicPlayer, BUILT_ID, DynamicWorkers,
+	SpineRenderer, SpineContainer, SpineNode, ImageNode, SpineMask,
+	dynamicCanvasLayers, getSharedDynamicRenderer,
+	LayaSkPlayer, LayaSkInstance, getLayaSkPlayer, playSkel,
+} from "../animation/index.js";
 import { createPlayerElement } from "../ui/player-element.js";
 import { createCardElement, createCardsWrapper } from "../ui/card-element.js";
 import { createCharacterButtonPreset } from "../ui/character-button.js";
@@ -36,6 +42,7 @@ import { gameLogv, applyGameOverrides } from "../overrides/game.js";
 import { applyMoveAnimFix } from "../overrides/moveAnimFix.js";
 
 import { registerDecadeUIHooks, playerAwakenSkill, playerSetIdentity, playerGetState, playerMarkSkill, playerUnmarkSkill, playerReinitCharacter, playerSetSeatNum, playerUninit, playerReinit, playerUpdate, playerUseCard, playerRespond, playerLose, playerUseCardAnimateBefore, playerRespondAnimateBefore, playerChangeZhuanhuanji, playerSetModeState, playerHandleEquipChange, playerMark, playerMarkCharacter, playerUpdateMark, playerMarkSkillCharacter, playerPlayDynamic, playerStopDynamic, playerApplyDynamicSkin, playerSay, playerDieAfter, playerSkill, playerSyncExpand, playerSetSkillYinYang, player$SetSkillYinYang, playerSetSkillState, player$SetSkillState, playerDamagepop, playerCompare, playerCompareMultiple, playerCheckAndAddExperienceSuffix, playerQueueCssAnimation, playerDamage, playerUpdateShowCards, playerCheckBoundsCache, playerLine, playerPhaseJudge, playerGain2, playerDraw, playerGive, playerThrow, playerThrowordered2, playerAddVirtualJudge, playerDirectgain, playerDirectgains, playerAddVirtualEquip } from "../overrides/player.js";
+import { setupDynamicSkinOutHook } from "../overrides/player/dynamic-skin.js";
 
 import { uiUpdatec, uiUpdatehl, uiUpdatej, uiUpdatem, uiUpdatez, uiUpdate, uiUpdatejm, uiUpdatexr, uiCreatePrebutton, uiCreateRarity, uiCreateButton, uiCreateControl, uiCreateDialog, uiCreateSelectlist, uiCreateIdentityCard, uiCreateSpinningIdentityCard, uiCreateArena, uiCreatePause, uiCreateCharacterDialog, uiClickCard, uiClickIntro } from "../overrides/ui.js";
 
@@ -245,6 +252,7 @@ export const createDecadeUIObject = () => ({
 		setBasePlayerDraw(base.lib.element.player.$draw);
 		setBaseUiMethods(base.ui);
 		setBaseUiCreateMethods(base.ui.create);
+		setupDynamicSkinOutHook();
 
 		// 注册hooks
 		registerDecadeUIHooks();
@@ -274,6 +282,24 @@ export const createDecadeUIObject = () => ({
 			AnimationPlayer,
 			AnimationPlayerPool,
 			DynamicPlayer,
+			SpineRenderer,
+			SpineContainer,
+			SpineNode,
+			ImageNode,
+			SpineMask,
+			dynamicCanvasLayers,
+			getSharedDynamicRenderer,
+			playDynamic: (...args) => getSharedDynamicRenderer().playDynamic(...args),
+			playDynamicTo: (...args) => getSharedDynamicRenderer().playDynamicTo(...args),
+			stopDynamicTo: target => getSharedDynamicRenderer().playerStates.get(target)?.api?.destroy?.(),
+			LayaSkPlayer,
+			Skeleton: LayaSkInstance,
+			getLayaSkPlayer,
+			playSkel,
+			LayaAnimationsManager: {
+				playSkel,
+				clearSkel: playback => Promise.resolve(playback).then(item => item?.end?.()),
+			},
 			BUILT_ID,
 			DynamicWorkers,
 		});

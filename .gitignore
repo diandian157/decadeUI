@@ -4,6 +4,12 @@ node_modules/
 # 打包输出
 dist/
 
+# AI 工作记忆
+.codebuddy/
+
+# 构建入口转发文件
+extension.js
+
 # 忽略武将图片目录内容
 image/character/dcloutou/*
 image/character/ssloutou/*

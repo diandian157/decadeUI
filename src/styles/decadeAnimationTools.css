@@ -1,0 +1,301 @@
+.decade-skin-tools-overlay,
+.decade-skin-preview-overlay {
+	position: fixed;
+	inset: 0;
+	z-index: 9999;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background: rgba(12, 16, 22, 0.72);
+	color: #f5f2e8;
+	font-family: "Microsoft YaHei", "PingFang SC", sans-serif;
+}
+
+.decade-skin-selector,
+.decade-skin-preview {
+	width: max(800px, 76vw);
+	height: max(680px, 76vh);
+	overflow: hidden;
+	display: flex;
+	flex-direction: column;
+	background: rgba(34, 38, 46, 0.96);
+	border: 1px solid rgba(233, 198, 120, 0.42);
+	box-shadow: 0 18px 60px rgba(0, 0, 0, 0.42);
+}
+
+.decade-skin-preview {
+	position: relative;
+	width: 96%;
+	height: 92%;
+}
+
+.decade-skin-tools-header {
+	position: relative;
+	z-index: 5;
+	height: 44px;
+	width: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	flex-shrink: 0;
+	padding: 0 12px 0 16px;
+	border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+	background: rgba(0, 0, 0, 0.18);
+}
+
+.decade-skin-tools-title {
+	font-size: 17px;
+	font-weight: 600;
+	position: relative;
+}
+
+.decade-skin-tools-close,
+.decade-preview-tool,
+.decade-skin-item,
+.decade-skin-avatar-item,
+.decade-preview-folder,
+.decade-preview-resource {
+	min-height: 30px;
+	border: 1px solid rgba(233, 198, 120, 0.35);
+	background: rgba(255, 255, 255, 0.07);
+	color: #f5f2e8;
+	cursor: pointer;
+}
+
+.decade-skin-tools-close,
+.decade-preview-tool {
+	padding: 0 12px;
+	position: relative;
+}
+
+.decade-skin-tools-body,
+.decade-preview-body {
+	min-height: 0;
+	flex: 1;
+	padding: 12px;
+}
+
+.decade-skin-tools-body {
+	display: grid;
+	grid-template-columns: 260px 1fr;
+	gap: 12px;
+}
+
+.decade-preview-body {
+	position: relative;
+	display: block;
+}
+
+.decade-skin-avatar-list,
+.decade-skin-list,
+.decade-preview-file-list {
+	min-height: 0;
+	overflow: auto;
+	padding: 8px;
+	background: rgba(0, 0, 0, 0.18);
+}
+
+.decade-preview-file-list {
+	position: absolute;
+	z-index: 4;
+	left: 12px;
+	top: 12px;
+	bottom: 12px;
+	width: 280px;
+	cursor: grab;
+	touch-action: none;
+}
+
+.decade-preview-file-list:active {
+	cursor: grabbing;
+}
+
+.decade-skin-avatar-item,
+.decade-skin-item,
+.decade-preview-folder,
+.decade-preview-resource {
+	width: 100%;
+	display: block;
+	margin-bottom: 8px;
+	padding: 7px 9px;
+	text-align: left;
+}
+
+.decade-skin-avatar-item.active,
+.decade-skin-item.active,
+.decade-preview-resource.active,
+.decade-preview-folder.active {
+	background: rgba(64, 128, 220, 0.42);
+	border-color: rgba(100, 160, 255, 0.85);
+	color: #e8f0ff;
+	box-shadow: 0 0 6px rgba(80, 140, 240, 0.35);
+}
+.decade-preview-resource:hover,
+.decade-preview-folder:hover,
+.decade-preview-tool:hover,
+.decade-skin-tools-close:hover {
+	background: rgba(207, 162, 73, 0.34);
+	border-color: rgba(255, 224, 150, 0.75);
+}
+
+.decade-skin-section-title {
+	margin-bottom: 10px;
+	font-size: 16px;
+	font-weight: 600;
+	color: #ffe09a;
+}
+
+.decade-skin-empty {
+	padding: 12px;
+	color: rgba(245, 242, 232, 0.72);
+}
+
+.decade-preview-toolbar {
+	position: relative;
+	z-index: 5;
+	display: flex;
+	gap: 8px;
+	align-items: center;
+	flex-shrink: 0;
+	padding: 10px 12px 0;
+}
+
+.decade-preview-path {
+	flex: 1;
+	height: 30px;
+	min-width: 160px;
+	box-sizing: border-box;
+	border: 1px solid rgba(233, 198, 120, 0.35);
+	background: rgba(0, 0, 0, 0.28);
+	color: #f5f2e8;
+	padding: 0 8px;
+}
+
+.decade-preview-right {
+	position: absolute;
+	inset: 0;
+	z-index: 1;
+	min-width: 0;
+	min-height: 0;
+	pointer-events: none;
+}
+
+.decade-preview-stage {
+	position: absolute;
+	left: 304px;
+	top: 0;
+	right: 0;
+	bottom: 62px;
+	min-height: 0;
+	overflow: hidden;
+	background: radial-gradient(circle at center, rgba(255, 255, 255, 0.08), rgba(0, 0, 0, 0.32));
+	border: 1px solid rgba(255, 255, 255, 0.12);
+	touch-action: none;
+	pointer-events: auto;
+}
+
+.decade-spine-preview-canvas {
+	position: absolute;
+	inset: 0;
+	width: 100%;
+	height: 100%;
+	pointer-events: none;
+	z-index: 1;
+}
+
+.decade-preview-controls {
+	position: absolute;
+	z-index: 8;
+	left: 316px;
+	right: 96px;
+	bottom: 12px;
+	min-height: 38px;
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	flex-wrap: wrap;
+	padding: 6px 8px;
+	background: rgba(0, 0, 0, 0.18);
+	pointer-events: auto;
+}
+
+.decade-preview-controls select {
+	height: 28px;
+	max-width: 220px;
+	background: rgba(0, 0, 0, 0.35);
+	color: #f5f2e8;
+	border: 1px solid rgba(233, 198, 120, 0.35);
+}
+
+.decade-preview-controls input[type="range"] {
+	width: 120px;
+}
+
+.decade-preview-type {
+	min-width: 58px;
+	color: #ffe09a;
+	position: relative;
+}
+
+.decade-preview-status {
+	position: relative;
+	z-index: 5;
+	height: 26px;
+	line-height: 26px;
+	flex-shrink: 0;
+	padding: 0 12px;
+	color: rgba(245, 242, 232, 0.72);
+	border-top: 1px solid rgba(255, 255, 255, 0.1);
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.decade-preview-close-bottom {
+	position: absolute;
+	z-index: 9;
+	right: 12px;
+	bottom: 46px;
+	min-width: 72px;
+	height: 38px;
+	pointer-events: auto;
+}
+
+@media (max-width: 720px) {
+
+	.decade-skin-tools-body,
+	.decade-preview-body {
+		grid-template-columns: 1fr;
+	}
+
+	.decade-skin-selector,
+	.decade-skin-preview {
+		width: 96vw;
+		height: 92vh;
+	}
+
+	.decade-skin-avatar-list,
+	.decade-preview-file-list {
+		max-height: 180px;
+	}
+
+	.decade-preview-file-list {
+		max-height: none;
+		width: min(260px, 42vw);
+	}
+
+	.decade-preview-stage {
+		left: calc(min(260px, 42vw) + 24px);
+		bottom: 112px;
+	}
+
+	.decade-preview-controls {
+		left: calc(min(260px, 42vw) + 28px);
+		right: 12px;
+		bottom: 58px;
+	}
+
+	.decade-preview-close-bottom {
+		bottom: 12px;
+	}
+}

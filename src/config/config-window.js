@@ -284,7 +284,9 @@ function getConfigsByTab(tabId) {
 			{ isTitle: true, name: "功能开关" },
 			{ key: "aloneEquip", name: "单独装备栏", type: "toggle" },
 			{ key: "meanPrettify", name: "菜单美化", type: "toggle" },
+			{ key: "dynamicBackground", name: "动态背景", type: "select" },
 			{ key: "dynamicSkin", name: "动态皮肤", type: "toggle" },
+			{ key: "dynamicSkinZoomCompat", name: "缩放兼容", type: "toggle" },
 			{ key: "dynamicSkinOutcrop", name: "动皮露头", type: "toggle" },
 			{ key: "killEffect", name: "击杀特效", type: "toggle" },
 		],
@@ -332,6 +334,7 @@ function getConfigsByTab(tabId) {
 			{ key: "enableEquipCopy", name: "装备入手", type: "toggle" },
 			{ key: "mx_decade_characterDialog", name: "自由选将筛选框", type: "select" },
 			{ key: "rightLayout", name: "左右布局", type: "select" },
+			{ key: "showSpinePreviewMenu", name: "顶部菜单显示Spine/SK预览器", type: "toggle" },
 			{ key: "eruda", name: "调试助手", type: "toggle" },
 		],
 	};

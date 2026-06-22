@@ -52,7 +52,7 @@ body > .background {
 	left: 0;
 	top: 0;
 	pointer-events: none;
-	z-index: 4;
+	z-index: 24;
 }
 
 #decadeUI-body-sensor {
@@ -132,7 +132,7 @@ body > .background {
 }
 
 #arena > .dialog {
-	z-index: 7;
+	z-index: 12;
 }
 
 /** 手牌区 */
@@ -562,7 +562,7 @@ body > .background {
 	font-family: xinwei;
 	transition: opacity 0.3s;
 	pointer-events: none;
-	z-index: 8;
+	z-index: 13;
 }
 
 #arena > #dui-controls > * {
@@ -746,7 +746,7 @@ body[data-style="babysha"] .player > .long {
 	height: var(--h);
 	right: -18px;
 	top: -25px;
-	z-index: 63;
+	z-index: 8;
 }
 
 body[data-style="babysha"] .player > .wei {
@@ -803,3 +803,4 @@ body[data-style="onlineUI"] #arena[data-long-level="five"] > .player > .wei,
 body[data-style="babysha"] #arena[data-long-level="five"] > .player > .wei {
 	background-image: url("../../image/ui/frame/long_yan2.png");
 }
+@import "decadeAnimationTools.css";

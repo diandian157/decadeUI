@@ -309,3 +309,67 @@ anim.playSpine({
 3. **zoom兼容**：Chrome 128+和Firefox 126+对CSS zoom的处理有变化
 4. **皮肤扩展**：《皮肤切换》扩展会修改`getBoundingClientRect`，系统已做兼容
 5. **性能考虑**：`referFollow: true`会每帧重新计算边界，有性能开销
+
+## 十二、外部扩展播放普通 Spine 的推荐方式
+
+普通 Spine 特效和人物动态皮肤使用不同共享 Canvas：
+
+- 普通 Spine/全屏特效：`decadeUI-canvas`
+- 人物动态皮肤：`decadeUI-canvas-dynamic-player`
+
+外部扩展播放普通 Spine 时使用：
+
+```javascript
+const effect = decadeUI.playSpine(
+	{
+		name: "effect/example",
+		action: "play",
+		version: "4.0",
+		loop: false,
+	},
+	{
+		x: [0, 0.5],
+		y: [0, 0.5],
+		scale: 0.8,
+	}
+);
+
+decadeUI.stopSpine(effect);
+```
+
+循环播放：
+
+```javascript
+const effect = decadeUI.loopSpine({
+	name: "effect/example",
+	action: "play",
+	version: "4.0",
+});
+```
+
+相对某个 DOM 播放仍然使用同一个全屏特效 Canvas，只创建逻辑容器：
+
+```javascript
+decadeUI.playSpine(
+	{ name: "effect/example", action: "play" },
+	{
+		parent: player,
+		containerKind: "player",
+		x: [0, 0.5],
+		y: [0, 0.5],
+	}
+);
+```
+
+也可使用兼容入口：
+
+```javascript
+decadeUI.animation.cap.playSpineTo(player, {
+	name: "effect/example",
+	action: "play",
+});
+```
+
+不要为普通特效创建 `new AnimationPlayer()`；不要为了相对 DOM 定位而给每个 DOM 创建 Canvas。共享播放器会处理多版本 runtime、DPR、zoom、resize、资源缓存和容器坐标。
+
+人物动皮不要调用 `decadeUI.playSpine()`，应使用 `player.playDynamic()` 或 `decadeUI.playDynamicTo()`，详见 [动态皮肤配置说明](dynamic-skin-api.md)。

@@ -2,11 +2,25 @@
  * 手杀风格角色弹窗
  * 功能：官阶系统、详细资料、胜率显示、查看名片
  */
-import { _status } from "noname";
+import { _status, lib as nonameLib } from "noname";
 import { createBaseCharacterPlugin } from "./base.js";
 import { applyOutcropAvatar } from "../../../src/ui/outcropAvatar.js";
 import { skillButtonTooltip } from "../../../src/ui/skillButtonTooltip.js";
 import { SHOUSHA_CONSTANTS, SHOUSHA_LAYOUT } from "../../constants.js";
+
+export function resolveGroupCapImage(group) {
+	if (group === "shen2") group = "shen";
+	const capGroups = ["wei", "shu", "wu", "qun", "ye", "jin", "shen"];
+	if (!capGroups.includes(group)) group = "unknown";
+	return `${SHOUSHA_CONSTANTS.IMAGE_PATH}caps/cap_${group}.png`;
+}
+
+export function applyGroupCapImage(cap, group) {
+	if (!cap) return;
+	const path = resolveGroupCapImage(group);
+	cap.style.backgroundImage = `url("${nonameLib.assetURL}${path}")`;
+	return path;
+}
 
 /**
  * 创建手杀风格角色插件

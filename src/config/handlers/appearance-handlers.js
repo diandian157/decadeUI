@@ -5,6 +5,8 @@
  */
 import { lib, game, ui, _status } from "noname";
 import { UI_ANIMATION } from "../../constants.js";
+import { applyDynamicBackgroundConfig } from "../../animation/backgroundAnimation.js";
+import { refreshSharedDynamicZoomCompatibility } from "../../animation/SharedDynamicPlayer.js";
 
 /**
  * 扩展开关点击处理
@@ -79,6 +81,7 @@ export function onOutcropSkinClick(item) {
 	game.saveConfig("extension_十周年UI_outcropSkin", item);
 	if (window.decadeUI) {
 		ui.arena.dataset.outcropSkin = item;
+		onDynamicSkinOutcropUpdate();
 		decadeUI.clearOutcropCache?.();
 		const players = [...(game.players || []), ...(game.dead || [])];
 		players.forEach(player => {
@@ -101,6 +104,7 @@ export function onOutcropSkinUpdate() {
 	if (!window.decadeUI) return;
 	const style = lib.config.extension_十周年UI_outcropSkin;
 	ui.arena.dataset.outcropSkin = style;
+	onDynamicSkinOutcropUpdate();
 	decadeUI.updateAllOutcropAvatars?.(style);
 }
 
@@ -184,7 +188,24 @@ export function onMeanPrettifyClick(bool) {
 export function onDynamicSkinClick(value) {
 	game.saveConfig("extension_十周年UI_dynamicSkin", value);
 	lib.config.dynamicSkin = value;
+	if (window.decadeUI) {
+		decadeUI.config.dynamicSkin = !!value;
+		decadeUI.CUR_DYNAMIC = 0;
+		const players = [...new Set([...(game.players || []), ...(game.dead || [])].filter(Boolean))];
+		if (value) players.forEach(player => player._decadeUIApplyDynamicSkin?.());
+		else players.forEach(player => player.stopDynamic?.());
+	}
 	game.saveConfig("dynamicSkin", value);
+}
+
+export function onDynamicSkinZoomCompatClick(enabled) {
+	game.saveConfig("extension_十周年UI_dynamicSkinZoomCompat", !!enabled);
+	refreshSharedDynamicZoomCompatibility();
+}
+
+export function onDynamicBackgroundClick(value) {
+	game.saveConfig("extension_十周年UI_dynamicBackground", value);
+	applyDynamicBackgroundConfig(value);
 }
 
 /**
@@ -192,12 +213,14 @@ export function onDynamicSkinClick(value) {
  */
 export function onDynamicSkinOutcropUpdate() {
 	if (!window.decadeUI) return;
-	const enable = lib.config.extension_十周年UI_dynamicSkinOutcrop;
-	ui.arena.dataset.dynamicSkinOutcrop = enable ? "on" : "off";
-	game.players?.forEach(player => {
+	const configured = lib.config.extension_十周年UI_outcropSkin;
+	const enable = configured && configured !== "off" ? configured : false;
+	decadeUI.config.dynamicSkinOutcrop = enable;
+	ui.arena.dataset.dynamicSkinOutcrop = enable || "off";
+	[...(game.players || []), ...(game.dead || [])].forEach(player => {
 		if (player.dynamic) {
 			player.dynamic.outcropMask = enable;
-			player.dynamic.update(false);
+			player.dynamic.update(true);
 		}
 	});
 }

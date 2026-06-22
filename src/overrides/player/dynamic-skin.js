@@ -1,283 +1,183 @@
-/**
- * @fileoverview Player动态皮肤覆写模块
- * @description 处理玩家动态皮肤的播放、停止和应用
- * @module overrides/player/dynamic-skin
- */
-
-import { lib, game, ui, get, ai, _status } from "noname";
-import { DynamicPlayer } from "../../animation/index.js";
-
-/**
- * 播放动态皮肤
- * @description 为玩家播放Spine动态皮肤动画
- * @param {Object|string} animation - 动画配置对象或动画名称
- * @param {string} animation.name - 动画名称
- * @param {string} [animation.action] - 动作名称
- * @param {boolean} [animation.loop=true] - 是否循环
- * @param {number} [animation.loopCount=-1] - 循环次数（-1为无限）
- * @param {number} [animation.speed=1] - 播放速度
- * @param {boolean} [animation.flipX] - X轴翻转
- * @param {boolean} [animation.flipY] - Y轴翻转
- * @param {number} [animation.opacity] - 透明度
- * @param {number|number[]} [animation.x] - X偏移
- * @param {number|number[]} [animation.y] - Y偏移
- * @param {number} [animation.scale] - 缩放
- * @param {number} [animation.angle] - 角度
- * @param {boolean} [animation.alpha] - 是否使用预乘 Alpha
- * @param {boolean} [animation.unpackPremultipliedAlpha] - 是否解包预乘 Alpha 通道
- * @param {string[]} [animation.hideSlots] - 隐藏的插槽
- * @param {string[]} [animation.clipSlots] - 裁剪的插槽
- * @param {boolean} [deputy=false] - 是否为副将动皮
- * @returns {void}
- * @this {Object} 玩家对象
- */
-export function playerPlayDynamic(animation, deputy) {
-	deputy = deputy === true;
-
-	if (animation === undefined) {
-		return console.error("playDynamic: 参数1不能为空");
+import { lib, game, _status } from "noname";
+import "../../animation/utils.js";
+import { getSharedDynamicRenderer as i } from "../../animation/SharedDynamicPlayer.js";
+import { applyGroupCapImage } from "../../../ui/character/skins/shousha.js";
+function isDynamicSkinEnabled() {
+	return !0 === window.decadeUI?.config?.dynamicSkin || "on" === window.decadeUI?.config?.dynamicSkin;
+}
+function isExternalPath(path) {
+	return /^(?:https?:|file:|data:|blob:|\/)/i.test(path);
+}
+function resolveDynamicBackground(path) {
+	if (!path) return path;
+	const prefix = `${window.decadeUIPath || ""}assets/dynamic/`;
+	return isExternalPath(path) || path.startsWith(prefix) ? path : `${prefix}${path}`;
+}
+function getDynamicBackgroundNode(player, isDeputy) {
+	if (!player?.$dynamicWrap) return;
+	const className = isDeputy ? "deputy-bg" : "primary-bg";
+	let node = player.$dynamicWrap.querySelector(`:scope > .${className}`);
+	if (!node) {
+		node = document.createElement("div");
+		node.className = className;
+		player.$dynamicWrap.appendChild(node);
 	}
-
-	let dynamic = this.dynamic;
-	if (!dynamic) {
-		dynamic = new DynamicPlayer(window.decadeUIPath + "assets/dynamic/");
-		dynamic.dprAdaptive = true;
-		this.dynamic = dynamic;
-		this.$dynamicWrap.appendChild(dynamic.canvas);
-	} else {
-		if (deputy && dynamic.deputy) {
-			dynamic.stop(dynamic.deputy);
-			dynamic.deputy = null;
-		} else if (dynamic.primary) {
-			dynamic.stop(dynamic.primary);
-			dynamic.primary = null;
+	return node;
+}
+function applyDynamicBackground(player, background, isDeputy) {
+	const node = getDynamicBackgroundNode(player, isDeputy);
+	if (!node) return;
+	background ? (node.style.backgroundImage = `url("${resolveDynamicBackground(background)}")`) : node.style.removeProperty("background-image");
+}
+function pickDynamicSkinName(skins) {
+	const names = Object.keys(skins || {});
+	return names.length ? names[0] : null;
+}
+function normalizeLegacyDynamicSkin(skin, ignoreClip) {
+	if ("string" == typeof skin) return { name: skin, loop: true };
+	const data = { ...(skin || {}) };
+	const legacyPlayer = data.player && data.player !== data ? data.player : null;
+	if (legacyPlayer) {
+		if (!data.name && legacyPlayer.name) data.name = legacyPlayer.name;
+		if (!data.beijing && legacyPlayer.beijing) data.beijing = { ...legacyPlayer.beijing };
+		if (!data.qianjing && legacyPlayer.qianjing) data.qianjing = { ...legacyPlayer.qianjing };
+		if (!data.background && legacyPlayer.background) data.background = legacyPlayer.background;
+	}
+	if (!data.beijing && data.dynamicBackground) {
+		data.beijing = "string" == typeof data.dynamicBackground ? { name: data.dynamicBackground, loop: true } : { ...data.dynamicBackground, loop: data.dynamicBackground.loop ?? true };
+	}
+	if (data.beijing && data.beijing.name && void 0 === data.beijing.loop) data.beijing.loop = true;
+	if (data.qianjing && data.qianjing.name && void 0 === data.qianjing.loop) data.qianjing.loop = true;
+	data.loop = data.loop ?? true;
+	data.speed = data.speed ?? 1;
+	if (ignoreClip) data.clipSlots = void 0;
+	return data;
+}
+function n(n, e, o, r) {
+	if (((e = !0 === e), void 0 === n)) return console.error("playDynamic: 参数1不能为空");
+	const sharedRenderer = i();
+	let t = this.dynamic;
+	let background;
+	if (t && !t._decadeSharedDynamic) {
+		try {
+			t.stopAll?.();
+			t.canvas?.remove?.();
+		} catch (error) {
+			console.warn("[十周年UI] 迁移旧动态皮肤实例时停止旧播放器失败", error);
 		}
+		t = null;
 	}
-
-	if (typeof animation === "string") {
-		animation = { name: animation };
-	}
-
-	if (this.doubleAvatar) {
-		animation = adjustDoubleAvatarAnimation(animation, deputy);
-	}
-
-	if (this.$dynamicWrap.parentNode !== this) {
-		this.appendChild(this.$dynamicWrap);
-	}
-
-	dynamic.outcropMask = window.decadeUI?.config?.dynamicSkinOutcrop;
-
-	const avatar = dynamic.play(animation);
-
-	if (deputy) {
-		dynamic.deputy = avatar;
-	} else {
-		dynamic.primary = avatar;
-	}
-
-	this.classList.add(deputy ? "d-skin2" : "d-skin");
-}
-
-/**
- * 调整双将模式下的动画配置
- * @param {Object} animation - 原动画配置
- * @param {boolean} deputy - 是否为副将
- * @returns {Object} 调整后的动画配置
- * @private
- */
-function adjustDoubleAvatarAnimation(animation, deputy) {
-	const result = { ...animation };
-
-	if (Array.isArray(result.x)) {
-		result.x = [...result.x];
-		result.x[1] += deputy ? 0.25 : -0.25;
-	} else {
-		if (result.x === undefined) {
-			result.x = [0, deputy ? 0.75 : 0.25];
-		} else {
-			result.x = [result.x, deputy ? 0.25 : -0.25];
-		}
-	}
-
-	result.clip = {
-		x: [0, deputy ? 0.5 : 0],
-		y: 0,
-		width: [0, 0.5],
-		height: [0, 1],
-		clipParent: true,
-	};
-
-	return result;
-}
-
-/**
- * 停止动态皮肤
- * @description 停止玩家的动态皮肤动画
- * @param {boolean} [primary=false] - 是否停止主将动皮
- * @param {boolean} [deputy=false] - 是否停止副将动皮
- * @returns {void}
- * @this {Object} 玩家对象
- * @example
- */
-export function playerStopDynamic(primary, deputy) {
-	const dynamic = this.dynamic;
-	if (!dynamic) return;
-
-	primary = primary === true;
-	deputy = deputy === true;
-
-	if (primary && dynamic.primary) {
-		dynamic.stop(dynamic.primary);
-		dynamic.primary = null;
-	} else if (deputy && dynamic.deputy) {
-		dynamic.stop(dynamic.deputy);
-		dynamic.deputy = null;
-	} else if (!primary && !deputy) {
-		dynamic.stopAll();
-		dynamic.primary = null;
-		dynamic.deputy = null;
-	}
-
-	if (!dynamic.offscreen && dynamic.renderer) {
-		cleanupSkeletonReferences(dynamic.renderer, this);
-	}
-
-	if (!dynamic.primary && !dynamic.deputy) {
-		this.classList.remove("d-skin", "d-skin2");
-		this.$dynamicWrap.remove();
-	}
-}
-
-/**
- * 清理AnimationPlayer中skeleton对当前玩家的引用
- * @param {AnimationPlayer} renderer - 动画播放器实例
- * @param {Object} player - 玩家对象
- * @private
- */
-function cleanupSkeletonReferences(renderer, player) {
-	if (!renderer.spine || !renderer.spine.skeletons) return;
-
-	for (const skeleton of renderer.spine.skeletons) {
-		if (skeleton.node && skeleton.node.referNode === player) {
-			skeleton.completed = true;
-			skeleton.node = undefined;
+	(t ? (e ? t.deputy && (t.stop(t.deputy), (t.deputy = null)) : t.primary && (t.stop(t.primary), (t.primary = null))) : ((t = sharedRenderer.getPlayerState(this).api), (this.dynamic = t)),
+		(n = normalizeLegacyDynamicSkin(n, r)),
+		(background = n.background),
+		this.$dynamicWrap.parentNode !== this && this.appendChild(this.$dynamicWrap),
+		(t.outcropMask = o ?? (window.decadeUI?.config?.dynamicSkinOutcrop || false)));
+	const a = sharedRenderer.play(this, n, e);
+	applyDynamicBackground(this, background, e);
+	(e ? (t.deputy = a) : (t.primary = a), this.classList.add(e ? "d-skin2" : "d-skin"));
+	if (this.node?.cap) applyGroupCapImage(this.node.cap, this.node.campWrap?.dataset?.camp || this.group);
+	// 皮肤切换的攻击、出场、特殊动作都依赖这一步完成出框 Worker
+	// 的资源预加载。旧播放器在自己的播放生命周期里调用它；共享播放器
+	// 必须在统一入口补上，不能分别为 gongji/chuchang 打补丁。
+	const skinSwitch = window.skinSwitch;
+	if ("function" == typeof skinSwitch?.chukuangPlayerInit) {
+		try {
+			skinSwitch.chukuangPlayerInit(this, !e, n.player || n);
+		} catch (error) {
+			console.warn("[十周年UI] 初始化皮肤切换出框播放链失败", error);
 		}
 	}
 }
-
-/**
- * 应用动态皮肤
- * @description 根据配置自动应用玩家的动态皮肤
- * @returns {void}
- * @this {Object} 玩家对象
- */
-export function playerApplyDynamicSkin() {
-	const decadeUI = window.decadeUI;
-	if (typeof game.qhly_changeDynamicSkin === "function") {
-		if (this.name1) {
-			game.qhly_changeDynamicSkin(this, undefined, this.name1, false, true);
-		}
-		if (this.doubleAvatar && this.name2) {
-			game.qhly_changeDynamicSkin(this, undefined, this.name2, true, true);
-		}
+function e(i, n) {
+	const e = this.dynamic;
+	e &&
+		((n = !0 === n),
+		(i = !0 === i) && e.primary ? (e.stop(e.primary), (e.primary = null)) : n && e.deputy ? (e.stop(e.deputy), (e.deputy = null)) : i || n || (e.stopAll(), (e.primary = null), (e.deputy = null)),
+		e.primary || e.deputy || (e.stopAll?.(), this.classList.remove("d-skin", "d-skin2"), this.$dynamicWrap.remove()));
+}
+function t() {
+	const i = window.decadeUI;
+	if (!isDynamicSkinEnabled() || null === _status.mode) return void this.stopDynamic?.();
+	if (this.classList.contains("out")) return void this.stopDynamic?.();
+	if (
+		((i.CUR_DYNAMIC ??= 0),
+		(i.MAX_DYNAMIC ??= Number.POSITIVE_INFINITY),
+		!this.dynamic && i.CUR_DYNAMIC >= i.MAX_DYNAMIC)
+	)
 		return;
-	}
-
-	if (!decadeUI?.config?.dynamicSkin || _status.mode === null) {
-		return;
-	}
-
-	decadeUI.CUR_DYNAMIC ??= 0;
-	decadeUI.MAX_DYNAMIC ??= calculateMaxDynamic();
-
-	if (!this.dynamic && decadeUI.CUR_DYNAMIC >= decadeUI.MAX_DYNAMIC) {
-		return;
-	}
-
-	const dskins = decadeUI.dynamicSkin;
-	if (!dskins) return;
-
-	const avatars = this.doubleAvatar && this.name2 ? [this.name1, this.name2] : [this.name1];
-
-	let increased = false;
-
-	avatars.forEach((name, index) => {
-		const skins = dskins[name];
-		if (!skins) return;
-
-		const skinKeys = Object.keys(skins);
-		if (!skinKeys.length) return;
-
-		const skin = skins[skinKeys[0]];
-		if (!skin?.name) return;
-
-		const animation = buildAnimationConfig(skin);
-
-		this.playDynamic(animation, index === 1);
-
-		if (skin.background) {
-			this.$dynamicWrap.style.backgroundImage = `url("${window.decadeUIPath}assets/dynamic/${skin.background}")`;
-		} else {
-			this.$dynamicWrap.style.removeProperty("background-image");
-		}
-
-		if (!increased) {
-			increased = true;
-			decadeUI.CUR_DYNAMIC++;
-		}
+	const n = i.dynamicSkin;
+	if (!n) return;
+	const e = this.doubleAvatar && this.name2 ? [this.name1, this.name2] : [this.name1];
+	let t = !1;
+	e.forEach((e, a) => {
+		const r = n[e];
+		if (!r) return;
+		const o = pickDynamicSkinName(r);
+		if (!o) return;
+		const s = r[o];
+		if (!s?.name) return;
+		const d = (function (i) {
+			const n = { name: i.name, skinName: o, action: i.action, loop: !0, loopCount: -1, speed: i.speed ?? 1, filpX: i.filpX, filpY: i.filpY, opacity: i.opacity, x: i.x, y: i.y, scale: i.scale, angle: i.angle, hideSlots: i.hideSlots, clipSlots: i.clipSlots, version: i.version, json: i.json, skelType: i.skelType, beijing: i.beijing, background: i.background, player: i.player || i };
+			void 0 !== i.alpha && (n.alpha = i.alpha);
+			void 0 !== i.unpackPremultipliedAlpha && (n.unpackPremultipliedAlpha = i.unpackPremultipliedAlpha);
+			(i.player || void 0 !== i._transform) && (n.player = { ...(i.player || {}), ...(void 0 !== i._transform && { _transform: i._transform }) });
+			return n;
+		})(s);
+		(s.background && (d.background = s.background), this.playDynamic(d, 1 === a), t || ((t = !0), i.CUR_DYNAMIC++));
 	});
 }
-
-/**
- * 计算最大动皮数量
- * @returns {number} 最大数量
- * @private
- */
-function calculateMaxDynamic() {
-	const isMobile = window.decadeUI?.isMobile?.() ?? false;
-	const baseCount = isMobile ? 2 : 10;
-	const offscreenBonus = window.OffscreenCanvas ? 8 : 0;
-	return baseCount + offscreenBonus;
-}
-
-/**
- * 构建动画配置
- * @param {Object} skin - 皮肤配置
- * @returns {Object} 动画配置
- * @private
- */
-function buildAnimationConfig(skin) {
-	const animation = {
-		name: skin.name,
-		action: skin.action,
-		loop: true,
-		loopCount: -1,
-		speed: skin.speed ?? 1,
-		filpX: skin.filpX,
-		filpY: skin.filpY,
-		opacity: skin.opacity,
-		x: skin.x,
-		y: skin.y,
-		scale: skin.scale,
-		angle: skin.angle,
-		hideSlots: skin.hideSlots,
-		clipSlots: skin.clipSlots,
+function o() {
+	const _origOut = lib.element.player.out;
+	lib.element.player.out = function () {
+		const result = _origOut.apply(this, arguments);
+		this.stopDynamic?.();
+		return result;
 	};
 
-	if (skin.alpha !== undefined) {
-		animation.alpha = skin.alpha;
-	}
-	if (skin.unpackPremultipliedAlpha !== undefined) {
-		animation.unpackPremultipliedAlpha = skin.unpackPremultipliedAlpha;
-	}
-
-	if (skin.player || skin._transform !== undefined) {
-		animation.player = {
-			...(skin.player || {}),
-			...(skin._transform !== undefined && { _transform: skin._transform }),
+	// 千幻聆音会在 arenaReady 中把 playDynamic/stopDynamic 以及现有玩家
+	// 实例重新定义为它自己的逐 Canvas 旧播放器。等所有 arenaReady 回调
+	// 执行完后恢复统一入口：千幻仍可选择皮肤、整理配置，但最终播放状态、
+	// renderer 消息和 Canvas 必须由十周年UI共享播放器持有。
+	const restoreSharedDynamicEntry = () => {
+		const defineEntry = target => {
+			if (!target) return;
+			for (const [key, value] of [["playDynamic", n], ["stopDynamic", e]]) {
+				const descriptor = Object.getOwnPropertyDescriptor(target, key);
+				if (descriptor && descriptor.configurable === false) continue;
+				Object.defineProperty(target, key, {
+					configurable: true,
+					enumerable: true,
+					writable: true,
+					value,
+				});
+			}
 		};
-	}
-
-	return animation;
+		// 千幻的换肤预览和大头像不一定是 game.player，而是直接调用这两个
+		// 公开函数；它们也必须进入同一共享播放入口，否则仍会实例化旧
+		// DynamicPlayer/AnimationPlayer 并用固定 runtime 解析新版 atlas。
+		lib.qhly_playdynamic = n;
+		lib.qhly_stopdynamic = e;
+		defineEntry(lib.element.player);
+		for (const player of game.players || []) {
+			const oldDynamic = player.dynamic;
+			const primary = oldDynamic && !oldDynamic._decadeSharedDynamic ? oldDynamic.primary : null;
+			const deputy = oldDynamic && !oldDynamic._decadeSharedDynamic ? oldDynamic.deputy : null;
+			defineEntry(player);
+			// 千幻可能已在本回调之前创建并播放了旧逐 Canvas 动皮；只恢复
+			// 函数还不够，要把当前正在播放的配置一并迁移到共享播放器。
+			if (primary || deputy) {
+				try {
+					oldDynamic.stopAll?.();
+					oldDynamic.canvas?.remove?.();
+				} catch (error) {
+					console.warn("[十周年UI] 停止千幻旧动皮播放器失败", error);
+				}
+				player.dynamic = null;
+				if (primary) n.call(player, primary.player || primary, false);
+				if (deputy) n.call(player, deputy.player || deputy, true);
+			}
+		}
+	};
+	lib.arenaReady?.push?.(() => setTimeout(restoreSharedDynamicEntry, 0));
 }
+export { t as playerApplyDynamicSkin, n as playerPlayDynamic, e as playerStopDynamic, o as setupDynamicSkinOutHook };

@@ -36,7 +36,8 @@ export default defineConfig(({ mode }) => ({
 				{ src: "src/config/*.css", dest: "src/config" },
 				{ src: "src/features/*.css", dest: "src/features" },
 				{ src: "src/features/*.txt", dest: "src/features" },
-				{ src: "src/skins/dynamicSkin.js", dest: "src/skins" },
+			{ src: "src/skins/dynamicSkin.js", dest: "src/skins" },
+			{ src: "src/skins/decadeAnimationTools.js", dest: "src/skins" },
 				{ src: "assets", dest: "" },
 				{ src: "audio", dest: "" },
 				{ src: "image", dest: "" },
@@ -81,7 +82,7 @@ export default defineConfig(({ mode }) => ({
 		emptyOutDir: true,
 		rollupOptions: {
 			preserveEntrySignatures: "strict",
-			external: ["noname", /src\/skins\/dynamicSkin\.js$/],
+			external: ["noname", /src\/skins\/dynamicSkin\.js$/, /src\/skins\/decadeAnimationTools\.js$/],
 			output: {
 				preserveModules: true,
 				preserveModulesRoot: "./",

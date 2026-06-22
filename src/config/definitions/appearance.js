@@ -4,7 +4,8 @@
  * @module config/definitions/appearance
  */
 import { createCollapseTitle, createCollapseEnd } from "../utils.js";
-import { onExtensionToggleClick, onExtensionToggleUpdate, onNewDecadeStyleClick, onNewDecadeStyleUpdate, onOutcropSkinClick, onOutcropSkinUpdate, onBorderLevelUpdate, onAloneEquipUpdate, onMeanPrettifyClick, onDynamicSkinClick, onDynamicSkinOutcropUpdate } from "../handlers/appearance-handlers.js";
+import { dynamicBackgroundItems } from "../../animation/backgroundAnimation.js";
+import { onExtensionToggleClick, onExtensionToggleUpdate, onNewDecadeStyleClick, onNewDecadeStyleUpdate, onOutcropSkinClick, onOutcropSkinUpdate, onBorderLevelUpdate, onAloneEquipUpdate, onMeanPrettifyClick, onDynamicBackgroundClick, onDynamicSkinClick, onDynamicSkinZoomCompatClick, onDynamicSkinOutcropUpdate } from "../handlers/appearance-handlers.js";
 import { game, ui } from "noname";
 
 /**
@@ -135,6 +136,13 @@ export const meanPrettify = {
 	onclick: onMeanPrettifyClick,
 };
 
+export const dynamicBackground = {
+	name: "动态背景",
+	init: "off",
+	item: dynamicBackgroundItems,
+	onclick: onDynamicBackgroundClick,
+};
+
 /**
  * 动态皮肤配置
  * @type {Object}
@@ -144,6 +152,13 @@ export const dynamicSkin = {
 	intro: "开启后显示动态皮肤，阵亡后也保留",
 	init: false,
 	onclick: onDynamicSkinClick,
+};
+
+export const dynamicSkinZoomCompat = {
+	name: "缩放兼容",
+	intro: "骨骼动画缩放补偿，当缩放异常时打开",
+	init: false,
+	onclick: onDynamicSkinZoomCompatClick,
 };
 
 /**
@@ -187,7 +202,9 @@ export const appearanceConfigs = {
 	borderLevel,
 	aloneEquip,
 	meanPrettify,
+	dynamicBackground,
 	dynamicSkin,
+	dynamicSkinZoomCompat,
 	dynamicSkinOutcrop,
 	killEffect,
 	outward_title_end,

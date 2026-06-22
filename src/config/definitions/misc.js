@@ -110,6 +110,19 @@ export const rightLayout = {
 	onclick: onRightLayoutClick,
 };
 
+export const spinePreview = {
+	name: "预览Spine/SK动画",
+	clear: true,
+	onclick: () => window.decadeUI?.decadeAnimationTools?.openPreview?.(),
+};
+
+export const showSpinePreviewMenu = {
+	name: "顶部菜单显示Spine/SK预览器",
+	intro: "开启后，在顶部菜单加入 Spine/SK 预览器入口",
+	init: false,
+	update: () => window.decadeUI?.updateSpinePreviewMenu?.(),
+};
+
 /**
  * 小小玩楞折叠结束标记
  * @type {Object}
@@ -130,6 +143,8 @@ export const miscConfigs = {
 	mx_decade_characterDialog,
 	enableRecastInteraction,
 	enableEquipCopy,
+	spinePreview,
+	showSpinePreviewMenu,
 	rightLayout,
 	stuff_title_end,
 };

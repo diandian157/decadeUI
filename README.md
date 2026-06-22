@@ -30,11 +30,40 @@ pnpm dev
 
 - [卡牌皮肤注册](docs/card-skin-api.md) - 外部扩展注册卡牌皮肤的方法
 - [前缀角标注册](docs/prefix-mark-api.md) - 武将前缀角标的配置方法
-- [动态皮肤配置](docs/dynamic-skin-api.md) - Spine骨骼动画皮肤的配置方法
+- [动态皮肤与扩展兼容 API](docs/dynamic-skin-api.md) - 动皮配置、共享 Canvas、新旧 API 兼容与换肤扩展迁移方法
 - [露头头像配置](docs/outcrop-avatar-api.md) - 露头头像的目录结构和API
-- [骨骼动画定位](docs/spine-positioning-api.md) - Spine骨骼动画定位系统说明
+- [普通 Spine 与骨骼动画定位](docs/spine-positioning-api.md) - 全屏特效层、外部扩展播放 API 和定位系统说明
 - [版本更新日志](docs/update.md) - 十周年UI版本更新日志
 - [报错兜底处理](docs/secret.md) - 与无名杀版本不匹配下游玩方法
+
+## 动态背景
+
+进入“十周年UI设置 → 外观 → 动态背景”，可选择已配置的动态底背景；选择“关闭”即可停止播放。
+
+动态背景列表来自 `src/skins/dynamicBackground.js` 中的 `dynamicBackgroundConfig`。新增配置示例：
+
+```javascript
+export const dynamicBackgroundConfig = {
+	"显示名称": {
+		name: "武将/皮肤/daiji",
+		version: "4.0",
+		x: [0, 0.5],
+		y: [0, 0.5],
+		scale: 1.5,
+		beijing: {
+			name: "武将/皮肤/beijing",
+			version: "4.0",
+			x: [0, 0.5],
+			y: [0, 0.5],
+			scale: 1.5,
+		},
+	},
+};
+```
+
+骨骼资源放在 `assets/dynamic/` 下，`name` 填写相对路径，不需要扩展名。主体和 `beijing` 会在独立底背景 Canvas 中分层循环播放，并自动响应窗口 resize。
+
+完整改动见 [本次改动说明](docs/update.md)。
 
 ## 相关链接
 

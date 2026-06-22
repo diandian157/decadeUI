@@ -20,6 +20,7 @@ export function playSkillEffect(player, skillName, vice) {
 	if (!isPlayer(player)) return;
 
 	const anim = decadeUI.animation;
+	if (!anim?.spine?.assets) return;
 	const asset = anim.spine.assets.effect_xianding;
 
 	if (!asset) {

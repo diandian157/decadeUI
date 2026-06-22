@@ -79,27 +79,36 @@ export function createPlayerInit(base) {
 					console.error(`player.init: ${avatars[i]} 没有设置动皮参数`);
 					continue;
 				}
-				const skin = skins[keys[0]];
-				if (skin.speed === undefined) skin.speed = 1;
-				this.playDynamic(
-					{
-						name: skin.name,
-						action: skin.action,
-						loop: true,
-						loopCount: -1,
-						speed: skin.speed,
-						filpX: undefined,
-						filpY: undefined,
-						opacity: undefined,
-						x: skin.x,
-						y: skin.y,
-						scale: skin.scale,
-						angle: skin.angle,
-						hideSlots: skin.hideSlots,
-						clipSlots: skin.clipSlots,
-					},
-					i === 1
-				);
+			const skin = skins[keys[0]];
+			if (skin.speed === undefined) skin.speed = 1;
+			this.playDynamic(
+				{
+					name: skin.name,
+					skinName: keys[0],
+					action: skin.action,
+					loop: true,
+					loopCount: -1,
+					speed: skin.speed,
+					filpX: skin.filpX,
+					filpY: skin.filpY,
+					opacity: skin.opacity,
+					x: skin.x,
+					y: skin.y,
+					scale: skin.scale,
+					angle: skin.angle,
+					hideSlots: skin.hideSlots,
+					clipSlots: skin.clipSlots,
+					alpha: skin.alpha,
+					unpackPremultipliedAlpha: skin.unpackPremultipliedAlpha,
+					version: skin.version,
+					json: skin.json,
+					skelType: skin.skelType,
+					beijing: skin.beijing,
+					background: skin.background,
+					player: skin.player || skin,
+				},
+				i === 1
+			);
 				this.$dynamicWrap.style.backgroundImage = `url("${decadeUIPath}assets/dynamic/${skin.background}")`;
 				if (!increased) {
 					increased = true;

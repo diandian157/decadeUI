@@ -4,7 +4,7 @@
  * @fileoverview 动态皮肤配置模块
  */
 import { lib, game, ui, get, ai, _status } from "noname";
-
+import { setupDecadeAnimationTools } from "./decadeAnimationTools.js";
 /**
  * @type {Object.<string, Object>}
  * @description 动态皮肤配置表，按武将名和皮肤名组织

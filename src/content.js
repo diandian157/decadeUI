@@ -20,6 +20,7 @@ import { setupCardDragSort } from "./features/cardDragSort.js";
 import { setupEquipHand } from "./features/equipHand.js";
 import { setupLuckyCard } from "./features/luckyCard.js";
 import { setupExtensionToggle } from "./features/extensionToggle.js";
+import { setupSpinePreviewMenu } from "./features/spinePreviewMenu.js";
 import { setupStyleHotkeys } from "./features/styleHotkeys.js";
 import { setupDisableBrowserShortcuts } from "./features/disableBrowserShortcuts.js";
 import { setupWelcomeDialog } from "./features/welcomeDialog.js";
@@ -79,6 +80,7 @@ export const finalizeDecadeUICore = (decadeUI, config) => {
 	setupEquipHand();
 	setupLuckyCard();
 	setupExtensionToggle();
+	setupSpinePreviewMenu();
 	setupStyleHotkeys();
 	setupDisableBrowserShortcuts();
 	setupConfigWindow();

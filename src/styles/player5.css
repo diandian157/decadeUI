@@ -61,7 +61,8 @@
 .player.selectable:not(.selected):not(.target)::before {
 	animation-duration: 0.9s;
 	opacity: 1;
-}
+
+	z-index: 2;}
 
 /* 目标状态-红色光效 */
 .player::after,
@@ -101,7 +102,7 @@
 	opacity: 0;
 	transition: opacity 0.3s ease-in-out;
 	pointer-events: none;
-	z-index: 66;
+	z-index: 8;
 }
 
 .player.un-selectable:not(.selectable) > .mask {
@@ -124,7 +125,7 @@
 	background-size: cover;
 	background-position-x: -120px;
 	transition-duration: 0.4s;
-	z-index: 86;
+	z-index: 8;
 }
 
 .player.linked2 > .chain {
@@ -158,7 +159,7 @@
 	width: 37px;
 	height: 128px;
 	transition: none;
-	z-index: 88;
+	z-index: 6;
 }
 
 .player.connect > div:not(.avatar):not(.name):not(.nameol):not(.hp):not(.room):not(.gaming):not(.identity).camp-wrap,
@@ -239,7 +240,7 @@
 	height: 15%;
 	background-size: 100% 100%;
 	background-repeat: no-repeat;
-	z-index: 88;
+	z-index: 8;
 }
 
 /* 边框等级样式 */
@@ -482,7 +483,7 @@
 	height: 96px;
 	font-size: 16px;
 	background: linear-gradient(to bottom, transparent 0%, rgba(0, 0, 0, 0.4) 20%, rgba(0, 0, 0, 0.5) 50%, rgba(0, 0, 0, 0.4) 80%, transparent 100%);
-	z-index: 80;
+	z-index: 6;
 }
 
 .player > .name.name2:empty,
@@ -506,7 +507,7 @@
 	font-family: "shousha";
 	text-shadow: 0 0 2px black;
 	background: linear-gradient(to right, transparent 0%, rgba(0, 0, 0, 0.4) 40%, rgba(0, 0, 0, 0.4) 60%, transparent 100%);
-	z-index: 89;
+	z-index: 7;
 	pointer-events: none;
 }
 
@@ -526,7 +527,7 @@
 	transition-property: transform, opacity, height;
 	transition-duration: 0.1s;
 	transition-timing-function: linear;
-	z-index: 88;
+	z-index: 7;
 }
 
 /* 血量条高度 */
@@ -599,7 +600,7 @@
 		0.3px 0px 1.8px #332c18,
 		0.3px 0px 1.8px #332c18,
 		0.3px 0px 1.8px #332c18;
-	z-index: 100;
+	z-index: 12;
 }
 
 .player.connect > div:not(.avatar):not(.name):not(.nameol):not(.hp):not(.room):not(.gaming):not(.identity).hp-wrap {
@@ -709,7 +710,8 @@
 	background-position: top;
 	border-radius: 8px;
 	transition-property: opacity, transform;
-}
+
+	z-index: 6;}
 
 .player.fullskin2 > .primary-avatar {
 	width: 50%;
@@ -732,7 +734,8 @@
 	background-position: top;
 	border-radius: 0 8px 8px 0;
 	transition-property: opacity, transform;
-}
+
+	z-index: 6;}
 
 /* 隐藏未亮明头像 */
 .player.unseen > .primary-avatar,
@@ -792,7 +795,7 @@
 	background-size: cover;
 	background-repeat: no-repeat;
 	pointer-events: none;
-	z-index: 60;
+	z-index: 5;
 }
 
 /* 动皮露头开启时 */
@@ -801,7 +804,8 @@
 	border-top-right-radius: 100px 40px;
 	border-bottom-right-radius: 8px;
 	border-bottom-left-radius: 8px;
-}
+
+	z-index: 8;}
 
 .player > .dynamic-wrap > .animation-player {
 	display: block;
@@ -879,7 +883,7 @@
 	height: auto;
 	padding-bottom: 0;
 	transition-property: opacity, transform, background;
-	z-index: 88;
+	z-index: 7;
 }
 
 .player > .dui-marks > .mark {
@@ -984,7 +988,7 @@
 	flex-direction: column;
 	flex-wrap: wrap;
 	align-content: flex-start;
-	z-index: 87;
+	z-index: 6;
 }
 
 /* 九宫格拉伸：边角不变形，中间随文字自适应 */
@@ -1081,7 +1085,7 @@
 	width: auto;
 	height: 0;
 	padding-bottom: 0;
-	z-index: 99;
+	z-index: 7;
 }
 
 .player[data-position="0"] > .judges,
@@ -1208,7 +1212,7 @@
 		0 0 10px #000;
 	transform: scale(1.2);
 	pointer-events: none;
-	z-index: 89;
+	z-index: 7;
 }
 
 .player[data-position="0"] > .seat {
@@ -1257,7 +1261,7 @@
 	border-radius: 0;
 	box-shadow: none;
 	transition: transform, opacity;
-	z-index: 89;
+	z-index: 6;
 }
 
 .player > .card-count::before {
@@ -1290,7 +1294,7 @@
 	border-radius: 0;
 	transform: none;
 	transition: none;
-	z-index: 89;
+	z-index: 7;
 }
 
 /* 身份颜色-橙色 */
@@ -1340,7 +1344,7 @@
 .player > .damage {
 	width: 100%;
 	text-shadow: none;
-	z-index: 91;
+	z-index: 15;
 	opacity: 0;
 	transform: scale(0.7);
 	transition: all 0.3s ease-out;
@@ -1378,7 +1382,7 @@
 	top: auto;
 	bottom: -10px;
 	width: 100%;
-	z-index: 88;
+	z-index: 14;
 }
 
 .player[data-position="0"] > .timerbar {
@@ -1411,7 +1415,7 @@
 	font-family: "xinwei";
 	font-size: 32px;
 	text-align: center;
-	z-index: 89;
+	z-index: 14;
 }
 
 /** 死亡状态 */
@@ -1450,7 +1454,8 @@
 	background-position: center;
 	transform: none;
 	opacity: 0;
-}
+
+	z-index: 7;}
 
 .player.opposite-camp > .died-identity {
 	color: rgb(50, 50, 210);
@@ -1474,7 +1479,7 @@
 	font-size: 20px;
 	text-align: center;
 	color: rgb(255, 255, 200);
-	z-index: 87;
+	z-index: 7;
 }
 
 #arena.decadeUI[data-gain-skills-visible="off"] > .player > .gain-skill,
@@ -1493,7 +1498,7 @@
 	background: url("../../image/ui/mask/turn_over_maskhs.png") no-repeat;
 	background-size: cover;
 	pointer-events: none;
-	z-index: 62;
+	z-index: 6;
 }
 
 .player.turnedover > .turned-over {
@@ -1506,7 +1511,7 @@
 
 /* 边框背景 */
 .player > .framebg {
-	z-index: 63;
+	z-index: 8;
 }
 
 /** 身份标记框 */
@@ -1519,7 +1524,7 @@
 	left: 16%;
 	width: 68%;
 	height: auto;
-	z-index: 99;
+	z-index: 9;
 }
 
 .player > .identity-mark-box > .identity-mark-item {
@@ -1560,7 +1565,7 @@
 	border-image-source: url("../../image/ui/dialog/chat_bubble.png");
 	box-sizing: border-box;
 	word-break: break-all;
-	z-index: 99;
+	z-index: 9;
 }
 
 /** 特殊标记 */
@@ -1575,24 +1580,28 @@
 	height: 34px;
 	background-size: 100% 100%;
 	pointer-events: none;
-	z-index: 87;
+	z-index: 6;
 }
 
 .player > .jie-mark {
 	background-image: url("../../image/ui/mark/mark_jie.png");
-}
+
+	z-index: 6;}
 
 .player > .shen-mark {
 	background-image: url("../../image/ui/mark/mark_shen.png");
-}
+
+	z-index: 6;}
 
 .player > .sp-mark {
 	background-image: url("../../image/ui/mark/mark_sp.png");
-}
+
+	z-index: 6;}
 
 .player > .tw-mark {
 	background-image: url("../../image/ui/mark/mark_tw.png");
-}
+
+	z-index: 6;}
 
 /** Tip提示 */
 .player .tipContainer {
@@ -1600,7 +1609,7 @@
 	width: 82% !important;
 	right: 2px;
 	bottom: 100px;
-	z-index: 110 !important;
+	z-index: 10 !important;
 }
 
 .player .tipContainer > .tip {
