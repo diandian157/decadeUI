@@ -19,8 +19,8 @@
 	/* new 样式 */
 	--equip-right-new: 86px;
 	--equip-right-layout-left-new: 90px;
-	--player-equips-left-new: 16.5%;
-	--player-equips-right-new: 1%;
+	--player-equips-left-new: 17%;
+	--player-equips-right-new: 0%;
 
 	/* new-new 样式 */
 	--equip-right-new-new: 66px;
@@ -31,90 +31,8 @@
 	/* onlineUI 样式 */
 	--equip-right-ol: 160px;
 	--equip-right-layout-left-ol: 90px;
-	--player-equips-left-ol: 15.5%;
-	--player-equips-right-ol: 1%;
-}
-
-/*其他玩家装备*/
-/*除ol，手杀以外的样式*/
-#arena:not([data-new-decade-style="onlineUI"]):not([data-new-decade-style="off"]) {
-	/* 装备栏*/
-	--equip-container-height: 68px;
-	--equip-container-bottom: 3%;
-	--equip-container-bg: none;
-	--equip-container-box-shadow: none;
-	--equip-container-border-radius: 0;
-
-	/* 装备牌*/
-	--equip-card-top: auto;
-	--equip-card-height: 16px;
-	--equip-card-bg: rgba(228, 207, 166, 0.8);
-	--equip-card-border: 1px solid rgb(95, 55, 45);
-	/*	--equip-card-border-image: none;*/
-	--equip-card-border-radius: 0;
-	--equip-card-box-shadow: none;
-	/*	--equip-card-gap: 0;*/
-
-	/* 装备名*/
-	--equip-card-name-left: 0;
-	--equip-card-name-top: 0;
-	--equip-card-name-line-height: 15px;
-	--equip-card-name-font-size: 13px;
-	--equip-card-name-font-family: "shousha";
-	--equip-card-name-text-align: center;
-	--equip-card-name-text-shadow: none;
-
-	/*装备颜色*/
-	--equip-suit-red: red;
-	--equip-suit-black: black;
-}
-
-/*手杀*/
-#arena[data-new-decade-style="off"] {
-	--equip-container-height: 76.5px;
-	--equip-container-bottom: 2.3px;
-	--equip-card-top: 1px;
-	--equip-card-height: 19px;
-	--equip-card-name-left: 1.5px;
-	--equip-card-name-top: 0px;
-	--equip-card-name-line-height: 15px;
-	--equip-card-name-font-size: 17px;
-	--equip-card-name-font-family: "shousha";
-	/*	--equip-card-border-image: linear-gradient(to right, rgba(0, 0, 0, 0.4) 70%, transparent) 100% 0 0;*/
-	--equip-card-bg: none;
-	--equip-card-border: none;
-	--equip-card-box-shadow: none;
-	--equip-card-border-radius: 1px;
-	/*	--equip-card-gap: 0;*/
-	--equip-container-bg: none;
-	--equip-container-box-shadow: none;
-	--equip-container-border-radius: 0;
-	--equip-suit-red: #ef1806;
-	--equip-suit-black: #7fb3db;
-}
-
-/*ol*/
-#arena[data-new-decade-style="onlineUI"] {
-	--equip-container-height: 76.5px;
-	--equip-container-bottom: 2.3px;
-	--equip-card-top: 1px;
-	--equip-card-height: 19px;
-	--equip-card-name-left: 1.5px;
-	--equip-card-name-top: 0px;
-	--equip-card-name-line-height: 15px;
-	--equip-card-name-font-size: 17px;
-	--equip-card-name-font-family: "shousha";
-	/*	--equip-card-border-image: none;*/
-	--equip-card-bg: rgba(0, 0, 0, 0.6);
-	--equip-card-border: none;
-	--equip-card-box-shadow: 0 0.5px 0 rgba(68, 58, 48, 0.8), 0 -0.5px 0 rgba(68, 58, 48, 0.8);
-	--equip-card-border-radius: 0;
-	/*	--equip-card-gap: 0;*/
-	--equip-container-bg: none;
-	--equip-container-box-shadow: none;
-	--equip-container-border-radius: 0;
-	--equip-suit-red: red;
-	--equip-suit-black: black;
+	--player-equips-left-ol: 17%;
+	--player-equips-right-ol: 5%;
 }
 
 /** 装备栏容器 */
@@ -329,7 +247,7 @@
 	width: calc(100% - 4px);
 	height: calc(100% - 4px);
 	margin: 0;
-	font-family: "HYXLSJ" !important;
+	font-family: "yuanli" !important;
 	font-weight: bold;
 	white-space: pre-wrap;
 	background-color: rgb(228, 207, 166);
@@ -343,19 +261,19 @@
 /* 红色花色 */
 .equips-wrap > .equips > .card[data-suit="heart"] > .name2,
 .equips-wrap > .equips > .card[data-suit="diamond"] > .name2 {
-	color: red;
+	color: #8b0000;
 }
 
 /* 黑色花色 */
 .equips-wrap > .equips > .card[data-suit="spade"] > .name2,
 .equips-wrap > .equips > .card[data-suit="club"] > .name2 {
-	color: black;
+	color: #181818;
 }
 
 /* 无色 */
 .equips-wrap > .equips > .card[data-suit="none"] > .name2 {
-	color: none;
-	background-color: rgba(113, 116, 109, 0.8);
+	color: white;
+	background-color: black;
 }
 
 /* 废除状态 */
@@ -381,71 +299,28 @@
 	display: block !important;
 }
 
-/*装备栏*/
-#arena:not([data-new-decade-style="onlineUI"]) > .player > .equips,
-#arena[data-new-decade-style="onlineUI"] > .player > .equips {
+/** 其他玩家装备栏 */
+
+.player > .equips,
+#arena > .player:not(.minskin) > .equips {
 	position: absolute;
+	display: flex;
 	flex-direction: column;
 	width: auto;
-	height: var(--equip-container-height);
+	height: 80px;
 	left: var(--player-equips-left);
 	right: var(--player-equips-right);
-	bottom: var(--equip-container-bottom);
-	background: var(--equip-container-bg);
-	overflow-y: auto;
-	overflow-x: hidden;
-	border-radius: var(--equip-container-border-radius) !important;
-	box-shadow: var(--equip-container-box-shadow);
+	bottom: 3%;
+	background: none;
+	border-radius: 0;
+	box-shadow: none;
 	transform: none;
 	transform-origin: center;
 	pointer-events: none;
-	z-index: 66;
+	z-index: 88;
 }
 
-/*装备牌*/
-#arena:not([data-new-decade-style="onlineUI"]) > .player > .equips > .card,
-#arena:not([data-new-decade-style="onlineUI"]) > .player.unseen > .equips > .card,
-#arena:not([data-new-decade-style="onlineUI"]) > .player.unseen2 > .equips > .card,
-#arena[data-new-decade-style="onlineUI"] > .player > .equips > .card,
-#arena[data-new-decade-style="onlineUI"] > .player.unseen > .equips > .card,
-#arena[data-new-decade-style="onlineUI"] > .player.unseen2 > .equips > .card {
-	display: flex;
-	align-items: center;
-	align-content: center;
-	justify-content: center;
-	top: var(--equip-card-top);
-	width: 100%;
-	height: var(--equip-card-height);
-	overflow: hidden;
-	text-shadow: none;
-	/*	margin-bottom: var(--equip-card-gap);*/
-	/*	border-image: var(--equip-card-border-image);*/
-	border-radius: var(--equip-card-border-radius);
-	background: var(--equip-card-bg) !important;
-	border: var(--equip-card-border);
-	box-shadow: var(--equip-card-box-shadow);
-}
-
-/*装备名*/
-#arena:not([data-new-decade-style="onlineUI"]) > .player > .equips > .card > .name2,
-#arena[data-new-decade-style="onlineUI"] > .player > .equips > .card > .name2 {
-	display: flex;
-	align-items: center;
-	align-content: center;
-	justify-content: flex-start;
-	width: 100%;
-	height: 100%;
-	left: var(--equip-card-name-left);
-	top: var(--equip-card-name-top);
-	margin: 0;
-	line-height: var(--equip-card-name-line-height);
-	font-size: var(--equip-card-name-font-size);
-	font-family: var(--equip-card-name-font-family);
-	text-align: center;
-	text-shadow: none;
-	pointer-events: none;
-}
-
+/* 未翻面玩家装备栏 */
 #arena.decadeUI:not(.long).mobile:not(.oldlayout) .player.unseen:not([data-position="0"]) .equips:not(*:empty),
 #arena.decadeUI:not(.long):not(.mobile):not(.oldlayout) .player.unseen .equips:not(*:empty),
 #arena.decadeUI.long.mobile:not(.oldlayout) .player.unseen2:not([data-position="0"]) .equips:not(*:empty),
@@ -456,12 +331,29 @@
 	box-shadow: none;
 }
 
-/* 暗将装备背景图 */
+/* 其他玩家装备牌 */
+.player > .equips > .card,
+.player.unseen > .equips > .card,
+.player.unseen2 > .equips > .card {
+	display: flex;
+	align-items: center;
+	align-content: center;
+	justify-content: center;
+	width: 100%;
+	height: 16px;
+	background: rgba(228, 207, 166, 0.8) !important;
+	border: 1px solid rgb(95, 55, 45);
+	border-image: none !important;
+	border-radius: 1px;
+	box-sizing: border-box;
+	text-shadow: none;
+}
+
 #arena.decadeUI:not(.long).mobile:not(.oldlayout) .player.unseen:not([data-position="0"]) .equips:not(*:empty) > .card,
 #arena.decadeUI:not(.long):not(.mobile):not(.oldlayout) .player.unseen .equips:not(*:empty) > .card:not(.selected),
 #arena.decadeUI.long.mobile:not(.oldlayout) .player.unseen2:not([data-position="0"]) .equips:not(*:empty) > .card,
 #arena.decadeUI.long:not(.mobile):not(.oldlayout) .player.unseen2 .equips:not(*:empty) > .card:not(.selected) {
-	background: url("../../image/ui/equip/online/equip_bg.png") !important;
+	background: rgba(228, 207, 166, 0.8) !important;
 }
 
 .player:not(.selectable) > .equips > .card,
@@ -471,22 +363,32 @@
 
 .player > .equips > .card > div {
 	position: static;
-	opacity: 1 !important;
 }
 
-/*装备颜色*/
+.player > .equips > .card > .name2 {
+	position: absolute;
+	display: flex;
+	align-items: center;
+	align-content: center;
+	justify-content: center;
+	width: 100%;
+	height: 100%;
+	left: 0;
+	top: 0;
+	margin: 0;
+	line-height: 15px;
+	font-size: 13px;
+	font-family: yuanli;
+	font-weight: bold;
+	color: #181818;
+	text-align: center;
+	text-shadow: none;
+	pointer-events: none;
+}
+
 .player > .equips > .card[data-suit="heart"] > .name2,
 .player > .equips > .card[data-suit="diamond"] > .name2 {
-	color: var(--equip-suit-red);
-}
-
-.player > .equips > .card[data-suit="spade"] > .name2,
-.player > .equips > .card[data-suit="club"] > .name2 {
-	color: var(--equip-suit-black);
-}
-
-.player > .equips > .card[data-suit="none"] > .name2 {
-	color: black;
+	color: #8b0000;
 }
 
 /** 样式变量覆盖 */

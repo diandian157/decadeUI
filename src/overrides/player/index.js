@@ -16,9 +16,6 @@ export { playerAwakenSkill, playerSetIdentity, playerGetState, playerSetModeStat
 // 卡牌操作覆写
 export { playerUseCard, playerRespond, playerLose, playerUseCardAnimateBefore, playerRespondAnimateBefore, playerHandleEquipChange } from "./card-actions.js";
 
-// 装备显示覆写
-export { playerAddVirtualEquip } from "./equipment.js";
-
 // 标记部分覆写
 export { playerMarkSkill, playerUnmarkSkill, playerMark, playerMarkCharacter, playerUpdateMark, playerMarkSkillCharacter } from "./marks.js";
 
