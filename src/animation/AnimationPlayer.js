@@ -467,6 +467,26 @@ export class AnimationPlayer {
 		}
 	}
 
+	destroy() {
+		if (this.requestId !== undefined) cancelAnimationFrame(this.requestId);
+		this.requestId = undefined;
+		this.running = false;
+		this.nodes.length = 0;
+		this.canvas?.remove?.();
+		if (this.gl && !this.gl.isContextLost?.()) {
+			try {
+				this.gl.getExtension("WEBGL_lose_context")?.loseContext();
+			} catch (error) {}
+		}
+		if (this.spine) {
+			this.spine.skeletons = [];
+			this.spine.assets = {};
+			if (this.spine.assetManager) this.spine.assetManager.assets = {};
+		}
+		this.onIdle = null;
+		this.gl = null;
+	}
+
 	/**
 	 * 获取骨骼的所有可用动画动作列表
 	 * @param {string} filename - 骨骼文件名（不含扩展名）
@@ -513,6 +533,7 @@ export class AnimationPlayer {
 	render(timestamp) {
 		const canvas = this.canvas;
 		const offscreen = this.offscreen;
+		if (!offscreen && !canvas.isConnected) this.stopSpineAll();
 		const dpr = this.dprAdaptive ? (offscreen ? this.dpr || 1 : Math.max(window.devicePixelRatio * (window.documentZoom || 1), 1)) : 1;
 
 		const delta = timestamp - (this.frameTime ?? timestamp);
@@ -559,6 +580,7 @@ export class AnimationPlayer {
 			this.frameTime = this.requestId = undefined;
 			this.running = false;
 			if (!offscreen) this.canvas.style.visibility = "hidden";
+			this.onIdle?.(this);
 			return;
 		}
 

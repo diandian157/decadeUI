@@ -65,20 +65,35 @@ function getDocumentZoom() {
 	return 1;
 }
 
-function getMobileDeviceScale() {
-	const mobile = !!lib?.device || /Android|iPhone|iPad|iPod|Mobile/i.test(globalThis.navigator?.userAgent || "");
-	if (!mobile) return 1;
-	const scale = game?.deviceZoom;
-	return Number.isFinite(scale) && scale > 0 ? Math.min(scale, 1) : 1;
+function isGetBoundingClientRectHijacked() {
+	// 皮肤切换扩展等会劫持 HTMLElement.prototype.getBoundingClientRect，
+	// 把返回值提前除以 documentZoom（Chrome >= 128 修复）。
+	// 检测方式与 SpineRenderer._calcReferBounds 一致。
+	return !HTMLElement.prototype.getBoundingClientRect.toString().includes("[native code]");
 }
 
-function getCanvasLocalRect(rect, canvas) {
+function getCanvasLocalRect(rect, canvas, compatMode = false) {
+	// canvas CSS 尺寸由 syncUpperCanvasBounds 设为布局像素（viewport / bodyZoom），
+	// 因此 canvasRect.width / canvas.clientWidth = bodyZoom（原生 getBoundingClientRect）。
+	//
+	// 原生情况：getBoundingClientRect 返回视觉像素，除以 bodyZoom 得布局像素，
+	//   再乘 canvasScaleX(dpr) = 物理像素，与 canvas 物理宽度一致。
+	//
+	// 被劫持情况（皮肤切换扩展）：getBoundingClientRect 已除以 documentZoom，
+	//   返回布局像素。此时 canvasRect 也是布局像素，canvasRect.width/canvasWidth = 1。
+	//   不应再除 bodyZoom，直接用布局像素，乘 canvasScaleX(dpr) = 物理像素。
 	const canvasRect = canvas.getBoundingClientRect();
-	const bodyZoom = parseFloat(window.getComputedStyle(document.body).zoom) || 1;
 	const canvasWidth = canvas.clientWidth || canvasRect.width || 1;
 	const canvasHeight = canvas.clientHeight || canvasRect.height || 1;
-	const scaleX = (canvasRect.width / canvasWidth) / bodyZoom || 1;
-	const scaleY = (canvasRect.height / canvasHeight) / bodyZoom || 1;
+	let scaleX = canvasRect.width / canvasWidth || 1;
+	let scaleY = canvasRect.height / canvasHeight || 1;
+	if (!isGetBoundingClientRectHijacked()) {
+		// 原生 getBoundingClientRect 返回视觉像素，需除以 bodyZoom 转布局像素
+		const bodyZoom = parseFloat(window.getComputedStyle(document.body).zoom) || 1;
+		scaleX = scaleX / bodyZoom || 1;
+		scaleY = scaleY / bodyZoom || 1;
+	}
+	// 被劫持时 scaleX=1，不除 bodyZoom，保持布局像素
 	return {
 		left: (rect.left - canvasRect.left) / scaleX,
 		top: (rect.top - canvasRect.top) / scaleY,
@@ -113,11 +128,24 @@ class SharedDynamicRenderer {
 	}
 
 	getDynamicZoomScale() {
-		return isDynamicZoomCompatibilityEnabled() ? getDocumentZoom() : 1;
+		// 坐标基准分析：
+		// - 原生 getBoundingClientRect（兼容关闭+皮肤切换关闭）：
+		//   getCanvasLocalRect 返回视觉像素，canvasScaleX = devicePixelRatio，
+		//   renderX = 视觉像素 × devicePixelRatio = 物理像素 ✓（坐标正确）
+		//   但 renderScale = _baseScale × node.scale × devicePixelRatio，
+		//   canvas 物理宽度 = 视觉像素 × devicePixelRatio = 布局 × documentZoom × devicePixelRatio，
+		//   spine 视觉大小比预期小 documentZoom 倍，需要返回 documentZoom 补偿。
+		// - 被劫持 getBoundingClientRect（兼容打开+皮肤切换打开）：
+		//   getCanvasLocalRect 返回布局像素，canvasScaleX = dpr（含 documentZoom），
+		//   renderX = 布局像素 × dpr = 物理像素 ✓（坐标正确）
+		//   renderScale = _baseScale × node.scale × dpr，与 canvas 物理宽度基准一致，返回 1。
+		return isGetBoundingClientRectHijacked() ? 1 : getDocumentZoom();
 	}
 
 	syncDynamicNodeScale(node, zoomScale = this.getDynamicZoomScale()) {
-		if (node?.isSpine) node._baseScale = zoomScale * getMobileDeviceScale();
+		// 动皮容器尺寸已经来自玩家实际 DOM，game.deviceZoom 已包含在该尺寸中。
+		// 再乘 deviceZoom 会在手机端重复缩小，且不同分辨率下误差并不固定。
+		if (node?.isSpine) node._baseScale = zoomScale;
 	}
 
 	ensureUpperRenderer() {
@@ -168,8 +196,17 @@ class SharedDynamicRenderer {
 		const arenaRect = arena.getBoundingClientRect();
 		const arenaWidth = arena.clientWidth || arenaRect.width || 1;
 		const arenaHeight = arena.clientHeight || arenaRect.height || 1;
-		const scaleX = arenaRect.width / arenaWidth || 1;
-		const scaleY = arenaRect.height / arenaHeight || 1;
+		const bodyZoom = parseFloat(window.getComputedStyle(document.body).zoom) || 1;
+		// 原生 getBoundingClientRect：arenaRect 是视觉像素，arenaWidth 是布局像素，
+		//   scaleX = bodyZoom，viewport/scaleX = 布局像素（canvas CSS）。
+		// 被劫持（皮肤切换扩展）：arenaRect 已除以 documentZoom = 布局像素，
+		//   arenaWidth 也是布局像素，scaleX = 1。需手动用 bodyZoom 让 canvas CSS = 布局像素。
+		let scaleX = arenaRect.width / arenaWidth || 1;
+		let scaleY = arenaRect.height / arenaHeight || 1;
+		if (isGetBoundingClientRectHijacked()) {
+			scaleX = bodyZoom;
+			scaleY = bodyZoom;
+		}
 		const viewportWidth = window.innerWidth || document.documentElement.clientWidth || arenaRect.width;
 		const viewportHeight = window.innerHeight || document.documentElement.clientHeight || arenaRect.height;
 		const nextBounds = {
@@ -350,7 +387,13 @@ class SharedDynamicRenderer {
 		if (target instanceof Element) return this.playDynamicTo(target, sprite, { ...options, isDeputy });
 		const renderer = this.ensureUpperRenderer();
 		const container = renderer.createContainer({ name: "dynamic", zIndex: options.zIndex ?? dynamicCanvasLayers.player.containers.player });
-		const rect = options.rect || { left: 0, top: 0, width: renderer.canvas.clientWidth || window.innerWidth, height: renderer.canvas.clientHeight || window.innerHeight };
+		// 全屏特效层默认 rect 基准与 getCanvasLocalRect 一致：
+		// - 原生 getBoundingClientRect：localRect 返回视觉像素，canvas.clientWidth 需乘 bodyZoom。
+		// - 被劫持（皮肤切换扩展）：localRect 返回布局像素，canvas.clientWidth 已是布局像素，不乘。
+		// 调用方显式传入的 options.rect 视为与当前模式匹配的像素，不做转换。
+		const hijacked = isGetBoundingClientRectHijacked();
+		const zoom = hijacked ? 1 : getDocumentZoom();
+		const rect = options.rect || { left: 0, top: 0, width: (renderer.canvas.clientWidth || window.innerWidth) * zoom, height: (renderer.canvas.clientHeight || window.innerHeight) * zoom };
 		container.setPosition(rect.left, rect.top);
 		container.setContentSize(rect.width, rect.height);
 		const data = cloneSprite(target);
@@ -414,6 +457,7 @@ class SharedDynamicRenderer {
 		const skelType = (sprite.skelType || (sprite.json ? "json" : "skel")).toLowerCase();
 		const loaded = await renderer.loadSpineAssets(filename, skelType);
 		if (!loaded || record.cancelled) return;
+		console.log("[十周年UI调试-createSpineNode] 创建spine节点, filename=", filename, "state.rect=", JSON.stringify(state.rect), "dynamicZoomScale=", state.dynamicZoomScale);
 		const meta = {
 			name: filename,
 			action: sprite.action,
@@ -766,7 +810,27 @@ class SharedDynamicRenderer {
 		const visible = !!(rect.width && rect.height && player.offsetParent !== null);
 		root.setVisible(visible);
 		if (!visible) return;
-		const localRect = getCanvasLocalRect(rect, state.renderer.canvas);
+		const compatMode = isDynamicZoomCompatibilityEnabled();
+		const localRect = getCanvasLocalRect(rect, state.renderer.canvas, compatMode);
+		if (!state._layoutDebugLogged) {
+			state._layoutDebugLogged = true;
+			const canvas = state.renderer.canvas;
+			const canvasRect = canvas.getBoundingClientRect();
+			const bodyZoom = parseFloat(window.getComputedStyle(document.body).zoom) || 1;
+			const gameZoom = game?.documentZoom;
+			const winZoom = window.documentZoom;
+			console.log("[十周年UI调试-Layout]", {
+				player: player?.name,
+				compatMode,
+				gameZoom, winZoom, bodyZoom,
+				anchorRect: { left: rect.left, top: rect.top, width: rect.width, height: rect.height },
+				localRect,
+				canvasCss: { w: canvas.clientWidth, h: canvas.clientHeight },
+				canvasRect: { left: canvasRect.left, top: canvasRect.top, w: canvasRect.width, h: canvasRect.height },
+				canvasBacking: { w: canvas.width, h: canvas.height },
+				canvasScaleX: canvas.width / (canvasRect.width || 1),
+			});
+		}
 		const outcrop = getDynamicOutcropConfig(state.outcropMask);
 		const extraTop = outcrop ? Math.round(localRect.height * outcrop.extraTopRatio) : 0;
 		const width = localRect.width;

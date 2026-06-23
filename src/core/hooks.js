@@ -10,7 +10,17 @@ export function initHooks() {
 	// target可选状态显示
 	lib.hooks["checkTarget"].push(function decadeUI_selectable(target) {
 		const list = ["selected", "selectable"];
-		target.classList[list.some(s => target.classList.contains(s)) ? "remove" : "add"]("un-selectable");
+		const selectable = list.some(s => target.classList.contains(s));
+		target.classList[selectable ? "remove" : "add"]("un-selectable");
+		if (!selectable) {
+			target.ChupaizhishiXSelectable = false;
+			const animation = window.decadeUI?.animation;
+			if (target.ChupaizhishiXid) {
+				animation?.stopSpine?.(target.ChupaizhishiXid);
+				delete target.ChupaizhishiXid;
+			}
+			animation?.stopDomLoopSpine?.(target);
+		}
 	});
 
 	// 视为卡牌样式适配

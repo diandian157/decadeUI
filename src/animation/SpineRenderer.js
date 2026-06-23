@@ -5,6 +5,7 @@
  */
 
 import { SpineMask } from "./SpineMask.js";
+import { game, get } from "noname";
 
 // 版本 → 全局 spine 库变量映射（tl_ 前缀独立命名空间，彻底避免与其他扩展冲突）
 // 库文件加载后会注册原始全局变量（如 window.spine、window.spine3_8），
@@ -145,6 +146,53 @@ function detectSpineVersionFromArrayBuffer(arrayBuffer, skelType) {
   const m = dStr.match(/\d\.\d+\.\d+/);
   if (m) return normalizeSpineVersion(m[0]);
   return null;
+}
+
+async function readMobileSpineFile(url) {
+  if (!globalThis.window?.cordova || typeof game?.readFile !== 'function') return null;
+  try {
+    const fileUrl = new URL(url, globalThis.location?.href);
+    console.log("[十周年UI调试] readMobileSpineFile: url=" + url, "resolved=" + fileUrl.href, "protocol=" + fileUrl.protocol);
+    if (fileUrl.protocol !== 'file:') return null;
+    const relPath = get.relativePath(fileUrl);
+    console.log("[十周年UI调试] readMobileSpineFile: relPath=" + relPath);
+    const buffer = await game.promises.readFile(relPath);
+    console.log("[十周年UI调试] readMobileSpineFile: 读取成功, size=" + (buffer?.byteLength || buffer?.length || 0));
+    if (buffer instanceof ArrayBuffer) return buffer;
+    if (ArrayBuffer.isView(buffer)) {
+      return buffer.buffer.slice(buffer.byteOffset, buffer.byteOffset + buffer.byteLength);
+    }
+  } catch (e) { console.log("[十周年UI调试] readMobileSpineFile: 异常=" + e.message, "url=" + url); }
+  return null;
+}
+
+function installMobileAssetReader(assetManager, version) {
+  if (!globalThis.window?.cordova || version === '3.6' || !assetManager) return;
+  const downloader = assetManager.downloader || assetManager;
+  if (downloader._decadeMobileFileReader) return;
+
+  const originalDownloadBinary = downloader.downloadBinary?.bind(downloader);
+  const originalDownloadText = downloader.downloadText?.bind(downloader);
+
+  if (originalDownloadBinary) {
+    downloader.downloadBinary = (url, success, error) => {
+      readMobileSpineFile(url).then(buffer => {
+        if (buffer?.byteLength) success(new Uint8Array(buffer));
+        else originalDownloadBinary(url, success, error);
+      });
+    };
+  }
+
+  if (originalDownloadText) {
+    downloader.downloadText = (url, success, error) => {
+      readMobileSpineFile(url).then(buffer => {
+        if (buffer?.byteLength) success(new TextDecoder('utf-8').decode(new Uint8Array(buffer)));
+        else originalDownloadText(url, success, error);
+      });
+    };
+  }
+
+  downloader._decadeMobileFileReader = true;
 }
 
 // 获取版本对应的 spine 全局库的 webgl 子空间
@@ -1046,6 +1094,7 @@ class SpineRenderer {
       console.error(`[SpineRenderer] 版本 ${version} 无可用加载地址`);
       return Promise.resolve(false);
     }
+    console.log("[十周年UI调试] _loadSpineRuntime: version=" + version, "url=" + url);
 
     // 所有非 3.6 版本都需要先确保 3.6 已加载（用于 Matrix4 补丁：scale/rotate/concat 等）
     const needsBase36 = version !== '3.6';
@@ -1121,6 +1170,7 @@ class SpineRenderer {
           assets: {},
           skeletons: [],
         };
+        installMobileAssetReader(components.assetManager, version);
 
         this.spineComponents[version] = components;
         return components;
@@ -1140,50 +1190,73 @@ class SpineRenderer {
     const key = filename + '|' + skelType;
     if (this._versionCache[key]) return this._versionCache[key];
 
+    const fetchVersionBuffer = async (url) => {
+      // 优先使用无名杀的 game.readFile（同时适用手机端和电脑端）
+      if (typeof game?.promises?.checkFile === 'function' && typeof game?.promises?.readFile === 'function') {
+        try {
+          const exists = await game.promises.checkFile(url);
+          if (exists === 1) {
+            const buffer = await game.promises.readFile(url);
+            if (buffer instanceof ArrayBuffer && buffer.byteLength) return buffer;
+            if (ArrayBuffer.isView(buffer) && buffer.byteLength) {
+              return buffer.buffer.slice(buffer.byteOffset, buffer.byteOffset + buffer.byteLength);
+            }
+            if (typeof buffer === 'string' && buffer.length > 0) {
+              return new TextEncoder().encode(buffer).buffer;
+            }
+          }
+        } catch (e) {
+          console.warn(`[SpineRenderer] _detectVersion: game.readFile失败 (${url})`, e?.message || e);
+        }
+      }
+
+      // 回退到 XMLHttpRequest
+      const xhrFetch = (xhrUrl) => new Promise((resolve) => {
+        try {
+          const xhr = new XMLHttpRequest();
+          xhr.open('GET', xhrUrl, true);
+          xhr.responseType = 'arraybuffer';
+          xhr.timeout = 10000;
+          xhr.onload = () => {
+            if (xhr.status === 200 || xhr.status === 206 || xhr.status === 0) {
+              const buf = xhr.response;
+              if (buf && buf.byteLength) resolve(buf);
+              else resolve(null);
+            } else {
+              resolve(null);
+            }
+          };
+          xhr.onerror = () => resolve(null);
+          xhr.ontimeout = () => resolve(null);
+          xhr.send();
+        } catch (e) {
+          resolve(null);
+        }
+      });
+
+      let buf = await xhrFetch(url);
+      if (buf?.byteLength) return buf;
+
+      console.warn(`[SpineRenderer] _detectVersion: 所有读取方式均失败 (${url})`);
+      return null;
+    };
+
     // 尝试 skel 和 json 两种扩展名检测版本
     const tryExts = skelType === 'json' ? ['.json'] : ['.skel', '.json'];
     for (const ext of tryExts) {
-      try {
-        const url = filename + ext;
-        const resp = await fetch(url, { headers: { Range: 'bytes=0-2047' } });
-        if (resp.ok || resp.status === 206) {
-          const buf = await resp.arrayBuffer();
-          const headBytes = new Uint8Array(buf, 0, Math.min(buf.byteLength, 256));
-          let headStr = '';
-          for (let i = 0; i < headBytes.length; i++) headStr += String.fromCharCode(headBytes[i]);
-          const verMatch = headStr.match(/\d+\.\d+\.\d+/);
+      const url = filename + ext;
+      const buf = await fetchVersionBuffer(url);
+      // console.log("[十周年UI调试] _detectVersion:", url, "buf=" + (buf ? buf.byteLength + "bytes" : "null"));
+      if (!buf) continue;
 
-          const detectType = ext === '.json' ? 'json' : 'skel';
-          const v = detectSpineVersionFromArrayBuffer(buf, detectType);
-          // 记录实际文件类型（如果 skelType 指的是 skel 但实际是 json，需要修正）
-          if (skelType !== 'json' && ext === '.json') {
-            this._versionCache[key + ':actualType'] = 'json';
-          }
-          this._versionCache[key] = v || '3.6';
-          return v || '3.6';
-        }
-        if (resp.status !== 404) {
-          console.warn(`[SpineRenderer] _detectVersion: fetch失败 status=${resp.status} (${url})`);
-          // 非 404 失败时，尝试不带 Range header 重试
-          try {
-            const resp2 = await fetch(url);
-            if (resp2.ok || resp2.status === 206) {
-              const buf = await resp2.arrayBuffer();
-              const detectType = ext === '.json' ? 'json' : 'skel';
-              const v = detectSpineVersionFromArrayBuffer(buf, detectType);
-              if (skelType !== 'json' && ext === '.json') {
-                this._versionCache[key + ':actualType'] = 'json';
-              }
-              this._versionCache[key] = v || '3.6';
-              return v || '3.6';
-            }
-          } catch (e2) {
-            console.warn(`[SpineRenderer] _detectVersion: 重试异常 (${url})`, e2.message);
-          }
-        }
-      } catch (e) {
-        console.warn(`[SpineRenderer] _detectVersion: 异常 (${filename}${ext})`, e.message);
+      const detectType = ext === '.json' ? 'json' : 'skel';
+      const version = detectSpineVersionFromArrayBuffer(buf, detectType) || '3.6';
+      // console.log("[十周年UI调试] _detectVersion: 检测到版本=" + version, url);
+      if (skelType !== 'json' && ext === '.json') {
+        this._versionCache[key + ':actualType'] = 'json';
       }
+      this._versionCache[key] = version;
+      return version;
     }
 
     console.warn(`[SpineRenderer] _detectVersion: 两种扩展名均失败，默认3.6 (${filename})`);
@@ -1349,20 +1422,25 @@ class SpineRenderer {
     const version = await this._detectVersion(filename, skelType);
     let actualType = this._getActualSkelType(filename, skelType);
     if (actualType !== skelType) {
+    // console.log("[十周年UI调试] loadSpineAssets: skelType变化", skelType, "→", actualType);
       skelType = actualType;
     }
+    // console.log("[十周年UI调试] loadSpineAssets:", filename, "version=" + version, "skelType=" + skelType, "cordova=" + !!globalThis.window?.cordova);
 
     // 尝试加载
     let success = await this._doLoadSpine(filename, skelType, version);
+    // console.log("[十周年UI调试] loadSpineAssets: _doLoadSpine结果=" + success, filename);
 
     // 如果 skel 格式加载失败，自动尝试 json 格式（文件可能是 .json 但 skelType 传错了）
     if (!success && skelType === 'skel') {
+      // console.log("[十周年UI调试] loadSpineAssets: skel失败，尝试json");
       // 清除 skel 缓存，用 json 类型重新检测
       delete this._versionCache[filename + '|skel'];
       delete this._versionCache[filename + '|skel:actualType'];
       const jsonVersion = await this._detectVersion(filename, 'json');
       if (jsonVersion) {
         success = await this._doLoadSpine(filename, 'json', jsonVersion);
+        // console.log("[十周年UI调试] loadSpineAssets: json重试结果=" + success, filename);
       }
     }
 
@@ -2286,6 +2364,7 @@ class SpineRenderer {
         this.updateCanvasSize(true);
       }
       const frameCanvasRect = canvas.getBoundingClientRect?.();
+      this._frameCanvasRect = frameCanvasRect;
       const frameCanvasCssWidth = frameCanvasRect?.width || canvas.clientWidth || canvas.width / dpr || 1;
       const frameCanvasCssHeight = frameCanvasRect?.height || canvas.clientHeight || canvas.height / dpr || 1;
       this._frameCanvasCssWidth = frameCanvasCssWidth;
@@ -2293,6 +2372,12 @@ class SpineRenderer {
       this._frameCanvasScaleX = canvas.width / frameCanvasCssWidth || dpr;
       this._frameCanvasScaleY = canvas.height / frameCanvasCssHeight || dpr;
       this._frameEffectiveDpr = Math.min(this._frameCanvasScaleX, this._frameCanvasScaleY);
+
+      // 允许需要紧跟 DOM 的容器在真正绘制前同步位置。
+      // 卡牌移动时可避免独立 layout RAF 与 render RAF 顺序不同造成的一帧延迟。
+      for (const container of [...this.containers]) {
+        container._beforeRender?.();
+      }
 
       // 收集所有需要渲染的节点
       const activeNodes = [];

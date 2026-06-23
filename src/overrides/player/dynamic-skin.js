@@ -55,6 +55,7 @@ function normalizeLegacyDynamicSkin(skin, ignoreClip) {
 }
 function n(n, e, o, r) {
 	if (((e = !0 === e), void 0 === n)) return console.error("playDynamic: 参数1不能为空");
+	console.log("[十周年UI调试-playDynamic] 调用十周年UI的playDynamic, player=", this?.name, "isDeputy=", e, "skinName=", n?.name);
 	const sharedRenderer = i();
 	let t = this.dynamic;
 	let background;

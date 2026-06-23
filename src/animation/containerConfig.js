@@ -16,7 +16,7 @@ const dynamicCanvasLayers = {
 	},
 	domEffect: {
 		canvasId: "decadeUI-canvas-dom-effect",
-		cssZIndex: 15,
+		cssZIndex: 12,
 		containers: {
 			card: 1,
 			playerEffect: 2,
@@ -27,8 +27,8 @@ const dynamicCanvasLayers = {
 	upper: {
 		canvasId: "decadeUI-canvas",
 		layaCanvasId: "decadeUI-canvas-sk",
-		cssZIndex: 15,
-		layaCssZIndex: 15,
+		cssZIndex: 12,
+		layaCssZIndex: 12,
 		containers: {
 			card: 1,
 			playerEffect: 2,

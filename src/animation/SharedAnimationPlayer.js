@@ -26,7 +26,8 @@ function isMobileDevice() {
 function getMobileDeviceScale() {
 	if (!isMobileDevice()) return 1;
 	const scale = globalThis.game?.deviceZoom;
-	return Number.isFinite(scale) && scale > 0 ? Math.min(scale, 1) : 1;
+	const deviceScale = Number.isFinite(scale) && scale > 0 ? Math.min(scale, 1) : 1;
+	return deviceScale * 1.11;
 }
 
 function getFullscreenViewportScale() {
@@ -363,7 +364,10 @@ class SharedAnimationPlayer {
 		// DOM 本身会随 game.documentZoom 放大；共享全屏 canvas 则通过反向
 		// transform 保持视觉尺寸不变。仅使用 scale 定位到 DOM 的特效需要在
 		// 渲染阶段补回 documentZoom，显式 width/height 仍按 DOM 尺寸计算。
-		node._scaleWithDocumentZoom = position.parent instanceof HTMLElement;
+		// 但 getBoundingClientRect 被劫持时 canvasScaleX 已含 documentZoom，
+		// 不需要再补 _frameZoom，否则 scale 会偏大。
+		const hijacked = !HTMLElement.prototype.getBoundingClientRect.toString().includes("[native code]");
+		node._scaleWithDocumentZoom = !hijacked && position.parent instanceof HTMLElement;
 		if (node.bounds) this.boundsCache.set(filename, node.bounds);
 		this.actionsCache.set(filename, this.renderer.getSpineActions(node));
 		node.opacity = sprite.opacity ?? 1;
@@ -441,6 +445,11 @@ class SharedAnimationPlayer {
 		});
 		entry = { dom, kind, container };
 		this.domContainers.set(dom, entry);
+		// 与渲染循环同帧读取 DOM 状态：card 用于紧跟 transition，player
+		// 用于在绘制前可靠清理已经取消选择的循环动画。
+		container._beforeRender = () => {
+			if (this.domContainers.get(dom) === entry) this.updateDomContainer(entry);
+		};
 		this.ensureDomAnimationApi(entry);
 		this.updateDomContainer(entry, true);
 		return container;
@@ -529,20 +538,31 @@ class SharedAnimationPlayer {
 	updateDomContainer(entry, force) {
 		const { dom, kind, container } = entry;
 		if (!dom.isConnected) {
-			container.setVisible(false);
+			// 手机端的皮肤切换流程可能直接替换 player DOM，此时不会再有
+			// class 变化通知。父节点失效后立即销毁其动画，不能只隐藏容器。
+			this.stopDomSpineAll(dom);
+			if (this.domContainers.get(dom) === entry) {
+				container._beforeRender = null;
+				this.renderer.destroyContainer(container);
+				this.domContainers.delete(dom);
+			}
 			return;
 		}
-		if (kind === "player" && !dom.classList.contains("selectable")) this.stopDomLoopSpine(dom);
+		if (kind === "player" && !dom.classList.contains("selectable")) {
+			this.stopDomLoopSpine(dom);
+			if (this.domContainers.get(dom) !== entry) return;
+		}
 		this.syncCanvasStyle();
 		const rawRect = dom.getBoundingClientRect();
-		const bounds = this.renderer._calcReferBounds?.(dom);
-		// _calcReferBounds 的 y（距底部）用的是 canvas 可见高度，
-		// 这里还原 top 必须用同一套 canvas 本地坐标。
-		const canvasRect = this.canvas.getBoundingClientRect();
-		const canvasHeight = canvasRect.height || this.canvas.clientHeight || 0;
-		const rect = bounds
-			? { left: bounds.x, top: canvasHeight - bounds.y - bounds.height, width: bounds.width, height: bounds.height }
-			: rawRect;
+		const canvasRect = this.renderer._frameCanvasRect || this.canvas.getBoundingClientRect();
+		// 卡牌和 canvas 的 rect 始终来自同一个 getBoundingClientRect 实现，
+		// 直接相减即可；无需再调用 _calcReferBounds 重复触发布局查询。
+		const rect = {
+			left: rawRect.left - canvasRect.left,
+			top: rawRect.top - canvasRect.top,
+			width: rawRect.width,
+			height: rawRect.height,
+		};
 		let left = rect.left;
 		let top = rect.top;
 		let width = rect.width;
@@ -584,6 +604,8 @@ class SharedAnimationPlayer {
 				for (const node of record.nodes) {
 					if (!node.referNode && node._containerRect && node.container === this.fullscreenContainer) {
 						const canvasRect = this.canvas.getBoundingClientRect();
+						// 被劫持时 canvasRect 是布局像素，与 canvasScaleX(dpr) 配合：
+						// renderX = 布局 × dpr = 物理像素，不需要乘 zoom。
 						node._containerRect = {
 							width: canvasRect.width || this.canvas.clientWidth || document.body.clientWidth || window.innerWidth || 0,
 							height: canvasRect.height || this.canvas.clientHeight || document.body.clientHeight || window.innerHeight || 0,
@@ -602,13 +624,17 @@ class SharedAnimationPlayer {
 				}
 			}
 			if (!this.domContainers.size && !this.records.size) return;
-			for (const entry of this.domContainers.values()) this.updateDomContainer(entry);
+			// DOM 容器已在 SpineRenderer 绘制前同步，避免两套 RAF 重复查询。
+			for (const entry of this.domContainers.values()) {
+				if (!entry.container._beforeRender) this.updateDomContainer(entry);
+			}
 			this.layoutFrame = requestAnimationFrame(tick);
 		};
 		this.layoutFrame = requestAnimationFrame(tick);
 	}
 
 	destroyRecord(record) {
+		const recordContainer = record.container;
 		record.cancelled = true;
 		record.handle.completed = true;
 		if (record.autoDestroyTimer) {
@@ -622,15 +648,30 @@ class SharedAnimationPlayer {
 		}
 		record.nodes.length = 0;
 		this.records.delete(record.id);
+		if (record.parentDom && recordContainer) {
+			const containerInUse = [...this.records.values()].some(item => item.container === recordContainer);
+			const entry = this.domContainers.get(record.parentDom);
+			if (!containerInUse && entry?.container === recordContainer) {
+				recordContainer._beforeRender = null;
+				this.renderer.destroyContainer(recordContainer);
+				this.domContainers.delete(record.parentDom);
+				record.container = null;
+			}
+		}
+		// renderer 可能因手机端 WebGL/页面状态已暂停；确保至少再渲染一帧，
+		// 将刚刚移除的循环动画旧画面从共享 canvas 清掉。
+		this.renderer.start();
 	}
 
 	stopDomSpineAll(dom) {
+		if (dom) dom._decadeLoopSpineToken = (dom._decadeLoopSpineToken || 0) + 1;
 		for (const record of [...this.records.values()]) {
 			if (record.container?.fatherDOM === dom) this.destroyRecord(record);
 		}
 	}
 
 	stopDomLoopSpine(dom) {
+		if (dom) dom._decadeLoopSpineToken = (dom._decadeLoopSpineToken || 0) + 1;
 		for (const record of [...this.records.values()]) {
 			if (record.loop && (record.parentDom === dom || record.container?.fatherDOM === dom)) {
 				if (dom.ChupaizhishiXid === record.handle) delete dom.ChupaizhishiXid;

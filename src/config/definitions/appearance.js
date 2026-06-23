@@ -156,7 +156,7 @@ export const dynamicSkin = {
 
 export const dynamicSkinZoomCompat = {
 	name: "缩放兼容",
-	intro: "骨骼动画缩放补偿，当缩放异常时打开",
+	intro: "安装了「皮肤切换」扩展且动皮错位时打开；未安装该扩展请保持关闭",
 	init: false,
 	onclick: onDynamicSkinZoomCompatClick,
 };

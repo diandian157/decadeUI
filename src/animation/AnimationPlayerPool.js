@@ -21,7 +21,10 @@ export class AnimationPlayerPool {
 			return;
 		}
 		this.name = thisName;
-		this.animations = Array.from({ length: size || 1 }, () => new AnimationPlayer(pathPrefix));
+		this.size = size || 1;
+		this.pathPrefix = pathPrefix;
+		this.animations = [];
+		this.assetTypes = new Map();
 	}
 
 	/**
@@ -32,22 +35,61 @@ export class AnimationPlayerPool {
 	 * @param {Function} [onerror] - 加载失败回调
 	 */
 	loadSpine(filename, skelType, onload, onerror) {
-		this.animations[0].loadSpine(
-			filename,
-			skelType,
+		this.assetTypes.set(filename, skelType || "skel");
+		onload?.();
+	}
+
+	hasSpine(filename) {
+		return this.assetTypes.has(filename) || this.animations.some(ap => ap.hasSpine(filename));
+	}
+
+	createPlayer(element) {
+		if (this.animations.length >= this.size) return null;
+		const ap = new AnimationPlayer(this.pathPrefix);
+		if (!ap.gl) return null;
+		ap._cardElement = element;
+		ap._pendingCardLoads = new Map();
+		ap.onIdle = () => this.releasePlayer(ap);
+		this.animations.push(ap);
+		element._ap = ap;
+		element.appendChild(ap.canvas);
+		return ap;
+	}
+
+	releasePlayer(ap) {
+		if (!ap || ap._cardReleased) return;
+		ap._cardReleased = true;
+		const element = ap._cardElement;
+		if (element?._ap === ap) delete element._ap;
+		const index = this.animations.indexOf(ap);
+		if (index !== -1) this.animations.splice(index, 1);
+		ap.destroy();
+	}
+
+	playOnPlayer(ap, element, animation, position) {
+		const sprite = typeof animation === "string" ? { name: animation } : { ...animation };
+		if (ap.hasSpine(sprite.name)) return ap.playSpine(sprite, position);
+		const pending = ap._pendingCardLoads.get(sprite.name);
+		if (pending) {
+			pending.push({ sprite, position });
+			return;
+		}
+		ap._pendingCardLoads.set(sprite.name, [{ sprite, position }]);
+		const fileType = this.assetTypes.get(sprite.name) || (sprite.json ? "json" : "skel");
+		ap.loadSpine(
+			sprite.name,
+			fileType,
 			() => {
-				// 预加载到其他播放器
-				for (let i = 1; i < this.animations.length; i++) {
-					const ap = this.animations[i];
-					if (window.requestIdleCallback) {
-						requestIdleCallback(() => ap.prepSpine(filename, true), { timeout: 200 });
-					} else {
-						setTimeout(() => ap.prepSpine(filename, true), 50);
-					}
-				}
-				if (onload) onload();
+				const requests = ap._pendingCardLoads.get(sprite.name) || [];
+				ap._pendingCardLoads.delete(sprite.name);
+				if (ap._cardReleased || !element.isConnected) return this.releasePlayer(ap);
+				ap.prepSpine(sprite.name);
+				for (const request of requests) ap.playSpine(request.sprite, request.position);
 			},
-			onerror
+			() => {
+				ap._pendingCardLoads.delete(sprite.name);
+				if (!ap.running) this.releasePlayer(ap);
+			}
 		);
 	}
 
@@ -58,27 +100,18 @@ export class AnimationPlayerPool {
 	 * @param {Object} [position] - 位置配置
 	 */
 	playSpineTo(element, animation, position) {
+		if (!(element instanceof HTMLElement) || !animation) return;
 		if (position?.parent) {
 			position.parent = undefined;
 		}
 
 		// 复用已绑定的播放器
-		if (element._ap?.canvas.parentNode === element) {
-			element._ap.playSpine(animation, position);
-			return;
+		if (element._ap?.canvas?.parentNode === element && this.animations.includes(element._ap)) {
+			return this.playOnPlayer(element._ap, element, animation, position);
 		}
 
-		// 查找空闲播放器
-		for (const ap of this.animations) {
-			if (!ap.running) {
-				if (ap.canvas.parentNode !== element) {
-					element._ap = ap;
-					element.appendChild(ap.canvas);
-				}
-				ap.playSpine(animation, position);
-				return;
-			}
-		}
-		console.error(`spine: ${this.name || ""} 可用动画播放组件不足`);
+		const ap = this.createPlayer(element);
+		if (!ap) return console.error(`spine: ${this.name || ""} 可用动画播放组件不足`);
+		return this.playOnPlayer(ap, element, animation, position);
 	}
 }

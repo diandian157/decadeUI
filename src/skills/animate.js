@@ -36,7 +36,15 @@ export const animateSkill = {
 			if (!bounds) return;
 
 			const { size } = bounds;
-			const scale = Math.min(animation.canvas.width / size.x, animation.canvas.height / size.y) * scaleFactor;
+			// scale 基准必须与 SharedAnimationPlayer 的 _containerRect 一致。
+			// _containerRect 用 canvas.getBoundingClientRect().width：
+			// - 原生：视觉像素（含 body zoom）
+			// - 被劫持：布局像素（已除 documentZoom）
+			// SpineRenderer 的 renderScale = scale × effectiveDpr，
+			// canvas 物理宽度 = _containerRect.width × canvasScaleX = _containerRect.width × dpr，
+			// 所以 scale = rectWidth / size × factor 时，spine 视觉大小 = factor（正确）。
+			const rect = animation.canvas.getBoundingClientRect();
+			const scale = Math.min((rect.width || animation.canvas.clientWidth) / size.x, (rect.height || animation.canvas.clientHeight) / size.y) * scaleFactor;
 			animation.playSpine({ name: effectName, scale });
 		},
 	},

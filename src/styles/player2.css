@@ -329,7 +329,7 @@
 	background-size: 100% 100%;
 	background-repeat: no-repeat;
 	pointer-events: none;
-	z-index: 8;
+	z-index: 6;
 }
 
 /* 银龙框 */

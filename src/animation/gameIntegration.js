@@ -89,6 +89,9 @@ function setupGameAnimation(lib, game, ui, get, ai, _status) {
 	exposeNewDuilibCompat();
 	decadeUI.animation = (() => {
 		const animation = new SharedAnimationPlayer(decadeUIPath + "assets/animation/");
+		// 卡牌动画恢复旧版独立 Canvas 池，使 Canvas 作为 card 子节点直接
+		// 继承其 CSS transform/transition；player 与全屏特效仍使用共享层。
+		animation.cap = new AnimationPlayerPool(4, decadeUIPath + "assets/animation/", "decadeUI.animation.card");
 		decadeUI.bodySensor.addListener(() => animation.renderer.resized = false, true);
 		if (!animation.gl) {
 			initSkillAnimations(animation);
@@ -96,9 +99,11 @@ function setupGameAnimation(lib, game, ui, get, ai, _status) {
 		}
 
 		const basePlaySpine = animation.playSpine;
+		const baseStopSpine = animation.stopSpine;
+		const baseStopSpineAll = animation.stopSpineAll;
 		const baseCapPlaySpineTo = animation.cap.playSpineTo;
 		const getFileType = name => assetList.find(asset => asset.name === name)?.fileType || "skel";
-		const capHasSpine = name => animation.cap.animations?.[0]?.hasSpine?.(name);
+		const capHasSpine = name => animation.cap.hasSpine?.(name);
 		const ensureLoaded = (name, player, useCap, callback) => {
 			if (useCap ? capHasSpine(name) : player?.hasSpine?.(name)) {
 				callback();
@@ -133,6 +138,24 @@ function setupGameAnimation(lib, game, ui, get, ai, _status) {
 			if (!sprite) return;
 			const name = typeof sprite == "string" ? sprite : sprite.name;
 			if (!name) return basePlaySpine.call(this, sprite, position);
+			const parent = position?.parent;
+			if (parent instanceof HTMLElement && parent.classList.contains("card")) {
+				const cardPosition = { ...position };
+				delete cardPosition.parent;
+				return animation.cap.playSpineTo(parent, sprite, cardPosition);
+			}
+			const loop = typeof sprite === "object" && !!sprite.loop;
+			const playerLoop = loop && parent instanceof HTMLElement && parent.classList.contains("player");
+			const loopToken = playerLoop ? (parent._decadeLoopSpineToken = (parent._decadeLoopSpineToken || 0) + 1) : 0;
+			const playLoaded = () => {
+				if (
+					playerLoop &&
+					(parent._decadeLoopSpineToken !== loopToken || !parent.isConnected || !parent.classList.contains("selectable"))
+				) {
+					return;
+				}
+				return basePlaySpine.call(this, sprite, position);
+			};
 			if (isAnimationDebugEnabled("play", name)) {
 				const payload = {
 					stage: "gameIntegration.playSpine",
@@ -159,17 +182,34 @@ function setupGameAnimation(lib, game, ui, get, ai, _status) {
 				pushAnimationDebug("play-entry", payload);
 				console.warn("[DCD-ANIM play-entry]", safeDebugString(payload));
 			}
-			if (this.hasSpine(name)) return basePlaySpine.call(this, sprite, position);
-			ensureLoaded(name, this, false, () => basePlaySpine.call(this, sprite, position));
+			if (this.hasSpine(name)) return playLoaded();
+			ensureLoaded(name, this, false, playLoaded);
 		};
 		animation.loopSpine = function (sprite, position) {
 			if (typeof sprite == "string") sprite = { name: sprite, loop: true };
 			else if (sprite) sprite.loop = true;
 			return this.playSpine(sprite, position);
 		};
+		animation.stopSpine = function (handle) {
+			if (handle instanceof APNode) {
+				for (const cardPlayer of animation.cap.animations) {
+					const stopped = cardPlayer.stopSpine(handle);
+					if (stopped) return stopped;
+				}
+			}
+			return baseStopSpine.call(this, handle);
+		};
+		animation.stopSpineAll = function () {
+			for (const cardPlayer of animation.cap.animations) cardPlayer.stopSpineAll();
+			return baseStopSpineAll.call(this);
+		};
 		animation.cap.playSpineTo = function (node, sprite, position) {
 			if (!sprite) return;
 			const name = typeof sprite == "string" ? sprite : sprite.name;
+			const isCard = node instanceof HTMLElement && node.classList.contains("card");
+			if (!isCard) {
+				return animation.playSpine(sprite, { ...(position || {}), parent: node });
+			}
 			if (!name) return baseCapPlaySpineTo.call(this, node, sprite, position);
 			if (isAnimationDebugEnabled("play", name, "cap")) {
 				const payload = {
