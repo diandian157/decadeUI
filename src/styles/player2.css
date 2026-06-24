@@ -1225,83 +1225,36 @@
 }
 
 /** 伤害/文字弹出 */
-#arena > .player > .damage {
-	display: flex;
-	justify-content: center;
+.player > .damage {
 	width: 100%;
-	font-size: 24px;
-	font-family: "HYZLSJ";
-	font-weight: 500;
-	color: transparent;
-	text-align: center;
 	text-shadow: none;
-	white-space: nowrap;
-	-webkit-text-stroke: 0.7px rgba(38, 37, 34, 0.5);
-	background: linear-gradient(180deg, #f5df88 16%, #ab8d35 60%);
-	-webkit-background-clip: text;
-	-webkit-text-fill-color: transparent;
 	z-index: 91;
 	opacity: 0;
 	transform: scale(0.7);
 	transition: all 0.3s ease-out;
 }
 
-#arena > .damage.skill-popup {
-	color: #f0d775;
-	background: none;
-	-webkit-background-clip: unset;
-	-webkit-text-fill-color: unset;
-	-webkit-text-stroke: 1px #000;
-	text-shadow: 0 0 4px #000;
-	opacity: 1;
-	transform: none;
-	transition: none;
-}
-
-#arena > .player > .damage.skill-popup {
-	color: #f0d775;
-	background: none;
-	-webkit-background-clip: unset;
-	-webkit-text-fill-color: unset;
-	-webkit-text-stroke: 1px #000;
-	text-shadow: 0 0 4px #000;
-	opacity: 1;
-	transform: none;
-	transition: none;
-}
-
-#arena > .player > .damage.damageadded {
+.player > .damage.damageadded {
 	opacity: 1;
 	transform: scale(1);
 }
 
-#arena > .player.linked > .damage {
+.player.linked > .damage {
 	transform: scale(0.7) rotate(90deg);
 }
 
-#arena > .player.linked > .damage.damageadded {
+.player.linked > .damage.damageadded {
 	transform: scale(1) rotate(90deg);
 }
 
-#arena > .player > .damage > .damage-child {
-	-webkit-text-stroke: 4.5px #102030;
-	opacity: 0.5;
-}
-
-#arena > .player > .damage > .damage-child2 {
-	background-image: -webkit-linear-gradient(bottom, #c7a746 58%, #f0d775 22%);
-	-webkit-background-clip: text;
-	-webkit-text-fill-color: transparent;
-	z-index: 1;
-}
-
-#arena > .player > .damage::before {
+.player > .damage::before {
 	content: attr(data-text);
 	position: absolute;
 	left: 0;
 	top: 0;
 	width: 100%;
-	color: #ff1300;
+	color: transparent;
+	-webkit-text-stroke: 4px #803b02;
 	z-index: -1;
 }
 

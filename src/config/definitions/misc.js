@@ -33,6 +33,16 @@ export const skillDieAudio = {
 };
 
 /**
+ * 距离显示配置
+ * @type {Object}
+ */
+export const showDistanceDisplay = {
+	name: "手杀距离显示",
+	intro: "开启后，将在游戏中实时显示你与其他角色的距离",
+	init: true,
+};
+
+/**
  * 语音彩蛋配置
  * @type {Object}
  */
@@ -124,6 +134,7 @@ export const miscConfigs = {
 	stuff_title,
 	bettersound,
 	skillDieAudio,
+	showDistanceDisplay,
 	audioEasterEggs,
 	wujiangbeijing,
 	shiliyouhua,
