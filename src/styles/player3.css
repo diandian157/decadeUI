@@ -466,7 +466,7 @@
 	display: flex !important;
 	align-items: flex-start !important;
 	justify-content: flex-start !important;
-	font-size: 15px;
+	font-size: 17px;
 	text-shadow: none;
 }
 
@@ -1741,6 +1741,9 @@
 	font-family: yuanli;
 	color: rgb(255, 255, 200);
 	text-align: center;
+	text-shadow:
+		0 0 3px rgba(0, 0, 0, 0.8),
+		0 0 6px rgba(0, 0, 0, 0.6);
 	z-index: 87;
 }
 

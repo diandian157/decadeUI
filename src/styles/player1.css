@@ -1291,7 +1291,7 @@
 	animation: fade-in 0.5s forwards 0.5s;
 }
 
-/** 获得技能提示 */
+/** 获得技能显示 */
 .player > .gain-skill {
 	position: absolute;
 	left: 15px;
@@ -1302,6 +1302,9 @@
 	font-family: yuanli;
 	color: rgb(255, 255, 200);
 	text-align: center;
+	text-shadow:
+		0 0 3px rgba(0, 0, 0, 0.8),
+		0 0 6px rgba(0, 0, 0, 0.6);
 	z-index: 87;
 }
 

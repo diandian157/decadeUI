@@ -1489,18 +1489,17 @@
 /** 获得技能显示 */
 .player > .gain-skill {
 	position: absolute;
-	left: 70%;
-	right: 0;
-	bottom: calc(3% + 100px);
-	max-height: calc(9% - 1px);
-	overflow-y: auto;
-	overflow-x: hidden;
-	font-size: 15px;
-	font-family: "HYXLSJ";
-	border-radius: 4px;
-	background-color: rgba(0, 0, 0, 0.6);
+	left: 15px;
+	right: 15px;
+	bottom: calc(3% + 81px);
+	max-height: calc(97% - 81px);
+	font-size: 20px;
+	font-family: yuanli;
+	color: rgb(255, 255, 200);
 	text-align: center;
-	transform: translateX(-1px);
+	text-shadow:
+		0 0 3px rgba(0, 0, 0, 0.8),
+		0 0 6px rgba(0, 0, 0, 0.6);
 	z-index: 87;
 }
 
@@ -1518,7 +1517,7 @@
 	width: 94%;
 	height: 100%;
 	opacity: 0;
-	background: url("../../image/ui/mask/fanmian.png");
+	background: url("../../image/ui/mask/turn_over_mask.png");
 	background-size: cover;
 	pointer-events: none;
 	z-index: 62;
