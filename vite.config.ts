@@ -68,7 +68,7 @@ export default defineConfig(({ mode }) => ({
 		},
 		lib: {
 			entry: {
-				extension: "src/index.ts",
+				extension: "src/index.js",
 				"src/ui/skillButtonTooltip": "src/ui/skillButtonTooltip.js",
 				"ui/constants": "ui/constants.js",
 				"ui/utils": "ui/utils.js",

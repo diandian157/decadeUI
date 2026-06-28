@@ -10,7 +10,7 @@ import { prefixMarkModule } from "../ui/prefixMark.js";
 const EXCLUDED_MODES = ["chess", "tafang", "hs_hearthstone"];
 
 /** @type {Array<string>} 样式配置选项 */
-const STYLE_OPTIONS = ["on", "off", "othersOff", "onlineUI", "babysha", "codename"];
+const STYLE_OPTIONS = ["on", "off", "othersOff", "onlineUI", "babysha", "codename", "threedol"];
 
 /** @type {Object<string, string>} 样式到皮肤的映射 */
 const STYLE_TO_SKIN = {

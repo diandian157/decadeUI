@@ -63,6 +63,7 @@ export const newDecadeStyle = {
 		onlineUI: "online",
 		babysha: "欢乐三国杀",
 		codename: "名将杀",
+		threedol:"ol3d",
 	},
 	onclick: onNewDecadeStyleClick,
 	update: onNewDecadeStyleUpdate,

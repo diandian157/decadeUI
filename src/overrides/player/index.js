@@ -29,7 +29,7 @@ export { playerPlayDynamic, playerStopDynamic, playerApplyDynamicSkin } from "./
 export { playerDamagepop, playerDamage, playerCompare, playerCompareMultiple, playerLine, playerDieAfter, playerSkill, playerQueueCssAnimation } from "./animations.js";
 
 // 卡牌移动覆写
-export { setBasePlayerDraw, playerDraw, playerGain2, playerGive, playerThrow, playerThrowordered2, playerPhaseJudge, playerAddVirtualJudge, playerDirectgain, playerDirectgains } from "./card-movement.js";
+export { setBasePlayerDraw, playerDraw, playerGain2, playerGive, playerThrow, playerThrowordered2, playerPhaseJudge, playerAddVirtualJudge, playerAddVirtualEquip, playerDirectgain, playerDirectgains } from "./card-movement.js";
 
 // UI相关覆写
 export { playerSay, playerSyncExpand, playerCheckAndAddExperienceSuffix, playerUpdateShowCards, playerCheckBoundsCache } from "./ui.js";
