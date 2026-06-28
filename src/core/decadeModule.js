@@ -20,7 +20,7 @@ const STYLE_TO_SKIN = {
 	onlineUI: "online",
 	babysha: "baby",
 	codename: "codename",
-	threedol: "online",
+	threedol: "3dol",
 };
 
 /** @type {Object<string, number>} 样式到索引的映射 */
@@ -31,7 +31,7 @@ const STYLE_TO_INDEX = {
 	onlineUI: 4,
 	babysha: 5,
 	codename: 6,
-	threedol: 4,
+	threedol: 7,
 };
 
 /**

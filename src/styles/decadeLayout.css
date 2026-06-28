@@ -81,7 +81,7 @@
 	--w: 128px !important;
 }
 
-#arena[data-new-decade-style="onlineUI"] > .player {
+#arena[data-new-decade-style="onlineUI"], [data-new-decade-style="threedol"] > .player {
 	--w: 128px !important;
 }
 
@@ -573,7 +573,7 @@
 /** nova布局 - 特殊样式 (onlineUI/babysha/othersOff) */
 
 /* 8人座 */
-#arena[data-layout="nova"][data-new-decade-style="onlineUI"][data-number="8"] > .player[data-position="1"],
+#arena[data-layout="nova"][data-new-decade-style="onlineUI"], [data-new-decade-style="threedol"][data-number="8"] > .player[data-position="1"],
 #arena[data-layout="nova"][data-new-decade-style="babysha"][data-number="8"] > .player[data-position="1"],
 #arena[data-layout="nova"][data-new-decade-style="othersOff"][data-number="8"] > .player[data-position="1"] {
 	left: auto;
@@ -581,7 +581,7 @@
 	right: 25px;
 }
 
-#arena[data-layout="nova"][data-new-decade-style="onlineUI"][data-number="8"] > .player[data-position="2"],
+#arena[data-layout="nova"][data-new-decade-style="onlineUI"], [data-new-decade-style="threedol"][data-number="8"] > .player[data-position="2"],
 #arena[data-layout="nova"][data-new-decade-style="babysha"][data-number="8"] > .player[data-position="2"],
 #arena[data-layout="nova"][data-new-decade-style="othersOff"][data-number="8"] > .player[data-position="2"] {
 	left: auto;
@@ -589,7 +589,7 @@
 	right: calc(22% - (var(--w) / 2));
 }
 
-#arena[data-layout="nova"][data-new-decade-style="onlineUI"][data-number="8"] > .player[data-position="3"],
+#arena[data-layout="nova"][data-new-decade-style="onlineUI"], [data-new-decade-style="threedol"][data-number="8"] > .player[data-position="3"],
 #arena[data-layout="nova"][data-new-decade-style="babysha"][data-number="8"] > .player[data-position="3"],
 #arena[data-layout="nova"][data-new-decade-style="othersOff"][data-number="8"] > .player[data-position="3"] {
 	left: auto;
@@ -597,28 +597,28 @@
 	right: calc(36% - (var(--w) / 2));
 }
 
-#arena[data-layout="nova"][data-new-decade-style="onlineUI"][data-number="8"] > .player[data-position="4"],
+#arena[data-layout="nova"][data-new-decade-style="onlineUI"], [data-new-decade-style="threedol"][data-number="8"] > .player[data-position="4"],
 #arena[data-layout="nova"][data-new-decade-style="babysha"][data-number="8"] > .player[data-position="4"],
 #arena[data-layout="nova"][data-new-decade-style="othersOff"][data-number="8"] > .player[data-position="4"] {
 	left: calc(50% - (var(--w) / 2));
 	top: 9px;
 }
 
-#arena[data-layout="nova"][data-new-decade-style="onlineUI"][data-number="8"] > .player[data-position="5"],
+#arena[data-layout="nova"][data-new-decade-style="onlineUI"], [data-new-decade-style="threedol"][data-number="8"] > .player[data-position="5"],
 #arena[data-layout="nova"][data-new-decade-style="babysha"][data-number="8"] > .player[data-position="5"],
 #arena[data-layout="nova"][data-new-decade-style="othersOff"][data-number="8"] > .player[data-position="5"] {
 	left: calc(36% - (var(--w) / 2));
 	top: 9px;
 }
 
-#arena[data-layout="nova"][data-new-decade-style="onlineUI"][data-number="8"] > .player[data-position="6"],
+#arena[data-layout="nova"][data-new-decade-style="onlineUI"], [data-new-decade-style="threedol"][data-number="8"] > .player[data-position="6"],
 #arena[data-layout="nova"][data-new-decade-style="babysha"][data-number="8"] > .player[data-position="6"],
 #arena[data-layout="nova"][data-new-decade-style="othersOff"][data-number="8"] > .player[data-position="6"] {
 	left: calc(22% - (var(--w) / 2));
 	top: 50px;
 }
 
-#arena[data-layout="nova"][data-new-decade-style="onlineUI"][data-number="8"] > .player[data-position="7"],
+#arena[data-layout="nova"][data-new-decade-style="onlineUI"], [data-new-decade-style="threedol"][data-number="8"] > .player[data-position="7"],
 #arena[data-layout="nova"][data-new-decade-style="babysha"][data-number="8"] > .player[data-position="7"],
 #arena[data-layout="nova"][data-new-decade-style="othersOff"][data-number="8"] > .player[data-position="7"] {
 	left: 25px;
@@ -626,7 +626,7 @@
 }
 
 /* 7人座 */
-#arena[data-layout="nova"][data-new-decade-style="onlineUI"][data-number="7"] > .player[data-position="1"],
+#arena[data-layout="nova"][data-new-decade-style="onlineUI"], [data-new-decade-style="threedol"][data-number="7"] > .player[data-position="1"],
 #arena[data-layout="nova"][data-new-decade-style="babysha"][data-number="7"] > .player[data-position="1"],
 #arena[data-layout="nova"][data-new-decade-style="othersOff"][data-number="7"] > .player[data-position="1"] {
 	left: auto;
@@ -634,7 +634,7 @@
 	right: 25px;
 }
 
-#arena[data-layout="nova"][data-new-decade-style="onlineUI"][data-number="7"] > .player[data-position="2"],
+#arena[data-layout="nova"][data-new-decade-style="onlineUI"], [data-new-decade-style="threedol"][data-number="7"] > .player[data-position="2"],
 #arena[data-layout="nova"][data-new-decade-style="babysha"][data-number="7"] > .player[data-position="2"],
 #arena[data-layout="nova"][data-new-decade-style="othersOff"][data-number="7"] > .player[data-position="2"] {
 	left: auto;
@@ -642,7 +642,7 @@
 	right: calc(24.8% - (var(--w) / 2));
 }
 
-#arena[data-layout="nova"][data-new-decade-style="onlineUI"][data-number="7"] > .player[data-position="3"],
+#arena[data-layout="nova"][data-new-decade-style="onlineUI"], [data-new-decade-style="threedol"][data-number="7"] > .player[data-position="3"],
 #arena[data-layout="nova"][data-new-decade-style="babysha"][data-number="7"] > .player[data-position="3"],
 #arena[data-layout="nova"][data-new-decade-style="othersOff"][data-number="7"] > .player[data-position="3"] {
 	left: auto;
@@ -650,21 +650,21 @@
 	right: calc(41.6% - (var(--w) / 2));
 }
 
-#arena[data-layout="nova"][data-new-decade-style="onlineUI"][data-number="7"] > .player[data-position="4"],
+#arena[data-layout="nova"][data-new-decade-style="onlineUI"], [data-new-decade-style="threedol"][data-number="7"] > .player[data-position="4"],
 #arena[data-layout="nova"][data-new-decade-style="babysha"][data-number="7"] > .player[data-position="4"],
 #arena[data-layout="nova"][data-new-decade-style="othersOff"][data-number="7"] > .player[data-position="4"] {
 	left: calc(41.6% - (var(--w) / 2));
 	top: 9px;
 }
 
-#arena[data-layout="nova"][data-new-decade-style="onlineUI"][data-number="7"] > .player[data-position="5"],
+#arena[data-layout="nova"][data-new-decade-style="onlineUI"], [data-new-decade-style="threedol"][data-number="7"] > .player[data-position="5"],
 #arena[data-layout="nova"][data-new-decade-style="babysha"][data-number="7"] > .player[data-position="5"],
 #arena[data-layout="nova"][data-new-decade-style="othersOff"][data-number="7"] > .player[data-position="5"] {
 	left: calc(24.8% - (var(--w) / 2));
 	top: 50px;
 }
 
-#arena[data-layout="nova"][data-new-decade-style="onlineUI"][data-number="7"] > .player[data-position="6"],
+#arena[data-layout="nova"][data-new-decade-style="onlineUI"], [data-new-decade-style="threedol"][data-number="7"] > .player[data-position="6"],
 #arena[data-layout="nova"][data-new-decade-style="babysha"][data-number="7"] > .player[data-position="6"],
 #arena[data-layout="nova"][data-new-decade-style="othersOff"][data-number="7"] > .player[data-position="6"] {
 	left: 25px;
@@ -672,7 +672,7 @@
 }
 
 /* 6人座 */
-#arena[data-layout="nova"][data-new-decade-style="onlineUI"][data-number="6"] > .player[data-position="1"],
+#arena[data-layout="nova"][data-new-decade-style="onlineUI"], [data-new-decade-style="threedol"][data-number="6"] > .player[data-position="1"],
 #arena[data-layout="nova"][data-new-decade-style="babysha"][data-number="6"] > .player[data-position="1"],
 #arena[data-layout="nova"][data-new-decade-style="othersOff"][data-number="6"] > .player[data-position="1"] {
 	left: auto;
@@ -680,7 +680,7 @@
 	right: 25px;
 }
 
-#arena[data-layout="nova"][data-new-decade-style="onlineUI"][data-number="6"] > .player[data-position="2"],
+#arena[data-layout="nova"][data-new-decade-style="onlineUI"], [data-new-decade-style="threedol"][data-number="6"] > .player[data-position="2"],
 #arena[data-layout="nova"][data-new-decade-style="babysha"][data-number="6"] > .player[data-position="2"],
 #arena[data-layout="nova"][data-new-decade-style="othersOff"][data-number="6"] > .player[data-position="2"] {
 	left: auto;
@@ -688,21 +688,21 @@
 	right: calc(28% - (var(--w) / 2));
 }
 
-#arena[data-layout="nova"][data-new-decade-style="onlineUI"][data-number="6"] > .player[data-position="3"],
+#arena[data-layout="nova"][data-new-decade-style="onlineUI"], [data-new-decade-style="threedol"][data-number="6"] > .player[data-position="3"],
 #arena[data-layout="nova"][data-new-decade-style="babysha"][data-number="6"] > .player[data-position="3"],
 #arena[data-layout="nova"][data-new-decade-style="othersOff"][data-number="6"] > .player[data-position="3"] {
 	left: calc(50% - (var(--w) / 2));
 	top: 9px;
 }
 
-#arena[data-layout="nova"][data-new-decade-style="onlineUI"][data-number="6"] > .player[data-position="4"],
+#arena[data-layout="nova"][data-new-decade-style="onlineUI"], [data-new-decade-style="threedol"][data-number="6"] > .player[data-position="4"],
 #arena[data-layout="nova"][data-new-decade-style="babysha"][data-number="6"] > .player[data-position="4"],
 #arena[data-layout="nova"][data-new-decade-style="othersOff"][data-number="6"] > .player[data-position="4"] {
 	left: calc(28% - (var(--w) / 2));
 	top: 50px;
 }
 
-#arena[data-layout="nova"][data-new-decade-style="onlineUI"][data-number="6"] > .player[data-position="5"],
+#arena[data-layout="nova"][data-new-decade-style="onlineUI"], [data-new-decade-style="threedol"][data-number="6"] > .player[data-position="5"],
 #arena[data-layout="nova"][data-new-decade-style="babysha"][data-number="6"] > .player[data-position="5"],
 #arena[data-layout="nova"][data-new-decade-style="othersOff"][data-number="6"] > .player[data-position="5"] {
 	left: 25px;
@@ -710,7 +710,7 @@
 }
 
 /* 5人座 */
-#arena[data-layout="nova"][data-new-decade-style="onlineUI"][data-number="5"] > .player[data-position="1"],
+#arena[data-layout="nova"][data-new-decade-style="onlineUI"], [data-new-decade-style="threedol"][data-number="5"] > .player[data-position="1"],
 #arena[data-layout="nova"][data-new-decade-style="babysha"][data-number="5"] > .player[data-position="1"],
 #arena[data-layout="nova"][data-new-decade-style="othersOff"][data-number="5"] > .player[data-position="1"] {
 	left: auto;
@@ -718,7 +718,7 @@
 	right: 25px;
 }
 
-#arena[data-layout="nova"][data-new-decade-style="onlineUI"][data-number="5"] > .player[data-position="2"],
+#arena[data-layout="nova"][data-new-decade-style="onlineUI"], [data-new-decade-style="threedol"][data-number="5"] > .player[data-position="2"],
 #arena[data-layout="nova"][data-new-decade-style="babysha"][data-number="5"] > .player[data-position="2"],
 #arena[data-layout="nova"][data-new-decade-style="othersOff"][data-number="5"] > .player[data-position="2"] {
 	left: auto;
@@ -726,14 +726,14 @@
 	right: calc(35% - (var(--w) / 2));
 }
 
-#arena[data-layout="nova"][data-new-decade-style="onlineUI"][data-number="5"] > .player[data-position="3"],
+#arena[data-layout="nova"][data-new-decade-style="onlineUI"], [data-new-decade-style="threedol"][data-number="5"] > .player[data-position="3"],
 #arena[data-layout="nova"][data-new-decade-style="babysha"][data-number="5"] > .player[data-position="3"],
 #arena[data-layout="nova"][data-new-decade-style="othersOff"][data-number="5"] > .player[data-position="3"] {
 	left: calc(35% - (var(--w) / 2));
 	top: 9px;
 }
 
-#arena[data-layout="nova"][data-new-decade-style="onlineUI"][data-number="5"] > .player[data-position="4"],
+#arena[data-layout="nova"][data-new-decade-style="onlineUI"], [data-new-decade-style="threedol"][data-number="5"] > .player[data-position="4"],
 #arena[data-layout="nova"][data-new-decade-style="babysha"][data-number="5"] > .player[data-position="4"],
 #arena[data-layout="nova"][data-new-decade-style="othersOff"][data-number="5"] > .player[data-position="4"] {
 	left: 25px;
@@ -741,7 +741,7 @@
 }
 
 /* 4人座 */
-#arena[data-layout="nova"][data-new-decade-style="onlineUI"][data-number="4"] > .player[data-position="1"],
+#arena[data-layout="nova"][data-new-decade-style="onlineUI"], [data-new-decade-style="threedol"][data-number="4"] > .player[data-position="1"],
 #arena[data-layout="nova"][data-new-decade-style="babysha"][data-number="4"] > .player[data-position="1"],
 #arena[data-layout="nova"][data-new-decade-style="othersOff"][data-number="4"] > .player[data-position="1"] {
 	left: auto;
@@ -749,14 +749,14 @@
 	right: 25px;
 }
 
-#arena[data-layout="nova"][data-new-decade-style="onlineUI"][data-number="4"] > .player[data-position="2"],
+#arena[data-layout="nova"][data-new-decade-style="onlineUI"], [data-new-decade-style="threedol"][data-number="4"] > .player[data-position="2"],
 #arena[data-layout="nova"][data-new-decade-style="babysha"][data-number="4"] > .player[data-position="2"],
 #arena[data-layout="nova"][data-new-decade-style="othersOff"][data-number="4"] > .player[data-position="2"] {
 	left: calc(50% - (var(--w) / 2));
 	top: 9px;
 }
 
-#arena[data-layout="nova"][data-new-decade-style="onlineUI"][data-number="4"] > .player[data-position="3"],
+#arena[data-layout="nova"][data-new-decade-style="onlineUI"], [data-new-decade-style="threedol"][data-number="4"] > .player[data-position="3"],
 #arena[data-layout="nova"][data-new-decade-style="babysha"][data-number="4"] > .player[data-position="3"],
 #arena[data-layout="nova"][data-new-decade-style="othersOff"][data-number="4"] > .player[data-position="3"] {
 	left: 25px;
@@ -764,7 +764,7 @@
 }
 
 /* 3人座 */
-#arena[data-layout="nova"][data-new-decade-style="onlineUI"][data-number="3"] > .player[data-position="1"],
+#arena[data-layout="nova"][data-new-decade-style="onlineUI"], [data-new-decade-style="threedol"][data-number="3"] > .player[data-position="1"],
 #arena[data-layout="nova"][data-new-decade-style="babysha"][data-number="3"] > .player[data-position="1"],
 #arena[data-layout="nova"][data-new-decade-style="othersOff"][data-number="3"] > .player[data-position="1"] {
 	left: auto;
@@ -772,7 +772,7 @@
 	right: calc(37% - (var(--w) / 2));
 }
 
-#arena[data-layout="nova"][data-new-decade-style="onlineUI"][data-number="3"] > .player[data-position="2"],
+#arena[data-layout="nova"][data-new-decade-style="onlineUI"], [data-new-decade-style="threedol"][data-number="3"] > .player[data-position="2"],
 #arena[data-layout="nova"][data-new-decade-style="babysha"][data-number="3"] > .player[data-position="2"],
 #arena[data-layout="nova"][data-new-decade-style="othersOff"][data-number="3"] > .player[data-position="2"] {
 	left: calc(37% - (var(--w) / 2));
@@ -780,7 +780,7 @@
 }
 
 /* 2人座 */
-#arena[data-layout="nova"][data-new-decade-style="onlineUI"][data-number="2"] > .player[data-position="1"],
+#arena[data-layout="nova"][data-new-decade-style="onlineUI"], [data-new-decade-style="threedol"][data-number="2"] > .player[data-position="1"],
 #arena[data-layout="nova"][data-new-decade-style="babysha"][data-number="2"] > .player[data-position="1"],
 #arena[data-layout="nova"][data-new-decade-style="othersOff"][data-number="2"] > .player[data-position="1"] {
 	left: calc(50% - (var(--w) / 2));
