@@ -4,6 +4,8 @@
  * @module overrides/player
  */
 
+import { lib, game } from "noname";
+
 // 基础方法管理
 export { setBasePlayerMethods, getBasePlayerMethods, applyPlayerOverrides } from "./base.js";
 
