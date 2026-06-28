@@ -28,8 +28,34 @@ export { playerPlayDynamic, playerStopDynamic, playerApplyDynamicSkin } from "./
 // 动画效果覆写
 export { playerDamagepop, playerDamage, playerCompare, playerCompareMultiple, playerLine, playerDieAfter, playerSkill, playerQueueCssAnimation } from "./animations.js";
 
-// 卡牌移动覆写
-export { setBasePlayerDraw, playerDraw, playerGain2, playerGive, playerThrow, playerThrowordered2, playerPhaseJudge, playerAddVirtualJudge, playerAddVirtualEquip, playerDirectgain, playerDirectgains } from "./card-movement.js";
+// 卡牌移动覆写（样式路由：优先加载 card-movement-{style}.js，不存在则用 card-movement.js 兜底）
+const cardMovementStyle = lib.config.extension_十周年UI_newDecadeStyle || "on";
+let cardMovementModule;
+if (cardMovementStyle !== "on" && cardMovementStyle !== "off" && cardMovementStyle !== "othersOff") {
+	const styleFilePath = `extension/十周年UI/src/overrides/player/card-movement-${cardMovementStyle}.js`;
+	const fileExists = await new Promise((resolve) => {
+		game.checkFile(styleFilePath, (result) => resolve(result === 1));
+	});
+	if (fileExists) {
+		cardMovementModule = await import(`./card-movement-${cardMovementStyle}.js`);
+	}
+}
+if (!cardMovementModule) {
+	cardMovementModule = await import("./card-movement.js");
+}
+export const {
+	setBasePlayerDraw,
+	playerDraw,
+	playerGain2,
+	playerGive,
+	playerThrow,
+	playerThrowordered2,
+	playerPhaseJudge,
+	playerAddVirtualJudge,
+	playerAddVirtualEquip,
+	playerDirectgain,
+	playerDirectgains,
+} = cardMovementModule;
 
 // UI相关覆写
 export { playerSay, playerSyncExpand, playerCheckAndAddExperienceSuffix, playerUpdateShowCards, playerCheckBoundsCache } from "./ui.js";
