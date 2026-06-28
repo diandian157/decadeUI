@@ -1,17 +1,31 @@
 /**
  * @fileoverview 手杀风格lbtn插件
- * 特点：聊天系统、身份显示、手杀风格菜单、自动牌序
+ * @description 提供聊天系统、身份显示、手杀风格菜单、自动牌序等功能
  * @version 2.0
  */
-import { lib, game, ui, get, ai, _status } from "noname";
+import { _status } from "noname";
 import { createBaseLbtnPlugin } from "./base.js";
 import { initChatSystem } from "../chatSystem.js";
 
+/**
+ * 创建手杀风格lbtn插件
+ * @param {Object} lib - 游戏库对象
+ * @param {Object} game - 游戏对象
+ * @param {Object} ui - UI对象
+ * @param {Object} get - 获取器对象
+ * @param {Object} ai - AI对象
+ * @param {Object} _status - 状态对象
+ * @param {Object} app - 应用对象
+ * @returns {Object} 手杀风格插件配置对象
+ */
 export function createShoushaLbtnPlugin(lib, game, ui, get, ai, _status, app) {
 	const base = createBaseLbtnPlugin(lib, game, ui, get, ai, _status, app);
 	const assetPath = "extension/十周年UI/ui/assets/lbtn/";
 
-	// 手牌排序函数
+	/**
+	 * 手牌排序
+	 * @description 按类型、名称、花色、点数排序手牌
+	 */
 	const sortHandCards = () => {
 		if (!game.me || game.me.hasSkillTag("noSortCard")) return;
 		const cards = game.me.getCards("hs");
@@ -35,7 +49,10 @@ export function createShoushaLbtnPlugin(lib, game, ui, get, ai, _status, app) {
 		}
 	};
 
-	// 开启自动牌序
+	/**
+	 * 开启自动牌序
+	 * @description 使用MutationObserver监听手牌变化，自动触发排序
+	 */
 	const startAutoPaixu = () => {
 		if (!game.me || game.me.hasSkillTag("noSortCard")) return;
 		const container = game.me.node?.handcards1;
@@ -146,7 +163,10 @@ export function createShoushaLbtnPlugin(lib, game, ui, get, ai, _status, app) {
 		sortHandCards();
 	};
 
-	// 关闭自动牌序
+	/**
+	 * 关闭自动牌序
+	 * @description 断开观察器并清理相关定时器
+	 */
 	const stopAutoPaixu = () => {
 		if (ui._autoPaixuObserver) {
 			try {
@@ -168,7 +188,10 @@ export function createShoushaLbtnPlugin(lib, game, ui, get, ai, _status, app) {
 		ui._autoPaixuEnabled = false;
 	};
 
-	// 牌堆统计
+	/**
+	 * 显示牌堆统计
+	 * @description 统计并显示牌堆中的卡牌信息，包括花色、点数、类型等
+	 */
 	const showPaidui = () => {
 		if (!_status.gameStarted) return;
 		game.pause2();
@@ -246,12 +269,19 @@ export function createShoushaLbtnPlugin(lib, game, ui, get, ai, _status, app) {
 		}
 	};
 
-	// 距离显示相关变量
 	let _lastMe = null;
 	let _distanceUpdateInterval = null;
 
-	// 显示距离
+	/**
+	 * 显示距离
+	 * @description 在其他角色下面显示与当前玩家的距离，并启动定时更新
+	 */
 	const showDistanceDisplay = () => {
+		if (!lib.config["extension_十周年UI_showDistanceDisplay"]) {
+			closeDistanceDisplay();
+			return;
+		}
+
 		closeDistanceDisplay();
 		_lastMe = game.me;
 		if (game.players?.length > 0) {
@@ -268,7 +298,10 @@ export function createShoushaLbtnPlugin(lib, game, ui, get, ai, _status, app) {
 		_distanceUpdateInterval = setInterval(updateDistanceDisplay, 1000);
 	};
 
-	// 更新距离显示
+	/**
+	 * 更新距离显示
+	 * @description 刷新所有角色的距离显示，如果当前角色改变则重新初始化
+	 */
 	const updateDistanceDisplay = () => {
 		if (_lastMe !== game.me) {
 			_lastMe = game.me;
@@ -285,7 +318,10 @@ export function createShoushaLbtnPlugin(lib, game, ui, get, ai, _status, app) {
 		});
 	};
 
-	// 关闭距离显示
+	/**
+	 * 关闭距离显示
+	 * @description 移除所有距离显示元素并清理定时器
+	 */
 	const closeDistanceDisplay = () => {
 		game.players?.forEach(player => {
 			if (player._distanceDisplay) {
@@ -303,7 +339,9 @@ export function createShoushaLbtnPlugin(lib, game, ui, get, ai, _status, app) {
 		...base,
 		skinName: "shousha",
 
-		// 点击处理器
+		/**
+		 * 点击处理器集合
+		 */
 		click: {
 			...base.click,
 			paixu: sortHandCards,
@@ -312,8 +350,11 @@ export function createShoushaLbtnPlugin(lib, game, ui, get, ai, _status, app) {
 			paidui: showPaidui,
 		},
 
+		/**
+		 * 内容初始化
+		 * @description 注册技能更新触发器
+		 */
 		content(next) {
-			// 技能更新触发器
 			lib.skill._uicardupdate = {
 				trigger: { player: "phaseJieshuBegin" },
 				forced: true,
@@ -332,18 +373,19 @@ export function createShoushaLbtnPlugin(lib, game, ui, get, ai, _status, app) {
 			};
 		},
 
+		/**
+		 * 预加载内容
+		 * @description 初始化聊天系统、基础重写、距离显示和配置监听
+		 */
 		precontent() {
 			initChatSystem(lib, game, ui, get);
 			this.initArenaReady();
 			base.initBaseRewrites.call(this);
 
-			// 游戏开始时显示距离
 			if (lib.announce?.subscribe) {
 				lib.announce.subscribe("gameStart", () => setTimeout(showDistanceDisplay, 100));
 			} else {
-				// 兼容旧版本：使用lib.arenaReady
 				lib.arenaReady.push(() => {
-					// 等待游戏开始后显示距离
 					const checkAndShow = () => {
 						if (_status.gameStarted && game.players?.length > 0) {
 							setTimeout(showDistanceDisplay, 100);
@@ -354,9 +396,24 @@ export function createShoushaLbtnPlugin(lib, game, ui, get, ai, _status, app) {
 					checkAndShow();
 				});
 			}
+
+			if (lib.announce?.subscribe) {
+				lib.announce.subscribe("extensionConfigChanged", data => {
+					if (data?.extension === "十周年UI" && data?.config === "showDistanceDisplay") {
+						if (data.value) {
+							showDistanceDisplay();
+						} else {
+							closeDistanceDisplay();
+						}
+					}
+				});
+			}
 		},
 
-		// 覆盖确认对话框重写
+		/**
+		 * 初始化确认对话框重写
+		 * @description 重写ui.create.confirm方法以适配手杀风格
+		 */
 		initConfirmRewrite() {
 			const self = this;
 			ui.create.confirm = (str, func) => {
@@ -398,31 +455,32 @@ export function createShoushaLbtnPlugin(lib, game, ui, get, ai, _status, app) {
 			};
 		},
 
-		// Arena准备完成后初始化
+		/**
+		 * 初始化Arena就绪回调
+		 * @description 注册游戏开始后的初始化逻辑
+		 */
 		initArenaReady() {
 			const self = this;
 			lib.arenaReady.push(() => {
 				self.initRoundUpdate();
-
-				// 聊天按钮
 				self.createChatButton();
 
-				// 身份显示
 				if (self.supportedModes.includes(lib.config.mode)) {
 					self.initIdentityShow();
 				}
 
-				// 右上角菜单
 				self.createMenuButton();
 
-				// 左上角身份提示
 				if (["identity", "doudizhu", "versus", "guozhan"].includes(lib.config.mode)) {
 					self.createIdentityTip();
 				}
 			});
 		},
 
-		// 创建聊天按钮
+		/**
+		 * 创建聊天按钮
+		 * @description 在界面右下角创建聊天功能按钮
+		 */
 		createChatButton() {
 			const btn = ui.create.node("img");
 			btn.src = `${lib.assetURL}${assetPath}uibutton/liaotian.png`;
@@ -439,7 +497,10 @@ export function createShoushaLbtnPlugin(lib, game, ui, get, ai, _status, app) {
 			document.body.appendChild(btn);
 		},
 
-		// 初始化身份显示
+		/**
+		 * 初始化身份显示
+		 * @description 创建身份显示元素并启动定时更新
+		 */
 		initIdentityShow() {
 			const self = this;
 			const map = this.buildModeWinTranslations();
@@ -449,7 +510,6 @@ export function createShoushaLbtnPlugin(lib, game, ui, get, ai, _status, app) {
 				lib.translate[`${k}_win_option`] = v;
 			});
 
-			// 创建身份显示层
 			if (!game.ui_identityShow) {
 				game.ui_identityShow = ui.create.div("", "身份加载中......");
 				game.ui_identityShow.style.cssText = "top:1.9px;left:63.5px;z-index:4;";
@@ -465,7 +525,11 @@ export function createShoushaLbtnPlugin(lib, game, ui, get, ai, _status, app) {
 			setInterval(() => game.ui_identityShow_update?.(), 1000);
 		},
 
-		// 构建模式胜利条件翻译
+		/**
+		 * 构建模式胜利条件翻译
+		 * @description 根据游戏模式返回对应的胜利条件文本映射
+		 * @returns {Object|null} 胜利条件翻译映射表
+		 */
 		buildModeWinTranslations() {
 			const mode = lib.config.mode;
 			const versusMode = get.config("versus_mode");
@@ -506,7 +570,10 @@ export function createShoushaLbtnPlugin(lib, game, ui, get, ai, _status, app) {
 			return baseMap;
 		},
 
-		// 更新身份显示
+		/**
+		 * 更新身份显示
+		 * @description 刷新左上角的身份统计和胜利条件信息
+		 */
 		updateIdentityShow() {
 			let str = "";
 			const mode = lib.config.mode;
@@ -541,23 +608,27 @@ export function createShoushaLbtnPlugin(lib, game, ui, get, ai, _status, app) {
 			game.ui_identityShowx.innerHTML = `<span style="${style}color:#2D241B;-webkit-text-stroke:2.7px #322B20;">${str}</span>`;
 		},
 
-		// 创建菜单按钮
+		/**
+		 * 创建菜单按钮
+		 * @description 在右上角创建手杀风格菜单按钮
+		 */
 		createMenuButton() {
 			const self = this;
 			const headImg = ui.create.node("img");
 			headImg.src = `${lib.assetURL}${assetPath}shousha/button.png`;
-			headImg.style.cssText =
-				"display:block;--w:130px;--h:calc(var(--w)*1080/1434);width:var(--w);height:var(--h);position:absolute;bottom:calc(100% - 98px);left:calc(100% - 126.2px);background-color:transparent;z-index:1;";
+			headImg.style.cssText = "display:block;--w:130px;--h:calc(var(--w)*1080/1434);width:var(--w);height:var(--h);position:absolute;bottom:calc(100% - 98px);left:calc(100% - 126.2px);background-color:transparent;z-index:1;";
 			document.body.appendChild(headImg);
 
 			const head = ui.create.node("div");
-			head.style.cssText =
-				"display:block;width:134px;height:103px;position:absolute;top:0px;right:-8px;background-color:transparent;z-index:1;";
+			head.style.cssText = "display:block;width:134px;height:103px;position:absolute;top:0px;right:-8px;background-color:transparent;z-index:1;";
 			head.onclick = () => self.showMenu();
 			document.body.appendChild(head);
 		},
 
-		// 显示菜单
+		/**
+		 * 显示菜单
+		 * @description 弹出手杀风格的菜单界面，包含设置、退出等功能
+		 */
 		showMenu() {
 			const self = this;
 			game.playAudio(`../${assetPath}shousha/label.mp3`);
@@ -595,13 +666,15 @@ export function createShoushaLbtnPlugin(lib, game, ui, get, ai, _status, app) {
 			});
 		},
 
-		// 创建身份提示
+		/**
+		 * 创建身份提示
+		 * @description 在左上角创建身份提示按钮，点击显示当前身份详情
+		 */
 		createIdentityTip() {
 			const self = this;
 			const tip = ui.create.node("img");
 			tip.src = `${lib.assetURL}${assetPath}uibutton/shenfen.png`;
-			tip.style.cssText =
-				"display:block;--w:400px;--h:calc(var(--w)*279/2139);width:var(--w);height:var(--h);position:absolute;top:-1px;left:-45px;background-color:transparent;z-index:1;";
+			tip.style.cssText = "display:block;--w:400px;--h:calc(var(--w)*279/2139);width:var(--w);height:var(--h);position:absolute;top:-1px;left:-45px;background-color:transparent;z-index:1;";
 
 			tip.onclick = () => {
 				game.playAudio(`../${assetPath}shousha/label.mp3`);
@@ -630,11 +703,18 @@ export function createShoushaLbtnPlugin(lib, game, ui, get, ai, _status, app) {
 			document.body.appendChild(tip);
 		},
 
+		/**
+		 * 创建器集合
+		 */
 		create: {
 			control() {},
 
+			/**
+			 * 创建确认对话框
+			 * @description 创建手杀风格的确认/取消按钮组
+			 * @returns {HTMLElement} 确认对话框元素
+			 */
 			confirm() {
-				// shousha 样式按钮图片已包含文字，不需要创建文字
 				const confirm = ui.create.control("<span></span>", "cancel");
 				confirm.classList.add("lbtn-confirm");
 				confirm.node = {
@@ -679,15 +759,12 @@ export function createShoushaLbtnPlugin(lib, game, ui, get, ai, _status, app) {
 					});
 				});
 
-				// shousha 样式只显示重铸按钮，其他gskills由skill插件处理
 				if (ui.skills2?.skills?.length) {
-					// 只过滤出重铸按钮
 					const recastingSkills = ui.skills2.skills.filter(skill => skill === "_recasting");
 					if (recastingSkills.length) {
 						confirm.skills2 = recastingSkills.map(skill => {
 							const item = document.createElement("div");
 							item.link = skill;
-							// 重铸按钮使用特殊图片和class
 							item.classList.add("recasting-btn");
 							item.innerHTML = `<img draggable='false' src='${lib.assetURL}extension/十周年UI/ui/assets/lbtn/uibutton/CZ.png'>`;
 							item.style.backgroundImage = `url('${lib.assetURL}extension/十周年UI/ui/assets/lbtn/uibutton/game_btn_bg2.png')`;
@@ -708,21 +785,10 @@ export function createShoushaLbtnPlugin(lib, game, ui, get, ai, _status, app) {
 				}
 
 				confirm.update = () => {
-					// 限定技专属按钮
 					const isLimitedSkill = () => {
 						if (_status.event?.skill && get.info(_status.event.skill)?.limited && _status.event.player === game.me) return true;
-						if (
-							_status.event?.getParent?.(2)?.skill &&
-							get.info(_status.event.getParent(2).skill)?.limited &&
-							_status.event.getParent(2).player === game.me
-						)
-							return true;
-						if (
-							_status.event?.getParent?.()?.skill &&
-							get.info(_status.event.getParent().skill)?.limited &&
-							_status.event.getParent().player === game.me
-						)
-							return true;
+						if (_status.event?.getParent?.(2)?.skill && get.info(_status.event.getParent(2).skill)?.limited && _status.event.getParent(2).player === game.me) return true;
+						if (_status.event?.getParent?.()?.skill && get.info(_status.event.getParent().skill)?.limited && _status.event.getParent().player === game.me) return true;
 						return false;
 					};
 					if (isLimitedSkill() && !confirm.node.ok.classList.contains("xiandingji")) {
@@ -732,7 +798,6 @@ export function createShoushaLbtnPlugin(lib, game, ui, get, ai, _status, app) {
 						confirm.node.ok.classList.remove("xiandingji");
 					}
 
-					// gskills 显示/隐藏
 					if (confirm.skills2) {
 						if (_status.event.skill && _status.event.skill !== confirm.dataset.skill) {
 							confirm.dataset.skill = _status.event.skill;
@@ -750,6 +815,11 @@ export function createShoushaLbtnPlugin(lib, game, ui, get, ai, _status, app) {
 				return confirm;
 			},
 
+			/**
+			 * 创建卡牌回合时间显示
+			 * @description 创建显示牌堆数量、回合数、游戏时长的UI元素
+			 * @returns {HTMLElement} 卡牌回合时间元素
+			 */
 			cardRoundTime() {
 				const node = ui.create.div(".cardRoundNumber", ui.arena).hide();
 				node.node = {
@@ -783,7 +853,6 @@ export function createShoushaLbtnPlugin(lib, game, ui, get, ai, _status, app) {
 					}
 				};
 
-				// 计时器
 				ui.time4 = node.node.time;
 				ui.time4.starttime = get.utc();
 				ui.time4.interval = setInterval(() => {
@@ -805,18 +874,20 @@ export function createShoushaLbtnPlugin(lib, game, ui, get, ai, _status, app) {
 				return node;
 			},
 
+			/**
+			 * 创建手牌数量显示
+			 * @description 创建显示当前手牌数/手牌上限的UI元素
+			 * @returns {HTMLElement} 手牌数量元素
+			 */
 			handcardNumber() {
 				const isRight = lib.config["extension_十周年UI_rightLayout"] === "on";
 
-				// 设置按钮
 				ui.create.div(".settingButton", ui.arena);
 
-				// 功能按钮容器
 				const controls = ui.create.div(".lbtn-controls", ui.arena);
 				ui.create.div(".lbtn-control", controls, "   ");
 				ui.create.div(".lbtn-control", controls, "   ");
 
-				// 自动牌序按钮
 				const paixuauto = ui.create.div(isRight ? ".lbtn-paixu" : ".lbtn-paixu1", ui.arena);
 				paixuauto.onclick = () => {
 					if (window.paixuxx === undefined || window.paixuxx === false) {
@@ -830,13 +901,9 @@ export function createShoushaLbtnPlugin(lib, game, ui, get, ai, _status, app) {
 					}
 				};
 
-				// 记录按钮
 				ui.create.div(isRight ? ".latn-jilu" : ".latn-jilu1", ui.arena, ui.click.pause);
-
-				// 托管按钮
 				ui.create.div(".tuoguanButton", ui.arena, ui.click.auto);
 
-				// 手牌数量
 				const className = isRight ? ".handcardNumber" : ".handcardNumber1";
 				const node = ui.create.div(className, ui.arena).hide();
 				node.node = {

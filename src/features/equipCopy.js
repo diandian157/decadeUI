@@ -191,7 +191,7 @@ export function setupEquipCopy() {
 		const copies = player.getCards("e").map(createCopy);
 		const filtered = event.filterCard ? copies.filter(c => event.filterCard.call(event, c.relatedCard || c, player)) : [];
 
-		if (event.filterCard) {
+		if (event.filterCard && !event.skill) {
 			event.filterCard = wrapFilter(event, event.filterCard, includeS);
 		}
 
