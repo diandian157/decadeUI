@@ -7,7 +7,7 @@
 import { lib, game, ui, get, ai, _status } from "noname";
 
 /** @type {string[]} Alt+1~6 对应的样式 */
-const STYLES = ["on", "off", "othersOff", "onlineUI", "babysha", "codename"];
+const STYLES = ["on", "off", "othersOff", "onlineUI", "babysha", "codename", "threedol"];
 
 /**
  * 处理样式快捷键
