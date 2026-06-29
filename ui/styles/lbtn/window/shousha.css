@@ -1,8 +1,7 @@
 /**
- * 手杀风格按钮样式 - 非触屏布局
+ * 手杀风格 - 按钮控制样式
  */
 
-/* 按钮控制区 */
 .lbtn-controls {
 	--width: 66px;
 	--height: 55px;
@@ -10,6 +9,66 @@
 	bottom: 14.2%;
 	width: var(--width);
 	z-index: 4;
+}
+
+/* 右上角二级菜单 */
+.yemian {
+	--w: 566px;
+	--h: calc(var(--w) * 360 / 1560);
+	width: var(--w);
+	height: var(--h);
+	top: 0%;
+	left: calc(100% - 562px);
+	background-size: 100% 100%;
+	background-image: url("../../../assets/lbtn/shousha/yemian.png");
+	z-index: 68;
+	position: relative;
+	transition: opacity 1s ease-in-out;
+}
+
+/* 菜单按钮 */
+.shezhi,
+.tuichu,
+.taopao,
+.touxiang,
+.tuoguan {
+	--w: 65px;
+	--h: calc(var(--w) * 82 / 107);
+	width: var(--w);
+	height: var(--h);
+	background-size: 100% 100%;
+	z-index: 99;
+	position: fixed;
+}
+
+.shezhi {
+	bottom: calc(100% - 69px);
+	left: calc(100% - 498px);
+	background-image: url("../../../assets/lbtn/shousha/shezhi.png");
+}
+
+.tuichu {
+	bottom: calc(100% - 69px);
+	left: calc(100% - 418px);
+	background-image: url("../../../assets/lbtn/shousha/tuichu.png");
+}
+
+.taopao {
+	bottom: calc(100% - 69px);
+	left: calc(100% - 338px);
+	background-image: url("../../../assets/lbtn/shousha/taopao.png");
+}
+
+.touxiang {
+	bottom: calc(100% - 69px);
+	left: calc(100% - 260px);
+	background-image: url("../../../assets/lbtn/shousha/touxiang.png");
+}
+
+.tuoguan {
+	bottom: calc(100% - 69px);
+	left: calc(100% - 184px);
+	background-image: url("../../../assets/lbtn/shousha/tuoguan.png");
 }
 
 #arena:not(.single-handcard):not(.chess).cxy-new-ui > .lbtn-controls ~ #mebg,
@@ -24,87 +83,6 @@
 .lbtn-controls > div {
 	display: block;
 	position: relative;
-}
-
-/* 二级菜单页面 */
-.yemian {
-	--w: 566px;
-	--h: calc(var(--w) * 360 / 1560);
-	width: var(--w);
-	height: var(--h);
-	top: 0%;
-	left: calc(100% - 562px);
-	background-size: 100% 100%;
-	background-image: url("../../../assets/lbtn/SSCD/yemian.png");
-	z-index: 68;
-	position: relative;
-	transition: opacity 1s ease-in-out;
-}
-
-/* 菜单按钮 */
-.shezhi {
-	--w: 65px;
-	--h: calc(var(--w) * 82 / 107);
-	width: var(--w);
-	height: var(--h);
-	bottom: calc(100% - 69px);
-	left: calc(100% - 498px);
-	background-size: 100% 100%;
-	background-image: url("../../../assets/lbtn/SSCD/shezhi.png");
-	z-index: 99;
-	position: fixed;
-}
-
-.tuichu {
-	--w: 65px;
-	--h: calc(var(--w) * 82 / 107);
-	width: var(--w);
-	height: var(--h);
-	bottom: calc(100% - 69px);
-	left: calc(100% - 418px);
-	background-size: 100% 100%;
-	background-image: url("../../../assets/lbtn/SSCD/tuichu.png");
-	z-index: 99;
-	position: fixed;
-}
-
-.taopao {
-	--w: 65px;
-	--h: calc(var(--w) * 82 / 107);
-	width: var(--w);
-	height: var(--h);
-	bottom: calc(100% - 69px);
-	left: calc(100% - 338px);
-	background-size: 100% 100%;
-	background-image: url("../../../assets/lbtn/SSCD/taopao.png");
-	z-index: 99;
-	position: fixed;
-}
-
-.touxiang {
-	--w: 65px;
-	--h: calc(var(--w) * 82 / 107);
-	width: var(--w);
-	height: var(--h);
-	bottom: calc(100% - 69px);
-	left: calc(100% - 260px);
-	background-size: 100% 100%;
-	background-image: url("../../../assets/lbtn/SSCD/touxiang.png");
-	z-index: 99;
-	position: fixed;
-}
-
-.tuoguan {
-	--w: 65px;
-	--h: calc(var(--w) * 82 / 107);
-	width: var(--w);
-	height: var(--h);
-	bottom: calc(100% - 69px);
-	left: calc(100% - 184px);
-	background-size: 100% 100%;
-	background-image: url("../../../assets/lbtn/SSCD/tuoguan.png");
-	z-index: 99;
-	position: fixed;
 }
 
 /* 牌序按钮 */
@@ -147,9 +125,10 @@
 	opacity: 1 !important;
 }
 
-/* 禁用所有按钮动画 */
+/* 禁用所有按钮动画 - 防止点击技能/手牌时按钮抽搐 */
 .lbtn-confirm,
 .lbtn-confirm > *,
+.control,
 .control > div {
 	transition: none !important;
 }
@@ -163,7 +142,7 @@
 	line-height: normal;
 	padding: 0;
 	margin-top: 7.5px;
-	margin-bottom: 7.5px;
+	margin-bottom: 0px;
 }
 
 #arena > #dui-controls {
@@ -181,7 +160,6 @@
 	order: 3;
 }
 
-/* 选项按钮 */
 .control > div {
 	background-image: url("../../../assets/lbtn/uibutton/cbtn.png");
 	background-size: 100% 100%;
@@ -197,9 +175,7 @@
 	-webkit-text-stroke: 0.5px #5b6727;
 	text-shadow:
 		1px 1px 0px #5b6727,
-		-1px -1px 0px #5b6727,
-		2px 2px 0px #5b6727,
-		-2px -2px 0px #5b6727;
+		-1px -1px 0px #5b6727;
 	color: #e3d08b;
 	font-family: "HYZLSJ";
 	font-size: 30px;
@@ -214,26 +190,20 @@
 	background-image: none;
 }
 
-.control > div.choice {
-	background-image: url("../../../assets/lbtn/uibutton/cbtn.png");
+/* 确认按钮 */
+.control > div.primary > span {
+	--sh: calc(var(--h) - 6px);
+	display: block;
+	font-size: 40px;
+	line-height: var(--sh);
+	margin: 0px 10px !important;
+	background-image: url("../../../assets/lbtn/uibutton/btn.png");
+	padding: 18px 50px !important;
+	min-height: 18px;
+	min-width: 50px;
 	background-size: 100% 100%;
-	text-align: center;
-	padding: 10px 15px !important;
-	min-width: 120px !important;
-	min-height: 25px !important;
-	margin: 2px 20px 3px 20px !important;
-	font-family: "shousha";
-	font-size: 30px;
-	border-radius: 4px;
-	-webkit-text-stroke: 0.5px #5b6727;
-	text-shadow:
-		1px 1px 0px #5b6727,
-		-1px -1px 0px #5b6727,
-		2px 2px 0px #5b6727,
-		-2px -2px 0px #5b6727;
-	color: #e3d08b;
-	overflow: visible;
-	transition: none;
+	text-shadow: 1px 1px 2.5px rgba(62, 57, 38, 0.1);
+	position: relative;
 }
 
 /* 取消按钮 */
@@ -241,8 +211,7 @@
 	font-size: 35px !important;
 	background-image: url("../../../assets/lbtn/uibutton/game_btn_bg2.png");
 	transform: scale(0.75);
-	padding: 25px 10px !important;
-	margin-top: 18px !important;
+	padding: 20px 0px !important;
 }
 
 .control > div + div {
@@ -254,23 +223,6 @@
 	background-size: 100% 100%;
 	filter: grayscale(100%) !important;
 	-webkit-filter: grayscale(100%) !important;
-}
-
-/* 确认按钮 */
-.control > div.primary > span {
-	--sh: calc(var(--h) - 6px);
-	display: block;
-	font-size: 40px;
-	line-height: var(--sh);
-	margin: 0px 10px !important;
-	background-image: url("../../../assets/lbtn/uibutton/btn.png");
-	padding: 22px 66px !important;
-	min-height: 22px;
-	min-width: 66px;
-	background-size: 100% 100%;
-	text-shadow: 1px 1px 2.5px rgba(62, 57, 38, 0.1);
-	bottom: -3px;
-	position: relative;
 }
 
 /* 限定技专属按钮 */
@@ -303,7 +255,30 @@
 	display: none;
 }
 
-/* 换牌/弃牌按钮 */
+/* gskills 按钮样式 */
+.control > [data-type="skill2"] {
+	font-size: 35px !important;
+	background-image: url("../../../assets/lbtn/uibutton/game_btn_bg2.png");
+	background-size: 100% 100%;
+	transform: scale(0.75);
+	padding: 25px 10px !important;
+	margin-top: 18px !important;
+	margin-left: -10px !important;
+	margin-right: -10px !important;
+	-webkit-text-stroke: 0.5px #5b6727;
+	text-shadow:
+		1px 1px 0px #5b6727,
+		-1px -1px 0px #5b6727;
+	color: #e3d08b;
+	font-family: "HYZLSJ";
+	border-radius: 4px;
+	text-align: center;
+	line-height: 30px;
+	min-width: 80px !important;
+	min-height: 18px !important;
+}
+
+/* 换牌按钮 */
 .control > div.huan {
 	--sh: calc(var(--h) - 6px);
 	display: block;
@@ -319,6 +294,7 @@
 	position: relative;
 }
 
+/* 弃牌按钮 */
 .control > div.qi {
 	--sh: calc(var(--h) - 6px);
 	display: block;
@@ -345,24 +321,26 @@
 	transform: scale(1.1) !important;
 }
 
-/* 手牌数显示 */
+/* 手牌数 */
 .handcardNumber {
 	bottom: -3px;
-	right: 250px;
+	right: 270px;
 	font-family: "HYZLSJ";
 	color: #ffffff;
 	font-weight: 100 !important;
 	font-size: 13px !important;
+	pointer-events: none;
+	z-index: 0;
 }
 
 .handcardNumber > .cardPicture {
-	background-image: url("../../../assets/lbtn/uibutton/shoupai1.png");
 	left: 345px;
 	bottom: -10px;
 	--w: 450px;
 	--h: calc(var(--w) * 300 / 720);
 	width: var(--w);
 	height: var(--h);
+	background-image: url("../../../assets/lbtn/uibutton/shoupai1.png");
 	background-size: 100% 100%;
 	position: relative;
 	z-index: -10;
@@ -380,10 +358,6 @@
 	font-size: 18px;
 	text-shadow:
 		#000000 0 0 1px,
-		black 0 0 2px,
-		black 0 0 2px,
-		black 0 0 2px,
-		black 0 0 2px,
 		black 0 0 2px,
 		black 0 0 2px;
 	white-space: nowrap;
@@ -412,9 +386,9 @@
 	display: none !important;
 }
 
-/* 牌堆数显示 */
+/* 牌堆数 */
 .cardRoundNumber {
-	top: 90px;
+	top: 20px;
 	right: 120px;
 	font-family: "shousha";
 	text-shadow:
@@ -447,9 +421,6 @@
 	font-stretch: ultra-condensed;
 	font-size: 25px;
 	text-shadow:
-		black 0 0 2px,
-		black 0 0 2px,
-		black 0 0 2px,
 		black 0 0 2px,
 		black 0 0 2px,
 		black 0 0 2px;
@@ -485,24 +456,99 @@
 	color: #97856a;
 }
 
-/* 托管中图标 */
-#autonode > div:last-child {
-	z-index: 10;
-	margin-left: 150px !important;
-	margin-bottom: -46px !important;
+/* 无懈按钮 */
+.control.dou3 > div {
+	background-size: contain;
 	font-size: 0px;
-	text-shadow: none;
-	--w: 285px;
-	--h: calc(var(--w) * 169 / 365);
-	width: var(--w);
-	height: var(--h);
-	background-image: url("../../../assets/lbtn/SSCD/tuoguan2.png");
-	background-size: 100% 100%;
-	-webkit-text-fill-color: transparent;
-	text-shadow: none !important;
+	margin-top: 3px !important;
+	margin-left: 152px !important;
+	background-repeat: no-repeat;
+	padding: 6px 24px !important;
 }
 
-/* 出牌记录 */
+/* 牌堆计数 */
+.card-statistics {
+	width: 85%;
+	height: 75%;
+	left: 50%;
+	top: 50%;
+	border: 3px solid rgb(213 194 179);
+	border-radius: 10px;
+	font-size: 48px !important;
+	transform: translate(-50%, -50%);
+	text-align: center;
+	background: #231a1b;
+}
+
+.card-statistics-title {
+	display: flex;
+	position: relative;
+	width: 100%;
+	height: 10%;
+	align-items: center;
+	justify-items: center;
+	background-size: 100% 100%;
+	background-image: url("../../../assets/lbtn/uibutton/paiduiming.png");
+}
+
+.card-statistics-title > div {
+	position: relative;
+	flex: 1;
+	text-align: center;
+	color: #7f7768;
+	font-family: xinwei;
+	font-size: 25px;
+	align-items: center;
+	justify-items: center;
+	text-shadow: none;
+}
+
+.card-statistics-content {
+	display: flex;
+	width: 100%;
+	height: 80%;
+	font-size: 18px;
+	position: relative;
+}
+
+.card-statistics-content > div {
+	overflow: auto;
+	flex: 1;
+	position: relative;
+	border-right: 3px solid;
+	border-image-slice: 0 100% 0 0;
+	border-image-source: url("../../../assets/lbtn/uibutton/paiduixian.png");
+	height: 96%;
+}
+
+.card-statistics-content .items {
+	margin: 5px 0;
+	height: 30px;
+	position: relative;
+	color: #000000;
+	width: 100%;
+	display: flex;
+	align-items: center;
+	justify-items: center;
+}
+
+.card-statistics-content .items .item {
+	position: relative;
+	flex: 0.8;
+	background-size: 90% 100%;
+	background-repeat: no-repeat;
+	background-position: center;
+	background-image: url("../../../assets/lbtn/uibutton/shousha.png");
+	line-height: 2;
+	border-radius: 6px;
+}
+
+.card-statistics-content .items .item-num {
+	position: relative;
+	color: #bdaf92;
+	flex: 0.2;
+}
+
 #arenalog > div {
 	position: relative;
 	display: block;
@@ -516,10 +562,203 @@
 
 #window:not(.low_performance) #arena #arenalog > div {
 	animation: game_start 0.5s;
-	-webkit-animation: game_start 0.5s;
 }
 
-/* 左手布局 */
+/* 托管中图片 */
+#autonode > div:last-child {
+	z-index: 10;
+	margin-left: 150px !important;
+	margin-bottom: -46px !important;
+	font-size: 0px;
+	text-shadow: none;
+	--w: 285px;
+	--h: calc(var(--w) * 169 / 365);
+	width: var(--w);
+	height: var(--h);
+	background-image: url("../../../assets/lbtn/shousha/tuoguan2.png");
+	background-size: 100% 100%;
+	-webkit-text-fill-color: transparent;
+	text-shadow: none !important;
+}
+
+/* 身份任务提示 */
+.sfrwzhugong {
+	position: fixed;
+	background-repeat: no-repeat;
+	background-image: url("../../../assets/lbtn/JSJM/zhugong.png") !important;
+	background-size: 100% 100%;
+	width: 1000px;
+	height: 435px;
+	left: 110px;
+	bottom: 60px;
+}
+
+.sfrwchongchen {
+	position: fixed;
+	background-repeat: no-repeat;
+	background-image: url("../../../assets/lbtn/JSJM/zhongchen.png") !important;
+	background-size: 100% 100%;
+	width: 1000px;
+	height: 435px;
+	left: 110px;
+	bottom: 60px;
+}
+
+.sfrwfanzei {
+	position: fixed;
+	background-repeat: no-repeat;
+	background-image: url("../../../assets/lbtn/JSJM/fanzei.png") !important;
+	background-size: 100% 100%;
+	width: 1000px;
+	height: 435px;
+	left: 110px;
+	bottom: 60px;
+}
+
+.sfrwneijian {
+	position: fixed;
+	background-repeat: no-repeat;
+	background-image: url("../../../assets/lbtn/JSJM/neijian.png") !important;
+	background-size: 100% 100%;
+	width: 1000px;
+	height: 435px;
+	left: 110px;
+	bottom: 60px;
+}
+
+.sfrwdizhu {
+	position: fixed;
+	background-repeat: no-repeat;
+	background-image: url("../../../assets/lbtn/JSJM/dizhu.png") !important;
+	background-size: 100% 100%;
+	width: 1000px;
+	height: 435px;
+	left: 110px;
+	bottom: 60px;
+}
+
+.sfrwnongmin {
+	position: fixed;
+	background-repeat: no-repeat;
+	background-image: url("../../../assets/lbtn/JSJM/nongmin.png") !important;
+	background-size: 100% 100%;
+	width: 1000px;
+	height: 435px;
+	left: 110px;
+	bottom: 60px;
+}
+
+.sfrwhu {
+	position: fixed;
+	background-repeat: no-repeat;
+	background-image: url("../../../assets/lbtn/JSJM/hu.png") !important;
+	background-size: 100% 100%;
+	width: 1000px;
+	height: 435px;
+	left: 110px;
+	bottom: 60px;
+}
+
+.sfrwweiguo {
+	position: fixed;
+	background-repeat: no-repeat;
+	background-image: url("../../../assets/lbtn/JSJM/weiguo.png") !important;
+	background-size: 100% 100%;
+	width: 1000px;
+	height: 435px;
+	left: 110px;
+	bottom: 60px;
+}
+
+.sfrwshuguo {
+	position: fixed;
+	background-repeat: no-repeat;
+	background-image: url("../../../assets/lbtn/JSJM/shuguo.png") !important;
+	background-size: 100% 100%;
+	width: 1000px;
+	height: 435px;
+	left: 110px;
+	bottom: 60px;
+}
+
+.sfrwwuguo {
+	position: fixed;
+	background-repeat: no-repeat;
+	background-image: url("../../../assets/lbtn/JSJM/wuguo.png") !important;
+	background-size: 100% 100%;
+	width: 1000px;
+	height: 435px;
+	left: 110px;
+	bottom: 60px;
+}
+
+.sfrwjinguo {
+	position: fixed;
+	background-repeat: no-repeat;
+	background-image: url("../../../assets/lbtn/JSJM/jinguo.png") !important;
+	background-size: 100% 100%;
+	width: 1000px;
+	height: 435px;
+	left: 110px;
+	bottom: 60px;
+}
+
+.sfrwyexinjia {
+	position: fixed;
+	background-repeat: no-repeat;
+	background-image: url("../../../assets/lbtn/JSJM/yexinjia.png") !important;
+	background-size: 100% 100%;
+	width: 1000px;
+	height: 435px;
+	left: 110px;
+	bottom: 60px;
+}
+
+.sfrwqunxiong {
+	position: fixed;
+	background-repeat: no-repeat;
+	background-image: url("../../../assets/lbtn/JSJM/qunxiong.png") !important;
+	background-size: 100% 100%;
+	width: 1000px;
+	height: 435px;
+	left: 110px;
+	bottom: 60px;
+}
+
+.sfrwundefined {
+	position: fixed;
+	background-repeat: no-repeat;
+	background-image: url("../../../assets/lbtn/JSJM/undefined.png") !important;
+	background-size: 100% 100%;
+	width: 1000px;
+	height: 435px;
+	left: 110px;
+	bottom: 60px;
+}
+
+.sfrwxianshou {
+	position: fixed;
+	background-repeat: no-repeat;
+	background-image: url("../../../assets/lbtn/JSJM/xianshou.png") !important;
+	background-size: 100% 100%;
+	width: 1000px;
+	height: 435px;
+	left: 110px;
+	bottom: 60px;
+}
+
+.sfrwhoushou {
+	position: fixed;
+	background-repeat: no-repeat;
+	background-image: url("../../../assets/lbtn/JSJM/houshou.png") !important;
+	background-size: 100% 100%;
+	width: 1000px;
+	height: 435px;
+	left: 110px;
+	bottom: 60px;
+}
+
+/* 左手模式 */
 .lbtn-paixu1 {
 	width: 68px;
 	height: 55px;
@@ -554,7 +793,6 @@
 	z-index: 5;
 }
 
-/* 左手手牌显示 */
 .handcardNumber1 {
 	bottom: 2px;
 	left: 0px;
@@ -565,17 +803,18 @@
 }
 
 .handcardNumber1 > .cardPicture1 {
-	left: 345px;
-	bottom: -10px;
-	--w: 450px;
-	--h: calc(var(--w) * 300 / 720);
+	left: -50px;
+	bottom: -16px;
+	--w: 417px;
+	--h: calc(var(--w) * 235 / 500);
 	width: var(--w);
 	height: var(--h);
-	background-image: url("../../assets/lbtn/uibutton/shoupai1.png");
+	background-image: url("../../../assets/lbtn/uibutton/shoupai1.png");
 	background-size: 100% 100%;
 	position: relative;
-	z-index: -10;
-	pointer-events: none;
+	z-index: -1;
+	perspective: 800px;
+	transform: rotateY(180deg);
 }
 
 .handcardNumber1 > .cardNumber1 {

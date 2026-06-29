@@ -142,7 +142,7 @@
 	line-height: normal;
 	padding: 0;
 	margin-top: 7.5px;
-	margin-bottom: 7.5px;
+	margin-bottom: 0px;
 }
 
 #arena > #dui-controls {
@@ -190,25 +190,20 @@
 	background-image: none;
 }
 
-/* 选项按钮 */
-.control > div.choice {
-	background-image: url("../../assets/lbtn/uibutton/cbtn.png");
+/* 确认按钮 */
+.control > div.primary > span {
+	--sh: calc(var(--h) - 6px);
+	display: block;
+	font-size: 40px;
+	line-height: var(--sh);
+	margin: 0px 10px !important;
+	background-image: url("../../assets/lbtn/uibutton/btn.png");
+	padding: 18px 50px !important;
+	min-height: 18px;
+	min-width: 50px;
 	background-size: 100% 100%;
-	text-align: center;
-	padding: 10px 15px !important;
-	min-width: 120px !important;
-	min-height: 25px !important;
-	margin: 2px 20px 3px 20px !important;
-	font-family: "shousha";
-	font-size: 30px;
-	border-radius: 4px;
-	-webkit-text-stroke: 0.5px #5b6727;
-	text-shadow:
-		1px 1px 0px #5b6727,
-		-1px -1px 0px #5b6727;
-	color: #e3d08b;
-	overflow: visible;
-	transition: none;
+	text-shadow: 1px 1px 2.5px rgba(62, 57, 38, 0.1);
+	position: relative;
 }
 
 /* 取消按钮 */
@@ -216,8 +211,7 @@
 	font-size: 35px !important;
 	background-image: url("../../assets/lbtn/uibutton/game_btn_bg2.png");
 	transform: scale(0.75);
-	padding: 25px 10px !important;
-	margin-top: 18px !important;
+	padding: 20px 0px !important;
 }
 
 .control > div + div {
@@ -229,23 +223,6 @@
 	background-size: 100% 100%;
 	filter: grayscale(100%) !important;
 	-webkit-filter: grayscale(100%) !important;
-}
-
-/* 确认按钮 */
-.control > div.primary > span {
-	--sh: calc(var(--h) - 6px);
-	display: block;
-	font-size: 40px;
-	line-height: var(--sh);
-	margin: 0px 10px !important;
-	background-image: url("../../assets/lbtn/uibutton/btn.png");
-	padding: 22px 66px !important;
-	min-height: 22px;
-	min-width: 66px;
-	background-size: 100% 100%;
-	text-shadow: 1px 1px 2.5px rgba(62, 57, 38, 0.1);
-	bottom: -3px;
-	position: relative;
 }
 
 /* 限定技专属按钮 */
