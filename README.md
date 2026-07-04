@@ -22,8 +22,8 @@
 
 - 原创作者：短歌
 - 手杀UI原作者：橙续缘
-- 上任维护者：@mengxinzxz
-- 当前维护者：@diandian157
+- 上任维护者：[萌新（转型中）](https://github.com/mengxinzxz)
+- 当前维护者：[点点](https://github.com/diandian157)
 
 ## 许可证
 
