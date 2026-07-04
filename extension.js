@@ -1,8 +1,8 @@
 import { lib, _status } from "noname";
-import { config } from "./config.js";
-import { content } from "./content.js";
-import { precontent } from "./precontent.js";
-import { mainpackage } from "./package.js";
+import { config } from "./src/config.js";
+import { content } from "./src/content.js";
+import { precontent } from "./src/precontent.js";
+import { mainpackage } from "./src/package.js";
 
 /** @type {import("noname").ExtensionType} */
 export const type = "extension";

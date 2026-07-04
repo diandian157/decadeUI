@@ -236,12 +236,12 @@
 	align-items: center;
 	justify-content: center;
 	position: absolute;
-	left: 10%;
-	top: 24%;
+	left: 6%;
+	top: 23%;
 	right: 26%;
 	bottom: 1%;
-	width: 20px;
-	height: 130px;
+	width: 23px;
+	height: 135px;
 	margin-top: -20px;
 	margin-left: -1px;
 	border-radius: 0;
@@ -426,10 +426,10 @@
 
 #arena.decadeUI[data-border-style="dragon4"] .player > .camp-wrap > .camp-border {
 	background-image: url("../../image/styles/xinsha/border_camp.png");
-	left: -23px;
-	top: -23%;
-	width: 195%;
-	height: 140%;
+	left: -27px;
+	top: -25%;
+	width: 215%;
+	height: 145%;
 }
 
 #arena.decadeUI[data-border-style="dragon4"][data-border-level="one"] .player > .camp-wrap > .camp-border,
@@ -484,8 +484,8 @@
 
 #arena.decadeUI[data-border-style="dragon4"] .player > .camp-wrap > .avatar-name,
 #arena.decadeUI[data-border-style="dragon4"] .player > .camp-wrap > .avatar-name-default {
-	top: 34% !important;
-	right: 40% !important;
+	top: 35% !important;
+	right: 40.5% !important;
 }
 
 /* 主将名 */
@@ -603,7 +603,7 @@
 }
 
 #arena.decadeUI[data-border-style="dragon4"] .player > .camp-wrap > .camp-name {
-	top: -7px;
+	top: -8px;
 	left: -3px;
 }
 

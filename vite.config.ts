@@ -1,28 +1,5 @@
 import { defineConfig, type PluginOption } from "vite";
 import { viteStaticCopy } from "vite-plugin-static-copy";
-import fs from "node:fs";
-import path from "node:path";
-import { fileURLToPath } from "node:url";
-
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
-
-function symlinkToMainProject(): PluginOption {
-	return {
-		name: "symlink-to-main-project",
-		buildStart() {
-			const coreDir = path.resolve(__dirname, "../../../apps/core");
-			if (!fs.existsSync(coreDir)) return;
-
-			const targetPath = path.resolve(coreDir, "extension/十周年UI");
-			const distPath = path.resolve(__dirname, "dist");
-
-			if (fs.existsSync(targetPath)) return;
-
-			fs.mkdirSync(path.dirname(targetPath), { recursive: true });
-			fs.symlinkSync(distPath, targetPath, "junction");
-		},
-	};
-}
 
 export default defineConfig(({ mode }) => ({
 	define: {
@@ -51,7 +28,6 @@ export default defineConfig(({ mode }) => ({
 				{ src: "README.md", dest: "" },
 			],
 		}) as PluginOption,
-		symlinkToMainProject(),
 	],
 	build: {
 		sourcemap: false,
@@ -66,7 +42,7 @@ export default defineConfig(({ mode }) => ({
 		},
 		lib: {
 			entry: {
-				extension: "src/index.ts",
+				extension: "extension.js",
 				"src/ui/skillButtonTooltip": "src/ui/skillButtonTooltip.js",
 				"ui/constants": "ui/constants.js",
 				"ui/utils": "ui/utils.js",
