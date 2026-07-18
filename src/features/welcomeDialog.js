@@ -99,20 +99,74 @@ export function createWelcomeDialog() {
 
 	const text = ui.create.div(".decade-welcome-text", dialog);
 	text.innerHTML = `
-		<p style="margin: 0 0 15px 0;">
-			今天不发癫，祝所有考生前程似锦。
+		<p style="margin: 0 0 15px 0; color: yellow;">
+			⌈祥酱，谢谢你今天愿意来见我。请不要生睦酱的气，是我硬是拜托她想来祥酱的家的。抱歉，无论怎样都想当面道歉。真的没打算删去十周年UI的，那天预定的只有一个扩展，就是十周年UI。但是，事情都已经发生了，实在没有办法。抱歉，一定伤害到祥酱你了吧。我想你不原谅也是当然的。擅自删除了重要我们的扩展，真的很抱歉。⌋
+		</p>
+		<p style="margin: 0 0 15px 0; color: lightblue;">
+			⌈装作一副为了别人的样子啊。想玩不玩是你们的自由，随你们喜欢。⌋
+		</p>
+		<p style="margin: 0 0 15px 0; color: yellow;">
+			⌈但是，十周年UI是我们重要的……⌋
+		</p>
+		<p style="margin: 0 0 15px 0; color: lightblue;">
+			⌈直到现在还执迷于过去，真让人看不下去。差不多，你也该忘记了吧。⌋
+		</p>
+		<p style="margin: 0 0 15px 0; color: yellow;">
+			⌈为什么？为什么要说忘记这种话呢？我们，以前感情明明那么好。每天都开心，大家在一起，现在却玩着不同的扩展也太奇怪了吧。「UI是命运共同体」，这么说的人不正是祥酱吗？⌋
+		</p>
+		<p style="margin: 0 0 15px 0; color: lightblue;">
+			⌈命运……？那么，整个无名杀算什么？⌋
+		</p>
+		<p style="margin: 0 0 15px 0; color: yellow;">
+			⌈不是的！⌋
+		</p>
+		<p style="margin: 0 0 15px 0; color: lightblue;">
+			⌈哪里不是？言语和行动相互矛盾，十周年UI已经结束了，绝对不可能复活。⌋
+		</p>
+		<p style="margin: 0 0 15px 0; color: yellow;">
+			⌈为什么？拜托了，我想让十周年UI重新开始。想回去我们那时候的快乐时光。灯酱和立希酱也是这么期望的，我也打算找睦酱和祥酱回来的。⌋
+		</p>
+		<p style="margin: 0 0 15px 0; color: lightblue;">
+			⌈是这样一回事吗？⌋
+		</p>
+		<p style="margin: 0 0 15px 0; color: lightgreen;">
+			⌈我……⌋
+		</p>
+		<p style="margin: 0 0 15px 0; color: yellow;">
+			⌈为什么，只有我这么想吗？但是，更新十周年UI的是祥酱啊。⌋
+		</p>
+		<p style="margin: 0 0 15px 0; color: lightblue;">
+			⌈正因如此，我已经亲手将她结束了。⌋
+		</p>
+		<p style="margin: 0 0 15px 0; color: yellow;">
+			⌈没有结束！我一直为了十周年UI努力着。⌋
+		</p>
+		<p style="margin: 0 0 15px 0; color: lightblue;">
+			⌈谁也没有求你那样做。这是最后通牒，从现在开始，不要再和我扯上关系了。⌋
+		</p>
+		<p style="margin: 0 0 15px 0; color: yellow;">
+			⌈等等，不要走！	不是的！我，真的对大家很重视，最喜欢了。不要！拜托了！	拜托了！要是没有祥酱你们的话，我……⌋
+		</p>
+		<p style="margin: 0 0 15px 0; color: lightblue;">
+			⌈放开！⌋
+		</p>
+		<p style="margin: 0 0 15px 0; color: yellow;">
+			⌈要怎么做才能回来？只要是我能做的，我什么都愿意做！⌋
+		</p>
+		<p style="margin: 0 0 15px 0; color: lightblue;">
+			⌈你是抱着多大的觉悟说出这种话的？区区一介学生，有办法背负他人的人生吗？「什么都愿意做」就是这么沉重的话，做不到的事情就不要说出口。⌋
+		</p>
+		<p style="margin: 0 0 15px 0; color: yellow;">
+			⌈但是，我真的……⌋
+		</p>
+		<p style="margin: 0 0 15px 0; color: lightblue;">
+			⌈你这个人，满脑子都只想着自己呢。⌋
+		</p>
+		<p style="margin: 0 0 15px 0; color: yellow;">
+			⌈诶……？⌋
 		</p>
 		<p style="margin: 0 0 15px 0;">
-			被选中的孩子啊，你已解开了‘十二年义务教育’的古老封印。那名为‘高考’的终焉试炼，不过是世界意志对你灵魂强度的一次小小考验——而你，已经证明了自己。
-		</p>
-		<p style="margin: 0 0 15px 0;">
-			此刻，沉睡于你血脉中的真正力量已然觉醒——那是名为‘无限可能的未来’的至高圣物。笔是曾经的法杖，试卷是燃烧殆尽的诅咒卷轴，而那个在题海中无数次倒下的你，如今终于站在了现实与幻想的交界线上。
-		</p>
-		<p style="margin: 0 0 15px 0;">
-		    爆裂吧，名为‘压力’的现实！粉碎吧，那些写满焦虑的试卷！从今天起，你不再是教室里那个默默无闻的普通学生——你将以‘大学生’之名，背负着梦想，在这个平淡的世界里，刻下只属于你的、闪闪发光的传说！
-		</p>
-		<p style="margin: 0 0 15px 0;">
-			去吧，勇者。你的下一站——是星辰大海！
+			至此……十周年UI无期限停更，等待后续有缘人接手…………
 		</p>
 	`;
 
