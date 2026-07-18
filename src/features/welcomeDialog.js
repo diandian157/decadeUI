@@ -145,7 +145,7 @@ export function createWelcomeDialog() {
 			⌈谁也没有求你那样做。这是最后通牒，从现在开始，不要再和我扯上关系了。⌋
 		</p>
 		<p style="margin: 0 0 15px 0; color: yellow;">
-			⌈等等，不要走！	不是的！我，真的对大家很重视，最喜欢了。不要！拜托了！	拜托了！要是没有祥酱你们的话，我……⌋
+			⌈等等，不要走！不是的！我，真的对大家很重视，最喜欢了。不要！拜托了！拜托了！要是没有祥酱你们的话，我……⌋
 		</p>
 		<p style="margin: 0 0 15px 0; color: lightblue;">
 			⌈放开！⌋
